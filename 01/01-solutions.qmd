@@ -1,0 +1,55 @@
+---
+title: "1 – Lösungen"
+subtitle: "Statistische Datenanalyse mit R"
+author: "Clemens Brunner"
+date: 2022-10-06
+format: html
+engine: knitr
+highlight-style: github
+title-block-banner: true
+theme:
+  light: flatly
+  dark: darkly
+lang: de
+author-title: "Autor"
+published-title: "Veröffentlicht"
+---
+
+## Übung 1
+Die R-Version wird in der Console als Einleitungstext direkt nach dem Starten angezeigt. Die gesamte Versionsinformation lautet:
+
+```
+R version 4.2.1 (2022-06-23) -- "Funny-Looking Kid"
+```
+
+Außerdem ist die R-Version immer im Titel der Console ersichtlich.
+
+Die RStudio-Version lautet 2022.07.1 Build 554 – dies kann man im Hilfefenster, welches mit "Help" – "About RStudio" aufgerufen werden kann, ablesen.
+
+![](r_versions.png)
+
+## Übung 2
+```{r}
+4 / 0.4
+4 %/% 0.4
+4 %% 0.4
+```
+
+Da `4 / 0.4` mathematisch exakt 10 ergibt, macht das erste Ergebnis auch Sinn. Allerdings sollte die Ganzzahldivision `%/%` ebenfalls 10 ergeben – interessanterweise ist das Ergebnis aber 9! Dementsprechend sollte der Rest mathematisch 0 sein, aber laut R ergibt der Rest 0.4. Dieses seltsame Verhalten erklärt sich dadurch, dass Computer Kommazahlen im Allgemeinen nicht exakt repräsentieren können, d.h. es gibt kleine Ungenauigkeiten, die sich in manchen Situationen zu recht offensichtlichen Fehlern aufsummieren können. Deshalb ist immer Vorsicht geboten, wenn man mit Kommazahlen rechnet (und zwar unabhängig von der Programmiersprache – dies ist keine Besonderheit von R, sondern eine [allgemeine Einschränkung](https://de.wikipedia.org/wiki/Gleitkommazahl#Einschr%C3%A4nkungen_und_deren_mathematische_Grundlagen), die es immer zu beachten gilt).
+
+## Übung 3
+```{r}
+(11 + 27 + 15 + 10 + 33 + 18 + 25 + 22 + 39 + 11) / 10
+```
+
+## Übung 4
+```{r}
+sqrt(2) * (5**5 - pi) * 18 / ((7/5 + 13.2) * 7**(2/3))
+```
+
+## Übung 5
+Der Code funktioniert nicht, weil es das Objekt `PI` nicht gibt (`Error: object 'PI' not found`). Groß-/Kleinschreibung ist relevant, und der korrekte Name von $\pi$ lautet `pi`:
+
+```{r}
+2 * 1 * pi
+```

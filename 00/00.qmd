@@ -1,0 +1,81 @@
+---
+title: "Organisatorisches"
+subtitle: "Statistische Datenanalyse mit R"
+author: "Clemens Brunner"
+date: 2022-10-06
+format: html
+engine: knitr
+highlight-style: github
+title-block-banner: true
+theme:
+  light: flatly
+  dark: darkly
+lang: de
+author-title: "Autor"
+published-title: "Veröffentlicht"
+---
+
+## Allgemeines
+
+In dieser Lehrveranstaltung werden Sie das Statistikpaket [R](https://www.r-project.org/) kennenlernen. Da diese Lehrveranstaltung die Grundlagen von R abdeckt und keinerlei Vorwissen voraussetzt, ist es aufgrund der begrenzten Zeit nicht möglich, alle für Sie relevanten statistischen Verfahren abzudecken. Sie werden durch ein umfassendes Basiswissen aber darauf vorbereitet, sich fortgeschrittene Methoden selbst anzueignen. In den Einheiten werden sich Theorie und Praxis abwechseln, d.h. Sie werden neue Dinge sowohl kennenlernen als auch gleich anhand praktischer Beispiele in R umsetzen. Der Plan für dieses Semester sieht wie folgt aus:
+
+| Einheit | Datum      | Inhalt                  |
+|---------|------------|-------------------------|
+| 1       | 6.10.2022  | Grundlagen              |
+| 2       | 13.10.2022 | Die R-Umgebung          |
+| 3       | 20.10.2022 | Vektoren                |
+| 4       | 27.10.2022 | Tabellarische Daten     |
+| 5       | 3.11.2022  | Daten einlesen          |
+| 6       | 10.11.2022 | Deskriptive Statistiken |
+| 7       | 17.11.2022 | Datenaufbereitung       |
+| 8       | 24.11.2022 | Grafiken (1)            |
+| 9       | 1.12.2022  | Grafiken (2)            |
+| 10      | 15.12.2022 | Korrelation             |
+| 11      | 12.1.2023  | Lineare Regression (1)  |
+| 12      | 19.1.2023  | Lineare Regression (2)  |
+| 13      | 26.1.2023  | Mittelwertvergleich     |
+| 14      | 2.2.2023   | Prüfung                 |
+
+Alle Informationen und Unterlagen zu dieser Lehrveranstaltung werden auf Moodle zur Verfügung gestellt. Insbesondere wird auch die Kommunikation (z.B. Ankündigungen, Forumsdiskussionen, Fragen & Antworten) über Moodle abgewickelt.
+
+Alle Einheiten werden in Präsenz abgehalten. Falls eine Abhaltung in Präsenz nicht möglich ist, werden die Einheiten online synchron zu den geplanten Zeiten stattfinden. Die URL wird über Moodle bekanntgegeben.
+
+## Ablauf einer Einheit
+
+Zu jeder Einheit gibt es auf Moodle ausführliche Unterlagen, welche das jeweilige Thema detailliert behandeln. Diese Unterlagen sind so gestaltet, dass Sie sich die Inhalte im Selbststudium aneignen können. Alle Einheiten (mit Ausnahme der ersten) werden nach dem Prinzip des [Flipped Classroom](https://de.wikipedia.org/wiki/Umgedrehter_Unterricht) abgehalten. Das bedeutet, dass Sie die Inhalte der jeweiligen Einheit selbständig vor dem tatsächlichen Termin erarbeiten. Insbesondere sollten Sie die am Ende vorhandenen Übungsbeispiele bearbeiten. Diese dienen der laufenden Kontrolle, ob Sie die Inhalte verstanden haben und sind auch eine essenzielle Vorbereitung für die abschließende Prüfung. Zu Beginn jeder Einheit werden außerdem in einem kurzen Quiz die wesentlichen Inhalte abgefragt.
+
+Nutzen Sie während der Vorbereitungszeit die Diskussionsforen auf Moodle -- dort können Sie Fragen stellen und selbstverständlich auch beantworten.
+
+In den Kontaktstunden werden nach dem Quiz die von Ihnen vorbereiteten Übungsbeispiele detailliert besprochen und Musterlösungen präsentiert. Dabei haben Sie die Möglichkeit, Fragen zu stellen bzw. Ihre individuellen Lösungsansätze zu diskutieren. Falls darüber hinaus noch Zeit bleiben sollte, wird das jeweilige Thema durch vertiefende Beispiele bzw. Erklärungen ergänzt.
+
+## Beurteilungskriterien
+
+### Anwesenheit
+
+Durch den immanenten Prüfungscharakter dieser Lehrveranstaltung besteht automatisch Anwesenheitspflicht. Ihre Anwesenheit wird zu einem zufälligen Zeitpunkt während der Einheit überprüft. Es ist möglich, bei zwei Einheiten zu fehlen, wenn Sie dies spätestens am Vortag per E-Mail bekanntgeben. Eine dritte Fehleinheit ist nur bei Vorliegen eines triftigen Grundes möglich (z.B. Krankheit, Quarantäne, etc.). Hier muss eine schriftliche Bestätigung (z.B. Krankmeldung, Absonderungsbescheid, etc.) vorgelegt werden.
+
+### Quizzes
+
+Zu Beginn jeder Einheit (mit Ausnahme der ersten) findet ein kurzes Quiz auf Moodle statt (Dauer ca. 5 Minuten). Es werden Fragen zum jeweiligen Thema der Einheit gestellt. Sie können dabei jeweils maximal 10 Punkte erreichen (es gibt auch Teilpunkte). Das Quiz muss vor Ort absolviert werden.
+
+### Prüfung
+
+Am Ende der Lehrveranstaltung findet eine Prüfung über alle in der Lehrveranstaltung vermittelten Inhalte statt. Die Prüfung findet vor Ort am Computer statt, die Dauer wird ca. eine Stunde betragen. Sie dürfen alle Unterlagen der Lehrveranstaltung verwenden. Ansonsten sind keine weiteren Hilfsmittel (gelöste Übungsbeispiele, Internet, etc.) erlaubt. Die Fragen orientieren sich an den Übungsbeispielen bzw. an den Quizzes. Es gibt insgesamt 10 Punkte zu erreichen (Teilpunkte sind möglich).
+
+Es gibt die Möglichkeit, die Prüfung bei Bedarf zu wiederholen. In diesem Fall zählen aber jedenfalls die Punkte des zweiten Termins (man kann sich also sowohl verbessern als auch verschlechtern). Ein eventueller zweiter Termin wird in Absprache mit den betroffenen Personen festgelegt (dieser wird aber jedenfalls zeitnah am Ende des Semesters stattfinden).
+
+## Benotung
+
+Die Gesamtnote setzt sich aus den drei beschriebenen Kriterien zusammen:
+
+-   Wenn Sie nicht öfter als zwei Mal (ein drittes Mal mit triftigem Grund und schriftlicher Bestätigung) gefehlt haben, ist das Anwesenheitskriterium erfüllt. Mehr Fehleinheiten führen automatisch zu einer negativen Beurteilung der Lehrveranstaltung.
+-   Aus den Punkten aller Wissensüberprüfungen werden zunächst die niedrigsten zwei Bewertungen entfernt. Von den übrigen Bewertungen wird der arithmetische Mittelwert berechnet -- diese Punkte fließen dann zu 60% in die Gesamtnote ein.
+-   Die Punkte aus der Prüfung fließen zu 40% in die Gesamtnote ein.
+
+Aus diesem gewichteten Mittelwert ergibt sich dann die Gesamtnote wie folgt:
+
+| Sehr gut     | Gut         | Befriedigend | Genügend    | Nicht genügend |
+|--------------|-------------|--------------|-------------|----------------|
+| 9--10 Punkte | 8--9 Punkte | 7--8 Punkte  | 6--7 Punkte | \< 6 Punkte    |
+
+Die kleinste Punktanzahl einer Kategorie wird immer der besseren Note zugerechnet, d.h. z.B. exakt 9 Punkte entsprechen einem "Sehr gut". Der gewichtete Mittelwert wird nicht mehr gerundet, d.h. dass z.B. 8.97 Punkte der Note "Gut" entsprechen.

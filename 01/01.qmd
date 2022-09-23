@@ -1,0 +1,160 @@
+---
+title: "1 – Grundlagen"
+subtitle: "Statistische Datenanalyse mit R"
+author: "Clemens Brunner"
+date: 2022-10-06
+format: html
+engine: knitr
+highlight-style: github
+title-block-banner: true
+theme:
+  light: flatly
+  dark: darkly
+lang: de
+author-title: "Autor"
+published-title: "Veröffentlicht"
+---
+
+## Überblick
+In dieser Lehrveranstaltung werden wir die Grundlagen der statistische Programmierumgebung R kennenlernen. In den ersten Einheiten werden wichtige Eigenschaften und Datentypen eingeführt, und erst danach werden elementare Konzepte der Datenanalyse (Importieren von Daten, deskriptive Statistiken, Erzeugen von Grafiken) sowie einfache statistische Modelle (Korrelation und lineare Regression) beschrieben.
+
+## Was ist R?
+Folgende (positive) Eigenschaften werden oft mit R in Verbindung gebracht:
+
+- Programmiersprache speziell für den Bereich Statistik und Datenverarbeitung
+- Open Source (freie Software)
+- Plattformübergreifend (läuft auf Windows, macOS, Linux)
+- Relativ einfach zu erlernen (zumindest die Grundlagen für die Anwendung)
+- Einfaches Arbeiten mit komplexen Datenstrukturen
+- Umfangreiche Hilfe und Dokumentation
+- Große und hilfsbereite Community
+- Riesige Anzahl an Zusatzpaketen verfügbar
+
+R ist eine auf Datenanalyse und Statistik spezialisierte Programmiersprache. Mit spezialisierten Programmiersprachen kann man manche Dinge schneller, besser, eleganter oder kürzer lösen als mit generischen Programmiersprachen. Im Gegensatz dazu ist man mit generischen Programmiersprachen (wie beispielsweise Python) aber nicht auf ein relativ spezielles Gebiet eingeschränkt. Mit Python kann man neben Datenanalysen, numerischen Berechnungen und Statistik auch z.B. Webanwendungen oder interaktive Anwendungen mit grafischen Oberflächen relativ einfach erstellen.
+
+Es ist also zunächst einmal wichtig, für ein gegebenes Problem eine geeignete Programmiersprache zu finden. Wenn das Problem den Bereichen Datenanalyse oder statistische Modellierung zugeordnet werden kann, dann ist R sicher eine ausgezeichnete Wahl.
+
+## Popularität
+R ist mittlerweile sehr weit verbreitet. Verschiedene Versuche, die Beliebtheit von Programmiersprachen abzuschätzen (z.B. [PYPL](https://pypl.github.io/PYPL.html), [IEEE Spectrum Top Programming Languages](https://spectrum.ieee.org/top-programming-languages/) und [TIOBE](https://www.tiobe.com/tiobe-index/)) sehen R seit Jahren auf einem der vordersten Plätze. Dies ist umso bemerkenswerter, weil R eine spezialisierte Programmiersprache ist – sie ist somit die populärste statistische Programmierumgebung überhaupt, weit vor den kommerziellen Statistikpaketen SPSS, Stata und Statistica.
+
+Die Popularität einer Programmiersprache ist auch in der Praxis durchaus relevant, denn je größer und aktiver die Community einer Sprache ist, desto einfacher wird man existierende Lösungen zu Problemen finden bzw. desto schneller wird man eine Antwort auf eine noch nicht beantwortete Frage bekommen.
+
+## Wie sieht R-Code aus?
+R bedient man, indem man Textbefehle in der sogenannten *Console* eingibt. Statistische Berechnungen werden daher nicht wie z.B. in SPSS durch Navigieren in einer grafischen Oberfläche durchgeführt. Dies ist aber keineswegs ein Nachteil, sondern hat ganz im Gegenteil mehrere Vorteile – insbesondere wird die Datenanalyse dadurch automatisch reproduzierbar, weil diese vollständig durch die verwendeten Textbefehle definiert ist.
+
+Typische Ein- und Ausgaben in R sehen beispielsweise wie folgt aus:
+
+```{r}
+x = c(1, 3, 8, 12, 13, 27)
+mean(x)
+sd(x)
+set.seed(1)
+y = -0.1 * x + rnorm(6, mean=-10, sd=4)
+cor.test(x, y)
+plot(x, y, pch=20)
+```
+
+In den grauen Kästchen werden R-Befehle gezeigt (welche wir in die Console eintippen), während direkt darunter die Ergebnisse der Befehle folgen. Im Moment sind die gezeigten Beispiele vielleicht noch vollkommen unverständlich, aber im Laufe dieser Lehrveranstaltung werden wir all das (und noch einiges mehr) kennenlernen und verstehen.
+
+## Installation
+Bevor wir R verwenden können, müssen wir zwei Programme auf unserem Rechner installieren, nämlich R und RStudio.
+
+Alle relevanten Informationen zur Installation von R sind auf der [offiziellen Website](https://www.r-project.org/) zu finden. Hier finden sich detaillierte Anleitungen für jede unterstützte Plattform. Der Download-Link befindet sich in der linken Spalte ganz oben unter "Download" – "CRAN". Es ist sinnvoll, stets mit der aktuellsten Version von R zu arbeiten (bei der Erstellung dieses Dokuments war dies Version 4.2.1).
+
+R ist modular aufgebaut und besteht aus einem Kern sowie einer grafischen Oberfläche. Obwohl man mit der mitgelieferten Oberfläche relativ komfortabel arbeiten kann, hat sich dennoch die Alternative [RStudio](https://www.rstudio.com/) als De-Facto-Standard etabliert. RStudio ist "nur" eine grafische Oberfläche, d.h. es wird eine zuvor installierte R-Umgebung vorausgesetzt. Auch hier ist es ratsam, stets die aktuellste Version zu verwenden (bei der Erstellung dieses Dokuments war dies Version 2022.07.1 Build 554).
+
+## Erste Schritte
+Um die folgenden Beispiele auszuprobieren, starten Sie also jetzt RStudio – unter Windows z.B. aus dem Startmenü und unter macOS aus den Anwendungen oder per Spotlight (<kbd>⌘</kbd><kbd>Leertaste</kbd>).
+
+R kann als umfangreicher Taschenrechner verwendet werden. Die Eingabe von mathematischen Ausdrücken ist intuitiv, ein sogenannter Prompt (das `>`-Symbol) in der Console (im linken Bereich des RStudio-Fensters) signalisiert, dass R bereit für Eingaben ist. Nach dem Eingeben eines Befehls und Bestätigen mit <kbd>Enter</kbd> wird das Ergebnis der Berechnung in der nächsten Zeile ausgegeben. Die Grundrechenarten Addition, Subtraktion, Multiplikation und Division funktionieren wie erwartet:
+
+```{r}
+13 + 7
+```
+
+```{r}
+1001 - 93
+```
+
+```{r}
+81 * 76
+```
+
+```{r}
+1563 / 43
+```
+
+Beachten Sie, dass man aus Gründen der besseren Lesbarkeit Leerzeichen vor und nach dem Operator einfügen sollte, also besser `13 + 7` und nicht `13+7`. Für R ist zwar beides korrekt, aber die erste Variante ist leichter lesbar.
+
+Für eine Ganzzahl-Division verwendet man den aus drei Zeichen bestehenden Operator `%/%`:
+
+```{r}
+1563 %/% 43
+```
+
+Den Rest einer Division erhält man mit ```%%```:
+```{r}
+1563 %% 43
+```
+
+Potenzieren kann man mit ```^``` oder ```**```:
+```{r}
+16^2
+```
+
+```{r}
+16**2
+```
+
+R kennt selbstverständlich auch die korrekten Vorrangsregeln bei Verkettung von mehreren Operationen (inklusive Klammersetzung):
+
+```{r}
+(13 + 6) * 8 - 12**2 / (2.5 + 1.6)
+```
+
+Die Quadratwurzel berechnet man mit `sqrt` (aus dem englischen *square root*):
+
+```{r}
+sqrt(144)
+```
+
+Die Kreiszahl $\pi \approx 3.141593$ ist als `pi` verfügbar:
+
+```{r}
+pi
+```
+
+Die Eulersche Zahl $e \approx 2.718282$ ist nicht unmittelbar verfügbar, kann aber mit Hilfe der Exponentialfunktion $e^1$ eingegeben werden:
+
+```{r}
+exp(1)
+```
+
+Bitte beachten Sie, dass R die *englische* Zahlenschreibweise mit einem *Punkt* als Dezimaltrennzeichen verwendet und nicht das im deutschen Sprachraum übliche *Komma*. Kommazahlen müssen daher immer mit einem Punkt eingegeben werden, ganz egal welche Sprache im Betriebssystem eingestellt ist.
+
+## Übungen
+### Übung 1
+Installieren Sie die neuesten Versionen von R und RStudio auf Ihrem Rechner. Starten Sie dann RStudio und suchen Sie nach einer Möglichkeit, die Versionsnummern sowohl von R als auch von RStudio anzuzeigen. Welche Versionen beider Programme haben Sie installiert? Sind das die aktuellsten Versionen?
+
+### Übung 2
+Berechnen Sie mit R das Ergebnis der Division $4 : 0.4$. Berechnen Sie außerdem das ganzzahlige Ergebnis und den Rest. Fällt Ihnen etwas auf?
+
+### Übung 3
+Gegeben seien folgende Messwerte: 11, 27, 15, 10, 33, 18, 25, 22, 39, 11. Berechnen Sie deren Mittelwert $\bar{x}$ mit den Grundrechenarten Addition und Division. Führen Sie die Berechnung mit einem einzigen Befehl (ohne Zwischenergebnisse) durch.
+
+### Übung 4
+Berechnen Sie das Ergebnis des folgenden Ausdrucks mit einem Befehl (d.h. in einer Zeile):
+
+$$\sqrt 2 \cdot \frac{(5^5 - \pi) \cdot 18}{\left(\frac{7}{5} + 13.2 \right) \cdot 7^\frac{2}{3}}$$
+
+*Hinweis:* Achten Sie auf die Klammersetzung! Der letzte Term im Nenner $7^\frac{2}{3}$ lautet sieben *hoch* zwei Drittel.
+
+### Übung 5
+Warum funktioniert folgender Code zur Berechnung des Umfangs eines Kreises mit einem Radius von $r = 1$ nicht (die korrekte Berechnung lautet $2 \cdot r \cdot \pi = 2 \cdot 1 \cdot \pi \approx 6.283185$)?
+
+```{r}
+#| eval: false
+2 * 1 * PI
+```
+
+Dieses Beispiel soll zeigen, dass die Console zum Ausprobieren von Befehlen verwendet werden kann und soll. Es macht gar nichts, wenn die Eingabe falsch ist! Ganz im Gegenteil erhält man zu einer fehlerhaften Eingabe eine Fehlermeldung, aus der man vielleicht auf den Fehler schließen kann.
