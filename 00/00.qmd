@@ -69,8 +69,8 @@ Es gibt die Möglichkeit, die Prüfung bei Bedarf zu wiederholen. In diesem Fall
 Die Gesamtnote setzt sich aus den drei beschriebenen Kriterien zusammen:
 
 -   Wenn Sie nicht öfter als zwei Mal (ein drittes Mal mit triftigem Grund und schriftlicher Bestätigung) gefehlt haben, ist das Anwesenheitskriterium erfüllt. Mehr Fehleinheiten führen automatisch zu einer negativen Beurteilung der Lehrveranstaltung.
--   Aus den Punkten aller Wissensüberprüfungen werden zunächst die niedrigsten zwei Bewertungen entfernt. Von den übrigen Bewertungen wird der arithmetische Mittelwert berechnet -- diese Punkte fließen dann zu 60% in die Gesamtnote ein.
--   Die Punkte aus der Prüfung fließen zu 40% in die Gesamtnote ein.
+-   Aus den Punkten aller Wissensüberprüfungen werden zunächst die niedrigsten zwei Bewertungen entfernt. Von den übrigen Bewertungen wird der arithmetische Mittelwert berechnet -- diese Punkte fließen dann zu 60&thinsp;% in die Gesamtnote ein.
+-   Die Punkte aus der Prüfung fließen zu 40&thinsp;% in die Gesamtnote ein.
 
 Aus diesem gewichteten Mittelwert ergibt sich dann die Gesamtnote wie folgt:
 
@@ -78,4 +78,4 @@ Aus diesem gewichteten Mittelwert ergibt sich dann die Gesamtnote wie folgt:
 |--------------|-------------|--------------|-------------|----------------|
 | 9--10 Punkte | 8--9 Punkte | 7--8 Punkte  | 6--7 Punkte | \< 6 Punkte    |
 
-Die kleinste Punktanzahl einer Kategorie wird immer der besseren Note zugerechnet, d.h. z.B. exakt 9 Punkte entsprechen einem "Sehr gut". Der gewichtete Mittelwert wird nicht mehr gerundet, d.h. dass z.B. 8.97 Punkte der Note "Gut" entsprechen.
+Die kleinste Punktanzahl einer Kategorie wird immer der besseren Note zugerechnet. Beispielsweise entsprechen also exakt 9 Punkte einem "Sehr gut". Der gewichtete Mittelwert wird nicht mehr gerundet, d.h. dass z.B. 8,97 Punkte der Note "Gut" entsprechen.
