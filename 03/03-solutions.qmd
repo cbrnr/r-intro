@@ -1,0 +1,90 @@
+---
+title: "3 – Lösungen"
+subtitle: "Statistische Datenanalyse mit R"
+author: "Clemens Brunner"
+date: 2022-10-20
+format: html
+engine: knitr
+highlight-style: github
+title-block-banner: true
+theme:
+  light: flatly
+  dark: darkly
+lang: de
+author-title: "Autor"
+published-title: "Veröffentlicht"
+---
+
+## Übung 1
+
+```{r}
+r = 5  # Radius
+h = 9  # Höhe
+(A = 2 * r * pi * (r + h))  # Oberfläche
+(V = r**2 * pi * h)  # Volumen
+```
+
+
+## Übung 2
+
+```{r}
+(x = c(4, 18, -7, 16, 4, -44))
+(y = x**2)
+(z = c(x, y))
+length(z)
+```
+
+
+## Übung 3
+
+```{r}
+x = c(44, 23, -56, 98, 99, 32, 45, 22)
+x %% 2 == 0  # logischer Vektor, TRUE bei geraden Elementen
+x[x %% 2 == 0]  # gerade Elemente von x
+x %% 2 != 0  # logischer Vektor, TRUE bei ungeraden Elemente
+x[x %% 2 != 0]  # ungerade Elemente von x
+```
+
+
+## Übung 4
+
+```{r}
+15:40
+seq(75, 61, -3)
+seq(14, 15, length.out=35)
+```
+
+
+## Übung 5
+
+```{r}
+rep(c("Placebo", "Gruppe 1", "Gruppe 2"), each=10)
+```
+
+
+## Übung 6
+
+```{r}
+k = seq(0, 20, 2)
+k[-c(3, 7)]
+k[1:5]
+k[c(2, 5, 16)]  # das 16. Element gibt es nicht -> NA
+k[k > 11]
+```
+
+
+## Übung 7
+
+```{r}
+t = c(10, 20, NA, 30, 40)
+mean(t)  # Ergebnis ist NA
+mean(t, na.rm=TRUE)  # NA-Elemente werden ignoriert
+```
+
+
+## Übung 8
+
+```{r}
+s = c(1, 11.3, 7.8, 3.4, 6)  # Standardabweichungen
+s**2  # Varianzen (elementweises Quadrieren)
+```
