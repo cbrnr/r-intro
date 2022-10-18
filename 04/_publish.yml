@@ -1,0 +1,8 @@
+- source: 04.qmd
+  quarto-pub:
+    - id: 4440dbb7-16ce-48d6-a0d8-9ab1ad966274
+      url: 'https://quartopub.com/sites/cbrnr/r-22w-04'
+- source: 04-solutions.qmd
+  quarto-pub:
+    - id: da1d44c0-30af-4599-8b3e-7a03333585c9
+      url: 'https://quartopub.com/sites/cbrnr/r-22w-04-solutions'

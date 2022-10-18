@@ -1,0 +1,120 @@
+---
+title: "4 – Lösungen"
+subtitle: "Statistische Datenanalyse mit R"
+author: "Clemens Brunner"
+date: 2022-10-27
+format: html
+engine: knitr
+highlight-style: github
+title-block-banner: true
+theme:
+  light: flatly
+  dark: darkly
+lang: de
+author-title: "Autor"
+published-title: "Veröffentlicht"
+---
+
+## Übung 1
+
+```{r}
+u = seq(98, 50, -2)
+v = seq(0, 48, 2)
+length(u)  # 25 Elemente -> 5 Zeilen bedingen 5 Spalten
+length(v)  # 25 Elemente -> 5 Zeilen bedingen 5 Spalten
+dim(u) = c(5, 5)
+dim(v) = c(5, 5)
+(r = cbind(u, v))
+class(r)  # matrix
+```
+
+
+## Übung 2
+
+```{r}
+dim(r)  # 5 Zeilen, 10 Spalten
+length(r)  # 50 Elemente
+r[4, 6]  # 6
+rowMeans(r)
+colMeans(r)
+mean(r[3:5, 1:2])  # 87
+```
+
+
+## Übung 3
+
+```{r}
+df = data.frame(
+    name=c(
+        "Ben", "Emma", "Luis", "Mia", "Paul",
+        "Hanna", "Lukas", "Sophia", "Jonas", "Emilia"
+    ),
+    gender=rep(c("m", "f"), 5),
+    value=c(11, 76, 42, 8, 32, 96, 88, 65, 14, 50)
+)
+df
+str(df)  # character, character, numeric
+```
+
+
+## Übung 4
+
+```{r}
+df_f = df[df[, "gender"]=="f", ]  # Variante 1
+df_f = df[df$gender=="f", ]  # Variante 2
+df_f
+```
+
+Vier Möglichkeiten, um auf die erste Spalte zuzugreifen:
+
+```{r}
+df_f[, 1]
+df_f[, "name"]
+df_f$name
+df_f[["name"]]
+```
+
+
+## Übung 5
+
+```{r}
+dim(mtcars)  # 32 Zeilen, 11 Spalten
+mtcars1 = mtcars[mtcars$mpg > 25, ]
+dim(mtcars1)  # 6 Zeilen, 11 Spalten
+````
+
+
+## Übung 6
+
+```{r}
+library(tibble)
+
+air = as_tibble(airquality)
+```
+
+```{r}
+airquality[, 1]
+air[, 1]
+airquality[, "Ozone"]
+air[, "Ozone"]
+```
+
+Beim Indizieren mit eckigen Klammern erhält man bei einem Data Frame für die Spalte einen Vektor, bei einem Tibble erhält man jedoch ein Tibble.
+
+```{r}
+airquality$Ozone
+air$Ozone
+airquality[["Ozone"]]
+air[["Ozone"]]
+```
+
+Bei diesen Varianten erhält man die Daten in der Spalte immer als Vektor.
+
+Tibbles sind beim Indizieren mit eckigen Klammern konsistenter, weil das Ergebnis immer ein Tibble ist. Bei Data Frames ist das Ergebnis manchmal ein Vektor (wie in den obigen Beispielen), manchmal aber auch ein Data Frame (z.B. wenn man zwei Spalten herausgreift):
+
+```{r}
+airquality[, 1:2]
+air[, 1:2]
+```
+
+Möchte man für eine Spalte einen Vektor, kann man bei beiden Datentypen entweder `$` oder `[[]]` verwenden.
