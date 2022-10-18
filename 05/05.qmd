@@ -218,11 +218,11 @@ Achten Sie besonders auf die Spalte `SiebenTageInzidenzFaelle` – diese beinhal
 
 Das [UCI Machine Learning Repository](http://archive.ics.uci.edu/ml/) stellt viele Datensätze zur freien Verwendung zur Verfügung. Laden Sie für diese Übung den Datensatz [Individual Household Electric Power Consumption](http://archive.ics.uci.edu/ml/datasets/Individual+household+electric+power+consumption) als [.zip-Datei](http://archive.ics.uci.edu/ml/machine-learning-databases/00235/household_power_consumption.zip) herunter. Sie müssen diese Datei nicht entpacken, sondern Sie können die .zip-Datei direkt mit der Funktion `read_delim()` laden wenn Sie möchten.
 
-Diese Datei beinhaltet die minütliche elektrische Leistungsaufnahme eines Haushalts in einem Zeitraum von fast vier Jahren. Insgesamt gibt es über 2 Millionen Messpunkte und 9 Variablen, welche durch Strichpunkte voneinander `;` getrennt sind. Fehlende Werte sind mit einem Fragezeichen `?` codiert.
+Diese Datei beinhaltet die minütliche elektrische Leistungsaufnahme eines Haushalts in einem Zeitraum von fast vier Jahren. Insgesamt gibt es über 2 Millionen Messpunkte und 9 Variablen, welche durch Strichpunkte voneinander `;` getrennt sind. Fehlende Werte sind mit einem Fragezeichen `?` bzw. mit tatsächlich fehlenden Einträgen codiert.
 
 Lesen Sie die Daten in ein Tibble namens `df` ein und geben Sie es am Bildschirm aus um folgende Fragen zu beantworten:
 
 -   Wie viele Zeilen und Spalten hat das Data Frame?
 -   Welche Spalten könnte man eventuell noch in einen passenderen Typ umwandeln (Sie müssen das aber nicht tatsächlich durchführen)?
 
-*Hinweis:* Es ist wichtig, dass R beim Einlesen der Daten fehlende Werte korrekt erkennt. In dieser Datei werden fehlende Werte durch `?` markiert. Stellen Sie durch Setzen des entsprechenden Argumentes der Funktion `read_delim()` sicher, dass diese fehlenden Werte richtig eingelesen werden (und somit korrekt als `NA` interpretiert werden)! Die korrekt importierten Daten sollten in einem Tibble mit den folgenden Spaltentypen vorhanden sein: 1 Spalte `chr`, 7 Spalten `dbl` und 1 Spalte `time`.
+*Hinweis:* Es ist wichtig, dass R beim Einlesen der Daten fehlende Werte korrekt erkennt. In dieser Datei werden fehlende Werte durch `?` markiert. Stellen Sie durch Setzen des entsprechenden Argumentes der Funktion `read_delim()` sicher, dass diese fehlenden Werte richtig eingelesen werden (und somit korrekt als `NA` interpretiert werden)! Es kommen sowohl `"?"` als auch `""` als fehlende Werte in der Datei vor. Die korrekt importierten Daten sollten in einem Tibble mit den folgenden Spaltentypen vorhanden sein: 1 Spalte `chr`, 7 Spalten `dbl` und 1 Spalte `time`.
