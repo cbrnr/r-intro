@@ -1,5 +1,5 @@
 ---
-title: "6 – Zusammenfassende Beschreibungen"
+title: "6 – Deskriptive Statistiken"
 subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
 date: 2022-11-10
