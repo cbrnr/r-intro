@@ -1,0 +1,65 @@
+---
+title: "7 – Lösungen"
+subtitle: "Statistische Datenanalyse mit R"
+author: "Clemens Brunner"
+date: 2022-11-17
+format: html
+engine: knitr
+highlight-style: github
+title-block-banner: true
+theme:
+  light: flatly
+  dark: darkly
+lang: de
+author-title: "Autor"
+published-title: "Veröffentlicht"
+---
+
+## Übung 1
+
+```{r}
+library(tidyr)
+
+pivot_wider(table2, names_from=type, values_from=count)
+```
+
+
+## Übung 2
+
+```{r}
+pivot_longer(table4a, `1999`:`2000`, names_to="year", values_to="count")
+```
+
+
+## Übung 3
+
+```{r}
+mtcars1 = mtcars |>
+    subset(mpg > 25)
+
+nrow(mtcars)  # 32 Zeilen
+nrow(mtcars1)  # 6 Zeilen
+```
+
+
+## Übung 4
+
+```{r}
+library(nycflights13)
+library(tibble)
+
+flights |>
+    subset(day == 1 & month == 1) |>  # 842 Zeilen
+    subset(select=c(year:dep_time, arr_time, tailnum))
+
+flights |>
+    transform(hours=air_time / 60) |>
+    transform(speed=distance / hours) |>
+    as_tibble()
+
+flights |>
+    subset(dep_time < 600)  # 8730 Zeilen
+
+flights |>
+    subset(arr_delay < dep_delay)  # 221565 Zeilen
+```
