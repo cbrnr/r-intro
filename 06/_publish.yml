@@ -1,0 +1,4 @@
+- source: 06.qmd
+  quarto-pub:
+    - id: f6446870-1c23-4044-b543-1791e47dac1a
+      url: 'https://quartopub.com/sites/cbrnr/r-22w-06'
