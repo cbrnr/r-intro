@@ -1,0 +1,69 @@
+---
+title: "6 – Lösungen"
+subtitle: "Statistische Datenanalyse mit R"
+author: "Clemens Brunner"
+date: 2022-11-10
+format: html
+engine: knitr
+highlight-style: github
+title-block-banner: true
+theme:
+  light: flatly
+  dark: darkly
+lang: de
+author-title: "Autor"
+published-title: "Veröffentlicht"
+---
+
+## Übung 1
+
+```{r}
+#| message: false
+library(readr)
+library(psych)
+library(pastecs)
+library(car)
+
+df = read_delim("household_power_consumption.zip", delim=";", na=c("", "?"))
+
+sapply(df[, 3:6], mean, na.rm=TRUE)
+sapply(df[, 3:6], median, na.rm=TRUE)
+sapply(df[, 3:6], min, na.rm=TRUE)
+sapply(df[, 3:6], max, na.rm=TRUE)
+
+summary(df[, 3:6])
+describe(df[, 3:6])
+round(stat.desc(df[, 3:6]), 1)
+```
+
+Aus den Ausgaben der zusammenfassenden Statistiken kann abgelesen werden, dass die mittlere Spannung 240.84 und der Median der globale Wirkleistung 0.602 beträgt. Die Funktion `summary()` zeigt außerdem an, dass es pro Spalte 25979 fehlende Werte gibt (unter `NA's`).
+
+
+## Übung 2
+
+```{r}
+library(palmerpenguins)
+dim(penguins)  # 344 Zeilen, 8 Spalten
+summary(penguins)  # jede der 3 Faktorspalten hat jeweils 3 Stufen
+by(penguins[, 3:5], penguins$species, colMeans, na.rm=TRUE)
+```
+
+Laut `summary(penguins)` gibt es in den Spalten 3–6 jeweils 2 fehlende Werte und in der 7. Spalte 11 fehlende Werte.
+
+
+## Übung 3
+
+```{r}
+str(mtcars)
+describe(mtcars)  # min, max, mean, median
+shapiro.test(mtcars$mpg)
+```
+
+Die Nullhypothese der Normalverteilung kann *nicht* verworfen werden ($p = 0.123$).
+
+```{r}
+#| warning: false
+leveneTest(mtcars$mpg, mtcars$cyl)
+```
+
+Die Nullhypothese der Varianzhomogenität kann verworfen werden ($p = 0.009$).
