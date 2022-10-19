@@ -7,3 +7,4 @@ Die folgenden Unterlagen bieten eine kurze Einführung in die Grundlagen von R. 
 3. [Vektoren](https://quartopub.com/sites/cbrnr/r-22w-03) ([Lösungen](https://quartopub.com/sites/cbrnr/r-22w-03-solutions))
 4. [Tabellarische Daten](https://quartopub.com/sites/cbrnr/r-22w-04) ([Lösungen](https://quartopub.com/sites/cbrnr/r-22w-04-solutions))
 5. [Daten importieren](https://quartopub.com/sites/cbrnr/r-22w-05) ([Lösungen](https://quartopub.com/sites/cbrnr/r-22w-05-solutions))
+6. [Deskriptive Statistiken](https://quartopub.com/sites/cbrnr/r-22w-06) ([Lösungen](https://quartopub.com/sites/cbrnr/r-22w-06-solutions))
