@@ -36,7 +36,7 @@ Funktionen zum Importieren von Textdaten aus dem `readr`-Paket beginnen alle mit
 
 Die wahrscheinlich wichtigste Funktion aus dem Paket `readr` heißt `read_delim()`. Hier kann man sehr viele Argumente genau auf die einzulesende Datei abstimmen (z.B. das Spaltentrennzeichen, ob es eine Kopfzeile mit Spaltennamen gibt, ob Kommentare oder fehlende Werte vorhanden sind, usw.). Für Daten im CSV-Format (Spalten sind durch Kommas getrennt) gibt es die Wrapper-Funktion `read_csv()`, welche sinnvolle Standardwerte für diverse Argumente annimmt. Für Daten, die mit Tabulatoren getrennt sind, gibt es die Wrapper-Funktion `read_tsv()`.
 
-Als Beispiel sehen wir uns eine Textdatei namens `lecturer.csv` an. Wenn man nicht weiß, wie die Daten in einer Textdatei tatsächlich formatiert sind, kann man deren Inhalt mit der Funktion `file.show()` im RStudio-Editor öffnen:
+Als Beispiel sehen wir uns eine Textdatei namens [`lecturer.csv`](lecturer.csv) an. Wenn man nicht weiß, wie die Daten in einer Textdatei tatsächlich formatiert sind, kann man deren Inhalt mit der Funktion `file.show()` im RStudio-Editor öffnen:
 
 ```r
 file.show("lecturer.csv")
@@ -73,7 +73,7 @@ Für diese Datei hätten wir alternativ auch `read_csv()` verwenden können, hie
 read_csv("lecturer.csv")
 ```
 
-Sehen wir uns als zweites Beispiel dieselben Daten an, die aber diesmal mit Tabulatoren voneinander getrennt in einer `.dat`-Datei vorliegen. Um diese Datei einzulesen, können wir entweder die generische Funktion `read_delim()` mit der automatischen Erkennung verwenden (bzw. falls das nicht funktionieren sollte mit `delim="\t"`, wobei `\t` die Darstellung des Tabulator-Zeichens ist) oder direkt die spezialisierte Funktion `read_tsv()`:
+Sehen wir uns als zweites Beispiel dieselben Daten an, die aber diesmal mit Tabulatoren voneinander getrennt in einer `.dat`-Datei vorliegen. Um diese Datei namens [`lecturer.dat`](lecturer.dat) einzulesen, können wir entweder die generische Funktion `read_delim()` mit der automatischen Erkennung verwenden (bzw. falls das nicht funktionieren sollte mit `delim="\t"`, wobei `\t` die Darstellung des Tabulator-Zeichens ist) oder direkt die spezialisierte Funktion `read_tsv()`:
 
 ```r
 read_delim("lecturer.dat")
@@ -90,7 +90,7 @@ Unabhängig davon, wie Dezimaltrennzeichen in den Textdateien dargestellt werden
 
 ## Daten aus SPSS
 
-Sollen bereits vorhandene SPSS-Datensätze (`.sav`) importiert werden, kann man dazu die Funktion `read_sav()` aus dem Paket `haven` verwenden. Das Ergebnis ist wieder ein Tibble. Das `haven`-Paket kann übrigens auch Daten aus SAS und Stata importieren.
+Sollen bereits vorhandene SPSS-Datensätze (`.sav`) importiert werden, kann man dazu die Funktion `read_sav()` aus dem Paket `haven` verwenden. Das Ergebnis ist wieder ein Tibble. Das `haven`-Paket kann übrigens auch Daten aus SAS und Stata importieren. Das folgende Beispiel verwendet wieder dieselben Daten, dieses Mal aber in der Datei [`lecturer.sav`](lecturer.sav):
 
 ```r
 library(haven)
@@ -100,7 +100,7 @@ df = read_sav("lecturer.sav")
 
 ## Daten aus Excel
 
-Wenn Daten als Excel-Datei (Endung `.xlsx` oder `.xls`) vorliegen, verwendet man zum Einlesen die Funktion `read_excel()` aus dem Paket `readxl`. Da dieses Paket Teil des Tidyverse ist, bekommt man auch hier ein Tibble zurückgeliefert:
+Wenn Daten als Excel-Datei (Endung `.xlsx` oder `.xls`) vorliegen, wie in unserem Beispiel [`lecturer.xlsx`](lecturer.xlsx) verwendet man zum Einlesen die Funktion `read_excel()` aus dem Paket `readxl`. Da dieses Paket Teil des Tidyverse ist, bekommt man auch hier ein Tibble zurückgeliefert:
 
 ```r
 library(readxl)
@@ -199,12 +199,12 @@ Sehen Sie sich die Hilfe zur Funktion `read_delim()` aus dem `readr`-Paket an. W
 
 ### Übung 2
 
-Importieren Sie die Datei `homework.csv` und geben Sie das entstehende Tibble am Bildschirm aus. Achten Sie darauf, dass Sie die in der Datei verwendeten Spalten- bzw. Dezimaltrennzeichen korrekt erkennen (Achtung: Kommazahlen sind im deutschen Format vorhanden). Welche Datentypen haben die vier Spalten?
+Importieren Sie die Datei [`homework.csv`](homework.csv) und geben Sie das entstehende Tibble am Bildschirm aus. Achten Sie darauf, dass Sie die in der Datei verwendeten Spalten- bzw. Dezimaltrennzeichen korrekt erkennen (Achtung: Kommazahlen sind im deutschen Format vorhanden). Welche Datentypen haben die vier Spalten?
 
 
 ### Übung 3
 
-In der Datei `wahl16.csv` befinden sich die [Ergebnisse der Bundespräsidentenwahl 2016](https://www.bmi.gv.at/412/Bundespraesidentenwahlen/Bundespraesidentenwahl_2016/start.aspx#pk_05) (und zwar nach dem ersten Wahlgang mit den sechs ursprünglichen Kandidaten/Kanditatinnen). Importieren Sie diese Daten in ein Tibble namens `wahl16`und berechnen Sie die relative Gesamtanzahl an Stimmen für jede Kandidatin/jeden Kandidaten (die Funktionen `colSums()`, `rowSums()` sowie `sum()` könnten dabei hilfreich sein).
+In der Datei [`wahl16.csv`](wahl16.csv) befinden sich die [Ergebnisse der Bundespräsidentenwahl 2016](https://www.bmi.gv.at/412/Bundespraesidentenwahlen/Bundespraesidentenwahl_2016/start.aspx#pk_05) (und zwar nach dem ersten Wahlgang mit den sechs ursprünglichen Kandidaten/Kanditatinnen). Importieren Sie diese Daten in ein Tibble namens `wahl16`und berechnen Sie die relative Gesamtanzahl an Stimmen für jede Kandidatin/jeden Kandidaten (die Funktionen `colSums()`, `rowSums()` sowie `sum()` könnten dabei hilfreich sein).
 
 
 ### Übung 4
@@ -216,9 +216,9 @@ Achten Sie besonders auf die Spalte `SiebenTageInzidenzFaelle` – diese beinhal
 
 ### Übung 5
 
-Das [UCI Machine Learning Repository](http://archive.ics.uci.edu/ml/) stellt viele Datensätze zur freien Verwendung zur Verfügung. Laden Sie für diese Übung den Datensatz [Individual Household Electric Power Consumption](http://archive.ics.uci.edu/ml/datasets/Individual+household+electric+power+consumption) als [.zip-Datei](http://archive.ics.uci.edu/ml/machine-learning-databases/00235/household_power_consumption.zip) herunter. Sie müssen diese Datei nicht entpacken, sondern Sie können die .zip-Datei direkt mit der Funktion `read_delim()` laden wenn Sie möchten.
+Das [UCI Machine Learning Repository](http://archive.ics.uci.edu/ml/) stellt viele Datensätze zur freien Verwendung zur Verfügung. Wir verwenden für diese Übung den Datensatz [Individual Household Electric Power Consumption](http://archive.ics.uci.edu/ml/datasets/Individual+household+electric+power+consumption), und zwar die Datei [`household_power_consumption.zip`](household_power_consumption.zip). Sie müssen diese Datei nicht entpacken, sondern können diese direkt mit der Funktion `read_delim()` laden.
 
-Diese Datei beinhaltet die minütliche elektrische Leistungsaufnahme eines Haushalts in einem Zeitraum von fast vier Jahren. Insgesamt gibt es über 2 Millionen Messpunkte und 9 Variablen, welche durch Strichpunkte voneinander `;` getrennt sind. Fehlende Werte sind mit einem Fragezeichen `?` bzw. mit tatsächlich fehlenden Einträgen codiert.
+Die Datei beinhaltet die minütliche elektrische Leistungsaufnahme eines Haushalts in einem Zeitraum von fast vier Jahren. Insgesamt gibt es über 2 Millionen Messpunkte und 9 Variablen, welche durch Strichpunkte voneinander `;` getrennt sind. Fehlende Werte sind mit einem Fragezeichen `?` bzw. mit tatsächlich fehlenden Einträgen codiert.
 
 Lesen Sie die Daten in ein Tibble namens `df` ein und geben Sie es am Bildschirm aus um folgende Fragen zu beantworten:
 
