@@ -1,0 +1,369 @@
+---
+title: "8 – Grafiken (1)"
+subtitle: "Statistische Datenanalyse mit R"
+author: "Clemens Brunner"
+date: 2022-11-24
+format: html
+engine: knitr
+highlight-style: github
+title-block-banner: true
+theme:
+  light: flatly
+  dark: darkly
+lang: de
+author-title: "Autor"
+published-title: "Veröffentlicht"
+---
+
+## Allgemeines
+
+In R gibt es mehrere Pakete, mit denen man Daten grafisch darstellen kann. Grafiken, welche mit unterschiedlichen Paketen erstellt wurden, lassen sich aber nicht (einfach) miteinander kombinieren. Deshalb entscheidet man sich typischerweise vor der Erstellung einer Grafik für das zu verwendende Grafikpaket. In diesem Seminar werden wir `graphics` und `ggplot2` näher kennenlernen.
+
+Das `graphics`-Paket wird auch als Base-Plotting-System bezeichnet. Es ist Teil von R und muss nicht extra installiert werden. Das Base-Plotting-System eignet sich sehr gut für schnelle Visualisierungen – mit etwas Aufwand kann man aber auch schöne Grafiken für Publikationen erstellen.
+
+Für die folgenden Beispiele verwenden wir den in R enthaltenen `airquality`-Datensatz (eine kurze Beschreibung kann man dem Hilfetext `?airquality` entnehmen):
+
+```{r}
+str(airquality)
+```
+
+
+## Die `plot()`-Funktion
+
+Eine der wichtigsten Funktionen im Base-Plotting-System ist `plot()`. Diese Funktion erstellt spezielle Visualisierungen in Abhängigkeit von den darzustellenden Daten.
+
+Wenn man einen numerischen Vektor übergibt, erhält man eine Punktgrafik. Auf der x-Achse wird der Index der Datenpunkte dargestellt (also die Zeile des jeweiligen Datenpunktes im Data Frame):
+
+```{r}
+plot(airquality$Ozone)
+```
+
+Wenn man zwei numerische Vektoren übergibt, erhält man einen sogenannten Scatterplot. Das erste Argument wird auf der x-Achse und das zweite Argument wird auf der y-Achse dargestellt:
+
+```{r}
+plot(airquality$Wind, airquality$Ozone)
+```
+
+Auch mit Datumswerten kann `plot()` umgehen. Erstellen wir zunächst aus den beiden Spalten `Month` und `Day` eine neue Spalte namens `date` (aus der Beschreibung der Daten kann man entnehmen, dass diese im Jahr 1973 aufgezeichnet wurden):
+
+```{r}
+airquality$date = as.Date(
+    paste(airquality$Month, airquality$Day, "1973"),
+    format="%m %d %Y"
+)
+```
+
+Die Funktion `paste()` klebt dabei mehrere Character-Vektoren elementweise zu einem einzigen Vektor zusammen (standardmäßig wird zwischen den Elementen ein Leerzeichen eingefügt):
+
+```{r}
+paste("Hello", "World")
+```
+
+Das Ergebnis des zusammengeklebten Character-Vektors sieht also so aus:
+
+```{r}
+paste(airquality$Month, airquality$Day, "1973")
+```
+
+Dieser Vektor kann dann mit der Funktion `as.Date()` mit dem Argument `format="%m %d %Y"` in einen Datumsvektor konvertiert werden, welchen wir dann der Spalte `date` im Data Frame zugewiesen haben:
+
+```{r}
+class(airquality$date)
+```
+
+Anschließend können wir diese Datumsspalte für die Darstellung auf der x-Achse verwenden (in diesem Beispiel werden dann automatisch die Namen für die fünf Monate auf der x-Achse angezeigt):
+
+```{r}
+plot(airquality$date, airquality$Ozone)
+```
+
+Möchte man einen Faktor plotten, wird automatisch eine Balkengrafik mit den Häufigkeiten der einzelnen Stufen erzeugt:
+
+```{r}
+plot(factor(airquality$Month))
+```
+
+
+## Histogramme
+
+Die Funktion `hist()` erstellt ein Histogramm eines Vektors:
+
+```{r}
+hist(airquality$Ozone)
+```
+
+Mit Hilfe eines Histogramms kann man sich die (ungefähre) Verteilung der Werte eines Vektors anzeigen lassen. Die Anzahl der Säulen im Histogramm kann man mit dem Argument `breaks` explizit festlegen:
+
+```{r}
+hist(airquality$Ozone, breaks=4)
+```
+
+:::{.callout-note}
+Das Argument `breaks` ist nur eine Empfehlung – die tatsächliche Anzahl an Balken wird so adaptiert, dass die Grafik immer noch übersichtlich darzustellen ist.
+:::
+
+
+## Boxplots
+
+Eine weitere Möglichkeit die Verteilung von Werten zu visualisieren bietet die Funktion `boxplot()`. Ein Boxplot zeigt den Median, den Interquartilsabstand (IQR) sowie das Minimum und das Maximum (sowie eventuelle Ausreißer) der Daten.
+
+```{r}
+boxplot(airquality$Temp)
+```
+
+Ein einzelner Boxplot ist für sich noch relativ wenig hilfreich. Wenn man statt eines Vektors eine sogenannte *Formel* angibt, kann man mehrere Boxplots in einer Grafik darstellen. Im folgenden Beispiel werden Boxplots für `airquality$Temp` in Abhängigkeit von `airquality$Month` dargestellt:
+
+```{r}
+boxplot(airquality$Temp ~ airquality$Month)
+```
+
+Eine Formel in R wird durch das Tilde-Zeichen (`~`) definiert. Viele Funktionen verlangen Formeln als Argumente, wir werden dies vor allem bei der Berechnung von linearen Modellen intensiv nutzen.
+
+
+## Plots anpassen
+
+Oft möchte man diverse Eigenschaften von Grafiken anpassen, wie z.B. die verwendete Linienart, Farben, Symbole, Titel, Achsenbeschriftungen, und so weiter. Viele Parameter kann man bereits bei der Erstellung der Grafik als Argument übergeben. Eine angepasste Version des Scatterplot-Beispiels von oben ist:
+
+```{r}
+plot(
+    airquality$Wind,
+    airquality$Ozone,
+    xlab="Wind (mph)",
+    ylab="Ozone (ppb)",
+    main="",
+    pch=16,
+    col="orange"
+)
+```
+
+Eine verbesserte Version des Ozonverlaufs über die Zeit erhält man, wenn man folgende Argumente setzt (hier wird mit `type` der [Plot-Typ](http://www.statmethods.net/graphs/line.html) festgelegt, im Beispiel wird `"l"` für eine Liniengrafik gewählt):
+
+```{r}
+plot(
+    airquality$date,
+    airquality$Ozone,
+    xlab="",
+    ylab="Ozone (ppb)",
+    main="",
+    type="l",
+    col="orange"
+)
+```
+
+Man erkennt mit dieser Liniengrafik auch sofort, dass es fehlende Werte in den Daten gibt (dort wo die Linie unterbrochen ist).
+
+Die diversen Plot-Funktionen haben viele gemeinsame Parameter, mit denen man das Aussehen der Plots beeinflussen kann. In den vorigen Beispielen wurden folgende Parameter verändert:
+
+* `xlab`: x-Achsenbeschriftung
+* `ylab`: y-Achsenbeschriftung
+* `type`: [Plot-Typ](http://www.statmethods.net/graphs/line.html) (Linien, Punkte, beides, ...)
+* `pch`: [Symbol](http://www.cookbook-r.com/Graphs/Shapes_and_line_types/) (Kreis, Dreieck, Kreuz, ...)
+* `main`: Titel
+* `col`: Farbe
+
+Mit der Funktion `par()` kann man alle relevanten Parameter abfragen bzw. global definieren (der Hilfetext `?par` liefert eine Beschreibung aller möglichen Parameter). Wenn man diese Funktion ohne Argumente aufruft, erhält man die aktuell gesetzten Werte aller grafischen Parameter. Man kann auch einzelne Parameter global verändern, d.h. nach einer Änderung werden neue Grafiken immer mit den aktuellen Parametern erstellt.
+
+Folgendes Beispiel demonstriert die Verwendung von `par()`. Zuerst fragen wir den aktuellen Wert des Parameters `col` (also die Farbe) ab. Dies funktioniert mit der `$`-Schreibweise wie beim Herausgreifen von Spalten aus einem Data Frame:
+
+```{r}
+par()$col
+```
+
+Wir sehen, dass die Farbe auf schwarz gesetzt ist. Dies bestätigt auch eine kleine Beispielgrafik, die aus schwarzen Elementen besteht:
+
+```{r}
+plot(sin(seq(0, 2*pi, length.out=50)), type="o", xlab="", ylab="")
+```
+
+Setzen wir die Farbe global auf rot, werden alle nachfolgenden Grafiken diesen Wert verwenden:
+
+```{r}
+par(col="red")
+par()$col
+```
+
+Die exakt selbe Zeile Code wie vorher produziert nun eine rote Grafik:
+
+```{r}
+plot(sin(seq(0, 2*pi, length.out=50)), type="o", xlab="", ylab="")
+```
+
+Setzen wir die Farbe aber wieder auf schwarz zurück bevor wir weitere Grafiken erzeugen:
+
+```{r}
+par(col="black")
+```
+
+Weitere nützliche Parameter sind `lty` (Linientyp) und `cex.axis` (Größe der Achsenbeschriftungen):
+
+```{r}
+plot(
+    sin(seq(0, 2*pi, length.out=50)),
+    type="l",
+    xlab="",
+    ylab="",
+    cex.axis=0.6,
+    lty=2,
+    main="Sine"
+)
+```
+
+Folgende Linientypen sind als Werte für `lty` möglich:
+
+ `lty`  Typ
+------  ----
+0       leer
+1       durchgehend (Standard)
+2       strichliert
+3       gepunktet
+4       Punkt-Strich
+5       lange Striche
+6       kurzer Strich, langer Strich
+
+Die Hilfe der Funktion `points()` listet alle verfügbaren Zeichensymbole für `pch` auf. Der Parameter `cex.axis` setzt einen Skalierungsfaktor für die Achsenbeschriftung; standardmäßig ist dieser 1. Werte kleiner als 1 verkleinern daher die Achsenbeschriftung, Werte größer als 1 vergrößern diese.
+
+
+## Hinzufügen von Elementen zu einer Grafik
+
+Mit dem Base-Plotting-System kann man zuerst eine Grafik erstellen und danach zusätzliche grafische Elemente hinzufügen. Dazu verwendet man entsprechende Funktionen, die im Folgenden vorgestellt werden.
+
+Einen Titel kann man mit `title()` hinzufügen:
+
+```{r}
+with(airquality, plot(Wind, Ozone))
+title(main="Ozone and Wind in NYC")
+```
+
+:::{.callout-tip}
+In diesem Beispiel verwenden wir außerdem die Funktion `with()`. Diese ermöglicht es, innerhalb der Klammern Spaltennamen aus einem Data Frame direkt zu verwenden, also z.B. statt `airquality$Ozone` kann man direkt `Ozone` schreiben. D.h. die obige erste Zeile könnte man ohne `with()` auch vollkommen äquivalent als `plot(airquality$Wind, airquality$Ozone)` schreiben. Beachten Sie allerdings, wie die standardmäßige Achsenbeschriftung davon abhängt, wie man die x- bzw. y-Daten übergibt!
+:::
+
+Mit `points()` kann man Punkte hinzufügen. Dies kann man beispielsweise verwenden, um Gruppen von Daten in unterschiedlichen Farben darzustellen. Wir beginnen mit einem leeren Plot (`type="n"`) und fügen diesem dann Punkte mit unterschiedlichen Farben und Symbolen hinzu. Die Funktion `legend()` fügt eine Legende hinzu.
+
+```{r}
+with(airquality, plot(Wind, Ozone, main="", type="n"))
+with(subset(airquality, Month != 5), points(Wind, Ozone, col="red", pch=20))
+with(subset(airquality, Month == 5), points(Wind, Ozone, col="blue", pch=17))
+legend(
+    "topright",
+    pch=c(17, 20),
+    col=c("blue", "red"),
+    legend=c("May", "Other Months")
+)
+```
+
+Eine Regressionsgerade kann man mit der Funktion `abline()` erstellen:
+
+```{r}
+with(airquality, plot(Wind, Ozone, main="", pch=20))
+model = lm(Ozone ~ Wind, airquality)
+abline(model, lwd=2, col="blue")
+```
+
+Hier übergibt man die Linie in Form einer Geradengleichung, die man mit der Funktion `lm()` berechnen kann – mehr zu dieser Funktion werden wir später bei den Regressionsmodellen kennenlernen. Im Moment reicht es zu wissen, dass diese Funktion eine Formel der Form `abhängige Variable ~ unabhängige Variable` erwartet, d.h. man gibt die diesen Variablen entsprechenden Spaltennamen an.
+
+Text und Pfeile kann man mit `text()` bzw. `arrows()` hinzufügen:
+
+```{r}
+with(airquality, plot(Wind, Ozone, main="", pch=20))
+text(15, 100, "Label")
+arrows(14.5, 90, 14, 75, length=0.1)
+```
+
+
+## Mehrere Plots in einer Grafik
+
+Mehrere Plots nebeneinander bzw. untereinander kann man mit dem globalen Parameter `mfrow` bzw. `mfcol` erzeugen. Hier setzt man den Parameter auf einen Vektor mit zwei Elementen, welcher die Anzahl an Zeilen und Spalten enthält. Beispielsweise entspricht also `mfrow=c(3, 2)` drei Zeilen und zwei Spalten. Danach erzeugt man die entsprechende Anzahl an Plots mit den diversen Funktionen wie z.B. `plot()`, `hist()`, `boxplot()`, usw. Man setzt `mfrow`, wenn man die Grafik zeilenweise befüllen will oder alternativ `mfcol`, wenn man spaltenweisen befüllen will.
+
+```{r}
+par(mfrow=c(1, 2))  # 1 Zeile, 2 Spalten
+with(airquality, plot(Wind, Ozone, main="Ozone and Wind", pch=20))
+with(airquality, plot(Solar.R, Ozone, main="Ozone and Solar Radiation", pch=20))
+```
+
+Wenn die Grafik fertig ist sollte man den globalen Parameter wieder zurücksetzen, sodass die nächste Grafik wieder aus einer einzigen Darstellung besteht:
+
+```{r}
+par(mfrow=c(1, 1))
+```
+
+Noch flexibler ist man mit der Funktion `layout()`. Hier spezifiziert man eine Matrix, welche die Nummern der darzustellenden Plots beinhaltet. Möchte man z.B. drei Plots in zwei Zeilen und zwei Spalten darstellen, wobei sich der erste Plot in der ersten Zeile über beide Spalten erstrecken soll, definiert man dies wie folgt:
+
+```{r}
+(grid = matrix(c(1, 1, 2, 3), nrow=2, ncol=2, byrow=TRUE))
+```
+
+Nun setzt man das Layout der Grafik auf `grid` und erstellt die drei Plots:
+
+```{r}
+#| fig-width: 7
+#| fig-height: 9
+layout(grid)
+plot(
+    airquality$date,
+    airquality$Temp,
+    type="l",
+    xlab="",
+    ylab="Temperature (°F)",
+    main="Temperature"
+)
+plot(
+    factor(airquality$Month),
+    main="Measurements per month",
+    xlab="Month",
+    ylab="Count"
+)
+plot(
+    airquality$Temp,
+    airquality$Ozone,
+    type="n",
+    xlab="Temperature (°F)",
+    ylab="Ozone (ppb)",
+    main="Ozone vs. Temperature"
+)
+abline(lm(Ozone ~ Temp, airquality), col="gray", lwd=2)
+points(airquality$Temp, airquality$Ozone, pch=16, col=rgb(0, 0, 0, 0.5))
+```
+
+:::{.callout-note}
+Die Angabe der Farbe `col=rgb(0, 0, 0, 0.5)` im letzten Beispiel definiert die Farbe schwarz über die ersten drei Werte (RGB, also rot, grün und blau) sowie die Transparenz über den vierten Wert (1 bedeutet gar nicht transparent und 0 bedeutet vollkommen transparent – 0.5 ist also halbtransparent).
+:::
+
+Nach der Erstellung der Grafik sollte man auch hier wieder den Parameter zurücksetzen, entweder wie oben mit `par(mfrow=c(1, 1))` oder etwas kürzer mit:
+
+```{r}
+layout(1)
+```
+
+
+## Übungen
+
+### Übung 1
+
+Laden Sie den Datensatz `penguins` aus dem Paket `palmerpenguins` und erstellen Sie einen Scatterplot der Spalten `bill_length_mm` auf der x-Achse und `bill_depth_mm` auf der y-Achse. Beschriften Sie die Achsen mit aussagekräftigen Bezeichnungen.
+
+
+### Übung 2
+
+Erstellen Sie den Scatterplot aus Übung 1 noch einmal, aber stellen Sie diesmal die Punkte der drei Spezies in unterschiedlichen Farben dar. Fügen Sie außerdem eine entsprechende Legende hinzu. Sie können z.B. zuerst einen leeren Plot mit dem Argument `type="n"` erstellen und dann mit `points` nacheinander die Punkte der drei Spezies in unterschiedlichen Farben hinzufügen.
+
+
+### Übung 3
+
+Sehen Sie sich den Datensatz `ToothGrowth` an (lesen Sie auch die Hilfe dazu) und erstellen Sie damit einen aussagekräftigen Plot. Verwenden Sie Funktionen, die wir in dieser Veranstaltung kennengelernt haben (also `plot()`, `hist()` oder `boxplot()`) – es sind natürlich auch mehrere Plots pro Grafik erlaubt (mittels `par(mfrow)` bzw. `layout()`)!
+
+
+### Übung 4
+
+Verwenden Sie den Datensatz `mtcars` und erstellen Sie einen Boxplot der Variable `mpg` in Abhängigkeit von `cyl`. Welche Aussage können Sie aufgrund dieser Grafik machen (welche Fahrzeuge verbrauchen mehr bzw. weniger Kraftstoff)? Achten Sie auf die korrekte Interpretation des Kraftstoffverbrauchs in MPG (miles per gallon)!
+
+
+### Übung 5
+
+Erstellen Sie mit dem Datensatz `mtcars` die folgenden drei Grafiken in einem Plot:
+
+1. Scatterplot `mpg` gegen `drat`
+2. Boxplot von `mpg` in Abhängigkeit von `cyl` (siehe Übung 4)
+3. Histogramm von `mpg`
+
+Verwenden Sie eine geeignete Anordnung der drei Grafiken (z.B. mittels `layout()`)!
