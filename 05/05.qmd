@@ -225,4 +225,6 @@ Lesen Sie die Daten in ein Tibble namens `df` ein und geben Sie es am Bildschirm
 -   Wie viele Zeilen und Spalten hat das Data Frame?
 -   Welche Spalten könnte man eventuell noch in einen passenderen Typ umwandeln (Sie müssen das aber nicht tatsächlich durchführen)?
 
-*Hinweis:* Es ist wichtig, dass R beim Einlesen der Daten fehlende Werte korrekt erkennt. In dieser Datei werden fehlende Werte durch `?` markiert. Stellen Sie durch Setzen des entsprechenden Argumentes der Funktion `read_delim()` sicher, dass diese fehlenden Werte richtig eingelesen werden (und somit korrekt als `NA` interpretiert werden)! Es kommen sowohl `"?"` als auch `""` als fehlende Werte in der Datei vor. Die korrekt importierten Daten sollten in einem Tibble mit den folgenden Spaltentypen vorhanden sein: 1 Spalte `chr`, 7 Spalten `dbl` und 1 Spalte `time`.
+:::{.callout-tip}
+Es ist wichtig, dass R beim Einlesen der Daten fehlende Werte korrekt erkennt. In dieser Datei werden fehlende Werte durch `?` markiert. Stellen Sie durch Setzen des entsprechenden Argumentes der Funktion `read_delim()` sicher, dass diese fehlenden Werte richtig eingelesen werden (und somit korrekt als `NA` interpretiert werden)! Es kommen sowohl `"?"` als auch `""` als fehlende Werte in der Datei vor. Die korrekt importierten Daten sollten in einem Tibble mit den folgenden Spaltentypen vorhanden sein: eine Spalte `chr`, sieben Spalten `dbl` und eine Spalte `time`.
+:::
