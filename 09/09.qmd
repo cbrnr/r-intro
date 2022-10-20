@@ -15,7 +15,7 @@ author-title: "Autor"
 published-title: "Veröffentlicht"
 ---
 
-## Das `ggplot2`-Paket
+## Allgemeines
 
 Im Gegensatz zum Base-Plotting-System muss das Paket `ggplot2` installiert und aktiviert werden:
 
@@ -28,16 +28,16 @@ Dieses Paket ist eine Implementierung der sogenannten [Grammar of Graphics](http
 
 ## Aufbau einer Grafik
 
-Eine Grafik in `ggplot2` besteht aus verschiedenen Ebenen. Jede Ebene beinhaltet geometrische Elemente (*Geoms* genannt) – z.B. Balken, Linien oder Text. Geoms haben ästhetische Eigenschaften (kurz *Aes* genannt), welche das Aussehen von Geoms bestimmen (beispielsweise Farben oder Linienstile). Diese ästhetischen Eigenschaften können global für den gesamten Plot oder für individuelle Ebenen bzw. Geoms definiert werden. Zu diesen Begriffen (Geoms, Aes) folgen später noch Erklärungen. Das folgende Bild veranschaulicht den Aufbau einer Grafik in `ggplot2`:
+Eine Grafik in `ggplot2` besteht aus verschiedenen Ebenen. Jede Ebene beinhaltet geometrische Elemente (*Geoms* genannt) – z.B. Balken, Linien oder Text. Geoms haben ästhetische Eigenschaften (kurz *Aes* genannt), welche das Aussehen von Geoms bestimmen (beispielsweise die Position von Punkten, Farben oder Linienstile). Diese ästhetischen Eigenschaften werden aus Spalten eines Data Frames bestimmt, d.h. man erstellt ein Mapping zwischen den Daten und passenden Aes. Das folgende Bild veranschaulicht den Ebenencharakter einer Grafik in `ggplot2`:
 
 ![](ggplot2.png)
 
 
-## Die `qplot`-Funktion
+## Die `qplot()`-Funktion
 
 Wenn man bereits mit dem Base-Plotting-System vertraut ist, kann man mit der `qplot()`-Funktion sehr ähnlich Grafiken mit dem `ggplot2`-Paket erstellen. Dies hat allerdings den Nachteil, dass man das volle Potenzial von `ggplot2` nicht ausschöpfen kann – für viele Standardgrafiken ist `qplot()` aber eine gute Wahl.
 
-Erstellen wir mit `qplot()` einige beispielhafte Grafiken. Dazu verwenden wir wieder den Datensatz `airquality`. Diese Daten beinhalten diverse Luftgütemessungen in New York im Zeitraum Mai bis September 1973 (siehe dazu `?airquality`). Es ist insbesondere beim Erstellen von Grafiken sinnvoll, wenn wir zunächst aus den beiden Spalten `Month` und `Day` eine neue Spalte namens `date` erzeugen:
+Erstellen wir mit `qplot()` einige beispielhafte Grafiken. Dazu verwenden wir wieder den Datensatz `airquality`. Diese Daten beinhalten diverse Luftgütemessungen in New York im Zeitraum Mai bis September 1973 (siehe dazu `?airquality`). Es ist sinnvoll, wenn wir zunächst aus den beiden Spalten `Month` und `Day` eine neue Spalte namens `date` erzeugen:
 
 ```{r}
 airquality$date = as.Date(
@@ -53,7 +53,7 @@ Nun verwenden wir `qplot()`, um das Datum auf der x-Achse und die Ozonwerte auf 
 qplot(airquality$date, airquality$Ozone)
 ```
 
-Alternativ kann man, wenn sich die Daten als Spalten in einem Data Frame befinden, die Funktion auch wie folgt aufrufen:
+Alternativ kann man, wenn sich die Daten ohnehin als Spalten in einem Data Frame befinden, die Funktion auch wie folgt aufrufen:
 
 ```r
 qplot(date, Ozone, data=airquality)
@@ -61,7 +61,7 @@ qplot(date, Ozone, data=airquality)
 
 Dies hat den Vorteil, dass man Spaltennamen direkt angeben kann und nicht `airquality$` voranstellen muss.
 
-Mit dem zusätzlichen Argument `geom="line"` werden die Daten durch eine Linie verbunden:
+Mit dem zusätzlichen Argument `geom="line"` wird eine Liniengrafik erzeugt:
 
 ```{r}
 qplot(date, Ozone, data=airquality, geom="line")
@@ -108,7 +108,7 @@ Boxplots sind besonders sinnvoll, wenn man mehrere gleichzeitig darstellt:
 qplot(x=factor(Month), y=Temp, data=airquality, geom="boxplot")
 ```
 
-Mit den Argumenten `main`, `xlab` und `ylab` kann man den Titel sowie die Achsenbeschriftungen definieren:
+Mit den Argumenten `main`, `xlab` und `ylab` kann man den Titel sowie die Achsenbeschriftungen anpassen:
 
 ```{r}
 qplot(
@@ -127,7 +127,7 @@ qplot(
 
 Das eigentliche `ggplot2`-System wird durch die `qplot()`-Funktion größtenteils versteckt. Stößt man mit `qplot()` an die Grenzen, kann man mit der Grammar of Graphics das volle Potenzial von `ggplot2` nutzen – dazu verwendet man dann die `ggplot()`-Funktion.
 
-Hier ist nun der Aufbau einer Grafik von Bedeutung – d.h. es ist wichtig zu wissen, dass sich eine Grafik aus mehreren Ebenen zusammensetzt. Man beginnt immer mit der Spezifikation der Grafik, d.h. man legt das Data Frame fest, aus dem die darzustellenden Spalten stammen. Außerdem gibt man die Spalten aus diesem Data Frame an, die man plotten möchte.
+Hier ist nun der Aufbau einer Grafik von Bedeutung – d.h. es ist wichtig zu wissen, dass sich eine Grafik aus mehreren Ebenen zusammensetzt. Man beginnt immer mit der Spezifikation der Grafik, d.h. man legt das Data Frame fest, aus dem die darzustellenden Spalten stammen. Außerdem gibt man die Spalten aus diesem Data Frame an, die man durch Zuweisen gewünschter ästhetischer Eigenschaften plotten möchte.
 
 Im ersten Schritt legen wir also das Data Frame und die Spalten fest:
 
@@ -141,13 +141,19 @@ Hier ist anzumerken, dass die darzustellenden Spalten innerhalb der Funktion `ae
 ggplot(data=airquality, mapping=aes(x=Wind, y=Ozone))
 ```
 
-Die eigentlichen Daten werden noch nicht dargestellt – dafür benötigt man eine neue Ebene mit den gewünschten Geoms. In unserem Beispiel möchten wir Punkte zeichnen, d.h. wir verwenden `geom_point()` dafür und addieren diese zur ersten Ebene (der Zeilenumbruch ist hier nicht notwendig, erhöht aber die Übersicht):
+Die Spalte `Wind` wird also auf die ästhetische Eigenschaft `x` abgebildet (also entlang der x-Achse dargestellt), die Spalte `Ozone` analog auf die ästhetische Eigenschaft `y`.
+
+Die eigentlichen Daten werden aber noch nicht dargestellt, denn wir haben noch nicht spezifiziert, *wie* die Daten gezeichnet werden sollen. Dafür benötigt man eine neue Ebene mit den gewünschten Geoms. In unserem Beispiel möchten wir Punkte zeichnen, d.h. wir verwenden `geom_point()` dafür und fügen diese mit `+` zur ersten Ebene hinzu:
 
 ```{r}
 #| warning: false
 ggplot(data=airquality, mapping=aes(x=Wind, y=Ozone)) +
     geom_point()
 ```
+
+:::{.callout-note}
+Der Zeilenumbruch ist hier (wie in alle R-Befehlen) nicht notwendig, erhöht aber die Übersicht, weil man so eine Ebene pro Zeile darstellen kann.
+:::
 
 In weiteren Ebenen kann man dann Titel und Achsenbeschriftungen ändern/hinzufügen:
 
@@ -160,13 +166,15 @@ ggplot(data=airquality, mapping=aes(x=Wind, y=Ozone)) +
     ylab("Ozone (ppb)")
 ```
 
-Alternativ kann man alle drei Beschriftungen mit der Funktion `labs()` hinzufügen:
+:::{.callout-tip}
+Alternativ könnte man alle drei Beschriftungen mit der Funktion `labs()` hinzufügen:
 
 ```r
 ggplot(data=airquality, mapping=aes(x=Wind, y=Ozone)) +
     geom_point() +
     labs(title="Wind vs. Ozone", x="Wind (mph)", y="Ozone (ppb)")
 ```
+:::
 
 In einer weiteren Ebene kann man dann eine Regressionsgerade (einen sogenannten "Smoother") hinzufügen:
 
@@ -178,15 +186,17 @@ ggplot(data=airquality, mapping=aes(x=Wind, y=Ozone)) +
     geom_smooth(method="lm", formula="y ~ x")
 ```
 
-Möchte man z.B. den Monat Mai (entspricht dem Wert 5) hervorheben, kann man eine globale Ästhetik `color` definieren, welche dem logischen Vektor `Month == 5` entspricht (also `TRUE` für alle Zeilen in denen die Spalte `Month` den Wert `5` hat und `FALSE` in allen anderen Fällen):
+Möchte man die Punkte z.B. für den Monat Mai (entspricht dem Wert 5) hervorheben (die Regressionsgerade aber für alle Punkte belassen), kann man innerhalb `geom_point()` eine lokale Ästhetik `color` definieren, welche dem logischen Vektor `Month == 5` entspricht (also `TRUE` für alle Zeilen in denen die Spalte `Month` den Wert `5` hat und `FALSE` in allen anderen Fällen):
 
 ```{r}
 #| warning: false
-ggplot(data=airquality, mapping=aes(x=Wind, y=Ozone, color=Month==5)) +
-    geom_point() +
-    theme(legend.position="none") +
+ggplot(data=airquality, mapping=aes(x=Wind, y=Ozone)) +
+    geom_point(mapping=aes(color=Month==5)) +
+    geom_smooth(method="lm", formula="y ~ x") +
     labs(title="Ozone and Wind in NYC")
 ```
+
+Dieses lokale Mapping wird dem globalen Mapping (innerhalb von `ggplot()`) *hinzugefügt*.
 
 Es gibt eine große Anzahl an Elementen, aus denen man die unterschiedlichsten Grafiken zusammenbauen kann. Die [offizielle ggplot2-Website](http://ggplot2.tidyverse.org/reference/) hat eine vollständige Liste aller Geoms, Aesthetics und anderer Befehle. Im Folgenden sehen wir uns noch an, wie man Histogramme, Boxplots und Fehlerbalkenplots erzeugen kann.
 
@@ -262,7 +272,7 @@ theme_set(theme_minimal())
 
 ## Patchwork
 
-Möchte man mehrere Grafiken in einem Plot darstellen, bietet sich das Paket `patchwork` an. Damit kann man Plot sehr einfach zu beliebigen Layouts kombinieren:
+Möchte man mehrere Grafiken in einem Plot darstellen, bietet sich das Paket `patchwork` an. Damit kann man Grafiken sehr einfach zu beliebigen Layouts kombinieren:
 
 ```{r}
 #| warning: false

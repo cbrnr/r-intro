@@ -2,3 +2,7 @@
   quarto-pub:
     - id: 6423a206-ae55-417d-897f-85bee265f65f
       url: 'https://quartopub.com/sites/cbrnr/r-22w-09'
+- source: 09-solutions.qmd
+  quarto-pub:
+    - id: 34ba7af3-a923-49af-baca-c9a6576c5633
+      url: 'https://quartopub.com/sites/cbrnr/r-22w-09-solutions'
