@@ -168,9 +168,9 @@ Da die Stichprobengröße in unserem Beispiel nur sehr klein ist, lassen sich ab
 
 Der Levene-Test prüft auf Gleichheit der Varianzen (Homoskedastizität) von zwei oder mehr Gruppen. Die Nullhypothese ist, dass die Varianzen in allen Gruppen gleich sind. In R führt man den Test mit der Funktion `leveneTest()` aus dem Paket `car` durch. Dazu sehen wir uns die Beispieldaten `Moore` an, welche mit dem Paket `car` automatisch geladen werden.
 
-```{r message=FALSE}
+```{r}
+#| message: false
 library(car)
-?Moore
 head(Moore, 4)
 tail(Moore, 4)
 summary(Moore)

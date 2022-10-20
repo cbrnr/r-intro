@@ -56,7 +56,7 @@ library(tibble)
 
 Das Paket `tidyr` aus dem Tidyverse beinhaltet die Funktionen `pivot_longer()` und `pivot_wider()`, welche Data Frames von wide nach long bzw. von long nach wide umwandeln können. Das Data Frame `df` (welches im Wide-Format vorliegt) können wir also wie folgt ins Long-Format konvertieren:
 
-```{r message=FALSE}
+```{r}
 library(tidyr)
 
 (df_long = pivot_longer(
