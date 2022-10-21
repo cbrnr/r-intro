@@ -389,7 +389,7 @@ Berechnen Sie abschließend die Pearson-Korrelation zwischen den Daten beider Me
 
 *Anmerkungen:* Wandeln Sie die Spalte `Datum` nach dem Einlesen in einen Datums-Typ um. Für die gleichzeitige Darstellung der beiden Zeitverläufe können Sie mit Base-Plotting zuerst eine Liniengrafik einer Variable erzeugen und dann mit der Funktion `lines()` den zweiten Zeitverlauf mit einer anderen Farbe hinzufügen. Wenn Sie `ggplot2` verwenden möchten, dann ist es am einfachsten wenn Sie die Daten vorher ins Long-Format umwandeln:
 
-```{r eval=FALSE}
+```r
 library(tidyr)
 pm10_long = pivot_longer(pm10, -Datum, names_to="Ort", values_to="pm10")
 ```
