@@ -1,0 +1,156 @@
+---
+title: "10 – Lösungen"
+subtitle: "Statistische Datenanalyse mit R"
+author: "Clemens Brunner"
+date: 2022-12-15
+format: html
+engine: knitr
+highlight-style: github
+title-block-banner: true
+theme:
+  light: flatly
+  dark: darkly
+lang: de
+author-title: "Autor"
+published-title: "Veröffentlicht"
+---
+
+## Übung 1
+
+Durch Probieren mit verschiedenen Werten für $N$ erhält man $N = 62$ für $p < 0.05$. Dies bedeutet, dass eine Korrelation von $r = 0.25$ signfikant ist bei $N = 62$ oder größer.
+
+```{r}
+r = 0.25
+N = 62
+alpha = 0.05
+z = atanh(r)
+se_z = 1 / sqrt(N - 3)
+(p = 2 * (1 - pnorm(z / se_z)))
+```
+
+Wiederum durch Probieren erhält man $N = 1538$ (mindestens) damit $p < 0.05$. Man sieht, dass selbst eine sehr kleine Korrelation ab einer gewissen Stichprobengröße signifikant wird.
+
+```{r}
+r = 0.05
+N = 1538
+alpha = 0.05
+z = atanh(r)
+se_z = 1 / sqrt(N - 3)
+(p = 2 * (1 - pnorm(z / se_z)))
+```
+
+
+## Übung 2
+
+```{r}
+x = c(8, 1, -4, 5, 6, 10, 9)
+y = c(-2, -5, -6, 0, 3, 7, 10)
+cor.test(x, y, conf.level=0.99)
+```
+
+Die Pearson-Korrelation beträgt 0.8166, der zugehörige $p$-Wert ist 0.02501. Bei $\alpha=0.99$ ist dies nicht signifikant. Das 99%-Konfidenzintervall lautet $(-0.1405326, 0.9847508)$. Es beinhaltet den Wert 0, daher ist die Korrelation nicht signifikant.
+
+
+## Übung 3
+
+```{r}
+#| message: false
+library(readr)
+birds = read_csv("birds.csv")
+
+library(Hmisc)
+rcorr(as.matrix(birds[, 3:12]))
+```
+
+
+## Übung 4
+
+```{r}
+cor(mtcars[, c("mpg", "disp", "hp")], method="pearson")
+cor(mtcars[, c("mpg", "disp", "hp")], method="spearman")
+```
+
+```{r}
+library(ggplot2)
+ggplot(mtcars, aes(mpg, disp)) +
+    geom_point() +
+    geom_smooth(method=lm, formula=y ~ x) +
+    ggtitle(paste("r² =", round(cor(mtcars$mpg, mtcars$disp), 2)))
+ggplot(mtcars, aes(mpg, hp)) +
+    geom_point() +
+    geom_smooth(method=lm, formula=y ~ x) +
+    ggtitle(paste("r² =", round(cor(mtcars$mpg, mtcars$hp), 2)))
+ggplot(mtcars, aes(disp, hp)) +
+    geom_point() +
+    geom_smooth(method=lm, formula=y ~ x) +
+    ggtitle(paste("r² =", round(cor(mtcars$disp, mtcars$hp), 2)))
+```
+
+Oder mit `GGally::ggpairs()`:
+
+```{r}
+#| message: false
+library(GGally)
+ggpairs(mtcars, columns=c("mpg", "disp", "hp"), diag=list(continuous="barDiag"))
+```
+
+
+## Übung 5
+
+```{r}
+#| message: false
+pm10 = read_csv("pm10.csv")
+pm10$Datum = as.Date(pm10$Datum, format="%d.%m.%y")
+```
+
+
+### Zeitlicher Verlauf von PM10 für beide Messorte
+
+Mit `ggplot2` sollten die Daten zuerst ins Long-Format umgewandelt werden:
+
+```{r}
+library(tidyr)
+pm10_long = pivot_longer(pm10, -Datum, names_to="Ort", values_to="pm10")
+ggplot(pm10_long, aes(Datum, pm10, color=Ort)) +
+    geom_line() +
+    ylab("Feinstaub PM10") +
+    xlab("") +
+    theme(legend.position=c(0.925, 0.925))
+```
+
+Mit Base-Plotting können die Ausgangsdaten direkt verwendet werden:
+
+```{r}
+plot(pm10$Datum, pm10$Petersgasse, type="l", col="blue", xlab="", ylab="PM10")
+lines(pm10$Datum, pm10$DonBosco, col="red")
+```
+
+### Zusammenhang der beiden Messstationen
+
+```{r}
+#| warning: false
+ggplot(pm10, aes(Petersgasse, DonBosco)) +
+    geom_point() +
+    geom_smooth(method=lm, formula=y ~ x) +
+    ggtitle("Feinstaub PM10")
+
+(r = cor.test(pm10$Petersgasse, pm10$DonBosco))
+r$estimate**2  # erklärte Varianz
+
+# fehlende Werte (NA) müssen explizit ausgeschlossen werden
+cor(pm10$Petersgasse, pm10$DonBosco, use="complete.obs")
+```
+
+
+## Übung 6
+
+```{r}
+library(palmerpenguins)
+cor(penguins$bill_length_mm, penguins$bill_depth_mm, use="complete.obs")
+by(
+    penguins[, c("bill_length_mm", "bill_depth_mm")],
+    penguins$species,
+    cor,
+    use="complete.obs"
+)
+```

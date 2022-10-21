@@ -11,3 +11,4 @@ Die folgenden Unterlagen bieten eine kurze Einführung in die Grundlagen von R. 
 7. [Datenaufbereitung](https://quartopub.com/sites/cbrnr/r-22w-07) ([Lösungen](https://quartopub.com/sites/cbrnr/r-22w-07-solutions))
 8. [Grafiken (1)](https://quartopub.com/sites/cbrnr/r-22w-08) ([Lösungen](https://quartopub.com/sites/cbrnr/r-22w-08-solutions))
 9. [Grafiken (2)](https://quartopub.com/sites/cbrnr/r-22w-09) ([Lösungen](https://quartopub.com/sites/cbrnr/r-22w-09-solutions))
+10. [Korrelation](https://quartopub.com/sites/cbrnr/r-22w-10) ([Lösungen](https://quartopub.com/sites/cbrnr/r-22w-10-solutions))
