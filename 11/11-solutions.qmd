@@ -1,0 +1,91 @@
+---
+title: "11 – Lösungen"
+subtitle: "Statistische Datenanalyse mit R"
+author: "Clemens Brunner"
+date: 2023-01-12
+format: html
+engine: knitr
+highlight-style: github
+title-block-banner: true
+theme:
+  light: flatly
+  dark: darkly
+lang: de
+author-title: "Autor"
+published-title: "Veröffentlicht"
+---
+
+## Übung 1
+
+```{r}
+#| message: false
+library(ggplot2)
+library(readr)
+
+(cars = read_csv("cars.csv"))
+
+ggplot(cars, aes(speed, dist)) +
+    geom_point() +
+    geom_smooth(method=lm, formula=y ~ x) +
+    xlab("Speed (miles per hour)") +
+    ylab("Distance (feet)")
+```
+
+
+## Übung 2
+
+```{r}
+model = lm(dist ~ speed, data=cars)
+summary(model)
+```
+
+
+## Übung 3
+
+```{r}
+r = with(cars, cor(speed, dist))
+r**2  # identical to R² from linear regression
+summary(model)$r.squared
+```
+
+
+## Übung 4
+
+Die Geradengleichung lautet:
+
+$$y = b_0 + b_1 \cdot x$$
+
+Eingesetzt mit den Werten der Koeffizienten:
+
+$$y = -17.5791 + 3.9324 \cdot x$$
+
+Und die Vorhersagen:
+
+$$-17.5791 + 3.9324 \cdot 5 = 2.08$$
+$$-17.5791 + 3.9324 \cdot 65 = 238.03$$
+
+```{r}
+predict(model, data.frame(speed=c(5, 65)))
+```
+
+
+## Übung 5
+
+```{r}
+y = cars$dist
+yhat = predict(model)
+ybar = mean(y)
+N = nrow(cars)
+SST = sum((y - ybar)**2)
+SSM = sum((yhat - ybar)**2)
+SSR = sum((y - yhat)**2)
+dfT = N - 1  # number of observations - 1
+dfM = 1  # number of estimated parameters (b0, b1) - 1
+dfR = N - 2  # number of observations - number of estimated parameters (b0, b1)
+
+MSM = SSM / dfM
+MSR = SSR / dfR
+
+SSM / SST  # R²
+MSM / MSR  # F
+```

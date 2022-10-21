@@ -1,0 +1,353 @@
+---
+title: "11 – Lineare Regression (1)"
+subtitle: "Statistische Datenanalyse mit R"
+author: "Clemens Brunner"
+date: 2023-01-12
+format: html
+engine: knitr
+highlight-style: github
+title-block-banner: true
+theme:
+  light: flatly
+  dark: darkly
+lang: de
+author-title: "Autor"
+published-title: "Veröffentlicht"
+---
+
+## Einfache lineare Regression
+
+Wir haben gesehen, dass man über die Korrelation die Beziehung zwischen zwei Variablen beschreiben kann. Man kann nun einen Schritt weiter gehen und versuchen, eine Variable durch die andere *vorherzusagen*. Eine weit verbreitete Methode dafür ist die lineare Regression, welche eine abhängige Variable durch *eine* unabhängige Variable (einfache Regression) bzw. durch *mehrere* unabhängige Variablen (multiple Regression) zu erklären versucht.
+
+Ein allgemeines statistisches Modell kann man generell wie folgt aufstellen:
+
+$$\mathrm{outcome}_i = \mathrm{model}_i + \mathrm{error}_i$$
+
+Man beschreibt also die gemessenen Daten durch ein Modell, welches im Allgemeinen aber immer Fehler machen wird (d.h. es beschreibt die gemessenen Daten nicht perfekt). Um diese Formel kürzer anschreiben zu können, setzt man $\mathrm{outcome}_i = y_i$, $\mathrm{model}_i = \hat{y}_i$ und $\mathrm{error}_i = \varepsilon_i$:
+
+$$y_i = \hat{y}_i + \varepsilon_i$$
+
+Im Fall der linearen Regression ist das Modell $\hat{y}_i$ linear, also eine Gerade. Die Gleichung kann daher wie folgt angeschrieben werden:
+
+$$y_i = \underbrace{\left(b_0 + b_1 x_i\right)}_{\hat{y}_i} + \varepsilon_i$$
+
+:::{.callout-note}
+Eine Geradengleichung kann in der Form $f(x) = k x + d$ angeschrieben werden (gebräuchlich ist auch $f(x) = a x + c$). Wichtig dabei ist, dass der Koeffizient von $x$ (also $k$ bzw. $a$) der Steigung entspricht, und die Konstante (also $d$ bzw. $c$) dem Schnittpunkt mit der y-Achse.
+:::
+
+Die Variablen $b_0$ und $b_1$ beschreiben den Schnittpunkt mit der y-Achse (Intercept) bzw. die Steigung der Geraden und werden als Regressionskoeffizienten bezeichnet. Der Term $\varepsilon$ beschreibt den Fehler zwischen den vom Modell vorhergesagten Werten und den tatsächlich gemessenen Werten. Der Term $x$ wird als unabhängige Variable, Prädiktor oder Treatment bezeichnet. Der Term $y$ wird als abhängige Variable oder Outcome bezeichnet. Das tiefgestellte $i$ steht für den $i$-ten Datenpunkt, d.h. $y_i$ ist der zugehörige Wert für den $i$-ten Datenpunkt $x_i$. Das Modell macht für diesen Datenpunkt den Fehler $\varepsilon_i$. Den vom Modell vorhergesagten Wert bezeichnet man als $\hat{y}_i$.
+
+Zur Veranschaulichung sind in der folgenden Abbildung drei Geraden mit gleichen Intercepts aber unterschiedlichen Steigungen (links) sowie unterschiedlichen Intercepts aber gleichen Steigungen (rechts) abgebildet.
+
+```{r}
+#| echo: false
+library(ggplot2)
+library(grid)
+
+theme_set(theme_minimal())
+
+p1 = ggplot(data.frame(x=0, y=0), aes(x, y)) +
+    scale_x_continuous(limits=c(0, 100)) +
+    scale_y_continuous(limits=c(0, 100)) +
+    labs(x="x", y="y") +
+    geom_abline(slope=(1/2), intercept=50) +
+    geom_abline(slope=(-1/3), intercept=50) +
+    geom_abline(slope=(-2/3), intercept=50)
+p2 = ggplot(data.frame(x=0, y=0), aes(x, y)) +
+    scale_x_continuous(limits=c(0, 100)) +
+    scale_y_continuous(limits=c(0, 100)) +
+    labs(x="x", y="y") +
+    geom_abline(slope=(1/2), intercept=50) +
+    geom_abline(slope=(1/2), intercept=20) +
+    geom_abline(slope=(1/2), intercept=70)
+pushViewport(viewport(layout=grid.layout(1, 2)))
+print(p1, vp=viewport(layout.pos.row=1, layout.pos.col=1))
+print(p2, vp=viewport(layout.pos.row=1, layout.pos.col=2))
+```
+
+Das Modell (also die Regressionsgerade) soll die Daten möglichst gut beschreiben, was meist durch die [Methode der kleinsten Fehlerquadrate (Least Squares)](https://de.wikipedia.org/wiki/Methode_der_kleinsten_Quadrate) erreicht wird. Diese Methode findet jene Gerade, welche die quadrierten Unterschiede zwischen dem Modell (der Gerade) und den einzelnen Messpunkten minimiert. Die Unterschiede (Fehler) werden hier als Residuen bezeichnet. In der folgenden Grafik sind die Daten als schwarze Punkte und die Residuen als rote vertikale Linien dargestellt. Beachten Sie, dass es sowohl positive als auch negative Residuen gibt (in der Grafik sind beispielhaft zwei Werte zu sehen). Daher werden die einzelnen Residuen zuerst quadriert und dann aufsummiert – diese Quadratsumme wird minimiert. Würde man einfach alle Residuen aufsummieren, würden sich die positiven und negativen Residuen aufheben und die Summe aller Residuen wäre Null.
+
+Die von dieser Methode gefundene Gerade hat also die kleinste Fehlerquadratsumme unter allen möglichen Geraden.
+
+```{r}
+#| echo: false
+set.seed(2)
+x = rnorm(15, mean=12, sd=7)
+y = 5 * x + rnorm(15, sd=20)
+df = data.frame(x=x, y=y)
+m = lm(y ~ x)
+yhat = m$fitted.values
+ggplot(df, aes(x, y)) +
+    geom_segment(aes(x=x, xend=x, y=y, yend=yhat, color="error")) +
+    geom_smooth(method=lm, formula=y ~ x, se=FALSE, color="black") +
+    geom_point(size=2) +
+    theme(legend.position="none") +
+    scale_x_continuous(breaks=0:30, minor_breaks=NULL) +
+    scale_y_continuous(breaks=seq(-20, 170, 20)) +
+    annotate("text", x=27, y=155, label="28.5", color="red") +
+    annotate("text", x=6.8, y=5, label="\u201345.8", color="red")
+```
+
+
+## Quadratsummen
+
+Die Fehlerquadratsumme ist ein Maß für die Güte des Modells (Model Fit). Für die gefundene Gerade ist diese Fehlerquadratsumme zwar immer minimal (unter allen möglichen Geraden), es ist aber trotzdem nicht klar, wie gut sich die Daten überhaupt mit einer Gerade beschreiben lassen. Deswegen vergleicht man das lineare Modell mit dem einfachsten Modell, welches die Prädiktorvariable vollkommen ignoriert – dem Mittelwert über alle Datenpunkte $y_i$ (das entspricht einer waagrechten Geraden). Bei diesem Modell ist der Wert der Prädiktorvariable $x_i$ also vollkommen egal, da komplett unabhängig davon immer derselbe Wert für die abhängige Variable $y_i$ vorhergesagt wird. Das lineare Modell ist dann ein guter Fit, wenn es signifikant besser als dieses einfachste Modell ist.
+
+```{r}
+#| echo: false
+set.seed(2)
+x = rnorm(15, mean=12, sd=7)
+y = 5 * x + rnorm(15, sd=20)
+df = data.frame(x=x, y=y)
+m = lm(y ~ x)
+yhat = m$fitted.values
+p_sst = ggplot(df, aes(x, y)) +
+    geom_segment(aes(x=x, xend=x, y=y, yend=mean(y), color="error")) +
+    geom_point() +
+    geom_segment(aes(x=min(x), xend=max(x), y=mean(y), yend=mean(y)), size=0.75) +
+    theme(legend.position="none", plot.title=element_text(hjust=0.5)) +
+    ggtitle("SST")
+```
+
+```{r}
+#| echo: false
+p_ssm = ggplot(df, aes(x, y)) +
+    geom_segment(aes(x=x, xend=x, y=mean(y), yend=yhat, color="error")) +
+    geom_point() +
+    geom_segment(aes(x=min(x), xend=max(x), y=mean(y), yend=mean(y)), size=0.75) +
+    geom_smooth(method=lm, formula=y ~ x, se=FALSE, color="black") +
+    theme(legend.position="none", plot.title=element_text(hjust=0.5), axis.title.y=element_blank(), axis.text.y=element_blank()) +
+    ggtitle("SSM")
+```
+
+```{r}
+#| echo: false
+p_ssr = ggplot(df, aes(x, y)) +
+    geom_segment(aes(x=x, xend=x, y=y, yend=yhat, color="error")) +
+    geom_point() +
+    geom_segment(aes(x=min(x), xend=max(x), y=mean(y), yend=mean(y)), size=0.75) +
+    geom_smooth(method=lm, formula=y ~ x, se=FALSE, color="black") +
+    theme(legend.position="none", plot.title=element_text(hjust=0.5), axis.title.y=element_blank(), axis.text.y=element_blank()) +
+    ggtitle("SSR")
+```
+
+```{r}
+#| echo: false
+#| fig-width: 15
+library(patchwork)
+p_sst + p_ssm + p_ssr
+```
+
+Die Summe der quadratischen Abweichungen vom einfachsten Modell (Mittelwert) wird auch als SST bezeichnet (totale Quadratsumme). Die Summe der quadratischen Abweichungen vom linearen Modell wird als SSR (Residuenquadratsumme) bezeichnet, denn das lineare Modell macht im Allgemeinen Fehler (geht nicht perfekt durch alle Datenpunkte). Schließlich gibt es noch die quadratischen Abweichungen des linearen Modells vom einfachsten Modell, welche man als SSM (Modellquadratsumme) bezeichnet.
+
+Die vorangegangenen drei Abbildungen veranschaulichen diese Quadratsummen. SST ist hier nichts anderes als die (nicht normierte) Varianz der Daten. SSM sollte möglichst groß sein, denn dann ist das lineare Modell wesentlich besser als der globale Mittelwert. SSR sollte möglichst klein sein bei einem guten Modell – an SSR sieht man die übrig gebliebene Varianz, die das Modell nicht erklären kann.
+
+In mathematischer Notation sieht dies wie folgt aus:
+
+$$\mathrm{SST} = \sum_{i=1}^N (y_i - \bar{y})^2$$
+
+$$\mathrm{SSR} = \sum_{i=1}^N (y_i - \hat{y}_i)^2$$
+
+$$\mathrm{SSM} = \sum_{i=1}^N (\hat{y}_i - \bar{y})^2$$
+
+Hier sind $y_i$ die einzelnen Messwerte, $\bar{y}$ ist der Mittelwert und $\hat{y}_i$ sind die einzelnen vom Modell vorhergesagten Werte (also die von der Gerade vorhergesagten Werte). $N$ ist die Anzahl der Datenpunkte. In Formeln kann man $\bar{y}$ und $\hat{y}_i$ so schreiben:
+
+$$\bar{y} = \frac{1}{N} \sum_{i=1}^N y_i$$
+
+$$\hat{y}_i = b_0 + b_1 x_i$$
+
+Es gilt:
+
+$$\mathrm{SST} = \mathrm{SSM} + \mathrm{SSR}$$
+
+
+## Modellgüte
+
+### Bestimmtheitsmaß $R^2$
+
+Ein Maß für die Modellgüte ist das Verhältnis von SSM zu SST, welches als $R^2$ bezeichnet wird. Es ist der Anteil an Varianz der Daten, die vom Modell erklärt werden kann:
+
+$$R^2 = \frac{\mathrm{SSM}}{\mathrm{SST}}$$
+
+Dies ist derselbe Wert, den wir auch schon bei der Korrelation kennengelernt haben. Um die Pearson-Korrelation zwischen den beiden Variablen zu bekommen, muss man also nur die Wurzel aus $R^2$ ziehen. Diese Beziehung gilt in dieser Form allerdings nur für die einfache lineare Regression, also nur bei einer einzigen unabhängigen Variable.
+
+
+### $F$-Wert
+
+Eine weitere wichtige Anwendung der Quadratsummen ist die Berechnung des $F$-Wertes. Dies ist das Verhältnis der systematischen Varianz (also die vom Modell erklärten Varianz) zur unsystematischen Varianz (also die Varianz, die nicht vom Modell erklärt werden kann). Für den $F$-Wert verwendet man aber nicht direkt SSM und SSR, sondern die *mittleren* Quadratsummen. Hier dividiert man die Quadratsummen durch die jeweiligen Freiheitsgrade und erhält so MSM und MSR. Die Anzahl der Freiheitsgrade von MSM entspricht der Anzahl der geschätzten Modellparameter $p$ minus 1. Die Anzahl der Freiheitsgrade von MSR entspricht der Anzahl der Messwerte $N$ minus der Anzahl der geschätzten Modellparameter $p$.
+
+$$\mathrm{MSM} = \frac{\mathrm{SSM}}{\mathrm{dfM}} = \frac{\mathrm{SSM}}{p - 1}$$
+
+$$\mathrm{MSR} = \frac{\mathrm{SSR}}{\mathrm{dfR}} = \frac{\mathrm{SSR}}{N - p}$$
+
+Für die einfache Regression gibt es genau zwei Modellparameter $b_0$ und $b_1$, daher ist $p = 2$. Für die Freiheitsgrade der Modellquadratsumme gilt daher:
+
+$$\mathrm{dfM} = p - 1 = 2 - 1 = 1$$
+
+Die Freiheitsgrade der Residuenquadratsumme sind in diesem Fall dann
+
+$$\mathrm{dfR} = N - p = N - 2.$$
+
+Der $F$-Wert kann dann wie folgt berechnet werden:
+$$F=\frac{\mathrm{MSM}}{\mathrm{MSR}}$$
+
+Dieser Wert ist ebenso wie $R^2$ ein Maß für die Güte des Modells. Er gibt an, wie viel Varianz das Modell erklärt gegenüber wie viel Varianz das Modell nicht erklärt. D.h. ein Wert von 1 entspricht dem Fall, dass die erklärte Varianz gleich groß ist wie die nicht erklärte – also ein schlechtes Modell. Für ein gutes Modell sollte daher $F \gg 1$ gelten.
+
+
+## Koeffizienten
+
+In der einfachen linearen Regression entspricht der Regressionskoeffizient $b_1$ der Steigung der Geraden. Er entspricht der Änderung der abhängigen Variable (AV) relativ zu einer Änderung der unabhängigen Variable (UV) um eine Einheit. Ein schlechtes Modell (wie der Mittelwert) sagt immer denselben Wert für die AV vorher, unabhängig vom Wert der UV. Die Steigung $b_1$ ist für so ein Modell also Null. Wenn aber die UV den Wert der AV vorhersagen kann, muss die Steigung signifikant von Null verschieden sein. Diese Hypothese kann man mit dem sogenannten $t$-Test überprüfen. Ein $t$-Test kann also in der linearen Regression eingesetzt werden, um zu beurteilen, ob eine UV ein signifikanter Prädiktor für die AV ist.
+
+Die $t$-Statistik vergleicht das Modell mit seinem Fehler; konkret möchte man hier wissen, ob der beobachtete Wert des Regressionskoeffizienten groß gegenüber seinem Standardfehler ist:
+
+$$t = \frac{b}{\mathrm{SE}_b}$$
+
+Die Freiheitsgrade dieser Statistik sind $N-p$, also im Fall der einfachen linearen Regression $N-2$.
+
+
+## Beispiel
+
+Wie man eine Regressionsanalyse in R durchführt lässt sich am besten anhand eines Beispiels zeigen. Laden wir einen Datensatz, welcher Daten über Musikalbenverkäufe (Spalte `sales`) und die Höhe des Werbebudgets (Spalte `adverts`) enthält:
+
+```{r}
+#| message: false
+library(readr)
+(album = read_tsv("sales1.dat"))
+```
+
+Es ist anzunehmen, dass ein höheres Werbebudget zu höheren Verkaufszahlen führt. Neben der Berechnung diverser deskriptiver Statistiken (wird hier nicht durchgeführt) ist es wichtig, die Daten vor einer Regressionsanalyse grafisch darzustellen. Hier bietet sich ein Scatterplot mit überlagerter Regressionsgerade an:
+
+```{r}
+library(ggplot2)
+ggplot(album, aes(adverts, sales)) +
+    geom_point(alpha=0.5) +
+    geom_smooth(method=lm, formula=y ~ x) +
+    xlab("Adverts (1000 EUR)") +
+    ylab("Sales (1000)")
+```
+
+Es ist klar, dass eine positive Beziehung zwischen den beiden Variablen besteht (je größer das Werbebudget desto mehr Albenverkäufe). Außerdem ist die Steigung der Regressionsgeraden stark verschieden von Null, d.h. es ist zu erwarten, dass das Regressionsmodell signifikant ist.
+
+In R kann man mit der Funktion `lm()` (steht für "linear model") eine Regressionsanalyse durchführen:
+
+```{r}
+model = lm(sales ~ adverts, data=album)
+```
+
+Das erste Argument `sales ~ adverts` ist eine Formel (welche durch eine Tilde `~` gekennzeichnet ist). Diese Formel kann man als "`sales` wird vorhergesagt durch `adverts`" lesen. Im allgemeinen nimmt die Formel die Form `AV ~ UV` an. Mit dem Argument `data=album` teilt man der Funktion mit, dass sich die Namen in der Formel auf Spaltennamen des Data Frames `album` beziehen.
+
+Das Ergebnis der Regressionsanalyse weisen wir hier der Variablen `model` zu. Eine kompakte Darstellung des Ergebnisses kann man sich ausgeben lassen, indem man sich eine Zusammenfassung des Modells mittels `summary()` ansieht:
+
+```{r}
+summary(model)
+```
+
+Beginnen wir mit der vorletzten Zeile:
+
+```
+Multiple R-squared:  0.3346,    Adjusted R-squared:  0.3313
+```
+
+Hier sehen wir $R^2$, also das Verhältnis von SSM zu SST. Daraus können wir schließen, dass die Werbeausgaben ca. 33.5% der Varianz der Albenverkäufe erklären können. Dies bedeutet natürlich, dass ca. 66.5% der Varianz unerklärt ist, d.h. es muss andere relevante Faktoren dafür geben, die wir nicht im Modell berücksichtigt haben.
+
+Im Fall der einfachen linearen Regression können wir auch sofort die Pearson-Korrelation zwischen den beiden Variablen berechnen, indem wir die Wurzel aus $R^2$ ziehen:
+
+```{r}
+sqrt(summary(model)$r.squared)
+```
+
+Diesen Wert könnte man jetzt vergleichen mit jenem aus der direkten Berechnung der Korrelation (z.B. mit `cor()` oder `cor.test()`) – das Ergebnis ist identisch:
+```{r}
+cor(album$adverts, album$sales)
+```
+
+Die letzte Zeile der Modellzusammenfassung zeigt die $F$-Statistik und deren Signifikanz:
+
+```
+F-statistic: 99.59 on 1 and 198 DF,  p-value: < 2.2e-16
+```
+
+Die $F$-Statistik ist das Verhältnis von MSM zu MSR. Der Wert liegt bei 99.59, was bei Freiheitsgraden 1 und 198 einer Signifikanz von $p<0.001$ entspricht. Dies bedeutet, dass die Wahrscheinlichkeit kleiner als 0.1% ist, diesen $F$-Wert (oder einen noch größeren) unter der Nullhypothese (das Modell unterscheidet sich nicht vom einfachen Mittelwertsmodell) zu erhalten. Wir können also daraus schließen, dass das lineare Modell signifikant besser als das einfachste Modell ist.
+
+Der $F$-Wert bedeutet also, dass das Modell insgesamt ein guter Fit der Daten ist (verglichen mit dem globalen Mittelwert). Es wird aber eigentlich keine Aussage über die individuellen Prädiktoren getroffen (wobei man im Fall der einfachen Regression natürlich darauf schließen kann, dass die einzige Variable dann ebenfalls ein guter Prädiktor ist). In der Zusammenfassung sind die Regressionskoeffizienten wie folgt ersichtlich:
+
+```
+Coefficients:
+             Estimate Std. Error t value Pr(>|t|)
+(Intercept) 1.341e+02  7.537e+00  17.799   <2e-16 ***
+adverts     9.612e-02  9.632e-03   9.979   <2e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+```
+
+In der Zeile `(Intercept)` listet die Spalte `Estimate` den Wert für $b_0$, also die Albenverkäufe wenn das Werbebudget gleich 0 ist (Schnittpunkt mit der y-Achse). Dieser Wert beträgt `1.341e+02`, also 134100 Verkäufe (weil die Maßeinheit in 1000 Einheiten ist).
+
+Der Wert für $b_1$, also die Steigung der Gerade, ist in der Zeile `adverts` mit `9.612e-02`, also 0.09612 abzulesen. Das bedeutet, wenn die Prädiktorvariable `adverts` sich um eine Einheit ändert, dann ändert sich die Ergebnisvariable `sales` um 0.09612 Einheiten. Das heißt wenn man das Werbebudget um 1000€ erhöht, verkauft man 96 Alben mehr.
+
+Weiters sieht man die Standardfehler der Koeffizienten sowie deren $t$-Werte. Die letzte Spalte `Pr(>|t|)` gibt die $p$-Werte an inklusive Codes für signifikante Ergebnisse. Beide Koeffizienten sind signifikant mit $p<0.001$, wobei uns hier eigentlich nur die Steigung der Gerade interessiert und es für uns nicht wichtig ist, ob der Intercept signifikant von Null verschieden ist.
+
+
+## Werte vorhersagen
+
+Das Modell `model` kann man nun verwenden, um neue Werte für `sales` in Abhängigkeit von `adverts` vorherzusagen. Hierfür muss man einfach die berechneten Werte von $b_0$ und $b_1$ in das lineare Modell einsetzen. Die exakten Koeffizienten erhält man mit `model$coefficients` oder `coefficients(model)`.
+
+$$\hat{y} = b_0 + b_1 x = 134.1 + 0.09612 \cdot x$$
+
+Nun kann man berechnen, wie hoch die Verkäufe $y$ wären, wenn man ein Werbebudget von $x=100$ hätte:
+
+$$\hat{y} = 134.1 + 0.09612 \cdot 100 = 143.75$$
+
+D.h. man würde 143750 Alben verkaufen bei einem Werbebudget von 100000 EUR.
+
+Einfacher und allgemeiner kann man aber die Funktion `predict()` verwenden. Als Argumente gibt man das Modell und die neuen Daten an (welche als Data Frame übergeben werden müssen):
+
+```{r}
+predict(model, data.frame(adverts=100))
+```
+
+So kann man auch gleich Vorhersagen für mehrere Werte gleichzeitig berechnen:
+
+```{r}
+predict(model, data.frame(adverts=c(0, 10, 100, 2000)))
+```
+
+
+## Übungen
+
+### Übung 1
+
+Die Datei [`cars.csv`](cars.csv) enthält mehrere Messwerte für den Bremsweg (`dist`) von Autos die bei einer bestimmten Geschwindigkeit (`speed`) bremsen. Wir wollen untersuchen, ob es einen (linearen) Zusammenhang zwischen der Geschwindigkeit und dem Bremsweg gibt. Stellen Sie zunächst beide Variablen in einem Scatterplot dar (`speed` auf der *x*-Achse und `dist` auf der *y*-Achse).
+
+
+### Übung 2
+
+Führen Sie mit den Daten aus Übung 1 eine lineare Regressionsanalyse durch und stellen Sie die Ergebnisse zusammengefasst dar. Erwähnen Sie die wichtigsten Eckpunkte Ihres Regressionsmodells.
+
+
+### Übung 3
+
+Berechnen Sie die Pearson-Korrelation zwischen den beiden Variablen (ohne Verwendung von $R^2$ aus dem Modell) und überprüfen Sie, ob dieser Wert mit $R^2$ aus dem Regressionsmodell übereinstimmt.
+
+
+### Übung 4
+
+Wie lautet die Gleichung der Regressionsgeraden? Welche Bremswege sagt das Modell für Geschwindigkeiten von 5 bzw. 65 voraus? Verwenden Sie für die Vorhersage sowohl die Geradengleichung als auch die Funktion `predict()`.
+
+
+### Übung 5
+
+Berechnen Sie die Werte von $R^2$ sowie $F$ über die Quadratsummen und vergleichen Sie die Werte mit den Ergebnissen aus der Modellzusammenfassung aus Übung 2.
+
+*Hinweise:* Die Freiheitsgrade für die Quadratsummen können Sie wie folgt bestimmen:
+
+* df(SST): Anzahl der Messwerte minus 1
+* df(SSM): Anzahl der geschätzten Modellkoeffizienten minus 1
+* df(SSR): Anzahl der Messwerte minus Anzahl der geschätzten Modellkoeffizienten
+
+In den Formeln der drei Quadratsummen (siehe dazu die Unterlagen) kommen drei Größen vor, die Sie berechnen müssen:
+
+1. $y_i$ (die Messwerte, also die gemessenen Bremswege)
+2. $\hat{y}_i$ (die vom Modell vorhergesagten Bremswege)
+3. $\bar{y}$ (der mittlere Bremsweg über alle Messwerte)
+
+Erzeugen Sie in R drei Variablen namens `y`, `yhat` und `ybar`, welche diese Werte beinhalten. Die Messwerte `y` können Sie direkt aus dem Data Frame entnehmen. Für `yhat` verwenden Sie am einfachsten die Funktion `predict()`, und für `ybar` verwenden Sie die Funktion `mean()`. Die Anzahl der Messwerte $N$ können Sie mit `N = nrow(cars)` aus der Anzahl der Zeilen bestimmen. Aus diesen Variablen können Sie dann mit Hilfe der Funktion `sum()` SST, SSM, SSR, deren Freiheitsgrade, sowie MSM, MSR und MST berechnen. Aus diesen Quadratsummen können Sie schließlich $R^2$ und $F$ bestimmen.
