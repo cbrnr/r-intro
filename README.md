@@ -14,3 +14,4 @@ Die folgenden Unterlagen bieten eine kurze Einführung in die Grundlagen von R. 
 10. [Korrelation](https://quartopub.com/sites/cbrnr/r-22w-10) ([Lösungen](https://quartopub.com/sites/cbrnr/r-22w-10-solutions))
 11. [Lineare Regression (1)](https://quartopub.com/sites/cbrnr/r-22w-11) ([Lösungen](https://quartopub.com/sites/cbrnr/r-22w-11-solutions))
 12. [Lineare Regression (2)](https://quartopub.com/sites/cbrnr/r-22w-12) ([Lösungen](https://quartopub.com/sites/cbrnr/r-22w-12-solutions))
+13. [Mittelwertvergleich](https://quartopub.com/sites/cbrnr/r-22w-13) ([Lösungen](https://quartopub.com/sites/cbrnr/r-22w-13-solutions))

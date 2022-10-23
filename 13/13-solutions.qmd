@@ -1,0 +1,82 @@
+---
+title: "13 – Lösungen"
+subtitle: "Statistische Datenanalyse mit R"
+author: "Clemens Brunner"
+date: 2023-01-26
+format: html
+engine: knitr
+highlight-style: github
+title-block-banner: true
+theme:
+  light: flatly
+  dark: darkly
+lang: de
+author-title: "Autor"
+published-title: "Veröffentlicht"
+---
+
+## Übung 1
+
+### Größe
+
+```{r}
+#| message: false
+library(dplyr)
+
+t.test(height ~ gender, data=starwars, alternative="less")
+```
+
+Weibliche Charaktere sind nicht signifikant kleiner als männliche ($t=-1.56$, $p = .064$).
+
+### Gewicht
+
+```{r}
+t.test(mass ~ gender, data=starwars, alternative="less")
+```
+
+Weibliche Charaktere sind signifikant leichter als männliche ($t=-1.94$, $p = .029$).
+
+
+## Übung 2
+
+```{r}
+library(palmerpenguins)
+
+with(
+    subset(penguins, species == "Adelie" | species == "Chinstrap"),
+    t.test(bill_length_mm ~ species)
+)
+with(
+    subset(penguins, species == "Adelie" | species == "Gentoo"),
+    t.test(bill_length_mm ~ species)
+)
+with(
+    subset(penguins, species == "Gentoo" | species == "Chinstrap"),
+    t.test(bill_length_mm ~ species)
+)
+
+with(
+    subset(penguins, species == "Adelie" | species == "Chinstrap"),
+    t.test(bill_depth_mm ~ species)
+)
+with(
+    subset(penguins, species == "Adelie" | species == "Gentoo"),
+    t.test(bill_depth_mm ~ species)
+)
+with(
+    subset(penguins, species == "Gentoo" | species == "Chinstrap"),
+    t.test(bill_depth_mm ~ species)
+)
+
+pairwise.t.test(penguins$bill_length_mm, penguins$species)
+pairwise.t.test(penguins$bill_depth_mm, penguins$species)
+```
+
+
+## Übung 3
+
+```{r}
+t.test(extra ~ group, data=sleep, paired=TRUE)
+```
+
+Die mittlere Differenz beträgt −1.58, das 95%-Konfidenzintervall erstreckt sich von −2.46 bis −0.7.
