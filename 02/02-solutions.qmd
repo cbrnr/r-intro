@@ -16,6 +16,7 @@ published-title: "Veröffentlicht"
 ---
 
 ## Übung 1
+
 Pakete können mit der Funktion `install.packages()` installiert werden, für die drei genannten Pakete führt man also folgende drei Befehle aus:
 
 ```r
@@ -38,16 +39,22 @@ library(Hmisc)
 library(psych)
 ```
 
+
 ## Übung 2
+
 ```r
 ?help
 help(help)
 ```
 
+
 ## Übung 3
+
 Ein Funktionsaufruf besteht aus dem Funktionsnamen gefolgt von `()`. Innerhalb dieser Klammern können der Funktion eventuelle Argumente übergeben werden.
 
+
 ## Übung 4
+
 Folgender Inhalt wird in der Textdatei `my_first_script.R` gespeichert:
 
 ```r
@@ -56,7 +63,9 @@ library(Hmisc)
 (45 + 66 + 37 + 54 + 7 + 22) / 6
 ```
 
+
 ## Übung 5
+
 Die Hilfe wird mit `?sum` angezeigt. Daraus ist zu entnehmen, dass die Funktion auch mit *keinem* Argument aufzurufen ist (das Ergebnis von `sum()` ist `0`). Es gibt zwei optionale Argumente, wobei das erste `...` eigentlich beliebig viele Argumente (Zahlen) sind. Zum Schluss kann man noch ein Argument namens `na.rm` übergeben.
 
 Laut Hilfe ist die Summe von "nichts" – also `sum()` – gleich Null. Dies funktioniert bei der Funktion `mean()` nicht, da man hier *ein Argument übergeben muss* (einen Vektor mit Zahlen).

@@ -40,6 +40,7 @@ Alle Informationen und Unterlagen zu dieser Lehrveranstaltung werden auf Moodle 
 
 Alle Einheiten werden in Präsenz abgehalten. Falls eine Abhaltung in Präsenz nicht möglich ist, werden die Einheiten online synchron zu den geplanten Zeiten stattfinden. Die URL wird über Moodle bekanntgegeben.
 
+
 ## Ablauf einer Einheit
 
 Zu jeder Einheit gibt es auf Moodle ausführliche Unterlagen, welche das jeweilige Thema detailliert behandeln. Diese Unterlagen sind so gestaltet, dass Sie sich die Inhalte im Selbststudium aneignen können. Alle Einheiten (mit Ausnahme der ersten) werden nach dem Prinzip des [Flipped Classroom](https://de.wikipedia.org/wiki/Umgedrehter_Unterricht) abgehalten. Das bedeutet, dass Sie die Inhalte der jeweiligen Einheit selbständig vor dem tatsächlichen Termin erarbeiten. Insbesondere sollten Sie die am Ende vorhandenen Übungsbeispiele bearbeiten. Diese dienen der laufenden Kontrolle, ob Sie die Inhalte verstanden haben und sind auch eine essenzielle Vorbereitung für die abschließende Prüfung. Zu Beginn jeder Einheit werden außerdem in einem kurzen Quiz die wesentlichen Inhalte abgefragt.
@@ -48,21 +49,25 @@ Nutzen Sie während der Vorbereitungszeit die Diskussionsforen auf Moodle -- dor
 
 In den Kontaktstunden werden nach dem Quiz die von Ihnen vorbereiteten Übungsbeispiele detailliert besprochen und Musterlösungen präsentiert. Dabei haben Sie die Möglichkeit, Fragen zu stellen bzw. Ihre individuellen Lösungsansätze zu diskutieren. Falls darüber hinaus noch Zeit bleiben sollte, wird das jeweilige Thema durch vertiefende Beispiele bzw. Erklärungen ergänzt.
 
+
 ## Beurteilungskriterien
 
 ### Anwesenheit
 
 Durch den immanenten Prüfungscharakter dieser Lehrveranstaltung besteht automatisch Anwesenheitspflicht. Ihre Anwesenheit wird zu einem zufälligen Zeitpunkt während der Einheit überprüft. Es ist möglich, bei zwei Einheiten zu fehlen, wenn Sie dies spätestens am Vortag per E-Mail bekanntgeben. Eine dritte Fehleinheit ist nur bei Vorliegen eines triftigen Grundes möglich (z.B. Krankheit, Quarantäne, etc.). Hier muss eine schriftliche Bestätigung (z.B. Krankmeldung, Absonderungsbescheid, etc.) vorgelegt werden.
 
+
 ### Quizzes
 
 Zu Beginn jeder Einheit (mit Ausnahme der ersten) findet ein kurzes Quiz auf Moodle statt (Dauer ca. 5 Minuten). Es werden Fragen zum jeweiligen Thema der Einheit gestellt. Sie können dabei jeweils maximal 10 Punkte erreichen (es gibt auch Teilpunkte). Das Quiz muss vor Ort absolviert werden.
+
 
 ### Prüfung
 
 Am Ende der Lehrveranstaltung findet eine Prüfung über alle in der Lehrveranstaltung vermittelten Inhalte statt. Die Prüfung findet vor Ort am Computer statt, die Dauer wird ca. eine Stunde betragen. Sie dürfen alle Unterlagen der Lehrveranstaltung verwenden. Ansonsten sind keine weiteren Hilfsmittel (gelöste Übungsbeispiele, Internet, etc.) erlaubt. Die Fragen orientieren sich an den Übungsbeispielen bzw. an den Quizzes. Es gibt insgesamt 10 Punkte zu erreichen (Teilpunkte sind möglich).
 
 Es gibt die Möglichkeit, die Prüfung bei Bedarf zu wiederholen. In diesem Fall zählen aber jedenfalls die Punkte des zweiten Termins (man kann sich also sowohl verbessern als auch verschlechtern). Ein eventueller zweiter Termin wird in Absprache mit den betroffenen Personen festgelegt (dieser wird aber jedenfalls zeitnah am Ende des Semesters stattfinden).
+
 
 ## Benotung
 

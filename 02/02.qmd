@@ -16,6 +16,7 @@ published-title: "Veröffentlicht"
 ---
 
 ## RStudio
+
 Bereits in der vorigen Einheit haben wir die grafische Benutzeroberfläche RStudio installiert und verwendet. RStudio setzt eine funktionierende Installation von R voraus. Das Programmfenster von RStudio ist in der Standardeinstellung in vier Bereiche unterteilt (wobei oft nur drei Bereiche sichtbar sind):
 
 1. Links unten befindet sich die *Console* (die anderen Tabs sind für uns nicht relevant). In der Console wartet R auf unsere Eingaben.
@@ -29,7 +30,9 @@ Bereits in der vorigen Einheit haben wir die grafische Benutzeroberfläche RStud
 Die Aufteilung der Bereiche kann in den Einstellungen umfangreich angepasst werden. Wenn Sie z.B. die Console gerne rechts unten haben möchten, können Sie das dort festlegen.
 :::
 
+
 ## Pakete
+
 Pakete erweitern den Funktionsumfang von R. Werksmäßig wird R nur mit einer Handvoll an Paketen ausgeliefert – sobald man damit nicht mehr auskommt, kann man sehr einfach zusätzliche Pakete hinzufügen. Die meisten Zusatzpakete sind im [Comprehensive R Archive Network (CRAN)](https://cran.r-project.org/web/packages/) verfügbar. Wenn ein Paket einmal *installiert* ist, kann es danach jederzeit *aktiviert* und verwendet werden. Das bedeutet also, dass folgende zwei voneinander abhängige Schritte auszuführen sind:
 
 1. Installieren eines neuen Pakets (nur ein Mal)
@@ -39,7 +42,9 @@ Im CRAN gibt es tausende Pakete, und deswegen kann es mitunter schwierig sein, e
 
 Zur Paketverwaltung gibt es zwei Möglichkeiten: entweder man verwendet den Bereich *Packages* in RStudio, oder man benutzt R-Befehle dafür.
 
+
 ### Paketverwaltung in RStudio
+
 RStudio bietet im Bereich *Packages* (im Panel rechts unten) eine Liste aller installierten Pakete. Hier ist auch ersichtlich, welche Pakete gerade aktiviert sind (durch Setzen/Entfernen des Häkchens vor einem Paket kann dieses aktiviert/deaktiviert werden).
 
 In dieser Ansicht kann man durch Klicken auf *Update* installierte Pakete aktualisieren. Dies sollte man von Zeit zu Zeit auch tun, und zwar unabhängig von eventuellen Updates der verwendeten R-Version.
@@ -48,7 +53,9 @@ Neue Pakete installiert man durch Klicken auf *Install*. Wenn man in das Feld *P
 
 ![](RStudio_packages.png)
 
+
 ### Paketverwaltung mit R-Befehlen
+
 Prinzipiell interagiert man mit R über Textbefehle in der Console. Daher ist es nicht überraschend, dass auch die Paketverwaltung mit speziellen R-Befehlen funktioniert.
 
 Eine Liste aller installierten Pakete bekommt man mit:
@@ -77,8 +84,11 @@ library(psych)
 
 Hier kann man die Anführungszeichen um den Paketnamen weglassen.
 
+
 ## Die Programmiersprache R
+
 ### Scripts
+
 Befehle in der R-Console einzugeben ist praktisch, wenn man neue Dinge interaktiv ausprobieren möchte bzw. nur schnell Kleinigkeiten berechnen will. Möchte man eine aufwändigere Datenanalyse durchführen, dann sollte man die dafür notwendigen Befehle in einem sogenannten *R-Script* abspeichern. Damit kann man die Analyse später jederzeit reproduzieren. Ein R-Script ist übrigens eine einfache Textdatei mit der Endung `.R`.
 
 In jeder Zeile eines R-Scripts befindet sich (meist) genau ein R-Befehl. Wenn man das Script ausführt, werden alle Zeilen vom Anfang bis zum Ende der Reihe nach ausgeführt. In RStudio kann man ein gesamtes Script durch Klicken auf die Schaltfläche "Source" (bzw. "Source with Echo") ausführen. Möchte man nur die aktuelle Zeile bzw. die markierten Zeilen ausführen, kann man dies durch Klicken auf die Schaltfläche "Run" tun (dafür gibt es auch das Tastenkürzel <kbd>Strg</kbd><kbd>Enter</kbd> unter Windows bzw. <kbd>⌘</kbd><kbd>Enter</kbd> unter macOS).
@@ -97,7 +107,9 @@ Unter Windows sollte man in RStudio außerdem einstellen, dass Scripts als [UTF-
 
 ![](encoding.png)
 
+
 ### Arbeitsverzeichnis
+
 Das Arbeitsverzeichnis, also jenes Verzeichnis in dem die aktuelle R-Sitzung ausgeführt wird, erhält man mit dem Funktionsaufruf:
 ```{r}
 #| eval: false
@@ -124,7 +136,9 @@ In RStudio hat man aber mindestens drei Alternativen, das Arbeitsverzeichnis auc
 Wenn Sie ein R-Script per Doppelklick (im Windows Explorer oder macOS Finder) öffnen, wird RStudio geöffnet und das Arbeitsverzeichnis automatisch auf das Verzeichnis gesetzt, in dem sich das Script befindet.
 :::
 
+
 ### Workspace
+
 Alle selbst erstellten bzw. geladenen Objekte (Variablen und Daten) fasst man unter dem Begriff *Workspace* zusammen. Man kann ihn mit folgendem Befehl anzeigen:
 
 ```{r}
@@ -134,7 +148,9 @@ ls()
 
 In einer frisch gestarteten R-Sitzung ist der Workspace leer. In RStudio wird der Workspace auch im Bereich *Environment* angezeigt (standardmäßig rechts oben).
 
+
 ### Syntax
+
 Um die Syntax von R zu beschreiben betrachten wir das folgende kurze Beispiel-Script:
 
 ```r
@@ -147,10 +163,14 @@ n * (n + 1) / 2  # closed-form solution
 
 Man erkennt bereits in diesen wenigen Zeilen die grundlegenden Regeln. Prinzipiell wird jeder Befehl in eine eigene Zeile geschrieben.
 
+
 #### Kommentare
+
 Kommentare, d.h. alle Zeichen ab `#` bis zum Zeilenende, werden von R nicht ausgeführt. Dennoch sind Kommentare extrem wichtig, da Sie zum Verstehen des Codes beitragen können – fügen Sie daher bei komplizierteren Berechnungen immer erklärende Kommentare hinzu!
 
+
 #### Variablen und Objekte
+
 Der Zuweisungsoperator in R ist `=` oder `<-`. Damit kann man Werte (oft auch als Objekte bezeichnet) Variablen zuweisen. Im Beispiel wird also mit `n = 100` der Wert 100 der Variablen `n` zugewiesen. Im gesamten Beispiel-Script werden daher zwei Variablen namens `n` und `x` erstellt.
 
 :::{.callout-note}
@@ -159,7 +179,9 @@ Es ist egal, ob man `=` oder `<-` für Zuweisungen verwendet. Man sollte aber ko
 
 R unterscheidet streng zwischen Groß- und Kleinschreibung, d.h. die Variable `N` ist nicht gleich der Variablen `n`. Neben Buchstaben können auch Ziffern, Unterstriche und sogar Punkte (nicht empfohlen) für Variablennamen verwendet werden.
 
+
 #### Funktionen
+
 Eine Funktion ist ein Mini-Script, welches man durch Aufrufen ausführen kann. Im obigen Beispiel ist `sum` eine Funktion. Zum Aufrufen einer Funktion ist ein Klammernpaar `()` nach dem Funktionsnamen notwendig. Eventuelle Argumente (die man benötigt, wenn die Funktion zusätzliche Informationen braucht) werden innerhalb dieser Klammern angegeben. Mehrere Argumente werden mit einem `,` getrennt.
 
 Mit dem Befehl `sum(x)` wird also die Funktion `sum` mit dem Argument `x` aufgerufen. Es gibt auch Funktionen, die keine Argumente benötigen – das runde Klammernpaar ist aber trotzdem notwendig (z.B. `library()` ruft die Funktion `library` ohne Argumente auf). Weitere Beispiele für Funktionsaufrufe ohne Argumente, die wir bereits kennengelernt haben, sind `search()`, `getwd()`, `dir()` und `ls()`.
@@ -173,7 +195,9 @@ Mit Objekten und Funktionen hätten wir bereits die wichtigsten beiden Konzepte 
 - Alles was in R *existiert* ist ein *Objekt*.
 - Alles was in R *passiert*, geschieht durch Aufrufen einer *Funktion*.
 
+
 ### Hilfe
+
 R beinhaltet eine sehr gute integrierte Hilfe zu allen möglichen Themen und Befehlen. In RStudio sind im Bereich *Help* alle Hilfethemen gruppiert – es bietet sich an, einmal in diesem Hilfefenster zu stöbern.
 
 Am häufigsten benötigt man aber Hilfe zu einem konkreten Befehl. Wenn man z.B. Informationen zur Funktion `mean()` braucht, gibt man in der Console folgendes ein:
@@ -203,7 +227,9 @@ Hier erkennt man, dass die Funktion ein Argument `x` erwartet. Dieses Argument i
 
 Die Bedeutung der Argumente wird im Abschnitt *Arguments* genau beschrieben. Der Wert, der von der Funktion berechnet und zurückgegeben wird, wird im Abschnitt *Value* beschrieben. Danach folgen Literaturhinweise, verwandte Funktionen und schließlich Beispiele. Diese Beispiele kann man auch kopieren und in der Console auführen.
 
+
 ### Möglichkeiten zum Aufrufen einer Funktion
+
 Nachdem wir nun Funktionen sowie die integrierte Hilfe besprochen haben, sehen wir uns abschließend noch an, mit welchen unterschiedlichen Varianten wir eine Funktion aufrufen können.
 
 Einer Funktion kann man Argumente auf zwei verschiedene Arten übergeben:
@@ -242,7 +268,9 @@ mean(y)
 mean(x=y)
 ```
 
+
 ## Literatur
+
 ### Bücher
 
 - [Discovering Statistics Using R](https://uk.sagepub.com/en-gb/eur/discovering-statistics-using-r/book236067)
@@ -250,6 +278,7 @@ mean(x=y)
 - [Learning Statistics With R](https://learningstatisticswithr.com/)
 - [R for Data Science](https://r4ds.had.co.nz/)
 - [Advanced R](https://adv-r.hadley.nz/)
+
 
 ### Tutorials und Dokumentation
 
@@ -261,6 +290,7 @@ mean(x=y)
 - [Rtips](http://pj.freefaculty.org/R/Rtips.html)
 - [Cookbook for R](http://www.cookbook-r.com/)
 
+
 ### Online-Kurse
 
 - [Statistics and R](https://www.edx.org/course/statistics-and-r)
@@ -268,20 +298,31 @@ mean(x=y)
 - [Statistics with R Specialization](https://www.coursera.org/specializations/statistics)
 - [Mastering Software Development in R](https://www.coursera.org/specializations/r)
 
+
 ### Artikel
+
 Falls Sie sich für die historische Entwicklung von R interessieren, finden Sie [hier](https://dl.acm.org/doi/10.1145/3386334) einen spannenden Überblick von John M. Chambers, einem der Mitentwickler von R.
 
+
 ## Übungen
+
 ### Übung 1
+
 Installieren Sie die Pakete `tidyverse`, `Hmisc` und `psych` – welche R-Befehle verwenden Sie dafür? Nennen Sie die Versionsnummern dieser Pakete. Mit welchen Befehlen können Sie die installierten Pakete anschließend aktivieren?
 
+
 ### Übung 2
+
 Zeigen Sie die Hilfe zur Funktion `help()` an. Welche zwei Möglichkeiten haben Sie dafür?
 
+
 ### Übung 3
+
 Wie sieht ein Funktionsaufruf in R aus?
 
+
 ### Übung 4
+
 Erstellen Sie in RStudio ein einfaches Script mit dem Namen `my_first_script.R`. Fügen Sie folgende Elemente in dieses Script ein:
 
 - Eine Kommentarzeile mit dem Inhalt "Übung 4"
@@ -290,7 +331,9 @@ Erstellen Sie in RStudio ein einfaches Script mit dem Namen `my_first_script.R`.
 
 Das fertige Script sollte also aus drei Zeilen bestehen (Sie könnten zur Erhöhung der Übersichtlichkeit aber zusätzliche leere Zeilen einfügen).
 
+
 ### Übung 5
+
 Lesen Sie die Hilfe zur Funktion `sum()` und beantworten Sie dann folgende Fragen:
 
 - Wie viele verpflichtende Argumente benötigt diese Funktion?
