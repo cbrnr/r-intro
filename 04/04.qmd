@@ -262,15 +262,14 @@ library(tibble)
 Mit der Funktion `tibble()` kann man nun ein neues Tibble erstellen, ganz analog zur Funktion `data.frame()`:
 
 ```{r}
-t = tibble(
-  subjects=c("Hans", "Birgit", "Ferdinand", "Johanna"),
-  A=1:4,
-  B=5:8,
-  C=9:12,
-  D=13:16,
-  E=17:20
-)
-t
+(t = tibble(
+    subjects=c("Hans", "Birgit", "Ferdinand", "Johanna"),
+    A=1:4,
+    B=5:8,
+    C=9:12,
+    D=13:16,
+    E=17:20
+))
 ```
 
 Wenn man ein Tibble am Bildschirm ausgibt, werden für jede Spalte automatisch die Datentypen angeführt.
