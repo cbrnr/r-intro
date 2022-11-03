@@ -283,14 +283,14 @@ CO2
 Die Darstellung von allen 84 Zeilen ist wenig übersichtlich, deswegen lässt man sich hier am besten eine Zusammenfassung mittels `str()`, `head()` oder `tail()` ausgeben. Bei Tibbles ist das nicht notwendig, wie wir gleich sehen werden. Die Funktion `as_tibble()` konvertiert ein existierendes Data Frame in ein Tibble:
 
 ```{r}
-(cars_tibble = as_tibble(cars))
+(co2_tibble = as_tibble(CO2))
 ```
 
 Man erkennt, dass bei einem Tibble nur die ersten 10 Zeilen dargestellt werden, was wesentlich übersichtlicher ist. Möchte man dennoch alle Zeilen sehen, kann man entweder `print()` oder `View()` verwenden (welche auch mit Data Frames funktionieren):
 
 ```r
-print(cars_tibble, n=Inf)  # n=Inf zeigt alle Zeilen an
-View(cars_tibble)  # öffnet eine Tabellenansicht in RStudio
+print(co2_tibble, n=Inf)  # n=Inf zeigt alle Zeilen an
+View(co2_tibble)  # öffnet eine Tabellenansicht in RStudio
 ```
 
 
