@@ -44,11 +44,11 @@ Aus den Ausgaben der zusammenfassenden Statistiken kann abgelesen werden, dass d
 ```{r}
 library(palmerpenguins)
 dim(penguins)  # 344 Zeilen, 8 Spalten
-summary(penguins)  # jede der 3 Faktorspalten hat jeweils 3 Stufen
+summary(penguins)
 by(penguins[, 3:5], penguins$species, colMeans, na.rm=TRUE)
 ```
 
-Laut `summary(penguins)` gibt es in den Spalten 3–6 jeweils 2 fehlende Werte und in der 7. Spalte 11 fehlende Werte.
+Die Faktorspalten `species` und `island` haben jeweils drei Stufen, die Spalte `sex` hat zwei Stufen (wobei hier auch fehlende Werte vorkommen). Laut `summary(penguins)` gibt es in den Spalten 3–6 jeweils 2 fehlende Werte und in der 7. Spalte 11 fehlende Werte.
 
 
 ## Übung 3
