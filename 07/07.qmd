@@ -219,7 +219,7 @@ x |>
 
 ## Data Wrangling
 
-Kombinieren wir nun alles, was wir in diesem Kapitel gelernt haben (nämlich `select()`, `transform()` und `|>`), dann erhalten wir ein Werkzeug, welches das Umformen eines Data Frames (das sogenannte Data Wrangling) sehr intuitiv ermöglicht. Sehen wir uns das anhand des `airquality`-Datensatzes an.
+Kombinieren wir nun alles, was wir in diesem Kapitel gelernt haben (nämlich `subset()`, `transform()` und `|>`), dann erhalten wir ein Werkzeug, welches das Umformen eines Data Frames (das sogenannte Data Wrangling) sehr intuitiv ermöglicht. Sehen wir uns das anhand des `airquality`-Datensatzes an.
 
 Nehmen wir an, wir möchten die Temperaturen (in °C) im Monat Juli untersuchen. Folgende Pipeline könnten wir dazu verwenden:
 
