@@ -54,7 +54,9 @@ flights |>
 
 flights |>
     transform(hours=air_time / 60) |>
-    transform(speed=distance / hours) |>
+    transform(km=distance * 1.60934) |>
+    transform(speed=km / hours) |>
+    subset(select=c(month, day, carrier, tailnum, speed)) |>
     as_tibble()
 
 flights |>

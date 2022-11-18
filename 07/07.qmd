@@ -277,6 +277,6 @@ Erstellen Sie aus dem in R vorhandenen Data Frame `mtcars` ein neues Data Frame 
 Installieren und aktivieren Sie das Paket `nycflights13`. Wir verwenden den Datensatz `flights` aus diesem Paket. Lesen Sie sich zuerst den Hilfetext zu `flights` durch. Führen Sie danach folgende Aufgaben durch (unter Verwendung des Pipe-Operators und den Funktionen `subset()` bzw. `transform()`):
 
 - Erstellen Sie einen neuen Datensatz, welcher alle Flüge am 1.1.2013 enthält. Außerdem sollen nur die Spalten `year`, `month`, `day`, `dep_time`, `arr_time` und `tailnum` vorhanden sein. Wie viele Flüge sind das?
-- Erzeugen Sie zwei neue Spalten `hours` (die Flugzeit in Stunden; die Spalte `air_time` beinhaltet die Flugzeit in Minuten) und `speed` (die Fluggeschwindigkeit in km/h; die Spalte `distance` beinhaltet den zurückgelegten Weg in km).
+- Erzeugen Sie zwei neue Spalten `hours` (die Flugzeit in Stunden; die Spalte `air_time` beinhaltet die Flugzeit in Minuten) und `speed` (die Fluggeschwindigkeit in km/h; die Spalte `distance` beinhaltet den zurückgelegten Weg in Meilen, hier wäre also eine zusätzliche Spalte `km` hilfreich). Geben Sie das neue Data Frame nur mit den Spalten `month`, `day`, `carrier`, `tailnum` und `speed` aus!
 - Erstellen Sie einen neuen Datensatz, welcher alle Frühflüge beinhaltet (Flüge, die vor 6:00 gestartet sind).
 - Erstellen Sie einen neuen Datensatz, welcher nur jene Flüge beinhaltet, die schneller als geplant unterwegs waren (wo also die Verspätung bei der Ankunft kleiner war als beim Abflug).
