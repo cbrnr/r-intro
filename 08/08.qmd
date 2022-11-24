@@ -180,15 +180,10 @@ Setzen wir die Farbe global auf rot, werden alle nachfolgenden Grafiken diesen W
 ```{r}
 par(col="red")
 par()$col
-```
-
-Die exakt selbe Zeile Code wie vorher produziert nun eine rote Grafik:
-
-```{r}
 plot(sin(seq(0, 2*pi, length.out=50)), type="o", xlab="", ylab="")
 ```
 
-Setzen wir die Farbe aber wieder auf schwarz zurück bevor wir weitere Grafiken erzeugen:
+Bevor wir weitere Grafiken erzeugen, setzen wir die Farbe aber wieder auf schwarz zurück:
 
 ```{r}
 par(col="black")
