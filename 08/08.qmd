@@ -340,7 +340,7 @@ Laden Sie den Datensatz `penguins` aus dem Paket `palmerpenguins` und erstellen 
 
 ### Übung 2
 
-Erstellen Sie den Scatterplot aus Übung 1 noch einmal, aber stellen Sie diesmal die Punkte der drei Spezies in unterschiedlichen Farben dar. Fügen Sie außerdem eine entsprechende Legende hinzu. Sie können z.B. zuerst einen leeren Plot mit dem Argument `type="n"` erstellen und dann mit `points` nacheinander die Punkte der drei Spezies in unterschiedlichen Farben hinzufügen.
+Erstellen Sie den Scatterplot aus Übung 1 noch einmal, aber stellen Sie diesmal die Punkte der drei Spezies in unterschiedlichen Farben dar. Fügen Sie außerdem eine entsprechende Legende hinzu. Sie können z.B. zuerst einen leeren Plot mit dem Argument `type="n"` erstellen und dann mit `points()` nacheinander die Punkte der drei Spezies in unterschiedlichen Farben hinzufügen.
 
 
 ### Übung 3
