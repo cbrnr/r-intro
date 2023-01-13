@@ -251,7 +251,7 @@ Hier ist zu beachten, dass die Daten in einer Matrix vorliegen müssen. Weiters 
 
 ## Beispiel
 
-Am besten können die drei Funktionen anhand eines Beispiels veranschaulicht werden. Dazu laden wir einen (fiktiven) Datensatz über Prüfungsangst:
+Am besten können die drei Funktionen anhand eines Beispiels veranschaulicht werden. Dazu laden wir einen (fiktiven) Datensatz [`exam.dat`](exam.dat) über Prüfungsangst:
 
 ```{r}
 #| message: false

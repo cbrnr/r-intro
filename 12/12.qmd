@@ -164,7 +164,7 @@ Um mit einem linearen Regressionsmodell Vorhersagen auf ungesehene Daten machen 
 
 ## Beispiel
 
-Im folgenden Beispiel sehen wir uns wie in der letzten Einheit die Anzahl der Verkäufe von Musikalben in Abhängigkeit der Höhe des Werbebudgets an. Zusätzlich gibt es jetzt aber zwei weitere Prädiktoren, nämlich die Anzahl an Airplay-Stunden im größten nationalen Radiosender und die Attraktivität der Bandmitglieder. Wir beginnen mit dem Laden der Daten:
+Im folgenden Beispiel sehen wir uns wie in der letzten Einheit die Anzahl der Verkäufe von Musikalben in Abhängigkeit der Höhe des Werbebudgets an. Zusätzlich gibt es jetzt aber zwei weitere Prädiktoren, nämlich die Anzahl an Airplay-Stunden im größten nationalen Radiosender und die Attraktivität der Bandmitglieder. Wir beginnen mit dem Laden der Daten [`sales2.dat`](sales2.dat):
 
 ```{r}
 #| message: false
@@ -313,7 +313,7 @@ Laden Sie die Daten aus der Datei `sales2.dat` wie in den Unterlagen gezeigt. St
 
 ### Übung 2
 
-Laden Sie den Datensatz `aggression.dat`, welcher (komplett erfundene) Daten über Aggressionen unter Kindern enthält. Es wurden 666 Kinder untersucht und folgende Variablen erhoben:
+Laden Sie den Datensatz [`aggression.dat`](aggression.dat), welcher (komplett erfundene) Daten über Aggressionen unter Kindern enthält. Es wurden 666 Kinder untersucht und folgende Variablen erhoben:
 
 - Erziehungsstil (hoher Wert entspricht schlechtem Stil)
 - Computerspielen (hoher Wert entspricht viel Computerspielen)

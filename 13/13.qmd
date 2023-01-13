@@ -30,7 +30,7 @@ Prinzipiell unterscheidet man bei experimentellen Designs zwischen *abhängigen*
 
 ## Beispiel
 
-In einem (fiktiven) Versuch wurde die Angst vor Spinnen auf einer Skala von 0 bis 100 gemessen (größere Werte stehen für höhere Angst). Es wurden 24 Personen in zwei Gruppen untersucht (also 12 Personen pro Gruppe). Einer Gruppe wurden Fotos von Spinnen gezeigt, der anderen Gruppe wurden echte Spinnen gezeigt. Wir beginnen mit dem Importieren der Daten:
+In einem (fiktiven) Versuch wurde die Angst vor Spinnen auf einer Skala von 0 bis 100 gemessen (größere Werte stehen für höhere Angst). Es wurden 24 Personen in zwei Gruppen untersucht (also 12 Personen pro Gruppe). Einer Gruppe wurden Fotos von Spinnen gezeigt, der anderen Gruppe wurden echte Spinnen gezeigt. Wir beginnen mit dem Importieren der Datei [`spider.dat`](spider.dat):
 
 ```{r}
 #| message: false

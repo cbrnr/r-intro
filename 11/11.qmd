@@ -207,7 +207,7 @@ Die Freiheitsgrade dieser Statistik sind $N-p$, also im Fall der einfachen linea
 
 ## Beispiel
 
-Wie man eine Regressionsanalyse in R durchführt lässt sich am besten anhand eines Beispiels zeigen. Laden wir einen Datensatz, welcher Daten über Musikalbenverkäufe (Spalte `sales`) und die Höhe des Werbebudgets (Spalte `adverts`) enthält:
+Wie man eine Regressionsanalyse in R durchführt lässt sich am besten anhand eines Beispiels zeigen. Laden wir einen Datensatz [`sales1.dat`](sales1.dat), welcher Daten über Musikalbenverkäufe (Spalte `sales`) und die Höhe des Werbebudgets (Spalte `adverts`) enthält:
 
 ```{r}
 #| message: false
