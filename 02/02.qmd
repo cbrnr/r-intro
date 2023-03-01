@@ -2,7 +2,7 @@
 title: "2 – Die R-Umgebung"
 subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2022-10-13
+date: 2023-03-13
 format: html
 engine: knitr
 highlight-style: github
@@ -100,7 +100,7 @@ Die folgende Abbildung zeigt ein kurzes R-Script, welches im Editor-Bereich von 
 Wenn man in einem Script Befehle aus zusätzlichen Paketen benötigt, muss man diese Pakete im Script auch mittels `library(package)` aktivieren. Am besten geschieht dies ganz am Anfang des Scripts.
 
 :::{.callout-important}
-Installieren Sie Pakete niemals in einem Script mittels `install.packages("package")`! Das Paket würde bei jedem Ausführen des Scripts neu installiert werden (inklusive Download aus dem Internet), was definitiv vermieden werden sollte. Die Installation von Paketen wird also immer wie oben beschrieben manuell mit RStudio oder in der Console durchgeführt.
+Installieren Sie Pakete niemals in einem Script (mittels `install.packages("package")`)! Das Paket würde bei jedem Ausführen des Scripts neu installiert werden (inklusive Download aus dem Internet), was definitiv vermieden werden sollte. Die Installation von Paketen wird also immer wie oben beschrieben manuell mit RStudio oder in der Console durchgeführt.
 :::
 
 Unter Windows sollte man in RStudio außerdem einstellen, dass Scripts als [UTF-8](https://de.wikipedia.org/wiki/UTF-8) geladen bzw. gespeichert werden sollen (unter macOS bzw. Linux ist das bereits standardmäßig der Fall). Dies kann man in den Optionen (erreichbar über *Tools* – *Global Options*) unter *Code* – *Saving* – *Default text encoding* durchführen:
@@ -119,7 +119,7 @@ getwd()
 Dieses Arbeitsverzeichnis (Working Directory) ist wichtig, da R diverse Dateien (wie z.B. Scripts oder Daten) immer in diesem Verzeichnis erwartet. Alle Dateien im aktuellen Arbeitsverzeichnis kann man mit `dir()` ausgeben lassen (RStudio zeigt diese rechts unten im Bereich *Files* an).
 
 :::{.callout-tip}
-Der Titel der R-Console in RStudio zeigt ebenfalls das aktuelle Arbeitsverzeichnis an.
+Der Titel der R-Console in RStudio zeigt ebenfalls das aktuelle Arbeitsverzeichnis an. Der Name `~` ist eine Abkürzung für Ihren persönlichen Ordner.
 :::
 
 Der Befehl `setwd("/path/to/working/directory")` setzt das aktuelle Arbeitsverzeichnis auf den angegebenen Wert (im Beispiel das fiktive Verzeichnis `/path/to/working/directory`). Hierbei ist zu beachten, dass Verzeichnisse auch in Windows durch einen normalen Schrägstrich `/` und nicht durch einen umgekehrten Schrägstrich (Backslash) `\` voneinander zu trennen sind.
@@ -171,7 +171,7 @@ Kommentare, d.h. alle Zeichen ab `#` bis zum Zeilenende, werden von R nicht ausg
 
 #### Variablen und Objekte
 
-Der Zuweisungsoperator in R ist `=` oder `<-`. Damit kann man Werte (oft auch als Objekte bezeichnet) Variablen zuweisen. Im Beispiel wird also mit `n = 100` der Wert 100 der Variablen `n` zugewiesen. Im gesamten Beispiel-Script werden daher zwei Variablen namens `n` und `x` erstellt.
+Der Zuweisungsoperator in R ist `=` oder `<-`. Damit kann man Werte (oft auch als Objekte bezeichnet) Variablen zuweisen, welche man dann später wieder verwenden kann (um z.B. damit weiterzurechnen). Im Beispiel wird also mit `n = 100` der Wert 100 der Variablen `n` zugewiesen. Im gesamten Beispiel-Script werden daher zwei Variablen namens `n` und `x` erstellt.
 
 :::{.callout-note}
 Es ist egal, ob man `=` oder `<-` für Zuweisungen verwendet. Man sollte aber konsistent sein und immer nur einen der beiden Zuweisungsoperatoren verwenden. In diesen Unterlagen wird `=` benutzt, weil man weniger tippen muss und die meisten anderen Programmiersprachen ebenfalls `=` verwenden.
@@ -330,6 +330,8 @@ Erstellen Sie in RStudio ein einfaches Script mit dem Namen `my_first_script.R`.
 - Berechnung des Mittelwerts der Zahlen 45, 66, 37, 54, 7 und 22 (nur mit Grundrechenarten)
 
 Das fertige Script sollte also aus drei Zeilen bestehen (Sie könnten zur Erhöhung der Übersichtlichkeit aber zusätzliche leere Zeilen einfügen).
+
+Führen Sie zur Kontrolle das gesamte Script aus – es darf dabei kein Fehler auftreten!
 
 
 ### Übung 5
