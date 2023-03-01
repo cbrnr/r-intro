@@ -2,7 +2,7 @@
 title: "1 – Grundlagen"
 subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2022-10-06
+date: 2023-03-06
 format: html
 engine: knitr
 highlight-style: github
@@ -68,9 +68,9 @@ In den grauen Kästchen werden R-Befehle gezeigt (welche wir in die Console eint
 
 Bevor wir R verwenden können, müssen wir zwei Programme auf unserem Rechner installieren, nämlich R und RStudio.
 
-Alle relevanten Informationen zur Installation von R sind auf der [offiziellen Website](https://www.r-project.org/) zu finden. Hier finden sich detaillierte Anleitungen für jede unterstützte Plattform. Der Download-Link befindet sich in der linken Spalte ganz oben unter "Download" – "CRAN". Es ist sinnvoll, stets mit der aktuellsten Version von R zu arbeiten (bei der Erstellung dieses Dokuments war dies Version 4.2.1).
+Alle relevanten Informationen zur Installation von R sind auf der [offiziellen Website](https://www.r-project.org/) zu finden. Hier finden sich detaillierte Anleitungen für jede unterstützte Plattform. Der Download-Link befindet sich in der linken Spalte ganz oben unter "Download" – "CRAN". Es ist sinnvoll, stets mit der aktuellsten Version von R zu arbeiten (bei der Erstellung dieses Dokuments war dies Version 4.2.2).
 
-R ist modular aufgebaut und besteht aus einem Kern sowie einer grafischen Oberfläche. Obwohl man mit der mitgelieferten Oberfläche relativ komfortabel arbeiten kann, hat sich dennoch die Alternative [RStudio](https://www.rstudio.com/) als De-Facto-Standard etabliert. RStudio ist "nur" eine grafische Oberfläche, d.h. es wird eine zuvor installierte R-Umgebung vorausgesetzt. Auch hier ist es ratsam, stets die aktuellste Version zu verwenden (bei der Erstellung dieses Dokuments war dies Version 2022.07.1 Build 554).
+R ist modular aufgebaut und besteht aus einem Kern sowie einer grafischen Oberfläche. Obwohl man mit der mitgelieferten Oberfläche relativ komfortabel arbeiten kann, hat sich dennoch die Alternative [RStudio](https://www.rstudio.com/) als De-Facto-Standard etabliert. RStudio ist "nur" eine grafische Oberfläche, d.h. es wird eine zuvor installierte R-Umgebung vorausgesetzt. Auch hier ist es ratsam, stets die aktuellste Version zu verwenden (bei der Erstellung dieses Dokuments war dies Version 2022.12.0 Build 353).
 
 
 ## Erste Schritte
