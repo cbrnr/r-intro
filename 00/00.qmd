@@ -21,19 +21,19 @@ In dieser Lehrveranstaltung werden Sie das Statistikpaket [R](https://www.r-proj
 
 | Einheit | Datum      | Inhalt                  |
 |---------|------------|-------------------------|
-| 1       | 6.10.2022  | Grundlagen              |
-| 2       | 13.10.2022 | Die R-Umgebung          |
-| 3       | 20.10.2022 | Vektoren                |
-| 4       | 27.10.2022 | Tabellarische Daten     |
-| 5       | 3.11.2022  | Daten importieren       |
-| 6       | 10.11.2022 | Deskriptive Statistiken |
-| 7       | 17.11.2022 | Datenaufbereitung       |
-| 8       | 24.11.2022 | Grafiken                |
-| 9       | 15.12.2022 | Korrelation             |
-| 10      | 12.1.2023  | Lineare Regression (1)  |
-| 11      | 19.1.2023  | Lineare Regression (2)  |
-| 12      | 26.1.2023  | Mittelwertvergleich     |
-| 13      | 2.2.2023   | Prüfung                 |
+| 1       | 6.3.2023   | Grundlagen              |
+| 2       | 13.3.2023  | Die R-Umgebung          |
+| 3       | 20.3.2023  | Vektoren                |
+| 4       | 27.3.2023  | Tabellarische Daten     |
+| 5       | 17.4.2023  | Daten importieren       |
+| 6       | 24.4.2023  | Deskriptive Statistiken |
+| 7       | 8.5.2023   | Datenaufbereitung       |
+| 8       | 15.5.2023  | Grafiken                |
+| 9       | 22.5.2023  | Korrelation             |
+| 10      | 5.6.2023   | Lineare Regression (1)  |
+| 11      | 12.6.2023  | Lineare Regression (2)  |
+| 12      | 19.6.2023  | Mittelwertvergleich     |
+| 13      | 26.6.2023  | Prüfung                 |
 
 Alle Informationen und Unterlagen zu dieser Lehrveranstaltung werden auf Moodle zur Verfügung gestellt. Insbesondere wird auch die Kommunikation (z.B. Ankündigungen, Forumsdiskussionen, Fragen & Antworten) über Moodle abgewickelt.
 
