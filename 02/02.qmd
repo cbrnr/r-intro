@@ -30,6 +30,17 @@ Bereits in der vorigen Einheit haben wir die grafische Benutzeroberfläche RStud
 Die Aufteilung der Bereiche kann in den Einstellungen umfangreich angepasst werden. Wenn Sie z.B. die Console gerne rechts unten haben möchten, können Sie das dort festlegen.
 :::
 
+:::{.callout-important}
+Die meisten Einstellungen von RStudio haben vernünftige Standardwerte, aber die folgenden zwei Punkte sollten Sie unbedingt ändern. Gehen Sie dazu in die Einstellungen (*Tools* – *Global Options*) und ändern Sie diese beiden Optionen:
+
+1. "Restore .RData into workspace at startup" sollte *deaktiviert* sein.
+2. "Save workspace to .RData on exit" sollte auf *Never* gesetzt sein.
+
+![](rstudio-settings.png)
+
+Dies bewirkt, dass jeder Neustart von RStudio auch eine komplett frische R-Sitzung generiert, was für die Reproduzierbarkeit von Analysen unerlässlich ist.
+:::
+
 
 ## Pakete
 
