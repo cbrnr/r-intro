@@ -2,7 +2,7 @@
 title: "3 – Lösungen"
 subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2022-10-20
+date: 2023-03-20
 format: html
 engine: knitr
 highlight-style: github
@@ -87,4 +87,14 @@ mean(t, na.rm=TRUE)  # NA-Elemente werden ignoriert
 ```{r}
 s = c(1, 11.3, 7.8, 3.4, 6)  # Standardabweichungen
 s**2  # Varianzen (elementweises Quadrieren)
+```
+
+
+### Übung 9
+
+```{r}
+x = c(2, 0, -5, 0, 1, -1, 0, 3, 0, 0, 7)
+x == 0
+sum(x == 0)
+which(x == 0)
 ```

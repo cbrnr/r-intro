@@ -2,7 +2,7 @@
 title: "3 – Vektoren"
 subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2022-10-20
+date: 2023-03-20
 format: html
 engine: knitr
 highlight-style: github
@@ -350,6 +350,16 @@ is.na(vect)  # die fehlenden Werte
 vect[!is.na(vect)]
 ```
 
+:::{.callout-important}
+Um herauszufinden, welche Elemente eines Vektors fehlen, darf man nicht mit `NA` vergleichen:
+
+```{r}
+vect == NA
+```
+
+Dieser Vergleich ergibt immer `NA`! Stattdessen sollte man die Funktion `is.na()` verwenden.
+:::
+
 
 ## Übungen
 
@@ -422,3 +432,14 @@ s = c(1, 11.3, 7.8, 3.4, 6)
 ```
 
 Wie können Sie daraus in einem Schritt die fünf Varianzen berechnen?
+
+
+### Übung 9
+
+Gegeben sei folgender Vektor `x`:
+
+```r
+x = c(2, 0, -5, 0, 1, -1, 0, 3, 0, 0, 7)
+```
+
+Angenommen, Sie sind an den Werten interessiert, die gleich `0` sind. Wie können Sie diese finden? Wie viele Werte sind das? An welchen Positionen befinden sich diese Werte? Verwenden Sie zur Beantwortung der letzten beiden Fragen die Funktionen `sum()` bzw. `which()`!
