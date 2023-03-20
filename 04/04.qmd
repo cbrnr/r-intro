@@ -2,7 +2,7 @@
 title: "4 – Tabellarische Daten"
 subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2022-10-27
+date: 2023-03-27
 format: html
 engine: knitr
 highlight-style: github
@@ -122,10 +122,10 @@ Eine Matrix ist, wie man anhand der obigen Beispiele erkennt, eigentlich nur fü
 
 ## Data Frames
 
-Data Frames sind ebenso wie Matrizen zweidimensionale Datenstrukturen (sie bestehen aus Zeilen und Spalten). Im Gegensatz zu Matrizen können Spalten aber unterschiedliche Datentypen beinhalten (z.B. kann eine Spalte numerisch sein, eine andere Spalte kann Zeichenketten beinhalten, und so weiter). Innerhalb einer Spalte müssen aber alle Werte homogen sein. Man kann sich die einzelnen Spalten in einem Data Frame daher als Vektoren vorstellen.
+Data Frames sind ebenso wie Matrizen zweidimensionale Datenstrukturen (sie bestehen aus Zeilen und Spalten). Im Gegensatz zu Matrizen können Spalten aber unterschiedliche Datentypen haben (z.B. kann eine Spalte numerisch sein, eine andere Spalte kann Zeichenketten beinhalten, und so weiter). Innerhalb einer Spalte müssen aber alle Werte homogen sein. Man kann sich die einzelnen Spalten in einem Data Frame daher als Vektoren vorstellen.
 
 :::{.callout-note}
-Tatsächlich ist ein Data Frame eine Liste aus Vektoren, welche den einzelnen Spalten entsprechen (den allgemeinen Datentyp `list`, welcher hier im Hintergrund verwendet wird, werden wir allerdings nicht genauer kennenlernen).
+Tatsächlich ist ein Data Frame eine Liste aus Vektoren gleicher Länge, welche den einzelnen Spalten entsprechen (den allgemeinen Datentyp `list`, welcher hier im Hintergrund verwendet wird, werden wir allerdings nicht genauer kennenlernen).
 :::
 
 
@@ -156,7 +156,7 @@ df
 
 ### Anzeigen von Data Frames
 
-Erzeugen wir für die folgenden Beispiele nochmals ein kleines Data Frame namens `df` (beachten Sie, dass wir in R-Befehlen Zeilenumbrüche zwecks besserer Lesbarkeit einfügen können):
+Erzeugen wir für die folgenden Beispiele nochmals ein kleines Data Frame namens `df` (beachten Sie, dass wir Zeilenumbrüche zwecks besserer Lesbarkeit einfügen können):
 
 ```{r}
 df = data.frame(
@@ -218,7 +218,7 @@ df[["patient"]]
 df[["height"]]
 ```
 
-Dies ist also eine Alternative zur `$`-Syntax.
+Dies ist also eine Alternative zur `$`-Schreibweise.
 :::
 
 Zeilen und Spalten kann man auch per "normaler" Indizierung mit eckigen Klammern herausgreifen. Dies funktioniert wie bei Vektoren bzw. Matrizen: die erste Zahl in den eckigen Klammern steht für die Zeile und die zweite Zahl für die Spalte. Wenn ein Index weggelassen wird, werden alle Zeilen bzw. Spalten herausgegriffen:
