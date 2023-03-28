@@ -2,7 +2,7 @@
 title: "5 – Lösungen"
 subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2022-11-03
+date: 2023-04-17
 format: html
 engine: knitr
 highlight-style: github
@@ -22,6 +22,8 @@ library(readr)
 ?read_delim
 ```
 
+Folgende Argumente werden verwendet:
+
 - Spaltentrennzeichen: `delim`, dieses Argument folgt nach dem Dateinamen; wird es nicht angegeben, versucht die Funktion das Spaltentrennzeichen automatisch zu erkennen
 - Dezimaltrennzeichen: `locale` (z.B. `locale=locale(decimal_mark=",")` für deutsche Zahlenschreibweise)
 - Fehlende Werte: `na`
@@ -31,11 +33,10 @@ library(readr)
 
 ```{r}
 #| message: false
-df = read_csv2("homework.csv")
-df
+(df = read_csv2("homework.csv"))
 ```
 
-Die Datentypen der vier Spalten sind `<chr>`, `<dbl>`, `<dbl>`, `<dbl>` – d.h. das deutsche Zahlenformat wurde korrekt erkannt (denn sonst hätte man vermutlich `character`-Spalten statt numerischen).
+Die Datentypen der vier Spalten sind `<chr>`, `<dbl>`, `<dbl>`, `<dbl>` – d.h. das deutsche Zahlenformat wurde korrekt importiert.
 
 
 ## Übung 3
@@ -56,7 +57,6 @@ covid = read_delim(
     locale=locale(decimal_mark=","),
     col_types=cols(Time=col_date("%d.%m.%Y %H:%M:%S"))
 )
-covid
 dim(covid)
 ```
 
@@ -65,8 +65,7 @@ dim(covid)
 
 ```{r}
 #| message: false
-df = read_delim("household_power_consumption.zip", delim=";", na=c("?", ""))
-df
+(df = read_delim("household_power_consumption.zip", delim=";", na=c("?", "")))
 dim(df)  # 2.075.259 Zeilen und 9 Spalten
 ```
 
