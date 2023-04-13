@@ -2,7 +2,7 @@
 title: "6 – Deskriptive Statistiken"
 subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2022-11-10
+date: 2023-04-24
 format: html
 engine: knitr
 highlight-style: github
@@ -41,13 +41,17 @@ Die `name`-Spalte brauchen wir für unsere nachfolgenden Betrachtungen nicht meh
 df$name = NULL
 ```
 
-Es gibt in R eine Reihe an Funktionen, welche zusammenfassende Statistiken einer Variable (bzw. eines Vektors) berechnen. Nützliche Funktionen sind z.B. `mean()`, `sd()`, `var()`, `min()`, `max()`, `median()`, `range()` und `quantile()`. Den Mittelwert eines Vektors (und damit auch einer Spalte von `df`) kann man also wie folgt berechnen:
+Es gibt in R eine Reihe an Funktionen, welche zusammenfassende Statistiken einer Variablen (bzw. eines Vektors) berechnen. Nützliche Funktionen sind z.B. `mean()`, `sd()`, `var()`, `min()`, `max()`, `median()`, `range()` und `quantile()`. Den Mittelwert eines Vektors (und damit auch einer Spalte von `df`) kann man also wie folgt berechnen:
 
 ```{r}
 mean(df$friends)
 ```
 
-Vor allem bei Faktoren ist es interessant zu wissen, wie viele Stufen es im Datensatz gibt. Auch bei numerischen oder Text-Vektoren mit mehrfach vorkommenden Werten ist es manchmal praktisch, die unterschiedlichen Werte herauszufinden. Dafür gibt es die Funktion `unique()`, welche die eindeutigen Elemente eines Vektors zurückgibt:
+Vor allem bei Faktoren ist es interessant zu wissen, wie viele Stufen (unterschiedliche Werte) diese beinhalten. Auch bei numerischen oder Text-Vektoren mit mehrfach vorkommenden Werten ist es manchmal praktisch, die unterschiedlichen Werte herauszufinden. Dafür gibt es die Funktion `unique()`, welche die einzigartigen Elemente eines Vektors zurückgibt:
+
+```{r}
+unique(c(1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2))
+```
 
 ```{r}
 unique(df$friends)
@@ -60,7 +64,7 @@ All diese Berechnungen müsste man nun für jede interessierende Spalte wiederho
 sapply(df[, -c(1, 2)], mean)
 ```
 
-:::{.callout-note}
+:::{.callout-tip}
 Für die Berechnung der Spaltenmittelwerte kann man auch die uns bereits bekannte Funktion `colMeans()` verwenden.
 :::
 
@@ -70,12 +74,21 @@ Beachten Sie, dass `df[, -c(1, 2)]` alle Spalten aus `df` ausgenommen der ersten
 sapply(df[, -c(1, 2)], sd)
 ```
 
-Es gibt aber auch spezielle Funktionen, welche direkt *mehrere* statistische Kenngrößen für alle Spalten eines Data Frames berechnen. Im Folgenden gehen wir näher auf vier dieser Funktionen ein, nämlich `summary()`, `describe()` und `stat.desc()`. Nur `summary()` ist standardmäßig bei R dabei, die anderen zwei Funktionen erfordern die Installation von zusätzlichen Paketen.
+Es gibt aber auch spezielle Funktionen, welche direkt *mehrere* statistische Kenngrößen für alle Spalten eines Data Frames berechnen. Im Folgenden gehen wir näher auf drei dieser Funktionen ein, nämlich `summary()`, `describe()` und `stat.desc()`. Nur `summary()` ist standardmäßig bei R dabei, die anderen zwei Funktionen erfordern die Installation von zusätzlichen Paketen.
 
 
 ### Die Funktion `summary()`
 
-Die Funktion `summary()` liefert eine geeignete Zusammenfassung für jede Spalte eines Data Frames (Tibbles). Numerische Spalten sowie Datumsspalten werden mit sechs Werten beschrieben: Minimum, 1. Quartil, 2. Quartil (Median), 3. Quartil, Maximum sowie Mittelwert. Für Faktoren werden die Stufen sowie die Anzahl an Fällen pro Stufe aufgelistet.
+Die Funktion `summary()` liefert eine geeignete Zusammenfassung für jede Spalte eines Data Frames (Tibbles). Numerische Spalten sowie Datumsspalten werden mit sechs Werten beschrieben:
+
+1. Minimum
+2. Erstes Quartil (25%-Perzentil)
+3. Median
+4. Drittes Quartil (75%-Perzentil)
+5. Maximum
+6. Arithmetischer Mittelwert
+
+Für Faktoren werden die Stufen sowie die Anzahl an Fällen pro Stufe aufgelistet.
 
 ```{r}
 summary(df)
