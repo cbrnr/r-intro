@@ -2,7 +2,7 @@
 title: "7 – Datenaufbereitung"
 subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2022-11-17
+date: 2023-05-08
 format: html
 engine: knitr
 highlight-style: github
@@ -80,9 +80,13 @@ Der umgekehrte Weg wird mit `pivot_wider()` beschritten; diese Funktion kann ein
 ))
 ```
 
-Hier gibt man zunächst die Daten im Long-Format an (`df_long`). Danach folgt mit `id_cols` der Spaltenname, welcher die einzelnen Fälle identifiziert (also die individuellen Personen in unserem Beispiel). Danach gibt man mit `names_from` die Spalte an, welche die Namen der Werte beinhaltet (also die Indikatorspalte `Variable`). Schließlich definiert man mit `values_from` die Spalte, welche die Werte beinhaltet (`Value`).
+Hier gibt man zunächst die Daten im Long-Format an (`df_long`). Danach folgt mit `id_cols` der Spaltenname, welcher die einzelnen Fälle identifiziert (also die individuellen Personen in unserem Beispiel). Danach gibt man mit `names_from` die Spalte an, welche die Variablennamen beinhaltet (also die Indikatorspalte `Variable`). Schließlich definiert man mit `values_from` die Spalte, welche die Werte beinhaltet (`Value`).
 
 Diese beiden Funktionen können sehr viel komplexere Strukturen in die jeweiligen Formate konvertieren – dies ist alles in der Hilfe nachzulesen, inklusive vieler Beispiele, die die Verwendung demonstrieren.
+
+:::{.callout-note}
+Das Tidyverse basiert auf einer Darstellung von Daten, die man als "tidy" bezeichnet. Im Wesentlichen entspricht dies dem Wide-Format, bei dem jede Variable einer eigenen Spalte sowie jeder Datenpunkt einer eigenen Zeile entspricht (mehr Details dazu sind in [diesem Artikel](https://www.jstatsoft.org/article/view/v059i10) zu finden).
+:::
 
 
 ## Zeilen filtern mit `subset()`
@@ -171,7 +175,7 @@ head(aq)
 Beachten Sie, dass wir in der Transformation vorhandene Spalten wieder direkt benennen können (im Beispiel `Temp`), ohne Anführungszeichen oder `airquality$` verwenden zu müssen. Außerdem wird immer ein *neues* Data Frame erzeugt; Sie könnten dieses aber dem ursprünglichen Namen zuweisen wenn Sie möchten (also `airquality` in obigem Beispiel statt `aq`).
 
 :::{.callout-important}
-Das Ergebnis der Funktion `transform()` ist ein Data Frame, auch wenn Sie ein Tibble als Ausgangsdaten verwenden. Falls das Ergebnis aber auch ein Tibble sein soll, muss man den Rückgabewert von `transform()` mit `as_tibble()` (aus dem Paket `tibble`) explizit umwandeln.
+Das Ergebnis der Funktion `transform()` ist ein Data Frame, auch wenn Sie ein Tibble als Ausgangsdaten verwenden. Falls das Ergebnis aber auch ein Tibble sein soll, muss man den Rückgabewert von `transform()` mit `tibble::as_tibble()` explizit umwandeln.
 :::
 
 
