@@ -2,7 +2,7 @@
 title: "8 – Grafiken (1)"
 subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2022-11-24
+date: 2023-05-15
 format: html
 engine: knitr
 highlight-style: github
@@ -17,7 +17,7 @@ published-title: "Veröffentlicht"
 
 ## Allgemeines
 
-In R gibt es mehrere Pakete, mit denen man Daten grafisch darstellen kann. Grafiken, welche mit unterschiedlichen Paketen erstellt wurden, lassen sich aber nicht (einfach) miteinander kombinieren. Deshalb entscheidet man sich typischerweise vor der Erstellung einer Grafik für das zu verwendende Grafikpaket. In diesem Seminar werden wir `graphics` und `ggplot2` näher kennenlernen.
+In R gibt es mehrere Pakete, mit denen man Daten grafisch darstellen kann. Grafiken, welche mit unterschiedlichen Paketen erstellt wurden, lassen sich aber nicht (einfach) miteinander kombinieren. Deshalb entscheidet man sich typischerweise vor der Erstellung einer Grafik für das zu verwendende Grafikpaket. In dieser Lehrveranstaltung werden wir `graphics` und `ggplot2` näher kennenlernen.
 
 Das `graphics`-Paket wird auch als Base-Plotting-System bezeichnet. Es ist Teil von R und muss nicht extra installiert werden. Das Base-Plotting-System eignet sich sehr gut für schnelle Visualisierungen – mit etwas Aufwand kann man aber auch schöne Grafiken für Publikationen erstellen.
 
@@ -32,7 +32,7 @@ str(airquality)
 
 Eine der wichtigsten Funktionen im Base-Plotting-System ist `plot()`. Diese Funktion erstellt spezielle Visualisierungen in Abhängigkeit von den darzustellenden Daten.
 
-Wenn man einen numerischen Vektor übergibt, erhält man eine Punktgrafik. Auf der x-Achse wird der Index der Datenpunkte dargestellt (also die Zeile des jeweiligen Datenpunktes im Data Frame):
+Wenn man einen numerischen Vektor übergibt, erhält man eine Punktgrafik. Auf der x-Achse wird der Index der Datenpunkte dargestellt:
 
 ```{r}
 plot(airquality$Ozone)
@@ -53,31 +53,39 @@ airquality$date = as.Date(
 )
 ```
 
-Die Funktion `paste()` klebt dabei mehrere Character-Vektoren elementweise zu einem einzigen Vektor zusammen (standardmäßig wird zwischen den Elementen ein Leerzeichen eingefügt):
+:::{.callout-tip}
+Die Funktion `paste()` fügt mehrere Character-Vektoren elementweise zu einem einzigen Vektor zusammen (standardmäßig wird zwischen den Elementen ein Leerzeichen eingefügt):
 
 ```{r}
 paste("Hello", "World")
 ```
 
-Das Ergebnis des zusammengeklebten Character-Vektors sieht also so aus:
+Die einzelnen Argumente können Vektoren mit beliebiger Anzahl an Elementen sein:
+
+```{r}
+paste(c("Hello", "Sup"), c("Jane", "John"))
+```
+:::
+
+Das Ergebnis sieht also so aus:
 
 ```{r}
 paste(airquality$Month, airquality$Day, "1973")
 ```
 
-Dieser Vektor kann dann mit der Funktion `as.Date()` mit dem Argument `format="%m %d %Y"` in einen Datumsvektor konvertiert werden, welchen wir dann der Spalte `date` im Data Frame zugewiesen haben:
+Dieser Vektor kann dann mit der Funktion `as.Date()` mit dem Argument `format="%m %d %Y"` in einen Datumsvektor konvertiert werden, welchen wir der Spalte `date` im Data Frame zugewiesen haben:
 
 ```{r}
 class(airquality$date)
 ```
 
-Anschließend können wir diese Datumsspalte für die Darstellung auf der x-Achse verwenden (in diesem Beispiel werden dann automatisch die Namen für die fünf Monate auf der x-Achse angezeigt):
+Anschließend können wir diese Datumsspalte für die Darstellung auf der x-Achse verwenden. In diesem Beispiel werden dann automatisch die Namen für die fünf Monate auf der x-Achse angezeigt:
 
 ```{r}
 plot(airquality$date, airquality$Ozone)
 ```
 
-Möchte man einen Faktor plotten, wird automatisch eine Balkengrafik mit den Häufigkeiten der einzelnen Stufen erzeugt:
+Übergibt man der Funktion einen Faktor, wird automatisch eine Balkengrafik mit den Häufigkeiten der einzelnen Stufen erzeugt:
 
 ```{r}
 plot(factor(airquality$Month))
@@ -92,7 +100,7 @@ Die Funktion `hist()` erstellt ein Histogramm eines Vektors:
 hist(airquality$Ozone)
 ```
 
-Mit Hilfe eines Histogramms kann man sich die (ungefähre) Verteilung der Werte eines Vektors anzeigen lassen. Die Anzahl der Säulen im Histogramm kann man mit dem Argument `breaks` explizit festlegen:
+Mit Hilfe eines Histogramms kann man die Verteilung der Werte eines Vektors visualisieren. Die Anzahl der Säulen im Histogramm kann man mit dem Argument `breaks` explizit festlegen:
 
 ```{r}
 hist(airquality$Ozone, breaks=4)
@@ -105,22 +113,26 @@ Das Argument `breaks` ist nur eine Empfehlung – die tatsächliche Anzahl an Ba
 
 ## Boxplots
 
-Eine weitere Möglichkeit die Verteilung von Werten zu visualisieren bietet die Funktion `boxplot()`. Ein Boxplot zeigt den Median, den Interquartilsabstand (IQR) sowie das Minimum und das Maximum (sowie eventuelle Ausreißer) der Daten.
+Eine weitere Möglichkeit, die Verteilung von Werten grafisch darzustellen, bietet die Funktion `boxplot()`. Ein Boxplot zeigt den Median, den Interquartilsabstand (IQR) sowie das Minimum und das Maximum (plus eventuelle Ausreißer) der Daten.
 
 ```{r}
 boxplot(airquality$Temp)
 ```
 
-Ein einzelner Boxplot ist für sich noch relativ wenig hilfreich. Wenn man statt eines Vektors eine sogenannte *Formel* angibt, kann man mehrere Boxplots in einer Grafik darstellen. Im folgenden Beispiel werden Boxplots für `airquality$Temp` in Abhängigkeit von `airquality$Month` dargestellt:
+Ein einzelner Boxplot ist für sich noch relativ wenig hilfreich. Wenn man statt eines Vektors eine sogenannte *Formel* angibt, kann man mehrere Boxplots in einer Grafik darstellen.
+
+:::{.callout-note}
+Eine Formel in R wird durch das Tilde-Zeichen (`~`) definiert, mit jeweiligen Ausdrücken links bzw. rechts davon. Ein Beispiel für eine Formel ist `y ~ x` mit `y` auf der linken Seite und `x` auf der rechten Seite. Die Bedeutung einer Formel hängt von der jeweiligen Funktion ab. Viele Funktionen verlangen Formeln als Argumente, wir werden dies vor allem bei der Berechnung von linearen Modellen intensiv nutzen.
+:::
+
+Im folgenden Beispiel werden Boxplots für `airquality$Temp` in Abhängigkeit von `airquality$Month` dargestellt:
 
 ```{r}
 boxplot(airquality$Temp ~ airquality$Month)
 ```
 
-Eine Formel in R wird durch das Tilde-Zeichen (`~`) definiert. Viele Funktionen verlangen Formeln als Argumente, wir werden dies vor allem bei der Berechnung von linearen Modellen intensiv nutzen.
 
-
-## Plots anpassen
+## Grafiken anpassen
 
 Oft möchte man diverse Eigenschaften von Grafiken anpassen, wie z.B. die verwendete Linienart, Farben, Symbole, Titel, Achsenbeschriftungen, und so weiter. Viele Parameter kann man bereits bei der Erstellung der Grafik als Argument übergeben. Eine angepasste Version des Scatterplot-Beispiels von oben ist:
 
@@ -128,11 +140,11 @@ Oft möchte man diverse Eigenschaften von Grafiken anpassen, wie z.B. die verwen
 plot(
     airquality$Wind,
     airquality$Ozone,
-    xlab="Wind (mph)",
-    ylab="Ozone (ppb)",
-    main="",
-    pch=16,
-    col="orange"
+    xlab="Wind (mph)",  # x-Achsen-Titel
+    ylab="Ozone (ppb)",  # y-Achsen-Titel
+    main="",  # Titel
+    pch=21,  # Kreissymbol mit separater Rand- und Hintergrundfarbe
+    bg="lightblue"  # Hintergrundfarbe
 )
 ```
 
@@ -145,7 +157,7 @@ plot(
     xlab="",
     ylab="Ozone (ppb)",
     main="",
-    type="l",
+    type="l",  # Liniengrafik
     col="orange"
 )
 ```
@@ -197,8 +209,8 @@ plot(
     type="l",
     xlab="",
     ylab="",
-    cex.axis=0.6,
-    lty=2,
+    cex.axis=0.6,  # Skalierung Achsenbeschriftung
+    lty=2,  # Linientyp
     main="Sine"
 )
 ```
@@ -255,7 +267,7 @@ model = lm(Ozone ~ Wind, airquality)
 abline(model, lwd=2, col="blue")
 ```
 
-Hier übergibt man die Linie in Form einer Geradengleichung, die man mit der Funktion `lm()` berechnen kann – mehr zu dieser Funktion werden wir später bei den Regressionsmodellen kennenlernen. Im Moment reicht es zu wissen, dass diese Funktion eine Formel der Form `abhängige Variable ~ unabhängige Variable` erwartet, d.h. man gibt die diesen Variablen entsprechenden Spaltennamen an.
+Hier übergibt man die Linie in Form einer Geradengleichung, die man mit der Funktion `lm()` berechnen kann – mehr zu dieser Funktion werden wir später bei den Regressionsmodellen kennenlernen. Im Moment reicht es zu wissen, dass diese Funktion eine Formel der Form `y ~ x` erwartet, d.h. man gibt die diesen Variablen entsprechenden Spaltennamen der y- bzw. x-Achsen an.
 
 Text und Pfeile kann man mit `text()` bzw. `arrows()` hinzufügen:
 
@@ -282,7 +294,7 @@ Wenn die Grafik fertig ist sollte man den globalen Parameter wieder zurücksetze
 par(mfrow=c(1, 1))
 ```
 
-Noch flexibler ist man mit der Funktion `layout()`. Hier spezifiziert man eine Matrix, welche die Nummern der darzustellenden Plots beinhaltet. Möchte man z.B. drei Plots in zwei Zeilen und zwei Spalten darstellen, wobei sich der erste Plot in der ersten Zeile über beide Spalten erstrecken soll, definiert man dies wie folgt:
+Noch flexibler ist die Funktion `layout()`. Hier spezifiziert man eine Matrix, welche die Nummern der darzustellenden Plots beinhaltet. Möchte man z.B. drei Plots in zwei Zeilen und zwei Spalten darstellen, wobei sich der erste Plot in der ersten Zeile über beide Spalten erstrecken soll, definiert man dies wie folgt:
 
 ```{r}
 (grid = matrix(c(1, 1, 2, 3), nrow=2, ncol=2, byrow=TRUE))
@@ -306,7 +318,8 @@ plot(
     factor(airquality$Month),
     main="Measurements per month",
     xlab="Month",
-    ylab="Count"
+    ylab="Count",
+    col="lightblue"
 )
 plot(
     airquality$Temp,
@@ -316,7 +329,7 @@ plot(
     ylab="Ozone (ppb)",
     main="Ozone vs. Temperature"
 )
-abline(lm(Ozone ~ Temp, airquality), col="gray", lwd=2)
+abline(lm(Ozone ~ Temp, airquality), col="orange", lwd=2)
 points(airquality$Temp, airquality$Ozone, pch=16, col=rgb(0, 0, 0, 0.5))
 ```
 

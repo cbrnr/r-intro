@@ -2,7 +2,7 @@
 title: "8 – Lösungen"
 subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2022-11-24
+date: 2023-05-15
 format: html
 engine: knitr
 highlight-style: github
