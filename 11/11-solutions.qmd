@@ -1,8 +1,8 @@
 ---
-title: "11 – Lösungen"
+title: "12 – Lösungen"
 subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2023-01-12
+date: 2023-01-19
 format: html
 engine: knitr
 highlight-style: github
@@ -19,73 +19,87 @@ published-title: "Veröffentlicht"
 
 ```{r}
 #| message: false
-library(ggplot2)
 library(readr)
+library(tibble)
 
-(cars = read_csv("cars.csv"))
-
-ggplot(cars, aes(speed, dist)) +
-    geom_point() +
-    geom_smooth(method=lm, formula=y ~ x) +
-    xlab("Speed (miles per hour)") +
-    ylab("Distance (feet)")
+sales = read_tsv("sales2.dat")
+sales = as_tibble(scale(sales))
+model = lm(sales ~ adverts + airplay + attract, data=sales)
+summary(model)
+coef(model)  # stimmt mit lm.beta überein
 ```
 
 
 ## Übung 2
 
 ```{r}
-model = lm(dist ~ speed, data=cars)
-summary(model)
+#| message: false
+library(lm.beta)  # für lm.beta
+
+aggression = read_tsv("aggression.dat")
+
+model1 = lm(Aggression ~ Parenting_Style + Sibling_Aggression, data=aggression)
+summary(model1)  # beide Variablen erwartungsgemäß signifikant
+lm.beta(model1)  # Parenting_Style hat größeren Einfluss als Sibling_Aggression
+
+model2 = lm(
+    Aggression ~ Parenting_Style + Sibling_Aggression + Television +
+                 Computer_Games + Diet,
+    data=aggression
+)
+summary(model2)
+lm.beta(model2)
+
+anova(model1, model2)  # Vergleich beider Modelle
 ```
 
 
 ## Übung 3
 
 ```{r}
-r = with(cars, cor(speed, dist))
-r**2  # identical to R² from linear regression
-summary(model)$r.squared
+library(car)  # für dwt, vif
+
+# Kollinearität
+vif(model2)
+
+# Unabhängigkeit der Residuen
+dwt(model2)
+
+# Normalverteilung Residuen
+plot(model2, which=2)
+
+# Linearität und Varianzhomogenität
+plot(model2, which=1)
+
+# Punkte mit großem Einfluss
+plot(model2, which=5)
 ```
 
 
 ## Übung 4
 
-Die Geradengleichung lautet:
-
-$$y = b_0 + b_1 \cdot x$$
-
-Eingesetzt mit den Werten der Koeffizienten:
-
-$$y = -17.5791 + 3.9324 \cdot x$$
-
-Und die Vorhersagen:
-
-$$-17.5791 + 3.9324 \cdot 5 = 2.08$$
-$$-17.5791 + 3.9324 \cdot 65 = 238.03$$
-
-```{r}
-predict(model, data.frame(speed=c(5, 65)))
+```r
+influence.measures(model2)
 ```
 
-
-## Übung 5
+```r
+# oder mit einzelnen Funktionen
+dfbeta(model2)
+cooks.distance(model2)
+resid(model2)
+rstandard(model2)
+rstudent(model2)
+dffits(model2)
+hatvalues(model2)
+```
 
 ```{r}
-y = cars$dist
-yhat = predict(model)
-ybar = mean(y)
-N = nrow(cars)
-SST = sum((y - ybar)**2)
-SSM = sum((yhat - ybar)**2)
-SSR = sum((y - yhat)**2)
-dfT = N - 1  # number of observations - 1
-dfM = 1  # number of estimated parameters (b0, b1) - 1
-dfR = N - 2  # number of observations - number of estimated parameters (b0, b1)
+# Anzahl rstandard > 3
+sum(rstandard(model2) > 3)
 
-MSM = SSM / dfM
-MSR = SSR / dfR
+# Anzahl rstandard < -3
+sum(rstandard(model2) < -3)
 
-SSM / SST  # R²
-MSM / MSR  # F
+# Relativer Anteil an |rstandard| > 2
+sum(abs(rstandard(model2)) > 2) / nrow(aggression)
 ```

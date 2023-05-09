@@ -1,8 +1,8 @@
 ---
-title: "12 – Lösungen"
+title: "13 – Lösungen"
 subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2023-01-19
+date: 2023-01-26
 format: html
 engine: knitr
 highlight-style: github
@@ -17,89 +17,66 @@ published-title: "Veröffentlicht"
 
 ## Übung 1
 
+### Größe
+
 ```{r}
 #| message: false
-library(readr)
-library(tibble)
+library(dplyr)
 
-sales = read_tsv("sales2.dat")
-sales = as_tibble(scale(sales))
-model = lm(sales ~ adverts + airplay + attract, data=sales)
-summary(model)
-coef(model)  # stimmt mit lm.beta überein
+t.test(height ~ gender, data=starwars, alternative="less")
 ```
+
+Weibliche Charaktere sind nicht signifikant kleiner als männliche ($t=-1.56$, $p = .064$).
+
+### Gewicht
+
+```{r}
+t.test(mass ~ gender, data=starwars, alternative="less")
+```
+
+Weibliche Charaktere sind signifikant leichter als männliche ($t=-1.94$, $p = .029$).
 
 
 ## Übung 2
 
 ```{r}
-#| message: false
-library(lm.beta)  # für lm.beta
+library(palmerpenguins)
 
-aggression = read_tsv("aggression.dat")
-
-model1 = lm(Aggression ~ Parenting_Style + Sibling_Aggression, data=aggression)
-summary(model1)  # beide Variablen erwartungsgemäß signifikant
-lm.beta(model1)  # Parenting_Style hat größeren Einfluss als Sibling_Aggression
-
-model2 = lm(
-    Aggression ~ Parenting_Style + Sibling_Aggression + Television +
-                 Computer_Games + Diet,
-    data=aggression
+with(
+    subset(penguins, species == "Adelie" | species == "Chinstrap"),
+    t.test(bill_length_mm ~ species)
 )
-summary(model2)
-lm.beta(model2)
+with(
+    subset(penguins, species == "Adelie" | species == "Gentoo"),
+    t.test(bill_length_mm ~ species)
+)
+with(
+    subset(penguins, species == "Gentoo" | species == "Chinstrap"),
+    t.test(bill_length_mm ~ species)
+)
 
-anova(model1, model2)  # Vergleich beider Modelle
+with(
+    subset(penguins, species == "Adelie" | species == "Chinstrap"),
+    t.test(bill_depth_mm ~ species)
+)
+with(
+    subset(penguins, species == "Adelie" | species == "Gentoo"),
+    t.test(bill_depth_mm ~ species)
+)
+with(
+    subset(penguins, species == "Gentoo" | species == "Chinstrap"),
+    t.test(bill_depth_mm ~ species)
+)
+
+pairwise.t.test(penguins$bill_length_mm, penguins$species)
+pairwise.t.test(penguins$bill_depth_mm, penguins$species)
 ```
 
 
 ## Übung 3
 
 ```{r}
-library(car)  # für dwt, vif
-
-# Kollinearität
-vif(model2)
-
-# Unabhängigkeit der Residuen
-dwt(model2)
-
-# Normalverteilung Residuen
-plot(model2, which=2)
-
-# Linearität und Varianzhomogenität
-plot(model2, which=1)
-
-# Punkte mit großem Einfluss
-plot(model2, which=5)
+t.test(extra ~ group, data=sleep, paired=TRUE)
 ```
 
-
-## Übung 4
-
-```r
-influence.measures(model2)
-```
-
-```r
-# oder mit einzelnen Funktionen
-dfbeta(model2)
-cooks.distance(model2)
-resid(model2)
-rstandard(model2)
-rstudent(model2)
-dffits(model2)
-hatvalues(model2)
-```
-
-```{r}
-# Anzahl rstandard > 3
-sum(rstandard(model2) > 3)
-
-# Anzahl rstandard < -3
-sum(rstandard(model2) < -3)
-
-# Relativer Anteil an |rstandard| > 2
-sum(abs(rstandard(model2)) > 2) / nrow(aggression)
-```
+Die mittlere Differenz beträgt −1.58, das 95%-Konfidenzintervall erstreckt sich von −2.46 bis −0.7.

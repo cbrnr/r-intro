@@ -1,8 +1,8 @@
 ---
-title: "9 – Lösungen"
+title: "10 – Lösungen"
 subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2022-12-01
+date: 2022-12-15
 format: html
 engine: knitr
 highlight-style: github
@@ -17,135 +17,140 @@ published-title: "Veröffentlicht"
 
 ## Übung 1
 
+Durch Probieren mit verschiedenen Werten für $N$ erhält man $N = 62$ für $p < 0.05$. Dies bedeutet, dass eine Korrelation von $r = 0.25$ signfikant ist bei $N = 62$ oder größer.
+
 ```{r}
-#| warning: false
-library(ggplot2)
-library(palmerpenguins)
+r = 0.25
+N = 62
+alpha = 0.05
+z = atanh(r)
+se_z = 1 / sqrt(N - 3)
+(p = 2 * (1 - pnorm(z / se_z)))
+```
 
-qplot(
-    x=bill_length_mm,
-    y=bill_depth_mm,
-    data=penguins,
-    geom=c("point", "smooth"),
-    method="lm",
-    formula="y ~ x",
-    main="Penguins",
-    xlab="Bill length (mm)",
-    ylab="Bill depth (mm)"
-)
+Wiederum durch Probieren erhält man $N = 1538$ (mindestens) damit $p < 0.05$. Man sieht, dass selbst eine sehr kleine Korrelation ab einer gewissen Stichprobengröße signifikant wird.
 
-ggplot(data=penguins, mapping=aes(x=bill_length_mm, y=bill_depth_mm)) +
-    geom_point() +
-    geom_smooth(method="lm", formula="y ~ x") +
-    labs(title="Penguins", x="Bill length (mm)", y="Bill depth (mm)")
+```{r}
+r = 0.05
+N = 1538
+alpha = 0.05
+z = atanh(r)
+se_z = 1 / sqrt(N - 3)
+(p = 2 * (1 - pnorm(z / se_z)))
 ```
 
 
 ## Übung 2
 
 ```{r}
-#| warning: false
-qplot(
-    x=bill_length_mm,
-    y=bill_depth_mm,
-    color=species,
-    data=penguins,
-    geom=c("point", "smooth"),
-    method="lm",
-    formula="y ~ x",
-    main="Penguins",
-    xlab="Bill length (mm)",
-    ylab="Bill depth (mm)"
-)
-
-ggplot(
-    data=penguins,
-    mapping=aes(x=bill_length_mm, y=bill_depth_mm, color=species)
-) +
-    geom_point() +
-    geom_smooth(method="lm", formula="y ~ x") +
-    labs(title="Penguins", x="Bill length (mm)", y="Bill depth (mm)")
+x = c(8, 1, -4, 5, 6, 10, 9)
+y = c(-2, -5, -6, 0, 3, 7, 10)
+cor.test(x, y, conf.level=0.99)
 ```
 
-Übung 1 und 2 illustrieren das sogenannte [Simpson-Paradoxon](https://en.wikipedia.org/wiki/Simpson%27s_paradox): es kann sein, dass sich eine Korrelation über die gesamten Daten im Vorzeichen ändert, wenn man Korrelationen für Subgruppen berechnet.
+Die Pearson-Korrelation beträgt 0.8166, der zugehörige $p$-Wert ist 0.02501. Bei $\alpha=0.99$ ist dies nicht signifikant. Das 99%-Konfidenzintervall lautet $(-0.1405326, 0.9847508)$. Es beinhaltet den Wert 0, daher ist die Korrelation nicht signifikant.
 
 
 ## Übung 3
 
 ```{r}
-qplot(age, circumference, data=Orange, geom=c("point", "line"), color=Tree)
+#| message: false
+library(readr)
+birds = read_csv("birds.csv")
 
-ggplot(Orange, aes(age, circumference, color=Tree)) + geom_point() + geom_line()
+library(Hmisc)
+rcorr(as.matrix(birds[, 3:12]))
 ```
 
 
 ## Übung 4
 
 ```{r}
-ggplot(mpg, aes(displ, hwy)) +
-    geom_point() +
-    geom_smooth(method="lm", formula="y ~ x")
+cor(mtcars[, c("mpg", "disp", "hp")], method="pearson")
+cor(mtcars[, c("mpg", "disp", "hp")], method="spearman")
 ```
 
-Die Effizient (`hwy` ist Miles per Gallon) sinkt mit steigendem Hubraum – also Fahrzeuge mit größerem Hubraum schaffen weniger Meilen pro Gallone Kraftstoff. Dies bedeutet, dass Fahrzeuge mit großem Hubraum mehr Kraftstoff verbrauchen als Fahrzeuge mit kleinem Hubraum.
+```{r}
+library(ggplot2)
+ggplot(mtcars, aes(mpg, disp)) +
+    geom_point() +
+    geom_smooth(method=lm, formula=y ~ x) +
+    ggtitle(paste("r² =", round(cor(mtcars$mpg, mtcars$disp), 2)))
+ggplot(mtcars, aes(mpg, hp)) +
+    geom_point() +
+    geom_smooth(method=lm, formula=y ~ x) +
+    ggtitle(paste("r² =", round(cor(mtcars$mpg, mtcars$hp), 2)))
+ggplot(mtcars, aes(disp, hp)) +
+    geom_point() +
+    geom_smooth(method=lm, formula=y ~ x) +
+    ggtitle(paste("r² =", round(cor(mtcars$disp, mtcars$hp), 2)))
+```
+
+Oder mit `GGally::ggpairs()`:
+
+```{r}
+#| message: false
+library(GGally)
+ggpairs(mtcars, columns=c("mpg", "disp", "hp"), diag=list(continuous="barDiag"))
+```
 
 
 ## Übung 5
 
 ```{r}
-mpg$l100km = 235 / mpg$hwy
-
-qplot(
-    factor(cyl),
-    l100km,
-    data=mpg,
-    geom="boxplot",
-    xlab="Cylinders",
-    ylab="Fuel consumption (l/100km)"
-)
-
-ggplot(mpg, aes(factor(cyl), l100km)) +
-    geom_boxplot() +
-    xlab("Cylinders") +
-    ylab("Fuel consumption (l/100km)")
+#| message: false
+pm10 = read_csv("pm10.csv")
+pm10$Datum = as.Date(pm10$Datum, format="%d.%m.%y")
 ```
 
-Der Kraftstoffverbrauch steigt mit der Zylinderanzahl.
+
+### Zeitlicher Verlauf von PM10 für beide Messorte
+
+Mit `ggplot2` sollten die Daten zuerst ins Long-Format umgewandelt werden:
+
+```{r}
+library(tidyr)
+pm10_long = pivot_longer(pm10, -Datum, names_to="Ort", values_to="pm10")
+ggplot(pm10_long, aes(Datum, pm10, color=Ort)) +
+    geom_line() +
+    ylab("Feinstaub PM10") +
+    xlab("") +
+    theme(legend.position=c(0.925, 0.925))
+```
+
+Mit Base-Plotting können die Ausgangsdaten direkt verwendet werden:
+
+```{r}
+plot(pm10$Datum, pm10$Petersgasse, type="l", col="blue", xlab="", ylab="PM10")
+lines(pm10$Datum, pm10$DonBosco, col="red")
+```
+
+### Zusammenhang der beiden Messstationen
+
+```{r}
+#| warning: false
+ggplot(pm10, aes(Petersgasse, DonBosco)) +
+    geom_point() +
+    geom_smooth(method=lm, formula=y ~ x) +
+    ggtitle("Feinstaub PM10")
+
+(r = cor.test(pm10$Petersgasse, pm10$DonBosco))
+r$estimate**2  # erklärte Varianz
+
+# fehlende Werte (NA) müssen explizit ausgeschlossen werden
+cor(pm10$Petersgasse, pm10$DonBosco, use="complete.obs")
+```
 
 
 ## Übung 6
 
-Es gibt in der Spalte `displ` nur diskrete Werte, d.h. im Plot sieht man viele Punkte nicht, da sie überlagert sind. Eine Lösung ist, statt `geom_point()` die Funktion `geom_jitter()` zu verwenden – diese verschiebt die Punkte leicht in zufällige Richtungen mit dem Ergebnis, dass man dann im Plot alle Punkte sieht. Nachteilig ist, dass die Punkte nicht mehr exakt die tatsächlichen Daten repräsentieren. Eine andere Möglichkeit wäre, die Punkte transparent zu zeichnen (mit dem Argument `alpha`), sodass überlappende Punkte dunkler dargestellt werden.
-
 ```{r}
-ggplot(mpg, aes(displ, hwy)) +
-    geom_jitter() +
-    geom_smooth(method="lm", formula="y ~ x")
-
-ggplot(mpg, aes(displ, hwy)) +
-    geom_point(alpha=0.25) +
-    geom_smooth(method="lm", formula="y ~ x")
-```
-
-
-## Übung 7
-
-Die Ebenen werden in der Reihenfolge hinzugefügt, in der sie auch im Code aufscheinen. Im gegebenen Beispiel sind die Punkte deswegen unter der Geraden, weil sie zuerst gezeichnet werden:
-
-```{r}
-library(tibble)
-
-df = tibble(x=1:10, y=1:10)
-
-ggplot(data=df, mapping=aes(x=x, y=y)) +
-    geom_point(size=4) +
-    geom_smooth(method="lm", formula="y ~ x")
-```
-
-Wir können also stattdessen zuerst die Gerade zeichnen und dann erst die Punkte:
-
-```{r}
-ggplot(data=df, mapping=aes(x=x, y=y)) +
-    geom_smooth(method="lm", formula="y ~ x") +
-    geom_point(size=4)
+library(palmerpenguins)
+cor(penguins$bill_length_mm, penguins$bill_depth_mm, use="complete.obs")
+by(
+    penguins[, c("bill_length_mm", "bill_depth_mm")],
+    penguins$species,
+    cor,
+    use="complete.obs"
+)
 ```

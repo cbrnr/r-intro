@@ -1,8 +1,8 @@
 ---
-title: "12 – Lineare Regression (2)"
+title: "13 – Mittelwertvergleich"
 subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2023-01-19
+date: 2023-01-26
 format: html
 engine: knitr
 highlight-style: github
@@ -15,346 +15,365 @@ author-title: "Autor"
 published-title: "Veröffentlicht"
 ---
 
-## Multiple lineare Regression
+## Versuchsdesigns
 
-Die multiple lineare Regression ist eine Erweiterung der einfachen linearen Regression auf Situationen mit mehreren Prädiktoren. Das grundlegende Konzept bleibt aber unverändert, wir verwenden nach wie vor folgende allgemeine Modellgleichung (siehe vorige Einheit):
+Nicht nur die Beziehungen zwischen zwei (oder mehreren) Variablen sind in Studien interessant – wie wir gesehen haben, kann man solche (lineare) Beziehungen mit Korrelationen oder Regressionsmodellen beschreiben. Oft ist man aber auch an mittleren Unterschieden zwischen zwei (oder mehreren) Gruppen interessiert.
 
-$$y_i = \hat{y}_i + \varepsilon_i$$
+Im Gegensatz zu *korrelativen* Studiendesigns kann man mit *experimentellen* Studiendesigns auch auf Kausalität rückschließen. In experimentellen Designs ist man daher oft an Mittelwertsunterschieden zwischen zwei (oder mehreren) Gruppen interessiert, welche auf eine konkrete Behandlung zurückzuführen sind.
 
-Das Modell mit $n$ Prädiktoren $x_{1}$, $x_{2}$, $\ldots$, $x_{n}$ wird nun wie folgt formuliert:
+:::{.callout-tip}
+Korrelative Studien nennt man auch [Beobachtungsstudien](https://de.wikipedia.org/wiki/Beobachtungsstudie) – hier erhebt man Daten, ohne Manipulationen entsprechend der Forschungshypothese vorzunehmen. Experimentelle Studien nennt man auch [Interventionsstudien](https://de.wikipedia.org/wiki/Interventionsstudie) – hier manipuliert man gezielt eine oder mehrere Variablen, die für die Forschungshypothese relevant sind (z.B. eine Gruppe erhält ein Medikament, eine andere ein Placebo).
+:::
 
-$$y_i = (b_0 + b_1 x_{1i} + b_2 x_{2i} + \ldots + b_n x_{ni}) + \varepsilon_i$$
-
-Jeder Prädiktor erhält also ein eigenes Gewicht bzw. einen eigenen Regressionskoeffizienten. Die Koeffizienten werden mittels Least Squares wieder so berechnet, dass die entstehende Regressions(hyper)ebene den mittleren quadratischen Fehler minimiert.
-
-
-### Quadratsummen und Model Fit
-
-Die Quadratsummen SST, SSM und SSR werden analog wie bei der einfachen Regression berechnet. Wieder kann man $R^2$ berechnen, welches den Anteil der Varianz in der abhängigen Variable angibt, welche durch das Modell erklärt wird. Je höher dieser Wert ist, desto besser kann das Modell die Daten beschreiben. Im Gegensatz zur einfachen Regression kann man aus $R^2$ nicht die Pearson-Korrelation zwischen den einzelnen Variablen berechnen, sondern die Korrelation zwischen den vorhergesagten Werten und den tatsächlich beobachteten Werten.
-
-Je mehr Prädiktoren man hinzufügt, desto größer wird $R^2$, d.h. man kann durch Erhöhen der Anzahl der Prädiktoren diesen Wert fast beliebig erhöhen. Dies liefert dann natürlich keine verlässliche Aussage mehr über die Modellqualität. Deswegen gibt es Kriterien, welche die Anzahl der Prädiktoren berücksichtigen, z.B. das [Akaike Information Criterion (AIC)](https://en.wikipedia.org/wiki/Akaike_information_criterion) oder das [Bayesian Information Criterion (BIC)](https://en.wikipedia.org/wiki/Bayesian_information_criterion). Bei gegebenen Daten kann man so verschiedene Modelle vergleichen; jenes Modell mit dem kleinsten Wert von AIC (oder BIC) ist zu bevorzugen. Weiters kann anstelle von $R^2$ auch das [adjustierte Bestimmtheitsmaß](https://de.wikipedia.org/wiki/Bestimmtheitsma%C3%9F#Das_adjustierte_Bestimmtheitsma%C3%9F) verwendet werden, welches eine bessere Schätzung der vom Modell erklärten Varianz bei mehreren Prädiktoren liefert.
-
-
-## Überprüfen der Datenpunkte
-
-Ein gegebenes Modell sollte man immer darauf überprüfen, wie gut es die gemessenen Daten tatsächlich beschreibt. Lineare Modelle können sehr sensitiv auf einzelne Datenpunkte reagieren, welche nicht zum generellen Trend der Daten passen. Einen tatsächlichen Einfluss auf das Modell üben solche Ausreißer aber nur aus, wenn sie weit weg vom Mittelwert der Prädiktoren liegen – man bezeichnet diesen potentiellen Einfluss jedes Datenpunkts als *Leverage*.
-
-Kritisch sind also jene Punkte, welche einen potentiellen hohen Einfluss haben (hohe Leverage) und gleichzeitig nicht zum generellen Trend der Daten passen, also Ausreißer sind. Die folgende Grafik veranschaulicht die drei möglichen Situationen. Dabei sind die Ausgangsdatenpunkte schwarz dargestellt und die zugehörige Regressionsgerade ist schwarz strichliert. Der zusätzliche fünfte Datenpunkt ist rot dargestellt, und die Regressionsgerade durch alle fünf Datenpunkte ist ebenfalls rot. Durch einen einzigen zusätzlichen Datenpunkt ändert sich also das ursprüngliche Modell mehr oder weniger stark (von schwarz strichliert auf rot durchgezogen).
-
-```{r}
-#| echo: false
-x = c(5:8)
-y = x + rnorm(length(x), 0, 0.1)
-l = lm(y ~ x)
-
-# low leverage outlier (= uninfluential)
-x1 = 6.5
-y1 = 3
-l1 = lm(c(y, y1) ~ c(x, x1))
-
-# high leverage non-outlier (= uninfluential)
-x2 = 12
-y2 = 11.8
-l2 = lm(c(y, y2) ~ c(x, x2))
-
-# high leverage outlier (= influential)
-x3 = 14
-y3 = 8
-l3 = lm(c(y, y3) ~ c(x, x3))
-
-par(mfrow=c(1, 3), mar=c(1, 1, 1, 1))
-plot(x, y, pch=19, col=rgb(0, 0, 0, 1), xlim=c(2, 14), ylim=c(2, 14), xaxt="n", yaxt="n", ann=FALSE, bty="n")
-abline(l, lty=2)
-points(x1, y1, pch=19, col="red")
-abline(l1, col="red")
-title("low leverage outlier")
-
-plot(x, y, pch=19, col=rgb(0, 0, 0, 1), xlim=c(2, 14), ylim=c(2, 14), xaxt="n", yaxt="n", ann=FALSE, bty="n")
-abline(l, lty=2)
-points(x2, y2, pch=19, col="red")
-abline(l2, col="red")
-title("high leverage non-outlier")
-
-plot(x, y, pch=19, col=rgb(0, 0, 0, 1), xlim=c(2, 14), ylim=c(2, 14), xaxt="n", yaxt="n", ann=FALSE, bty="n")
-abline(l, lty=2)
-points(x3, y3, pch=19, col="red")
-abline(l3, col="red")
-title("high leverage outlier")
-```
-
-Je weniger Datenpunkte vorhanden sind, desto größer ist der Einfluss von Ausreißern auf das lineare Modell. Die folgende Grafik veranschaulicht die Auswirkung eines Ausreißers für drei verschiedene Stichprobengrößen. Man erkennt, dass ein Ausreißer das Modell nur wenig verändert wenn sehr viele Datenpunkte vorhanden sind. Wenn es aber nur wenig Datenpunkte gibt, kann ein einziger Ausreißer das Modell stark verändern.
-
-```{r}
-#| echo: false
-outlier = function(n=100, alpha=0.5)
-{
-    x = runif(n, 5, 15)
-    y = x + rnorm(length(x), 0, 0.2)
-    l = lm(y ~ x)
-    plot(x, y, pch=19, col=rgb(0, 0, 0, alpha), xlim=c(5, 20), ylim=c(5, 20), axes=FALSE, xlab="", ylab="")
-    abline(l, lty=2)
-
-    x_o = 20
-    y_o = 5
-    points(x_o, y_o, pch=19, col="red")
-    l_o = lm(c(y, y_o) ~ c(x, x_o))
-    abline(l_o, col="red")
-
-    mtext(bquote(italic(n) == .(n)), side=1, family="serif")
-}
-
-par(mfrow=c(1, 3), mar=c(1, 3, 1, 3))
-outlier(1000, alpha=0.15)
-outlier(100)
-outlier(10, alpha=0.8)
-```
-
-
-### Ausreißer
-
-Ein Ausreißer ist ein Datenpunkt, welcher sich von den restlichen Daten unterscheidet. Im Falle eines linearen Modells hat ein Ausreißer bei gegebenen $x$-Werten einen ungewöhnlichen $y$-Wert. Ausreißer erkennt man z.B. an deren Residuen – diese sind typischerweise (aber nicht immer) sehr groß. Es ist allerdings sinnvoll, wenn man sich standardisierte Residuen zu jedem Datenpunkt ansieht (d.h. Residuen geteilt durch ihre Standardabweichung[^1]). Die Funktion `rstandard()` berechnet standardisierte Residuen.
-
-[^1]: Manchmal werden die standardisierten Residuen auch als studentisierte Residuen bezeichnet, da die Standardabweichung der Population im Allgemeinen nicht bekannt ist und durch die Standardabweichung der Stichprobe geschätzt wird.
-
-Zur Beurteilung des Modells anhand standardisierter Residuen gibt es folgende Daumenregeln:
-
-* Standardisierte Residuen größer als 3 sind wahrscheinlich Ausreißer und sollten gesondert behandelt werden.
-* Wenn mehr als 1% der Daten standardisierte Residuen größer als 2,5 haben ist das ein Hinweis darauf, dass das Modell die Daten schlecht beschreibt.
-* Wenn mehr als 5% der Daten standardisierte Residuen größer als 2 haben ist das ebenfalls ein Hinweis darauf, dass das Modell die Daten schlecht beschreibt.
-
-Alternativ zu den standardisierten Residuen kann man auch studentisierte Residuen mittels Leave-One-Out berechnen. Dies bedeutet, dass bei der Berechnung der Standardabweichung das Modell ohne den betreffenden Datenpunkt verwendet wird (dieser Datenpunkt wird ausgelassen). Diese studentisierten Residuen werden so für jeden Datenpunkt berechnet. In R verwendet man die Funktion `rstudent()` dafür.
-
-
-### Datenpunkte mit hoher Leverage
-
-Datenpunkte, die weit vom Mittelwert der Prädiktorvariablen entfernt sind, können ein lineares Modell potentiell stark beeinflussen. Ein Maß für den potentiellen Einfluss ist die sogenannte Leverage $h_i$ (wird auch als Hat-Wert bezeichnet). Die Leverage beschreibt den Einfluss eines Messpunktes $y_i$ auf alle vom Modell vorhergesagten Werte. Für $n$ Messpunkte gilt:
-
-$$\frac{1}{n} \leq h_i \leq 1$$
-
-Der durchschnittliche Wert für ein Modell mit $k$ Prädiktoren ist:
-$$\frac{k + 1}{n}$$
-
-In R kann man die Funktion `hatvalues()` benutzen, um die Leverage für jeden Datenpunkt zu berechnen.
-
-
-### Datenpunkte mit großem Einfluss
-
-Tatsächlichen Einfluss auf ein Modell haben Datenpunkte die gleichzeitig Ausreißer sind und hohe Leverage haben.
-
-Man kann solche Datenpunkte erkennen, indem man einmal ein Modell mit allen Daten und ein zweites Modell mit allen Daten außer den zu untersuchenden Datenpunkt rechnet (Leave-One-Out). Wenn der untersuchte Datenpunkt keinen großen Einfluss auf das Modell ausübt, dann sind die beiden Modelle sehr ähnlich. Folgende konkrete Maße kann man hier für jeden Datenpunkt berechnen:
-
-* DFBeta (`dfbeta()`) beschreibt den Unterschied zwischen den Regressionskoeffizienten, welche aus einem Modell mit allen Daten und einem Modell ohne den jeweiligen Messpunkt berechnet wurden. Der Nachteil ist, dass man hier nicht einen einzigen Wert bekommt, den man leicht beurteilen könnte, sondern einen Wert für jeden Regressionskoeffizienten.
-* Cook's Distanz (`cooks.distance()`) berechnet aus den Unterschieden der einzelnen Koeffizienten einen Wert.
-* Angepasste vorhergesagte Werte (`dffits()`) beschreiben den Unterschied zwischen den vorhergesagten Werten, welche durch die zwei verschiedenen Modelle berechnet wurden (dieses Maß ist auch als DFFit bekannt).
-
-
-## Modellannahmen
-
-Um mit einem linearen Regressionsmodell Vorhersagen auf ungesehene Daten machen zu können, müssen folgende Annahmen erfüllt sein:
-
-* Die abhängige Variable muss intervallskaliert sein.
-* Die unabhängigen Variablen (Prädiktoren) müssen intervallskaliert (oder nominalskaliert in zwei Kategorien) sein.
-* Die Prädiktoren müssen Varianzen ungleich 0 haben.
-* Es darf keine Multikollinearität bestehen, d.h. zwei oder mehrere Prädiktoren dürfen nicht linear voneinander abhängig sein. Dies kann z.B. mit der VIF-Statistik (Variance Inflation Factor) überprüft werden.
-* Homoskedastizität, d.h. die Varianz der Residuen muss konstant über die Werte der Prädiktoren sein (Varianzhomogenität).
-* Die Residuen müssen normalverteilt sein.
-* Die Residuen müssen unabhängig voneinander sein (kann z.B. mit dem Durbin-Watson-Test überprüft werden).
-* Die Beziehung zwischen unabhängigen Variablen und abhängiger Variable muss linear sein.
+Prinzipiell unterscheidet man bei experimentellen Designs zwischen *abhängigen* und *unabhängigen* Designs. In unabhängigen Designs sind die Individuen in den einzelnen Gruppen voneinander unabhängig (z.B. verschiedene Personen). In abhängigen Designs sind die Individuen zwar innerhalb der Gruppen unabhängig, aber zwischen den Gruppen besteht eine Abhängigkeit (z.B. befinden sich dieselben Personen in mehreren Gruppen, man spricht auch von einem Messwiederholungs-Design). Abhängige Designs berücksichtigen individuelle Unterschiede, die für die Behandlung nicht relevant sind, und können daher kleinere Unterschiede besser detektieren als unabhängige Designs. Dies lässt sich an einem Beispiel veranschaulichen.
 
 
 ## Beispiel
 
-Im folgenden Beispiel sehen wir uns wie in der letzten Einheit die Anzahl der Verkäufe von Musikalben in Abhängigkeit der Höhe des Werbebudgets an. Zusätzlich gibt es jetzt aber zwei weitere Prädiktoren, nämlich die Anzahl an Airplay-Stunden im größten nationalen Radiosender und die Attraktivität der Bandmitglieder. Wir beginnen mit dem Laden der Daten [`sales2.dat`](sales2.dat):
+In einem (fiktiven) Versuch wurde die Angst vor Spinnen auf einer Skala von 0 bis 100 gemessen (größere Werte stehen für höhere Angst). Es wurden 24 Personen in zwei Gruppen untersucht (also 12 Personen pro Gruppe). Einer Gruppe wurden Fotos von Spinnen gezeigt, der anderen Gruppe wurden echte Spinnen gezeigt. Wir beginnen mit dem Importieren der Datei [`spider.dat`](spider.dat):
 
 ```{r}
 #| message: false
 library(readr)
-album2 = read_tsv("sales2.dat")
+(spider = read_tsv("spider.dat"))
 ```
 
-Fitten wir nun ein lineares Regressionsmodell. Als Vergleichsmodell berechnen wir zuerst wieder eine einfache Regression mit dem Prädiktor Werbebudget:
+Die mittleren Angstwerte für die beiden Gruppen betragen:
 
 ```{r}
-model1 = lm(sales ~ adverts, data=album2)
+by(spider$Anxiety, spider$Group, mean)
 ```
 
-Zusätzliche Faktoren kann man nun in einem zweiten Modell einfach durch den `+`-Operator hinzufügen:
-
-```{r}
-model2 = lm(sales ~ adverts + airplay + attract, data=album2)
-```
-
-Anschließend können wir uns die zusammengefassten Ergebnisse der beiden Modelle anzeigen lassen:
-
-```{r}
-summary(model1)
-summary(model2)
-```
-
-Da das erste Modell identisch mit jenem aus der vorigen Einheit ist, kennen wir die Ergebnisse bereits. Wenden wir uns daher dem zweiten Modell zu. $R^2$ ist hier 0.6647, das heißt das Modell kann nun 66% der Varianz erklären. Im Vergleich zum ersten Modell mit nur einem Prädiktor ist das eine Steigerung um 33%, d.h. die beiden Prädiktoren Airplay und Attraktivität können zusätzliche Varianz im Ausmaß von 33% erklären.
-
-Die Regressionskoeffizienten werden ebenfalls in der Ausgabe dargestellt. Wir können daher das lineare Modell wie folgt schreiben:
-
-$$y = b_0 + b_1 x_1 + b_2 x_2 + b_3 x_3 = -26.613 + 0.085 \cdot x_1 + 3.367 \cdot x_2 + 11.086 \cdot x_3$$
-
-Hier stehen $b_0$ für den Intercept (d.h. jener Wert von $y$, wenn alle Prädiktoren 0 sind), $b_1$ für das Werbebudget `adverts`, $b_2$ für die Airplay-Stunden `airplay` und $b_3$ für die Attraktivität `attract`.
-
-Die Regressionskoeffizienten geben Auskunft, um wie viel sich die abhängige Variable ändert, wenn man einen Prädiktor um eine Einheit erhöht und dabei alle anderen Prädiktoren konstant hält. Dies bedeutet im Beispiel:
-
-* Wenn `adverts` um eine Einheit erhöht wird, dann erhöht sich `sales` um 0,085 Einheiten. D.h. wenn man 1000 EUR mehr für Werbung ausgibt, verkauft man um 85 Alben mehr.
-* Wenn `airplay` um eine Einheit erhöht wird, dann erhöht sich `sales` um 3,37 Einheiten. D.h. wenn man das Album um eine Stunde mehr im Radio spielt, verkauft man um 3367 Alben mehr.
-* Wenn `attract` um eine Einheit erhöht wird, dann erhöht sich `sales` um 11,086 Einheiten (d.h. 11086 zusätzliche Alben).
-
-Für jeden Regressionskoeffizienten wird ein $t$-Test gerechnet, welcher angibt, ob sich der Koeffizient signifikant von 0 unterscheidet (d.h. ob er signifikant zum Modell beiträgt). Die Größe der $t$-Statistik lässt auf den Einfluss der Koeffizienten schließen, d.h. `adverts` und `airplay` haben einen ähnlich großen Einfluss auf das Modell, wo hingegen `attract` einen geringeren Einfluss hat.
-
-Oft ist es hilfreich, nicht nur die Regressionskoeffizienten zu analysieren, sondern auch die standardisierten Regressionskoeffizienten. Diese kann man berechnen, in dem man zuerst alle Variablen standardisiert und danach das lineare Modell berechnet. Standardisierte Variablen haben einen Mittelwert von 0 und eine Standardabweichung von 1. Man könnte die Standardisierung daher relativ einfach selbst vornehmen, in dem man für jede Variable zuerst deren Mittelwert subtrahiert und danach durch deren Standardabweichung dividiert.
-
-:::{.callout-tip}
-Die Funktion `scale()` kann verwendet werden, um die Spalten eine Data Frames zu standardisieren. Diese liefert aber immer eine Matrix zurück, d.h. wenn man ein Data Frame bzw. Tibble standardisieren möchte, muss man danach noch `as.data.frame()` bzw. `as_tibble()` (aus dem Paket `tibble`) anwenden.
-:::
-
-Alternativ kann man dazu auch *nachträglich* die Funktion `lm.beta()` aus dem `lm.beta`-Paket benutzen:
-
-```{r}
-library(lm.beta)
-lm.beta(model2)
-```
-
-Die standardisierten Regressionskoeffizienten werden üblicherweise mit $\beta_i$ bezeichnet. Da alle Variablen nun in Standardabweichungen gemessen werden, kann man diese direkt miteinander vergleichen. Man sieht im Beispiel also folgendes:
-
-* Wenn `adverts` um eine Standardabweichung erhöht wird (485.655 EUR), dann erhöht sich `sales` um 0,511 Standardabweichungen (41.240 Alben).
-* Wenn `airplay` um eine Standardabweichung erhöht wird (12,270), dann erhöht sich `sales` um 0,512 Standardabweichungen (41.320 Alben).
-* Wenn `attract` um eine Standardabweichung erhöht wird (1,395), dann erhöht sich `sales` um 0,192 Standardabweichungen (15.490 Alben).
-
-Konfidenzintervalle für die (nicht standardisierten) Regressionskoeffizienten erhält man mit der Funktion `confint()` (standardmäßig werden 95%-Intervalle berechnet):
-
-```{r}
-confint(model2)
-```
-
-Zwei (oder mehrere) Modelle können mit der $F$-Statistik verglichen werden. Der $F$-Wert, der bei der zusammenfassenden Beschreibung eines Modells angezeigt wird, vergleicht das Modell immer mit dem einfachsten Mittelwertmodell. Möchte man das Modell mit einem anderen Modell vergleichen, ist zu beachten, dass `model2` eine Erweiterung von `model1` sein muss, d.h. `model2` muss alle Terme von `model1` beinhalten plus eventuelle zusätzliche Faktoren. In R gibt man hier folgenden Befehl ein:
-
-```{r}
-anova(model1, model2)
-```
-
-Der $F$-Wert beträgt also 96,447 und ist signifikant, d.h. das zweite Modell ist signifikant besser als das erste.
+Im Durchschnitt ist die Angst also in der Gruppe, die echte Spinnen sieht, größer.
 
 
-### Datenpunkte mit großem Einfluss
+### Unabhängige Stichproben
 
-Um die diversen Ausreißerstatistiken für jeden einzelnen Wert übersichtlich beurteilen zu können, kann man die Werte mit folgenden Funktionen berechnen:
+Die Daten in `spider` liegen im Long-Format vor, d.h. dieses Format würde gut für ein unabhängiges Design passen, da sich so jede Person in einer eigenen Zeile befindet.
 
-* `resid()`: Residuen
-* `rstandard()`: Standardisierte Residuen
-* `rstudent()`: Studentisierte Residuen (berechnet mit Leave-One-Out)
-* `hatvalues()`: Leverage
-* `dfbeta()`: Unterschied der Regressionskoeffizienten mittels Leave-One-Out
-* `cooks.distance()`: Cook's Distanz
-* `dffits()`: Unterschied im vorhergesagtem Wert mittels Leave-One-Out
-
-Am bequemsten ist die Funktion `influence.measures()`, welche mehrere Ausreißerstatistiken übersichtlich aufbereitet ausgibt.
-
-```{r}
-influence.measures(model2)
-```
-
-Um festzustellen, welche Punkte standardisierte Residuen (betragsmäßig) größer als 3 haben (also entweder größer als 3 oder kleiner als −3 sind), kann man folgenden Befehl verwenden:
-
-```{r}
-which(abs(rstandard(model2)) > 3)
-```
-
-Nur ein Datenpunkt (nämlich der 169.) ist hier also auffällig.
-
-
-### Modellannahmen
-
-Mulitkollinearität kann mit der VIF-Statistik beurteilt werden; in R kann man dazu die Funktion `vif()` aus dem `car`-Paket verwenden.
+Stellen wir nun die Mittelwerte beider Gruppen in einer Grafik gegenüber. Die schwarzen Punkte zeigen die Gruppenmittelwerte, die Fehlerbalken stellen die 95%-Konfidenzintervalle dar, und die roten Punkte sind die Angstwerte der einzelnen Personen:
 
 ```{r}
 #| message: false
-library(car)
-vif(model2)
+#| echo: false
+library(dplyr)
+spider_stats = spider %>%
+    group_by(Group) %>%
+    summarize(N=length(Anxiety),
+              mean=mean(Anxiety),
+              sd=sd(Anxiety),
+              se=sd/sqrt(N),
+              ci=se*qt(0.975, N-1))
+
+library(ggplot2)
+set.seed(1)
+theme_set(theme_minimal())
+ggplot(spider_stats, aes(Group, mean)) +
+    geom_jitter(
+        data=spider,
+        mapping=aes(x=Group, y=Anxiety),
+        alpha=0.5,
+        height=0.5,
+        width=0.05,
+        color="red"
+    ) +
+    geom_point(size=4) +
+    geom_errorbar(aes(ymin=mean-ci, ymax=mean+ci), width=0.1) +
+    xlab("") +
+    ylab("Anxiety") +
+    ggtitle("Unabhängiges Design")
 ```
 
-Der größte VIF-Wert sollte nicht größer als 10 sein. Der durchschnittliche VIF sollte nicht wesentlich größer als 1 sein, was man wie folgt überprüfen kann:
+Man erkennt, dass die Konfidenzintervalle stark überlappen, d.h. der Unterschied zwischen den beiden Mittelwerten ist wahrscheinlich nicht signifikant.
+
+
+### Abhängige Stichproben
+
+Bei abhängigen Gruppen (also beispielsweise aus einem Design mit Messwiederholung, in welchem jede der 12 Personen in beiden Gruppen war) bringt man die Daten zuerst am besten ins Wide-Format:
 
 ```{r}
-mean(vif(model2))
+#| message: false
+library(tidyr)
+spider_w = pivot_wider(
+    cbind(id=rep(1:12, 2), spider),
+    names_from=Group,
+    values_from=Anxiety
+)
+spider_w$id = NULL
+names(spider_w) = c("picture", "real")
+spider_w
 ```
 
-Wenn man den `plot()`-Befehl auf das Modell anwendet, werden vier diagnostische Plots erstellt.
+Anschließend berechnen wir angepasste Werte, welche die individuellen Unterschiede der Personen berücksichtigen. Dazu fügen wir zunächst eine Spalte mit der mittleren Angst jeder Person hinzu.
 
 ```{r}
-#| fig-width: 12
-#| fig-height: 8
-par(mfrow=c(2, 2), cex=0.75)
-plot(model2)
+spider_w$mean = rowMeans(spider_w)
+spider_w
 ```
 
-Im Plot links oben sind die vorhergesagten Werte gegen die Residuen aufgetragen. Hier kann man die Linearitätsannahme (die rote Linie sollte immer ungefähr gleich Null sein) sowie die Homoskedastizitätsannahme (die Streuung der Datenpunkte sollte sich entlang der x-Achse nicht ändern) überprüfen. Der Plot links unten ist ähnlich, nur ist hier statt den (absoluten) Residuen die Wurzel aus dem Betrag der standardisierten Residuen aufgetragen. Auch hier lässt sich beurteilen, ob die Annahme der Varianzhomogenität erfüllt ist oder nicht. Im Plot rechts oben lässt sich die Normalverteilungsannahme der Residuen mit einem QQ-Plot überprüfen. Im Plot rechts unten sind Punkte mit großem Einfluss dargestellt (gemessen an der Leverage); Cook's Distanz ist ebenfalls im Plot ersichtlich.
-
-Die Annahme über die Unabhängigkeit der Residuen kann mit dem Durbin-Watson-Test `dwt()` überprüft werden.
+Nun berechnen wir die Differenz der Personenmittelwerte zum Gesamtmittelwert aller Daten – dies ist der Korrekturfaktor für Designs mit Messwiederholung.
 
 ```{r}
-dwt(model2)
+spider_w$adj = mean(c(spider_w$picture, spider_w$real)) - spider_w$mean
+spider_w
 ```
 
-In diesem Beispiel kann man davon ausgehen, dass die Residuen unabhängig sind, da aufgrund von $p\approx 0.7$ die Nullhypothese nicht verworfen werden kann.
+Damit können wir die einzelnen Angstwerte pro Person korrigieren.
+
+```{r}
+spider_w$picture_adj = spider_w$picture + spider_w$adj
+spider_w$real_adj = spider_w$real + spider_w$adj
+```
+
+Dadurch haben wir erreicht, dass die korrigierten Werte nun für alle Personen denselben Mittelwert ergeben, d.h. personenspezifische Unterschiede werden berücksichtigt und nur der Unterschied zwischen den Gruppen wird untersucht:
+
+```{r}
+rowMeans(spider_w[, c("picture_adj", "real_adj")])
+```
+
+Die Daten sehen nun so aus:
+```{r}
+spider_w
+```
+
+Die angepassten Werte können wir wieder in einer Grafik darstellen:
+
+```{r echo=FALSE}
+spider_w_stats = data.frame(Group=c("Picture", "Real Spider"),
+                             N=c(length(spider_w$picture_adj), length(spider_w$real_adj)),
+                             mean=c(mean(spider_w$picture_adj), mean(spider_w$real_adj)),
+                             sd=c(sd(spider_w$picture_adj), sd(spider_w$real_adj)))
+spider_w_stats = spider_w_stats %>%
+    mutate(se=sd/sqrt(N), ci=qt(0.975, N-1)*se)
+set.seed(1)
+ggplot(spider_w_stats, aes(Group, mean)) +
+    geom_jitter(
+        data=spider,
+        mapping=aes(x=Group, y=Anxiety),
+        alpha=0.5,
+        height=0.5,
+        width=0.05,
+        color="red"
+    ) +
+    geom_point(size=4) +
+    geom_errorbar(aes(ymin=mean-ci, ymax=mean+ci), width=0.1) +
+    xlab("") +
+    ylab("Anxiety") +
+    ggtitle("Abhängiges Design")
+```
+
+Aus der Grafik ist ersichtlich, dass die Gruppenmittelwerte (schwarze Punkte) gleich wie im unabhängigen Design sind. Die Konfidenzintervalle sind jedoch aufgrund des abhängigen Designs wesentlich kleiner geworden. In diesem Beispiel überlappen sie jetzt nicht mehr, was auf einen signifikanten Unterschied zwischen den Gruppenmittelwerten schließen lässt.
+
+
+## Der _t_-Test
+
+Der _t_-Test wird verwendet, um die Mittelwerte zweier Gruppen miteinander zu vergleichen. Hier gibt es zwei Varianten, nämlich einen _t_-Test für abhängige Gruppen und einen für unabhängige Gruppen. Ersteren nennt man auch gepaarten oder abhängigen _t_-Test, letzteren nennt man unabhängigen _t_-Test.
+
+Die _t_-Statistik ist wie viele Statistiken aufgebaut: sie setzt die Varianz, die vom Modell erklärt werden kann in Beziehung zur Varianz, die *nicht* vom Modell erklärt werden kann (also kurz Effekt geteilt durch Fehler). Im Falle des _t_-Tests ist das Modell der Unterschied der beiden Mittelwerte minus der erwarteten Differenz, und der Fehler wird durch den Standardfehler der Mittelwertsdifferenz geschätzt:
+
+$$t = \frac{\text{Beobachtete Differenz} - \text{Erwartete Differenz}}{\text{Standardfehler der Differenz}}$$
+
+Die Differenz bezieht sich immer auf die Differenz zwischen den Mittelwerten. Die erwartete Differenz (unter der Annahme der Nullhypothese) ist in den meisten Fällen gleich Null. Die Vorgehensweise beim Testen ist also wie folgt:
+
+* Zwei Stichproben werden erhoben und deren Mittelwerte berechnet. Die beiden Mittelwerte können sich wenig oder stark voneinander unterscheiden.
+* Wenn beide Stichproben aus derselben Population stammen, sollten die Mittelwerte ungefähr gleich sein. Dies ist die Annahme der Nullhypothese (es gibt keinen Unterschied). Große Differenzen können in seltenen Fällen aber zufällig auftreten.
+* Wir vergleichen den beobachteten Unterschied mit dem erwarteten Unterschied, und wir verwenden den Standardfehler als Maß für die Variabilität der Stichprobenmittelwerte.
+* Wenn der beobachtete Unterschied größer als der erwartete ist, kann das zwei Gründe haben:
+    1. Es gibt keinen Unterschied und der beobachtete Unterschied ist zufällig aufgetreten, d.h. zumindest eine Stichprobe ist nicht repräsentativ für ihre Population.
+    2. Die beiden Stichproben kommen aus unterschiedlichen Populationen, d.h. beide Stichproben sind repräsentativ für ihre Population. Das bedeutet, dass es also tatsächlich einen Unterschied gibt!
+
+Je größer der Unterschied bzw. die _t_-Statistik, desto mehr spricht für den zweiten Fall (d.h. für einen tatsächlichen Effekt).
+
+
+## Der _t_-Test als lineares Modell
+
+Wir haben den _t_-Test bereits bei der linearen Regression kennengelernt. Hier wird er verwendet, um zu überprüfen, ob Regressionskoeffizienten signifikant unterschiedlich von 0 sind. Wie wir außerdem soeben erfahren haben, wird der _t_-Test auch angewendet, um Mittelwerte zu vergleichen. Tatsächlich ist es so, dass der _t_-Test als lineares Modell interpretiert werden kann. Er kann also wieder mit folgender allgemeinen Form beschrieben werden:
+
+$$y_i = \hat{y}_i + \varepsilon_i$$
+
+Ein _t_-Test kann in diesem Kontext mit abhängigen und unabhängigen Variablen formuliert werden. Die abhängige Variable ist die Variable, deren Gruppenmittelwerte man vergleichen möchte (z.B. Angst vor Spinnen). Die unabhängige Variable codiert die Gruppen. Man verwendet dann für den _t_-Test das bekannte Modell:
+
+$$\hat{y}_i = b_0 + b_1 \cdot x_i$$
+
+Am besten illustriert man die Funktionsweise mit einem Beispiel. Dazu verwenden wir wieder die Daten über die Angst vor Spinnen. Erstellen wir nun ein lineares Regressionsmodel, welches `Anxiety` durch `Group` vorhersagt:
+
+```{r}
+model = lm(Anxiety ~ Group, data=spider)
+summary(model)
+```
+
+:::{.callout-note}
+Hier ist anzumerken, dass die kategorische Variable `Group` von R automatisch mit 0 und 1 codiert wird (und zwar alphabetisch, d.h. die Stufe `Picture` entspricht 0 und die Stufe `Real Spider` entspricht 1). Man spricht hier von Dummy-Coding.
+:::
+
+Wenn man sich nun die Regressionskoeffizienten ansieht, bemerkt man, dass der Intercept $b_0 = 40$ dem Mittelwert der Gruppe 0 (`Picture`) entspricht. Die Steigung $b_1 = 7$ entspricht dem Unterschied der Mittelwerte zwischen den beiden Gruppen ($47 - 40 = 7$). Der _t_-Test für diesen Koeffizienten testet, ob die Steigung signifikant von Null verschieden ist. Er testet somit also auch, ob der Unterschied zwischen den Mittelwerten von 7 signifikant von Null verschieden ist. Man sieht, dass dieser Test nicht signifikant ist ($p=0.107$), d.h. man kann daraus schließen, dass sich die Mittelwerte nicht signifikant voneinander unterscheiden.
+
+Grafisch kann man die Situation wie folgt darstellen:
+```{r}
+library(ggplot2)
+ggplot(spider, aes(Group, Anxiety)) +
+    geom_point(alpha=0.5) +
+    geom_smooth(method="lm", aes(group=1), formula="y~x") +
+    xlab("")
+```
+
+Die Regressionsgerade verbindet beide Gruppenmittelwerte und die Steigung beträgt 7.
+
+Wir können dies durch Einsetzen der Gruppenmittelwerte in die Gleichung des linearen Modells überprüfen. Wir beginnen mit der Gruppe 0, also `Picture`. Wir wissen, dass der Mittelwert dieser Gruppe gleich 40 ist.
+
+```{r}
+mean(spider$Anxiety[spider$Group=="Picture"])
+```
+
+Wir setzen in folgende Gleichung ein:
+$$\hat{y}_i = b_0 + b_1 \cdot x_i$$
+Für $\hat{y}_i$ verwenden wir den Gruppenmittelwert der `Picture`-Gruppe, und das zugehörige $x_i$ ist also $x_{\text{Picture}}$ (codiert mit 0).
+$$\bar{y}_{\text{Picture}} = b_0 + b_1 \cdot x_{\text{Picture}}$$
+$$40 = b_0 + b_1 \cdot 0$$
+$$b_0 = 40$$
+
+Man sieht also, dass der Intercept $b_0$ dem Gruppenmittelwert der ersten Gruppe (mit Codierung 0) entspricht. Setzen wir anschließend die Werte für die Gruppe `Real Spider` ein. Hier beträgt der Gruppenmittelwert 47:
+
+```{r}
+mean(spider$Anxiety[spider$Group=="Real Spider"])
+```
+
+$$\bar{y}_{\text{Real Spider}} = b_0 + b_1 \cdot x_{\text{Real Spider}}$$
+$$47 = 40 + b_1 \cdot 1$$
+$$b_1 = 7$$
+
+Die Steigung der Geraden entspricht also genau dem Unterschied der beiden Mittelwerte.
+
+
+## Annahmen
+
+Da der _t_-Test eine lineare Regression ist, setzt er auch dieselben Annahmen wie diese voraus:
+
+* Die Schätzfunktion ist normalverteilt (beim abhängigen _t_-Test ist die Schätzfunktion der Differenzen gemeint).
+* Die Daten sind intervallskaliert.
+* Beim unabhängigen _t_-Test müssen die Daten in den Gruppen voneinander unabhängig sein.
+* Beim unabhängigen _t_-Test muss Varianzhomogenität gegeben sein. Praktisch ist diese Voraussetzung aber nicht notwendig, da standardmäßig ein verbessertes Verfahren angewendet wird, welches Verletzungen dieser Annahme automatisch korrigiert ([Welch _t_-Test](https://de.wikipedia.org/wiki/Zweistichproben-t-Test#Welch-Test)).
+
+
+## Unabhängiger _t_-Test in R
+
+Die _t_-Statistik berechnet sich also durch das Verhältnis erklärter Varianz (Spalte `Estimate`) zu nicht erklärter Varianz (Spalte `Std. Error`). Beim unabhängigen _t_-Test vergleicht man so die Mittelwerte beider Bedingungen:
+
+$$t = \frac{(\bar{x}_1 - \bar{x}_2) - (\mu_1 - \mu_2)}{\text{Standardfehler}}$$
+
+Die Nullhypothese besagt dass $\mu_1 = \mu_2$, daher vereinfacht sich die Gleichung zu:
+
+$$t = \frac{\bar{x}_1 - \bar{x}_2}{\text{Standardfehler}}$$
+
+Der Standardfehler der Differenz beider Gruppen ist bei gleicher Gruppengröße wie folgt definiert:
+
+$$\text{SE} = \sqrt{\frac{s_1^2}{N_1} + \frac{s_2^2}{N_2}}$$
+
+Daher lautet die Gleichung für den _t_-Test:
+
+$$t = \frac{\bar{x}_1 - \bar{x}_2}{\sqrt{\frac{s_1^2}{N_1} + \frac{s_2^2}{N_2}}}$$
+
+Wenn die beiden Gruppen unterschiedlich viele Personen enthalten, muss man den Standardfehler über die gepoolte Varianz berechnen:
+
+$$s_p^2 = \frac{(N_1 - 1) s_1^2 + (N_2 - 1) s_2^2}{N_1 + N_2 - 2}$$
+
+Daraus ergibt sich dann für den _t_-Test mit $N_1 + N_2 - 2$ Freiheitsgraden:
+
+$$t = \frac{\bar{x}_1 - \bar{x}_2}{\sqrt{\frac{s_p^2}{N_1} + \frac{s_p^2}{N_2}}}$$
+
+In R kann man _t_-Tests mit der Funktion `t.test()` durchführen. Der Aufruf ist auf zwei verschiedene Arten möglich. Eine Möglichkeit ist, die Funktion wie ein lineares Modell aufzurufen:
+
+```{r}
+model = t.test(Anxiety ~ Group, data=spider)
+model
+```
+
+Das erste Argument ist also eine Formel, deren linke Seite die Datenpunkte angibt (die Spalte `Anxiety` in diesem Beispiel). Die rechte Seite der Formel gibt die Gruppierungsspalte an (also hier `Group`). Damit man die Spaltennamen direkt verwenden kann, spezifiziert man noch `data=spider`, damit klar ist dass diese Spalten im Data Frame `spider` zu finden sind.
+
+Ausgegeben wird der Wert der _t_-Statistik, die Freiheitsgrade (standardmäßig korrigiert nach Welch, was die Voraussetzung der Varianzhomogenität überflüssig macht), sowie der _p_-Wert. Weiters gibt es noch das 95%-Konfidenzintervall für die _t_-Statistik sowie die Gruppenmittelwerte.
+
+Die zweite Möglichkeit die Funktion aufzurufen verwendet zwei Argumente; hier übergibt man also die Daten der beiden Gruppen in Vektoren als jeweils separate Argumente:
+
+```{r}
+(model = t.test(spider_w$picture, spider_w$real))
+```
+
+Das Ergebnis ist aber immer dasselbe, egal wie die Funktion aufgerufen wird. Der Unterschied zwischen den Gruppenmittelwerten ist nicht signifikant.
+
+Die Effektgröße kann man aus dem Wert von $t$ in eine Korrelation $r$ umrechnen:
+
+$$r = \sqrt{\frac{t^2}{t^2 + \text{df}}}$$
+
+Im Beispiel ist die Effektgröße $r$ also:
+
+```{r}
+t = model$statistic[[1]]
+df = model$parameter[[1]]
+r = sqrt(t^2 / (t^2 + df))
+round(r, 3)
+```
+
+
+## Abhängiger _t_-Test in R
+
+Der abhängige (oder gepaarte) _t_-Test funktioniert ebenso, sieht sich aber die Mittelwerte der einzelnen Differenzen an anstelle der Differenz der Mittelwerte:
+
+$$t = \frac{\bar{D} - \mu_D}{s_D / \sqrt{N}}$$
+
+Unter der Nullhypothese ist $\mu_D = 0$:
+$$t = \frac{\bar{D}}{s_D / \sqrt{N}}$$
+
+Für den abhängigen _t_-Test verwendet man wieder die Funktion `t.test()` und setzt das Argument `paired=TRUE`. Wieder gibt es zwei Möglichkeiten des Aufrufs, je nachdem, in welchem Format die Daten vorliegen.
+
+```{r}
+(model = t.test(Anxiety ~ Group, data=spider, paired=TRUE))
+```
+
+```{r}
+(model = t.test(spider_w$picture, spider_w$real, paired=TRUE))
+```
+
+Das Ergebnis ist diesmal signifikant mit $p=0.03098$. Dies entspricht unseren Überlegungen mit den unterschiedlich großen Konfidenzintervallen von abhängigen und unabhängigen Versuchsdesigns. Abhängige Designs können also kleinere Unterschiede detektieren.
+
+Die Effektgröße kann man wieder aus $t$ mit der Formel oben in $r$ umwandeln:
+
+```{r}
+t = model$statistic[[1]]
+df = model$parameter[[1]]
+r = sqrt(t^2 / (t^2 + df))
+round(r, 3)
+```
+
+Es handelt sich also in diesem Fall um einen großen Effekt.
+
+
+## Ausblick
+
+Zusammenfassend haben wir also gesehen, dass der Mittelwertsvergleich über den *t*-Test auf ein lineares Modell zurückgeführt werden kann. Möchte man mehr als zwei Mittelwerte vergleichen, kann man das lineare Modell mit mehreren Prädiktoren verwenden (Dummy-Coding). In der klassischen Varianzanalyse betrachtet man die *F*-Statistik, welche aber auch Teil der linearen Regression ist (sie misst die Güte des Modells) und dementsprechend auch in der Ausgabe aufscheint. Man kann also auch eine ANOVA als Spezialfall eines linearen Modells sehen. Um die vertrauten ANOVA-Tabellen denoch auch in R zu erhalten, kann man beispielsweise das Paket `ez` benutzen.
+
+Bei abhängigen Messungen kann man keine linearen Modelle rechnen, da eine der wichtigsten Voraussetzungen die Unabhängigkeit der Messpunkte ist. Sogenannte lineare gemischte Modelle (engl. *linear mixed models*) können aber mit diesen Abhängigkeiten umgehen und werden immer häufiger statt den klassischen Messwiederholungs-ANOVAs eingesetzt. Gemischte Modelle sind Verallgemeinerungen von linearen Modellen, oder umgekehrt sind lineare Modelle Spezialfälle von gemischten Modellen. Das Paket `lme4` hat sich in R als Standard zur Berechnung dieser Modelle durchgesetzt (bzw. die darauf aufbauenden Pakete `lmerTest` und `afex`).
 
 
 ## Übungen
 
 ### Übung 1
 
-Laden Sie die Daten aus der Datei `sales2.dat` wie in den Unterlagen gezeigt. Standardisieren Sie danach alle Variablen und berechnen Sie dann ein lineares Regressionsmodell. Vergleichen Sie die Regressionskoeffizienten mit den Ergebnissen der Funktion `lm.beta()`, welche auf ein Modell mit nicht standardisierten Daten angewendet werden kann.
+Das Paket `dplyr` beinhaltet den Datensatz `starwars` (aktivieren Sie das Paket um auf diesen Datensatz zugreifen zu können). Verwenden Sie diese Daten um herauszufinden, ob die weiblichen Charaktere signifikant kleiner sind als die männlichen (Spalte `height`). Verwenden Sie die Spalte `gender` um zwischen den Geschlechtern `"feminine"` und `"masculine"` zu unterscheiden. Verwenden Sie für Ihre Analyse ein Signifikanzniveau von 5% und geben Sie die Mittelwerte beider Gruppen an.
+
+Führen Sie auch einen Vergleich des Gewichtes (Spalte `mass`) durch (überprüfen Sie die Hypothese dass männliche Charaktere mehr wiegen als weibliche). Geben Sie auch hier die Mittelwerte beider Gruppen an.
+
+*Hinweis:* Verwenden Sie das Argument `alternative` von `t.test()`, um einen *einseitigen* Test durchzuführen.
 
 
 ### Übung 2
 
-Laden Sie den Datensatz [`aggression.dat`](aggression.dat), welcher (komplett erfundene) Daten über Aggressionen unter Kindern enthält. Es wurden 666 Kinder untersucht und folgende Variablen erhoben:
+Vergleichen Sie im `penguins`-Datensatz (aus dem Paket `palmerpenguins`), ob sich die Merkmale `bill_length_mm` bzw. `bill_depth_mm` zwischen den Spezies unterscheiden (führen Sie paarweise Vergleiche für jedes Merkmal durch). Berichten Sie die relevanten Statistiken, Signifikanzen und Effektgrößen (Korrelationskoeffizient *r*) für jeden *t*-Test.
 
-- Erziehungsstil (hoher Wert entspricht schlechtem Stil)
-- Computerspielen (hoher Wert entspricht viel Computerspielen)
-- Fernsehen (hoher Wert entspricht viel Fernsehen)
-- Ernährung (hoher Wert entspricht gesunder Ernährung)
-- Aggressionen der Geschwister (hoher Wert entspricht hoher Aggression)
-
-Von früheren Studien weiß man, dass Erziehungsstil sowie Aggressionen der Geschwister signifikante Prädiktoren für das Aggressionslevel eines Kindes sind.
-
-Stellen Sie zwei lineare Regressionsmodelle auf. Das erste soll nur die beiden Faktoren beinhalten, welche erwiesenermaßen einen Einfluss auf die Aggression haben. Das zweite Modell soll alle Faktoren beinhalten. Beantworten Sie anschließend folgende Punkte:
-
-1. Bestimmen Sie für beide Modelle das Bestimmtheitsmaß $R^2$ und geben Sie die Tabelle der Regressionskoeffizienten aus.
-2. Interpretieren Sie für beide Modelle getrennt die einzelnen Koeffizienten hinsichtlich Relevanz (hier sind standardisierte Koeffizienten hilfreich) und Signifikanz.
-3. Vergleichen Sie beide Modelle miteinander. Ist das zweite Modell eine signifikante Verbesserung zum ersten?
+Die Funktion `pairwise.t.test()` rechnet mehrere paarweise Vergleiche. Verwenden Sie diese Funktion (zusätzlich zu den einzeln gerechneten *t*-Tests von zuvor), um die Vergleiche durchzuführen. Mit dem Argument `p.adjust.method` können Sie außerdem die *p*-Werte korrigieren, weil mehrere Tests die Wahrscheinlichkeit eines falsch positiven Ergebnisses (der *t*-Test sagt "es gibt einen Unterschied" obwohl tatsächlich kein Unterschied besteht) erhöhen.
 
 
 ### Übung 3
 
-Überprüfen Sie für das zweite Modell (mit allen Prädiktoren) aus der vorigen Übung folgende Voraussetzungen:
+Laden Sie den Datensatz `sleep` (standardmäßig bei R dabei). Unterscheiden sich die beiden Gruppen (`group`) in der Anzahl an zusätzlichen Schlafstunden (`extra`)? Wenn ja, wie groß ist dieser Unterschied im Mittel? Geben Sie um den mittleren Unterschied auch ein 95%-Konfidenzintervall an.
 
-- Sind die unabhängigen Variablen kollinear (VIF)?
-- Sind die Residuen unabhängig (Durbin-Watson-Test)?
-- Sind die Residuen normalverteilt (QQ-Plot)?
-- Sind die Abhängigkeiten linear und ist die Varianz homogen (Plot Residuen vs. vorhergesagte Werte)?
-- Gibt es Datenpunkte mit großem Einfluss auf das Modell (Plot Residuen vs. Leverage)?
-
-*Hinweis:* Sehen Sie sich die Hilfe zur Funktion `plot.lm()` an (damit können Sie ein lineares Modell plotten und die Grafiken aus den letzten drei Fragen erstellen; mit dem Argument `which` können Sie sich die gewünschte Grafik herauspicken).
-
-
-### Übung 4
-
-Berechnen Sie für das zweite Modell aus dem vorigen Beispiel folgende diagnostische Statistiken für jeden Datenpunkt:
-
-1. Cook's Distanz
-2. Residuen
-3. Standardisierte Residuen
-4. Studentisierte Residuen
-5. DFBeta
-6. DFFit
-7. Leverage
-
-Finden Sie heraus, bei wie vielen Datenpunkten der Betrag der standardisierten Residuen größer als 3 ist (d.h. wie viele Datenpunkte haben standardisierte Residuen größer als 3 oder kleiner als −3). Wie viel Prozent der Daten haben standardisierte Residuen größer als 2 bzw. kleiner als −2?
-
-*Hinweise:* Die Funktion `nrow()` gibt die Anzahl der Zeilen eines Data Frames zurück. Die Funktion `abs()` berechnet den Absolutbetrag einer Zahl.
+*Hinweis:* Entnehmen Sie dem Hilfetext, ob Sie einen abhängigen oder unabhängigen *t*-Test rechnen müssen.

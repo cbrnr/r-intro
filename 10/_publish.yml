@@ -1,8 +1,8 @@
-- source: 10.qmd
+- source: 11.qmd
   quarto-pub:
-    - id: fb192b98-94af-4917-9141-f59bcf90024d
-      url: 'https://quartopub.com/sites/cbrnr/r-22w-10'
-- source: 10-solutions.qmd
+    - id: 64507e95-8f2f-411c-b8d8-419930c22c32
+      url: 'https://quartopub.com/sites/cbrnr/r-22w-11'
+- source: 11-solutions.qmd
   quarto-pub:
-    - id: 48f71e8c-64f7-414b-af24-43a1eb0ed0fc
-      url: 'https://quartopub.com/sites/cbrnr/r-22w-10-solutions'
+    - id: 042fa7e6-386c-481a-8687-a497b98f4e96
+      url: 'https://quartopub.com/sites/cbrnr/r-22w-11-solutions'

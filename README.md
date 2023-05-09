@@ -14,3 +14,7 @@ Die folgenden Unterlagen bieten eine kurze Einführung in die Grundlagen von R. 
 10. [Lineare Regression (1)](https://quartopub.com/sites/cbrnr/r-23s-10) ([Lösungen](https://quartopub.com/sites/cbrnr/r-23s-10-solutions))
 11. [Lineare Regression (2)](https://quartopub.com/sites/cbrnr/r-23s-11) ([Lösungen](https://quartopub.com/sites/cbrnr/r-23s-11-solutions))
 12. [Mittelwertvergleich](https://quartopub.com/sites/cbrnr/r-23s-12) ([Lösungen](https://quartopub.com/sites/cbrnr/r-23s-12-solutions))
+
+Die folgenden Zusatzmaterialien beinhalten optionale Themen, die aus Zeitgründen nicht in der Lehrveranstaltung behandelt werden, aber dennoch interessant sein könnten:
+
+1. [Grafiken mit ggplot2](https://cbrnr.quarto.pub/r-23s-a1/) ([Lösungen](https://cbrnr.quarto.pub/r-23s-a1-solutions/))
