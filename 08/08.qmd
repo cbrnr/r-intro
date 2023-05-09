@@ -1,5 +1,5 @@
 ---
-title: "8 – Grafiken (1)"
+title: "8 – Grafiken"
 subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
 date: 2023-05-15
@@ -17,7 +17,7 @@ published-title: "Veröffentlicht"
 
 ## Allgemeines
 
-In R gibt es mehrere Pakete, mit denen man Daten grafisch darstellen kann. Grafiken, welche mit unterschiedlichen Paketen erstellt wurden, lassen sich aber nicht (einfach) miteinander kombinieren. Deshalb entscheidet man sich typischerweise vor der Erstellung einer Grafik für das zu verwendende Grafikpaket. In dieser Lehrveranstaltung werden wir `graphics` und `ggplot2` näher kennenlernen.
+In R gibt es mehrere Pakete, mit denen man Daten grafisch darstellen kann. Grafiken, welche mit unterschiedlichen Paketen erstellt wurden, lassen sich aber nicht (einfach) miteinander kombinieren. Deshalb entscheidet man sich typischerweise vor der Erstellung einer Grafik für das zu verwendende Grafikpaket.
 
 Das `graphics`-Paket wird auch als Base-Plotting-System bezeichnet. Es ist Teil von R und muss nicht extra installiert werden. Das Base-Plotting-System eignet sich sehr gut für schnelle Visualisierungen – mit etwas Aufwand kann man aber auch schöne Grafiken für Publikationen erstellen.
 
