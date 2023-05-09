@@ -1,8 +1,8 @@
 ---
-title: "10 – Korrelation"
+title: "9 – Korrelation"
 subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2022-12-15
+date: 2023-05-23
 format: html
 engine: knitr
 highlight-style: github
@@ -259,36 +259,34 @@ library(readr)
 (exam = read_tsv("exam.dat"))
 ```
 
-Es ist hilfreich, die Daten zuerst einmal grafisch darzustellen. Für den Zusammenhang zwischen zwei Variablen bietet sich ein Scatterplot (inklusive Regressionsgeraden) an – so kann man die Korrelation direkt visualisieren.
+Es ist hilfreich, die Daten zuerst einmal grafisch darzustellen. Für den Zusammenhang zwischen zwei Variablen bietet sich ein Scatterplot (inklusive Regressionsgeraden) an – so kann man die Korrelation direkt visualisieren. Wir können eine solche Grafik zunächst einmal separat für alle drei Kombinationen erzeugen:
 
 ```{r}
-library(ggplot2)
-ggplot(exam, aes(Revise, Exam)) +
-    geom_point() +
-    geom_smooth(method=lm, formula=y ~ x)
-ggplot(exam, aes(Anxiety, Exam)) +
-    geom_point() +
-    geom_smooth(method=lm, formula=y ~ x)
-ggplot(exam, aes(Revise, Anxiety)) +
-    geom_point() +
-    geom_smooth(method=lm, formula=y ~ x)
+plot(exam$Revise, exam$Exam, pch=16, col=rgb(0, 0, 0, 0.5))
+abline(lm(exam$Exam ~ exam$Revise), col="blue")
+plot(exam$Anxiety, exam$Exam, pch=16, col=rgb(0, 0, 0, 0.5))
+abline(lm(exam$Exam ~ exam$Anxiety), col="blue")
+plot(exam$Revise, exam$Anxiety, pch=16, col=rgb(0, 0, 0, 0.5))
+abline(lm(exam$Anxiety ~ exam$Revise), col="blue")
 ```
 
 :::{.callout-tip}
-Bei mehreren Variablen (wie in diesem Beispiel) kann man die Funktion `ggpairs()` aus dem Paket `GGally` (ein Paket, welches `ggplot2` um einige praktische Funktionen erweitert) verwenden, um alle paarweisen Plots darzustellen:
-
-```{r}
-#| message: false
-library(GGally)
-ggpairs(exam, columns=2:4, diag=list(continuous="barDiag"))
-```
-
-Hier sieht man außerdem bereits die Korrelationen zwischen allen Paaren.
-
-Mit dem Base-Plotting-System kann man folgenden Befehl verwenden:
+Bei mehreren Variablen (wie in diesem Beispiel) kann man die Funktion `pairs()` verwenden, um alle paarweisen Scatterplots gleichzeitig darzustellen:
 
 ```{r}
 pairs(exam[, 2:4])
+```
+
+Möchte man auch Regressionsgeraden einzeichnen, kann man eine (anonyme) Funktion als `panel`-Argument übergeben:
+
+```{r}
+pairs(
+    exam[2:4],
+    panel=function(x, y) {
+        points(x, y, pch=16, col=rgb(0, 0, 0, 0.5))
+        abline(lm(y ~ x), col="blue")
+    }
+)
 ```
 :::
 
@@ -368,17 +366,10 @@ In dieser Einheit haben wir die Korrelation zwischen $x = (8, 1, -4, 5, 6, 10, 9
 
 ### Übung 3
 
-Für diese Übung verwenden wir Daten aus dem Artikel [Tomas Chamorro-Premuzic, Adrian Furnham, Andrew N. Christopher, Jeanette Garwood, G. Neil Martin. Birds of a feather: Students' preferences for lecturers' personalities as predicted by their own personality and learning approaches. Personality and Individual Differences, 44(4), 965-976, 2008.](http://dx.doi.org/10.1016/j.paid.2007.10.032)
-
-Berechnen Sie die Korrelationen zwischen den Persönlichkeitsmerkmalen N, E, O, A und C der Studenten und der Lehrenden mit den Daten in der Datei [`birds.csv`](birds.csv) (Tabelle 3 auf Seite 972 im Artikel). Vergleichen Sie die von Ihnen berechneten 25 Werte mit den Werten aus der Tabelle. Berechnen Sie auch die jeweiligen $p$-Werte.
-
-
-### Übung 4
-
 Verwenden Sie die Beispieldaten `mtcars` und analysieren Sie den Zusammenhang zwischen den Variablen `mpg`, `disp` und `hp`. Stellen Sie den Zusammenhang zwischen den Variablenpaaren grafisch dar, und berechnen Sie danach Pearson- und Spearman-Korrelationen!
 
 
-### Übung 5
+### Übung 4
 
 In der Datei [`pm10.csv`](pm10.csv) finden Sie die monatlichen Feinstaubwerte PM10 von zwei Messstationen in Graz im Zeitraum Februar 2006 bis Mai 2016. Führen Sie folgende Analysen durch:
 
@@ -387,18 +378,13 @@ In der Datei [`pm10.csv`](pm10.csv) finden Sie die monatlichen Feinstaubwerte PM
 
 Berechnen Sie abschließend die Pearson-Korrelation zwischen den Daten beider Messstationen inklusive Konfidenzinterval sowie $p$-Wert. Wie viel Varianz der einen Variable kann durch die andere Variable erklärt werden?
 
-*Anmerkungen:* Wandeln Sie die Spalte `Datum` nach dem Einlesen in einen Datums-Typ um. Für die gleichzeitige Darstellung der beiden Zeitverläufe können Sie mit Base-Plotting zuerst eine Liniengrafik einer Variable erzeugen und dann mit der Funktion `lines()` den zweiten Zeitverlauf mit einer anderen Farbe hinzufügen. Wenn Sie `ggplot2` verwenden möchten, dann ist es am einfachsten wenn Sie die Daten vorher ins Long-Format umwandeln:
-
-```r
-library(tidyr)
-pm10_long = pivot_longer(pm10, -Datum, names_to="Ort", values_to="pm10")
-```
-
-Danach können Sie die Grafik mit dem Data Frame `pm10_long` erstellen.
+:::{.callout-note}
+Wandeln Sie die Spalte `Datum` nach dem Einlesen in einen Datums-Typ um. Für die gleichzeitige Darstellung der beiden Zeitverläufe können Sie zuerst eine Liniengrafik einer Variable erzeugen und dann mit der Funktion `lines()` den zweiten Zeitverlauf mit einer anderen Farbe hinzufügen.
 
 Wenn Sie die Funktion `cor()` zur Berechnung der Korrelation zwischen den beiden Variablen verwenden möchten, können Sie fehlende Werte in jeder der beiden Variablen mit dem Argument `use="complete.obs"` ausschließen.
+:::
 
 
-### Übung 6
+### Übung 5
 
 Berechnen Sie die Korrelation der Schnabellänge (`bill_length_mm`) mit der Schnabeltiefe (`bill_depth_mm`) im Datensatz `penguins` (aus dem Paket `palmerpenguins`). Berechnen Sie außerdem diese Korrelation für jede Spezies separat! Was stellen Sie fest?

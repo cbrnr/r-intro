@@ -1,5 +1,5 @@
 ---
-title: "13 – Lösungen"
+title: "12 – Lösungen"
 subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
 date: 2023-01-26

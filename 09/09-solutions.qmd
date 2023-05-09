@@ -1,8 +1,8 @@
 ---
-title: "10 – Lösungen"
+title: "9 – Lösungen"
 subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2022-12-15
+date: 2023-05-23
 format: html
 engine: knitr
 highlight-style: github
@@ -54,71 +54,26 @@ Die Pearson-Korrelation beträgt 0.8166, der zugehörige $p$-Wert ist 0.02501. B
 ## Übung 3
 
 ```{r}
-#| message: false
-library(readr)
-birds = read_csv("birds.csv")
+cor(mtcars[, c("mpg", "disp", "hp")], method="pearson")
+cor(mtcars[, c("mpg", "disp", "hp")], method="spearman")
+```
 
-library(Hmisc)
-rcorr(as.matrix(birds[, 3:12]))
+```{r}
+pairs(subset(mtcars, select=c(mpg, disp, hp)))
 ```
 
 
 ## Übung 4
 
 ```{r}
-cor(mtcars[, c("mpg", "disp", "hp")], method="pearson")
-cor(mtcars[, c("mpg", "disp", "hp")], method="spearman")
-```
-
-```{r}
-library(ggplot2)
-ggplot(mtcars, aes(mpg, disp)) +
-    geom_point() +
-    geom_smooth(method=lm, formula=y ~ x) +
-    ggtitle(paste("r² =", round(cor(mtcars$mpg, mtcars$disp), 2)))
-ggplot(mtcars, aes(mpg, hp)) +
-    geom_point() +
-    geom_smooth(method=lm, formula=y ~ x) +
-    ggtitle(paste("r² =", round(cor(mtcars$mpg, mtcars$hp), 2)))
-ggplot(mtcars, aes(disp, hp)) +
-    geom_point() +
-    geom_smooth(method=lm, formula=y ~ x) +
-    ggtitle(paste("r² =", round(cor(mtcars$disp, mtcars$hp), 2)))
-```
-
-Oder mit `GGally::ggpairs()`:
-
-```{r}
 #| message: false
-library(GGally)
-ggpairs(mtcars, columns=c("mpg", "disp", "hp"), diag=list(continuous="barDiag"))
-```
-
-
-## Übung 5
-
-```{r}
-#| message: false
+library(readr)
 pm10 = read_csv("pm10.csv")
 pm10$Datum = as.Date(pm10$Datum, format="%d.%m.%y")
 ```
 
 
 ### Zeitlicher Verlauf von PM10 für beide Messorte
-
-Mit `ggplot2` sollten die Daten zuerst ins Long-Format umgewandelt werden:
-
-```{r}
-library(tidyr)
-pm10_long = pivot_longer(pm10, -Datum, names_to="Ort", values_to="pm10")
-ggplot(pm10_long, aes(Datum, pm10, color=Ort)) +
-    geom_line() +
-    ylab("Feinstaub PM10") +
-    xlab("") +
-    theme(legend.position=c(0.925, 0.925))
-```
-
-Mit Base-Plotting können die Ausgangsdaten direkt verwendet werden:
 
 ```{r}
 plot(pm10$Datum, pm10$Petersgasse, type="l", col="blue", xlab="", ylab="PM10")
@@ -128,11 +83,8 @@ lines(pm10$Datum, pm10$DonBosco, col="red")
 ### Zusammenhang der beiden Messstationen
 
 ```{r}
-#| warning: false
-ggplot(pm10, aes(Petersgasse, DonBosco)) +
-    geom_point() +
-    geom_smooth(method=lm, formula=y ~ x) +
-    ggtitle("Feinstaub PM10")
+with(pm10, plot(Petersgasse, DonBosco, pch=16, col=rgb(0, 0, 0, 0.5)))
+abline(lm(pm10$DonBosco ~ pm10$Petersgasse), col="blue")
 
 (r = cor.test(pm10$Petersgasse, pm10$DonBosco))
 r$estimate**2  # erklärte Varianz
@@ -142,7 +94,7 @@ cor(pm10$Petersgasse, pm10$DonBosco, use="complete.obs")
 ```
 
 
-## Übung 6
+## Übung 5
 
 ```{r}
 library(palmerpenguins)
