@@ -33,11 +33,9 @@ Eine Grafik in `ggplot2` besteht aus verschiedenen Ebenen. Jede Ebene beinhaltet
 ![](ggplot2.png)
 
 
-## Die `qplot()`-Funktion
+## Die `ggplot()`-Funktion
 
-Wenn man bereits mit dem Base-Plotting-System vertraut ist, kann man mit der `qplot()`-Funktion sehr ähnlich Grafiken mit dem `ggplot2`-Paket erstellen. Dies hat allerdings den Nachteil, dass man das volle Potenzial von `ggplot2` nicht ausschöpfen kann – für viele Standardgrafiken ist `qplot()` aber eine gute Wahl.
-
-Erstellen wir mit `qplot()` einige beispielhafte Grafiken. Dazu verwenden wir wieder den Datensatz `airquality`. Diese Daten beinhalten diverse Luftgütemessungen in New York im Zeitraum Mai bis September 1973 (siehe dazu `?airquality`). Es ist sinnvoll, wenn wir zunächst aus den beiden Spalten `Month` und `Day` eine neue Spalte namens `date` erzeugen:
+Erstellen wir einige beispielhafte Grafiken mit dem in R verfügbaren Datensatz `airquality`. Diese Daten beinhalten diverse Luftgütemessungen in New York im Zeitraum Mai bis September 1973 (siehe dazu `?airquality`). Es ist sinnvoll, wenn wir zunächst aus den beiden Spalten `Month` und `Day` eine neue Spalte namens `date` erzeugen:
 
 ```{r}
 airquality$date = as.Date(
@@ -46,88 +44,7 @@ airquality$date = as.Date(
 )
 ```
 
-Nun verwenden wir `qplot()`, um das Datum auf der x-Achse und die Ozonwerte auf der y-Achse grafisch darzustellen. Diese beiden Spalten kann man direkt als Argumente übergeben:
-
-```{r}
-#| warning: false
-qplot(airquality$date, airquality$Ozone)
-```
-
-Alternativ kann man, wenn sich die Daten ohnehin als Spalten in einem Data Frame befinden, die Funktion auch wie folgt aufrufen:
-
-```r
-qplot(date, Ozone, data=airquality)
-```
-
-Dies hat den Vorteil, dass man Spaltennamen direkt angeben kann und nicht `airquality$` voranstellen muss.
-
-Mit dem zusätzlichen Argument `geom="line"` wird eine Liniengrafik erzeugt:
-
-```{r}
-qplot(date, Ozone, data=airquality, geom="line")
-```
-
-Dementsprechend kann man zwei beliebige Spalten gegeneinander auftragen und man erhält einen Scatterplot:
-
-```{r}
-#| warning: false
-qplot(Wind, Ozone, data=airquality)
-```
-
-Wenn man einen Faktor übergibt (und das `y`-Argument weglässt), erhält man eine Balkengrafik mit den absoluten Häufigkeiten für jede Faktorstufe:
-
-```{r}
-qplot(factor(Month), data=airquality)
-```
-
-Übergibt man einen numerischen Vektor für das erste Argument (und lässt das `y`-Argument weg), erhält man ein Histogramm:
-
-```{r}
-#| warning: false
-#| message: false
-qplot(Ozone, data=airquality)
-```
-
-Man kann die Breite bzw. Anzahl der Bins auch manuell anpassen:
-
-```{r}
-#| warning: false
-qplot(Ozone, data=airquality, binwidth=25)
-qplot(Ozone, data=airquality, bins=13)
-```
-
-Mit dem Argument `geom` kann man die Art der Grafik explizit festlegen. Beispielsweise kann man mit `geom="boxplot"` einen Boxplot erzeugen.
-
-```{r}
-qplot(x=1, y=Temp, data=airquality, geom="boxplot")
-```
-
-Boxplots sind besonders sinnvoll, wenn man mehrere gleichzeitig darstellt:
-
-```{r}
-qplot(x=factor(Month), y=Temp, data=airquality, geom="boxplot")
-```
-
-Mit den Argumenten `main`, `xlab` und `ylab` kann man den Titel sowie die Achsenbeschriftungen anpassen:
-
-```{r}
-qplot(
-    x=factor(Month),
-    y=Temp,
-    data=airquality,
-    geom="boxplot",
-    main="Boxplots",
-    xlab="Month",
-    ylab="T (°F)"
-)
-```
-
-
-## Die `ggplot()`-Funktion
-
-Das eigentliche `ggplot2`-System wird durch die `qplot()`-Funktion größtenteils versteckt. Stößt man mit `qplot()` an die Grenzen, kann man mit der Grammar of Graphics das volle Potenzial von `ggplot2` nutzen – dazu verwendet man dann die `ggplot()`-Funktion.
-
-Hier ist nun der Aufbau einer Grafik von Bedeutung – d.h. es ist wichtig zu wissen, dass sich eine Grafik aus mehreren Ebenen zusammensetzt. Man beginnt immer mit der Spezifikation der Grafik, d.h. man legt das Data Frame fest, aus dem die darzustellenden Spalten stammen. Außerdem gibt man die Spalten aus diesem Data Frame an, die man durch Zuweisen gewünschter ästhetischer Eigenschaften plotten möchte.
+Eine Grafik in `ggplot2` beginnt immer mit der `ggplot()`-Funktion. Hier ist nun der Aufbau einer Grafik von Bedeutung – d.h. es ist wichtig zu wissen, dass sich eine Grafik aus mehreren Ebenen zusammensetzt. Man beginnt also immer mit der Spezifikation der Grafik, d.h. man legt das Data Frame fest, aus dem die darzustellenden Spalten stammen. Außerdem gibt man die Spalten aus diesem Data Frame an, die man durch Zuweisen gewünschter ästhetischer Eigenschaften plotten möchte.
 
 Im ersten Schritt legen wir also das Data Frame und die Spalten fest:
 
@@ -199,6 +116,13 @@ ggplot(data=airquality, mapping=aes(x=Wind, y=Ozone)) +
 Dieses lokale Mapping wird dem globalen Mapping (innerhalb von `ggplot()`) *hinzugefügt*.
 
 Es gibt eine große Anzahl an Elementen, aus denen man die unterschiedlichsten Grafiken zusammenbauen kann. Die [offizielle ggplot2-Website](http://ggplot2.tidyverse.org/reference/) hat eine vollständige Liste aller Geoms, Aesthetics und anderer Befehle. Im Folgenden sehen wir uns noch an, wie man Histogramme, Boxplots und Fehlerbalkenplots erzeugen kann.
+
+Eine Liniengrafik erzeugt man mit `geom_line()`:
+
+```{r}
+ggplot(data=airquality, mapping=aes(x=date, y=Ozone)) +
+    geom_line()
+```
 
 Ein Histogramm erstellt man mit `geom_histogram()`:
 

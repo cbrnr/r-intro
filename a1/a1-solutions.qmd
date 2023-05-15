@@ -22,18 +22,6 @@ published-title: "Veröffentlicht"
 library(ggplot2)
 library(palmerpenguins)
 
-qplot(
-    x=bill_length_mm,
-    y=bill_depth_mm,
-    data=penguins,
-    geom=c("point", "smooth"),
-    method="lm",
-    formula="y ~ x",
-    main="Penguins",
-    xlab="Bill length (mm)",
-    ylab="Bill depth (mm)"
-)
-
 ggplot(data=penguins, mapping=aes(x=bill_length_mm, y=bill_depth_mm)) +
     geom_point() +
     geom_smooth(method="lm", formula="y ~ x") +
@@ -45,19 +33,6 @@ ggplot(data=penguins, mapping=aes(x=bill_length_mm, y=bill_depth_mm)) +
 
 ```{r}
 #| warning: false
-qplot(
-    x=bill_length_mm,
-    y=bill_depth_mm,
-    color=species,
-    data=penguins,
-    geom=c("point", "smooth"),
-    method="lm",
-    formula="y ~ x",
-    main="Penguins",
-    xlab="Bill length (mm)",
-    ylab="Bill depth (mm)"
-)
-
 ggplot(
     data=penguins,
     mapping=aes(x=bill_length_mm, y=bill_depth_mm, color=species)
@@ -73,8 +48,6 @@ ggplot(
 ## Übung 3
 
 ```{r}
-qplot(age, circumference, data=Orange, geom=c("point", "line"), color=Tree)
-
 ggplot(Orange, aes(age, circumference, color=Tree)) + geom_point() + geom_line()
 ```
 
@@ -94,15 +67,6 @@ Die Effizient (`hwy` ist Miles per Gallon) sinkt mit steigendem Hubraum – also
 
 ```{r}
 mpg$l100km = 235 / mpg$hwy
-
-qplot(
-    factor(cyl),
-    l100km,
-    data=mpg,
-    geom="boxplot",
-    xlab="Cylinders",
-    ylab="Fuel consumption (l/100km)"
-)
 
 ggplot(mpg, aes(factor(cyl), l100km)) +
     geom_boxplot() +
