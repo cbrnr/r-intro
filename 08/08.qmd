@@ -277,6 +277,49 @@ text(15, 100, "Label")
 arrows(14.5, 90, 14, 75, length=0.1)
 ```
 
+## Darstellung von Rohdaten
+Es gibt viele Möglichkeiten, die Verteilung einer (numerischen) Variablen zu visualisieren (z.B. Histogramme und Boxplots). Prinzipiell sollte man zusätzlich zu zusammenfassenden Größen (wie Mittelwert, Median, Streuung, etc.) immer die Rohdaten in der Grafik darstellen. Dies ist mit der Funktion `stripchart()` möglich.
+
+Sehen wir uns als Beispiel die Spalte `airquality$Ozone` an. Man könnte in einer Balkengrafik nur deren Mittelwert darstellen, was aber nicht sehr informativ ist:
+
+```{r}
+barplot(mean(airquality$Ozone, na.rm=TRUE))
+```
+
+Etwas besser wäre ein Boxplot:
+
+```{r}
+boxplot(airquality$Ozone)
+```
+
+Am besten ist es, wenn man zusätzlich noch die Rohdaten in die Grafik aufnimmt (dies wird mit der Funktion `stripchart()` bewerkstelligt):
+
+```{r}
+boxplot(airquality$Ozone)
+stripchart(
+    airquality$Ozone,
+    vertical=TRUE,
+    add=TRUE,
+    pch=19,
+    col=rgb(0, 0, 0, 0.25)
+)
+```
+
+Beachten Sie, dass `add=TRUE` übergeben werden muss, wenn man die Punkte von `stripchart()` zu einer existierenden Grafik hinzufügen möchte (sonst wird eine neue Grafik erzeugt). Man könnte hier auch noch weitere Verbesserungen (wie z.B. `method="jitter"`) vornehmen.
+
+Ein komplettes Beispiel der Boxplots der einzelnen Monate würde wie folgt aussehen:
+
+```{r}
+with(airquality, boxplot(Ozone ~ Month))
+stripchart(
+    airquality$Ozone ~ airquality$Month,
+    vertical=TRUE,
+    add=TRUE,
+    pch=19,
+    col=rgb(0, 0, 0, 0.25)
+)
+```
+
 
 ## Mehrere Plots in einer Grafik
 
