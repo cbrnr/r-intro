@@ -2,7 +2,7 @@
 title: "10 – Lösungen"
 subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2023-01-12
+date: 2023-06-05
 format: html
 engine: knitr
 highlight-style: github
@@ -24,11 +24,15 @@ library(readr)
 
 (cars = read_csv("cars.csv"))
 
-ggplot(cars, aes(speed, dist)) +
-    geom_point() +
-    geom_smooth(method=lm, formula=y ~ x) +
-    xlab("Speed (miles per hour)") +
-    ylab("Distance (feet)")
+plot(
+    x=cars$speed,
+    y=cars$dist,
+    pch=21,
+    bg=rgb(0, 0, 0, 0.5),
+    xlab="Speed (miles per hour)",
+    ylab="Distance (feet)"
+)
+abline(lm(dist ~ speed, data=cars), col="blue", lwd=2)
 ```
 
 

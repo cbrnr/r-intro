@@ -2,7 +2,7 @@
 title: "10 – Lineare Regression (1)"
 subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2023-01-12
+date: 2023-06-05
 format: html
 engine: knitr
 highlight-style: github
@@ -104,7 +104,7 @@ yhat = m$fitted.values
 p_sst = ggplot(df, aes(x, y)) +
     geom_segment(aes(x=x, xend=x, y=y, yend=mean(y), color="error")) +
     geom_point() +
-    geom_segment(aes(x=min(x), xend=max(x), y=mean(y), yend=mean(y)), size=0.75) +
+    geom_segment(aes(x=min(x), xend=max(x), y=mean(y), yend=mean(y)), linewidth=0.75) +
     theme(legend.position="none", plot.title=element_text(hjust=0.5)) +
     ggtitle("SST")
 ```
@@ -114,7 +114,7 @@ p_sst = ggplot(df, aes(x, y)) +
 p_ssm = ggplot(df, aes(x, y)) +
     geom_segment(aes(x=x, xend=x, y=mean(y), yend=yhat, color="error")) +
     geom_point() +
-    geom_segment(aes(x=min(x), xend=max(x), y=mean(y), yend=mean(y)), size=0.75) +
+    geom_segment(aes(x=min(x), xend=max(x), y=mean(y), yend=mean(y)), linewidth=0.75) +
     geom_smooth(method=lm, formula=y ~ x, se=FALSE, color="black") +
     theme(legend.position="none", plot.title=element_text(hjust=0.5), axis.title.y=element_blank(), axis.text.y=element_blank()) +
     ggtitle("SSM")
@@ -125,7 +125,7 @@ p_ssm = ggplot(df, aes(x, y)) +
 p_ssr = ggplot(df, aes(x, y)) +
     geom_segment(aes(x=x, xend=x, y=y, yend=yhat, color="error")) +
     geom_point() +
-    geom_segment(aes(x=min(x), xend=max(x), y=mean(y), yend=mean(y)), size=0.75) +
+    geom_segment(aes(x=min(x), xend=max(x), y=mean(y), yend=mean(y)), linewidth=0.75) +
     geom_smooth(method=lm, formula=y ~ x, se=FALSE, color="black") +
     theme(legend.position="none", plot.title=element_text(hjust=0.5), axis.title.y=element_blank(), axis.text.y=element_blank()) +
     ggtitle("SSR")
@@ -215,15 +215,18 @@ library(readr)
 (album = read_tsv("sales1.dat"))
 ```
 
-Es ist anzunehmen, dass ein höheres Werbebudget zu höheren Verkaufszahlen führt. Neben der Berechnung diverser deskriptiver Statistiken (wird hier nicht durchgeführt) ist es wichtig, die Daten vor einer Regressionsanalyse grafisch darzustellen. Hier bietet sich ein Scatterplot mit überlagerter Regressionsgerade an:
+Es ist anzunehmen, dass ein höheres Werbebudget zu höheren Verkaufszahlen führt. Neben der Berechnung diverser deskriptiver Statistiken (wird hier nicht durchgeführt) ist es wichtig, die Daten vor einer Regressionsanalyse grafisch darzustellen. Hier bietet sich ein Scatterplot mit überlagerter Regressionsgerade an (das Argument von `abline()`, nämlich `lm(sales ~ adverts, data=album)`, ist das Regressionsmodell und wird gleich erklärt):
 
 ```{r}
-library(ggplot2)
-ggplot(album, aes(adverts, sales)) +
-    geom_point(alpha=0.5) +
-    geom_smooth(method=lm, formula=y ~ x) +
-    xlab("Adverts (1000 EUR)") +
-    ylab("Sales (1000)")
+plot(
+    x=album$adverts,
+    y=album$sales,
+    pch=21,
+    bg=rgb(0, 0, 0, 0.5),
+    xlab="Adverts (1000 EUR)",
+    ylab="Sales (1000)"
+)
+abline(lm(sales ~ adverts, data=album), col="blue", lwd=2)
 ```
 
 Es ist klar, dass eine positive Beziehung zwischen den beiden Variablen besteht (je größer das Werbebudget desto mehr Albenverkäufe). Außerdem ist die Steigung der Regressionsgeraden stark verschieden von Null, d.h. es ist zu erwarten, dass das Regressionsmodell signifikant ist.
