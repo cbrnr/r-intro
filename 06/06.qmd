@@ -131,6 +131,48 @@ round(
 )
 ```
 
+:::{.callout-note}
+In R kann man Dezimalzahlen auch in der sogenannten [wissenschaftlichen Notation](https://de.wikipedia.org/wiki/Wissenschaftliche_Notation) anschreiben. Hier verwendet man eine Darstellung mit Zehnerpotenzen, die man mit `e` eingeben kann – `e` kann man als "mal zehn hoch" lesen.
+
+```{r}
+1e0  # 1 mal 10 hoch 0
+```
+
+```{r}
+-4e0  # -4 mal 10 hoch 0
+```
+
+```{r}
+1e1  # 1 mal 10 hoch 1
+```
+
+```{r}
+3.5e2  # 3.5 mal 10 hoch 2
+```
+
+```{r}
+1e-2  # 1 mal 10 hoch -2
+```
+
+```{r}
+1e-15  # 1 mal 10 hoch -15 = 0.000000000000001
+```
+:::
+
+:::{.callout-tip}
+Möchte man die Ausgabe von Zahlen in der wissenschaftlichen Notation weitgehend vermeiden, kann man zu Beginn einer Sitzung folgende Option setzen:
+
+```r
+options(scipen=100)
+```
+
+Eine andere Möglichkeit ist es, Zahlen mit `format()` als normale Dezimalzahlen darzustellen. Dies ergibt aber immer einen Character-Vektor, erfordert dafür aber nicht das Ändern einer Option:
+
+```{r}
+format(1e-15, scientific=FALSE)
+```
+:::
+
 
 ### Gruppieren mit `by()`
 
