@@ -2,7 +2,7 @@
 title: "11 – Lineare Regression (2)"
 subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2023-01-19
+date: 2023-06-12
 format: html
 engine: knitr
 highlight-style: github
@@ -17,7 +17,7 @@ published-title: "Veröffentlicht"
 
 ## Multiple lineare Regression
 
-Die multiple lineare Regression ist eine Erweiterung der einfachen linearen Regression auf Situationen mit mehreren Prädiktoren. Das grundlegende Konzept bleibt aber unverändert, wir verwenden nach wie vor folgende allgemeine Modellgleichung (siehe vorige Einheit):
+Die multiple lineare Regression ist eine Erweiterung der einfachen linearen Regression auf Situationen mit mehreren Prädiktoren. Das grundlegende Konzept bleibt aber unverändert, wir verwenden nach wie vor folgende allgemeine Modellgleichung:
 
 $$y_i = \hat{y}_i + \varepsilon_i$$
 
@@ -25,12 +25,12 @@ Das Modell mit $n$ Prädiktoren $x_{1}$, $x_{2}$, $\ldots$, $x_{n}$ wird nun wie
 
 $$y_i = (b_0 + b_1 x_{1i} + b_2 x_{2i} + \ldots + b_n x_{ni}) + \varepsilon_i$$
 
-Jeder Prädiktor erhält also ein eigenes Gewicht bzw. einen eigenen Regressionskoeffizienten. Die Koeffizienten werden mittels Least Squares wieder so berechnet, dass die entstehende Regressions(hyper)ebene den mittleren quadratischen Fehler minimiert.
+Jeder Prädiktor erhält also ein eigenes Gewicht bzw. einen eigenen Regressionskoeffizienten. Die Koeffizienten werden mittels Least Squares wieder so berechnet, dass die entstehende "Gerade" (technisch spricht man hier von einer [Hyperebene](https://de.wikipedia.org/wiki/Hyperebene)) den mittleren quadratischen Fehler minimiert.
 
 
 ### Quadratsummen und Model Fit
 
-Die Quadratsummen SST, SSM und SSR werden analog wie bei der einfachen Regression berechnet. Wieder kann man $R^2$ berechnen, welches den Anteil der Varianz in der abhängigen Variable angibt, welche durch das Modell erklärt wird. Je höher dieser Wert ist, desto besser kann das Modell die Daten beschreiben. Im Gegensatz zur einfachen Regression kann man aus $R^2$ nicht die Pearson-Korrelation zwischen den einzelnen Variablen berechnen, sondern die Korrelation zwischen den vorhergesagten Werten und den tatsächlich beobachteten Werten.
+Die Quadratsummen SST, SSM und SSR werden analog wie bei der einfachen Regression berechnet. Wieder kann man $R^2$ berechnen, welches den Anteil der Varianz in der abhängigen Variable angibt, welche durch das Modell erklärt wird. Je höher dieser Wert ist, desto besser kann das Modell die Daten beschreiben. Im Gegensatz zur einfachen Regression kann man aus $R^2$ nicht die Pearson-Korrelation zwischen den einzelnen Variablen berechnen, sondern die Korrelation zwischen den *vorhergesagten* Werten und den tatsächlich *beobachteten* Werten.
 
 Je mehr Prädiktoren man hinzufügt, desto größer wird $R^2$, d.h. man kann durch Erhöhen der Anzahl der Prädiktoren diesen Wert fast beliebig erhöhen. Dies liefert dann natürlich keine verlässliche Aussage mehr über die Modellqualität. Deswegen gibt es Kriterien, welche die Anzahl der Prädiktoren berücksichtigen, z.B. das [Akaike Information Criterion (AIC)](https://en.wikipedia.org/wiki/Akaike_information_criterion) oder das [Bayesian Information Criterion (BIC)](https://en.wikipedia.org/wiki/Bayesian_information_criterion). Bei gegebenen Daten kann man so verschiedene Modelle vergleichen; jenes Modell mit dem kleinsten Wert von AIC (oder BIC) ist zu bevorzugen. Weiters kann anstelle von $R^2$ auch das [adjustierte Bestimmtheitsmaß](https://de.wikipedia.org/wiki/Bestimmtheitsma%C3%9F#Das_adjustierte_Bestimmtheitsma%C3%9F) verwendet werden, welches eine bessere Schätzung der vom Modell erklärten Varianz bei mehreren Prädiktoren liefert.
 
@@ -39,7 +39,7 @@ Je mehr Prädiktoren man hinzufügt, desto größer wird $R^2$, d.h. man kann du
 
 Ein gegebenes Modell sollte man immer darauf überprüfen, wie gut es die gemessenen Daten tatsächlich beschreibt. Lineare Modelle können sehr sensitiv auf einzelne Datenpunkte reagieren, welche nicht zum generellen Trend der Daten passen. Einen tatsächlichen Einfluss auf das Modell üben solche Ausreißer aber nur aus, wenn sie weit weg vom Mittelwert der Prädiktoren liegen – man bezeichnet diesen potentiellen Einfluss jedes Datenpunkts als *Leverage*.
 
-Kritisch sind also jene Punkte, welche einen potentiellen hohen Einfluss haben (hohe Leverage) und gleichzeitig nicht zum generellen Trend der Daten passen, also Ausreißer sind. Die folgende Grafik veranschaulicht die drei möglichen Situationen. Dabei sind die Ausgangsdatenpunkte schwarz dargestellt und die zugehörige Regressionsgerade ist schwarz strichliert. Der zusätzliche fünfte Datenpunkt ist rot dargestellt, und die Regressionsgerade durch alle fünf Datenpunkte ist ebenfalls rot. Durch einen einzigen zusätzlichen Datenpunkt ändert sich also das ursprüngliche Modell mehr oder weniger stark (von schwarz strichliert auf rot durchgezogen).
+Kritisch sind also jene Punkte, welche einen potentiellen hohen Einfluss haben (hohe Leverage) und gleichzeitig nicht zum generellen Trend der Daten passen, also Ausreißer sind. Die folgende Grafik veranschaulicht die drei möglichen Situationen. Dabei sind die vier Ausgangsdatenpunkte schwarz dargestellt und die zugehörige Regressionsgerade ist schwarz strichliert. Der zusätzliche fünfte Datenpunkt ist rot dargestellt, und die Regressionsgerade durch alle fünf Datenpunkte ist ebenfalls rot. Durch einen einzigen zusätzlichen Datenpunkt ändert sich also das ursprüngliche Modell mehr oder weniger stark (von schwarz strichliert auf rot durchgezogen).
 
 ```{r}
 #| echo: false
@@ -82,7 +82,7 @@ abline(l3, col="red")
 title("high leverage outlier")
 ```
 
-Je weniger Datenpunkte vorhanden sind, desto größer ist der Einfluss von Ausreißern auf das lineare Modell. Die folgende Grafik veranschaulicht die Auswirkung eines Ausreißers für drei verschiedene Stichprobengrößen. Man erkennt, dass ein Ausreißer das Modell nur wenig verändert wenn sehr viele Datenpunkte vorhanden sind. Wenn es aber nur wenig Datenpunkte gibt, kann ein einziger Ausreißer das Modell stark verändern.
+Je weniger Datenpunkte vorhanden sind, desto größer ist der Einfluss von Ausreißern auf das lineare Modell. Die folgende Grafik veranschaulicht die Auswirkung eines Ausreißers für drei verschiedene Stichprobengrößen. Man erkennt, dass ein Ausreißer das Modell nur wenig verändert, wenn sehr viele Datenpunkte vorhanden sind. Wenn es aber nur wenige Datenpunkte gibt, kann ein einziger Ausreißer das Modell stark verändern.
 
 ```{r}
 #| echo: false
@@ -118,11 +118,13 @@ Ein Ausreißer ist ein Datenpunkt, welcher sich von den restlichen Daten untersc
 
 Zur Beurteilung des Modells anhand standardisierter Residuen gibt es folgende Daumenregeln:
 
-* Standardisierte Residuen größer als 3 sind wahrscheinlich Ausreißer und sollten gesondert behandelt werden.
-* Wenn mehr als 1% der Daten standardisierte Residuen größer als 2,5 haben ist das ein Hinweis darauf, dass das Modell die Daten schlecht beschreibt.
-* Wenn mehr als 5% der Daten standardisierte Residuen größer als 2 haben ist das ebenfalls ein Hinweis darauf, dass das Modell die Daten schlecht beschreibt.
+* Standardisierte Residuen größer als 3 könnten Ausreißer sein und sollten gesondert behandelt werden.
+* Wenn mehr als 1% der Daten standardisierte Residuen größer als 2.5 haben, ist das ein Hinweis darauf, dass das Modell die Daten schlecht beschreibt.
+* Wenn mehr als 5% der Daten standardisierte Residuen größer als 2 haben, ist das ebenfalls ein Hinweis darauf, dass das Modell die Daten schlecht beschreibt.
 
+:::{.callout-note}
 Alternativ zu den standardisierten Residuen kann man auch studentisierte Residuen mittels Leave-One-Out berechnen. Dies bedeutet, dass bei der Berechnung der Standardabweichung das Modell ohne den betreffenden Datenpunkt verwendet wird (dieser Datenpunkt wird ausgelassen). Diese studentisierten Residuen werden so für jeden Datenpunkt berechnet. In R verwendet man die Funktion `rstudent()` dafür.
+:::
 
 
 ### Datenpunkte mit hoher Leverage
@@ -139,7 +141,7 @@ In R kann man die Funktion `hatvalues()` benutzen, um die Leverage für jeden Da
 
 ### Datenpunkte mit großem Einfluss
 
-Tatsächlichen Einfluss auf ein Modell haben Datenpunkte die gleichzeitig Ausreißer sind und hohe Leverage haben.
+Tatsächlichen Einfluss auf ein Modell haben Datenpunkte, die gleichzeitig Ausreißer sind und hohe Leverage haben.
 
 Man kann solche Datenpunkte erkennen, indem man einmal ein Modell mit allen Daten und ein zweites Modell mit allen Daten außer den zu untersuchenden Datenpunkt rechnet (Leave-One-Out). Wenn der untersuchte Datenpunkt keinen großen Einfluss auf das Modell ausübt, dann sind die beiden Modelle sehr ähnlich. Folgende konkrete Maße kann man hier für jeden Datenpunkt berechnen:
 
@@ -158,13 +160,18 @@ Um mit einem linearen Regressionsmodell Vorhersagen auf ungesehene Daten machen 
 * Es darf keine Multikollinearität bestehen, d.h. zwei oder mehrere Prädiktoren dürfen nicht linear voneinander abhängig sein. Dies kann z.B. mit der VIF-Statistik (Variance Inflation Factor) überprüft werden.
 * Homoskedastizität, d.h. die Varianz der Residuen muss konstant über die Werte der Prädiktoren sein (Varianzhomogenität).
 * Die Residuen müssen normalverteilt sein.
+    
+  :::{.callout-important}
+  Diese Voraussetzung der Normalverteilung gilt für die *Residuen* und *nicht* für die Prädiktoren!
+  :::
+
 * Die Residuen müssen unabhängig voneinander sein (kann z.B. mit dem Durbin-Watson-Test überprüft werden).
 * Die Beziehung zwischen unabhängigen Variablen und abhängiger Variable muss linear sein.
 
 
 ## Beispiel
 
-Im folgenden Beispiel sehen wir uns wie in der letzten Einheit die Anzahl der Verkäufe von Musikalben in Abhängigkeit der Höhe des Werbebudgets an. Zusätzlich gibt es jetzt aber zwei weitere Prädiktoren, nämlich die Anzahl an Airplay-Stunden im größten nationalen Radiosender und die Attraktivität der Bandmitglieder. Wir beginnen mit dem Laden der Daten [`sales2.dat`](sales2.dat):
+Im folgenden Beispiel sehen wir uns wieder die Anzahl der Verkäufe von Musikalben in Abhängigkeit der Höhe des Werbebudgets an. Zusätzlich gibt es jetzt aber zwei weitere Prädiktoren, nämlich die Anzahl an Airplay-Stunden im größten nationalen Radiosender und die Attraktivität der Bandmitglieder. Wir beginnen mit dem Laden der Daten [`sales2.dat`](sales2.dat):
 
 ```{r}
 #| message: false
@@ -172,7 +179,7 @@ library(readr)
 album2 = read_tsv("sales2.dat")
 ```
 
-Fitten wir nun ein lineares Regressionsmodell. Als Vergleichsmodell berechnen wir zuerst wieder eine einfache Regression mit dem Prädiktor Werbebudget:
+Berechnen wir nun ein lineares Regressionsmodell. Als Vergleichsmodell führen wir zuerst eine einfache Regression mit dem einzigen Prädiktor Werbebudget durch:
 
 ```{r}
 model1 = lm(sales ~ adverts, data=album2)
@@ -201,16 +208,16 @@ Hier stehen $b_0$ für den Intercept (d.h. jener Wert von $y$, wenn alle Prädik
 
 Die Regressionskoeffizienten geben Auskunft, um wie viel sich die abhängige Variable ändert, wenn man einen Prädiktor um eine Einheit erhöht und dabei alle anderen Prädiktoren konstant hält. Dies bedeutet im Beispiel:
 
-* Wenn `adverts` um eine Einheit erhöht wird, dann erhöht sich `sales` um 0,085 Einheiten. D.h. wenn man 1000 EUR mehr für Werbung ausgibt, verkauft man um 85 Alben mehr.
-* Wenn `airplay` um eine Einheit erhöht wird, dann erhöht sich `sales` um 3,37 Einheiten. D.h. wenn man das Album um eine Stunde mehr im Radio spielt, verkauft man um 3367 Alben mehr.
-* Wenn `attract` um eine Einheit erhöht wird, dann erhöht sich `sales` um 11,086 Einheiten (d.h. 11086 zusätzliche Alben).
+* Wenn `adverts` um eine Einheit erhöht wird, dann erhöht sich `sales` um 0.085 Einheiten. D.h. wenn man 1000 EUR mehr für Werbung ausgibt, verkauft man um 85 Alben mehr.
+* Wenn `airplay` um eine Einheit erhöht wird, dann erhöht sich `sales` um 3.37 Einheiten. D.h. wenn man das Album um eine Stunde mehr im Radio spielt, verkauft man um 3367 Alben mehr.
+* Wenn `attract` um eine Einheit erhöht wird, dann erhöht sich `sales` um 11.086 Einheiten (d.h. 11086 zusätzliche Alben).
 
 Für jeden Regressionskoeffizienten wird ein $t$-Test gerechnet, welcher angibt, ob sich der Koeffizient signifikant von 0 unterscheidet (d.h. ob er signifikant zum Modell beiträgt). Die Größe der $t$-Statistik lässt auf den Einfluss der Koeffizienten schließen, d.h. `adverts` und `airplay` haben einen ähnlich großen Einfluss auf das Modell, wo hingegen `attract` einen geringeren Einfluss hat.
 
 Oft ist es hilfreich, nicht nur die Regressionskoeffizienten zu analysieren, sondern auch die standardisierten Regressionskoeffizienten. Diese kann man berechnen, in dem man zuerst alle Variablen standardisiert und danach das lineare Modell berechnet. Standardisierte Variablen haben einen Mittelwert von 0 und eine Standardabweichung von 1. Man könnte die Standardisierung daher relativ einfach selbst vornehmen, in dem man für jede Variable zuerst deren Mittelwert subtrahiert und danach durch deren Standardabweichung dividiert.
 
 :::{.callout-tip}
-Die Funktion `scale()` kann verwendet werden, um die Spalten eine Data Frames zu standardisieren. Diese liefert aber immer eine Matrix zurück, d.h. wenn man ein Data Frame bzw. Tibble standardisieren möchte, muss man danach noch `as.data.frame()` bzw. `as_tibble()` (aus dem Paket `tibble`) anwenden.
+Die Funktion `scale()` kann verwendet werden, um die Spalten eine Data Frames zu standardisieren. Diese liefert aber immer eine Matrix zurück, d.h. wenn man ein Data Frame bzw. Tibble standardisieren möchte, muss man danach noch `as.data.frame()` bzw. `tibble::as_tibble()` anwenden.
 :::
 
 Alternativ kann man dazu auch *nachträglich* die Funktion `lm.beta()` aus dem `lm.beta`-Paket benutzen:
@@ -220,11 +227,11 @@ library(lm.beta)
 lm.beta(model2)
 ```
 
-Die standardisierten Regressionskoeffizienten werden üblicherweise mit $\beta_i$ bezeichnet. Da alle Variablen nun in Standardabweichungen gemessen werden, kann man diese direkt miteinander vergleichen. Man sieht im Beispiel also folgendes:
+Die standardisierten Regressionskoeffizienten werden üblicherweise mit $\beta_i$ bezeichnet. Da alle Variablen nun in Standardabweichungen gemessen werden, kann man diese direkt miteinander vergleichen. Man sieht im Beispiel also:
 
-* Wenn `adverts` um eine Standardabweichung erhöht wird (485.655 EUR), dann erhöht sich `sales` um 0,511 Standardabweichungen (41.240 Alben).
-* Wenn `airplay` um eine Standardabweichung erhöht wird (12,270), dann erhöht sich `sales` um 0,512 Standardabweichungen (41.320 Alben).
-* Wenn `attract` um eine Standardabweichung erhöht wird (1,395), dann erhöht sich `sales` um 0,192 Standardabweichungen (15.490 Alben).
+* Wenn `adverts` um eine Standardabweichung erhöht wird (485655 EUR), dann erhöht sich `sales` um 0.511 Standardabweichungen (41240 Alben).
+* Wenn `airplay` um eine Standardabweichung erhöht wird (12.270), dann erhöht sich `sales` um 0.512 Standardabweichungen (41320 Alben).
+* Wenn `attract` um eine Standardabweichung erhöht wird (1.395), dann erhöht sich `sales` um 0.192 Standardabweichungen (15490 Alben).
 
 Konfidenzintervalle für die (nicht standardisierten) Regressionskoeffizienten erhält man mit der Funktion `confint()` (standardmäßig werden 95%-Intervalle berechnet):
 
@@ -232,13 +239,13 @@ Konfidenzintervalle für die (nicht standardisierten) Regressionskoeffizienten e
 confint(model2)
 ```
 
-Zwei (oder mehrere) Modelle können mit der $F$-Statistik verglichen werden. Der $F$-Wert, der bei der zusammenfassenden Beschreibung eines Modells angezeigt wird, vergleicht das Modell immer mit dem einfachsten Mittelwertmodell. Möchte man das Modell mit einem anderen Modell vergleichen, ist zu beachten, dass `model2` eine Erweiterung von `model1` sein muss, d.h. `model2` muss alle Terme von `model1` beinhalten plus eventuelle zusätzliche Faktoren. In R gibt man hier folgenden Befehl ein:
+Zwei (oder mehrere) Modelle können mit der $F$-Statistik verglichen werden. Der $F$-Wert, der bei der zusammenfassenden Beschreibung eines Modells angezeigt wird, vergleicht das Modell standardmäßig mit dem einfachsten Mittelwertmodell. Möchte man das Modell mit einem anderen Modell vergleichen, ist zu beachten, dass `model2` eine Erweiterung von `model1` sein muss, d.h. `model2` muss alle Terme von `model1` beinhalten plus eventuelle zusätzliche Faktoren. In R gibt man hier folgenden Befehl ein:
 
 ```{r}
 anova(model1, model2)
 ```
 
-Der $F$-Wert beträgt also 96,447 und ist signifikant, d.h. das zweite Modell ist signifikant besser als das erste.
+Der $F$-Wert beträgt also 96.447 und ist signifikant, d.h. das zweite Modell ist signifikant besser als das erste.
 
 
 ### Datenpunkte mit großem Einfluss
@@ -253,7 +260,7 @@ Um die diversen Ausreißerstatistiken für jeden einzelnen Wert übersichtlich b
 * `cooks.distance()`: Cook's Distanz
 * `dffits()`: Unterschied im vorhergesagtem Wert mittels Leave-One-Out
 
-Am bequemsten ist die Funktion `influence.measures()`, welche mehrere Ausreißerstatistiken übersichtlich aufbereitet ausgibt.
+Sehr praktisch ist die Funktion `influence.measures()`, welche mehrere Ausreißerstatistiken für jeden Datenpunkt übersichtlich aufbereitet ausgibt.
 
 ```{r}
 influence.measures(model2)
