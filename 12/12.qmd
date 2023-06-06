@@ -2,7 +2,7 @@
 title: "12 – Mittelwertvergleich"
 subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2023-01-26
+date: 2023-06-19
 format: html
 engine: knitr
 highlight-style: github
@@ -17,20 +17,20 @@ published-title: "Veröffentlicht"
 
 ## Versuchsdesigns
 
-Nicht nur die Beziehungen zwischen zwei (oder mehreren) Variablen sind in Studien interessant – wie wir gesehen haben, kann man solche (lineare) Beziehungen mit Korrelationen oder Regressionsmodellen beschreiben. Oft ist man aber auch an mittleren Unterschieden zwischen zwei (oder mehreren) Gruppen interessiert.
+Nicht nur die Beziehungen zwischen zwei (oder mehreren) Variablen sind in Studien interessant – wie wir gesehen haben, kann man solche (lineare) Beziehungen mit Korrelationen oder Regressionsmodellen beschreiben. Oft ist man auch an mittleren Unterschieden zwischen zwei (oder mehreren) Gruppen interessiert.
 
-Im Gegensatz zu *korrelativen* Studiendesigns kann man mit *experimentellen* Studiendesigns auch auf Kausalität rückschließen. In experimentellen Designs ist man daher oft an Mittelwertsunterschieden zwischen zwei (oder mehreren) Gruppen interessiert, welche auf eine konkrete Behandlung zurückzuführen sind.
+Im Gegensatz zu *korrelativen* Studiendesigns kann man mit *experimentellen* Studiendesigns auch auf Kausalität rückschließen. In experimentellen Designs ist man daher oft an Mittelwertsunterschieden zwischen zwei (oder mehreren) Gruppen interessiert, welche auf eine konkrete Behandlung zurückzuführen sind (meist im Vergleich zu einer Kontrollgruppe).
 
 :::{.callout-tip}
 Korrelative Studien nennt man auch [Beobachtungsstudien](https://de.wikipedia.org/wiki/Beobachtungsstudie) – hier erhebt man Daten, ohne Manipulationen entsprechend der Forschungshypothese vorzunehmen. Experimentelle Studien nennt man auch [Interventionsstudien](https://de.wikipedia.org/wiki/Interventionsstudie) – hier manipuliert man gezielt eine oder mehrere Variablen, die für die Forschungshypothese relevant sind (z.B. eine Gruppe erhält ein Medikament, eine andere ein Placebo).
 :::
 
-Prinzipiell unterscheidet man bei experimentellen Designs zwischen *abhängigen* und *unabhängigen* Designs. In unabhängigen Designs sind die Individuen in den einzelnen Gruppen voneinander unabhängig (z.B. verschiedene Personen). In abhängigen Designs sind die Individuen zwar innerhalb der Gruppen unabhängig, aber zwischen den Gruppen besteht eine Abhängigkeit (z.B. befinden sich dieselben Personen in mehreren Gruppen, man spricht auch von einem Messwiederholungs-Design). Abhängige Designs berücksichtigen individuelle Unterschiede, die für die Behandlung nicht relevant sind, und können daher kleinere Unterschiede besser detektieren als unabhängige Designs. Dies lässt sich an einem Beispiel veranschaulichen.
+Prinzipiell unterscheidet man bei experimentellen Designs zwischen *abhängigen* und *unabhängigen* Designs. In unabhängigen Designs sind die Individuen in den einzelnen Gruppen voneinander unabhängig (z.B. verschiedene Personen). In abhängigen Designs sind die Individuen zwar innerhalb der Gruppen unabhängig, aber zwischen den Gruppen besteht eine Abhängigkeit (z.B. befinden sich dieselben Personen in mehreren Gruppen, man spricht auch von einem Messwiederholungs-Design). Abhängige Designs berücksichtigen individuelle Unterschiede, die für die Behandlung nicht relevant sind, und können daher kleinere Unterschiede besser detektieren als unabhängige Designs. Dies lässt sich am besten anhand eines Beispiels veranschaulichen.
 
 
 ## Beispiel
 
-In einem (fiktiven) Versuch wurde die Angst vor Spinnen auf einer Skala von 0 bis 100 gemessen (größere Werte stehen für höhere Angst). Es wurden 24 Personen in zwei Gruppen untersucht (also 12 Personen pro Gruppe). Einer Gruppe wurden Fotos von Spinnen gezeigt, der anderen Gruppe wurden echte Spinnen gezeigt. Wir beginnen mit dem Importieren der Datei [`spider.dat`](spider.dat):
+In einer (fiktiven) Studie wurde die Angst vor Spinnen auf einer Skala von 0 bis 100 gemessen (größere Werte stehen für höhere Angst). Es wurden 24 Personen in zwei Gruppen untersucht (also 12 Personen pro Gruppe). Einer Gruppe wurden Fotos von Spinnen gezeigt, der anderen Gruppe wurden echte Spinnen gezeigt. Wir beginnen mit dem Importieren der Daten aus der Datei [`spider.dat`](spider.dat):
 
 ```{r}
 #| message: false
@@ -100,7 +100,6 @@ spider_w = pivot_wider(
     values_from=Anxiety
 )
 spider_w$id = NULL
-names(spider_w) = c("picture", "real")
 spider_w
 ```
 
@@ -167,7 +166,7 @@ Aus der Grafik ist ersichtlich, dass die Gruppenmittelwerte (schwarze Punkte) gl
 
 ## Der _t_-Test
 
-Der _t_-Test wird verwendet, um die Mittelwerte zweier Gruppen miteinander zu vergleichen. Hier gibt es zwei Varianten, nämlich einen _t_-Test für abhängige Gruppen und einen für unabhängige Gruppen. Ersteren nennt man auch gepaarten oder abhängigen _t_-Test, letzteren nennt man unabhängigen _t_-Test.
+Man verwendet den _t_-Test, um die Mittelwerte zweier Gruppen miteinander zu vergleichen. Hier gibt es zwei Varianten, nämlich einen _t_-Test für *abhängige* Gruppen und einen für *unabhängige* Gruppen. Ersteren nennt man auch gepaarten oder abhängigen _t_-Test, letzteren nennt man unabhängigen _t_-Test.
 
 Die _t_-Statistik ist wie viele Statistiken aufgebaut: sie setzt die Varianz, die vom Modell erklärt werden kann in Beziehung zur Varianz, die *nicht* vom Modell erklärt werden kann (also kurz Effekt geteilt durch Fehler). Im Falle des _t_-Tests ist das Modell der Unterschied der beiden Mittelwerte minus der erwarteten Differenz, und der Fehler wird durch den Standardfehler der Mittelwertsdifferenz geschätzt:
 
@@ -187,11 +186,11 @@ Je größer der Unterschied bzw. die _t_-Statistik, desto mehr spricht für den 
 
 ## Der _t_-Test als lineares Modell
 
-Wir haben den _t_-Test bereits bei der linearen Regression kennengelernt. Hier wird er verwendet, um zu überprüfen, ob Regressionskoeffizienten signifikant unterschiedlich von 0 sind. Wie wir außerdem soeben erfahren haben, wird der _t_-Test auch angewendet, um Mittelwerte zu vergleichen. Tatsächlich ist es so, dass der _t_-Test als lineares Modell interpretiert werden kann. Er kann also wieder mit folgender allgemeinen Form beschrieben werden:
+Wir haben den _t_-Test bereits bei der linearen Regression kennengelernt. Hier wird er verwendet, um zu überprüfen, ob Regressionskoeffizienten signifikant unterschiedlich von 0 sind. Wie wir außerdem soeben erfahren haben, wird der _t_-Test auch angewendet, um Mittelwerte zu vergleichen. Tatsächlich ist es so, dass der _t_-Test als lineares Modell angeschrieben werden kann. Er kann also wieder mit folgender allgemeinen Form beschrieben werden:
 
 $$y_i = \hat{y}_i + \varepsilon_i$$
 
-Ein _t_-Test kann in diesem Kontext mit abhängigen und unabhängigen Variablen formuliert werden. Die abhängige Variable ist die Variable, deren Gruppenmittelwerte man vergleichen möchte (z.B. Angst vor Spinnen). Die unabhängige Variable codiert die Gruppen. Man verwendet dann für den _t_-Test das bekannte Modell:
+Ein _t_-Test kann in diesem Kontext mit abhängigen und unabhängigen Variablen formuliert werden. Die abhängige Variable $y$ ist die Variable, deren Gruppenmittelwerte man vergleichen möchte (z.B. Angst vor Spinnen). Die unabhängige Variable $x$ codiert die Gruppen. Man verwendet dann für $\hat{y}$ das lineare Modell:
 
 $$\hat{y}_i = b_0 + b_1 \cdot x_i$$
 
@@ -203,13 +202,15 @@ summary(model)
 ```
 
 :::{.callout-note}
-Hier ist anzumerken, dass die kategorische Variable `Group` von R automatisch mit 0 und 1 codiert wird (und zwar alphabetisch, d.h. die Stufe `Picture` entspricht 0 und die Stufe `Real Spider` entspricht 1). Man spricht hier von Dummy-Coding.
+Hier ist anzumerken, dass die kategorische Variable `Group` von R automatisch mit 0 und 1 codiert wird (und zwar alphabetisch, d.h. die Stufe `picture` entspricht 0 und die Stufe `real` entspricht 1). Man spricht hier von Dummy-Coding.
 :::
 
-Wenn man sich nun die Regressionskoeffizienten ansieht, bemerkt man, dass der Intercept $b_0 = 40$ dem Mittelwert der Gruppe 0 (`Picture`) entspricht. Die Steigung $b_1 = 7$ entspricht dem Unterschied der Mittelwerte zwischen den beiden Gruppen ($47 - 40 = 7$). Der _t_-Test für diesen Koeffizienten testet, ob die Steigung signifikant von Null verschieden ist. Er testet somit also auch, ob der Unterschied zwischen den Mittelwerten von 7 signifikant von Null verschieden ist. Man sieht, dass dieser Test nicht signifikant ist ($p=0.107$), d.h. man kann daraus schließen, dass sich die Mittelwerte nicht signifikant voneinander unterscheiden.
+Wenn man sich nun die Regressionskoeffizienten ansieht, bemerkt man, dass der Intercept $b_0 = 40$ dem Mittelwert der Gruppe 0 (`picture`) entspricht. Die Steigung $b_1 = 7$ entspricht dem Unterschied der Mittelwerte zwischen den beiden Gruppen ($47 - 40 = 7$). Der _t_-Test für diesen Koeffizienten testet, ob die Steigung signifikant von Null verschieden ist. Er testet somit also auch, ob der Unterschied zwischen den Mittelwerten signifikant von Null verschieden ist. Man sieht, dass dieser Test mit $p=0.107$ nicht signifikant ist, d.h. man kann daraus schließen, dass sich die Mittelwerte nicht signifikant voneinander unterscheiden.
 
 Grafisch kann man die Situation wie folgt darstellen:
+
 ```{r}
+#| echo: false
 library(ggplot2)
 ggplot(spider, aes(Group, Anxiety)) +
     geom_point(alpha=0.5) +
@@ -219,26 +220,26 @@ ggplot(spider, aes(Group, Anxiety)) +
 
 Die Regressionsgerade verbindet beide Gruppenmittelwerte und die Steigung beträgt 7.
 
-Wir können dies durch Einsetzen der Gruppenmittelwerte in die Gleichung des linearen Modells überprüfen. Wir beginnen mit der Gruppe 0, also `Picture`. Wir wissen, dass der Mittelwert dieser Gruppe gleich 40 ist.
+Wir können dies durch Einsetzen der Gruppenmittelwerte in die Gleichung des linearen Modells überprüfen. Wir beginnen mit der Gruppe 0, also `picture`. Wir wissen, dass der Mittelwert dieser Gruppe gleich 40 ist.
 
 ```{r}
-mean(spider$Anxiety[spider$Group=="Picture"])
+mean(spider$Anxiety[spider$Group=="picture"])
 ```
 
 Wir setzen in folgende Gleichung ein:
 $$\hat{y}_i = b_0 + b_1 \cdot x_i$$
-Für $\hat{y}_i$ verwenden wir den Gruppenmittelwert der `Picture`-Gruppe, und das zugehörige $x_i$ ist also $x_{\text{Picture}}$ (codiert mit 0).
-$$\bar{y}_{\text{Picture}} = b_0 + b_1 \cdot x_{\text{Picture}}$$
+Für $\hat{y}_i$ verwenden wir den Gruppenmittelwert der `picture`-Gruppe, und das zugehörige $x_i$ ist also $x_{\text{Picture}}$ (codiert mit 0).
+$$\bar{y}_{\text{picture}} = b_0 + b_1 \cdot x_{\text{picture}}$$
 $$40 = b_0 + b_1 \cdot 0$$
 $$b_0 = 40$$
 
-Man sieht also, dass der Intercept $b_0$ dem Gruppenmittelwert der ersten Gruppe (mit Codierung 0) entspricht. Setzen wir anschließend die Werte für die Gruppe `Real Spider` ein. Hier beträgt der Gruppenmittelwert 47:
+Man sieht also, dass der Intercept $b_0$ dem Gruppenmittelwert der ersten Gruppe (mit Codierung 0) entspricht. Setzen wir anschließend die Werte für die Gruppe `real` ein. Hier beträgt der Gruppenmittelwert 47:
 
 ```{r}
-mean(spider$Anxiety[spider$Group=="Real Spider"])
+mean(spider$Anxiety[spider$Group=="real"])
 ```
 
-$$\bar{y}_{\text{Real Spider}} = b_0 + b_1 \cdot x_{\text{Real Spider}}$$
+$$\bar{y}_{\text{real}} = b_0 + b_1 \cdot x_{\text{real}}$$
 $$47 = 40 + b_1 \cdot 1$$
 $$b_1 = 7$$
 
@@ -249,7 +250,7 @@ Die Steigung der Geraden entspricht also genau dem Unterschied der beiden Mittel
 
 Da der _t_-Test eine lineare Regression ist, setzt er auch dieselben Annahmen wie diese voraus:
 
-* Die Schätzfunktion ist normalverteilt (beim abhängigen _t_-Test ist die Schätzfunktion der Differenzen gemeint).
+* Die Residuen sind normalverteilt (beim abhängigen _t_-Test sind die Residuen der Differenzen gemeint).
 * Die Daten sind intervallskaliert.
 * Beim unabhängigen _t_-Test müssen die Daten in den Gruppen voneinander unabhängig sein.
 * Beim unabhängigen _t_-Test muss Varianzhomogenität gegeben sein. Praktisch ist diese Voraussetzung aber nicht notwendig, da standardmäßig ein verbessertes Verfahren angewendet wird, welches Verletzungen dieser Annahme automatisch korrigiert ([Welch _t_-Test](https://de.wikipedia.org/wiki/Zweistichproben-t-Test#Welch-Test)).
@@ -283,9 +284,22 @@ $$t = \frac{\bar{x}_1 - \bar{x}_2}{\sqrt{\frac{s_p^2}{N_1} + \frac{s_p^2}{N_2}}}
 
 In R kann man _t_-Tests mit der Funktion `t.test()` durchführen. Der Aufruf ist auf zwei verschiedene Arten möglich. Eine Möglichkeit ist, die Funktion wie ein lineares Modell aufzurufen:
 
-```{r}
+```r
 model = t.test(Anxiety ~ Group, data=spider)
 model
+```
+
+```
+    Welch Two Sample t-test
+
+data:  Anxiety by Group
+t = -1.6813, df = 21.385, p-value = 0.1072
+alternative hypothesis: true difference in means is not equal to 0
+95 percent confidence interval:
+ -15.648641   1.648641
+sample estimates:
+mean in group picture    mean in group real 
+                   40                    47 
 ```
 
 Das erste Argument ist also eine Formel, deren linke Seite die Datenpunkte angibt (die Spalte `Anxiety` in diesem Beispiel). Die rechte Seite der Formel gibt die Gruppierungsspalte an (also hier `Group`). Damit man die Spaltennamen direkt verwenden kann, spezifiziert man noch `data=spider`, damit klar ist dass diese Spalten im Data Frame `spider` zu finden sind.
@@ -316,7 +330,7 @@ round(r, 3)
 
 ## Abhängiger _t_-Test in R
 
-Der abhängige (oder gepaarte) _t_-Test funktioniert ebenso, sieht sich aber die Mittelwerte der einzelnen Differenzen an anstelle der Differenz der Mittelwerte:
+Der abhängige (oder gepaarte) _t_-Test funktioniert ebenso, sieht sich aber die Mittelwerte der einzelnen *Differenzen* anstelle der Differenz der Mittelwerte an:
 
 $$t = \frac{\bar{D} - \mu_D}{s_D / \sqrt{N}}$$
 
@@ -349,7 +363,7 @@ Es handelt sich also in diesem Fall um einen großen Effekt.
 
 ## Ausblick
 
-Zusammenfassend haben wir also gesehen, dass der Mittelwertsvergleich über den *t*-Test auf ein lineares Modell zurückgeführt werden kann. Möchte man mehr als zwei Mittelwerte vergleichen, kann man das lineare Modell mit mehreren Prädiktoren verwenden (Dummy-Coding). In der klassischen Varianzanalyse betrachtet man die *F*-Statistik, welche aber auch Teil der linearen Regression ist (sie misst die Güte des Modells) und dementsprechend auch in der Ausgabe aufscheint. Man kann also auch eine ANOVA als Spezialfall eines linearen Modells sehen. Um die vertrauten ANOVA-Tabellen denoch auch in R zu erhalten, kann man beispielsweise das Paket `ez` benutzen.
+Zusammenfassend haben wir gesehen, dass der Mittelwertsvergleich über den *t*-Test auf ein lineares Modell zurückgeführt werden kann. Möchte man mehr als zwei Mittelwerte vergleichen, kann man das lineare Modell mit mehreren Prädiktoren verwenden (Dummy-Coding). In der klassischen Varianzanalyse betrachtet man die *F*-Statistik, welche aber auch Teil der linearen Regression ist (sie misst die Güte des Modells) und dementsprechend auch in der Ausgabe aufscheint. Man kann also auch eine ANOVA als Spezialfall eines linearen Modells sehen. Um die vertrauten ANOVA-Tabellen denoch auch in R zu erhalten, kann man beispielsweise das Paket `afex` benutzen.
 
 Bei abhängigen Messungen kann man keine linearen Modelle rechnen, da eine der wichtigsten Voraussetzungen die Unabhängigkeit der Messpunkte ist. Sogenannte lineare gemischte Modelle (engl. *linear mixed models*) können aber mit diesen Abhängigkeiten umgehen und werden immer häufiger statt den klassischen Messwiederholungs-ANOVAs eingesetzt. Gemischte Modelle sind Verallgemeinerungen von linearen Modellen, oder umgekehrt sind lineare Modelle Spezialfälle von gemischten Modellen. Das Paket `lme4` hat sich in R als Standard zur Berechnung dieser Modelle durchgesetzt (bzw. die darauf aufbauenden Pakete `lmerTest` und `afex`).
 
@@ -360,9 +374,11 @@ Bei abhängigen Messungen kann man keine linearen Modelle rechnen, da eine der w
 
 Das Paket `dplyr` beinhaltet den Datensatz `starwars` (aktivieren Sie das Paket um auf diesen Datensatz zugreifen zu können). Verwenden Sie diese Daten um herauszufinden, ob die weiblichen Charaktere signifikant kleiner sind als die männlichen (Spalte `height`). Verwenden Sie die Spalte `gender` um zwischen den Geschlechtern `"feminine"` und `"masculine"` zu unterscheiden. Verwenden Sie für Ihre Analyse ein Signifikanzniveau von 5% und geben Sie die Mittelwerte beider Gruppen an.
 
-Führen Sie auch einen Vergleich des Gewichtes (Spalte `mass`) durch (überprüfen Sie die Hypothese dass männliche Charaktere mehr wiegen als weibliche). Geben Sie auch hier die Mittelwerte beider Gruppen an.
+Führen Sie auch einen Vergleich des Gewichtes (Spalte `mass`) durch (überprüfen Sie die Hypothese, dass männliche Charaktere mehr wiegen als weibliche). Geben Sie auch hier die Mittelwerte beider Gruppen an.
 
-*Hinweis:* Verwenden Sie das Argument `alternative` von `t.test()`, um einen *einseitigen* Test durchzuführen.
+:::{.callout-note}
+Verwenden Sie das Argument `alternative` von `t.test()`, um einen *einseitigen* Test durchzuführen.
+:::
 
 
 ### Übung 2
@@ -376,4 +392,6 @@ Die Funktion `pairwise.t.test()` rechnet mehrere paarweise Vergleiche. Verwenden
 
 Laden Sie den Datensatz `sleep` (standardmäßig bei R dabei). Unterscheiden sich die beiden Gruppen (`group`) in der Anzahl an zusätzlichen Schlafstunden (`extra`)? Wenn ja, wie groß ist dieser Unterschied im Mittel? Geben Sie um den mittleren Unterschied auch ein 95%-Konfidenzintervall an.
 
-*Hinweis:* Entnehmen Sie dem Hilfetext, ob Sie einen abhängigen oder unabhängigen *t*-Test rechnen müssen.
+:::{.callout-note}
+Entnehmen Sie dem Hilfetext, ob Sie einen abhängigen oder unabhängigen *t*-Test rechnen müssen.
+:::
