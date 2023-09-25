@@ -2,8 +2,10 @@
 title: "Organisatorisches"
 subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2023-03-06
-format: html
+date: 2023-10-05
+format:
+  html:
+    page-layout: full
 engine: knitr
 highlight-style: github
 title-block-banner: true
@@ -17,25 +19,25 @@ published-title: "Veröffentlicht"
 
 ## Allgemeines
 
-In dieser Lehrveranstaltung werden Sie das Statistikpaket [R](https://www.r-project.org/) kennenlernen. Da diese Lehrveranstaltung die Grundlagen von R abdeckt und keinerlei Vorwissen voraussetzt, ist es aufgrund der begrenzten Zeit nicht möglich, alle für Sie relevanten statistischen Verfahren abzudecken. Sie werden durch ein umfassendes Basiswissen aber darauf vorbereitet, sich fortgeschrittene Methoden selbst anzueignen. In den Einheiten werden sich Theorie und Praxis abwechseln, d.h. Sie werden neue Dinge sowohl kennenlernen als auch gleich anhand praktischer Beispiele in R umsetzen. Der Plan für dieses Semester sieht wie folgt aus:
+In dieser Lehrveranstaltung werden Sie das Statistikpaket [R](https://www.r-project.org/) kennenlernen. Da diese Lehrveranstaltung die Grundlagen von R abdeckt und keinerlei Vorwissen voraussetzt, ist es aufgrund der begrenzten Zeit nicht möglich, alle für Sie relevanten statistischen Verfahren abzudecken. Sie werden durch ein umfassendes Basiswissen aber darauf vorbereitet, sich weitere Methoden selbst anzueignen. In den Einheiten werden sich Theorie und Praxis abwechseln, d.h. Sie werden neue Inhalte sowohl lernen als auch gleich anhand praktischer Beispiele in R umsetzen. Der Plan für dieses Semester sieht wie folgt aus:
 
-| Einheit | Datum      | Inhalt                  |
-|---------|------------|-------------------------|
-| 1       | 6.3.2023   | Grundlagen              |
-| 2       | 13.3.2023  | Die R-Umgebung          |
-| 3       | 20.3.2023  | Vektoren                |
-| 4       | 27.3.2023  | Tabellarische Daten     |
-| 5       | 17.4.2023  | Daten importieren       |
-| 6       | 24.4.2023  | Deskriptive Statistiken |
-| 7       | 8.5.2023   | Datenaufbereitung       |
-| 8       | 15.5.2023  | Grafiken                |
-| 9       | 22.5.2023  | Korrelation             |
-| 10      | 5.6.2023   | Lineare Regression (1)  |
-| 11      | 12.6.2023  | Lineare Regression (2)  |
-| 12      | 19.6.2023  | Mittelwertvergleich     |
-| 13      | 26.6.2023  | Prüfung                 |
+| Einheit | Datum      | Inhalt                   |
+|---------|------------|--------------------------|
+| 1       |  5.10.2023 | Grundlagen               |
+| 2       | 12.10.2023 | Die R-Umgebung           |
+| 3       | 19.10.2023 | Vektoren                 |
+| 4       |  9.11.2023 | Tabellarische Daten      |
+| 5       | 16.11.2023 | Daten importieren        |
+| 6       | 23.11.2023 | Deskriptive Statistiken  |
+| 7       | 30.11.2023 | Datenaufbereitung        |
+| 8       |  7.12.2023 | Grafiken                 |
+| 9       | 14.12.2023 | Korrelation              |
+| 10      |  11.1.2024 | Lineare Regression       |
+| 11      |  18.1.2024 | Mittelwertvergleich      |
+| 12      |  25.1.2024 | Reproduzierbare Analysen |
+| 13      |   1.2.2024 | Prüfung                  |
 
-Alle Informationen und Unterlagen zu dieser Lehrveranstaltung werden auf Moodle zur Verfügung gestellt. Insbesondere wird auch die Kommunikation (z.B. Ankündigungen, Forumsdiskussionen, Fragen & Antworten) über Moodle abgewickelt.
+Alle Informationen und Unterlagen zu dieser Lehrveranstaltung werden auf [Moodle](https://moodle.uni-graz.at/login/index.php) zur Verfügung gestellt. Insbesondere wird auch die Kommunikation (z.B. Ankündigungen, Forumsdiskussionen, Fragen & Antworten) über Moodle abgewickelt.
 
 Alle Einheiten werden in Präsenz abgehalten. Falls eine Abhaltung in Präsenz nicht möglich ist, werden die Einheiten online synchron zu den geplanten Zeiten stattfinden. Die URL wird über Moodle bekanntgegeben.
 
@@ -48,33 +50,35 @@ Nutzen Sie während der Vorbereitungszeit die Diskussionsforen auf Moodle – do
 
 In den Kontaktstunden werden nach dem Quiz die von Ihnen vorbereiteten Übungsbeispiele detailliert besprochen und Musterlösungen präsentiert. Dabei haben Sie die Möglichkeit, Fragen zu stellen bzw. Ihre individuellen Lösungsansätze zu diskutieren. Falls darüber hinaus noch Zeit bleiben sollte, wird das jeweilige Thema durch vertiefende Beispiele bzw. Erklärungen ergänzt.
 
+Sie können gerne Ihren eigenen Laptop mitbringen und verwenden, ansonsten stehen im EDV-Saal PCs zur Verfügung.
+
 
 ## Beurteilungskriterien
 
 ### Anwesenheit
 
-Durch den immanenten Prüfungscharakter dieser Lehrveranstaltung besteht automatisch Anwesenheitspflicht. Ihre Anwesenheit wird zu einem zufälligen Zeitpunkt während der Einheit überprüft. Es ist möglich, bei zwei Einheiten zu fehlen, wenn Sie dies spätestens am Vortag per E-Mail bekanntgeben. Eine dritte Fehleinheit ist nur bei Vorliegen eines triftigen Grundes möglich (z.B. Krankheit, Quarantäne, etc.). Hier muss eine schriftliche Bestätigung (z.B. Krankmeldung, Absonderungsbescheid, etc.) vorgelegt werden.
+Durch den immanenten Prüfungscharakter dieser Lehrveranstaltung besteht Anwesenheitspflicht. Ihre Anwesenheit wird zu einem zufälligen Zeitpunkt während der Einheit überprüft. Sie dürfen bei maximal drei Einheiten fehlen.
 
 
 ### Quizzes
 
-Zu Beginn jeder Einheit (mit Ausnahme der ersten) findet ein kurzes Quiz auf Moodle statt (Dauer ca. 5 Minuten). Es werden Fragen zum jeweiligen Thema der Einheit gestellt. Sie können dabei jeweils maximal 10 Punkte erreichen (es gibt auch Teilpunkte). Das Quiz muss vor Ort absolviert werden. Ein nicht absolviertes Quiz (z.B. durch Fehlen) zählt 0 Punkte.
+Zu Beginn jeder Einheit (mit Ausnahme der ersten) findet ein kurzes Quiz auf Moodle statt. Es werden Fragen, meist als Multiple Choice, zum jeweiligen Thema der Einheit gestellt. Sie können dabei jeweils maximal 10 Punkte erreichen (es gibt auch Teilpunkte). Das Quiz muss vor Ort absolviert werden. Ein nicht absolviertes Quiz (z.B. durch Fehlen oder Zuspätkommen) zählt 0 Punkte.
 
 
 ### Prüfung
 
-Am Ende der Lehrveranstaltung findet eine Prüfung über alle in der Lehrveranstaltung vermittelten Inhalte statt. Die Prüfung findet vor Ort am Computer statt, die Dauer wird ca. eine Stunde betragen. Sie dürfen alle Unterlagen der Lehrveranstaltung verwenden. Ansonsten sind keine weiteren Hilfsmittel (gelöste Übungsbeispiele, Internet, etc.) erlaubt. Die Fragen orientieren sich an den Übungsbeispielen bzw. an den Quizzes. Es gibt insgesamt 10 Punkte zu erreichen (Teilpunkte sind möglich).
+Am Ende des Semesters findet in der letzten Einheit eine Prüfung über alle in der Lehrveranstaltung vermittelten Inhalte statt. Diese Prüfung wird vor Ort am Computer absolviert. Sie dürfen alle Unterlagen der Lehrveranstaltung verwenden, ansonsten sind keine weiteren Hilfsmittel (wie z.B. gelöste Übungsbeispiele, Internet, etc.) erlaubt. Die Fragen orientieren sich an den Übungsbeispielen bzw. an den Quizzes. Es gibt insgesamt 10 Punkte zu erreichen (Teilpunkte sind möglich). Wie in allen Einheiten können Sie auch bei der Prüfung gerne Ihren eigenen Laptop verwenden.
 
-Es gibt die Möglichkeit, die Prüfung bei Bedarf zu wiederholen. In diesem Fall zählen aber jedenfalls die Punkte des zweiten Termins (man kann sich also sowohl verbessern als auch verschlechtern). Ein eventueller zweiter Termin wird in Absprache mit den betroffenen Personen festgelegt (dieser wird aber jedenfalls zeitnah am Ende des Semesters stattfinden).
+Es gibt die Möglichkeit, die Prüfung bei Bedarf zu wiederholen. In diesem Fall zählen aber jedenfalls die Punkte des zweiten Termins (man kann sich also sowohl verbessern als auch verschlechtern). Ein eventueller zweiter Termin wird in Absprache mit den betroffenen Personen festgelegt (dieser wird aber zeitnah am Ende des Semesters stattfinden).
 
 
 ## Benotung
 
-Die Gesamtnote setzt sich aus den drei beschriebenen Kriterien zusammen:
+Die Gesamtnote ergibt sich aus den drei beschriebenen Kriterien:
 
--   Wenn Sie nicht öfter als zwei Mal (ein drittes Mal mit triftigem Grund und schriftlicher Bestätigung) gefehlt haben, ist das Anwesenheitskriterium erfüllt. Mehr Fehleinheiten führen automatisch zu einer negativen Beurteilung der Lehrveranstaltung.
--   Aus den Punkten aller Wissensüberprüfungen werden zunächst die niedrigsten zwei Bewertungen entfernt. Von den übrigen Bewertungen wird der arithmetische Mittelwert berechnet – diese Punkte fließen dann zu 60&thinsp;% in die Gesamtnote ein.
--   Die Punkte aus der Prüfung fließen zu 40&thinsp;% in die Gesamtnote ein.
+- Wenn Sie nicht öfter als drei Mal gefehlt haben, ist das Anwesenheitskriterium erfüllt. Mehr Fehleinheiten führen automatisch zu einer negativen Beurteilung der Lehrveranstaltung.
+- Aus den Punkten aller Wissensüberprüfungen werden zunächst die niedrigsten drei Bewertungen entfernt. Aus den übrigen Bewertungen wird der arithmetische Mittelwert berechnet – dieser Mittelwert fließt dann zu 60% in die Gesamtnote ein.
+- Die Punkte aus der Prüfung fließen zu 40% in die Gesamtnote ein.
 
 Aus diesem gewichteten Mittelwert ergibt sich dann die Gesamtnote wie folgt:
 
@@ -82,4 +86,4 @@ Aus diesem gewichteten Mittelwert ergibt sich dann die Gesamtnote wie folgt:
 |-------------|------------|--------------|------------|----------------|
 | 9–10 Punkte | 8–9 Punkte | 7–8 Punkte   | 6–7 Punkte | \< 6 Punkte    |
 
-Die kleinste Punktanzahl einer Kategorie wird immer der besseren Note zugerechnet. Beispielsweise entsprechen also exakt 9 Punkte einem "Sehr gut". Der gewichtete Mittelwert wird nicht mehr gerundet, d.h. dass z.B. 8,97 Punkte der Note "Gut" entsprechen.
+Die kleinste Punktanzahl einer Kategorie wird immer der besseren Note zugeordnet. Beispielsweise entsprechen also exakt 9 Punkte einem "Sehr gut". Der gewichtete Mittelwert wird nicht mehr gerundet, d.h. dass z.B. 8,97 Punkte der Note "Gut" entsprechen.
