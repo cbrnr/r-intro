@@ -2,8 +2,10 @@
 title: "1 – Lösungen"
 subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2023-03-06
-format: html
+date: 2023-10-05
+format:
+  html:
+    page-layout: full
 engine: knitr
 highlight-style: github
 title-block-banner: true
@@ -20,12 +22,12 @@ published-title: "Veröffentlicht"
 Die R-Version wird in der Console als Einleitungstext direkt nach dem Starten angezeigt. Die gesamte Versionsinformation lautet:
 
 ```
-R version 4.2.2 (2022-10-31) -- "Innocent and Trusting"
+R version 4.3.1 (2023-06-16) -- "Beagle Scouts"
 ```
 
 Außerdem ist die R-Version immer im Titel der Console ersichtlich.
 
-Die RStudio-Version lautet 2022.12.0 Build 353 – dies kann man im Hilfefenster, welches mit "Help" – "About RStudio" aufgerufen werden kann, ablesen.
+Die RStudio-Version lautet 2023.06.1 Build 524 – dies kann man im Hilfefenster, welches mit "Help" – "About RStudio" aufgerufen werden kann, ablesen.
 
 ![](r_versions.png)
 
@@ -37,24 +39,6 @@ Die RStudio-Version lautet 2022.12.0 Build 353 – dies kann man im Hilfefenster
 4 %/% 0.4
 4 %% 0.4
 ```
-
-Da `4 / 0.4` mathematisch exakt 10 ergibt, macht das erste Ergebnis auch Sinn. Allerdings sollte die Ganzzahldivision `4 %/% 0.4` ebenfalls 10 ergeben – interessanterweise ist das Ergebnis aber 9! Dementsprechend sollte der Rest mathematisch 0 sein, aber laut R ergibt der Rest 0.4. Dieses seltsame Verhalten erklärt sich dadurch, dass Computer Kommazahlen im Allgemeinen nicht exakt repräsentieren können, d.h. es gibt kleine Ungenauigkeiten, die sich in manchen Situationen zu recht offensichtlichen Fehlern aufsummieren können. Deshalb ist immer Vorsicht geboten, wenn man mit Kommazahlen rechnet (und zwar unabhängig von der Programmiersprache – dies ist keine Besonderheit von R, sondern eine [allgemeine Einschränkung](https://de.wikipedia.org/wiki/Gleitkommazahl#Einschr%C3%A4nkungen_und_deren_mathematische_Grundlagen), die es immer zu beachten gilt).
-
-:::{.callout-tip}
-Relativ häufig möchte man zwei Kommazahlen auf Gleichheit überprüfen (wir werden Vergleiche noch in einer der nächsten Einheiten kennenlernen, diese Erklärung ist daher ein Vorgriff). Durch die oben erwähnten Eigenschaften von Kommazahlen sollte man also nicht auf *exakte* Gleichheit prüfen:
-
-```{r}
-0.1 + 0.2 == 0.3
-```
-
-Für solche Situationen würde man überprüfen, ob die beiden Werte *ungefähr* gleich sind (also innerhalb einer gewissen Toleranz):
-
-```{r}
-all.equal(0.1 + 0.2, 0.3)
-```
-
-Dies liefert dann das erwartete Ergebnis (nämlich dass `0.1 + 0.2` gleich `0.3` ist).
-:::
 
 
 ## Übung 3
