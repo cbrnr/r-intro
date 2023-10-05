@@ -2,8 +2,10 @@
 title: "2 – Lösungen"
 subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2023-03-13
-format: html
+date: 2023-10-12
+format:
+  html:
+    page-layout: full
 engine: knitr
 highlight-style: github
 title-block-banner: true
@@ -71,3 +73,5 @@ Dieses Script lässt sich fehlerfrei ausführen (z.B. durch Klicken auf "Source"
 Die Hilfe wird mit `?sum` angezeigt. Daraus ist zu entnehmen, dass die Funktion auch mit *keinem* Argument aufzurufen ist (das Ergebnis von `sum()` ist `0`). Es gibt zwei optionale Argumente, wobei das erste `...` eigentlich beliebig viele Argumente (Zahlen) sind. Zum Schluss kann man noch ein Argument namens `na.rm` übergeben.
 
 Laut Hilfe ist die Summe von "nichts" – also `sum()` – gleich Null. Dies funktioniert bei der Funktion `mean()` nicht, da man hier *ein Argument übergeben muss* (einen Vektor mit Zahlen).
+
+Der Befehl `sum` ruft die Funktion *nicht* auf. Es werden lediglich Informationen über das Objekt `sum` ausgegeben. In den allermeisten Fällen ist das nicht gewünscht, sondern man möchte eine Funktion mit `sum()` aufrufen.
