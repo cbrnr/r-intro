@@ -1,4 +1,4 @@
 - source: 00.qmd
-  quarto-pub:
-    - id: 74d33115-9f82-4a5e-aea5-8726965e4a42
-      url: 'https://cbrnr.quarto.pub/r-23w-00'
+  netlify:
+    - id: 7d9b2507-79ac-4527-9789-f05067e09092
+      url: 'https://r-23w-00.netlify.app'

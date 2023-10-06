@@ -2,8 +2,8 @@
 
 Die folgenden Unterlagen bieten eine kurze Einführung in die Grundlagen von R. Sie sind außerdem Basis für die Lehrveranstaltung [PSY.921 (Statistische Datenanalyse mit R)](https://online.uni-graz.at/kfu_online/pl/ui/$ctx/wbLv.wbShowLVDetail?pStpSpNr=826830&pSpracheNr=1).
 
- 1. [Grundlagen](https://quartopub.com/sites/cbrnr/r-23w-01) ([Lösungen](https://quartopub.com/sites/cbrnr/r-23w-01-solutions))
- 2. [Die R-Umgebung](https://quartopub.com/sites/cbrnr/r-23w-02) ([Lösungen](https://quartopub.com/sites/cbrnr/r-23w-02-solutions))
+ 1. [Grundlagen](https://r-23w-01.netlify.app) ([Lösungen](https://r-23w-01-solutions.netlify.app))
+ 2. [Die R-Umgebung](https://r-23w-02.netlify.app) ([Lösungen](https://r-23w-02-solutions.netlify.app))
  3. [Vektoren](https://quartopub.com/sites/cbrnr/r-23w-03) ([Lösungen](https://quartopub.com/sites/cbrnr/r-23w-03-solutions))
  4. [Tabellarische Daten](https://quartopub.com/sites/cbrnr/r-23w-04) ([Lösungen](https://quartopub.com/sites/cbrnr/r-23w-04-solutions))
  5. [Daten importieren](https://quartopub.com/sites/cbrnr/r-23w-05) ([Lösungen](https://quartopub.com/sites/cbrnr/r-23w-05-solutions))
