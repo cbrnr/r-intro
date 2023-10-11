@@ -2,9 +2,15 @@
 title: "3 – Vektoren"
 subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2023-03-20
-format: html
+date: 2023-10-19
+format:
+  html:
+    page-layout: full
 engine: knitr
+knitr:
+  opts_chunk: 
+    R.options:
+      width: 120
 highlight-style: github
 title-block-banner: true
 theme:
@@ -64,7 +70,7 @@ Ein Vektor besteht immer aus Elementen desselben Typs. Man nennt Vektoren daher 
 - Logische Vektoren
 - Zeichenkettenvektoren
 
-In einer der nächsten Einheiten werden wir dann noch Faktoren als vierten wichtigen Typ kennenlernen (grundsätzlich gibt es in R aber noch viele weitere Datentypen).
+In einer der nächsten Einheiten werden wir dann noch Faktoren als vierten wichtigen Typ kennenlernen (grundsätzlich gibt es in R aber noch viele weitere spezifischere Datentypen).
 
 
 ### Numerische Vektoren
@@ -87,7 +93,7 @@ class(c(3.1, 2.2, 10))
 
 ### Logische Vektoren
 
-Logische Vektoren bestehen ausschließlich aus den Werten `TRUE` oder `FALSE` (bitte auf die korrekte Schreibweise dieser Werte achten). Sie sind vom Typ `logical`.
+Logische Vektoren bestehen ausschließlich aus den Werten `TRUE` oder `FALSE` (achten Sie auf die korrekte Schreibweise). Sie sind vom Typ `logical`.
 
 ```{r}
 class(TRUE)
@@ -95,15 +101,25 @@ class(c(FALSE, FALSE, TRUE))
 ```
 
 :::{.callout-note}
-Es ist möglich, die Werte `TRUE` und `FALSE` mit `T` und `F` abzukürzen. In der Praxis sollte man auf diese Abkürzungen aufgrund der schlechteren Lesbarkeit aber verzichten.
+Es ist möglich, die Werte `TRUE` und `FALSE` mit `T` und `F` abzukürzen. Aufgrund der schlechteren Lesbarkeit sollte man aber auf diese Abkürzungen verzichten.
 :::
 
-Logische Vektoren entstehen unter anderem durch Vergleiche zweiter Vektoren:
+Logische Vektoren entstehen unter anderem durch Vergleiche zweier Vektoren:
 
 ```{r}
 x = 5
 class(x)
+```
+
+Vergleichen wir jetzt den Vektor `x` mit dem Vektor `1`, im folgenden Beispiel möchten wir wissen, ob `x` kleiner als `1` ist:
+
+```{r}
 x < 1
+```
+
+Dieser Vergleich ergibt `FALSE`, also einen logischen Vektor:
+
+```{r}
 class(x < 1)
 ```
 
@@ -118,7 +134,7 @@ In R gibt es folgende Vergleichsoperatoren: `>`, `>=`, `<`, `<=`, `==` und `!=`.
 ```
 
 :::{.callout-important}
-Der Gleichheitsoperator lautet `==` (also zwei Gleichheitszeichen) und nicht `=` (ein einziges Gleichheitszeichen).
+Der Gleichheitsoperator lautet `==` (also zwei Gleichheitszeichen) und nicht `=` (ein einziges Gleichheitszeichen, dies ist der Zuweisungsoperator).
 :::
 
 
@@ -145,7 +161,7 @@ nchar(s)
 
 ## Zwang (Coercion)
 
-Vektoren sind homogene Datentypen, d.h. sie enthalten nur Elemente desselben Typs. Wenn man versucht, einen Vektor mit Elementen mit unterschiedlichen Typen zu erstellen, wird dieser automatisch in einen Typ "gezwungen", welcher alle Elemente abbilden kann. Wenn man also Zahlen mit Zeichenketten mischt, werden alle Elemente in Zeichenketten umgewandelt (da Zeichenketten im allgemeinen nicht als Zahlen dargestellt werden können, umgekehrt können aber Zahlen als Zeichenketten sehr wohl dargestellt werden).
+Vektoren sind homogene Datentypen, d.h. sie enthalten nur Elemente desselben Typs. Wenn man versucht, einen Vektor mit Elementen mit unterschiedlichen Typen zu erstellen, wird dieser automatisch in einen Typ "gezwungen", welcher alle Elemente abbilden kann. Wenn man also Zahlen mit Zeichenketten mischt, werden alle Elemente in Zeichenketten umgewandelt (da Zeichenketten im Allgemeinen nicht als Zahlen dargestellt werden können, umgekehrt können aber Zahlen als Zeichenketten sehr wohl dargestellt werden).
 
 ```{r}
 (x = c(1, 2.14, "5", 6))
@@ -249,7 +265,9 @@ Die Funktion `rep()` wiederholt gegebene Werte:
 rep(0, 90)  # erzeuge einen Vektor mit 90 Nullen
 ```
 
-Hier kann man auch die Bedeutung der Werte in eckigen Klammern erkennen, die vor jeder Ausgabezeile stehen: sie geben den Index des ersten Elements der Zeile an (also im Beispiel `[1]` für die erste Zeile, `[39]` für die zweite Zeile und `[77]` für die dritte Zeile).
+:::{.callout-tip}
+Hier kann man auch die Bedeutung der Werte in eckigen Klammern erkennen, die vor jeder Ausgabezeile stehen: sie geben den Index des ersten Elements der Zeile an (also im Beispiel `[1]` für die erste Zeile und `[59]` für die zweite Zeile).
+::: 
 
 Beachten Sie auch die unterschiedlichen Ergebnisse durch Verwendung der Argumente `times` bzw. `each`:
 
@@ -342,11 +360,11 @@ In R können fehlende Werte mit dem speziellen Wert `NA` (Not Available) codiert
 (vect = c(15, 1.12, NA, 12, NA, 33.22))
 ```
 
-Mit der Funktion `is.na()` können die fehlenden Werte bestimmt werden. So kann man einfach alle Werte aus einem Vektor extrahieren, die nicht `NA` sind.
+Mit der Funktion `is.na()` können die fehlenden Werte bestimmt werden. So kann man alle Werte aus einem Vektor extrahieren, die nicht `NA` sind.
 
 ```{r}
 is.na(vect)  # die fehlenden Werte
-!is.na(vect)  # ! invertiert einen logischen Vektor
+!is.na(vect)  # die nicht fehlenden Werte
 vect[!is.na(vect)]
 ```
 
@@ -443,3 +461,18 @@ x = c(2, 0, -5, 0, 1, -1, 0, 3, 0, 0, 7)
 ```
 
 Angenommen, Sie sind an den Werten interessiert, die gleich `0` sind. Wie können Sie diese finden? Wie viele Werte sind das? An welchen Positionen befinden sich diese Werte? Verwenden Sie zur Beantwortung der letzten beiden Fragen die Funktionen `sum()` bzw. `which()`!
+
+
+### Übung 10
+
+Angenommen, Sie möchten das zweite, vierte und sechste Element aus dem Vektor `x = 1:10` herausgreifen und `y` zuweisen. Warum funktioniert das nicht wie im folgenden Beispiel dargestellt?
+
+```{r}
+x = 1:10
+```
+
+```r
+y = x[2, 4, 6]
+```
+
+Geben Sie den korrekten Code an!

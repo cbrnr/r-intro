@@ -2,8 +2,10 @@
 title: "3 – Lösungen"
 subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2023-03-20
-format: html
+date: 2023-10-19
+format:
+  html:
+    page-layout: full
 engine: knitr
 highlight-style: github
 title-block-banner: true
@@ -97,4 +99,16 @@ x = c(2, 0, -5, 0, 1, -1, 0, 3, 0, 0, 7)
 x == 0
 sum(x == 0)
 which(x == 0)
+```
+
+
+### Übung 10
+
+Innerhalb der eckigen Klammer muss immer exakt *ein* Vektor sein. Möchte man also drei Positionen indizieren, muss dieser Vektor also mit `c()` erzeugt werden. Deswegen funktioniert `x[2, 4, 6]` nicht, weil hier innerhalb der eckigen Klammern drei Vektoren angegeben werden (mit Kommas voneinander getrennt).
+
+Der korrekte Code lautet also:
+
+```{r}
+x = 1:10
+x[c(2, 4, 6)]
 ```
