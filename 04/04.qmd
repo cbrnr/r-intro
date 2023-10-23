@@ -2,8 +2,10 @@
 title: "4 – Tabellarische Daten"
 subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2023-03-27
-format: html
+date: 2023-11-09
+format:
+  html:
+    page-layout: full
 engine: knitr
 highlight-style: github
 title-block-banner: true
@@ -24,7 +26,7 @@ Vektoren werden in R verwendet, um eindimensionale Daten abzubilden. Häufig sin
 
 ### Zusammenhang mit Vektoren
 
-Matrizen sind Vektoren (die wir bereits in der vorigen Einheit kennengelernt haben) mit einem speziellen Dimensionsattribut, welches man mit der Funktion `dim()` abfragen und setzen kann:
+Matrizen sind einfach Vektoren mit einem speziellen Dimensionsattribut, welches man mit der Funktion `dim()` abfragen und setzen kann:
 
 ```{r}
 (v = 1:20)
@@ -32,21 +34,36 @@ dim(v)
 length(v)
 ```
 
-Ein Vektor hat *kein* Dimensionsattribut, daher wird hier `NULL` angezeigt.
+Ein "normaler" Vektor hat *kein* Dimensionsattribut, daher wird hier `NULL` angezeigt.
 
 Nun kann man für einen Vektor das Dimensionsattribut auf die gewünschte Anzahl an Zeilen und Spalten setzen (das Produkt von Zeilen und Spalten muss mit der Gesamtanzahl an Elementen im Vektor übereinstimmen):
 
 ```{r}
 dim(v) = c(4, 5)  # 4 Zeilen, 5 Spalten
+```
+
+Nun besitzt `v` also ein Dimensionsattribut:
+
+```{r}
 dim(v)
+```
+
+Tatsächlich wird `v` ab jetzt auch als Matrix mit 4 Zeilen und 5 Spalten dargestellt:
+
+```{r}
 v
+```
+
+Und der Typ von `v` lautet jetzt:
+
+```{r}
 class(v)
 ```
 
-Dieses Beispiel zeigt, dass sich die zugrundeliegenden Daten nicht ändern – sie werden lediglich anders dargestellt bzw. interpretiert.
+Dieses Beispiel soll zeigen, dass sich die zugrundeliegenden Daten (welche nach wie vor als Vektor vorliegen) *nicht* ändern – sie werden durch das Dimensionsattribut lediglich anders dargestellt bzw. interpretiert.
 
 :::{.callout-note}
-Mit dem Dimensionsattribut kann man beliebig viele Dimensionen erstellen, nicht nur Matrizen mit zwei Dimensionen. Man spricht dann von Arrays, und eine Matrix ist ein spezielles Array mit zwei Dimensionen.
+Mit dem Dimensionsattribut kann man beliebig viele Dimensionen erstellen, nicht nur Matrizen mit zwei Dimensionen. Man spricht dann von Arrays, und eine Matrix ist ein spezielles Array mit zwei Dimensionen. Daher lautet die Ausgabe von `class(v)` im vorigen Beispiel auch `"matrix" "array"`.
 :::
 
 
@@ -58,7 +75,7 @@ Eine Matrix kann nicht nur aus einem bereits vorhandenen Vektor, sondern auch di
 (m = matrix(1:20, nrow=4, ncol=5))
 ```
 
-Das erste Argument sind die Daten (ein Vektor), die die Matrix enthalten soll. Das zweite Argument `nrow` ist die Anzahl der Zeilen, und das dritte Argument `ncol` ist die Anzahl der Spalten der Matrix. Wie man sieht werden die ursprünglichen Daten *spaltenweise* in der Matrix angeordnet. Möchte man die Daten *zeilenweise* anordnen, kann man das Argument `byrow=TRUE` setzen:
+Das erste Argument sind die Daten (ein Vektor), die die Matrix enthalten soll. Das zweite Argument `nrow` ist die Anzahl der Zeilen, und das dritte Argument `ncol` ist die Anzahl der Spalten der Matrix. Die ursprünglichen Daten werden standardmäßig *spaltenweise* in der Matrix angeordnet. Möchte man die Daten *zeilenweise* anordnen, kann man das Argument `byrow=TRUE` setzen:
 
 ```{r}
 matrix(1:20, nrow=4, ncol=5, byrow=TRUE)
@@ -67,7 +84,7 @@ matrix(1:20, nrow=4, ncol=5, byrow=TRUE)
 
 ### Benennen von Zeilen und Spalten
 
-So wie man einen Vektor mit benannten Elementen erstellen kann, kann man in einer Matrix Zeilen- und Spaltennamen vergeben:
+So, wie man einen Vektor mit benannten Elementen erstellen kann, kann man in einer Matrix Zeilen- und Spaltennamen vergeben:
 
 ```{r}
 rownames(m) = c("one", "two", "three", "four")
@@ -78,11 +95,12 @@ m
 
 ### Indizieren
 
-Das Herausgreifen einzelner Elemente funktioniert im Prinzip gleich wie bei Vektoren mit eckigen Klammern. Der Hauptunterschied ist, dass man bei Matrizen zwei Indizes angibt: der erste Index entspricht den Zeilen und der zweite entspricht den Spalten. Wenn der erste Index weggelassen wird, werden alle Zeilen herausgegriffen. Wenn der zweite Index weggelassen wird, werden alle Spalten herausgegriffen.
+Das Herausgreifen einzelner Elemente funktioniert im Prinzip gleich wie bei Vektoren: mit eckigen Klammern. Der Hauptunterschied ist, dass man bei Matrizen zwei Indizes (getrennt mit einem Komma) angibt: der erste Index entspricht den *Zeilen* und der zweite entspricht den *Spalten*. Wenn der erste Index weggelassen wird, werden alle Zeilen herausgegriffen. Wenn der zweite Index weggelassen wird, werden alle Spalten herausgegriffen.
 
 Die folgenden Beispiele illustrieren das:
 
 ```{r}
+m
 m[1, 4]  # 1. Zeile, 4. Spalte
 m[, 3]  # 3. Spalte
 m[3,]  # 3. Zeile
@@ -92,6 +110,8 @@ m[, "C"]  # Spalte C
 m["two",]  # Zeile "two"
 m[m[, "A"] > 2,]  # Zeilen, in denen die Spalte A > 2 ist
 ```
+
+Das letzte Beispiel ist in der Praxis sehr wichtig, da man so Zeilen aus einer Matrix filtern kann. Stellen Sie daher sicher, dass Sie diese Art der Indizierung verstehen – wir werden sie noch öfter brauchen!
 
 
 ### Zwang (Coercion)
@@ -137,7 +157,7 @@ Mit der Funktion `data.frame()` kann man ein Data Frame spaltenweise aus einzeln
 data.frame(x=1:5, id=c("X", "c1", "V", "RR", "7G"), value=c(12, 18, 19, 3, 8))
 ```
 
-Für die Spaltennamen werden also automatisch die jeweiligen Argumentnamen verwendet, im obigen Beispiel entstehen so die Spaltennamen `x`, `id` und `value`.
+Für die Spaltennamen werden automatisch die jeweiligen Argumentnamen verwendet, so entstehen die Spaltennamen `x`, `id` und `value`.
 
 Alternativ kann man die Funktion `data.frame()` ähnlich wie `cbind()` verwenden, um Vektoren und/oder zweidimensionale Objekte (wie Matrizen) spaltenweise aneinanderzuhängen:
 
@@ -152,6 +172,8 @@ colnames(df)
 colnames(df) = c("patient", "age", "weight", "bp", "rating", "test")
 df
 ```
+
+Auch `rownames()` funktioniert, aber in der Praxis werden nur Spaltennamen gesetzt. Die Zeilennamen verändert man am besten nicht, diese sind dann beginnend mit 1 aufsteigend durchnummeriert.
 
 
 ### Anzeigen von Data Frames
@@ -194,7 +216,7 @@ df$patient
 df$height
 ```
 
-Diese Schreibweise kann man auch anwenden, wenn man dem Data Frame eine neue Spalte hinzufügen will. Dazu gibt man einen Spaltennamen an, der noch nicht vorhanden ist und weist diesem einen Vektor mit der entsprechenden Länge zu:
+Diese Schreibweise kann man auch anwenden, wenn man dem Data Frame eine neue Spalte hinzufügen will. Dazu gibt man einen Spaltennamen an, der noch nicht vorhanden ist, und weist diesem einen Vektor mit der entsprechenden Länge zu:
 
 ```{r}
 df$value = c("yes", "no", "no", "yes")
@@ -218,10 +240,22 @@ df[["patient"]]
 df[["height"]]
 ```
 
-Dies ist also eine Alternative zur `$`-Schreibweise.
+Dies ist also eine Alternative zur `$`-Schreibweise. Diese hat die gefährliche Eigenschaft, dass man Spaltennamen nicht komplett angeben muss, es reichen die ersten paar Buchstaben:
+
+```{r}
+df$pat
+```
+
+Bei den doppelten eckigen Klammern ist das nicht der Fall:
+
+```{r}
+df[["pat"]]
+```
+
+Um solche Fehler zu vermeiden, sollte man generell die Schreibweise mit den doppelten eckigen Klammern verwenden.
 :::
 
-Zeilen und Spalten kann man auch per "normaler" Indizierung mit eckigen Klammern herausgreifen. Dies funktioniert wie bei Vektoren bzw. Matrizen: die erste Zahl in den eckigen Klammern steht für die Zeile und die zweite Zahl für die Spalte. Wenn ein Index weggelassen wird, werden alle Zeilen bzw. Spalten herausgegriffen:
+Zeilen und Spalten kann man auch per "normaler" Indizierung mit eckigen Klammern herausgreifen. Dies funktioniert wie bei Matrizen, man benötigt zwei Indizes, welche mit einem Komma voneinander getrennt sind. Die erste Zahl in den eckigen Klammern steht für die Zeile, und die zweite Zahl steht für die Spalte. Wenn ein Index weggelassen wird, werden alle Zeilen bzw. Spalten herausgegriffen:
 
 ```{r}
 df[1,]
@@ -235,12 +269,25 @@ df[, 1]
 df[, 4]
 ```
 
+:::{.callout-important}
+Das Komma darf niemals weggelassen werden, auch wenn man einen Index weglässt!
+:::
+
 Spalten (oder auch Zeilen) kann man anstelle ihrer Indizes auch mit ihren Namen ansprechen:
 
 ```{r}
 df[, "patient"]
 df[, "height"]
 ```
+
+:::{.callout-tip}
+Spalten kann man, wie bereits erwähnt, auch mit den doppelten eckigen Klammern herausgreifen. Hier kann man nicht nur den Spaltennamen, sondern auch die Spaltenposition verwenden:
+
+```{r}
+df[["patient"]]
+df[[1]]
+```
+:::
 
 Außerdem kann auch gezielt ein bestimmter Bereich herausgegriffen werden, wenn man sowohl Zeilen- als auch Spaltenbereiche angibt:
 
@@ -274,7 +321,7 @@ Mit der Funktion `tibble()` kann man nun ein neues Tibble erstellen, ganz analog
 
 Wenn man ein Tibble am Bildschirm ausgibt, werden für jede Spalte automatisch die Datentypen angeführt.
 
-Bei längeren Tabellen zeigt sich ein weiterer Vorteil von Tibbles: gibt man lange Tibbles am Bildschirm aus, wird die Darstellung automatisch so angepasst, dass nicht alle Zeilen/Spalten ausgegeben werden, sondern nur so viel wie möglich um noch einen guten Überblick über die Daten zu gewährleisten. Dies sieht man beispielsweise am Datensatz `CO2`, welcher als Data Frame in R vorhanden ist:
+Bei längeren Tabellen zeigt sich ein weiterer Vorteil von Tibbles: gibt man lange Tibbles am Bildschirm aus, wird die Darstellung automatisch so angepasst, dass nicht alle Zeilen/Spalten ausgegeben werden, sondern nur so viel wie möglich, um noch einen guten Überblick über die Daten zu gewährleisten. Dies sieht man beispielsweise am Datensatz `CO2`, welcher als Data Frame in R vorhanden ist:
 
 ```{r}
 CO2
@@ -327,7 +374,7 @@ Geben Sie abschließend `df` am Bildschirm aus. Welche Datentypen haben die drei
 
 Erstellen Sie ein neues Data Frame `df_f`, welches die Zeilen aller weiblichen Personen aus `df` (aus Übung 3) enthält, und geben Sie dieses am Bildschirm aus. Verwenden Sie für die Lösung einen logischen Indexvektor, damit dies auch für beliebig lange Daten (bei denen sich männliche und weibliche Personen nicht zeilenweise abwechseln) funktioniert!
 
-Geben Sie außerdem vier Möglichkeiten an, wie man auf die erste Spalte zugreifen kann!
+Geben Sie außerdem mindestens vier Möglichkeiten an, wie man auf die erste Spalte zugreifen kann!
 
 
 ### Übung 5

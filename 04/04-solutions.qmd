@@ -2,8 +2,10 @@
 title: "4 – Lösungen"
 subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2023-03-27
-format: html
+date: 2023-11-09
+format:
+  html:
+    page-layout: full
 engine: knitr
 highlight-style: github
 title-block-banner: true
@@ -60,18 +62,29 @@ str(df)  # character, character, numeric
 ## Übung 4
 
 ```{r}
-df_f = df[df[, "gender"]=="f", ]  # Variante 1
-df_f = df[df$gender=="f", ]  # Variante 2
+df_f = df[df[, "gender"] == "f", ]
 df_f
 ```
 
-Vier Möglichkeiten, um auf die erste Spalte zuzugreifen:
+:::{.callout-note}
+Zur Erstellung von `df_f` gibt es noch weitere Varianten:
 
 ```{r}
-df_f[, 1]
-df_f[, "name"]
-df_f$name
-df_f[["name"]]
+df_f = df[df$gender == "f", ]
+df_f = df[df[["gender"]] == "f",]
+df_f = df[df[[2]] == "f",]
+df_f = df[df[, 2] == "f",]
+```
+:::
+
+Fünf Möglichkeiten, um auf die erste Spalte zuzugreifen:
+
+```{r}
+df_f[, 1]  # Spalte 1
+df_f[, "name"]  # Spalte "name"
+df_f$name  # Spalte "name"
+df_f[["name"]]  # Spalte "name"
+df_f[[1]]  # Spalte 1
 ```
 
 
@@ -81,7 +94,7 @@ df_f[["name"]]
 dim(mtcars)  # 32 Zeilen, 11 Spalten
 mtcars1 = mtcars[mtcars$mpg > 25, ]
 dim(mtcars1)  # 6 Zeilen, 11 Spalten
-````
+```
 
 
 ## Übung 6
@@ -99,7 +112,7 @@ airquality[, "Ozone"]
 air[, "Ozone"]
 ```
 
-Beim Indizieren mit eckigen Klammern erhält man bei einem Data Frame für die Spalte einen Vektor, bei einem Tibble erhält man jedoch ein Tibble.
+Beim Indizieren einer Spalte mit eckigen Klammern erhält man bei einem Data Frame einen Vektor, bei einem Tibble erhält man jedoch ein Tibble.
 
 ```{r}
 airquality$Ozone
@@ -117,4 +130,4 @@ airquality[, 1:2]
 air[, 1:2]
 ```
 
-Möchte man für eine Spalte einen Vektor, kann man bei beiden Datentypen entweder `$` oder `[[]]` verwenden.
+Möchte man für eine einzige Spalte einen Vektor, kann man bei beiden Datentypen entweder `$` oder `[[]]` verwenden (letzteres ist zu empfehlen).
