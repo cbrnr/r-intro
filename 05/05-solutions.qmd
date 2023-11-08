@@ -52,7 +52,7 @@ round(colSums(wahl16[, -1]) / sum(wahl16[, -1]) * 100, 1)
 
 ```{r}
 covid = read_delim(
-    "https://covid19-dashboard.ages.at/data/CovidFaelle_Timeline.csv",
+    "covid19.csv",
     delim=";",
     locale=locale(decimal_mark=","),
     col_types=cols(Time=col_date("%d.%m.%Y %H:%M:%S"))
@@ -70,3 +70,14 @@ dim(df)  # 2.075.259 Zeilen und 9 Spalten
 ```
 
 Die Spalte `Date` könnte man noch in einen passenderen Typ konvertieren (ist jetzt `character`).
+
+
+## Übung 6
+
+
+```{r}
+x = c(1, 2, 3)
+factor(x, levels=c(1, 2), labels=c("one", "two"))
+```
+
+Man erkennt, dass alle Stufen, die nicht in `levels` enthalten sind, auch nicht im resultierenden Faktor vorkommen. Daher werden solche Werte auf `NA` gesetzt.

@@ -2,8 +2,10 @@
 title: "5 – Daten importieren"
 subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2023-04-17
-format: html
+date: 2023-11-16
+format:
+  html:
+    page-layout: full
 engine: knitr
 highlight-style: github
 title-block-banner: true
@@ -34,7 +36,7 @@ Das [Tidyverse](https://www.tidyverse.org/) beinhaltet das Paket `readr`, welche
 library(readr)
 ```
 
-:::{.callout-tip}
+:::{.callout-important}
 Funktionen zum Importieren von Textdaten aus dem `readr`-Paket beginnen alle mit `read_`, wohingegen die mit R mitgelieferten Funktionen mit `read.` beginnen.
 :::
 
@@ -62,7 +64,7 @@ Zoe,11/12/1984,2,17,18,10,13
 
 Man erkennt, dass bei dieser konkreten Datei die einzelnen Spalten tatsächlich durch Kommas getrennt sind (hier passt also die Endung `.csv` zum Inhalt). Außerdem ist eine Kopfzeile mit den Spaltennamen vorhanden.
 
-Die Funktion `read_delim()` erkennt das Spaltentrennzeichen meistens automatisch, d.h. es reicht wenn man ihr lediglich den Dateinamen als Argument übergibt:
+Die Funktion `read_delim()` erkennt das Spaltentrennzeichen meistens automatisch, d.h. es reicht, wenn man ihr lediglich den Dateinamen als Argument übergibt:
 
 ```{r}
 #| message: false
@@ -97,10 +99,10 @@ read_delim("lecturer.dat", delim="\t")
 read_tsv("lecturer.dat")
 ```
 
-Ein weiterer wichtiger Parameter solcher Textdateien ist das verwendete Dezimaltrennzeichen bei Kommazahlen. In der englischen Schreibweise wird ein Punkt als Dezimaltrennzeichen verwendet (z.B. `12.3` oder `3.1415`). In der deutschen Schreibweise wird hingegen ein Komma verwendet (z.B. `12,3` oder `3,1415`). Das Dezimaltrennzeichen kann in der Funktion `read_delim()` mit dem Argument `locale` festgelegt werden. Es ist standardmäßig auf einen Punkt gesetzt, ebenso bei den Funktionen `read_csv()` und `read_tsv()`. Sollten Zahlen jedoch in der deutschen Schreibweise vorliegen, können die Spalten nicht auch durch Kommas getrennt sein – hier werden diese dann oft durch Semikolons getrennt. Für solche Textdateien setzt man daher die Argumente `delim=";"` und `locale=locale(decimal_mark=",")` bzw. verwendet die spezialisierte Funktion `read_csv2()` (welche ein Semikolon als Spaltentrennzeichen und ein Komma als Dezimaltrennzeichen annimmt).
+Ein weiteres wichtiges Merkmal solcher Textdateien ist das verwendete Dezimaltrennzeichen bei Kommazahlen. In der englischen Schreibweise wird ein Punkt als Dezimaltrennzeichen verwendet (z.B. `12.3` oder `3.1415`). In der deutschen Schreibweise wird hingegen ein Komma verwendet (z.B. `12,3` oder `3,1415`). Das Dezimaltrennzeichen kann in der Funktion `read_delim()` mit dem Argument `locale` festgelegt werden. Es ist standardmäßig auf einen Punkt gesetzt, ebenso bei den Funktionen `read_csv()` und `read_tsv()`. Sollten Zahlen jedoch in der deutschen Schreibweise vorliegen, können die Spalten nicht auch durch Kommas getrennt sein – hier werden diese dann oft durch Semikolons getrennt. Für solche Textdateien setzt man daher die Argumente `delim=";"` und `locale=locale(decimal_mark=",")` bzw. verwendet die spezialisierte Funktion `read_csv2()` (welche ein Semikolon als Spaltentrennzeichen und ein Komma als Dezimaltrennzeichen annimmt).
 
 :::{.callout-important}
-Unabhängig davon, wie Dezimaltrennzeichen in den Textdateien dargestellt werden, verwendet R für Kommazahlen *immer* einen *Punkt*!
+Unabhängig davon, wie Dezimaltrennzeichen in den Textdateien dargestellt werden, verwendet R für Dezimalzahlen *immer* einen *Punkt*!
 :::
 
 
@@ -128,7 +130,7 @@ df = read_excel("lecturer.xlsx")
 
 Mit RStudio kann man Daten in vielen Formaten auch mit einem grafischen Dialog importieren. Praktischerweise bekommt man immer den dazugehörigen R-Code mitgeliefert, welcher die Daten korrekt importiert – diesen Code kann man dann in eigenen Scripts verwenden.
 
-Dazu klickt man in der *Files*-Ansicht rechts unten auf die gewünschte Datei und wählt *Import Dataset* aus. Alternativ kann man in der *Environment*-Ansicht rechts oben auf *Import Dataset*, gefolgt vom gewünschten Format, klicken. Es öffnet sich ein neues Fenster, in dem man eine Vorschau der zu importierenden Datei sieht. Es gibt hier auch die Möglichkeit, Optionen zu ändern – wie sich das auf die eingelesenen Daten auswirkt, ist in der Vorschau unmittelbar ersichtlich. Der zugehörige Code befindet sich dann rechts unten. Im folgenden Bild sieht man diesen Dialog beispielhaft für eine zu importierende SPSS-Datei.
+Dazu klickt man in der *Files*-Ansicht rechts unten auf die gewünschte Datei und wählt *Import Dataset* aus. Alternativ kann man in der *Environment*-Ansicht rechts oben auf *Import Dataset*, gefolgt vom gewünschten Format, klicken. Diese Funktionalität ist auch im *File*-Menü unter dem Eintrag *Import Dataset* zu finden. Es öffnet sich ein neues Fenster, in dem man eine Vorschau der zu importierenden Datei sieht. Es gibt hier auch die Möglichkeit, Optionen zu ändern – wie sich das auf die eingelesenen Daten auswirkt, ist in der Vorschau unmittelbar ersichtlich. Der zugehörige Code befindet sich dann rechts unten. Im folgenden Bild sieht man diesen Dialog beispielhaft für eine zu importierende SPSS-Datei.
 
 ![](import.png)
 
@@ -142,7 +144,7 @@ In welchem Dateiformat die Daten auch immer vorliegen, schlussendlich landen sie
 (df = read_csv("lecturer.csv"))
 ```
 
-Man erkennt, dass die numerischen Werte korrekt als Zahlen erkannt wurden (die Abkürzung `<dbl>` bedeutet "double" und entspricht Kommazahlen, d.h. einem numerischen Vektor). Allerdings besitzt die dritte Spalte `job` lediglich zwei Werte, welche eigentlich zwei verschiedene Berufe repräsentieren (`1` steht für den Beruf "Lecturer", `2` für den Beruf "Student"). Hier wäre eine kategorische Spalte (ein Faktor, dazu gleich mehr) besser geeignet als eine numerische. Die erste Spalte `name` wurde korrekt als `chr` (Character-Vektor) erkannt. Auch die zweite Spalte `birth_date` wurde als Charakter-Vektor erkannt, aber es gibt in R einen eigenen Datentyp für Datumswerte (was u.a. das Rechnen mit solchen Werten ermöglicht).
+Man erkennt, dass die numerischen Werte korrekt als Zahlen erkannt wurden (die Abkürzung `<dbl>` bedeutet "double" und entspricht Dezimalzahlen, d.h. einem numerischen Vektor). Allerdings besitzt die dritte Spalte `job` lediglich zwei Werte, welche eigentlich zwei verschiedene Berufe repräsentieren (`1` steht für den Beruf "Lecturer", `2` für den Beruf "Student"). Hier wäre eine kategorische Spalte (ein Faktor, dazu gleich mehr) besser geeignet als eine numerische. Die erste Spalte `name` wurde korrekt als `chr` (Character-Vektor) erkannt. Auch die zweite Spalte `birth_date` wurde als Charakter-Vektor erkannt, aber es gibt in R einen eigenen Datentyp für Datumswerte (was u.a. das Rechnen mit solchen Werten ermöglicht).
 
 
 ### Faktoren
@@ -158,9 +160,9 @@ df
 
 Die drei Argumente haben dabei folgende Bedeutung:
 
-- `df$job` sind die Ausgangsdaten
-- `levels=c(1, 2)` gibt an, welche Werte (Stufen) in den Ausgangsdaten vorkommen
-- `labels=c("Lecturer", "Student")` weist den Stufen entsprechende Namen (Labels) zu
+- `df$job` sind die Ausgangsdaten.
+- `levels=c(1, 2)` gibt an, welche Werte (Stufen) in den Ausgangsdaten vorkommen und wir auch verwenden möchten.
+- `labels=c("Lecturer", "Student")` weist den verwendeten Stufen entsprechende Namen (Labels) zu.
 
 Die Spalte `job` hat nun den gewünschten Typ (`<fct>` in der Tibble-Darstellung). Dies können wir auch mit der altbekannten Funktion `class()` explizit überprüfen:
 
@@ -199,10 +201,10 @@ Die Kürzel `%d`, `%m`, `%y` und noch viele weitere sind in der Hilfe von `as.Da
 
 ## Daten speichern
 
-Wenn man ein bestehendes Data Frame oder Tibble in eine Datei speichern möchte, geht das am einfachsten mit der Funktion `write_delim()` (bzw. `write_csv()` und `write_tsv()`) aus dem `readr`-Paket. Dies funktioniert prinzipiell ganz analog zu den oben beschriebenen Lesefunktionen, nur gibt man hier sowohl das zu speichernde Data Frame als auch den Dateinamen an.
+Wenn man ein bestehendes Data Frame oder Tibble als Textdatei speichern möchte, geht das am einfachsten mit der Funktion `write_delim()` (bzw. `write_csv()` und `write_tsv()`) aus dem `readr`-Paket. Dies funktioniert prinzipiell ganz analog zu den oben beschriebenen Lesefunktionen, nur gibt man hier sowohl das zu speichernde Data Frame als auch den Dateinamen an.
 
 :::{.callout-tip}
-Es sollten nur kleine bis mittelgroße Datensätze als Textdateien gespeichert werden. Bei großen Datensätzen würde die entstehende Datei sehr groß werden – in solchen Fällen sollte man effizientere Datenformate verwenden wie z.B. das in R verfügbare Datenformat `.RData`, welches mit der Funktion `save()` erzeugt bzw. mit `load()` gelesen werden kann. Noch bessere Alternativen sind die hocheffizienten und offenen Formate [Parquet](https://parquet.apache.org/) und [Feather](https://arrow.apache.org/docs/python/feather.html), welche sowohl mit R als auch mit Python und vielen weiteren Programmiersprachen importiert werden können.
+Es sollten nur kleine bis mittelgroße Datensätze als Textdateien gespeichert werden. Bei großen Datensätzen würde die entstehende Datei sehr viel Speicherplatz benötigen – in solchen Fällen sollte man effizientere Datenformate verwenden wie z.B. das in R verfügbare Datenformat `.RData`, welches mit der Funktion `save()` erzeugt bzw. mit `load()` gelesen werden kann. Noch bessere Alternativen sind die hocheffizienten und offenen Formate [Parquet](https://parquet.apache.org/) und [Feather](https://arrow.apache.org/docs/python/feather.html), welche sowohl mit R als auch mit Python und vielen weiteren Programmiersprachen importiert werden können.
 :::
 
 
@@ -225,7 +227,7 @@ In der Datei [`wahl16.csv`](wahl16.csv) befinden sich die [Ergebnisse der Bundes
 
 ### Übung 4
 
-Auf <https://covid19-dashboard.ages.at/data/CovidFaelle_Timeline.csv> sind Daten zu den täglichen Covid19-Neuinfektionen in Österreich zu finden. Importieren Sie diese Datei in R (achten Sie auf geeignete Argumente, um die Datei richtig einzulesen wie z.B. das korrekte Spaltentrennzeichen sowie Dezimaltrennzeichen)! Aus wie vielen Zeilen und Spalten besteht dieser Datensatz?
+Die Datei [`covid19.csv`](covid19.csv) enthält Daten zu den täglichen Covid19-Neuinfektionen in Österreich im Zeitraum 26.2.2020 bis 26.6.2023. Importieren Sie diese Datei in R (achten Sie auf geeignete Argumente, um die Datei richtig einzulesen wie z.B. das korrekte Spaltentrennzeichen sowie Dezimaltrennzeichen)! Aus wie vielen Zeilen und Spalten besteht dieser Datensatz?
 
 Achten Sie besonders auf die Spalte `SiebenTageInzidenzFaelle` – diese beinhaltet Dezimalzahlen und sollte dementsprechend numerisch sein!
 
@@ -242,5 +244,18 @@ Lesen Sie die Daten in ein Tibble namens `df` ein und geben Sie es am Bildschirm
 -   Welche Spalten könnte man eventuell noch in einen passenderen Typ umwandeln?
 
 :::{.callout-tip}
-Es ist wichtig, dass R beim Einlesen der Daten fehlende Werte korrekt erkennt. Stellen Sie durch Setzen des entsprechenden Argumentes der Funktion `read_delim()` sicher, dass diese fehlenden Werte richtig eingelesen werden (und somit korrekt als `NA` interpretiert werden)! Es kommen sowohl `"?"` als auch `""` als fehlende Werte in der Datei vor. Die korrekt importierten Daten sollten in einem Tibble mit den folgenden Spaltentypen vorhanden sein: eine Spalte `chr`, sieben Spalten `dbl` und eine Spalte `time`.
+Es ist wichtig, dass R beim Einlesen der Daten fehlende Werte korrekt erkennt. Stellen Sie durch Setzen des entsprechenden Argumentes der Funktion `read_delim()` sicher, dass diese fehlenden Werte richtig eingelesen werden (und somit korrekt als `NA` interpretiert werden)! Es kommen sowohl `"?"` als auch `""` als fehlende Werte in der Datei vor.
+
+Die korrekt importierten Daten sollten in einem Tibble mit den folgenden Spaltentypen vorhanden sein: eine Spalte `chr`, sieben Spalten `dbl` und eine Spalte `time`.
 :::
+
+
+### Übung 6
+
+Gegeben sei der folgende numerische Vektor `x`:
+
+```r
+x = c(1, 2, 3)
+```
+
+Was passiert, wenn Sie diesen Vektor in einen Faktor konvertieren möchten, aber nur die Stufen `1` und `2` (mit den Labels `"one"` und `"two"`) verwenden möchten? Wie wird der Wert `3` behandelt?
