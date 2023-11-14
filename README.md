@@ -7,7 +7,7 @@ Die folgenden Unterlagen bieten eine kurze Einführung in die Grundlagen von R. 
  3. [Vektoren](https://r-23w-03.netlify.app) ([Lösungen](https://quartopub.com/sites/cbrnr/r-23w-03-solutions))
  4. [Tabellarische Daten](https://r-23w-04.netlify.app) ([Lösungen](https://r-23w-04-solutions.netlify.app))
  5. [Daten importieren](https://r-23w-05.netlify.app) ([Lösungen](https://r-23w-05-solutions.netlify.app))
- 6. [Deskriptive Statistiken](https://quartopub.com/sites/cbrnr/r-23w-06) ([Lösungen](https://quartopub.com/sites/cbrnr/r-23w-06-solutions))
+ 6. [Deskriptive Statistiken](https://r-23w-06.netlify.app) ([Lösungen](https://r-23w-06-solutions.netlify.app))
  7. [Datenaufbereitung](https://quartopub.com/sites/cbrnr/r-23w-07) ([Lösungen](https://quartopub.com/sites/cbrnr/r-23w-07-solutions))
  8. [Grafiken](https://quartopub.com/sites/cbrnr/r-23w-08) ([Lösungen](https://quartopub.com/sites/cbrnr/r-23w-08-solutions))
  9. [Korrelation](https://quartopub.com/sites/cbrnr/r-23w-09) ([Lösungen](https://quartopub.com/sites/cbrnr/r-23w-09-solutions))

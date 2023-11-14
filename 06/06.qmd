@@ -2,9 +2,15 @@
 title: "6 – Deskriptive Statistiken"
 subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2023-04-24
-format: html
+date: 2023-11-23
+format:
+  html:
+    page-layout: full
 engine: knitr
+knitr:
+  opts_chunk: 
+    R.options:
+      width: 120
 highlight-style: github
 title-block-banner: true
 theme:
@@ -83,7 +89,7 @@ Die Funktion `summary()` liefert eine geeignete Zusammenfassung für jede Spalte
 
 1. Minimum
 2. Erstes Quartil (25%-Perzentil)
-3. Median
+3. Median (50%-Perzentil)
 4. Drittes Quartil (75%-Perzentil)
 5. Maximum
 6. Arithmetischer Mittelwert
