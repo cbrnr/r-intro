@@ -7,6 +7,10 @@ format:
   html:
     page-layout: full
 engine: knitr
+knitr:
+  opts_chunk: 
+    R.options:
+      width: 120
 highlight-style: github
 title-block-banner: true
 theme:
