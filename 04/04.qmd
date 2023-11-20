@@ -344,6 +344,14 @@ print(co2_tibble, n=Inf)  # n=Inf zeigt alle Zeilen an
 View(co2_tibble)  # öffnet eine Tabellenansicht in RStudio
 ```
 
+:::{.callout-tip}
+Die Funktion `str()` liefert für Tibbles oft eine sehr unübersichtliche Zusammenfassung. Stattdessen kann man `glimpse()` aus dem Paket `tibble` verwenden (dies funktioniert sowohl für Data Frames als auch Tibbles):
+
+```{r}
+glimpse(CO2)
+```
+:::
+
 
 ## Übungen
 
