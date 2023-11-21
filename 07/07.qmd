@@ -2,9 +2,15 @@
 title: "7 – Datenaufbereitung"
 subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2023-05-08
-format: html
+date: 2023-11-30
+format:
+  html:
+    page-layout: full
 engine: knitr
+knitr:
+  opts_chunk: 
+    R.options:
+      width: 120
 highlight-style: github
 title-block-banner: true
 theme:
@@ -67,7 +73,7 @@ library(tidyr)
 ))
 ```
 
-Hier übergibt man zuerst die Daten im Wide-Format (`df`), gefolgt von einer Auswahl der Spalten, die man ins Long-Format bringen möchte – in unserem Beispiel sind das die Spalten von `Age` bis `Height`. Für diese Spaltenauswahl kann man die Spaltennamen ohne Anführungszeichen schreiben, und auch der Doppelpunkt funktioniert wie bei Zahlensequenzen. Man könnte hier auch die Indizes der Spalten verwenden, also `2:4` statt `Age:Height`. Schließlich gibt man mit `names_to` den gewünschten Namen der Indikatorspalte an (im Beispiel soll diese also `Variable` heißen) und mit `values_to` den Namen der Werte-Spalte (`Value`).
+Hier übergibt man zuerst die Daten im Wide-Format (`df`), gefolgt von einer Auswahl der (Werte-)Spalten, die man ins Long-Format bringen möchte – in unserem Beispiel sind das die Spalten von `Age` bis `Height`. Für diese Spaltenauswahl kann man die Spaltennamen ohne Anführungszeichen schreiben, und auch der Doppelpunkt funktioniert wie bei Zahlensequenzen. Man könnte hier auch die Indizes der Spalten verwenden, also `2:4` statt `Age:Height`. Schließlich gibt man mit `names_to` den gewünschten Namen der Indikatorspalte an (im Beispiel soll diese also `Variable` heißen) und mit `values_to` den Namen der neuen Werte-Spalte (`Value`).
 
 Der umgekehrte Weg wird mit `pivot_wider()` beschritten; diese Funktion kann eine Spalte auf mehrere Spalten aufteilen, d.h. vom Long-Format ins Wide-Format konvertieren:
 
@@ -80,7 +86,7 @@ Der umgekehrte Weg wird mit `pivot_wider()` beschritten; diese Funktion kann ein
 ))
 ```
 
-Hier gibt man zunächst die Daten im Long-Format an (`df_long`). Danach folgt mit `id_cols` der Spaltenname, welcher die einzelnen Fälle identifiziert (also die individuellen Personen in unserem Beispiel). Danach gibt man mit `names_from` die Spalte an, welche die Variablennamen beinhaltet (also die Indikatorspalte `Variable`). Schließlich definiert man mit `values_from` die Spalte, welche die Werte beinhaltet (`Value`).
+Hier gibt man zunächst die Daten im Long-Format an (`df_long`). Danach folgen mit `id_cols` die Spaltennamen, welche die einzelnen Fälle identifizieren (in unserem Beispiel ist das nur eine einzige Spalte namens `Person`). Danach gibt man mit `names_from` die Spalte an, welche die Variablennamen beinhaltet (also die Indikatorspalte `Variable`). Schließlich definiert man mit `values_from` die Spalte, welche die Werte beinhaltet (`Value`).
 
 Diese beiden Funktionen können sehr viel komplexere Strukturen in die jeweiligen Formate konvertieren – dies ist alles in der Hilfe nachzulesen, inklusive vieler Beispiele, die die Verwendung demonstrieren.
 
@@ -125,7 +131,7 @@ Damit kann man auch komplexere Filter-Operationen durchführen, indem man einen 
 subset(df, age > 40 & weight <= 73)
 ```
 
-Hier kann man also alle möglichen Vergleiche bzw. Verknüpfungsoperatoren (`&` und, `|` oder, `xor()` exklusives oder) verwenden.
+Hier kann man also alle möglichen Vergleiche bzw. Verknüpfungsoperatoren (`&` und, `|` oder, `xor()` [exklusives oder](https://de.wikipedia.org/wiki/Kontravalenz)) verwenden.
 
 
 ## Spalten selektieren mit `subset()`
@@ -159,7 +165,7 @@ subset(df, subset=age > 30, select=c(name, age, sex))
 
 ## Spalten transformieren mit `transform()`
 
-Eine weitere wichtige Aufgabe in der Datenanalyse ist es, neue Spalten zu einem bestehenden Data Frame hinzuzufügen. Wenn die Werte dieser neuen Spalten dabei auf vorhandenen Spalten basieren, spricht man von einer Transformation. Sehen wir uns dazu das in R eingebaute Data Frame `airquality` an:
+Eine weitere wichtige Aufgabe in der Datenanalyse ist es, neue Spalten zu einem bestehenden Data Frame hinzuzufügen. Wenn die Werte dieser neuen Spalten dabei auf vorhandenen Spalten basieren, spricht man von einer Transformation. Betrachten wir dazu das in R vorhandene Data Frame `airquality`:
 
 ```{r}
 head(airquality)
@@ -172,16 +178,16 @@ aq = transform(airquality, celsius=(Temp - 32) * (5/9))
 head(aq)
 ```
 
-Beachten Sie, dass wir in der Transformation vorhandene Spalten wieder direkt benennen können (im Beispiel `Temp`), ohne Anführungszeichen oder `airquality$` verwenden zu müssen. Außerdem wird immer ein *neues* Data Frame erzeugt; Sie könnten dieses aber dem ursprünglichen Namen zuweisen wenn Sie möchten (also `airquality` in obigem Beispiel statt `aq`).
+Beachten Sie, dass wir in der Transformation vorhandene Spalten wieder direkt verwenden können (im Beispiel `Temp`), ohne Anführungszeichen oder `airquality$` verwenden zu müssen. Außerdem wird immer ein *neues* Data Frame erzeugt; Sie könnten dieses aber dem ursprünglichen Namen zuweisen, wenn Sie möchten (also `airquality` in obigem Beispiel statt `aq`).
 
 :::{.callout-important}
-Das Ergebnis der Funktion `transform()` ist ein Data Frame, auch wenn Sie ein Tibble als Ausgangsdaten verwenden. Falls das Ergebnis aber auch ein Tibble sein soll, muss man den Rückgabewert von `transform()` mit `tibble::as_tibble()` explizit umwandeln.
+Das Ergebnis der Funktion `transform()` ist ein Data Frame, auch wenn Sie ein Tibble als Ausgangsdaten verwenden. Falls das Ergebnis aber auch ein Tibble sein soll, muss man den Rückgabewert von `transform()` mit `tibble::as_tibble()` explizit in ein Tibble konvertieren.
 :::
 
 
 ## Der Pipe-Operator `|>`
 
-Seit R 4.1 gibt es einen sogenannten Pipe-Operator. Dieser wird als `|>` angeschrieben. Das Prinzip dahinter ist so einfach wie genial. Obwohl damit keinerlei neue Funktionalität hinzugefügt wird (d.h. man kann alle Operationen auch ohne den Pipe-Operator umsetzen), werden viele Operationen einfacher bzw. intuitiver.
+Seit R 4.1 gibt es einen sogenannten Pipe-Operator. Dieser wird als `|>` angeschrieben. Das Prinzip dahinter ist so einfach wie genial. Obwohl damit keinerlei neue Funktionalität hinzugefügt wird (d.h. man kann alle Operationen auch ohne den Pipe-Operator umsetzen), werden viele Operationen dadurch einfacher bzw. intuitiver.
 
 Grundsätzlich kann man mit dem Pipe-Operator einen Funktionsaufruf `f(x)` als `x |> f()` anschreiben. Das ist eine reine syntaktische Alternative, d.h. beide Varianten tun genau das gleiche. Beispiel:
 

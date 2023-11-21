@@ -1,3 +1,6 @@
 *.html
 *_files/
 .Rhistory
+.quarto/
+
+/.quarto/

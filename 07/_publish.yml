@@ -1,8 +1,8 @@
 - source: 07.qmd
-  quarto-pub:
-    - id: 3e4fdadb-62df-4792-ad57-603f74f77a4e
-      url: 'https://quartopub.com/sites/cbrnr/r-23s-07'
+  netlify:
+    - id: 271a2800-b2df-44ec-8900-332ae4879adf
+      url: 'https://r-23w-07.netlify.app/'
 - source: 07-solutions.qmd
-  quarto-pub:
-    - id: 09723414-c764-4502-aa5d-eee8aa3fb17d
-      url: 'https://quartopub.com/sites/cbrnr/r-23s-07-solutions'
+  netlify:
+    - id: 76c88532-93d8-4bf0-896a-372b61f36f29
+      url: 'https://r-23w-07-solutions.netlify.app/'
