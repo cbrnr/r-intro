@@ -2,9 +2,15 @@
 title: "8 – Grafiken"
 subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2023-05-15
-format: html
+date: 2023-12-07
+format:
+  html:
+    page-layout: full
 engine: knitr
+knitr:
+  opts_chunk: 
+    R.options:
+      width: 120
 highlight-style: github
 title-block-banner: true
 theme:
@@ -17,7 +23,7 @@ published-title: "Veröffentlicht"
 
 ## Allgemeines
 
-In R gibt es mehrere Pakete, mit denen man Daten grafisch darstellen kann. Grafiken, welche mit unterschiedlichen Paketen erstellt wurden, lassen sich aber nicht (einfach) miteinander kombinieren. Deshalb entscheidet man sich typischerweise vor der Erstellung einer Grafik für das zu verwendende Grafikpaket.
+In R gibt es mehrere Pakete, mit denen man Daten grafisch darstellen kann. Grafiken, welche mit unterschiedlichen Paketen erstellt wurden, lassen sich aber nicht miteinander kombinieren. Deshalb entscheidet man sich typischerweise vor der Erstellung einer Grafik für das zu verwendende Grafikpaket.
 
 Das `graphics`-Paket wird auch als Base-Plotting-System bezeichnet. Es ist Teil von R und muss nicht extra installiert werden. Das Base-Plotting-System eignet sich sehr gut für schnelle Visualisierungen – mit etwas Aufwand kann man aber auch schöne Grafiken für Publikationen erstellen.
 
@@ -30,9 +36,9 @@ str(airquality)
 
 ## Die `plot()`-Funktion
 
-Eine der wichtigsten Funktionen im Base-Plotting-System ist `plot()`. Diese Funktion erstellt spezielle Visualisierungen in Abhängigkeit von den darzustellenden Daten.
+Eine der wichtigsten Funktionen im Base-Plotting-System ist `plot()`. Diese Funktion erstellt passende Visualisierungen in Abhängigkeit von den darzustellenden Daten.
 
-Wenn man einen numerischen Vektor übergibt, erhält man eine Punktgrafik. Auf der x-Achse wird der Index der Datenpunkte dargestellt:
+Wenn man einen numerischen Vektor übergibt, erhält man eine Punktgrafik. Auf der x-Achse wird der Index der Datenpunkte dargestellt, auf der y-Achse die Datenwerte:
 
 ```{r}
 plot(airquality$Ozone)
@@ -227,12 +233,12 @@ Folgende Linientypen sind als Werte für `lty` möglich:
 5       lange Striche
 6       kurzer Strich, langer Strich
 
-Die Hilfe der Funktion `points()` listet alle verfügbaren Zeichensymbole für `pch` auf. Der Parameter `cex.axis` setzt einen Skalierungsfaktor für die Achsenbeschriftung; standardmäßig ist dieser 1. Werte kleiner als 1 verkleinern daher die Achsenbeschriftung, Werte größer als 1 vergrößern diese.
+Die Hilfe der Funktion `points()` listet alle verfügbaren Zeichensymbole für `pch` auf. Der Parameter `cex.axis` setzt einen Skalierungsfaktor für die Achsenbeschriftung; standardmäßig ist dieser 1 – Werte kleiner als 1 verkleinern daher die Achsenbeschriftung, Werte größer als 1 vergrößern diese.
 
 
 ## Hinzufügen von Elementen zu einer Grafik
 
-Mit dem Base-Plotting-System kann man zuerst eine Grafik erstellen und danach zusätzliche grafische Elemente hinzufügen. Dazu verwendet man entsprechende Funktionen, die im Folgenden vorgestellt werden.
+Mit dem Base-Plotting-System kann man eine Grafik erstellen und danach zusätzliche grafische Elemente hinzufügen. Dazu verwendet man entsprechende Funktionen, die im Folgenden vorgestellt werden.
 
 Einen Titel kann man mit `title()` hinzufügen:
 
