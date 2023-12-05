@@ -2,9 +2,15 @@
 title: "9 – Korrelation"
 subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2023-05-23
-format: html
+date: 2023-12-07
+format:
+  html:
+    page-layout: full
 engine: knitr
+knitr:
+  opts_chunk: 
+    R.options:
+      width: 120
 highlight-style: github
 title-block-banner: true
 theme:
@@ -17,9 +23,9 @@ published-title: "Veröffentlicht"
 
 ## Allgemeines
 
-Oft ist es interessant zu fragen, ob zwei Variablen eine gegenseitige Abhängigkeit zeigen. Man möchte also wissen, ob sich die beiden Größen ähnlich verhalten oder nicht – wenn die eine Variable zunimmt, nimmt dann die andere auch zu? Oder ist es genau umgekehrt und sie nimmt dann immer ab? Die Korrelation ist ein einfaches und populäres Maß um diese Fragestellungen zu beantworten.
+Oft ist es interessant zu fragen, ob zwei Variablen eine gegenseitige Abhängigkeit zeigen. Man möchte also wissen, ob sich die beiden Größen ähnlich verhalten oder nicht – wenn die eine Variable zunimmt, nimmt dann die andere auch zu? Oder ist es genau umgekehrt und sie nimmt dann immer ab? Die Korrelation ist ein einfaches und populäres Maß, um diese Fragestellungen zu beantworten.
 
-Folgende Beispiele von der Website [Spurious Correlations](http://www.tylervigen.com/spurious-correlations) illustrieren die Gefahr der fehlerhaften Interpretation von Korrelationen. Im ersten Beispiel werden die Ausgaben für den Bereich Wissenschaft, Raumfahrt und Technik der USA im Zeitraum 1999–2009 dargestellt. Gleichzeitig werden die Anzahl der Selbstmorde durch Hängen, Strangulieren und Erstickung im selben Zeitraum gezeigt. Man sieht, dass beide Kurven einen sehr ähnlichen Verlauf haben, und der Korrelationskoeffizient (dazu später mehr) ist mit $r=0.998$ extrem hoch:
+Folgende Beispiele von [Spurious Correlations](http://www.tylervigen.com/spurious-correlations) illustrieren die Gefahr der fehlerhaften Interpretation von Korrelationen. Im ersten Beispiel werden die Ausgaben für den Bereich Wissenschaft, Raumfahrt und Technik der USA im Zeitraum 1999–2009 dargestellt. Gleichzeitig werden die Anzahl der Selbstmorde durch Hängen, Strangulieren und Erstickung im selben Zeitraum gezeigt. Man sieht, dass beide Kurven einen sehr ähnlichen Verlauf haben, und der Korrelationskoeffizient (dazu später mehr) ist mit $r=0.998$ extrem hoch:
 
 ![](spurious1.png)
 
@@ -117,7 +123,7 @@ $$r = \frac{24.\dot{3}}{\sqrt{24.\dot{6} \cdot 36}} = 0.8165732$$
 
 ### Signifikanz
 
-Meist wird nach der Berechnung der Korrelation ein Test durchgeführt, welcher prüft, ob die erhaltene Korrelation signifikant von der Nullhypothese ("es existiert keine Korrelation, d.h. die Korrelation ist 0") abweicht. Da die Stichprobenverteilung der Korrelation keine Normalverteilung aufweist, kann man den Wert von $r$ mit Hilfe der [Fisher-Transformation](https://en.wikipedia.org/wiki/Fisher_transformation) in eine Normalverteilung mit Mittelwert
+Meist wird nach der Berechnung der Korrelation ein Test durchgeführt, welcher prüft, ob die erhaltene Korrelation signifikant von der Nullhypothese ("es existiert *keine* Korrelation, d.h. die Korrelation ist 0") abweicht. Da die Stichprobenverteilung der Korrelation keine Normalverteilung aufweist, kann man den Wert von $r$ mit Hilfe der [Fisher-Transformation](https://en.wikipedia.org/wiki/Fisher_transformation) in eine Normalverteilung mit Mittelwert
 
 $$z_r = \frac{1}{2} \ln \frac{1 + r}{1 - r} = \text{arctanh}(r)$$
 
@@ -178,7 +184,9 @@ cu_r = tanh(cu_z)
 c(cl_r, r, cu_r)
 ```
 
+:::{.callout-tip}
 Die Tatsache, dass die Korrelation $r=0.25$ bei einer Stichprobe von $N=40$ nicht signifikant unterschiedlich von Null ist ($p=0.12$) kann man auch daran erkennen, dass das 95%-Konfidenzintervall den Wert 0 (also die Nullhypothese) enthält. Das bedeutet also, dass wir die Nullhypothese (keine Korrelation) *nicht* verwerfen können.
+:::
 
 
 ## Nicht-parametrische Korrelationskoeffizienten
@@ -207,7 +215,7 @@ Korrelationskoeffizienten kann man mit den folgenden drei Funktionen berechnen: 
 library(Hmisc)
 ```
 
-Die drei Funktionen haben unterschiedliche Features, d.h. welche Funktion man benutzt ist abhängig von den benötigten Eigenschaften, welche in nachfolgender Tabelle zusammengefasst sind (CI steht für Konfidenzintervall, mehrfach bedeutet dass Korrelationen zwischen mehr als zwei Variablen paarweise berechnet werden können).
+Die drei Funktionen haben unterschiedliche Features, d.h. welche Funktion man benutzt ist abhängig von den benötigten Eigenschaften, welche in nachfolgender Tabelle zusammengefasst sind ("CI" steht für Konfidenzintervall, "Mehrfach" bedeutet, dass Korrelationen zwischen mehr als zwei Variablen paarweise berechnet werden können).
 
 |            | Pearson | Spearman | Kendall | $p$-Werte | CI | Mehrfach |
 |:-----------|:-------:|:--------:|:-------:|:---------:|:--:|:--------:|
@@ -224,7 +232,7 @@ Die Funktion `cor()` ruft man wie folgt auf:
 cor(x, y, method="pearson")
 ```
 
-Hier übergibt man zwei Variablen und spezifiziert, welche Korrelation berechnet werden soll (standardmäßig wird die Pearson-Korrelation berechnet). Wenn `x` ein Data Frame mit mindestens zwei Spalten ist, kann man `y` weglassen – dann werden automatisch die Korrelationen zwischen allen Spaltenpaaren berechnet.
+Hier übergibt man zwei Vektoren und spezifiziert, welche Korrelation berechnet werden soll (standardmäßig wird die Pearson-Korrelation berechnet). Wenn `x` ein Data Frame mit mindestens zwei Spalten ist, kann man `y` weglassen – dann werden automatisch die Korrelationen zwischen allen Spaltenpaaren berechnet.
 
 
 ## Funktion `cor.test()`
@@ -235,7 +243,7 @@ Der Aufruf der Funktion `cor.test()` ist sehr ähnlich:
 cor.test(x, y, alternative="t", method="pearson", conf.level=0.95)
 ```
 
-Hier kann man die Form der Alternativhypothese (`"two-sided"`, `"greater"`, `"less"`) sowie das Konfidenzniveau angeben. Diese Funktion kann nur mit genau zwei Variablen umgehen (im Gegensatz zu den anderen beiden Funktionen, welche automatisch alle Paare von mehreren Variablen bilden können).
+Hier kann man die Form der Alternativhypothese (`"two-sided"`, `"greater"`, `"less"`) sowie das Konfidenzniveau angeben. Diese Funktion kann nur mit genau zwei Vektoren umgehen.
 
 
 ## Funktion `rcorr()`
@@ -246,7 +254,7 @@ Die Funktion `rcorr()` verwendet man wie folgt:
 rcorr(x, y, type="pearson")
 ```
 
-Hier ist zu beachten, dass die Daten in einer Matrix vorliegen müssen. Weiters ist es wie bei `cor()` möglich, nur das Argument `x` anzugeben (wenn dieses eine Matrix mit mindestens zwei Spalten ist).
+Wie bei den anderen Funktionen sind `x` und `y` Vektoren. Weiters ist es wie bei `cor()` möglich, nur das Argument `x` anzugeben, wenn dieses eine Matrix mit mindestens zwei Spalten ist.
 
 
 ## Beispiel
@@ -299,7 +307,7 @@ Nun berechnen wir die Pearson-Korrelationen zwischen den drei Variablen `Exam`, 
 cor(exam[, c("Exam", "Anxiety", "Revise")])
 ```
 
-Man kann aus dieser Korrelationsmatrix direkt die einzelnen Koeffizienten für alle Variablenpaare ablesen. Die Diagonale beinhaltet die Korrelationen der Variablen mit sich selbst und besteht daher aus lauter Werten die exakt gleich 1 sind. Außerdem ist es egal, ob man die Korrelationen in dem Dreieck unter der Diagonale oder über der Diagonale abliest, da die Korrelationsmatrix symmetrisch ist (die Korrelation zwischen "Exam" und "Revise" ist dieselbe wie zwischen "Revise" und "Exam" – die Korrelation misst keine kausalen Zusammenhänge!).
+Man kann aus dieser Korrelationsmatrix direkt die einzelnen Koeffizienten für alle Variablenpaare ablesen. Die Diagonale beinhaltet die Korrelationen der Variablen mit sich selbst und besteht daher aus lauter Werten die exakt gleich 1 sind. Außerdem ist es egal, ob man die Korrelationen in dem Dreieck *unter* der Diagonale oder *über* der Diagonale abliest, da die Korrelationsmatrix symmetrisch ist (die Korrelation zwischen "Exam" und "Revise" ist dieselbe wie zwischen "Revise" und "Exam" – die Korrelation misst keine kausalen Zusammenhänge!).
 
 Möchte man jedoch auch $p$-Werte, muss man die Funktion `rcorr()` verwenden. Diese Funktion erwartet die Daten jedoch nicht als Data Frame, sondern als Matrix. Daher müssen die Daten beim Aufruf der Funktion in eine Matrix umgewandelt werden:
 
@@ -309,7 +317,7 @@ rcorr(as.matrix(exam[, c("Exam", "Anxiety", "Revise")]))
 
 Zusätzlich zur Korrelationsmatrix bekommt man auch die $p$-Werte geliefert. In diesem Beispiel sind alle Korrelationen signifikant, da die $p$-Werte sehr klein sind (gerundet Null).
 
-Wenn man auch Konfidenzintervalle haben möchte, muss man die Funktion `cor.test()` verwenden. Diese Funktion unterstützt aber nur zwei Variablen, d.h. bei mehreren Variablen muss man die Funktion mehrmals aufrufen um alle paarweisen Korrelationen zu erhalten.
+Wenn man auch Konfidenzintervalle benötigt, muss man die Funktion `cor.test()` verwenden. Diese Funktion unterstützt aber nur zwei Variablen, d.h. bei mehreren Variablen muss man die Funktion mehrmals aufrufen, um alle paarweisen Korrelationen zu erhalten.
 
 ```{r}
 cor.test(exam$Anxiety, exam$Exam)
