@@ -2,9 +2,15 @@
 title: "10 – Lösungen"
 subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2023-06-05
-format: html
+date: 2024-01-11
+format:
+  html:
+    page-layout: full
 engine: knitr
+knitr:
+  opts_chunk: 
+    R.options:
+      width: 120
 highlight-style: github
 title-block-banner: true
 theme:
@@ -76,20 +82,58 @@ predict(model, data.frame(speed=c(5, 65)))
 ## Übung 5
 
 ```{r}
-y = cars$dist
-yhat = predict(model)
-ybar = mean(y)
-N = nrow(cars)
-SST = sum((y - ybar)**2)
-SSM = sum((yhat - ybar)**2)
-SSR = sum((y - yhat)**2)
-dfT = N - 1  # number of observations - 1
-dfM = 1  # number of estimated parameters (b0, b1) - 1
-dfR = N - 2  # number of observations - number of estimated parameters (b0, b1)
+#| message: false
+library(tibble)
 
-MSM = SSM / dfM
-MSR = SSR / dfR
+sales = read_tsv("sales2.dat")
+sales = as_tibble(scale(sales))
+model = lm(sales ~ adverts + airplay + attract, data=sales)
+summary(model)
+coef(model)  # stimmt mit lm.beta überein
+```
 
-SSM / SST  # R²
-MSM / MSR  # F
+
+## Übung 6
+
+```{r}
+#| message: false
+library(lm.beta)  # für lm.beta
+
+aggression = read_tsv("aggression.dat")
+
+model1 = lm(Aggression ~ Parenting_Style + Sibling_Aggression, data=aggression)
+summary(model1)  # beide Variablen erwartungsgemäß signifikant
+lm.beta(model1)  # Parenting_Style hat größeren Einfluss als Sibling_Aggression
+
+model2 = lm(
+    Aggression ~ Parenting_Style + Sibling_Aggression + Television +
+                 Computer_Games + Diet,
+    data=aggression
+)
+summary(model2)
+lm.beta(model2)
+
+anova(model1, model2)  # Vergleich beider Modelle
+```
+
+
+## Übung 7
+
+```{r}
+library(car)  # für dwt, vif
+
+# Kollinearität
+vif(model2)
+
+# Unabhängigkeit der Residuen
+dwt(model2)
+
+# Normalverteilung Residuen
+plot(model2, which=2)
+
+# Linearität und Varianzhomogenität
+plot(model2, which=1)
+
+# Punkte mit großem Einfluss
+plot(model2, which=5)
 ```

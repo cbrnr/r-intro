@@ -11,6 +11,6 @@ Die folgenden Unterlagen bieten eine kurze Einführung in die Grundlagen von R. 
  7. [Datenaufbereitung](https://r-23w-07.netlify.app/) ([Lösungen](https://r-23w-07-solutions.netlify.app/))
  8. [Grafiken](https://r-23w-08.netlify.app) ([Lösungen](https://r-23w-08-solutions.netlify.app))
  9. [Korrelation](https://r-23w-09.netlify.app/) ([Lösungen](https://r-23w-09-solutions.netlify.app/))
-10. [Lineare Regression](https://quartopub.com/sites/cbrnr/r-23w-10) ([Lösungen](https://quartopub.com/sites/cbrnr/r-23w-10-solutions))
+10. [Lineare Regression](https://r-23w-10.netlify.app) ([Lösungen](https://r-23w-10-solutions.netlify.app))
 11. [Mittelwertvergleich](https://quartopub.com/sites/cbrnr/r-23w-12) ([Lösungen](https://quartopub.com/sites/cbrnr/r-23w-12-solutions))
 12. [Reproduzierbare Analysen](https://quartopub.com/sites/cbrnr/r-23w-12) ([Lösungen](https://quartopub.com/sites/cbrnr/r-23w-12-solutions))

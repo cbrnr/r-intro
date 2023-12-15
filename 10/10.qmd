@@ -1,10 +1,16 @@
 ---
-title: "10 – Lineare Regression (1)"
+title: "10 – Lineare Regression"
 subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2023-06-05
-format: html
+date: 2024-01-11
+format:
+  html:
+    page-layout: full
 engine: knitr
+knitr:
+  opts_chunk: 
+    R.options:
+      width: 120
 highlight-style: github
 title-block-banner: true
 theme:
@@ -315,6 +321,249 @@ predict(model, data.frame(adverts=c(0, 10, 100, 2000)))
 ```
 
 
+## Multiple lineare Regression
+
+Die multiple lineare Regression ist eine Erweiterung der einfachen linearen Regression auf Situationen mit mehreren Prädiktoren. Das grundlegende Konzept bleibt aber unverändert, wir verwenden nach wie vor folgende allgemeine Modellgleichung:
+
+$$y_i = \hat{y}_i + \varepsilon_i$$
+
+Das Modell mit $n$ Prädiktoren $x_{1}$, $x_{2}$, $\ldots$, $x_{n}$ wird nun wie folgt formuliert:
+
+$$y_i = (b_0 + b_1 x_{1i} + b_2 x_{2i} + \ldots + b_n x_{ni}) + \varepsilon_i$$
+
+Jeder Prädiktor erhält also ein eigenes Gewicht bzw. einen eigenen Regressionskoeffizienten. Die Koeffizienten werden mittels Least Squares wieder so berechnet, dass die entstehende "Gerade" (technisch spricht man hier von einer [Hyperebene](https://de.wikipedia.org/wiki/Hyperebene)) den mittleren quadratischen Fehler minimiert.
+
+Die Quadratsummen SST, SSM und SSR werden analog wie bei der einfachen Regression berechnet. Wieder kann man $R^2$ berechnen, welches den Anteil der Varianz in der abhängigen Variable angibt, welche durch das Modell erklärt wird. Je höher dieser Wert ist, desto besser kann das Modell die Daten beschreiben. Im Gegensatz zur einfachen Regression kann man aus $R^2$ nicht die Pearson-Korrelation zwischen den einzelnen Variablen berechnen, sondern die Korrelation zwischen den *vorhergesagten* Werten und den tatsächlich *beobachteten* Werten.
+
+
+## Überprüfen der Datenpunkte
+
+Ein gegebenes Modell sollte man immer darauf überprüfen, wie gut es die gemessenen Daten tatsächlich beschreibt. Lineare Modelle können sehr sensitiv auf einzelne Datenpunkte reagieren, welche nicht zum generellen Trend der Daten passen. Einen tatsächlichen Einfluss auf das Modell üben solche Ausreißer aber nur aus, wenn sie weit weg vom Mittelwert der Prädiktoren liegen – man bezeichnet diesen potentiellen Einfluss jedes Datenpunkts als *Leverage*.
+
+Kritisch sind also jene Punkte, welche einen potentiellen hohen Einfluss haben (hohe Leverage) und gleichzeitig nicht zum generellen Trend der Daten passen, also Ausreißer sind. Die folgende Grafik veranschaulicht die drei möglichen Situationen. Dabei sind die vier Ausgangsdatenpunkte schwarz dargestellt und die zugehörige Regressionsgerade ist schwarz strichliert. Der zusätzliche fünfte Datenpunkt ist rot dargestellt, und die Regressionsgerade durch alle fünf Datenpunkte ist ebenfalls rot. Durch einen einzigen zusätzlichen Datenpunkt ändert sich also das ursprüngliche Modell mehr oder weniger stark (von schwarz strichliert auf rot durchgezogen).
+
+```{r}
+#| echo: false
+x = c(5:8)
+y = x + rnorm(length(x), 0, 0.1)
+l = lm(y ~ x)
+
+# low leverage outlier (= uninfluential)
+x1 = 6.5
+y1 = 3
+l1 = lm(c(y, y1) ~ c(x, x1))
+
+# high leverage non-outlier (= uninfluential)
+x2 = 12
+y2 = 11.8
+l2 = lm(c(y, y2) ~ c(x, x2))
+
+# high leverage outlier (= influential)
+x3 = 14
+y3 = 8
+l3 = lm(c(y, y3) ~ c(x, x3))
+
+par(mfrow=c(1, 3), mar=c(1, 1, 1, 1))
+plot(x, y, pch=19, col=rgb(0, 0, 0, 1), xlim=c(2, 14), ylim=c(2, 14), xaxt="n", yaxt="n", ann=FALSE, bty="n")
+abline(l, lty=2)
+points(x1, y1, pch=19, col="red")
+abline(l1, col="red")
+title("low leverage outlier")
+
+plot(x, y, pch=19, col=rgb(0, 0, 0, 1), xlim=c(2, 14), ylim=c(2, 14), xaxt="n", yaxt="n", ann=FALSE, bty="n")
+abline(l, lty=2)
+points(x2, y2, pch=19, col="red")
+abline(l2, col="red")
+title("high leverage non-outlier")
+
+plot(x, y, pch=19, col=rgb(0, 0, 0, 1), xlim=c(2, 14), ylim=c(2, 14), xaxt="n", yaxt="n", ann=FALSE, bty="n")
+abline(l, lty=2)
+points(x3, y3, pch=19, col="red")
+abline(l3, col="red")
+title("high leverage outlier")
+```
+
+Je weniger Datenpunkte vorhanden sind, desto größer ist der Einfluss von Ausreißern auf das lineare Modell. Die folgende Grafik veranschaulicht die Auswirkung eines Ausreißers für drei verschiedene Stichprobengrößen. Man erkennt, dass ein Ausreißer das Modell nur wenig verändert, wenn sehr viele Datenpunkte vorhanden sind. Wenn es aber nur wenige Datenpunkte gibt, kann ein einziger Ausreißer das Modell stark verändern.
+
+```{r}
+#| echo: false
+outlier = function(n=100, alpha=0.5)
+{
+    x = runif(n, 5, 15)
+    y = x + rnorm(length(x), 0, 0.2)
+    l = lm(y ~ x)
+    plot(x, y, pch=19, col=rgb(0, 0, 0, alpha), xlim=c(5, 20), ylim=c(5, 20), axes=FALSE, xlab="", ylab="")
+    abline(l, lty=2)
+
+    x_o = 20
+    y_o = 5
+    points(x_o, y_o, pch=19, col="red")
+    l_o = lm(c(y, y_o) ~ c(x, x_o))
+    abline(l_o, col="red")
+
+    mtext(bquote(italic(n) == .(n)), side=1, family="serif")
+}
+
+par(mfrow=c(1, 3), mar=c(1, 3, 1, 3))
+outlier(1000, alpha=0.15)
+outlier(100)
+outlier(10, alpha=0.8)
+```
+
+
+## Modellannahmen
+
+Um mit einem linearen Regressionsmodell Vorhersagen auf ungesehene Daten machen zu können, müssen folgende Annahmen erfüllt sein:
+
+* Die abhängige Variable muss intervallskaliert sein.
+* Die unabhängigen Variablen (Prädiktoren) müssen intervallskaliert (oder nominalskaliert in zwei Kategorien) sein.
+* Die Prädiktoren müssen Varianzen ungleich 0 haben.
+* Es darf keine Multikollinearität bestehen, d.h. zwei oder mehrere Prädiktoren dürfen nicht linear voneinander abhängig sein. Dies kann z.B. mit der VIF-Statistik (Variance Inflation Factor) überprüft werden.
+* Homoskedastizität, d.h. die Varianz der Residuen muss konstant über die Werte der Prädiktoren sein (Varianzhomogenität).
+* Die Residuen müssen normalverteilt sein.
+    
+  :::{.callout-important}
+  Diese Voraussetzung der Normalverteilung gilt für die *Residuen* und *nicht* für die Prädiktoren!
+  :::
+
+* Die Residuen müssen unabhängig voneinander sein (kann z.B. mit dem Durbin-Watson-Test überprüft werden).
+* Die Beziehung zwischen unabhängigen Variablen und abhängiger Variable muss linear sein.
+
+
+## Beispiel
+
+Im folgenden Beispiel sehen wir uns wieder die Anzahl der Verkäufe von Musikalben in Abhängigkeit der Höhe des Werbebudgets an. Zusätzlich gibt es jetzt aber zwei weitere Prädiktoren, nämlich die Anzahl an Airplay-Stunden im größten nationalen Radiosender und die Attraktivität der Bandmitglieder. Wir beginnen mit dem Laden der Daten [`sales2.dat`](sales2.dat):
+
+```{r}
+#| message: false
+library(readr)
+album2 = read_tsv("sales2.dat")
+```
+
+Berechnen wir nun ein lineares Regressionsmodell. Als Vergleichsmodell führen wir zuerst eine einfache Regression mit dem einzigen Prädiktor Werbebudget durch:
+
+```{r}
+model1 = lm(sales ~ adverts, data=album2)
+```
+
+Zusätzliche Faktoren kann man nun in einem zweiten Modell einfach durch den `+`-Operator hinzufügen:
+
+```{r}
+model2 = lm(sales ~ adverts + airplay + attract, data=album2)
+```
+
+Anschließend können wir uns die zusammengefassten Ergebnisse der beiden Modelle anzeigen lassen:
+
+```{r}
+summary(model1)
+summary(model2)
+```
+
+Da das erste Modell identisch mit jenem aus der vorigen Einheit ist, kennen wir die Ergebnisse bereits. Wenden wir uns daher dem zweiten Modell zu. $R^2$ ist hier 0.6647, das heißt das Modell kann nun 66% der Varianz erklären. Im Vergleich zum ersten Modell mit nur einem Prädiktor ist das eine Steigerung um 33%, d.h. die beiden Prädiktoren Airplay und Attraktivität können zusätzliche Varianz im Ausmaß von 33% erklären.
+
+Die Regressionskoeffizienten werden ebenfalls in der Ausgabe dargestellt. Wir können daher das lineare Modell wie folgt schreiben:
+
+$$y = b_0 + b_1 x_1 + b_2 x_2 + b_3 x_3 = -26.613 + 0.085 \cdot x_1 + 3.367 \cdot x_2 + 11.086 \cdot x_3$$
+
+Hier stehen $b_0$ für den Intercept (d.h. jener Wert von $y$, wenn alle Prädiktoren 0 sind), $b_1$ für das Werbebudget `adverts`, $b_2$ für die Airplay-Stunden `airplay` und $b_3$ für die Attraktivität `attract`.
+
+Die Regressionskoeffizienten geben Auskunft, um wie viel sich die abhängige Variable ändert, wenn man einen Prädiktor um eine Einheit erhöht und dabei alle anderen Prädiktoren konstant hält. Dies bedeutet im Beispiel:
+
+* Wenn `adverts` um eine Einheit erhöht wird, dann erhöht sich `sales` um 0.085 Einheiten. D.h. wenn man 1000 EUR mehr für Werbung ausgibt, verkauft man um 85 Alben mehr.
+* Wenn `airplay` um eine Einheit erhöht wird, dann erhöht sich `sales` um 3.37 Einheiten. D.h. wenn man das Album um eine Stunde mehr im Radio spielt, verkauft man um 3367 Alben mehr.
+* Wenn `attract` um eine Einheit erhöht wird, dann erhöht sich `sales` um 11.086 Einheiten (d.h. 11086 zusätzliche Alben).
+
+Für jeden Regressionskoeffizienten wird ein $t$-Test gerechnet, welcher angibt, ob sich der Koeffizient signifikant von 0 unterscheidet (d.h. ob er signifikant zum Modell beiträgt). Die Größe der $t$-Statistik lässt auf den Einfluss der Koeffizienten schließen, d.h. `adverts` und `airplay` haben einen ähnlich großen Einfluss auf das Modell, wo hingegen `attract` einen geringeren Einfluss hat.
+
+Oft ist es hilfreich, nicht nur die Regressionskoeffizienten zu analysieren, sondern auch die standardisierten Regressionskoeffizienten. Diese kann man berechnen, in dem man zuerst alle Variablen standardisiert und danach das lineare Modell berechnet. Standardisierte Variablen haben einen Mittelwert von 0 und eine Standardabweichung von 1. Man könnte die Standardisierung daher relativ einfach selbst vornehmen, in dem man für jede Variable zuerst deren Mittelwert subtrahiert und danach durch deren Standardabweichung dividiert.
+
+:::{.callout-tip}
+Die Funktion `scale()` kann verwendet werden, um die Spalten eine Data Frames zu standardisieren. Diese liefert aber immer eine Matrix zurück, d.h. wenn man ein Data Frame bzw. Tibble standardisieren möchte, muss man danach noch `as.data.frame()` bzw. `tibble::as_tibble()` anwenden.
+:::
+
+Alternativ kann man dazu auch *nachträglich* die Funktion `lm.beta()` aus dem `lm.beta`-Paket benutzen:
+
+```{r}
+library(lm.beta)
+lm.beta(model2)
+```
+
+Die standardisierten Regressionskoeffizienten werden üblicherweise mit $\beta_i$ bezeichnet. Da alle Variablen nun in Standardabweichungen gemessen werden, kann man diese direkt miteinander vergleichen. Man sieht im Beispiel also:
+
+* Wenn `adverts` um eine Standardabweichung erhöht wird (485655 EUR), dann erhöht sich `sales` um 0.511 Standardabweichungen (41240 Alben).
+* Wenn `airplay` um eine Standardabweichung erhöht wird (12.270), dann erhöht sich `sales` um 0.512 Standardabweichungen (41320 Alben).
+* Wenn `attract` um eine Standardabweichung erhöht wird (1.395), dann erhöht sich `sales` um 0.192 Standardabweichungen (15490 Alben).
+
+Konfidenzintervalle für die (nicht standardisierten) Regressionskoeffizienten erhält man mit der Funktion `confint()` (standardmäßig werden 95%-Intervalle berechnet):
+
+```{r}
+confint(model2)
+```
+
+Zwei (oder mehrere) Modelle können mit der $F$-Statistik verglichen werden. Der $F$-Wert, der bei der zusammenfassenden Beschreibung eines Modells angezeigt wird, vergleicht das Modell standardmäßig mit dem einfachsten Mittelwertmodell. Möchte man das Modell mit einem anderen Modell vergleichen, ist zu beachten, dass `model2` eine Erweiterung von `model1` sein muss, d.h. `model2` muss alle Terme von `model1` beinhalten plus eventuelle zusätzliche Faktoren. In R gibt man hier folgenden Befehl ein:
+
+```{r}
+anova(model1, model2)
+```
+
+Der $F$-Wert beträgt also 96.447 und ist signifikant, d.h. das zweite Modell ist signifikant besser als das erste.
+
+
+### Datenpunkte mit großem Einfluss
+
+Um die diversen Ausreißerstatistiken für jeden einzelnen Wert übersichtlich beurteilen zu können, kann man die Werte mit folgenden Funktionen berechnen:
+
+* `resid()`: Residuen
+* `rstandard()`: Standardisierte Residuen
+* `rstudent()`: Studentisierte Residuen (berechnet mit Leave-One-Out)
+* `hatvalues()`: Leverage
+* `dfbeta()`: Unterschied der Regressionskoeffizienten mittels Leave-One-Out
+* `cooks.distance()`: Cook's Distanz
+* `dffits()`: Unterschied im vorhergesagtem Wert mittels Leave-One-Out
+
+Sehr praktisch ist die Funktion `influence.measures()`, welche mehrere Ausreißerstatistiken für jeden Datenpunkt übersichtlich aufbereitet ausgibt.
+
+```r
+influence.measures(model2)
+```
+
+
+### Modellannahmen
+
+Mulitkollinearität kann mit der VIF-Statistik beurteilt werden; in R kann man dazu die Funktion `vif()` aus dem `car`-Paket verwenden.
+
+```{r}
+#| message: false
+library(car)
+vif(model2)
+```
+
+Der größte VIF-Wert sollte nicht größer als 10 sein. Der durchschnittliche VIF sollte nicht wesentlich größer als 1 sein, was man wie folgt überprüfen kann:
+
+```{r}
+mean(vif(model2))
+```
+
+Wenn man den `plot()`-Befehl auf das Modell anwendet, werden vier diagnostische Plots erstellt.
+
+```{r}
+#| fig-width: 12
+#| fig-height: 8
+par(mfrow=c(2, 2), cex=0.75)
+plot(model2)
+```
+
+Im Plot links oben sind die vorhergesagten Werte gegen die Residuen aufgetragen. Hier kann man die Linearitätsannahme (die rote Linie sollte immer ungefähr gleich Null sein) sowie die Homoskedastizitätsannahme (die Streuung der Datenpunkte sollte sich entlang der x-Achse nicht ändern) überprüfen. Der Plot links unten ist ähnlich, nur ist hier statt den (absoluten) Residuen die Wurzel aus dem Betrag der standardisierten Residuen aufgetragen. Auch hier lässt sich beurteilen, ob die Annahme der Varianzhomogenität erfüllt ist oder nicht. Im Plot rechts oben lässt sich die Normalverteilungsannahme der Residuen mit einem QQ-Plot überprüfen. Im Plot rechts unten sind Punkte mit großem Einfluss dargestellt (gemessen an der Leverage); Cook's Distanz ist ebenfalls im Plot ersichtlich.
+
+Die Annahme über die Unabhängigkeit der Residuen kann mit dem Durbin-Watson-Test `dwt()` überprüft werden.
+
+```{r}
+dwt(model2)
+```
+
+In diesem Beispiel kann man davon ausgehen, dass die Residuen unabhängig sind, da wegen $p\approx 0.7$ die Nullhypothese nicht verworfen werden kann.
+
+
 ## Übungen
 
 ### Übung 1
@@ -339,18 +588,36 @@ Wie lautet die Gleichung der Regressionsgeraden? Welche Bremswege sagt das Model
 
 ### Übung 5
 
-Berechnen Sie die Werte von $R^2$ sowie $F$ über die Quadratsummen und vergleichen Sie die Werte mit den Ergebnissen aus der Modellzusammenfassung aus Übung 2.
+Laden Sie die Daten aus der Datei `sales2.dat` wie in den Unterlagen gezeigt. Standardisieren Sie danach alle Variablen und berechnen Sie dann ein lineares Regressionsmodell. Vergleichen Sie die Regressionskoeffizienten mit den Ergebnissen der Funktion `lm.beta()`, welche auf ein Modell mit nicht standardisierten Daten angewendet werden kann.
 
-*Hinweise:* Die Freiheitsgrade für die Quadratsummen können Sie wie folgt bestimmen:
 
-* df(SST): Anzahl der Messwerte minus 1
-* df(SSM): Anzahl der geschätzten Modellkoeffizienten minus 1
-* df(SSR): Anzahl der Messwerte minus Anzahl der geschätzten Modellkoeffizienten
+### Übung 6
 
-In den Formeln der drei Quadratsummen (siehe dazu die Unterlagen) kommen drei Größen vor, die Sie berechnen müssen:
+Laden Sie den Datensatz [`aggression.dat`](aggression.dat), welcher (komplett erfundene) Daten über Aggressionen unter Kindern enthält. Es wurden 666 Kinder untersucht und folgende Variablen erhoben:
 
-1. $y_i$ (die Messwerte, also die gemessenen Bremswege)
-2. $\hat{y}_i$ (die vom Modell vorhergesagten Bremswege)
-3. $\bar{y}$ (der mittlere Bremsweg über alle Messwerte)
+- Erziehungsstil (hoher Wert entspricht schlechtem Stil)
+- Computerspielen (hoher Wert entspricht viel Computerspielen)
+- Fernsehen (hoher Wert entspricht viel Fernsehen)
+- Ernährung (hoher Wert entspricht gesunder Ernährung)
+- Aggressionen der Geschwister (hoher Wert entspricht hoher Aggression)
 
-Erzeugen Sie in R drei Variablen namens `y`, `yhat` und `ybar`, welche diese Werte beinhalten. Die Messwerte `y` können Sie direkt aus dem Data Frame entnehmen. Für `yhat` verwenden Sie am einfachsten die Funktion `predict()`, und für `ybar` verwenden Sie die Funktion `mean()`. Die Anzahl der Messwerte $N$ können Sie mit `N = nrow(cars)` aus der Anzahl der Zeilen bestimmen. Aus diesen Variablen können Sie dann mit Hilfe der Funktion `sum()` SST, SSM, SSR, deren Freiheitsgrade, sowie MSM, MSR und MST berechnen. Aus diesen Quadratsummen können Sie schließlich $R^2$ und $F$ bestimmen.
+Von früheren Studien weiß man, dass Erziehungsstil sowie Aggressionen der Geschwister signifikante Prädiktoren für das Aggressionslevel eines Kindes sind.
+
+Stellen Sie zwei lineare Regressionsmodelle auf. Das erste soll nur die beiden Faktoren beinhalten, welche erwiesenermaßen einen Einfluss auf die Aggression haben. Das zweite Modell soll alle Faktoren beinhalten. Beantworten Sie anschließend folgende Punkte:
+
+1. Bestimmen Sie für beide Modelle das Bestimmtheitsmaß $R^2$ und geben Sie die Tabelle der Regressionskoeffizienten aus.
+2. Interpretieren Sie für beide Modelle getrennt die einzelnen Koeffizienten hinsichtlich Relevanz (hier sind standardisierte Koeffizienten hilfreich) und Signifikanz.
+3. Vergleichen Sie beide Modelle miteinander. Ist das zweite Modell eine signifikante Verbesserung zum ersten?
+
+
+### Übung 7
+
+Überprüfen Sie für das zweite Modell (mit allen Prädiktoren) aus der vorigen Übung folgende Voraussetzungen:
+
+- Sind die unabhängigen Variablen kollinear (VIF)?
+- Sind die Residuen unabhängig (Durbin-Watson-Test)?
+- Sind die Residuen normalverteilt (QQ-Plot)?
+- Sind die Abhängigkeiten linear und ist die Varianz homogen (Plot Residuen vs. vorhergesagte Werte)?
+- Gibt es Datenpunkte mit großem Einfluss auf das Modell (Plot Residuen vs. Leverage)?
+
+*Hinweis:* Sehen Sie sich die Hilfe zur Funktion `plot.lm()` an (damit können Sie ein lineares Modell plotten und die Grafiken aus den letzten drei Fragen erstellen; mit dem Argument `which` können Sie sich die gewünschte Grafik herauspicken).
