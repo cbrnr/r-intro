@@ -1,5 +1,5 @@
 ---
-title: "12 – Mittelwertvergleich"
+title: "12 – Reproduzierbare Analysen"
 subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
 date: 2024-01-25
@@ -23,6 +23,30 @@ published-title: "Veröffentlicht"
 
 ## Quarto
 
+Wenn man eine Analyse erfolgreich durchgeführt hat, möchte man die Ergebnisse oft publizieren. Klassisch verwendet man dazu eine Textverarbeitung wie z.B. Microsoft Word, LibreOffice Writer oder LaTeX. Dabei muss man die Ergebnisse aus der Analyse manuell in das Dokument übertragen. Diese Vorgehensweise hat einige Nachteile. Da die Textverarbeitung vollkommen unabhängig von den Analyse-Tools (wie z.B. R) ist, muss man bei Änderungen der  Daten, Methoden oder Ergebnissen auch das Textdokument anpassen. Außerdem muss man im Allgemeinen mehrere Dokumente erstellen, wenn man neben einem statischen PDF-Dokument auch eine Website (ein HTML-Dokument) mit denselben Inhalten erstellen möchte.
+
+[Quarto](https://quarto.org/) ist ein Publikationssystem vor allem für wissenschaftliche und technische Dokumente. Es ermöglicht die Kombination von formatiertem Text und dynamischen Code, um daraus eine reproduzierbare Publikation in unterschiedlichen Formaten zu erzeugen. Dies bedeutet, dass der im Dokument enthaltene Code bei der Erstellung der Publikation ausgeführt wird. Dadurch können dessen Ergebnisse direkt im Dokument verwendet werden, man muss also Ergebnisse nicht mehr manuell übertragen.
+
+Mit einem einzigen Quarto-Dokument lassen sich ohne große Änderungen unterschiedliche Ergebnisformate erzeugen, wie beispielsweise:
+
+- PDF-Dokumente
+- Word-Dokumente
+- HTML-Websites
+- PowerPoint-Präsentationen
+- Reveal.jl-Präsentationen
+- EPUB-Dokumente
+- und viele mehr.
+
+Auch ganze Websites und Bücher lassen sich mit Quarto erzeugen, Beispiele dafür sind [meine Website](https://cbrnr.github.io/) sowie das Buch [R for Data Science](https://r4ds.hadley.nz/).
+
+Im Moment unterstützt Quarto das Einbetten von Code in den folgenden Programmiersprachen:
+
+- R
+- Python
+- Julia
+- Observable.js (eine spezielle JavaScript-Variante)
+
+Wir werden uns in dieser Einheit natürlich mit dem Verwenden von R-Code in Quarto beschäftigen.
 
 
 ## Übungen
