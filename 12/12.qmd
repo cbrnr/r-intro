@@ -211,9 +211,39 @@ Die `format`-Option bestimmt das Ausgabe-Format des gerenderten Dokuments. Um ei
 
 ## Code-Zellen
 
-Wie bereits erwähnt, kann man Code in Quarto-Dokumente mit sogenannten Code-Zellen einbetten, welcher beim Rendern ausgeführt wird.
+Wie bereits erwähnt, kann man Code in Quarto-Dokumente mit sogenannten Code-Zellen einbetten, welcher beim Rendern ausgeführt wird. Dies ermöglicht sogenanntes [Literate Programming](https://de.wikipedia.org/wiki/Literate_Programming), bei dem man Quelltext mit formatiertem Text (für Erklärungen) mischen kann.
+
+Eine Code-Zelle erzeugt man ähnlich wie einen Block Source Code, nur muss man die Programmiersprache in geschwungene Klammern einschließen, also für R-Code `{r}`:
+
+````markdown
+```{{r}}
+mean(1:1000)
+```
+````
+
+Der Code wird also ausgeführt, und gemeinsam mit dem Code werden auch eventuell vorhandene Ergebnisse gerendert. Das vorige Beispiel sieht dann so aus:
+
+```{r}
+mean(1:1000)
+```
+
+Auch Grafiken werden ausgegeben und in das fertige Dokument eingebettet:
+
+```{r}
+with(airquality, plot(Temp, Ozone, pch=19, col=rgb(0, 0.3, 1, 0.5)))
+```
+
+Man kann so also eine gesamte Analyse reproduzierbar aufbereiten, inklusive Beschreibungen, Bilder, etc., und das Dokument in verschiedene Ausgabe-Formate rendern. Genau wie bei einem R-Script wird alles von der ersten bis zur letzten Zeile sequentiell ausgeführt.
 
 
 ## Übungen
 
 ### Übung 1
+
+Erstellen Sie ein Quarto-Dokument, in dem Sie folgende Übungen aus den vorigen Einheiten lösen. Gliedern Sie das Dokument mit Überschriften, und fügen Sie außerdem erklärenden Text hinzu.
+
+- [Einheit 8, Übung 1](https://r-23w-08.netlify.app/#übung-1)
+- [Einheit 5, Übung 1](https://r-23w-05.netlify.app/#übung-1)
+- [Einheit 6, Übung 2](https://r-23w-06.netlify.app/#übung-2)
+
+Rendern Sie das Dokument abschließend als HTML und auch als PDF!
