@@ -23,9 +23,13 @@ published-title: "Veröffentlicht"
 
 ## Quarto
 
-Wenn man eine Analyse erfolgreich durchgeführt hat, möchte man die Ergebnisse oft publizieren. Klassisch verwendet man dazu eine Textverarbeitung wie z.B. Microsoft Word, LibreOffice Writer oder LaTeX. Dabei muss man die Ergebnisse aus der Analyse manuell in das Dokument übertragen. Diese Vorgehensweise hat einige Nachteile. Da die Textverarbeitung vollkommen unabhängig von den Analyse-Tools (wie z.B. R) ist, muss man bei Änderungen der  Daten, Methoden oder Ergebnissen auch das Textdokument anpassen. Außerdem muss man im Allgemeinen mehrere Dokumente erstellen, wenn man neben einem statischen PDF-Dokument auch eine Website (ein HTML-Dokument) mit denselben Inhalten erstellen möchte.
+Wenn man eine Analyse erfolgreich durchgeführt hat, möchte man die Ergebnisse oft publizieren. Klassisch verwendet man dazu eine Textverarbeitung wie z.B. Microsoft Word, LibreOffice Writer oder LaTeX. Dabei muss man die Ergebnisse aus der Analyse manuell in das Dokument übertragen. Diese Vorgehensweise hat aber einige Nachteile. Da die Textverarbeitung vollkommen unabhängig von den Analyse-Tools (wie z.B. R) ist, muss man bei Änderungen der Daten, Methoden oder Ergebnissen auch das Textdokument anpassen. Beim Kopieren von Zahlenwerten können leicht Fehler passieren. Außerdem muss man im Allgemeinen mehrere Dokumente erstellen, wenn man neben einem statischen PDF-Dokument auch eine Website (ein HTML-Dokument) mit denselben Inhalten erstellen möchte.
 
-[Quarto](https://quarto.org/) ist ein Publikationssystem vor allem für wissenschaftliche und technische Dokumente. Es ermöglicht die Kombination von formatiertem Text und dynamischen Code, um daraus eine reproduzierbare Publikation in unterschiedlichen Formaten zu erzeugen. Dies bedeutet, dass der im Dokument enthaltene Code bei der Erstellung der Publikation ausgeführt wird. Dadurch können dessen Ergebnisse direkt im Dokument verwendet werden, man muss also Ergebnisse nicht mehr manuell übertragen.
+[Quarto](https://quarto.org/) ist ein Publikationssystem vor allem für wissenschaftliche und technische Dokumente. Es ermöglicht die Kombination von formatiertem Text und dynamischem Code, um daraus eine reproduzierbare Publikation in unterschiedlichen Formaten zu erzeugen. Dies bedeutet, dass der im Dokument enthaltene Code bei der Erstellung der Publikation tatsächlich ausgeführt wird. Dadurch können dessen Ergebnisse direkt im Dokument verwendet werden, man muss also Ergebnisse nicht mehr manuell übertragen.
+
+::: callout-tip
+Prinzipiell ist ein Quarto-Dokument ein Textdokument mit der Endung `.qmd` (Quarto Markdown), welches man dann in ein Zielformat *rendern* kann (also z.B. HTML oder PDF).
+:::
 
 Mit einem einzigen Quarto-Dokument lassen sich ohne große Änderungen unterschiedliche Ergebnisformate erzeugen, wie beispielsweise:
 
@@ -33,13 +37,12 @@ Mit einem einzigen Quarto-Dokument lassen sich ohne große Änderungen unterschi
 - Word-Dokumente
 - HTML-Websites
 - PowerPoint-Präsentationen
-- Reveal.jl-Präsentationen
+- Reveal.js-Präsentationen
 - EPUB-Dokumente
-- und viele mehr.
 
-Auch ganze Websites und Bücher lassen sich mit Quarto erzeugen, Beispiele dafür sind [meine Website](https://cbrnr.github.io/) sowie das Buch [R for Data Science](https://r4ds.hadley.nz/).
+Auch ganze Websites und Bücher lassen sich mit Quarto erzeugen, Beispiele dafür sind [meine Website](https://cbrnr.github.io/blog.html) sowie das Buch [R for Data Science](https://r4ds.hadley.nz/).
 
-Im Moment unterstützt Quarto das Einbetten von Code in den folgenden Programmiersprachen:
+Im Moment unterstützt Quarto das Einbetten von Code der folgenden Programmiersprachen:
 
 - R
 - Python
@@ -49,7 +52,168 @@ Im Moment unterstützt Quarto das Einbetten von Code in den folgenden Programmie
 Wir werden uns in dieser Einheit natürlich mit dem Verwenden von R-Code in Quarto beschäftigen.
 
 
+## RStudio als Quarto-Editor
+
+Praktischerweise unterstützt RStudio das Erstellen von Quarto-Dokumenten. Dazu wählt man *File* – *New File* – *Quarto Document* aus oder klickt auf das entsprechende Icon in der Toolbar. Es öffnet sich ein Dialog, in dem man einige Optionen auswählen kann:
+
+![](new-quarto.png)
+
+Wir sind aber mit den Voreinstellungen zufrieden (HTML-Dokument mit dem Titel "Untitled") und können direkt auf *Create* klicken.
+
+::: callout-note
+Alle Einstellungen können übrigens auch jederzeit später angepasst werden.
+:::
+
+Im RStudio-Editor öffnet sich nun ein Quarto-Dokument, welches bereits mit Beispieltext befüllt ist (wenn man das nicht möchte, kann man im vorigen Schritt "Create Empty Document" auswählen). Das ist sehr praktisch vor allem zu Beginn, weil wir anhand dieses Beispiels lernen können, wie man Quarto-Dokumente verfasst. Mit einem Klick auf *Render* in der Toolbar (bzw. <kbd>Strg</kbd><kbd>Shift</kbd><kbd>K</kbd> unter Windows bzw. <kbd>⌘</kbd><kbd>Shift</kbd><kbd>K</kbd> unter macOS) wird dann ein HTML-Dokument aus den Quarto-Dokument erzeugt.
+
+
+## Markdown
+
+Quarto-Dokumente basieren auf [Markdown](https://de.wikipedia.org/wiki/Markdown), eine einfache Markup-Sprache (ähnlich wie HTML), welche sich zur Erstellung von formatierten Texten mit einem Text-Editor eignet. Damit ist es möglich, Überschriften in verschiedenen Ebenen, Textformatierungen wie fett, kursiv und unterstrichen, Listen, Tabellen, und vieles mehr zu erstellen. Die wichtigsten Elemente werden hier vorgestellt, mehr Details sind [hier](https://quarto.org/docs/authoring/markdown-basics.html) verfügbar.
+
+
+### Überschriften
+
+Überschriften werden mit `#` Zeichen eingeleitet. Die Anzahl dieser Zeichen bestimmt die Ebene der Überschrift (Ebene 1 ist die oberste, Ebene 6 die unterste Ebene):
+
++------------------------+----------------------+
+| Markdown-Syntax        | Ergebnis             |
++========================+======================+
+| `# Überschrift 1`      | # Überschrift 1      |
++------------------------+----------------------+
+| `## Überschrift 2`     | ## Überschrift 2     |
++------------------------+----------------------+
+| `### Überschrift 3`    | ### Überschrift 3    |
++------------------------+----------------------+
+| `#### Überschrift 4`   | #### Überschrift 4   |
++------------------------+----------------------+
+| `##### Überschrift 5`  | ##### Überschrift 5  |
++------------------------+----------------------+
+| `###### Überschrift 6` | ###### Überschrift 6 |
++------------------------+----------------------+
+
+
+### Textformatierung
+
+Text kann man formatieren, in dem man die gewünschten Wörter mit entsprechenden Symbolen umschließt:
+
++--------------------------+-----------------------+
+| Markdown-Syntax          | Ergebnis              |
++==========================+=======================+
+| `*kursiv*`               | *kursiv*              |
++--------------------------+-----------------------+
+|  `**fett**`              | **fett**              |
++--------------------------+-----------------------+
+|  `***fett und kursiv***` | ***fett und kursiv*** |
++--------------------------+-----------------------+
+|  `~~durchgestrichen~~`   | ~~durchgestrichen~~   |
++--------------------------+-----------------------+
+|  `` `Code-Font` ``       | `Code-Font`           |
++--------------------------+-----------------------+
+|  `hochgestellt^2^`       | hochgestellt^2^       |
++--------------------------+-----------------------+
+|  `tiefgestellt~2~`       | tiefgestellt~2~       |
++--------------------------+-----------------------+
+
+
+### Links
+
+Links zu Websites kann man direkt oder mit alternativem Text darstellen:
+
++--------------------------------+------------------------------+
+| Markdown-Syntax                | Ergebnis                     |
++================================+==============================+
+| `<https://quarto.org>`         | <https://quarto.org>         |
++--------------------------------+------------------------------+
+| `[Quarto](https://quarto.org)` | [Quarto](https://quarto.org) |
++--------------------------------+------------------------------+
+
+
+### Bilder
+
+Bilder können ähnlich wie Links eingefügt werden:
+
++-------------------------+-----------------------+
+| Markdown-Syntax         | Ergebnis              |
++=========================+=======================+
+| `![Caption](Rlogo.png)` | ![Caption](Rlogo.png) |
++-------------------------+-----------------------+
+
+
+### Listen
+
+Listen kann man wie folgt erzeugen:
+
++----------------------------+---------------------------+
+| Markdown-Syntax            | Ergebnis                  |
++============================+===========================+
+| ```markdown                | - Ungeordnete Liste       |
+| * Ungeordnete Liste        |     - Sub-Item 1          |
+|     + Sub-Item 1           |     - Sub-Item 2          |
+|     + Sub-Item 2           |         - Sub-Sub-item 1  |
+|         - Sub-Sub-Item 1   |                           |
+| ```                        |                           |
++----------------------------+---------------------------+
+| ```markdown                | 1. Geordnete Liste        |
+| 1. Geordnete Liste         | 2. Item 2                 |
+| 2. Item 2                  |     i) Sub-Item 1         |
+|     i) Sub-Item 1          |         A. Sub-Sub-Item 1 |
+|          A. Sub-Sub-Item 1 |                           |
+| ```                        |                           |
++----------------------------+---------------------------+
+
+
+### Source Code
+
+Source Code kann in Blöcken, welche mit ` ``` ` beginnen und enden, eingegeben werden:
+
+````markdown
+```
+code
+```
+````
+
+Es ist auch möglich, Syntax-Highlighting für unterstütze Sprachen zu aktivieren:
+
+````markdown
+```r
+x = c(1, 5:8, 12) * 2
+```
+````
+
+````markdown
+```python
+x = sum(i for i in range(25))
+```
+````
+
+::: callout-important
+Code, der auf diese Art eingefügt wird, wird *nicht* ausgeführt!
+:::
+
+
+## YAML-Header
+
+Jedes Quarto-Dokument beginnt mit einem sogenannten [YAML](https://yaml.org)-Header. Darin werden Meta-Daten des Dokuments gesetzt, wie beispielsweise Autor, Titel, Datum, etc. Dieser Header wird von `---`-Zeilen umschlossen. Ein sehr einfacher YAML-Header sieht wie folgt aus:
+
+```yaml
+---
+title: "Untitled"
+author: "Clemens Brunner"
+format: html
+---
+```
+
+Hier werden der Titel des Quarto-Dokuments ("Untitled"), der Autor ("Clemens Brunner") sowie das Ausgabe-Format (HTML) festgelegt. Es gibt unzählige weitere Optionen, die man hier setzen kann. Manche Optionen sind nur für bestimmte Ausgabe-Formate verfügbar. Wir werden hier auf keine weiteren Optionen eingehen, diese werden in der Quarto-Dokumentation an verschiedenen Stellen beschrieben (z.B. [HTML-Optionen](https://quarto.org/docs/reference/formats/html.html), [PDF-Optionen](https://quarto.org/docs/reference/formats/pdf.html), [Optionen für wissenschaftliche Arbeiten](https://quarto.org/docs/authoring/front-matter.html), etc.).
+
+Die `format`-Option bestimmt das Ausgabe-Format des gerenderten Dokuments. Um ein PDF zu erzeugen, setzt man den Wert auf `pdf`, eine Word-Datei wird mit `docx` erzeugt. Alle unterstützten Ausgabe-Formate werden [hier](https://quarto.org/docs/output-formats/all-formats.html) beschrieben.
+
+
+## Code-Zellen
+
+Wie bereits erwähnt, kann man Code in Quarto-Dokumente mit sogenannten Code-Zellen einbetten, welcher beim Rendern ausgeführt wird.
+
+
 ## Übungen
 
 ### Übung 1
-
