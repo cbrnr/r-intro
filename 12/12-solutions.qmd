@@ -2,9 +2,15 @@
 title: "12 – Lösungen"
 subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2023-06-19
-format: html
+date: 2024-01-25
+format:
+  html:
+    page-layout: full
 engine: knitr
+knitr:
+  opts_chunk: 
+    R.options:
+      width: 120
 highlight-style: github
 title-block-banner: true
 theme:
@@ -17,66 +23,73 @@ published-title: "Veröffentlicht"
 
 ## Übung 1
 
-### Größe
+### Quarto-Dokument
 
-```{r}
-#| message: false
-library(dplyr)
+```` markdown
+---
+title: "Einheit 12 – Reproduzierbare Analysen"
+author: "Clemens Brunner"
+date: 2024-01-25
+format: html
+---
 
-t.test(height ~ gender, data=starwars, alternative="less")
-```
+## Einheit 8, Übung 1
 
-Weibliche Charaktere sind nicht signifikant kleiner als männliche ($t=-1.56$, $p = .064$).
+Zunächst aktivieren wir das Paket `palmerpenguins`, damit wir auf das `penguins` Data Frame zugreifen können:
 
-### Gewicht
-
-```{r}
-t.test(mass ~ gender, data=starwars, alternative="less")
-```
-
-Weibliche Charaktere sind signifikant leichter als männliche ($t=-1.94$, $p = .029$).
-
-
-## Übung 2
-
-```{r}
+```{{r}}
 library(palmerpenguins)
-
-with(
-    subset(penguins, species == "Adelie" | species == "Chinstrap"),
-    t.test(bill_length_mm ~ species)
-)
-with(
-    subset(penguins, species == "Adelie" | species == "Gentoo"),
-    t.test(bill_length_mm ~ species)
-)
-with(
-    subset(penguins, species == "Gentoo" | species == "Chinstrap"),
-    t.test(bill_length_mm ~ species)
-)
-
-with(
-    subset(penguins, species == "Adelie" | species == "Chinstrap"),
-    t.test(bill_depth_mm ~ species)
-)
-with(
-    subset(penguins, species == "Adelie" | species == "Gentoo"),
-    t.test(bill_depth_mm ~ species)
-)
-with(
-    subset(penguins, species == "Gentoo" | species == "Chinstrap"),
-    t.test(bill_depth_mm ~ species)
-)
-
-pairwise.t.test(penguins$bill_length_mm, penguins$species)
-pairwise.t.test(penguins$bill_depth_mm, penguins$species)
 ```
 
+Danach können wir die beiden Spalten mit Hilfe von `plot()` als Scatterplot darstellen:
 
-## Übung 3
-
-```{r}
-t.test(extra ~ group, data=sleep, paired=TRUE)
+```{{r}}
+plot(
+    penguins$bill_length_mm,
+    penguins$bill_depth_mm,
+    xlab="Bill length (mm)",
+    ylab="Bill depth (mm)",
+    pch=19,
+    col="orange"
+)
 ```
 
-Die mittlere Differenz beträgt −1.58, das 95%-Konfidenzintervall erstreckt sich von −2.46 bis −0.7.
+## Einheit 5, Übung 1
+
+Wir aktivieren das Paket `readr` und können dann die Dokumentation der Funktion `read_delim()` wie folgt anzeigen:
+
+```{{r}}
+library(readr)
+?read_delim
+```
+
+Folgende Argumente werden verwendet:
+
+- Spaltentrennzeichen: `delim`, dieses Argument folgt nach dem Dateinamen; wird es nicht angegeben, versucht die Funktion das Spaltentrennzeichen automatisch zu erkennen
+- Dezimaltrennzeichen: `locale` (z.B. `locale=locale(decimal_mark=",")` für deutsche Zahlenschreibweise)
+- Fehlende Werte: `na`
+
+## Einheit 6, Übung 2
+
+Das Paket `palmerpenguins` haben wir bereits in der ersten Übung aktiviert, daher müssen wir das hier nicht noch einmal tun.
+
+Das Dimensionen des Data Frame `penguins` sind:
+
+```{{r}}
+dim(penguins)
+```
+
+Eine Zusammenfassung aller Spalten, inklusive einer Auflistung der Stufen aller Faktoren, lässt sich wie folgt ausgeben:
+
+```{{r}}
+summary(penguins)
+```
+
+Die Faktorspalten `species` und `island` haben jeweils drei Stufen, die Spalte `sex` hat zwei Stufen (wobei hier auch fehlende Werte vorkommen). Es gibt in den Spalten 3–6 jeweils 2 fehlende Werte und in der siebten Spalte 11 fehlende Werte.
+
+Die Mittelwerte der Spalten 3–5 getrennt für die drei Spezies lauten:
+
+```{{r}}
+by(penguins[, 3:5], penguins$species, colMeans, na.rm=TRUE)
+```
+````

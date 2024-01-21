@@ -1,10 +1,8 @@
 - source: 12.qmd
-  quarto-pub:
-    - id: b7ec2b1e-ecfc-4611-adc6-630665ec8424
-      url: 'https://cbrnr.quarto.pub/r-23s-12'
-    - id: 0fefe543-5969-406c-ae85-ff3cbdcf855a
-      url: 'https://cbrnr.quarto.pub/r-23s-12'
+  netlify:
+    - id: 5b7e4271-3d90-442f-ae26-8d2540b58b05
+      url: 'https://r-23w-12.netlify.app'
 - source: 12-solutions.qmd
-  quarto-pub:
-    - id: b521e011-b759-430e-acce-dff0bcf3858b
-      url: 'https://cbrnr.quarto.pub/r-23s-12-solutions'
+  netlify:
+    - id: 0cd0c92d-30e9-41d8-82ff-0303506e7538
+      url: 'https://r-23w-12-solutions.netlify.app'
