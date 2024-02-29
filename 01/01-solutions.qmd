@@ -2,7 +2,7 @@
 title: "1 – Lösungen"
 subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2023-10-05
+date: 2024-03-04
 format:
   html:
     page-layout: full
@@ -26,12 +26,12 @@ published-title: "Veröffentlicht"
 Die R-Version wird in der Console als Einleitungstext direkt nach dem Starten angezeigt. Die gesamte Versionsinformation lautet:
 
 ```
-R version 4.3.1 (2023-06-16) -- "Beagle Scouts"
+R version 4.3.2 (2023-10-31) -- "Eye Holes"
 ```
 
 Außerdem ist die R-Version immer im Titel der Console ersichtlich.
 
-Die RStudio-Version lautet 2023.06.1 Build 524 – dies kann man im Hilfefenster, welches mit "Help" – "About RStudio" aufgerufen werden kann, ablesen.
+Die RStudio-Version lautet 2023.12.1 Build 402 – dies kann man im Hilfefenster, welches mit "Help" – "About RStudio" aufgerufen werden kann, ablesen.
 
 ![](r_versions.png)
 
@@ -39,9 +39,7 @@ Die RStudio-Version lautet 2023.06.1 Build 524 – dies kann man im Hilfefenster
 ## Übung 2
 
 ```{r}
-4 / 0.4
-4 %/% 0.4
-4 %% 0.4
+4 * pi * 6371^2
 ```
 
 
@@ -49,19 +47,20 @@ Die RStudio-Version lautet 2023.06.1 Build 524 – dies kann man im Hilfefenster
 
 ```{r}
 (11 + 27 + 15 + 10 + 33 + 18 + 25 + 22 + 39 + 11) / 10
+(11 * 27 * 15 * 10 * 33 * 18 * 25 * 22 * 39 * 11)^(1/10)
 ```
 
 
 ## Übung 4
 
 ```{r}
-sqrt(2) * (5**5 - pi) * 18 / ((7/5 + 13.2) * 7**(2/3))
+sqrt(2) * (5^5 - pi) * 18 / ((7/5 + 13.2) * 7^(2/3))
 ```
 
 
 ## Übung 5
 
-Der Code funktioniert nicht, weil es das Objekt `PI` nicht gibt (`Error: object 'PI' not found`). Groß-/Kleinschreibung ist relevant, und der korrekte Name von $\pi$ lautet `pi`:
+Der Code funktioniert nicht, weil es das Objekt `PI` nicht gibt (`Error: object 'PI' not found`). Groß-/Kleinschreibung ist relevant, und der korrekte Name von $\pi$ lautet `pi` (in Kleinbuchstaben):
 
 ```{r}
 2 * 1 * pi

@@ -2,7 +2,7 @@
 title: "1 – Grundlagen"
 subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2023-10-05
+date: 2024-03-04
 format:
   html:
     page-layout: full
@@ -23,12 +23,12 @@ published-title: "Veröffentlicht"
 
 ## Überblick
 
-In dieser Lehrveranstaltung werden wir die Grundlagen der statistische Programmierumgebung R kennenlernen. In den ersten Einheiten werden wichtige Eigenschaften und Datentypen eingeführt, und erst danach werden elementare Konzepte der Datenanalyse (Importieren von Daten, deskriptive Statistiken, Erzeugen von Grafiken) sowie einfache statistische Modelle (Korrelation und lineare Regression) beschrieben.
+In dieser Lehrveranstaltung werden die Grundlagen der statistischen Programmierumgebung R vermittelt. In den ersten Einheiten werden wichtige Eigenschaften und Datentypen eingeführt, und erst danach werden elementare Konzepte der Datenanalyse (Importieren von Daten, deskriptive Statistiken, Erzeugen von Grafiken) sowie einfache statistische Modelle (Korrelation und lineare Regression) beschrieben.
 
 
 ## Was ist R?
 
-R ist eine auf Datenanalyse und Statistik spezialisierte Programmiersprache. Mit spezialisierten Programmiersprachen kann man manche Dinge schneller, besser, eleganter oder kürzer lösen als mit generischen Programmiersprachen. Im Gegensatz dazu ist man mit generischen Programmiersprachen (wie beispielsweise Python) aber nicht auf ein relativ spezifisches Gebiet eingeschränkt. Mit Python kann man neben Datenanalysen, numerischen Berechnungen und Statistik auch z.B. Webanwendungen oder interaktive Anwendungen mit grafischen Oberflächen relativ einfach erstellen.
+R ist eine auf Datenanalyse und Statistik spezialisierte Programmierumgebung. Mit spezialisierten Programmiersprachen kann man manche Dinge schneller, besser, eleganter oder kürzer lösen als mit generischen Programmiersprachen. Im Gegensatz dazu ist man mit generischen Programmiersprachen (wie beispielsweise Python) aber nicht auf ein relativ spezifisches Gebiet eingeschränkt. Mit Python kann man neben Datenanalysen, numerischen Berechnungen und Statistik auch z.B. Webanwendungen oder interaktive Anwendungen mit grafischen Oberflächen relativ einfach erstellen.
 
 Es ist also zunächst einmal wichtig, für ein gegebenes Problem eine geeignete Programmiersprache zu finden. Wenn das Problem den Bereichen Datenanalyse oder statistische Modellierung zugeordnet werden kann, dann ist R sehr wahrscheinlich eine ausgezeichnete Wahl.
 
@@ -73,9 +73,9 @@ In den grauen Kästchen werden R-Befehle gezeigt (welche wir in die Console eint
 
 Bevor wir R verwenden können, müssen wir zwei Programme auf unserem Rechner installieren, nämlich R und RStudio.
 
-Alle relevanten Informationen zur Installation von R sind auf der [offiziellen Website](https://www.r-project.org/) zu finden. Hier finden sich detaillierte Anleitungen für jede unterstützte Plattform. Der Download-Link befindet sich in der linken Spalte ganz oben unter "Download" – "CRAN". Es ist sinnvoll, stets mit der aktuellsten Version von R zu arbeiten (bei der Erstellung dieses Dokuments war dies Version 4.3.1).
+Alle relevanten Informationen zur Installation von R sind auf der [offiziellen Website](https://www.r-project.org/) zu finden. Hier finden sich detaillierte Anleitungen für jede unterstützte Plattform. Der Download-Link befindet sich in der linken Spalte ganz oben unter "Download" – "CRAN". Es ist sinnvoll, stets mit der aktuellsten Version von R zu arbeiten (bei der Erstellung dieses Dokuments war dies Version 4.3.2).
 
-R ist modular aufgebaut und besteht aus einem Kern sowie einer grafischen Oberfläche. Obwohl man mit der mitgelieferten Oberfläche relativ komfortabel arbeiten kann, hat sich dennoch die Alternative [RStudio](https://posit.co/download/rstudio-desktop/) als De-Facto-Standard etabliert. RStudio ist "nur" eine grafische Oberfläche, d.h. es wird eine zuvor installierte R-Umgebung vorausgesetzt. Auch hier ist es ratsam, stets die aktuellste Version zu verwenden (bei der Erstellung dieses Dokuments war dies Version 2023.06.1 Build 524).
+R ist modular aufgebaut und besteht aus einem Kern sowie einer grafischen Oberfläche. Obwohl man mit der mitgelieferten Oberfläche relativ komfortabel arbeiten kann, hat sich dennoch die Alternative [RStudio](https://posit.co/download/rstudio-desktop/) als De-Facto-Standard etabliert. RStudio ist "nur" eine grafische Oberfläche, d.h. es wird eine zuvor installierte R-Umgebung vorausgesetzt. Auch hier ist es ratsam, stets die aktuellste Version zu verwenden (bei der Erstellung dieses Dokuments war dies Version 2023.12.1 Build 402).
 
 
 ## Erste Schritte
@@ -149,7 +149,7 @@ exp(1)
 ```
 
 :::{.callout-important}
-Bitte beachten Sie, dass R die *englische* Zahlenschreibweise mit einem *Punkt* als Dezimaltrennzeichen verwendet und nicht das im deutschen Sprachraum übliche *Komma*. Kommazahlen müssen daher immer mit einem Punkt eingegeben werden, ganz egal welche Sprache im Betriebssystem eingestellt ist. In diesen Unterlagen wird ebenfalls ein Punkt als Dezimaltrennzeichen verwendet.
+Beachten Sie, dass R die *englische* Zahlenschreibweise mit einem *Punkt* als Dezimaltrennzeichen verwendet und nicht das im deutschen Sprachraum übliche *Komma*. Kommazahlen müssen daher immer mit einem Punkt eingegeben werden, ganz egal welche Sprache im Betriebssystem eingestellt ist. In diesen Unterlagen wird ebenfalls ein Punkt als Dezimaltrennzeichen verwendet.
 :::
 
 
@@ -162,12 +162,24 @@ Installieren Sie die neuesten Versionen von R und RStudio auf Ihrem Rechner. Sta
 
 ### Übung 2
 
-Berechnen Sie mit R das Ergebnis der Division $4 : 0.4$. Berechnen Sie außerdem das ganzzahlige Ergebnis und den Rest.
+Die Erde kann näherungsweise als Kugel mit einem Radius von 6371 km betrachtet werden. Berechnen Sie damit die Oberfläche der Erde! Die Formel für die Oberfläche $A$ einer Kugel mit Radius $r$ lautet:
+
+$$A = 4 \pi r^2$$
 
 
 ### Übung 3
 
-Gegeben seien folgende Messwerte: 11, 27, 15, 10, 33, 18, 25, 22, 39, 11. Berechnen Sie deren Mittelwert $\bar{x}$ mit den Grundrechenarten Addition und Division. Führen Sie die Berechnung mit einem einzigen Befehl (ohne Zwischenergebnisse) durch.
+Gegeben seien folgende Messwerte: 11, 27, 15, 10, 33, 18, 25, 22, 39, 11. Berechnen Sie den arithmetischen sowie den geometrischen Mittelwert (unter Verwendung von Grundrechenarten). Führen Sie die Berechnung mit jeweils einem einzigen Befehl (ohne Zwischenergebnisse) durch.
+
+Die Formeln für den arithmetischen bzw. geometrischen Mittelwert lauten:
+
+$$\bar x = \frac{1}{n} \sum_{i=1}^n x_i$$
+
+$$\bar x_g = \sqrt[n]{\prod_{i=1}^n x_i}$$
+
+:::{.callout-note}
+Das Symbol $\prod$ steht für das Produkt aller Zahlen $x_i$. Die *n*-te Wurzel kann man auch als Potenz anschreiben, also $\sqrt[n]{x}$ ist gleichbedeutend mit $x^\frac{1}{n}$.
+:::
 
 
 ### Übung 4
@@ -176,7 +188,9 @@ Berechnen Sie das Ergebnis des folgenden Ausdrucks mit einem Befehl (d.h. in ein
 
 $$\sqrt 2 \cdot \frac{(5^5 - \pi) \cdot 18}{\left(\frac{7}{5} + 13.2 \right) \cdot 7^\frac{2}{3}}$$
 
-*Hinweis:* Achten Sie auf die Klammersetzung! Der letzte Term im Nenner $7^\frac{2}{3}$ lautet sieben *hoch* zwei Drittel.
+:::{.callout-note}
+Achten Sie auf die Klammersetzung! Der letzte Term im Nenner $7^\frac{2}{3}$ lautet sieben *hoch* zwei Drittel.
+:::
 
 
 ### Übung 5
@@ -188,4 +202,6 @@ Warum funktioniert folgender Code zur Berechnung des Umfangs eines Kreises mit e
 2 * 1 * PI
 ```
 
-Dieses Beispiel soll zeigen, dass die Console zum Ausprobieren von Befehlen verwendet werden kann und soll. Es macht gar nichts, wenn die Eingabe falsch ist! Ganz im Gegenteil erhält man zu einer fehlerhaften Eingabe eine Fehlermeldung, aus der man vielleicht auf den Fehler schließen kann. Deswegen: Probieren Sie Dinge einfach in der Console aus, Sie können nichts zerstören!
+:::{.callout-note}
+Dieses Beispiel soll zeigen, dass die Console zum Ausprobieren von Befehlen verwendet werden soll. Es macht gar nichts, wenn die Eingabe falsch ist! Ganz im Gegenteil erhält man zu einer fehlerhaften Eingabe eine Fehlermeldung, aus der man vielleicht auf den Fehler schließen kann. Deswegen: Probieren Sie Dinge einfach in der Console aus, Sie können nichts zerstören!
+:::
