@@ -2,7 +2,7 @@
 title: "2 – Die R-Umgebung"
 subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2023-10-12
+date: 2024-03-11
 format:
   html:
     page-layout: full
@@ -25,8 +25,8 @@ published-title: "Veröffentlicht"
 
 Bereits in der vorigen Einheit haben wir die grafische Benutzeroberfläche RStudio installiert und verwendet. RStudio setzt eine funktionierende Installation von R voraus. Das Programmfenster von RStudio ist in der Standardeinstellung in vier Bereiche unterteilt (wobei oft nur drei Bereiche sichtbar sind):
 
-1. Links unten befindet sich die *Console* (die anderen Tabs sind für uns nicht relevant). In der Console wartet R auf unsere Eingaben.
-2. Links oben befindet sich der Editor falls zumindest eine Datei geöffnet ist. Ansonsten nimmt die Console diesen Platz ein.
+1. Links unten befindet sich die *Console* (die anderen Tabs sind für uns nicht relevant). Hier wartet R auf unsere Eingaben.
+2. Links oben befindet sich der Editor (falls zumindest eine Datei geöffnet ist). Ansonsten nimmt die Console diesen Platz ein.
 3. Rechts oben gibt es eine Übersicht aller geladenen Objekte (*Environment*) und eine Liste aller jemals eingegebenen Befehle (*History*) (die anderen Tabs sind für uns hier nicht von Bedeutung). Auf die History kann man übrigens auch in der Console mit den Tasten <kbd>↑</kbd> bzw. <kbd>↓</kbd> zugreifen und vor der erneuten Bestätigung mit der Eingabetaste auch editieren.
 4. Rechts unten werden wahlweise der Inhalt des aktuellen Verzeichnisses (*Files*), grafische Ausgaben (*Plots*), eine Paketverwaltung (*Packages*) oder ein Hilfefenster (*Help*) angezeigt (die anderen Tabs sind für uns nicht relevant).
 
@@ -55,7 +55,7 @@ Pakete erweitern den Funktionsumfang von R. Werksmäßig wird R nur mit einer Ha
 1. Installieren eines neuen Pakets (nur ein Mal)
 2. Aktivieren eines installierten Pakets (vor jeder Verwendung, d.h. ein Mal pro R-Sitzung)
 
-Im CRAN gibt es tausende Pakete, und deswegen kann es mitunter schwierig sein, ein passendes bzw. das gesuchte Paket zu finden. Eine sehr praktische Übersicht gibt es auf [CRAN Task Views](https://cran.r-project.org/web/views/). Hier werden ausgewählte Pakete nach Anwendungsgebieten thematisch gruppiert dargestellt. Alternativ ist eine Internet-Suche nach dem gewünschten Thema in Verbindung mit R sehr häufig zielführend.
+Im CRAN gibt es tausende Pakete, und deswegen kann es mitunter schwierig sein, ein passendes bzw. das gesuchte Paket zu finden. Eine sehr praktische Übersicht gibt es auf [CRAN Task Views](https://cran.r-project.org/web/views/). Hier werden ausgewählte Pakete nach Anwendungsgebieten thematisch gruppiert dargestellt. Zusätzlich ist eine Internet-Suche nach dem gewünschten Thema in Verbindung mit R sehr häufig zielführend.
 
 Zur Paketverwaltung gibt es zwei Möglichkeiten: entweder man verwendet den Bereich *Packages* in RStudio, oder man benutzt R-Befehle dafür.
 
@@ -73,7 +73,7 @@ Neue Pakete installiert man durch Klicken auf *Install*. Wenn man in das Feld *P
 
 ### Paketverwaltung mit R-Befehlen
 
-Prinzipiell interagiert man mit R über Textbefehle in der Console. Daher ist es nicht überraschend, dass auch die Paketverwaltung mit speziellen R-Befehlen funktioniert. Tatsächlich verwendet die gerade beschriebene Paketverwaltung in RStudio einfach entsprechende R-Befehle im Hintergrund.
+Prinzipiell interagiert man mit R über Textbefehle in der Console. Daher ist es nicht überraschend, dass auch die Paketverwaltung mit speziellen R-Befehlen funktioniert. Tatsächlich verwendet die gerade beschriebene Paketverwaltung in RStudio einfach entsprechende R-Befehle im Hintergrund (diese sind auch in der Console ersichtlich).
 
 Eine Liste aller installierten Pakete bekommt man mit:
 
@@ -106,9 +106,9 @@ Hier kann man die Anführungszeichen um den Paketnamen weglassen.
 
 ### Scripts
 
-Befehle in der R-Console einzugeben ist praktisch, wenn man neue Dinge interaktiv ausprobieren möchte bzw. nur schnell Kleinigkeiten berechnen will. Möchte man eine aufwändigere Datenanalyse durchführen, dann sollte man die dafür notwendigen Befehle in einem sogenannten *R-Script* abspeichern. Damit kann man die Analyse später jederzeit reproduzieren. Ein R-Script ist übrigens eine einfache Textdatei mit der Endung `.R`.
+Befehle in der R-Console einzugeben ist praktisch, wenn man neue Dinge interaktiv ausprobieren möchte bzw. nur schnell Kleinigkeiten berechnen will. Möchte man eine reproduzierbare Datenanalyse durchführen, dann sollte man die dafür notwendigen Befehle in einem sogenannten *R-Script* abspeichern. Damit kann man die Analyse später jederzeit wiederholen. Ein R-Script ist nichts anderes als eine einfache Textdatei mit der Endung `.R`.
 
-In jeder Zeile eines R-Scripts befindet sich (meist) genau ein R-Befehl. Wenn man das Script ausführt, werden alle Zeilen vom Anfang bis zum Ende der Reihe nach ausgeführt. In RStudio kann man ein gesamtes Script durch Klicken auf die Schaltfläche "Source" (bzw. "Source with Echo") ausführen. Möchte man nur die aktuelle Zeile bzw. die markierten Zeilen ausführen, kann man dies durch Klicken auf die Schaltfläche "Run" tun (dafür gibt es auch das Tastenkürzel <kbd>Strg</kbd><kbd>Enter</kbd> unter Windows bzw. <kbd>⌘</kbd><kbd>Enter</kbd> unter macOS).
+In jeder Zeile eines R-Scripts befindet sich (meist) genau ein R-Befehl. Wenn man das Script ausführt, werden alle Zeilen vom Anfang bis zum Ende der Reihe nach ausgeführt. In RStudio kann man ein gesamtes Script durch Klicken auf die Schaltfläche "Source" (bzw. "Source with Echo") ausführen. Möchte man nur die aktuelle Zeile bzw. die markierten Zeilen ausführen, kann man dies durch Klicken auf die Schaltfläche "Run" tun (dafür gibt es auch das Tastenkürzel <kbd>Strg</kbd><kbd>Enter</kbd> unter Windows bzw. <kbd>⌘</kbd><kbd>Enter</kbd> unter macOS). Praktischerweise springt der Cursor danach zum nächsten Befehl im Script, welcher dann auf Wunsch direkt ausgeführt werden kann.
 
 Die folgende Abbildung zeigt ein kurzes R-Script, welches im Editor-Bereich von RStudio geöffnet ist:
 
@@ -120,10 +120,6 @@ Wenn man in einem Script Befehle aus zusätzlichen Paketen benötigt, muss man d
 Installieren Sie Pakete *niemals* in einem Script (mittels `install.packages("package")`)! Das Paket würde bei jedem Ausführen des Scripts neu installiert werden (inklusive Download aus dem Internet), was definitiv vermieden werden sollte. Die Installation von Paketen wird also immer wie oben beschrieben manuell mit RStudio oder in der Console durchgeführt.
 :::
 
-Unter Windows sollte man in RStudio außerdem einstellen, dass Scripts als [UTF-8](https://de.wikipedia.org/wiki/UTF-8) geladen bzw. gespeichert werden sollen (unter macOS bzw. Linux ist das bereits standardmäßig der Fall). Dies kann man in den Optionen (erreichbar über *Tools* – *Global Options*) unter *Code* – *Saving* – *Default text encoding* durchführen:
-
-![](encoding.png)
-
 
 ### Arbeitsverzeichnis
 
@@ -133,10 +129,10 @@ Das Arbeitsverzeichnis, also jenes Verzeichnis in dem die aktuelle R-Sitzung aus
 getwd()
 ```
 
-Dieses Arbeitsverzeichnis (Working Directory) ist wichtig, da R diverse Dateien (wie z.B. Scripts oder Daten) immer in diesem Verzeichnis erwartet. Alle Dateien im aktuellen Arbeitsverzeichnis kann man mit `dir()` ausgeben lassen (RStudio zeigt diese rechts unten im Bereich *Files* an).
+Dieses Arbeitsverzeichnis (Working Directory) ist wichtig, da R diverse Dateien (wie z.B. Scripts oder Daten) immer in diesem (oder relativ zu diesem) Verzeichnis erwartet. Alle Dateien im aktuellen Arbeitsverzeichnis kann man mit `dir()` ausgeben lassen (RStudio zeigt diese rechts unten im Bereich *Files* an).
 
 :::{.callout-tip}
-Der Titel der R-Console in RStudio zeigt ebenfalls das aktuelle Arbeitsverzeichnis an. Der Name `~` ist eine Abkürzung für Ihren persönlichen Ordner.
+Der Titel der R-Console in RStudio zeigt ebenfalls das aktuelle Arbeitsverzeichnis an. Der Name `~` ist eine Abkürzung für den persönlichen Ordner.
 :::
 
 Der Befehl `setwd("/path/to/working/directory")` setzt das aktuelle Arbeitsverzeichnis auf den angegebenen Wert (im Beispiel das fiktive Verzeichnis `/path/to/working/directory`). Hierbei ist zu beachten, dass Verzeichnisse auch in Windows durch einen normalen Schrägstrich `/` und nicht durch einen umgekehrten Schrägstrich (Backslash) `\` voneinander zu trennen sind.
@@ -252,7 +248,7 @@ Nachdem wir nun Funktionen sowie die integrierte Hilfe besprochen haben, sehen w
 Einer Funktion kann man Argumente auf zwei verschiedene Arten übergeben:
 
 1. Man übergibt nur die Werte in der richtigen Reihenfolge (wie von der Funktion laut Hilfe erwartet), z.B. `mean(1)`.
-2. Man verwendet die Namen der Argumente gemeinsam mit deren Werten, z.B. `mean(x=1)`.
+2. Man verwendet die Namen der Argumente gemeinsam mit deren Werten, z.B. `mean(x=1)`. Die Reihenfolge ist dann egal.
 
 Sehen wir uns einige Beispiele für korrekte Aufrufe der Funktion `mean()` an. Vorausgesetzt ist hier, dass es eine Variable `x` gibt, von deren Werten wir den Mittelwert berechnen möchten (eine detaillierte Erklärung zur Funktion `c()` folgt in der nächsten Einheit).
 
