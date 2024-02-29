@@ -2,7 +2,7 @@
 
 Die folgenden Unterlagen bieten eine kurze Einführung in die Grundlagen von R. Sie sind außerdem Basis für die Lehrveranstaltung [Statistische Datenanalyse mit R (PSY.921))](https://online.uni-graz.at/kfu_online/pl/ui/$ctx/wbLv.wbShowLVDetail?pStpSpNr=804481).
 
- 1. [Grundlagen]() ([Lösungen]())
+ 1. [Grundlagen](https://r-24s-01.netlify.app) ([Lösungen](https://r-24s-01-solutions.netlify.app))
  2. [Die R-Umgebung]() ([Lösungen]())
  3. [Vektoren]() ([Lösungen]())
  4. [Tabellarische Daten]() ([Lösungen]())
