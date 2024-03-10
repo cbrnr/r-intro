@@ -2,7 +2,7 @@
 title: "3 – Vektoren"
 subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2023-10-19
+date: 2024-03-18
 format:
   html:
     page-layout: full
@@ -187,6 +187,8 @@ Wenn das nicht geht, wird eine Warnung ausgegeben und `NA` (steht für "Not Avai
 ```{r}
 as.numeric(c("1", "2.12", "X"))
 ```
+
+Mehr Details zu fehlenden Werten werden am Ende dieser Einheit behandelt.
 
 
 ## Rechnen mit Vektoren
