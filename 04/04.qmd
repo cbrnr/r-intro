@@ -2,7 +2,7 @@
 title: "4 – Tabellarische Daten"
 subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2023-11-09
+date: 2024-04-08
 format:
   html:
     page-layout: full
@@ -30,7 +30,7 @@ Vektoren werden in R verwendet, um eindimensionale Daten abzubilden. Häufig sin
 
 ### Zusammenhang mit Vektoren
 
-Matrizen sind einfach Vektoren mit einem speziellen Dimensionsattribut, welches man mit der Funktion `dim()` abfragen und setzen kann:
+Matrizen sind Vektoren mit einem speziellen Dimensionsattribut, welches man mit der Funktion `dim()` abfragen und setzen kann:
 
 ```{r}
 (v = 1:20)
@@ -101,7 +101,7 @@ m
 
 Das Herausgreifen einzelner Elemente funktioniert im Prinzip gleich wie bei Vektoren: mit eckigen Klammern. Der Hauptunterschied ist, dass man bei Matrizen zwei Indizes (getrennt mit einem Komma) angibt: der erste Index entspricht den *Zeilen* und der zweite entspricht den *Spalten*. Wenn der erste Index weggelassen wird, werden alle Zeilen herausgegriffen. Wenn der zweite Index weggelassen wird, werden alle Spalten herausgegriffen.
 
-Die folgenden Beispiele illustrieren das:
+Die folgenden Beispiele illustrieren das Indizieren einer Matrix:
 
 ```{r}
 m
@@ -127,7 +127,7 @@ subjects = c("Hans", "Birgit", "Ferdinand", "Johanna")
 cbind(subjects, m)
 ```
 
-Anhand dieses Beispiels sieht man auch eine weitere Möglichkeit, wie man Matrizen erstellen bzw. erweitern kann. Die Funktion `cbind()` hängt Vektoren (oder Matrizen) spaltenweise zusammen, während analog dazu die Funktion `rbind()` Objekte zeilenweise zusammenfügt.
+Anhand dieses Beispiels sieht man auch eine weitere Möglichkeit, wie man Matrizen erstellen bzw. erweitern kann. Die Funktion `cbind()` hängt Vektoren (oder Matrizen) *spaltenweise* zusammen, während analog dazu die Funktion `rbind()` Objekte *zeilenweise* zusammenfügt.
 
 
 ### Rechnen mit Matrizen
@@ -177,7 +177,7 @@ colnames(df) = c("patient", "age", "weight", "bp", "rating", "test")
 df
 ```
 
-Auch `rownames()` funktioniert, aber in der Praxis werden nur Spaltennamen gesetzt. Die Zeilennamen verändert man am besten nicht, diese sind dann beginnend mit 1 aufsteigend durchnummeriert.
+Auch `rownames()` funktioniert, aber in der Praxis werden fast immer nur Spaltennamen gesetzt. Die Zeilennamen verändert man am besten nicht, diese sind dann beginnend mit 1 aufsteigend durchnummeriert.
 
 
 ### Anzeigen von Data Frames
@@ -247,7 +247,7 @@ df[["height"]]
 Dies ist also eine Alternative zur `$`-Schreibweise. Diese hat die gefährliche Eigenschaft, dass man Spaltennamen nicht komplett angeben muss, es reichen die ersten paar Buchstaben:
 
 ```{r}
-df$pat
+df$pat  # wird automatisch auf df$patient ergänzt
 ```
 
 Bei den doppelten eckigen Klammern ist das nicht der Fall:
@@ -256,7 +256,7 @@ Bei den doppelten eckigen Klammern ist das nicht der Fall:
 df[["pat"]]
 ```
 
-Um solche Fehler zu vermeiden, sollte man generell die Schreibweise mit den doppelten eckigen Klammern verwenden.
+Um Fehler zu vermeiden, sollte man generell die Schreibweise mit den doppelten eckigen Klammern verwenden.
 :::
 
 Zeilen und Spalten kann man auch per "normaler" Indizierung mit eckigen Klammern herausgreifen. Dies funktioniert wie bei Matrizen, man benötigt zwei Indizes, welche mit einem Komma voneinander getrennt sind. Die erste Zahl in den eckigen Klammern steht für die Zeile, und die zweite Zahl steht für die Spalte. Wenn ein Index weggelassen wird, werden alle Zeilen bzw. Spalten herausgegriffen:
@@ -274,7 +274,7 @@ df[, 4]
 ```
 
 :::{.callout-important}
-Das Komma darf niemals weggelassen werden, auch wenn man einen Index weglässt!
+Das Komma darf nicht weggelassen werden, auch wenn man einen Index weglässt!
 :::
 
 Spalten (oder auch Zeilen) kann man anstelle ihrer Indizes auch mit ihren Namen ansprechen:
