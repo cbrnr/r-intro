@@ -1,8 +1,8 @@
 - source: 05.qmd
   netlify:
-    - id: 07680f61-e38d-483f-a0ff-add366f93d2a
-      url: 'https://r-23w-05.netlify.app'
+    - id: 96891464-1b1e-4c25-8cb7-26dd26a71a22
+      url: 'https://r-24s-05.netlify.app'
 - source: 05-solutions.qmd
   netlify:
-    - id: 86861ba8-fb1d-424f-a3c8-b27e621ec64f
-      url: 'https://r-23w-05-solutions.netlify.app'
+    - id: 7af89dd2-9b85-46ec-b60c-af6032e848bb
+      url: 'https://r-24s-05-solutions.netlify.app'

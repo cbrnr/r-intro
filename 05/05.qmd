@@ -2,7 +2,7 @@
 title: "5 – Daten importieren"
 subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2023-11-16
+date: 2024-04-15
 format:
   html:
     page-layout: full
@@ -44,7 +44,11 @@ library(readr)
 Funktionen zum Importieren von Textdaten aus dem `readr`-Paket beginnen alle mit `read_`, wohingegen die mit R mitgelieferten Funktionen mit `read.` beginnen.
 :::
 
-Die wichtigste Funktion aus dem Paket `readr` heißt `read_delim()`. Hier kann man sehr viele Argumente genau auf die einzulesende Datei abstimmen (z.B. das Spaltentrennzeichen, ob es eine Kopfzeile mit Spaltennamen gibt, ob Kommentare oder fehlende Werte vorhanden sind, usw.). Für Daten im CSV-Format (Spalten sind durch Kommas getrennt) gibt es die Wrapper-Funktion `read_csv()`, welche sinnvolle Standardwerte für diverse Argumente annimmt. Für Daten, die mit Tabulatoren getrennt sind, gibt es die Wrapper-Funktion `read_tsv()`.
+Die wichtigste Funktion aus dem Paket `readr` heißt `read_delim()`. Hier kann man sehr viele Parameter genau auf die einzulesende Datei abstimmen (z.B. das Spaltentrennzeichen, ob es eine Kopfzeile mit Spaltennamen gibt, ob Kommentare oder fehlende Werte vorhanden sind, usw.). Für Daten im CSV-Format (Spalten sind durch Kommas getrennt) gibt es die Wrapper-Funktion `read_csv()`, welche sinnvolle Standardwerte für diverse Argumente annimmt. Für Daten, die mit Tabulatoren getrennt sind, gibt es die Wrapper-Funktion `read_tsv()`.
+
+:::{.callout-note}
+Diese "Wrapper-Funktionen" rufen im Grunde also einfach `read_delim()` mit speziellen Argumenten auf.
+:::
 
 Als Beispiel sehen wir uns eine Textdatei namens [`lecturer.csv`](lecturer.csv) an. Wenn man nicht weiß, wie die Daten in einer Textdatei tatsächlich formatiert sind, kann man deren Inhalt mit der Funktion `file.show()` im RStudio-Editor öffnen:
 
@@ -89,7 +93,7 @@ Das Ergebnis (ein Tibble) sieht korrekt aus – es hat 10 Zeilen und 7 Spalten m
 df = read_delim("lecturer.csv")
 ```
 
-Für diese Datei hätten wir alternativ auch `read_csv()` verwenden können, hier wird standardmäßig ein Komma als Spaltentrennzeichen angenommen:
+Für diese Datei hätten wir alternativ auch die Wrapper-Funktion `read_csv()` verwenden können, hier wird standardmäßig ein Komma als Spaltentrennzeichen angenommen:
 
 ```r
 read_csv("lecturer.csv")
@@ -103,7 +107,7 @@ read_delim("lecturer.dat", delim="\t")
 read_tsv("lecturer.dat")
 ```
 
-Ein weiteres wichtiges Merkmal solcher Textdateien ist das verwendete Dezimaltrennzeichen bei Kommazahlen. In der englischen Schreibweise wird ein Punkt als Dezimaltrennzeichen verwendet (z.B. `12.3` oder `3.1415`). In der deutschen Schreibweise wird hingegen ein Komma verwendet (z.B. `12,3` oder `3,1415`). Das Dezimaltrennzeichen kann in der Funktion `read_delim()` mit dem Argument `locale` festgelegt werden. Es ist standardmäßig auf einen Punkt gesetzt, ebenso bei den Funktionen `read_csv()` und `read_tsv()`. Sollten Zahlen jedoch in der deutschen Schreibweise vorliegen, können die Spalten nicht auch durch Kommas getrennt sein – hier werden diese dann oft durch Semikolons getrennt. Für solche Textdateien setzt man daher die Argumente `delim=";"` und `locale=locale(decimal_mark=",")` bzw. verwendet die spezialisierte Funktion `read_csv2()` (welche ein Semikolon als Spaltentrennzeichen und ein Komma als Dezimaltrennzeichen annimmt).
+Ein weiteres wichtiges Merkmal solcher Textdateien ist das verwendete Dezimaltrennzeichen bei Kommazahlen. In der englischen Schreibweise wird ein Punkt als Dezimaltrennzeichen verwendet (z.B. `12.3` oder `3.1415`). In der deutschen Schreibweise wird hingegen ein Komma verwendet (z.B. `12,3` oder `3,1415`). Das Dezimaltrennzeichen kann in der Funktion `read_delim()` mit dem Argument `locale` festgelegt werden. Es ist standardmäßig auf einen Punkt gesetzt, ebenso bei den Funktionen `read_csv()` und `read_tsv()`. Sollten Zahlen jedoch in der deutschen Schreibweise vorliegen, können die Spalten nicht auch durch Kommas getrennt sein – hier werden diese dann oft durch Semikolons getrennt. Für solche Textdateien setzt man daher die Argumente `delim=";"` und `locale=locale(decimal_mark=",")` bzw. verwendet die Wrapper-Funktion `read_csv2()` (welche ein Semikolon als Spaltentrennzeichen und ein Komma als Dezimaltrennzeichen annimmt).
 
 :::{.callout-important}
 Unabhängig davon, wie Dezimaltrennzeichen in den Textdateien dargestellt werden, verwendet R für Dezimalzahlen *immer* einen *Punkt*!
@@ -184,7 +188,7 @@ df$birth_date = as.Date(df$birth_date, format="%m/%d/%Y")
 df
 ```
 
-In diesem Beispiel bedeutet das Argument `format="%m/%d/%Y"`, dass die Werte ursprünglich in der Reihenfolge Monat/Tag/Jahr vorliegen und mit einem `/` getrennt sind (`%Y` steht hier für eine vierstellige Jahreszahl).
+In diesem Beispiel bedeutet das Argument `format="%m/%d/%Y"`, dass die Werte ursprünglich in der Reihenfolge Monat/Tag/Jahr vorliegen und mit einem `/` getrennt sind (`%m` steht also für einen Monat, `%d` für einen Tag und `%Y` für eine *vierstellige* Jahreszahl).
 
 Betrachten wir ein weiteres Beispiel. Nehmen wir an, wir hätten folgenden Character-Vektor `dates` mit Datumswerten:
 
@@ -234,6 +238,8 @@ In der Datei [`wahl16.csv`](wahl16.csv) befinden sich die [Ergebnisse der Bundes
 Die Datei [`covid19.csv`](covid19.csv) enthält Daten zu den täglichen Covid19-Neuinfektionen in Österreich im Zeitraum 26.2.2020 bis 26.6.2023. Importieren Sie diese Datei in R (achten Sie auf geeignete Argumente, um die Datei richtig einzulesen wie z.B. das korrekte Spaltentrennzeichen sowie Dezimaltrennzeichen)! Aus wie vielen Zeilen und Spalten besteht dieser Datensatz?
 
 Achten Sie besonders auf die Spalte `SiebenTageInzidenzFaelle` – diese beinhaltet Dezimalzahlen und sollte dementsprechend numerisch sein!
+
+Konvertieren Sie auch die Spalte `Time` in ein Datumsformat (die Uhrzeit in dieser Spalte können Sie einfach ignorieren)!
 
 
 ### Übung 5

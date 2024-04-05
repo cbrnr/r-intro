@@ -6,7 +6,7 @@ Die folgenden Unterlagen bieten eine kurze Einführung in die Grundlagen von R. 
  2. [Die R-Umgebung](https://r-24s-02.netlify.app) ([Lösungen](https://r-24s-02-solutions.netlify.app))
  3. [Vektoren](https://r-24s-03.netlify.app) ([Lösungen](https://r-24s-03-solutions.netlify.app))
  4. [Tabellarische Daten](https://r-24s-04.netlify.app) ([Lösungen](https://r-24s-04-solutions.netlify.app))
- 5. [Daten importieren]() ([Lösungen]())
+ 5. [Daten importieren](https://r-24s-05.netlify.app) ([Lösungen](https://r-24s-05-solutions.netlify.app))
  6. [Deskriptive Statistiken]() ([Lösungen]())
  7. [Datenaufbereitung]() ([Lösungen]())
  8. [Grafiken]() ([Lösungen]())
