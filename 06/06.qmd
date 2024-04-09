@@ -2,7 +2,7 @@
 title: "6 – Deskriptive Statistiken"
 subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2023-11-23
+date: 2024-04-22
 format:
   html:
     page-layout: full
@@ -278,3 +278,13 @@ Im Datensatz `mtcars` befinden sich diverse Kenngrößen von 32 Autos.
 -   Berechnen Sie das Minimum und Maximum sowie den Mittelwert und den Median von allen Spalten.
 -   Überprüfen Sie, ob die Daten in der Spalte `mpg` normalverteilt sind.
 -   Überprüfen Sie, ob Varianzhomogenität für die Daten in der Spalte `mpg` gegeben ist für die drei Gruppen, die durch die Spalte `cyl` definiert sind.
+
+
+### Übung 4
+
+Laden Sie die Beispieldaten [`lecturer.dat`](lecturer.dat) und berechnen Sie die Mittelwerte aller numerischen Spalten gruppiert nach der Spalte `job`. Verwenden Sie dazu die Funktion `by()`. Warum funktioniert diese Berechnung nicht mit der Funktion `mean`?
+
+
+### Übung 5
+
+Erzeugen Sie mit der Funktion `rnorm()` einen Vektor mit 5001 standardnormalverteilten Zufallszahlen und überprüfen Sie, ob dieser Vektor normalverteilt ist. Verwenden Sie dazu den Shapiro-Wilk-Test. Wie interpretieren Sie das Ergebnis?
