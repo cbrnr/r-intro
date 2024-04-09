@@ -2,7 +2,7 @@
 title: "7 – Datenaufbereitung"
 subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2023-11-30
+date: 2024-04-29
 format:
   html:
     page-layout: full
@@ -23,7 +23,7 @@ published-title: "Veröffentlicht"
 
 ## Daten umformen
 
-Es gibt in der Praxis (mindestens) zwei verschiedene Möglichkeiten, ein und dieselben Daten in einer Tabelle darzustellen, und zwar entweder im Wide-Format oder im Long-Format. Zur Berechnung deskriptiver Statistiken eignet sich das Wide-Format besser, das Long-Format ist aber bei anderen Aufgabenstellungen notwendig. Deswegen ist es sinnvoll, wenn man weiß, wie man das eine Format in die andere Darstellung umwandeln kann.
+Es gibt in der Praxis (mindestens) zwei verschiedene Möglichkeiten, ein und dieselben Daten in einer Tabelle darzustellen, und zwar entweder im Wide-Format oder im Long-Format. Zur Berechnung deskriptiver Statistiken eignet sich das Wide-Format besser, das Long-Format ist aber bei anderen Aufgabenstellungen notwendig. Deswegen ist es sinnvoll, wenn man weiß, wie man die eine Darstellung in die andere umwandeln kann.
 
 Bei Daten im Wide-Format gibt es für jede Variable eine eigene Spalte. Daten im Long-Format haben nur eine Spalte, die alle Werte beinhaltet, und eine oder mehrere Spalte(n) mit Indikator-Variablen, welche den Kontext der Werte definieren. Die folgende Tabelle zeigt Beispieldaten im Wide-Format:
 
@@ -75,7 +75,7 @@ library(tidyr)
 
 Hier übergibt man zuerst die Daten im Wide-Format (`df`), gefolgt von einer Auswahl der (Werte-)Spalten, die man ins Long-Format bringen möchte – in unserem Beispiel sind das die Spalten von `Age` bis `Height`. Für diese Spaltenauswahl kann man die Spaltennamen ohne Anführungszeichen schreiben, und auch der Doppelpunkt funktioniert wie bei Zahlensequenzen. Man könnte hier auch die Indizes der Spalten verwenden, also `2:4` statt `Age:Height`. Schließlich gibt man mit `names_to` den gewünschten Namen der Indikatorspalte an (im Beispiel soll diese also `Variable` heißen) und mit `values_to` den Namen der neuen Werte-Spalte (`Value`).
 
-Der umgekehrte Weg wird mit `pivot_wider()` beschritten; diese Funktion kann eine Spalte auf mehrere Spalten aufteilen, d.h. vom Long-Format ins Wide-Format konvertieren:
+Der umgekehrte Weg wird mit `pivot_wider()` beschritten; diese Funktion kann eine Variable auf mehrere Spalten aufteilen, d.h. vom Long-Format ins Wide-Format konvertieren:
 
 ```{r}
 (df_wide = pivot_wider(
@@ -115,7 +115,7 @@ Nun haben wir bereits gelernt, dass wir spezifische Zeilen mittels Indizieren he
 df[df$sex == "f",]
 ```
 
-Diese Schreibweise ist für Data Frames aber relativ unübersichtlich, vor allem weil man das zugrundeliegende Data Frame `df` zwei Mal nennen muss. Glücklicherweise gibt es aber eine intuitivere Alternative durch die Funktion `subset()`. Diese Funktion kann, wie der Name bereits andeutet, Untermengen (Subsets) von bestehenden Vektoren bzw. Data Frames erzeugen. Im Falle eines Data Frames bedeutet das, dass man eine Untermenge der Zeilen und/oder Spalten auswählen kann.
+Diese Schreibweise ist für Data Frames aber relativ unübersichtlich, vor allem weil man das zugrundeliegende Data Frame `df` zwei Mal schreiben muss. Glücklicherweise gibt es aber eine intuitivere Alternative durch die Funktion `subset()`. Diese Funktion kann, wie der Name bereits andeutet, Untermengen (Subsets) von bestehenden Vektoren bzw. Data Frames erzeugen. Im Falle eines Data Frames bedeutet das, dass man eine Untermenge der Zeilen und/oder Spalten auswählen kann.
 
 Beginnen wir mit der Auswahl von Zeilen (man bezeichnet diese Operation auch als "filtern"). Hier übergibt man der Funktion `subset()` als erstes Argument das ursprüngliche Data Frame. Das zweite Argument (welches `subset` heißt, nicht zu verwechseln mit dem Funktionsnamen) bestimmt dann, welche Zeilen ausgewählt (gefiltert) werden sollen. Das obige Beispiel kann damit wie folgt angeschrieben werden:
 
@@ -156,7 +156,7 @@ subset(df, select=name:weight)
 
 Hier werden also alle Spalten von `name` bis `weight` selektiert.
 
-Selbstverständlich kann man beide Operationen (also Zeilenauswahl und Spaltenauswahl) auch gleichzeitig durchführen:
+Selbstverständlich kann man beide Operationen (also Zeilenauswahl und Spaltenauswahl) auch mit einem Funktionsaufruf durchführen:
 
 ```{r}
 subset(df, subset=age > 30, select=c(name, age, sex))
@@ -181,7 +181,7 @@ head(aq)
 Beachten Sie, dass wir in der Transformation vorhandene Spalten wieder direkt verwenden können (im Beispiel `Temp`), ohne Anführungszeichen oder `airquality$` verwenden zu müssen. Außerdem wird immer ein *neues* Data Frame erzeugt; Sie könnten dieses aber dem ursprünglichen Namen zuweisen, wenn Sie möchten (also `airquality` in obigem Beispiel statt `aq`).
 
 :::{.callout-important}
-Das Ergebnis der Funktion `transform()` ist ein Data Frame, auch wenn Sie ein Tibble als Ausgangsdaten verwenden. Falls das Ergebnis aber auch ein Tibble sein soll, muss man den Rückgabewert von `transform()` mit `tibble::as_tibble()` explizit in ein Tibble konvertieren.
+Das Ergebnis der Funktion `transform()` ist ein Data Frame, auch wenn man ein Tibble als Ausgangsdatensatz verwendet. Falls das Ergebnis ein Tibble sein soll, muss man den Rückgabewert von `transform()` mit `tibble::as_tibble()` explizit in ein Tibble konvertieren.
 :::
 
 
@@ -197,13 +197,17 @@ mean(x)  # klassisch
 x |> mean()  # Pipe
 ```
 
+:::{.callout-tip}
+Der Pipe-Operator zieht also das *erste* Argument vor den Funktionsaufruf hinaus.
+:::
+
 Das macht in diesem Beispiel natürlich wenig Sinn, denn hier ist `mean(x)` wesentlich kürzer und einfacher lesbar. Interessant wird es aber dann, wenn man das Ergebnis eines Funktionsaufrufes direkt als Argument für einen weiteren Funktionsaufruf verwenden will. Klassisch würde man dies so anschreiben:
 
 ```r
 g(f(x))
 ```
 
-Hier ist es schon schwieriger zu sehen, in welcher Reihenfolge die Berechnung eigentlich durchgeführt wird: zuerst wird `f(x)` berechnet, und dessen Ergebnis wird als Argument für die Funktion `g()` übergeben. Mit dem Pipe-Operator würde dieselbe Operation wie folgt aussehen:
+Hier ist es schon schwieriger zu sehen, in welcher Reihenfolge die Berechnung eigentlich durchgeführt wird: zuerst wird `f(x)` berechnet, und dessen Ergebnis wird als Argument für die Funktion `g()` übergeben. R führt die Berechnungen also von innen nach außen durch. Mit dem Pipe-Operator würde dieselbe Operation wie folgt aussehen:
 
 ```r
 x |> f() |> g()
@@ -218,7 +222,7 @@ log(mean(x))
 x |> mean() |> log()
 ```
 
-Die Variante mit dem Pipe-Operator ist meistens intuitiver. Noch übersichtlicher wird es, wenn jeder Schritt in der Pipeline in eine eigene Zeile geschrieben wird (das ist in R ja bei allen Befehlen möglich):
+Die Variante mit dem Pipe-Operator ist meistens intuitiver. Noch übersichtlicher wird es, wenn jeder Schritt in der Pipeline in eine eigene Zeile geschrieben wird (das ist in R ja bei allen Befehlen prinzipiell möglich):
 
 ```{r}
 x |>
@@ -247,7 +251,7 @@ airquality |>
 Im vorigen Beispiel wird mit `as_tibble()` am Ende alles in ein Tibble konvertiert. Ansonsten hätte man ein Data Frame, weil wir die Funktion `transform()` verwendet haben.
 :::
 
-Um mit diesem Data Frame weiterzuarbeiten sollte man das Ergebnis einer (neuen) Variablen zuweisen, z.B.:
+Um mit diesem Data Frame weiterzuarbeiten, sollte man das Ergebnis einer (neuen) Variablen zuweisen, z.B.:
 
 ```{r}
 aq = airquality |>
@@ -258,7 +262,7 @@ aq = airquality |>
 mean(aq$celsius)  # mittlere Temperatur (in °C) im Juli
 ```
 
-Abschließend ist noch anzumerken, dass das [Tidyverse](https://www.tidyverse.org/) wesentlich mehr Funktionen bietet, die mit dem Pipe-Operator angewendet werden können. Insbesonders gruppierte zusammenfassende Statistiken (z.B. die mittleren Temperaturen für alle Monate) werden dadurch ähnlich intuitiv möglich wie in den hier gezeigten Beispielen. Mit Base-R ist dies zwar auch möglich, aber nicht in dieser einheitlichen Pipeline-Form.
+Abschließend ist noch anzumerken, dass das [Tidyverse](https://www.tidyverse.org/) wesentlich mehr Funktionen bietet, die mit dem Pipe-Operator elegant miteinander verbunden werden können. Insbesonders gruppierte zusammenfassende Statistiken (z.B. die mittleren Temperaturen für alle Monate) werden dadurch ähnlich intuitiv möglich wie in den hier gezeigten Beispielen. Mit Base-R ist dies zwar auch möglich, aber nicht in dieser einheitlichen Pipeline-Form.
 
 
 ## Übungen
