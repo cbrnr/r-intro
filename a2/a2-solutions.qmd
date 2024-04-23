@@ -1,0 +1,115 @@
+---
+title: "A1 – Lösungen"
+subtitle: "Statistische Datenanalyse mit R"
+author: "Clemens Brunner"
+date: 2023-05-09
+format: html
+engine: knitr
+highlight-style: github
+title-block-banner: true
+theme:
+  light: flatly
+  dark: darkly
+lang: de
+author-title: "Autor"
+published-title: "Veröffentlicht"
+---
+
+## Übung 1
+
+```{r}
+#| warning: false
+library(ggplot2)
+library(palmerpenguins)
+
+ggplot(data=penguins, mapping=aes(x=bill_length_mm, y=bill_depth_mm)) +
+    geom_point() +
+    geom_smooth(method="lm", formula="y ~ x") +
+    labs(title="Penguins", x="Bill length (mm)", y="Bill depth (mm)")
+```
+
+
+## Übung 2
+
+```{r}
+#| warning: false
+ggplot(
+    data=penguins,
+    mapping=aes(x=bill_length_mm, y=bill_depth_mm, color=species)
+) +
+    geom_point() +
+    geom_smooth(method="lm", formula="y ~ x") +
+    labs(title="Penguins", x="Bill length (mm)", y="Bill depth (mm)")
+```
+
+Übung 1 und 2 illustrieren das sogenannte [Simpson-Paradoxon](https://en.wikipedia.org/wiki/Simpson%27s_paradox): es kann sein, dass sich eine Korrelation über die gesamten Daten im Vorzeichen ändert, wenn man Korrelationen für Subgruppen berechnet.
+
+
+## Übung 3
+
+```{r}
+ggplot(Orange, aes(age, circumference, color=Tree)) + geom_point() + geom_line()
+```
+
+
+## Übung 4
+
+```{r}
+ggplot(mpg, aes(displ, hwy)) +
+    geom_point() +
+    geom_smooth(method="lm", formula="y ~ x")
+```
+
+Die Effizient (`hwy` ist Miles per Gallon) sinkt mit steigendem Hubraum – also Fahrzeuge mit größerem Hubraum schaffen weniger Meilen pro Gallone Kraftstoff. Dies bedeutet, dass Fahrzeuge mit großem Hubraum mehr Kraftstoff verbrauchen als Fahrzeuge mit kleinem Hubraum.
+
+
+## Übung 5
+
+```{r}
+mpg$l100km = 235 / mpg$hwy
+
+ggplot(mpg, aes(factor(cyl), l100km)) +
+    geom_boxplot() +
+    xlab("Cylinders") +
+    ylab("Fuel consumption (l/100km)")
+```
+
+Der Kraftstoffverbrauch steigt mit der Zylinderanzahl.
+
+
+## Übung 6
+
+Es gibt in der Spalte `displ` nur diskrete Werte, d.h. im Plot sieht man viele Punkte nicht, da sie überlagert sind. Eine Lösung ist, statt `geom_point()` die Funktion `geom_jitter()` zu verwenden – diese verschiebt die Punkte leicht in zufällige Richtungen mit dem Ergebnis, dass man dann im Plot alle Punkte sieht. Nachteilig ist, dass die Punkte nicht mehr exakt die tatsächlichen Daten repräsentieren. Eine andere Möglichkeit wäre, die Punkte transparent zu zeichnen (mit dem Argument `alpha`), sodass überlappende Punkte dunkler dargestellt werden.
+
+```{r}
+ggplot(mpg, aes(displ, hwy)) +
+    geom_jitter() +
+    geom_smooth(method="lm", formula="y ~ x")
+
+ggplot(mpg, aes(displ, hwy)) +
+    geom_point(alpha=0.25) +
+    geom_smooth(method="lm", formula="y ~ x")
+```
+
+
+## Übung 7
+
+Die Ebenen werden in der Reihenfolge hinzugefügt, in der sie auch im Code aufscheinen. Im gegebenen Beispiel sind die Punkte deswegen unter der Geraden, weil sie zuerst gezeichnet werden:
+
+```{r}
+library(tibble)
+
+df = tibble(x=1:10, y=1:10)
+
+ggplot(data=df, mapping=aes(x=x, y=y)) +
+    geom_point(size=4) +
+    geom_smooth(method="lm", formula="y ~ x")
+```
+
+Wir können also stattdessen zuerst die Gerade zeichnen und dann erst die Punkte:
+
+```{r}
+ggplot(data=df, mapping=aes(x=x, y=y)) +
+    geom_smooth(method="lm", formula="y ~ x") +
+    geom_point(size=4)
+```
