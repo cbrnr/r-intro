@@ -14,3 +14,5 @@ Die folgenden Unterlagen bieten eine kurze Einführung in die Grundlagen von R. 
 10. [Lineare Regression]() ([Lösungen]())
 11. [Mittelwertvergleich]() ([Lösungen]())
 12. [Reproduzierbare Analysen]() ([Lösungen]())
+
+- [Zusätzliche Übungsaufgaben](https://r-24s-a1.netlify.app) ([Lösungen](https://r-24s-a1-solutions.netlify.app))
