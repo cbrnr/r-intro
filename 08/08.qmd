@@ -2,7 +2,7 @@
 title: "8 – Grafiken"
 subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2023-12-07
+date: 2024-05-13
 format:
   html:
     page-layout: full
@@ -137,6 +137,8 @@ Im folgenden Beispiel werden Boxplots für `airquality$Temp` in Abhängigkeit vo
 boxplot(airquality$Temp ~ airquality$Month)
 ```
 
+Hier bestimmt also die linke Seite der Formel die Werte auf der y-Achse, und die rechte Seite die Werte auf der x-Achse.
+
 
 ## Grafiken anpassen
 
@@ -148,7 +150,7 @@ plot(
     airquality$Ozone,
     xlab="Wind (mph)",  # x-Achsen-Titel
     ylab="Ozone (ppb)",  # y-Achsen-Titel
-    main="",  # Titel
+    main="New York City air quality (1973)",  # Titel
     pch=21,  # Kreissymbol mit separater Rand- und Hintergrundfarbe
     bg="lightblue"  # Hintergrundfarbe
 )
@@ -162,7 +164,7 @@ plot(
     airquality$Ozone,
     xlab="",
     ylab="Ozone (ppb)",
-    main="",
+    main="",  # kein Titel
     type="l",  # Liniengrafik
     col="orange"
 )
@@ -284,7 +286,7 @@ arrows(14.5, 90, 14, 75, length=0.1)
 ```
 
 ## Darstellung von Rohdaten
-Es gibt viele Möglichkeiten, die Verteilung einer (numerischen) Variablen zu visualisieren (z.B. Histogramme und Boxplots). Prinzipiell sollte man zusätzlich zu zusammenfassenden Größen (wie Mittelwert, Median, Streuung, etc.) immer die Rohdaten in der Grafik darstellen. Dies ist mit der Funktion `stripchart()` möglich.
+Es gibt viele Möglichkeiten, die Verteilung einer (numerischen) Variable zu visualisieren (z.B. Histogramme und Boxplots). Prinzipiell sollte man zusätzlich zu zusammenfassenden Größen (wie Mittelwert, Median, Streuung, etc.) immer die Rohdaten in der Grafik darstellen. Dies ist mit der Funktion `stripchart()` möglich.
 
 Sehen wir uns als Beispiel die Spalte `airquality$Ozone` an. Man könnte in einer Balkengrafik nur deren Mittelwert darstellen, was aber nicht sehr informativ ist:
 
@@ -298,7 +300,7 @@ Etwas besser wäre ein Boxplot:
 boxplot(airquality$Ozone)
 ```
 
-Am besten ist es, wenn man zusätzlich noch die Rohdaten in die Grafik aufnimmt (dies wird mit der Funktion `stripchart()` bewerkstelligt):
+Noch besser ist es, wenn man zusätzlich die Rohdaten in die Grafik aufnimmt (dies wird mit der Funktion `stripchart()` bewerkstelligt):
 
 ```{r}
 boxplot(airquality$Ozone)
@@ -333,8 +335,8 @@ Mehrere Plots nebeneinander bzw. untereinander kann man mit dem globalen Paramet
 
 ```{r}
 par(mfrow=c(1, 2))  # 1 Zeile, 2 Spalten
-with(airquality, plot(Wind, Ozone, main="Ozone and Wind", pch=20))
-with(airquality, plot(Solar.R, Ozone, main="Ozone and Solar Radiation", pch=20))
+with(airquality, plot(Wind, Ozone, main="Ozone and Wind", pch=20))  # Grafik 1
+with(airquality, plot(Solar.R, Ozone, main="Ozone and Solar Radiation", pch=20))  # Grafik 2
 ```
 
 Wenn die Grafik fertig ist sollte man den globalen Parameter wieder zurücksetzen, sodass die nächste Grafik wieder aus einer einzigen Darstellung besteht:
@@ -349,7 +351,7 @@ Noch flexibler ist die Funktion `layout()`. Hier spezifiziert man eine Matrix, w
 (grid = matrix(c(1, 1, 2, 3), nrow=2, ncol=2, byrow=TRUE))
 ```
 
-Nun setzt man das Layout der Grafik auf `grid` und erstellt die drei Plots:
+Nun setzt man das Layout der Grafik auf `grid` und erstellt hintereinander die drei Plots:
 
 ```{r}
 #| fig-width: 7
@@ -386,7 +388,7 @@ points(airquality$Temp, airquality$Ozone, pch=16, col=rgb(0, 0, 0, 0.5))
 Die Angabe der Farbe `col=rgb(0, 0, 0, 0.5)` im letzten Beispiel definiert die Farbe schwarz über die ersten drei Werte (RGB, also rot, grün und blau) sowie die Transparenz über den vierten Wert (1 bedeutet gar nicht transparent und 0 bedeutet vollkommen transparent – 0.5 ist also halbtransparent).
 :::
 
-Nach der Erstellung der Grafik sollte man auch hier wieder den Parameter zurücksetzen, entweder wie oben mit `par(mfrow=c(1, 1))` oder etwas kürzer mit:
+Nach der Erstellung der Grafik sollte man auch hier wieder den Parameter zurücksetzen, entweder wie oben mit `par(mfrow=c(1, 1))` oder mit:
 
 ```{r}
 layout(1)
