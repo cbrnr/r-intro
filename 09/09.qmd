@@ -2,7 +2,7 @@
 title: "9 – Korrelation"
 subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2023-12-07
+date: 2024-05-27
 format:
   html:
     page-layout: full
@@ -25,11 +25,11 @@ published-title: "Veröffentlicht"
 
 Oft ist es interessant zu fragen, ob zwei Variablen eine gegenseitige Abhängigkeit zeigen. Man möchte also wissen, ob sich die beiden Größen ähnlich verhalten oder nicht – wenn die eine Variable zunimmt, nimmt dann die andere auch zu? Oder ist es genau umgekehrt und sie nimmt dann immer ab? Die Korrelation ist ein einfaches und populäres Maß, um diese Fragestellungen zu beantworten.
 
-Folgende Beispiele von [Spurious Correlations](http://www.tylervigen.com/spurious-correlations) illustrieren die Gefahr der fehlerhaften Interpretation von Korrelationen. Im ersten Beispiel werden die Ausgaben für den Bereich Wissenschaft, Raumfahrt und Technik der USA im Zeitraum 1999–2009 dargestellt. Gleichzeitig werden die Anzahl der Selbstmorde durch Hängen, Strangulieren und Erstickung im selben Zeitraum gezeigt. Man sieht, dass beide Kurven einen sehr ähnlichen Verlauf haben, und der Korrelationskoeffizient (dazu später mehr) ist mit $r=0.998$ extrem hoch:
+Dabei ist es aber wichtig zu wissen, dass kein kausaler Zusammenhang zwischen den beiden Variablen bestehen muss. Folgende Beispiele von [Spurious Correlations](http://www.tylervigen.com/spurious-correlations) illustrieren die Gefahr der fehlerhaften Interpretation von Korrelationen. Im ersten Beispiel werden die Ausgaben für den Bereich Wissenschaft, Raumfahrt und Technik der USA im Zeitraum 1999–2009 dargestellt. Gleichzeitig werden die Anzahl der Selbstmorde durch Hängen, Strangulieren und Erstickung im selben Zeitraum gezeigt. Man sieht, dass beide Kurven einen sehr ähnlichen Verlauf haben, und der Korrelationskoeffizient (dazu später mehr) ist mit $r=0.998$ extrem hoch:
 
 ![](spurious1.png)
 
-Das zweite Beispiel zeigt den Zusammenhang zwischen der Anzahl an Leuten, die in einen Pool gefallen und ertrunken sind und der Anzahl an Filmen mit Nicolas Cage im Zeitraum 1999–2009. Auch hier kann man einen schönen Zusammenhang erkennen, welcher einen recht hohen Korrelationskoeffizienten von $r=0.666$ aufweist:
+Das zweite Beispiel zeigt den Zusammenhang zwischen der Anzahl an Personen, die in einen Pool gefallen und ertrunken sind und der Anzahl an Filmen mit Nicolas Cage im Zeitraum 1999–2009. Auch hier kann man einen schönen Zusammenhang erkennen, welcher einen recht hohen Korrelationskoeffizienten von $r=0.666$ aufweist:
 
 ![](spurious2.png)
 
@@ -41,18 +41,24 @@ Diese Beispiele sollen verdeutlichen, dass Korrelation nicht automatisch einen k
 Die Produkt-Moment-Korrelation $r$ (auch Pearson-Korrelation genannt) ist ein Maß für den Grad des *linearen* Zusammenhangs zweier intervallskalierter Variablen. Die Korrelation nimmt Werte zwischen −1 und 1 an und wird aus den Varianzen und der Kovarianz beider Variablen berechnet.
 
 Die Varianz einer Variablen $x$ ist wie folgt definiert:
+
 $$\mathrm{Var}(x) = \frac{1}{N-1} \sum_{i=1}^N (x_i - \bar{x})^2$$
+
 Hier ist $\bar{x}$ der Mittelwert über alle $N$ Werte (welche als $x_i$ bezeichnet werden), also
+
 $$\bar{x} = \frac{1}{N} \sum_{i=1}^N x_i.$$
 
 Alternativ kann man die Varianz auch so schreiben (das Quadrat wird explizit als Multiplikation angeschrieben):
+
 $$\mathrm{Var}(x) = \frac{1}{N-1} \sum_{i=1}^N (x_i - \bar{x})(x_i - \bar{x})$$
-Die Varianz beschreibt, wie stark die Datenpunkte um den Mittelwert variieren (streuen). Dementsprechend ist die Kovarianz zwischen zwei Variablen $x$ und $y$ definiert als
+
+Die Varianz beschreibt, wie stark die Datenpunkte um deren Mittelwert variieren (streuen). Dementsprechend ist die Kovarianz zwischen zwei Variablen $x$ und $y$ definiert als
+
 $$\mathrm{Cov}(x, y) = \frac{1}{N-1} \sum_{i=1}^N (x_i - \bar{x})(y_i - \bar{y}).$$
 
 Die Kovarianz beschreibt, wie stark die beiden Variablen gemeinsam um den jeweiligen Mittelwert variieren. Eine positive Kovarianz bedeutet, dass beide Variablen gleichsinnig variieren (d.h. wenn eine Variable größer als ihr Mittelwert ist, dann ist die andere auch größer). Umgekehrt bedeutet eine negative Kovarianz, dass beide Variablen gegensinnig variieren (ist eine Variable größer als ihr Mittelwert, dann ist die andere Variable kleiner).
 
-Die Kovarianz ist kein standardisiertes Maß, d.h. man kann nicht einfach zwei Kovarianzen aus unterschiedlichen Messreihen miteinander vergleichen. Die Pearson-Korrelation standardisiert nun die Kovarianz mit den Varianzen der einzelnen Variablen, und somit ist über die [Cauchy-Schwarzsche Ungleichung](https://de.wikipedia.org/wiki/Cauchy-Schwarzsche_Ungleichung) garantiert, dass die Korrelation im Wertebereich zwischen −1 und 1 liegt:
+Die Kovarianz ist kein standardisiertes Maß, d.h. man kann nicht einfach zwei Kovarianzen aus unterschiedlichen Messreihen miteinander vergleichen, da sie von der Skalierung der beiden Variablen abhängt. Die Pearson-Korrelation standardisiert nun die Kovarianz mit den Varianzen der einzelnen Variablen und stellt somit sicher, dass die Korrelation im Wertebereich zwischen −1 und 1 liegt:
 
 $$r = \frac{\mathrm{Cov}(x, y)}{\sqrt{\mathrm{Var}(x) \mathrm{Var}(y)}}$$
 
@@ -68,7 +74,7 @@ y &= (-2, -5, -6, 0, 3, 7, 10)
 \end{aligned}
 $$
 
-Wir können die sieben Datenpunkte visualisieren:
+Wir können diese sieben Datenpunkte in einem Scatterplot visualisieren:
 
 ```{r}
 #| echo: false
@@ -86,7 +92,7 @@ ggplot(df, aes(x, y)) +
     scale_y_continuous(breaks=-6:10)
 ```
 
-Zunächst berechnen wir die Mittelwerte:
+Zunächst berechnen wir die beiden Mittelwerte:
 
 $$
 \begin{aligned}
@@ -127,11 +133,17 @@ Meist wird nach der Berechnung der Korrelation ein Test durchgeführt, welcher p
 
 $$z_r = \frac{1}{2} \ln \frac{1 + r}{1 - r} = \text{arctanh}(r)$$
 
-umwandeln. Der Standardfehler von $z_r$ beträgt dabei
+umwandeln. Der Standardfehler von $z_r$ beträgt dabei:
 
-$$\mathrm{SE}(z_r) = \frac{1}{\sqrt{N - 3}}.$$
+$$\mathrm{SE}(z_r) = \frac{1}{\sqrt{N - 3}}$$
 
 Nun kann man den erhaltenen Wert von $z_r$ durch den Standardfehler dividieren und das Ergebnis dann mit Werten aus einer Tabelle der Standardnormalverteilung vergleichen. So erhält man dann den $p$-Wert (siehe auch [hier](https://en.wikipedia.org/wiki/Pearson_correlation_coefficient#Using_the_Fisher_transformation)).
+
+:::{.callout-note}
+Der $p$-Wert gibt hier die Wahrscheinlichkeit an, dass man eine Korrelation erhält, die *mindestens* so groß ist wie die beobachtete, unter der Annahme, dass die Nullhypothese zutrifft (also dass die Korrelation 0 ist).
+
+Ein kleiner $p$-Wert bedeutet also, dass der beobachtete Wert unter der Nullhypothese sehr unwahrscheinlich ist. Daher entscheidet man sich in solchen Situationen, die Nullhypothese zu verwerfen und die Korrelation als signifikant (unterschiedlich von 0) zu betrachten.
+:::
 
 Betrachten wir dazu ein Beispiel zur Veranschaulichung der Berechnung des $p$-Wertes sowie des Konfidenzintervalls für eine gegebene Pearson-Korrelation.
 
@@ -145,7 +157,7 @@ r = 0.25
 N = 40
 ```
 
-Weiters geben wir ein Signifikanzniveau von $\alpha = 0.05$ vor:
+Weiters geben wir ein Signifikanzniveau von $\alpha = 0.05$ vor (das ist der Schwellwert für den $p$-Wert, ab dem wir eine Korrelation als signifikant betrachten wollen):
 
 ```{r}
 alpha = 0.05
@@ -162,11 +174,13 @@ Jetzt können wir den Standardfehler berechnen:
 (se_z = 1 / sqrt(N - 3))
 ```
 
-Den $p$-Wert erhält man nun, indem man die Wahrscheinlichkeit berechnet, dass man in einer Standardnormalverteilung Werte größer als $z \, / \, \text{SE}(z) \approx 1.55$ erhält. Dazu sieht man entweder in einer [Tabelle der Standardnormalverteilung](https://en.wikipedia.org/wiki/Standard_normal_table#Complementary_cumulative) nach oder man berechnet diesen Wert mit entsprechenden Funktionen in R (der Faktor 2 wird benötigt, da wir keine gerichtete Hypothese hatten):
+Den $p$-Wert erhält man nun, indem man die Wahrscheinlichkeit berechnet, dass man in einer Standardnormalverteilung Werte größer als $z \, / \, \text{SE}(z) \approx 1.55$ erhält. Dazu sieht man entweder in einer [Tabelle der Standardnormalverteilung](https://en.wikipedia.org/wiki/Standard_normal_table#Complementary_cumulative) nach oder man berechnet diesen Wert mit entsprechenden Funktionen in R (der Faktor 2 wird benötigt, da wir keine gerichtete Hypothese haben):
 
 ```{r}
 (p = 2 * (1 - pnorm(z / se_z)))
 ```
+
+Dieser $p$-Wert ist größer als $\alpha = 0.05$, d.h. wir können die Nullhypothese (keine Korrelation) *nicht* verwerfen.
 
 Das Konfidenzintervall um $z$ erhält man, indem man zum gegebenen Wert $z$ das Produkt aus dem Signifikanzniveau entsprechenden Quantil (ca. 1.96 für $\alpha = 0.05$) mit dem Standardfehler addiert bzw. subtrahiert:
 
@@ -183,6 +197,10 @@ cl_r = tanh(cl_z)
 cu_r = tanh(cu_z)
 c(cl_r, r, cu_r)
 ```
+
+:::{.callout-note}
+Das Konfidenzintervall gibt an, in welchem Bereich der wahre Wert der Korrelation mit einer gegebenen Sicherheit (Konfidenz) liegt. Die Konfidenz ist *nicht* die *Wahrscheinlichkeit*, dass der wahre Wert in dem berechneten Intervall liegt – denn der wahre Wert ist entweder in dem Intervall oder nicht. Wenn man viele Stichproben ziehen würde und damit jedes Mal ein Konfidenzintervall berechnen würde, dann würde im Falle eines 95%-Konfidenzintervalls in 95% der berechneten Fälle der wahre Wert in dem Intervall liegen.
+:::
 
 :::{.callout-tip}
 Die Tatsache, dass die Korrelation $r=0.25$ bei einer Stichprobe von $N=40$ nicht signifikant unterschiedlich von Null ist ($p=0.12$) kann man auch daran erkennen, dass das 95%-Konfidenzintervall den Wert 0 (also die Nullhypothese) enthält. Das bedeutet also, dass wir die Nullhypothese (keine Korrelation) *nicht* verwerfen können.
@@ -307,7 +325,7 @@ Nun berechnen wir die Pearson-Korrelationen zwischen den drei Variablen `Exam`, 
 cor(exam[, c("Exam", "Anxiety", "Revise")])
 ```
 
-Man kann aus dieser Korrelationsmatrix direkt die einzelnen Koeffizienten für alle Variablenpaare ablesen. Die Diagonale beinhaltet die Korrelationen der Variablen mit sich selbst und besteht daher aus lauter Werten die exakt gleich 1 sind. Außerdem ist es egal, ob man die Korrelationen in dem Dreieck *unter* der Diagonale oder *über* der Diagonale abliest, da die Korrelationsmatrix symmetrisch ist (die Korrelation zwischen "Exam" und "Revise" ist dieselbe wie zwischen "Revise" und "Exam" – die Korrelation misst keine kausalen Zusammenhänge!).
+Man kann aus dieser Korrelationsmatrix direkt die einzelnen Koeffizienten für alle Variablenpaare ablesen. Die Diagonale beinhaltet die Korrelationen der Variablen mit sich selbst und besteht daher aus lauter Werten, die exakt gleich 1 sind. Außerdem ist es egal, ob man die Korrelationen in dem Dreieck *unter* der Diagonale oder *über* der Diagonale abliest, da die Korrelationsmatrix symmetrisch ist (die Korrelation zwischen "Exam" und "Revise" ist dieselbe wie zwischen "Revise" und "Exam" – die Korrelation misst ja keine kausalen Zusammenhänge).
 
 Möchte man jedoch auch $p$-Werte, muss man die Funktion `rcorr()` verwenden. Diese Funktion erwartet die Daten jedoch nicht als Data Frame, sondern als Matrix. Daher müssen die Daten beim Aufruf der Funktion in eine Matrix umgewandelt werden:
 
