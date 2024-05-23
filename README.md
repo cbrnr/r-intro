@@ -11,7 +11,7 @@ Die folgenden Unterlagen bieten eine kurze Einführung in die Grundlagen von R. 
  7. [Datenaufbereitung](https://r-24s-07.netlify.app) ([Lösungen](https://r-24s-07-solutions.netlify.app))
  8. [Grafiken](https://r-24s-08.netlify.app) ([Lösungen](https://r-24s-08-solutions.netlify.app))
  9. [Korrelation](https://r-24s-09.netlify.app) ([Lösungen](https://r-24s-09-solutions.netlify.app))
-10. [Lineare Regression]() ([Lösungen]())
+10. [Lineare Regression](https://r-24s-10.netlify.app) ([Lösungen](https://r-24s-10-solutions.netlify.app))
 11. [Mittelwertvergleich]() ([Lösungen]())
 12. [Reproduzierbare Analysen]() ([Lösungen]())
 

@@ -2,7 +2,7 @@
 title: "10 – Lineare Regression"
 subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2024-01-11
+date: 2024-06-03
 format:
   html:
     page-layout: full
@@ -23,7 +23,7 @@ published-title: "Veröffentlicht"
 
 ## Einfache lineare Regression
 
-Wir haben gesehen, dass man über die Korrelation die Beziehung zwischen zwei Variablen beschreiben kann. Man kann nun einen Schritt weiter gehen und versuchen, eine Variable durch die andere *vorherzusagen*. Eine weit verbreitete Methode dafür ist die lineare Regression, welche eine abhängige Variable durch *eine* unabhängige Variable (einfache Regression) bzw. durch *mehrere* unabhängige Variablen (multiple Regression) zu erklären versucht.
+Wir haben gesehen, dass man über die Korrelation die Beziehung zwischen zwei Variablen beschreiben kann. Man kann nun einen Schritt weiter gehen und versuchen, eine Variable durch die andere "vorherzusagen". Eine weit verbreitete Methode dafür ist die lineare Regression, welche eine abhängige Variable durch *eine* unabhängige Variable (einfache Regression) bzw. durch *mehrere* unabhängige Variablen (multiple Regression) zu erklären versucht.
 
 Ein allgemeines statistisches Modell kann man generell wie folgt aufstellen:
 
@@ -38,17 +38,25 @@ Im Fall der linearen Regression ist das Modell $\hat{y}_i$ linear, also eine Ger
 $$y_i = \underbrace{\left(b_0 + b_1 x_i\right)}_{\hat{y}_i} + \varepsilon_i$$
 
 :::{.callout-note}
-Eine Geradengleichung kann in der Form $f(x) = k x + d$ angeschrieben werden (gebräuchlich ist auch $f(x) = a x + c$). Wichtig dabei ist, dass der Koeffizient von $x$ (also $k$ bzw. $a$) der Steigung entspricht, und die Konstante (also $d$ bzw. $c$) dem Schnittpunkt mit der y-Achse.
+Eine Geradengleichung kann in der Form $y = k \cdot x + d$ angeschrieben werden. Die zwei Parameter $k$ und $d$ sind wie folgt definiert:
+
+- Der Schnittpunkt mit der y-Achse $d$ entspricht dem Wert von $y$ an der Stelle $x=0$.
+- Die Steigung $k$ ist das Verhältnis der Änderung von $y$ (wird als $\Delta y$ geschrieben) zur Änderung von $x$ (wird als $\Delta x$ geschrieben):
+
+   $$k = \frac{\Delta y}{\Delta x}$$
 :::
 
-Die Variablen $b_0$ und $b_1$ beschreiben den Schnittpunkt mit der y-Achse (Intercept) bzw. die Steigung der Geraden und werden als Regressionskoeffizienten bezeichnet. Der Term $\varepsilon$ beschreibt den Fehler zwischen den vom Modell vorhergesagten Werten und den tatsächlich gemessenen Werten. Der Term $x$ wird als unabhängige Variable, Prädiktor oder Treatment bezeichnet. Der Term $y$ wird als abhängige Variable oder Outcome bezeichnet. Das tiefgestellte $i$ steht für den $i$-ten Datenpunkt, d.h. $y_i$ ist der zugehörige Wert für den $i$-ten Datenpunkt $x_i$. Das Modell macht für diesen Datenpunkt den Fehler $\varepsilon_i$. Den vom Modell vorhergesagten Wert bezeichnet man als $\hat{y}_i$.
+Die Variablen $b_0$ und $b_1$ beschreiben den Schnittpunkt mit der y-Achse (Intercept) bzw. die Steigung der Geraden und werden als *Regressionskoeffizienten* bezeichnet. Der Term $\varepsilon$ beschreibt den Fehler zwischen den vom Modell vorhergesagten Werten und den tatsächlich gemessenen Werten. Der Term $x$ wird als unabhängige Variable, Prädiktor oder Treatment bezeichnet. Der Term $y$ wird als abhängige Variable oder Outcome bezeichnet. Das tiefgestellte $i$ steht für den $i$-ten Datenpunkt, d.h. $y_i$ ist der zugehörige Wert für den $i$-ten Datenpunkt $x_i$. Das Modell macht für diesen Datenpunkt den Fehler $\varepsilon_i$. Den vom Modell vorhergesagten Wert bezeichnet man als $\hat{y}_i$.
 
+:::{.callout-tip}
 Zur Veranschaulichung sind in der folgenden Abbildung drei Geraden mit gleichen Intercepts aber unterschiedlichen Steigungen (links) sowie unterschiedlichen Intercepts aber gleichen Steigungen (rechts) abgebildet.
 
 ```{r}
 #| echo: false
+#| fig-width: 10
+#| fig-height: 5
 library(ggplot2)
-library(grid)
+library(patchwork)
 
 theme_set(theme_minimal())
 
@@ -56,24 +64,27 @@ p1 = ggplot(data.frame(x=0, y=0), aes(x, y)) +
     scale_x_continuous(limits=c(0, 100)) +
     scale_y_continuous(limits=c(0, 100)) +
     labs(x="x", y="y") +
-    geom_abline(slope=(1/2), intercept=50) +
+    geom_abline(slope=(1/1), intercept=50) +
     geom_abline(slope=(-1/3), intercept=50) +
-    geom_abline(slope=(-2/3), intercept=50)
+    geom_abline(slope=(-2/3), intercept=50) +
+    theme(aspect.ratio=1)
 p2 = ggplot(data.frame(x=0, y=0), aes(x, y)) +
     scale_x_continuous(limits=c(0, 100)) +
     scale_y_continuous(limits=c(0, 100)) +
     labs(x="x", y="y") +
     geom_abline(slope=(1/2), intercept=50) +
     geom_abline(slope=(1/2), intercept=20) +
-    geom_abline(slope=(1/2), intercept=70)
-pushViewport(viewport(layout=grid.layout(1, 2)))
-print(p1, vp=viewport(layout.pos.row=1, layout.pos.col=1))
-print(p2, vp=viewport(layout.pos.row=1, layout.pos.col=2))
+    geom_abline(slope=(1/2), intercept=70) +
+    theme(aspect.ratio=1)
+p1 + p1
 ```
 
-Das Modell (also die Regressionsgerade) soll die Daten möglichst gut beschreiben, was meist durch die [Methode der kleinsten Fehlerquadrate (Least Squares)](https://de.wikipedia.org/wiki/Methode_der_kleinsten_Quadrate) erreicht wird. Diese Methode findet jene Gerade, welche die quadrierten Unterschiede zwischen dem Modell (der Gerade) und den einzelnen Messpunkten minimiert. Die Unterschiede (Fehler) werden hier als Residuen bezeichnet. In der folgenden Grafik sind die Daten als schwarze Punkte und die Residuen als rote vertikale Linien dargestellt. Beachten Sie, dass es sowohl positive als auch negative Residuen gibt (in der Grafik sind beispielhaft zwei Werte zu sehen). Daher werden die einzelnen Residuen zuerst quadriert und dann aufsummiert – diese Quadratsumme wird minimiert. Würde man einfach alle Residuen aufsummieren, würden sich die positiven und negativen Residuen aufheben und die Summe aller Residuen wäre Null.
+In der linken Abbildung haben alle drei Geraden denselben Intercept $b_0 = 50$ (sie schneiden die y-Achse an der Stelle $y = 50$). Die Steigung der ersten Geraden beträgt $b_1 = 1$. Dies ist aus der Grafik ersichtlich, denn wenn man $x$ beispielsweise um 25 erhöht, dann erhöht sich $y$ ebenfalls um 25. Die Steigung beträgt also $b_1 = \frac{\Delta y}{\Delta x} = \frac{25}{25} = 1$. Die Steigung der zweiten Geraden beträgt $b_1 = -\frac{1}{3}$, denn wenn man $x$ um 75 erhöht, dann *erniedrigt* sich $y$ um 25. Die Steigung beträgt also $b_1 = \frac{-25}{75} = -\frac{1}{3}$. Die Steigung der dritten Geraden ist entsprechend $b_1 = \frac{-50}{75} = -\frac{2}{3}$.
 
-Die von dieser Methode gefundene Gerade hat also die kleinste Fehlerquadratsumme unter allen möglichen Geraden.
+In der rechten Abbildung haben alle drei Geraden die Steigung $b_1 = \frac{1}{2}$. Die erste Gerade schneidet die y-Achse bei $y = 70$, die zweite bei $y = 50$ und die dritte bei $y = 20$, was den drei Intercepts entspricht.
+:::
+
+Das Modell (also die Regressionsgerade) soll die Daten möglichst gut beschreiben, was meist durch die [Methode der kleinsten Fehlerquadrate (Least Squares)](https://de.wikipedia.org/wiki/Methode_der_kleinsten_Quadrate) erreicht wird. Diese Methode findet jene Gerade, welche die quadrierten Unterschiede zwischen dem Modell (der Geraden) und den einzelnen Datenpunkten minimiert. Die Unterschiede (Fehler) werden hier als *Residuen* bezeichnet. In der folgenden Grafik sind die Daten als schwarze Punkte, das Modell als schwarze Gerade und die Residuen als rote vertikale Linien dargestellt. Beachten Sie, dass es sowohl positive als auch negative Residuen gibt (in der Grafik sind beispielhaft zwei Werte zu sehen). Damit sich die positiven und negativen Terme nicht aufheben, werden die einzelnen Residuen zuerst quadriert und erst dann summiert – diese Quadratsumme wird minimiert (es wird also die Gerade gesucht, welche die kleinste Quadratsumme ergibt). Die von dieser Methode gefundene Gerade hat also die kleinste Fehlerquadratsumme unter allen möglichen Geraden.
 
 ```{r}
 #| echo: false
@@ -99,8 +110,12 @@ ggplot(df, aes(x, y)) +
 
 Die Fehlerquadratsumme ist ein Maß für die Güte des Modells (Model Fit). Für die gefundene Gerade ist diese Fehlerquadratsumme zwar immer minimal (unter allen möglichen Geraden), es ist aber trotzdem nicht klar, wie gut sich die Daten überhaupt mit einer Gerade beschreiben lassen. Deswegen vergleicht man das lineare Modell mit dem einfachsten Modell, welches die Prädiktorvariable vollkommen ignoriert – dem Mittelwert über alle Datenpunkte $y_i$ (das entspricht einer waagrechten Geraden). Bei diesem Modell ist der Wert der Prädiktorvariable $x_i$ also vollkommen egal, da komplett unabhängig davon immer derselbe Wert für die abhängige Variable $y_i$ vorhergesagt wird. Das lineare Modell ist dann ein guter Fit, wenn es signifikant besser als dieses einfachste Modell ist.
 
+
+Die Summe der quadratischen Abweichungen vom einfachsten Modell (Mittelwert) wird auch als SST bezeichnet (totale Quadratsumme). Die Summe der quadratischen Abweichungen vom linearen Modell wird als SSR (Residuenquadratsumme) bezeichnet, denn das lineare Modell macht im Allgemeinen Fehler (geht nicht perfekt durch alle Datenpunkte). Schließlich gibt es noch die quadratischen Abweichungen des linearen Modells vom einfachsten Modell, welche man als SSM (Modellquadratsumme) bezeichnet.
+
 ```{r}
 #| echo: false
+#| fig-width: 15
 set.seed(2)
 x = rnorm(15, mean=12, sd=7)
 y = 5 * x + rnorm(15, sd=20)
@@ -110,43 +125,30 @@ yhat = m$fitted.values
 p_sst = ggplot(df, aes(x, y)) +
     geom_segment(aes(x=x, xend=x, y=y, yend=mean(y), color="error")) +
     geom_point() +
-    geom_segment(aes(x=min(x), xend=max(x), y=mean(y), yend=mean(y)), linewidth=0.75) +
+    geom_hline(yintercept=mean(y), linewidth=0.75) +
     theme(legend.position="none", plot.title=element_text(hjust=0.5)) +
     ggtitle("SST")
-```
 
-```{r}
-#| echo: false
 p_ssm = ggplot(df, aes(x, y)) +
     geom_segment(aes(x=x, xend=x, y=mean(y), yend=yhat, color="error")) +
     geom_point() +
-    geom_segment(aes(x=min(x), xend=max(x), y=mean(y), yend=mean(y)), linewidth=0.75) +
+    geom_hline(yintercept=mean(y), linewidth=0.75) +
     geom_smooth(method=lm, formula=y ~ x, se=FALSE, color="black") +
     theme(legend.position="none", plot.title=element_text(hjust=0.5), axis.title.y=element_blank(), axis.text.y=element_blank()) +
     ggtitle("SSM")
-```
 
-```{r}
-#| echo: false
 p_ssr = ggplot(df, aes(x, y)) +
     geom_segment(aes(x=x, xend=x, y=y, yend=yhat, color="error")) +
     geom_point() +
-    geom_segment(aes(x=min(x), xend=max(x), y=mean(y), yend=mean(y)), linewidth=0.75) +
+    geom_hline(yintercept=mean(y), linewidth=0.75) +
     geom_smooth(method=lm, formula=y ~ x, se=FALSE, color="black") +
     theme(legend.position="none", plot.title=element_text(hjust=0.5), axis.title.y=element_blank(), axis.text.y=element_blank()) +
     ggtitle("SSR")
-```
 
-```{r}
-#| echo: false
-#| fig-width: 15
-library(patchwork)
 p_sst + p_ssm + p_ssr
 ```
 
-Die Summe der quadratischen Abweichungen vom einfachsten Modell (Mittelwert) wird auch als SST bezeichnet (totale Quadratsumme). Die Summe der quadratischen Abweichungen vom linearen Modell wird als SSR (Residuenquadratsumme) bezeichnet, denn das lineare Modell macht im Allgemeinen Fehler (geht nicht perfekt durch alle Datenpunkte). Schließlich gibt es noch die quadratischen Abweichungen des linearen Modells vom einfachsten Modell, welche man als SSM (Modellquadratsumme) bezeichnet.
-
-Die vorangegangenen drei Abbildungen veranschaulichen diese Quadratsummen. SST ist hier nichts anderes als die (nicht normierte) Varianz der Daten. SSM sollte möglichst groß sein, denn dann ist das lineare Modell wesentlich besser als der globale Mittelwert. SSR sollte möglichst klein sein bei einem guten Modell – an SSR sieht man die übrig gebliebene Varianz, die das Modell nicht erklären kann.
+Die vorangegangenen drei Abbildungen veranschaulichen diese Quadratsummen. SST ist hier nichts anderes als die (nicht normierte) *Varianz* der Daten. SSM sollte möglichst groß sein, denn dann ist das lineare Modell wesentlich besser als der globale Mittelwert. SSR sollte möglichst klein sein bei einem guten Modell – an SSR sieht man die übrig gebliebene Varianz, die das Modell nicht erklären kann.
 
 In mathematischer Notation sieht dies wie folgt aus:
 
@@ -156,7 +158,7 @@ $$\mathrm{SSR} = \sum_{i=1}^N (y_i - \hat{y}_i)^2$$
 
 $$\mathrm{SSM} = \sum_{i=1}^N (\hat{y}_i - \bar{y})^2$$
 
-Hier sind $y_i$ die einzelnen Messwerte, $\bar{y}$ ist der Mittelwert und $\hat{y}_i$ sind die einzelnen vom Modell vorhergesagten Werte (also die von der Gerade vorhergesagten Werte). $N$ ist die Anzahl der Datenpunkte. In Formeln kann man $\bar{y}$ und $\hat{y}_i$ so schreiben:
+Hier sind $y_i$ die einzelnen Messwerte, $\bar{y}$ ist der Mittelwert und $\hat{y}_i$ sind die einzelnen vom Modell vorhergesagten Werte (also die auf der Geraden liegenden Werte). $N$ ist die Anzahl der Datenpunkte. In Formeln kann man $\bar{y}$ und $\hat{y}_i$ so schreiben:
 
 $$\bar{y} = \frac{1}{N} \sum_{i=1}^N y_i$$
 
@@ -291,9 +293,9 @@ Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’
 
 In der Zeile `(Intercept)` listet die Spalte `Estimate` den Wert für $b_0$, also die Albenverkäufe wenn das Werbebudget gleich 0 ist (Schnittpunkt mit der y-Achse). Dieser Wert beträgt `1.341e+02`, also 134100 Verkäufe (weil die Maßeinheit in 1000 Einheiten ist).
 
-Der Wert für $b_1$, also die Steigung der Gerade, ist in der Zeile `adverts` mit `9.612e-02`, also 0.09612 abzulesen. Das bedeutet, wenn die Prädiktorvariable `adverts` sich um eine Einheit ändert, dann ändert sich die Ergebnisvariable `sales` um 0.09612 Einheiten. Das heißt wenn man das Werbebudget um 1000€ erhöht, verkauft man 96 Alben mehr.
+Der Wert für $b_1$, also die Steigung der Geraden, ist in der Zeile `adverts` mit `9.612e-02`, also 0.09612 abzulesen. Das bedeutet, wenn die Prädiktorvariable `adverts` sich um eine Einheit ändert, dann ändert sich die Ergebnisvariable `sales` um 0.09612 Einheiten. Das heißt wenn man das Werbebudget um 1000€ erhöht, verkauft man 96 Alben mehr.
 
-Weiters sieht man die Standardfehler der Koeffizienten sowie deren $t$-Werte. Die letzte Spalte `Pr(>|t|)` gibt die $p$-Werte an inklusive Codes für signifikante Ergebnisse. Beide Koeffizienten sind signifikant mit $p<0.001$, wobei uns hier eigentlich nur die Steigung der Gerade interessiert und es für uns nicht wichtig ist, ob der Intercept signifikant von Null verschieden ist.
+Weiters sieht man die Standardfehler der Koeffizienten sowie deren $t$-Werte. Die letzte Spalte `Pr(>|t|)` gibt die $p$-Werte an inklusive Codes für signifikante Ergebnisse. Beide Koeffizienten sind signifikant mit $p<0.001$, wobei uns hier eigentlich nur die Steigung der Geraden interessiert und es für uns nicht wichtig ist, ob der Intercept signifikant von Null verschieden ist.
 
 
 ## Werte vorhersagen
