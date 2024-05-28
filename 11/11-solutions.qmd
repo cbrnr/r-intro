@@ -2,7 +2,7 @@
 title: "11 – Lösungen"
 subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2024-01-18
+date: 2024-06-10
 format:
   html:
     page-layout: full
@@ -95,8 +95,24 @@ pairwise.t.test(penguins$bill_depth_mm, penguins$species)
 
 ## Übung 3
 
+Für einen gepaarten t-Test müssen wir die Daten zuerst ins Wide-Format umwandeln:
+
 ```{r}
-t.test(extra ~ group, data=sleep, paired=TRUE)
+library(tidyr)
+
+sleep_wide = pivot_wider(
+    data=sleep,
+    id_cols=ID,
+    names_from=group,
+    names_prefix="g",
+    values_from=extra
+)
+```
+
+Danach können wir den Test durchführen:
+
+```{r}
+t.test(sleep_wide$g1, sleep_wide$g2, paired=TRUE)
 ```
 
 Die mittlere Differenz beträgt −1.58, diese ist signifikant von Null verschieden ($p = .003$). Das 95%-Konfidenzintervall erstreckt sich von −2.46 bis −0.7.

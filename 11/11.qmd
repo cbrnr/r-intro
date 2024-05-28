@@ -2,7 +2,7 @@
 title: "11 – Mittelwertvergleich"
 subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2024-01-18
+date: 2024-06-10
 format:
   html:
     page-layout: full
@@ -329,11 +329,7 @@ $$t = \frac{\bar{D} - \mu_D}{s_D / \sqrt{N}}$$
 Unter der Nullhypothese ist $\mu_D = 0$:
 $$t = \frac{\bar{D}}{s_D / \sqrt{N}}$$
 
-Für den abhängigen _t_-Test verwendet man wieder die Funktion `t.test()` und setzt das Argument `paired=TRUE`. Wieder gibt es zwei Möglichkeiten des Aufrufs, je nachdem, in welchem Format die Daten vorliegen.
-
-```{r}
-(model = t.test(Anxiety ~ Group, data=spider, paired=TRUE))
-```
+Für den abhängigen _t_-Test verwendet man wieder die Funktion `t.test()` und setzt das Argument `paired=TRUE`. Hier sollte man die Variante mit zwei Argumenten verwenden (d.h. die Daten sollten im Wide-Format vorliegen):
 
 ```{r}
 (model = t.test(spider_w$picture, spider_w$real, paired=TRUE))
