@@ -2,7 +2,7 @@
 title: "12 – Reproduzierbare Analysen"
 subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2024-01-25
+date: 2024-06-17
 format:
   html:
     page-layout: full
@@ -64,12 +64,12 @@ Wir sind aber mit den Voreinstellungen zufrieden (HTML-Dokument mit dem Titel "U
 Alle Einstellungen können übrigens auch jederzeit später angepasst werden.
 :::
 
-Im RStudio-Editor öffnet sich nun ein Quarto-Dokument, welches bereits mit Beispieltext befüllt ist (wenn man das nicht möchte, kann man im vorigen Schritt "Create Empty Document" auswählen). Das ist sehr praktisch vor allem zu Beginn, weil wir anhand dieses Beispiels lernen können, wie man Quarto-Dokumente verfasst. Mit einem Klick auf *Render* in der Toolbar (bzw. <kbd>Strg</kbd><kbd>Shift</kbd><kbd>K</kbd> unter Windows bzw. <kbd>⌘</kbd><kbd>Shift</kbd><kbd>K</kbd> unter macOS) wird dann ein HTML-Dokument aus den Quarto-Dokument erzeugt.
+Im RStudio-Editor öffnet sich nun ein Quarto-Dokument, welches bereits mit Beispieltext befüllt ist (wenn man das nicht möchte, kann man im vorigen Schritt "Create Empty Document" auswählen). Das ist sehr praktisch vor allem zu Beginn, weil wir anhand dieses Beispiels lernen können, wie man Quarto-Dokumente verfasst. Mit einem Klick auf *Render* in der Toolbar (bzw. <kbd>Strg</kbd><kbd>Shift</kbd><kbd>K</kbd> unter Windows bzw. <kbd>⌘</kbd><kbd>Shift</kbd><kbd>K</kbd> unter macOS) wird dann ein HTML-Dokument aus dem Quarto-Dokument erzeugt.
 
 
 ## Markdown
 
-Quarto-Dokumente basieren auf [Markdown](https://de.wikipedia.org/wiki/Markdown), eine einfache Markup-Sprache (ähnlich wie HTML), welche sich zur Erstellung von formatierten Texten mit einem Text-Editor eignet. Damit ist es möglich, Überschriften in verschiedenen Ebenen, Textformatierungen wie fett, kursiv und unterstrichen, Listen, Tabellen, und vieles mehr zu erstellen. Die wichtigsten Elemente werden hier vorgestellt, mehr Details sind [hier](https://quarto.org/docs/authoring/markdown-basics.html) verfügbar.
+Quarto-Dokumente basieren auf [Markdown](https://de.wikipedia.org/wiki/Markdown), einer einfachen Markup-Sprache (ähnlich wie HTML), welche sich zur Erstellung von formatierten Texten mit einem Text-Editor eignet. Damit ist es möglich, Überschriften in verschiedenen Ebenen, Textformatierungen wie fett, kursiv und unterstrichen, Listen, Tabellen, und vieles mehr zu erstellen. Die wichtigsten Elemente werden hier vorgestellt, mehr Details sind [hier](https://quarto.org/docs/authoring/markdown-basics.html) verfügbar.
 
 
 ### Überschriften
@@ -157,10 +157,36 @@ Listen kann man wie folgt erzeugen:
 | ```markdown                | 1. Geordnete Liste        |
 | 1. Geordnete Liste         | 2. Item 2                 |
 | 2. Item 2                  |     i) Sub-Item 1         |
-|     i) Sub-Item 1          |         A. Sub-Sub-Item 1 |
-|          A. Sub-Sub-Item 1 |                           |
+|     i) Sub-Item 1          |         a. Sub-Sub-Item 1 |
+|         a. Sub-Sub-Item 1  |                           |
 | ```                        |                           |
 +----------------------------+---------------------------+
+
+:::{.callout-tip}
+Einträge einer geordneten Liste können alle mit `1.` (bzw. `a.` oder `i)`) beginnen, die Nummerierung wird automatisch fortgesetzt.
+
+Hier ist ein Beispiel für automatische Nummerierung:
+
+```markdown
+1. First item
+    a. Sub-Item
+    a. Next sub-item
+        i) More nesting
+        i) Even more
+1. Second item
+1. Third item
+```
+
+Diese Liste wird wie folgt gerendert:
+
+1. First item
+    a. Sub-Item
+    a. Next sub-item
+        i) More nesting
+        i) Even more
+1. Second item
+1. Third item
+:::
 
 
 ### Source Code
@@ -192,9 +218,28 @@ Code, der auf diese Art eingefügt wird, wird *nicht* ausgeführt!
 :::
 
 
+## Mathematische Formeln
+
+Quarto unterstützt auch mathematische Formeln, die in [LaTeX-Syntax](https://de.wikibooks.org/wiki/LaTeX-Kompendium:_F%C3%BCr_Mathematiker) eingegeben werden können. Eine Formel, die in einer eigenen Zeile erscheinen soll, wird in *doppelte* Dollarzeichen eingeschlossen:
+
+```markdown
+$$a^2 + b^2 = c^2 \Rightarrow c = \sqrt{a^2 + b^2}$$
+```
+
+$$a^2 + b^2 = c^2 \Rightarrow c = \sqrt{a^2 + b^2}$$
+
+Eine Formel, die innerhalb eines Satzes erscheinen soll, wird in *einfache* Dollarzeichen eingeschlossen:
+
+```markdown
+Die Quadratwurzel von $x$ ist $\sqrt{x}$, was man auch als $x^\frac{1}{2}$ schreiben könnte.
+```
+
+Die Quadratwurzel von $x$ ist $\sqrt{x}$, was man auch als $x^\frac{1}{2}$ schreiben könnte.
+
+
 ## YAML-Header
 
-Jedes Quarto-Dokument beginnt mit einem sogenannten [YAML](https://yaml.org)-Header. Darin werden Meta-Daten des Dokuments gesetzt, wie beispielsweise Autor, Titel, Datum, etc. Dieser Header wird von `---`-Zeilen umschlossen. Ein sehr einfacher YAML-Header sieht wie folgt aus:
+Jedes Quarto-Dokument beginnt mit einem sogenannten [YAML](https://yaml.org)-Header. Darin werden Meta-Daten des Dokuments gesetzt, wie beispielsweise Autor, Titel, Datum, etc. Dieser Header wird von `---` umschlossen. Ein sehr einfacher YAML-Header sieht wie folgt aus:
 
 ```yaml
 ---
@@ -213,7 +258,7 @@ Die `format`-Option bestimmt das Ausgabe-Format des gerenderten Dokuments. Um ei
 
 Wie bereits erwähnt, kann man Code in Quarto-Dokumente mit sogenannten Code-Zellen einbetten, welcher beim Rendern ausgeführt wird. Dies ermöglicht sogenanntes [Literate Programming](https://de.wikipedia.org/wiki/Literate_Programming), bei dem man Quelltext mit formatiertem Text (für Erklärungen) mischen kann.
 
-Eine Code-Zelle erzeugt man ähnlich wie einen Block Source Code, nur muss man die Programmiersprache in geschwungene Klammern einschließen, also für R-Code `{r}`:
+Eine Code-Zelle erzeugt man ähnlich wie einen Block Source Code, nur muss man die Programmiersprache in *geschwungene Klammern* einschließen, also für R-Code `{r}`:
 
 ````markdown
 ```{{r}}
@@ -247,3 +292,20 @@ Erstellen Sie ein Quarto-Dokument, in dem Sie folgende Übungen aus den vorigen 
 - [Einheit 6, Übung 2](https://r-23w-06.netlify.app/#übung-2)
 
 Rendern Sie das Dokument abschließend als HTML und auch als PDF!
+
+
+### Übung 2
+
+Was ist der Unterschied zwischen den folgenden zwei Blöcken?
+
+````markdown
+```r
+mean(1:1000)
+```
+````
+
+````markdown
+```{{r}}
+mean(1:1000)
+```
+````
