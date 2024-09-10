@@ -2,7 +2,7 @@
 title: "Organisatorisches"
 subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2024-03-04
+date: 2024-10-03
 format:
   html:
     page-layout: full
@@ -25,34 +25,39 @@ published-title: "Veröffentlicht"
 
 In dieser Lehrveranstaltung werden Sie das Statistikpaket [R](https://www.r-project.org/) kennenlernen. Da diese Lehrveranstaltung die Grundlagen von R abdeckt und keinerlei Vorwissen voraussetzt, ist es aufgrund der begrenzten Zeit nicht möglich, alle für Sie relevanten statistischen Verfahren abzudecken. Sie werden durch ein umfassendes Basiswissen aber darauf vorbereitet, sich weitere Methoden selbst anzueignen. In den Einheiten werden sich Theorie und Praxis abwechseln, d.h. Sie werden neue Inhalte sowohl lernen als auch gleich anhand praktischer Beispiele in R umsetzen. Der Plan für dieses Semester sieht wie folgt aus:
 
-| Einheit | Datum     | Inhalt                    |
-|---------|-----------|---------------------------|
-| 1       |  4.3.2024 | Grundlagen                |
-| 2       | 11.3.2024 | Die R-Umgebung            |
-| 3       | 18.3.2024 | Vektoren                  |
-| 4       |  8.4.2024 | Tabellarische Daten       |
-| 5       | 15.4.2024 | Daten importieren         |
-| 6       | 22.4.2024 | Deskriptive Statistiken   |
-| 7       | 29.4.2024 | Wiederholung und Übungen  |
-| 8       |  6.5.2024 | Datenaufbereitung         |
-| 9       | 13.5.2024 | Grafiken                  |
-| 10      | 27.5.2024 | Korrelation               |
-| 11      |  3.6.2024 | Lineare Regression        |
-| 12      | 10.6.2024 | Mittelwertvergleich       |
-| 13      | 17.6.2024 | Reproduzierbare Dokumente |
-| 14      | 24.6.2024 | Prüfung                   |
+| Einheit | Quiz | Datum      | Inhalt                    |
+|--------:|-----:|-----------:|---------------------------|
+| 1       |   –  |  3.10.2024 | Grundlagen                |
+| 2       |   1  | 10.10.2024 | Die R-Umgebung            |
+| 3       |   2  | 17.10.2024 | Vektoren                  |
+| 4       |   3  | 24.10.2024 | Tabellarische Daten       |
+| 5       |   4  | 31.10.2024 | Daten importieren         |
+| 6       |   5  |  7.22.2024 | Deskriptive Statistiken   |
+| 7       |   –  | 14.11.2024 | Wiederholung              |
+| 8       |   6  | 21.11.2024 | Datenaufbereitung         |
+| 9       |   7  | 28.11.2024 | Grafiken                  |
+| 10      |   8  |  5.12.2024 | Korrelation               |
+| 11      |   9  | 12.12.2024 | Lineare Regression        |
+| 12      |  10  |   9.1.2025 | Mittelwertvergleich       |
+| 13      |  11  |  16.1.2025 | Reproduzierbare Dokumente |
+| 14      |   –  |  23.1.2025 | Prüfung                   |
+| 15      |   –  |  30.1.2025 | Prüfung (Ersatztermin)    |
+
+: {tbl-colwidths="[10,10,15,65]"}
 
 Alle Informationen und Unterlagen zu dieser Lehrveranstaltung werden auf [Moodle](https://moodle.uni-graz.at/login/index.php) zur Verfügung gestellt. Insbesondere wird auch die Kommunikation (z.B. Ankündigungen, Forumsdiskussionen, Fragen & Antworten) über Moodle abgewickelt.
+
+Während der Kontaktstunden werden Sie über [Particify](https://ars.uni-graz.at/p/14274442) die Möglichkeit haben, anonym Fragen zu stellen und Feedback zu geben. Dazu geben Sie im Bereich "Q&A" einfach ihre Fragen ein. Sie können auch Fragen anderer Personen upvoten, um deren Relevanz zu erhöhen. Ich werde dann versuchen, die Fragen während der Einheit zu beantworten oder spätestens in der nächsten Einheit darauf eingehen. 
 
 Alle Einheiten werden in Präsenz abgehalten. Falls eine Abhaltung in Präsenz nicht möglich ist, werden die Einheiten online synchron zu den geplanten Zeiten stattfinden. Die URL wird über Moodle bekanntgegeben.
 
 
 ## Ablauf einer Einheit
 
-Zu jeder Einheit gibt es auf Moodle ausführliche Unterlagen, welche das jeweilige Thema detailliert behandeln. Diese Unterlagen sind so gestaltet, dass Sie sich die Inhalte im Selbststudium aneignen können. Alle Einheiten (mit Ausnahme der ersten) werden nach dem Prinzip des [Flipped Classroom](https://de.wikipedia.org/wiki/Umgedrehter_Unterricht) abgehalten. Das bedeutet, dass Sie die Inhalte der jeweiligen Einheit selbständig vor dem tatsächlichen Termin erarbeiten. Insbesondere sollten Sie die am Ende vorhandenen Übungsbeispiele bearbeiten. Diese dienen der laufenden Kontrolle, ob Sie die Inhalte verstanden haben und sind auch eine essenzielle Vorbereitung für die abschließende Prüfung. Zu Beginn jeder Einheit werden außerdem in einem kurzen Quiz die wesentlichen Inhalte abgefragt.
+Zu jeder Einheit gibt es auf Moodle ausführliche Unterlagen, welche das jeweilige Thema detailliert behandeln. Diese Unterlagen sind so gestaltet, dass Sie sich die Inhalte im Selbststudium aneignen können. Alle inhaltlichen Einheiten (mit Ausnahme der ersten) werden nach dem Prinzip des [Flipped Classroom](https://de.wikipedia.org/wiki/Umgedrehter_Unterricht) abgehalten. Das bedeutet, dass Sie die Inhalte der jeweiligen Einheit selbständig vor dem tatsächlichen Termin erarbeiten. Insbesondere sollten Sie die am Ende vorhandenen Übungsbeispiele bearbeiten. Diese dienen der laufenden Kontrolle, ob Sie die Inhalte verstanden haben und sind auch eine essenzielle Vorbereitung für die abschließende Prüfung. Zu Beginn jeder inhaltlichen Einheit werden außerdem in einem kurzen Quiz die wesentlichen Inhalte abgefragt (siehe obige Tabelle).
 
 :::{.callout-tip}
-Nutzen Sie während der Vorbereitungszeit die Diskussionsforen auf Moodle – dort können Sie Fragen stellen und selbstverständlich auch beantworten.
+Nutzen Sie während der Vorbereitungszeit die Diskussionsforen auf Moodle – dort können Sie Fragen stellen und selbstverständlich auch beantworten. Je mehr Personen sich aktiv im Forum beteiligen, desto hilfreicher wird es für alle.
 :::
 
 In den Kontaktstunden werden nach dem Quiz die von Ihnen vorbereiteten Übungsbeispiele detailliert besprochen und Musterlösungen präsentiert. Dabei haben Sie die Möglichkeit, Fragen zu stellen bzw. Ihre individuellen Lösungsansätze zu diskutieren. Falls darüber hinaus noch Zeit bleiben sollte, wird das jeweilige Thema durch vertiefende Beispiele bzw. Erklärungen ergänzt.
@@ -69,14 +74,14 @@ Durch den immanenten Prüfungscharakter dieser Lehrveranstaltung besteht Anwesen
 
 ### Quizzes
 
-Zu Beginn jeder Einheit (mit Ausnahme der ersten) findet ein kurzes Quiz auf Moodle statt. Es werden Fragen, meist als Multiple Choice, zum jeweiligen Thema der Einheit gestellt. Sie können dabei jeweils maximal 10 Punkte erreichen (es gibt auch Teilpunkte). Das Quiz muss vor Ort absolviert werden. Ein nicht absolviertes Quiz (z.B. durch Fehlen oder Zuspätkommen) zählt 0 Punkte.
+Zu Beginn jeder inhaltlichen Einheit (mit Ausnahme der ersten, siehe die obige Tabelle) findet ein kurzes Quiz auf Moodle statt. Es werden Fragen, meist als Multiple Choice, zum jeweiligen Thema der Einheit gestellt. Sie können dabei jeweils maximal 10 Punkte erreichen (es gibt auch Teilpunkte). Das Quiz muss vor Ort absolviert werden. Ein nicht absolviertes Quiz (z.B. durch Fehlen oder Zuspätkommen) zählt 0 Punkte.
 
 
 ### Prüfung
 
-Am Ende des Semesters findet in der letzten Einheit eine Prüfung über alle in der Lehrveranstaltung vermittelten Inhalte statt. Diese Prüfung wird vor Ort am Computer absolviert. Sie dürfen alle Unterlagen der Lehrveranstaltung verwenden, ansonsten sind keine weiteren Hilfsmittel (wie z.B. KI, gelöste Übungsbeispiele, Internet, etc.) erlaubt. Die Fragen orientieren sich an den Übungsbeispielen bzw. an den Quizzes. Es gibt insgesamt 10 Punkte zu erreichen (Teilpunkte sind möglich). Wie in allen Einheiten können Sie auch bei der Prüfung gerne Ihren eigenen Laptop verwenden.
+Am Ende des Semesters findet eine Prüfung über alle in der Lehrveranstaltung vermittelten Inhalte statt. Diese Prüfung wird vor Ort am Computer absolviert. Sie dürfen alle Unterlagen der Lehrveranstaltung verwenden, ansonsten sind keine weiteren Hilfsmittel (wie z.B. KI, gelöste Übungsbeispiele, Internet, etc.) erlaubt. Die Fragen orientieren sich an den Übungsbeispielen bzw. an den Quizzes. Es gibt insgesamt 10 Punkte zu erreichen (Teilpunkte sind möglich). Wie in allen Einheiten können Sie auch bei der Prüfung gerne Ihren eigenen Laptop verwenden.
 
-Es gibt die Möglichkeit, die Prüfung bei Bedarf zu wiederholen. In diesem Fall zählen aber jedenfalls die Punkte des zweiten Termins (man kann sich also sowohl verbessern als auch verschlechtern). Ein eventueller zweiter Termin wird in Absprache mit den betroffenen Personen festgelegt. Dieser wird zeitnah am Ende des Semesters (wahrscheinlich in der ersten Ferienwoche) stattfinden.
+Es gibt die Möglichkeit, die Prüfung bei Bedarf zu wiederholen. In diesem Fall zählen aber jedenfalls die Punkte des zweiten Termins (man kann sich also sowohl verbessern als auch verschlechtern).
 
 
 ## Benotung
@@ -84,13 +89,13 @@ Es gibt die Möglichkeit, die Prüfung bei Bedarf zu wiederholen. In diesem Fall
 Die Gesamtnote ergibt sich aus den drei beschriebenen Kriterien:
 
 - Wenn Sie nicht öfter als drei Mal gefehlt haben, ist das Anwesenheitskriterium erfüllt. Mehr als drei Fehleinheiten führen automatisch zu einer negativen Beurteilung der Lehrveranstaltung.
-- Aus den Punkten aller Wissensüberprüfungen werden zunächst die niedrigsten drei Bewertungen entfernt. Aus den übrigen Bewertungen wird der arithmetische Mittelwert berechnet – dieser Mittelwert fließt dann zu 50% in die Gesamtnote ein.
-- Die Punkte aus der Prüfung fließen ebenfalls zu 50% in die Gesamtnote ein. Es müssen mindestens 6 Punkte erreicht werden, um die Lehrveranstaltung positiv abzuschließen.
+- Aus den Punkten aller Quizzes werden zunächst die *niedrigsten drei* Bewertungen entfernt. Aus den übrigen Bewertungen wird der arithmetische Mittelwert berechnet – dieser Mittelwert fließt dann zu 50% in die Gesamtnote ein.
+- Die Punkte aus der Prüfung fließen ebenfalls zu 50% in die Gesamtnote ein. Es müssen allerdings *mindestens* 6 Punkte bei der Prüfung erreicht werden, um die Lehrveranstaltung positiv abzuschließen.
 
-Sofern also mindestens 6 Punkte in der Prüfung erreicht wurden, ergibt sich dann die Gesamtnote aus dem Mittelwert der Punkte aus den Quizzes und der Prüfung wie folgt:
+Sofern diese Kriterien also erfüllt sind, ergibt sich dann die Gesamtnote aus dem Mittelwert der Punkte aus den Quizzes und der Prüfung wie folgt:
 
 | Sehr gut    | Gut        | Befriedigend | Genügend   | Nicht genügend |
 |-------------|------------|--------------|------------|----------------|
 | 9–10 Punkte | 8–9 Punkte | 7–8 Punkte   | 6–7 Punkte | \< 6 Punkte    |
 
-Die niedrigste Punktanzahl einer Kategorie wird immer der besseren Note zugeordnet. Beispielsweise entsprechen also exakt 9 Punkte einem "Sehr gut". Der gewichtete Mittelwert wird nicht mehr gerundet, d.h. dass z.B. 8,97 Punkte der Note "Gut" entsprechen.
+Die niedrigste Punktanzahl einer Kategorie wird immer der besseren Note zugeordnet. Beispielsweise entsprechen also exakt 9 Punkte einem "Sehr gut" und 8.97 Punkte der Note "Gut".
