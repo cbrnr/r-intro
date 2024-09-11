@@ -2,7 +2,7 @@
 title: "1 – Grundlagen"
 subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2024-03-04
+date: 2024-10-03
 format:
   html:
     page-layout: full
@@ -23,18 +23,18 @@ published-title: "Veröffentlicht"
 
 ## Überblick
 
-In dieser Lehrveranstaltung werden die Grundlagen der statistischen Programmierumgebung R vermittelt. In den ersten Einheiten werden wichtige Eigenschaften und Datentypen eingeführt, und erst danach werden elementare Konzepte der Datenanalyse (Importieren von Daten, deskriptive Statistiken, Erzeugen von Grafiken) sowie einfache statistische Modelle (Korrelation und lineare Regression) beschrieben.
+In dieser Lehrveranstaltung werden die Grundlagen der statistischen Programmierumgebung R vermittelt. In den ersten Einheiten werden wichtige Eigenschaften und Datentypen eingeführt, und erst danach werden elementare Konzepte der Datenanalyse (Importieren von Daten, deskriptive Statistiken, Erzeugen von Grafiken) sowie einfache statistische Modelle (Korrelation und lineare Regression) beschrieben. Zum Schluss wird noch eine Möglichkeit vorgestellt, interaktive Dokumente zu erstellen, die R-Code enthalten können.
 
 
 ## Was ist R?
 
-R ist eine auf Datenanalyse und Statistik spezialisierte Programmierumgebung. Mit spezialisierten Programmiersprachen kann man manche Dinge schneller, besser, eleganter oder kürzer lösen als mit generischen Programmiersprachen. Im Gegensatz dazu ist man mit generischen Programmiersprachen (wie beispielsweise Python) aber nicht auf ein relativ spezifisches Gebiet eingeschränkt. Mit Python kann man neben Datenanalysen, numerischen Berechnungen und Statistik auch z.B. Webanwendungen oder interaktive Anwendungen mit grafischen Oberflächen relativ einfach erstellen.
+R ist eine auf Datenanalyse und Statistik spezialisierte Programmierumgebung. Mit spezialisierten Programmiersprachen kann man manche Dinge schneller, besser, eleganter oder kürzer lösen als mit generischen Programmiersprachen. Im Gegensatz dazu ist man mit generischen Programmiersprachen (wie beispielsweise Python) aber nicht auf ein relativ spezifisches Gebiet eingeschränkt. Mit Python kann man neben Datenanalysen, numerischen Berechnungen und Statistik auch z.B. Webanwendungen oder interaktive Anwendungen mit grafischen Oberflächen relativ einfach erstellen, was mit R eher schwierig bzw. umständlich ist.
 
 Es ist also zunächst einmal wichtig, für ein gegebenes Problem eine geeignete Programmiersprache zu finden. Wenn das Problem den Bereichen Datenanalyse oder statistische Modellierung zugeordnet werden kann, dann ist R sehr wahrscheinlich eine ausgezeichnete Wahl.
 
 Außerdem kann man R noch mit folgenden weiteren Eigenschaften beschreiben:
 
-- Open Source (freie Software)
+- [Open Source](https://de.wikipedia.org/wiki/Open_Source) (kostenlos ist nur ein Aspekt von Open Source)
 - Plattformübergreifend (läuft auf Windows, macOS, Linux)
 - Relativ einfach zu erlernen (zumindest die Grundlagen für die Anwendung)
 - Einfaches Arbeiten mit komplexen Datenstrukturen
@@ -52,7 +52,7 @@ Die Popularität einer Programmiersprache ist auch in der Praxis durchaus releva
 
 ## Wie sieht R-Code aus?
 
-R bedient man, indem man Textbefehle in der sogenannten *Console* eingibt. Statistische Berechnungen werden daher nicht wie z.B. in SPSS durch Navigieren in einer grafischen Oberfläche durchgeführt. Dies ist aber keineswegs ein Nachteil, sondern hat ganz im Gegenteil mehrere Vorteile – insbesondere wird die Datenanalyse dadurch automatisch reproduzierbar, weil diese *vollständig* durch die verwendeten Befehle definiert ist.
+R bedient man, indem man Textbefehle in der sogenannten *Console* eingibt. Statistische Berechnungen werden daher nicht wie z.B. in SPSS durch Navigieren in einer grafischen Oberfläche durchgeführt. Dies ist aber keineswegs ein Nachteil, sondern hat ganz im Gegenteil mehrere Vorteile – insbesondere wird die Datenanalyse dadurch automatisch *reproduzierbar*, weil diese *vollständig* durch die verwendeten Befehle definiert ist.
 
 Typische Ein- und Ausgaben in R sehen beispielsweise wie folgt aus:
 
@@ -71,11 +71,10 @@ In den grauen Kästchen werden R-Befehle gezeigt (welche wir in die Console eint
 
 ## Installation
 
-Bevor wir R verwenden können, müssen wir zwei Programme auf unserem Rechner installieren, nämlich R und RStudio.
+Bevor wir R verwenden können, müssen wir zwei Programme auf unserem Rechner installieren, nämlich R und RStudio:
 
-Alle relevanten Informationen zur Installation von R sind auf der [offiziellen Website](https://www.r-project.org/) zu finden. Hier finden sich detaillierte Anleitungen für jede unterstützte Plattform. Der Download-Link befindet sich in der linken Spalte ganz oben unter "Download" – "CRAN". Es ist sinnvoll, stets mit der aktuellsten Version von R zu arbeiten (bei der Erstellung dieses Dokuments war dies Version 4.3.2).
-
-R ist modular aufgebaut und besteht aus einem Kern sowie einer grafischen Oberfläche. Obwohl man mit der mitgelieferten Oberfläche relativ komfortabel arbeiten kann, hat sich dennoch die Alternative [RStudio](https://posit.co/download/rstudio-desktop/) als De-Facto-Standard etabliert. RStudio ist "nur" eine grafische Oberfläche, d.h. es wird eine zuvor installierte R-Umgebung vorausgesetzt. Auch hier ist es ratsam, stets die aktuellste Version zu verwenden (bei der Erstellung dieses Dokuments war dies Version 2023.12.1 Build 402).
+1. Alle relevanten Informationen zur Installation von R sind auf der [offiziellen Website](https://www.r-project.org/) zu finden. Hier finden sich detaillierte Anleitungen für jede unterstützte Plattform. Der Download-Link befindet sich in der linken Spalte ganz oben unter "Download" – "CRAN". Es ist sinnvoll, stets mit der aktuellsten Version von R zu arbeiten (bei der Erstellung dieses Dokuments war dies Version 4.4.1).
+2. Obwohl die mit R mitgelieferte Oberfläche relativ komfortabel ist (und man auch komplett ohne grafische Oberfläche auskommen könnte), verwenden sehr viele Personen [RStudio](https://posit.co/download/rstudio-desktop/), um mit R zu arbeiten. RStudio ist "nur" eine grafische Oberfläche, d.h. es wird eine zuvor installierte R-Umgebung vorausgesetzt. Auch hier ist es ratsam, stets die aktuellste Version zu verwenden (bei der Erstellung dieses Dokuments war dies Version 2024.04.2+764).
 
 
 ## Erste Schritte

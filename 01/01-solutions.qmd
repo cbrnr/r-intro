@@ -2,7 +2,7 @@
 title: "1 – Lösungen"
 subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2024-03-04
+date: 2024-10-03
 format:
   html:
     page-layout: full
@@ -26,14 +26,12 @@ published-title: "Veröffentlicht"
 Die R-Version wird in der Console als Einleitungstext direkt nach dem Starten angezeigt. Die gesamte Versionsinformation lautet:
 
 ```
-R version 4.3.2 (2023-10-31) -- "Eye Holes"
+R version 4.4.1 (2024-06-14) -- "Race for Your Life"
 ```
 
 Außerdem ist die R-Version immer im Titel der Console ersichtlich.
 
-Die RStudio-Version lautet 2023.12.1 Build 402 – dies kann man im Hilfefenster, welches mit "Help" – "About RStudio" aufgerufen werden kann, ablesen.
-
-![](r_versions.png)
+Die RStudio-Version lautet 2024.04.2 Build 764 – dies kann man im Hilfefenster, welches mit "Help" – "About RStudio" aufgerufen werden kann, ablesen.
 
 
 ## Übung 2
