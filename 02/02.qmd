@@ -2,7 +2,7 @@
 title: "2 – Die R-Umgebung"
 subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2024-03-11
+date: 2024-10-10
 format:
   html:
     page-layout: full
@@ -108,13 +108,15 @@ Hier kann man die Anführungszeichen um den Paketnamen weglassen.
 
 Befehle in der R-Console einzugeben ist praktisch, wenn man neue Dinge interaktiv ausprobieren möchte bzw. nur schnell Kleinigkeiten berechnen will. Möchte man eine reproduzierbare Datenanalyse durchführen, dann sollte man die dafür notwendigen Befehle in einem sogenannten *R-Script* abspeichern. Damit kann man die Analyse später jederzeit wiederholen. Ein R-Script ist nichts anderes als eine einfache Textdatei mit der Endung `.R`.
 
-In jeder Zeile eines R-Scripts befindet sich (meist) genau ein R-Befehl. Wenn man das Script ausführt, werden alle Zeilen vom Anfang bis zum Ende der Reihe nach ausgeführt. In RStudio kann man ein gesamtes Script durch Klicken auf die Schaltfläche "Source" (bzw. "Source with Echo") ausführen. Möchte man nur die aktuelle Zeile bzw. die markierten Zeilen ausführen, kann man dies durch Klicken auf die Schaltfläche "Run" tun (dafür gibt es auch das Tastenkürzel <kbd>Strg</kbd><kbd>Enter</kbd> unter Windows bzw. <kbd>⌘</kbd><kbd>Enter</kbd> unter macOS). Praktischerweise springt der Cursor danach zum nächsten Befehl im Script, welcher dann auf Wunsch direkt ausgeführt werden kann.
+In jeder Zeile eines R-Scripts befindet sich (meist) genau ein R-Befehl. Wenn man das Script ausführt, werden alle Zeilen vom Anfang bis zum Ende der Reihe nach ausgeführt. In RStudio kann man ein gesamtes Script durch Klicken auf die Schaltfläche "Source" (bzw. "Source with Echo") ausführen. Möchte man nur die aktuelle Zeile bzw. die markierten Zeilen ausführen, kann man dies durch Klicken auf die Schaltfläche "Run" tun (dafür gibt es auch das Tastenkürzel <kbd>Strg</kbd><kbd>Enter</kbd> unter Windows/Linux bzw. <kbd>⌘</kbd><kbd>Enter</kbd> unter macOS). Praktischerweise springt der Cursor danach zum nächsten Befehl im Script, welcher dann auf Wunsch wieder ausgeführt werden kann.
 
 Die folgende Abbildung zeigt ein kurzes R-Script, welches im Editor-Bereich von RStudio geöffnet ist:
 
 ![](rstudio_run_code.png)
 
+:::{.callout-tip}
 Wenn man in einem Script Befehle aus zusätzlichen Paketen benötigt, muss man diese Pakete im Script auch mittels `library(package)` aktivieren. Am besten geschieht dies ganz am Anfang des Scripts.
+:::
 
 :::{.callout-important}
 Installieren Sie Pakete *niemals* in einem Script (mittels `install.packages("package")`)! Das Paket würde bei jedem Ausführen des Scripts neu installiert werden (inklusive Download aus dem Internet), was definitiv vermieden werden sollte. Die Installation von Paketen wird also immer wie oben beschrieben manuell mit RStudio oder in der Console durchgeführt.
@@ -143,10 +145,14 @@ In RStudio hat man aber mindestens drei Alternativen, das Arbeitsverzeichnis auc
 - Navigieren zum gewünschten Verzeichnis im Bereich *Files* (Bereich rechts unten) und dann Klick auf *More* – *Set As Working Directory*
 - Falls eine Script-Datei im Editorbereich geöffnet ist, kann man auf den Dateinamen im Tab rechtsklicken und *Set Working Directory* auswählen (dies setzt das Arbeitsverzeichnis auf jenes Verzeichnis, in dem das Script abgespeichert ist)
 
+![](set-working-directory.png){width=300}
+
+:::{.callout-important}
 *Bevor* Sie ein Script ausführen, sollten Sie das Arbeitsverzeichnis korrekt setzen (üblicherweise auf das Verzeichnis, in dem das Script abgespeichert ist). Führen Sie dies allerdings *nicht* automatisiert im Script selbst durch, denn das Script soll auch auf anderen Umgebungen laufen, wo es Ihr spezifisches Verzeichnis vielleicht nicht gibt.
+:::
 
 :::{.callout-tip}
-Wenn Sie ein R-Script per Doppelklick (im Windows Explorer oder macOS Finder) öffnen, wird RStudio geöffnet und das Arbeitsverzeichnis automatisch auf das Verzeichnis gesetzt, in dem sich das Script befindet.
+Wenn Sie ein R-Script per Doppelklick (im Windows Explorer oder macOS Finder) öffnen, wird RStudio geöffnet und das Arbeitsverzeichnis *automatisch* auf das Verzeichnis gesetzt, in dem sich das Script befindet.
 :::
 
 
@@ -159,7 +165,7 @@ Alle selbst erstellten bzw. geladenen Objekte (Variablen und Daten) fasst man un
 ls()
 ```
 
-In einer frisch gestarteten R-Sitzung ist der Workspace leer. In RStudio wird der Workspace auch im Bereich *Environment* (rechts oben) angezeigt .
+In einer frisch gestarteten R-Sitzung ist der Workspace leer (falls nicht, haben Sie vermutlich die oben erwähnten Einstellungen nicht korrekt gesetzt). Dieses Verhalten ist für die Reproduzierbarkeit von Analysen eine wichtige Voraussetzung. In RStudio wird der Workspace auch im Bereich *Environment* (rechts oben) angezeigt .
 
 
 ### Syntax
@@ -179,12 +185,12 @@ Man erkennt bereits in diesen wenigen Zeilen die grundlegenden Regeln. Prinzipie
 
 #### Kommentare
 
-Kommentare, d.h. alle Zeichen ab `#` bis zum Zeilenende, werden von R nicht ausgeführt. Dennoch sind Kommentare extrem wichtig, da Sie zum Verstehen des Codes beitragen können – fügen Sie daher bei komplizierteren Berechnungen immer erklärende Kommentare hinzu!
+Kommentare, d.h. alle Zeichen ab `#` bis zum Zeilenende, werden von R *nicht* ausgeführt, sondern einfach komplett ignoriert. Dennoch sind Kommentare extrem wichtig, da Sie zum Verstehen des Codes beitragen können – fügen Sie daher bei komplizierteren Berechnungen immer erklärende Kommentare hinzu!
 
 
 #### Variablen und Objekte
 
-Der Zuweisungsoperator in R ist `=` oder `<-`. Damit kann man Werte (oft auch als Objekte bezeichnet) Variablen zuweisen, welche man dann später wieder verwenden kann (um z.B. damit weiterzurechnen). Im Beispiel wird also mit `n = 100` der Wert 100 der Variablen `n` zugewiesen. Im gesamten Beispiel-Script werden daher zwei Variablen namens `n` und `x` erstellt.
+Der Zuweisungsoperator in R ist `=` oder `<-`. Damit kann man Werte (oft auch als Objekte bezeichnet) Variablen zuweisen, welche man dann später wieder verwenden kann (um z.B. damit weiterzurechnen). Im Beispiel wird also mit `n = 100` der Wert 100 der Variablen `n` zugewiesen. Im gesamten obigen Beispiel-Script werden daher zwei Variablen namens `n` und `x` erstellt.
 
 :::{.callout-note}
 Es ist egal, ob man `=` oder `<-` für Zuweisungen verwendet. Man sollte aber konsistent sein und immer nur einen der beiden Zuweisungsoperatoren verwenden. In diesen Unterlagen wird `=` benutzt, weil man weniger tippen muss und die meisten anderen Programmiersprachen ebenfalls `=` verwenden.
@@ -236,9 +242,9 @@ Gleich danach folgen diese beiden Zeilen mit mehr Details:
     ## Default S3 method:
     mean(x, trim = 0, na.rm = FALSE, ...)
 
-Hier erkennt man, dass die Funktion ein Argument `x` erwartet. Dieses Argument ist *verpflichtend*, d.h. wenn man es nicht angibt, bekommt man eine Fehlermeldung (probieren Sie es in der Console aus, indem Sie `mean()` eintippen). Dies sieht man am Hilfetext, weil kein Standardwert für `x` ersichtlich ist. Im Gegensatz dazu sind die nächsten beiden Argumente `trim` und `na.rm` *optional*, d.h. man muss sie nicht angeben, denn in diesem Fall werden deren Standardwerte verwendet (`trim` hat den Wert `0` und `na.rm` hat den Wert `FALSE` falls nicht anders angegeben).
+Hier erkennt man, dass die Funktion ein Argument namens `x` erwartet. Dieses Argument ist *verpflichtend*, d.h. wenn man es nicht angibt, bekommt man eine Fehlermeldung (probieren Sie es in der Console aus, indem Sie `mean()` eintippen). Dies sieht man am Hilfetext, weil kein Standardwert für `x` ersichtlich ist. Im Gegensatz dazu sind die nächsten beiden Argumente `trim` und `na.rm` *optional*, d.h. man muss sie nicht angeben, denn in diesem Fall werden deren Standardwerte verwendet (`trim` hat den Wert `0` und `na.rm` hat den Wert `FALSE`).
 
-Die Bedeutung der Argumente wird im Abschnitt *Arguments* genau beschrieben. Der Wert, der von der Funktion berechnet und zurückgegeben wird, wird im Abschnitt *Value* beschrieben. Danach folgen Literaturhinweise, verwandte Funktionen und schließlich Beispiele. Diese Beispiele kann man auch kopieren und in der Console auführen.
+Die Bedeutung der Argumente wird im Abschnitt *Arguments* genau beschrieben. Der Wert, der von der Funktion berechnet und zurückgegeben wird, wird im Abschnitt *Value* beschrieben. Danach folgen Literaturhinweise, verwandte Funktionen und schließlich Beispiele. Diese Beispiele kann man auch kopieren und in der Console auführen (oder einfach durch Klicken auf "Run examples" im Hilfe-Fenster ausführen).
 
 
 ### Möglichkeiten zum Aufrufen einer Funktion
@@ -354,4 +360,5 @@ Lesen Sie die Hilfe zur Funktion `sum()` und beantworten Sie dann folgende Frage
 - Wie viele verpflichtende Argumente benötigt diese Funktion?
 - Wie viele optionale Argumente hat diese Funktion?
 - Was ergibt der Aufruf `sum()` und warum (beachten Sie dazu auch das Ergebnis von `mean()`)?
+- Erklären Sie, warum `sum(1, 2, 3)` das korrekte Ergebnis liefert, aber `mean(1, 2, 3)` nicht!
 - Was passiert, wenn Sie nur `sum` in der Console ausführen (also ohne das Klammernpaar)?

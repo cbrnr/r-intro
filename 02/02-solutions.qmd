@@ -2,7 +2,7 @@
 title: "2 – Lösungen"
 subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2024-03-11
+date: 2024-10-10
 format:
   html:
     page-layout: full
@@ -34,8 +34,8 @@ install.packages("psych")
 Die Versionsnummern sind in der "Packages"-Ansicht in RStudio ersichtlich; ich habe folgende Versionen installiert:
 
 - `tidyverse`: 2.0.0
-- `Hmisc`: 4.8-0
-- `psych`: 2.2.9
+- `Hmisc`: 5.1-3
+- `psych`: 2.4.6.26
 
 Installierte Pakete können mit der Funktion `library()` aktiviert werden, also für die drei Pakete:
 
@@ -74,8 +74,10 @@ Dieses Script lässt sich fehlerfrei ausführen (z.B. durch Klicken auf "Source"
 
 ## Übung 5
 
-Die Hilfe wird mit `?sum` angezeigt. Daraus ist zu entnehmen, dass die Funktion auch mit *keinem* Argument aufzurufen ist (das Ergebnis von `sum()` ist `0`). Es gibt zwei optionale Argumente, wobei das erste `...` eigentlich beliebig viele Argumente (Zahlen) sind. Zum Schluss kann man noch ein Argument namens `na.rm` übergeben.
+Die Hilfe wird mit `?sum` angezeigt. Daraus ist zu entnehmen, dass die Funktion auch mit *keinem* Argument aufzurufen ist (das Ergebnis von `sum()` ist `0`). Das Argument `...` hat nämlich eine spezielle Bedeutung, es steht für "beliebig viele Argumente", also keines, eines, zwei, drei, usw. Es gibt insgesamt also gewissermaßen zwei optionale Argumente (denn `na.rm` hat den Standardwert `FALSE`).
 
 Laut Hilfe ist die Summe von "nichts" – also `sum()` – gleich Null. Dies funktioniert bei der Funktion `mean()` nicht, da man hier *ein Argument übergeben muss* (einen Vektor mit Zahlen).
+
+Das erste Argument der Funktion `sum()` ist `...`, was wie bereits erwähnt bedeutet, dass beliebig viele Werte (Zahlen) übergeben werden können. Die Funktion `mean()` erwartet hingegen alle zu mittelnden Zahlen im ersten Argument `x`. Wenn man also `mean(1, 2, 3)` aufruft, dann ist das erste Argument `x` gleich `1` (es soll also nur die Zahl `1` gemittelt werden). Die weiteren Zahlen `2` und `3` werden dann dem zweiten bzw. dritten Argument zugewiesen (also `trim` und `na.rm`).
 
 Der Befehl `sum` ruft die Funktion *nicht* auf. Es werden lediglich Informationen über das Objekt `sum` ausgegeben. In den allermeisten Fällen ist das nicht gewünscht, sondern man möchte eine Funktion mit `sum()` aufrufen.
