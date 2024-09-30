@@ -36,7 +36,7 @@ In this course, you will get to know the statistical programming environment [R]
 | 10      |   8  | 2024-12-05 | Correlation            |
 | 11      |   9  | 2024-12-12 | Linear Regression      |
 | 12      |  10  | 2025-01-09 | Comparing Means        |
-| 13      |  11  | 2025-01-16 | Reproducable Documents |
+| 13      |  11  | 2025-01-16 | Reproducible Documents |
 | 14      |   –  | 2025-01-23 | Exam                   |
 | 15      |   –  | 2025-01-30 | Exam (Retake)          |
 
