@@ -32,7 +32,7 @@ In dieser Lehrveranstaltung werden Sie das Statistikpaket [R](https://www.r-proj
 | 3       |   2  | 17.10.2024 | Vektoren                  |
 | 4       |   3  | 24.10.2024 | Tabellarische Daten       |
 | 5       |   4  | 31.10.2024 | Daten importieren         |
-| 6       |   5  |  7.22.2024 | Deskriptive Statistiken   |
+| 6       |   5  |  7.11.2024 | Deskriptive Statistiken   |
 | 7       |   –  | 14.11.2024 | Wiederholung              |
 | 8       |   6  | 21.11.2024 | Datenaufbereitung         |
 | 9       |   7  | 28.11.2024 | Grafiken                  |
@@ -57,7 +57,7 @@ Alle Einheiten werden in Präsenz abgehalten. Falls eine Abhaltung in Präsenz n
 Zu jeder Einheit gibt es auf Moodle ausführliche Unterlagen, welche das jeweilige Thema detailliert behandeln. Diese Unterlagen sind so gestaltet, dass Sie sich die Inhalte im Selbststudium aneignen können. Alle inhaltlichen Einheiten (mit Ausnahme der ersten) werden nach dem Prinzip des [Flipped Classroom](https://de.wikipedia.org/wiki/Umgedrehter_Unterricht) abgehalten. Das bedeutet, dass Sie die Inhalte der jeweiligen Einheit selbständig vor dem tatsächlichen Termin erarbeiten. Insbesondere sollten Sie die am Ende vorhandenen Übungsbeispiele bearbeiten. Diese dienen der laufenden Kontrolle, ob Sie die Inhalte verstanden haben und sind auch eine essenzielle Vorbereitung für die abschließende Prüfung. Zu Beginn jeder inhaltlichen Einheit werden außerdem in einem kurzen Quiz die wesentlichen Inhalte abgefragt (siehe obige Tabelle).
 
 :::{.callout-tip}
-Nutzen Sie während der Vorbereitungszeit die Diskussionsforen auf Moodle – dort können Sie Fragen stellen und selbstverständlich auch beantworten. Je mehr Personen sich aktiv im Forum beteiligen, desto hilfreicher wird es für alle.
+Nutzen Sie während der Vorbereitungszeit das Diskussionsforum auf Moodle – dort können Sie Fragen stellen und selbstverständlich auch beantworten. Je mehr Personen sich aktiv im Forum beteiligen, desto hilfreicher wird es für alle.
 :::
 
 In den Kontaktstunden werden nach dem Quiz die von Ihnen vorbereiteten Übungsbeispiele detailliert besprochen und Musterlösungen präsentiert. Dabei haben Sie die Möglichkeit, Fragen zu stellen bzw. Ihre individuellen Lösungsansätze zu diskutieren. Falls darüber hinaus noch Zeit bleiben sollte, wird das jeweilige Thema durch vertiefende Beispiele bzw. Erklärungen ergänzt.

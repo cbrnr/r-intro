@@ -1,0 +1,98 @@
+---
+title: "Course Organization"
+subtitle: "Statistical Data Analysis with R"
+author: "Clemens Brunner"
+date: 2024-10-03
+format:
+  html:
+    page-layout: full
+engine: knitr
+knitr:
+  opts_chunk: 
+    R.options:
+      width: 120
+highlight-style: github
+title-block-banner: true
+theme:
+  light: flatly
+  dark: darkly
+---
+
+## General Information
+
+In this course, you will get to know the statistical programming environment [R](https://www.r-project.org/). Since this course covers the basics of R and does not require any prior knowledge, it is not possible to cover all relevant statistical methods due to time constraints. However, you will be prepared to learn additional methods on your own through a comprehensive foundational knowledge. Class sessions will alternate between theory and practice, meaning you will both learn new content and immediately apply it using practical examples in R. The plan for this semester is as follows:
+
+| Session | Quiz | Date       | Content                |
+|--------:|-----:|-----------:|------------------------|
+| 1       |   –  | 2024-10-03 | Basics                 |
+| 2       |   1  | 2024-10-10 | The R Environment      |
+| 3       |   2  | 2024-10-17 | Vectors                |
+| 4       |   3  | 2024-10-24 | Tabular Data           |
+| 5       |   4  | 2024-10-31 | Importing Data         |
+| 6       |   5  | 2024-11-07 | Descriptive Statistics |
+| 7       |   –  | 2024-11-14 | Review                 |
+| 8       |   6  | 2024-11-21 | Data Wrangling         |
+| 9       |   7  | 2024-11-28 | Visualization          |
+| 10      |   8  | 2024-12-05 | Correlation            |
+| 11      |   9  | 2024-12-12 | Linear Regression      |
+| 12      |  10  | 2025-01-09 | Comparing Means        |
+| 13      |  11  | 2025-01-16 | Reproducable Documents |
+| 14      |   –  | 2025-01-23 | Exam                   |
+| 15      |   –  | 2025-01-30 | Exam (Retake)          |
+
+: {tbl-colwidths="[10,10,15,65]"}
+
+All information and materials for this course will be available on [Moodle](https://moodle.uni-graz.at/login/index.php). Communication (e.g., announcements, forum discussions, questions & answers) will also take place through Moodle.
+
+During weekly sessions, you will have the opportunity to ask questions and provide feedback anonymously via [Particify](https://ars.uni-graz.at/p/14274442). Simply enter your questions in the "Q&A" section. You can also upvote other students' questions to boost their relevance. I will try to answer all questions during the session or address them in the next session.
+
+All sessions will be held in person. If in-person meetings are not possible, sessions will take place online at the scheduled times. The URL will be announced on Moodle.
+
+
+## Structure of a Session
+
+For each session, detailed materials covering the respective topic will be available on Moodle. These materials are designed so that you can study the content independently. All content sessions (except for the first one) will follow the [Flipped Classroom](https://en.wikipedia.org/wiki/Flipped_classroom) approach. This means you will study the content of each session independently before the actual session date. In particular, you should work through the exercises at the end of the materials. These exercises serve to check your understanding and are also essential preparation for the final exam. At the beginning of each session, a short quiz will assess the key content (see the table above).
+
+:::{.callout-tip}
+Make use of the discussion forum on Moodle during your preparation time – you can ask and, of course, answer questions there. The more people actively participate in the forum, the more helpful it will be for everyone.
+:::
+
+During the sessions (after the quiz), the exercises you have prepared will be discussed in detail, and sample solutions will be presented. You will have the opportunity to ask questions or discuss your own solutions. If time permits, the topic will be supplemented with further examples or explanations.
+
+You are welcome to bring and use your own laptop! Otherwise, PCs are available in the computer lab.
+
+
+## Grading Criteria
+
+### Attendance
+
+Due to the continuous assessment nature of this course, attendance is mandatory. Your attendance will be checked at a random time during the session. You may miss up to three sessions.
+
+
+### Quizzes
+
+At the beginning of each session (except for the first one, see the table above), a short quiz will be available on Moodle. The quiz will consist of short questions (mostly multiple-choice) on the topic of the session. You can earn a maximum of 10 points per quiz (partial points are possible). The quiz must be completed on-site. A missed quiz (e.g., due to absence or tardiness) counts as 0 points.
+
+
+### Exam
+
+At the end of the semester, there will be an exam covering the entire content of the course. This exam will be taken on-site using a computer. You may use all course materials, but no other aids (such as AI, solved exercises, internet, etc.) are allowed. The questions will be based on the exercises and quizzes. You can earn a total of 10 points (partial points are possible). As in all sessions, you may use your own laptop for the exam.
+
+There is an option to retake the exam if necessary. In this case, the score from the second attempt will count, whether it improves or worsens your grade.
+
+
+## Grading
+
+The final grade is based on the three criteria described previously:
+
+- If you have missed no more than three sessions, the attendance requirement is fulfilled. Missing more than three sessions will result in automatic failure of the course.
+- The lowest three quiz scores will be dropped. The arithmetic average of the remaining quiz scores will contribute 50% to your final grade.
+- The exam score will also contribute 50% to your final grade. However, you must score at least 6 points on the exam to pass the course.
+
+If all criteria are met, the final grade will be calculated from the average of the quiz and exam scores as follows:
+
+| Excellent (1) | Good (2)   | Satisfactory (3) | Sufficient (4) | Fail (5)    |
+|---------------|------------|------------------|----------------|-------------|
+| 9–10 points   | 8–9 points | 7–8 points       | 6–7 Punkte     | \< 6 Punkte |
+
+The lowest point of each range will always result in the higher grade. For example, exactly 9 points correspond to "Excellent (1)", and 8.97 points would result in a "Good (2)".
