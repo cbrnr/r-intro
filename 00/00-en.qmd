@@ -1,5 +1,5 @@
 ---
-title: "Course Organization"
+title: "Course organization"
 subtitle: "Statistical Data Analysis with R"
 author: "Clemens Brunner"
 date: 2024-10-03
@@ -18,7 +18,7 @@ theme:
   dark: darkly
 ---
 
-## General Information
+## General information
 
 In this course, you will get to know the statistical programming environment [R](https://www.r-project.org/). Since this course covers the basics of R and does not require any prior knowledge, it is not possible to cover all relevant statistical methods due to time constraints. However, you will be prepared to learn additional methods on your own through a comprehensive foundational knowledge. Class sessions will alternate between theory and practice, meaning you will both learn new content and immediately apply it using practical examples in R. The plan for this semester is as follows:
 
@@ -49,7 +49,7 @@ During weekly sessions, you will have the opportunity to ask questions and provi
 All sessions will be held in person. If in-person meetings are not possible, sessions will take place online at the scheduled times. The URL will be announced on Moodle.
 
 
-## Structure of a Session
+## Structure of a session
 
 For each session, detailed materials covering the respective topic will be available on Moodle. These materials are designed so that you can study the content independently. All content sessions (except for the first one) will follow the [Flipped Classroom](https://en.wikipedia.org/wiki/Flipped_classroom) approach. This means you will study the content of each session independently before the actual session date. In particular, you should work through the exercises at the end of the materials. These exercises serve to check your understanding and are also essential preparation for the final exam. At the beginning of each session, a short quiz will assess the key content (see the table above).
 
@@ -62,7 +62,7 @@ During the sessions (after the quiz), the exercises you have prepared will be di
 You are welcome to bring and use your own laptop! Otherwise, PCs are available in the computer lab.
 
 
-## Grading Criteria
+## Grading criteria
 
 ### Attendance
 
