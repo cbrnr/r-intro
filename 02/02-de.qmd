@@ -68,7 +68,7 @@ In dieser Ansicht kann man durch Klicken auf *Update* installierte Pakete aktual
 
 Neue Pakete installiert man durch Klicken auf *Install*. Wenn man in das Feld *Packages* die Anfangsbuchstaben des gesuchten Pakets eingibt, wird automatisch eine Liste aller passenden Pakete vorgeschlagen. Ein bereits installiertes Paket kann man durch Klicken auf das hellgraue X in der rechten Spalte der Paketliste wieder deinstallieren.
 
-![](RStudio_packages.png)
+![](rstudio_packages.png)
 
 
 ### Paketverwaltung mit R-Befehlen

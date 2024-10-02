@@ -45,7 +45,6 @@ This ensures that each restart of RStudio generates a completely fresh R session
 :::
 
 
-
 ## Packages
 
 Packages extend the functionality of R, which comes with only a handful of packages by default. When that's not enough, you can easily add more. Most additional packages are available through the [Comprehensive R Archive Network (CRAN)](https://cran.r-project.org/web/packages/). Once a package is *installed*, it can be *activated* and used at any time. This means two dependent steps must be followed:
@@ -66,7 +65,7 @@ In this view, you can click *Update* to update installed packages, which should 
 
 To install new packages, click *Install*. When you type the first few letters of a package's name into the *Packages* field, a list of all matching packages will appear. You can uninstall an already installed package by clicking the light gray "X" symbol in the right column of the package list.
 
-![](RStudio_packages.png)
+![](rstudio_packages.png)
 
 
 ### Package management with R commands
