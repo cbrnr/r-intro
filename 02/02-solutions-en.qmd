@@ -1,0 +1,80 @@
+---
+title: "2 – Solutions"
+subtitle: "Statistical Data Analysis with R"
+author: "Clemens Brunner"
+date: 2024-10-10
+format:
+  html:
+    page-layout: full
+engine: knitr
+knitr:
+  opts_chunk: 
+    R.options:
+      width: 120
+highlight-style: github
+title-block-banner: true
+theme:
+  light: flatly
+  dark: darkly
+---
+
+## Exercise 1
+
+Packages can be installed using the function `install.packages()`. For the three mentioned packages, you would run the following three commands:
+
+```r
+install.packages("tidyverse")
+install.packages("Hmisc")
+install.packages("psych")
+```
+
+The version numbers can be seen in the *Packages* view in RStudio; I have the following versions:
+
+- `tidyverse`: 2.0.0
+- `Hmisc`: 5.1-3
+- `psych`: 2.4.6.26
+
+Installed packages can be activated using the function `library()`, so for the three packages:
+
+```r
+library(tidyverse)
+library(Hmisc)
+library(psych)
+```
+
+
+## Exercise 2
+
+```r
+?help
+help(help)
+```
+
+
+## Exercise 3
+
+A function call consists of the function name followed by `()`. Within these parentheses, you can pass arguments to the function.
+
+
+## Exercise 4
+
+The contents of the text file `my_first_script.R` is as follows:
+
+```r
+# Exercise 4
+library(Hmisc)
+(45 + 66 + 37 + 54 + 7 + 22) / 6
+```
+
+This script can be executed without errors (e.g., by clicking the "Source" button in RStudio).
+
+
+## Exercise 5
+
+The command `?sum` opens the documentation of the function. It shows that it can be called with *no* arguments (the result of `sum()` is `0`). The argument `...` has a special meaning; it stands for "any number of arguments", meaning none, one, two, three, etc. So, in a way, there are two optional arguments (since `na.rm` has a default value of `FALSE`).
+
+According to the documentation, the sum of "nothing" – that is, `sum()` – is zero. This does not work with the function `mean()`, because you *must pass one argument* (a vector of numbers).
+
+The first argument of the function `sum()` is `...`, which, as mentioned, means that any number of values (numbers) can be passed. In contrast, the function `mean()` expects all the numbers to be available in the first argument `x`. Therefore, when you call `mean(1, 2, 3)`, the first argument `x` equals `1` (it will only average the number `1`). The other numbers `2` and `3` are then assigned to the second and third arguments (i.e., `trim` and `na.rm`).
+
+The command `sum` does *not* invoke (or call) the function. It merely outputs information about the object named `sum`. In most cases, this is not desired; you almost always want to call a function.
