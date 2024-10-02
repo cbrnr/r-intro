@@ -1,5 +1,5 @@
 ---
-title: "Course organization"
+title: "Course Organization"
 subtitle: "Statistical Data Analysis with R"
 author: "Clemens Brunner"
 date: 2024-10-03
@@ -93,6 +93,6 @@ If all criteria are met, the final grade will be calculated from the average of 
 
 | Excellent (1) | Good (2)   | Satisfactory (3) | Sufficient (4) | Fail (5)    |
 |---------------|------------|------------------|----------------|-------------|
-| 9–10 points   | 8–9 points | 7–8 points       | 6–7 Punkte     | \< 6 Punkte |
+| 9–10 points   | 8–9 points | 7–8 points       | 6–7 points     | \< 6 points |
 
 The lowest point of each range will always result in the higher grade. For example, exactly 9 points correspond to "Excellent (1)", and 8.97 points would result in a "Good (2)".
