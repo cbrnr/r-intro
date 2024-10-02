@@ -1,0 +1,62 @@
+---
+title: "1 – Solutions"
+subtitle: "Statistical Data Analysis with R"
+author: "Clemens Brunner"
+date: 2024-10-03
+format:
+  html:
+    page-layout: full
+engine: knitr
+knitr:
+  opts_chunk: 
+    R.options:
+      width: 120
+highlight-style: github
+title-block-banner: true
+theme:
+  light: flatly
+  dark: darkly
+---
+
+## Exercise 1
+
+The R version is displayed in the Console as an introductory message immediately after startup. The full version information is:
+
+```
+R version 4.4.1 (2024-06-14) -- "Race for Your Life"
+```
+
+Additionally, the R version is always visible in the title bar of the Console.
+
+The RStudio version is 2024.04.2 Build 764, which can be found in the Help window, accessible through "Help" – "About RStudio".
+
+
+## Exercise 2
+
+```{r}
+4 * pi * 6371^2
+```
+
+
+## Exercise 3
+
+```{r}
+(11 + 27 + 15 + 10 + 33 + 18 + 25 + 22 + 39 + 11) / 10
+(11 * 27 * 15 * 10 * 33 * 18 * 25 * 22 * 39 * 11)^(1/10)
+```
+
+
+## Exercise 4
+
+```{r}
+sqrt(2) * (5^5 - pi) * 18 / ((7/5 + 13.2) * 7^(2/3))
+```
+
+
+## Exercise 5
+
+The code doesn't work because the object `PI` does not exist (`Error: object 'PI' not found`). Case sensitivity matters, and the correct name for $\pi$ is `pi` (in lowercase):
+
+```{r}
+2 * 1 * pi
+```

@@ -1,0 +1,205 @@
+---
+title: "1 – Basics"
+subtitle: "Statistical Data Analysis with R"
+author: "Clemens Brunner"
+date: 2024-10-03
+format:
+  html:
+    page-layout: full
+engine: knitr
+knitr:
+  opts_chunk: 
+    R.options:
+      width: 120
+highlight-style: github
+title-block-banner: true
+theme:
+  light: flatly
+  dark: darkly
+---
+
+## Overview
+
+This course introduces the basics of the R statistical programming environment. In the first sessions, you'll learn about key properties and data types. After that, we'll cover essential data analysis concepts (importing data, descriptive statistics, creating graphs) and simple statistical models (correlation and linear regression). Toward the end, you'll also learn how to create interactive documents that can include (and execute) R code.
+
+
+## What is R?
+
+R is a programming environment designed for data analysis and statistics. Using specialized programming languages (like R) allows us to solve certain problems more quickly, efficiently, and elegantly than with general-purpose languages. However, with general-purpose languages (like Python), we're not limited to a specific area. For example, we can easily create web applications or graphical user interfaces in Python – tasks that are more challenging or more cumbersome in R.
+
+Choosing the right language for the current problem at hand is crucial. If you're dealing with data analysis or statistical modeling, R is likely an excellent choice!
+
+Here are some additional features of R:
+
+- [Open Source](https://en.wikipedia.org/wiki/Open_source) (free to use, but open source is more than just cost)
+- Cross-platform (works on Windows, macOS, and Linux)
+- Relatively easy to learn (at least the basics)
+- Efficient handling of complex data structures
+- Extensive documentation and help available
+- Large, friendly, and supportive community
+- Vast number of available packages
+
+
+## Popularity
+
+R is widely used nowadays. Various rankings that assess programming language popularity (e.g., [PYPL](https://pypl.github.io/PYPL.html), [IEEE Spectrum Top Programming Languages](https://spectrum.ieee.org/top-programming-languages/) and [TIOBE](https://www.tiobe.com/tiobe-index/)) have consistently ranked R among the top languages. This is particularly notable since R is a specialized language, making it the most popular statistical programming environment, well ahead of commercial statistics packages like SPSS, Stata, and Statistica.
+
+The popularity of a programming language can be important in practice. A larger, more active community means you're more likely to find existing solutions to problems, or get quicker answers to new questions.
+
+
+## What does R code look like?
+
+You use R by entering text commands into the Console. Unlike in SPSS, where you navigate through a graphical user interface, R relies on commands to perform statistical calculations. This approach has several advantages – it makes your analysis *reproducible* since it is *fully* defined by the commands you use.
+
+Here's an example of typical input and output in R:
+
+```{r}
+x = c(1, 3, 8, 12, 13, 27)
+mean(x)
+sd(x)
+set.seed(1)
+y = -0.1 * x + rnorm(6, mean=-10, sd=4)
+cor.test(x, y)
+plot(x, y, pch=20)
+```
+
+The gray boxes show R commands (which you enter into the Console), followed by the results of those commands. These examples might seem confusing right now, but as you progress through the course, you'll understand all of this (and much more).
+
+
+## Installation
+
+Before using R, you'll need to install two programs: R and RStudio.
+
+1. All the information needed to install R can be found on the [official website](https://www.r-project.org/). Detailed instructions are available for each supported platform. The download link is located on the top left under "Download" – "CRAN." It's best to always use the latest version of R (at the time of writing, this was version 4.4.1).
+2. Although the graphical interface that comes with R is fairly usable (and of course you could even work without a graphical interface), many people prefer using [RStudio](https://posit.co/download/rstudio-desktop/) to interact with R. RStudio is a graphical user interface that requires an existing R installation. As with R, I strongly recommend to always use the latest version (at the time of writing, this was version 2024.04.2+764).
+
+
+## First steps
+
+To try the following examples, start RStudio – on Windows, for example, from the Start menu, and on macOS from the Applications folder or via Spotlight (<kbd>⌘</kbd><kbd>Space</kbd>).
+
+R can be used as a powerful calculator. Entering mathematical expressions is intuitive, and a prompt (the `>` symbol) in the Console (on the left side of the RStudio window) signals that R is ready for input. After you enter a command and press <kbd>Enter</kbd>, the result appears in the next line. Basic arithmetic operations like addition, subtraction, multiplication, and division work as expected:
+
+```{r}
+13 + 7
+```
+
+```{r}
+1001 - 93
+```
+
+```{r}
+81 * 76
+```
+
+```{r}
+1563 / 43
+```
+
+:::{.callout-tip}
+For better readability, add spaces before and after the operator, because it is easier to read `13 + 7` instead of `13+7`. Both are correct in R, but the first version is more readable.
+:::
+
+To perform integer division, use the `%/%` operator (yes, this operator consists of three characters):
+
+```{r}
+1563 %/% 43
+```
+
+To get the remainder of a division, use `%%`:
+
+```{r}
+1563 %% 43
+```
+
+For exponentiation, use `^` or `**`:
+
+```{r}
+16^2
+```
+
+```{r}
+16**2
+```
+
+R follows the standard order of operations when chaining multiple operations, including parentheses:
+
+```{r}
+(13 + 6) * 8 - 12**2 / (2.5 + 1.6)
+```
+
+To calculate a square root, use `sqrt`:
+
+```{r}
+sqrt(144)
+```
+
+The constant $\pi \approx 3.141593$ is available as `pi`:
+
+```{r}
+pi
+```
+
+Euler's number $e \approx 2.718282$ is not available as a constant but can be calculated using the exponential function $e^1$:
+
+```{r}
+exp(1)
+```
+
+:::{.callout-important}
+R uses the English notation for decimals, with a *period* as the decimal separator, not a *comma* commonly used in some languages like German. Always enter decimal numbers with a period, regardless of your system language settings.
+:::
+
+
+## Exercises
+
+### Exercise 1
+
+Install the latest versions of R and RStudio. Then, start RStudio and find out how to display the version numbers of both R and RStudio. What versions did you install? Are they the latest versions availble?
+
+
+### Exercise 2
+
+We can approximate the Earth as a sphere with a radius of 6,371 km. Use R to calculate the surface area of the Earth. The formula for the surface area $A$ of a sphere with radius $r$ is:
+
+$$A = 4 \pi r^2$$
+
+
+### Exercise 3
+
+Given the data points 11, 27, 15, 10, 33, 18, 25, 22, 39, and 11, calculate both the arithmetic mean and the geometric mean using basic arithmetic operations. Perform each calculation with a single command (without intermediate results).
+
+The formulas for the arithmetic mean $\bar x$ and geometric mean $\bar x_g$ are:
+
+$$\bar x = \frac{1}{n} \sum_{i=1}^n x_i$$
+
+$$\bar x_g = \sqrt[n]{\prod_{i=1}^n x_i}$$
+
+:::{.callout-tip}
+The symbol $\prod$ represents the product of all numbers $x_i$. You can also express the n-th root as a power, i.e., $\sqrt[n]{x}$ is equivalent to $x^\frac{1}{n}$.
+:::
+
+
+### Exercise 4
+
+Calculate the result of the following expression with a single command:
+
+$$\sqrt 2 \cdot \frac{(5^5 - \pi) \cdot 18}{\left(\frac{7}{5} + 13.2 \right) \cdot 7^\frac{2}{3}}$$
+
+:::{.callout-note}
+Pay attention to parentheses. The last term in the denominator, $7^\frac{2}{3}$, means seven raised to the power of two thirds.
+:::
+
+
+### Exercise 5
+
+Why does the following code fail to calculate the circumference of a circle with a radius of $r = 1$ (the correct calculation is $2 \cdot r \cdot \pi = 2 \cdot 1 \cdot \pi \approx 6.283185$)?
+
+```{r}
+#| eval: false
+2 * 1 * PI
+```
+
+:::{.callout-note}
+Use the Console to experiment with commands, even if the input is incorrect! In fact, a wrong input will generate an error message that can help you find the problem. So, feel free to try things in the Console – you can't break anything!
+:::
