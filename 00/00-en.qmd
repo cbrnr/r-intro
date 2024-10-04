@@ -78,7 +78,7 @@ At the beginning of each session (except for the first one, see the table above)
 
 At the end of the semester, there will be an exam covering the entire content of the course. This exam will be taken on-site using a computer. You may use all course materials, but no other aids (such as AI, solved exercises, internet, etc.) are allowed. The questions will be based on the exercises and quizzes. You can earn a total of 10 points (partial points are possible). As in all sessions, you may use your own laptop for the exam.
 
-There is an option to retake the exam if necessary. In this case, the score from the second attempt will count, whether it improves or worsens your grade.
+You have the option to retake the exam if needed. In that case, the score from your second attempt will replace the first, regardless of how it affects your grade.
 
 
 ## Grading
