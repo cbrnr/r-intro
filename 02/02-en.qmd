@@ -213,76 +213,101 @@ With objects and functions, we've already covered the two most important concept
 - Everything that *happens* in R is a *function call*.
 
 
-### Help
+### Documentation
 
-R includes an excellent built-in help system covering a variety of topics and commands. In RStudio, all help topics are grouped under the *Help* pane (it's worth browsing through this pane just to see what's available).
-
-However, people most often refer to the help for a specific command. For instance, if you need information about the `mean()` function, you can type the following command in the console:
+R comes with extensive integrated documentation (which is also available offline). RStudio displays documentation in the *Help* panel (lower right). There are two options to get help for a specific R command directly in the R console (the following example demonstrates this for the `sum()` function):
 
 ```r
-help(mean)
+help(sum)
+?sum
 ```
 
-Alternatively, there is a shorter version:
+
+#### Example 1
+
+Let's inspect the documentation for `sum()` more closely, because all help pages are organized in a similar way. It is a good habit to quickly skim the help text for every new function that you are about to use for the first time – this will get you started much quicker than just assuming things (that might not be true) or filling in arguments by trial and error.
+
+The very first line contains the name of the function and the package it comes from in curly braces:
+
+```
+sum {base}
+```
+
+We now know that the `sum()` function is contained in the `base` package.
+
+Next, the title summarizes the purpose of the function:
+
+```
+Sum of Vector Elements
+```
+
+The "Description" section contains a slightly more detailed summary of what the function is all about.
+
+"Usage" describes how to call the function:
+
+```
+sum(..., ra.rm = FALSE)
+```
+
+We already know that we have to write the function name followed by a pair of parentheses. In addition, this section also tells us which arguments we can pass – in this case, there are two possible arguments (`...` and `na.rm`). The second argument `na.rm` has a default value of `FALSE`, which means that if we do not pass a second argument in our function call, `na.rm` automatically gets its default value of `FALSE`.
+
+More details on each argument are listed in the subsequent "Arguments" section. In this example, we learn that `...` should be "numeric or complex or logical vectors" (we'll learn about vectors soon).
+
+The next section contains a very detailed description of the function. If you want to understand what is going on when you call the function, you need to read this.
+
+The "Value" section tells us what the function returns (what it computes). Often, the help text includes some useful references such as books or articles. Many functions also include a "See Also" section, which lists similar and related functions.
+
+Last but definitely not least, most help pages contain several usage examples. You can copy and paste them into the console to try them out and see the examples in action.
+
+
+#### Example 2
+
+Let's take a look at another help page, this time we'll view the documentation of `mean()`:
 
 ```r
 ?mean
 ```
 
-The help text for a function contains all the necessary information — when using a function for the first time, I highly recommend to at least skim its documentation.
+We learn that this function computes the arithmetic mean, and we can use it like this:
 
-Help texts are structured similarly. After a brief description (*Description*), you'll see how the function is called under *Usage*. In our example, it reads:
-
-    mean(x, ...)
-
-The next two lines provide further details:
-
-    ## Default S3 method:
-    mean(x, trim = 0, na.rm = FALSE, ...)
-
-You can see that the function expects an argument called `x`. This argument is mandatory, meaning if you don't provide it, you'll get an error (try it in the console by typing `mean()`). This is clear from the help text, as no default value is listed for `x`. In contrast, the next two arguments, `trim` and `na.rm`, are optional, meaning you don't have to provide them. If you don't, their default values will be used (`trim` is set to `0` and `na.rm` to `FALSE`).
-
-The meanings of the arguments are explained in the *Arguments* section. The value calculated and returned by the function is described in the *Value* section. This is followed by references, related functions, and finally, examples. These examples can be copied and run in the console (or simply executed by clicking "Run examples" in the *Help* pane).
-
-
-### How to call a function
-
-Now that we've discussed functions and the built-in help system, let's explore the different ways to call a function.
-
-You can pass arguments to a function in two ways:
-
-1. By passing just the values in the correct order (as expected by the function, according to the help), e.g., `mean(1)`.
-2. By using the argument names along with their values, e.g., `mean(x=1)`. The order doesn't matter in this case.
-
-Let's look at some examples of correct calls to the `mean()` function. Here, we first create a variable `x`, which consists of some numbers that we want to calculate the mean of (a detailed explanation of the `c()` function will follow in the next session).
-
-First, we create the variable (object) `x`:
-
-```{r}
-x = c(-14, 2, 3, 4, 5, 6, 7, 28, 99)
+```
+mean(x, trim = 0, na.rm = FALSE, ...)
 ```
 
-The following code block demonstrates different ways to call the `mean()` function (the comments after each function call show the values of all the arguments, especially when these aren't explicitly passed and therefore take their default values):
+The first parameter `x` is a (numeric) vector containing the numbers we want to average. The next two parameters (`trim` and `na.rm`) both have default values, so we don't need to specify values if we are happy with the defaults. The fourth parameter `...` summarizes "further arguments" that are not really explained.
+
+:::{.callout-note}
+Function parameters and arguments are often used synonymously, but there is a difference: a *parameter* is formally defined in the function header, and when we *call* a function, we pass *arguments* that replace parameters with *specific values*.
+
+For example, the `mean()` function has several parameters, and the first parameter is called `x`. When we call the function using `mean(1:10)`, we pass the argument `1:10`, which is used instead of `x` everywhere inside the function to compute the mean.
+:::
+
+Let's try some examples to see the different ways we can call the `mean()` function. Let's assume we have a numeric vector (a collection of numbers) stored in the variable `numbers`:
 
 ```{r}
-mean(x)  # x=x, trim=0, na.rm=FALSE
-mean(x, 0.1)  # x=x, trim=0.1, na.rm=FALSE
-mean(x, 0.2, TRUE)  # x=x, trim=0.2, na.rm=TRUE
-mean(x, na.rm=TRUE)  # x=x, trim=0, na.rm=TRUE
-mean(x, trim=0.2, na.rm=TRUE)  # x=x, trim=0.2, na.rm=TRUE
-mean(x=x, na.rm=TRUE, trim=0.3)  # x=x, trim=0.3, na.rm=TRUE
-mean(x, 0.2, na.rm=TRUE)  # x=x, trim=0.2, na.rm=TRUE
+numbers = c(1, 8, 17, -6, 5.5, -12.2)
 ```
 
-It is worth noting that the actual value being passed does *not* need to have the same name as the argument. In the example above, this happens to be the case (both the function parameter and the passed value are named `x`), but this is not required. In fact, only the passed *values* are important, regardless of whether they have names. Thus, you could also call `mean()` as follows:
+We can compute the arithmetic mean like this:
 
 ```{r}
-mean(c(-14, 2, 3, 4, 5, 6, 7, 28, 99))
-mean(x=c(-14, 2, 3, 4, 5, 6, 7, 28, 99))
+mean(numbers)
+```
 
-y = c(-14, 2, 3, 4, 5, 6, 7, 28, 99)
-mean(y)
-mean(x=y)
+Optionally, we can explicitly name arguments in our function call. The first parameter is called `x`, so we could write:
+
+```{r}
+mean(x=numbers)
+```
+
+The same is true for the other arguments; we can either pass values by position or by name:
+
+```{r}
+mean(numbers, trim=0.25)
+mean(numbers, 0.25)
+mean(x=numbers, trim=0.25)
+mean(x=numbers, 0.25)
+mean(trim=0.25, x=numbers)
 ```
 
 
