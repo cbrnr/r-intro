@@ -2,7 +2,7 @@
 title: "3 – Vektoren"
 subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2024-03-18
+date: 2024-10-17
 format:
   html:
     page-layout: full

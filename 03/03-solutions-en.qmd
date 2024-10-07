@@ -1,0 +1,115 @@
+---
+title: "3 – Solutions"
+subtitle: "Statistical Data Analysis with R"
+author: "Clemens Brunner"
+date: 2024-10-17
+format:
+  html:
+    page-layout: full
+engine: knitr
+knitr:
+  opts_chunk: 
+    R.options:
+      width: 120
+highlight-style: github
+title-block-banner: true
+theme:
+  light: flatly
+  dark: darkly
+---
+
+## Exercise 1
+
+```{r}
+r = 5  # radius
+h = 9  # height
+(A = 2 * r * pi * (r + h))  # area
+(V = r**2 * pi * h)  # volume
+```
+
+
+## Exercise 2
+
+```{r}
+(x = c(4, 18, -7, 16, 4, -44))
+(y = x**2)
+(z = c(x, y))
+length(z)
+```
+
+
+## Exercise 3
+
+```{r}
+x = c(44, 23, -56, 98, 99, 32, 45, 22)
+x %% 2 == 0  # logical vector, TRUE for even elements
+x[x %% 2 == 0]  # even elements of x
+x %% 2 != 0  # logical vector, TRUE for odd elements
+x[x %% 2 != 0]  # odd elements of x
+```
+
+
+## Exercise 4
+
+```{r}
+15:40
+seq(75, 61, -3)
+seq(14, 15, length.out=35)
+```
+
+
+## Exercise 5
+
+```{r}
+rep(c("Placebo", "Gruppe 1", "Gruppe 2"), each=10)
+```
+
+
+## Exercise 6
+
+```{r}
+k = seq(0, 20, 2)
+k[-c(3, 7)]
+k[1:5]
+k[c(2, 5, 16)]  # element 16 does not exist -> NA
+k[k > 11]
+```
+
+
+## Exercise 7
+
+```{r}
+t = c(10, 20, NA, 30, 40)
+mean(t)  # result is NA
+mean(t, na.rm=TRUE)  # ignores NA elements
+```
+
+
+## Exercise 8
+
+```{r}
+s = c(1, 11.3, 7.8, 3.4, 6)  # standard deviations
+s**2  # variances
+```
+
+
+### Exercise 9
+
+```{r}
+x = c(2, 0, -5, 0, 1, -1, 0, 3, 0, 0, 7)
+x == 0
+sum(x == 0)
+which(x == 0)
+```
+
+
+### Exercise 10
+
+The indices inside the square brackets must always be contained in a single vector. If you want to index three positions, you need to create this vector with `c()`. Therefore, `x[2, 4, 6]` does not work because three vectors are specified (separated by commas) instead of a single vector.
+
+The correct way to index the second, fourth, and sixth element of `x` is:
+
+```{r}
+x = 1:10
+x[c(2, 4, 6)]
+```
