@@ -1,0 +1,134 @@
+---
+title: "4 – Solutions"
+subtitle: "Statistics Data Analysis with R"
+author: "Clemens Brunner"
+date: 2024-10-24
+format:
+  html:
+    page-layout: full
+engine: knitr
+knitr:
+  opts_chunk: 
+    R.options:
+      width: 120
+highlight-style: github
+title-block-banner: true
+theme:
+  light: flatly
+  dark: darkly
+---
+
+## Exercise 1
+
+```{r}
+u = seq(98, 50, -2)
+v = seq(0, 48, 2)
+length(u)  # 25 elements -> 5 rows require 5 columns
+length(v)  # 25 elements -> 5 rows require 5 columns
+dim(u) = c(5, 5)
+dim(v) = c(5, 5)
+(r = cbind(u, v))
+class(r)  # matrix
+```
+
+
+## Exercise 2
+
+```{r}
+dim(r)  # 5 rows, 10 columns
+length(r)  # 50 elements
+r[4, 6]  # 6
+rowMeans(r)
+colMeans(r)
+mean(r[3:5, 1:2])  # 87
+```
+
+
+## Exercise 3
+
+```{r}
+df = data.frame(
+    name=c(
+        "Ben", "Emma", "Luis", "Mia", "Paul",
+        "Hanna", "Lukas", "Sophia", "Jonas", "Emilia"
+    ),
+    gender=rep(c("m", "f"), 5),
+    value=c(11, 76, 42, 8, 32, 96, 88, 65, 14, 50)
+)
+df
+str(df)  # character, character, numeric
+```
+
+
+## Exercise 4
+
+```{r}
+df_f = df[df[, "gender"] == "f", ]
+df_f
+```
+
+:::{.callout-note}
+There are additional ways to create `df_f`:
+
+```{r}
+df_f = df[df$gender == "f", ]
+df_f = df[df[["gender"]] == "f",]
+df_f = df[df[[2]] == "f",]
+df_f = df[df[, 2] == "f",]
+```
+:::
+
+Here are some ways to access a the first column:
+
+```{r}
+df_f[, 1]  # column 1
+df_f[, "name"]  # column "name"
+df_f$name  # column "name"
+df_f[["name"]]  # column "name"
+df_f[[1]]  # column 1
+```
+
+
+## Exercise 5
+
+```{r}
+dim(mtcars)  # 32 rows, 11 columns
+mtcars1 = mtcars[mtcars$mpg > 25, ]
+dim(mtcars1)  # 6 rows, 11 columns
+```
+
+
+## Exercise 6
+
+```{r}
+library(tibble)
+
+air = as_tibble(airquality)
+```
+
+```{r}
+airquality[, 1]
+air[, 1]
+airquality[, "Ozone"]
+air[, "Ozone"]
+```
+
+Extracting a column with square brackets returns a vector for data frames, but a tibble for tibbles.
+
+```{r}
+airquality$Ozone
+air$Ozone
+airquality[["Ozone"]]
+air[["Ozone"]]
+```
+
+These variants always return the data in the column as a vector.
+
+Tibbles are more consistent when indexing with square brackets because the result is always a tibble. For data frames, the result is sometimes a vector (as in the examples above), but sometimes also a data frame (e.g., when extracting two columns):
+
+```{r}
+airquality[, 1:2]
+air[, 1:2]
+```
+
+If you want a vector for a single column, you can use `$` or `[[]]` for both data types (the latter is recommended).

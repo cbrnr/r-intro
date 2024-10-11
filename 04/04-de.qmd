@@ -2,7 +2,7 @@
 title: "4 – Tabellarische Daten"
 subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2024-04-08
+date: 2024-10-24
 format:
   html:
     page-layout: full

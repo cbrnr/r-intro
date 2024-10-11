@@ -1,0 +1,405 @@
+---
+title: "4 – Tabular Data"
+subtitle: "Statistical Data Analysis with R"
+author: "Clemens Brunner"
+date: 2024-10-24
+format:
+  html:
+    page-layout: full
+engine: knitr
+knitr:
+  opts_chunk: 
+    R.options:
+      width: 120
+highlight-style: github
+title-block-banner: true
+theme:
+  light: flatly
+  dark: darkly
+---
+
+## Introduction
+
+R uses vectors to represent one-dimensional data. However, data is often structured in two dimensions, typically in the form of a table. For such tabular data, R offers two suitable data types: *matrices* (singular: *matrix*) and *data frames*. Matrices can only contain elements of a single data type (they are homogeneous data types, just like vectorsJ). In contrast, data frames can accomodate columns with different data types.
+
+
+## Matrices
+
+### Connection to vectors
+
+Matrices are vectors with a special *dimension attribute*, which can be queried and set with the `dim()` function:
+
+```{r}
+(v = 1:20)
+dim(v)
+length(v)
+```
+
+A "normal" vector has *no* dimension attribute, which is why the output of `dim(v)` is `NULL`.
+
+It is possible to set the dimension attribute of a vector to the desired number of rows and columns (the product of rows and columns must match the total number of elements in the vector):
+
+```{r}
+dim(v) = c(4, 5)  # 4 rows, 5 columns
+```
+
+Now `v` has a dimension attribute:
+
+```{r}
+dim(v)
+```
+
+In fact, R displays `v` as a matrix with 4 rows and 5 columns:
+
+```{r}
+v
+```
+
+And the type of `v` is now:
+
+```{r}
+class(v)
+```
+
+This example illustrates that the underlying data (which is still stored as a vector) does *not* change – the dimension attribute merely changes the way the data is displayed or interpreted.
+
+:::{.callout-note}
+R supports more than two dimensions with the dimension attribute. In this case, the object is called an *array*, and a matrix is a special case of an array with two dimensions. This is why the output of `class(v)` in the previous example is `"matrix" "array"`.
+:::
+
+
+### Creating matrices
+
+We can create a matrix not only from an existing vector, but also directly with the `matrix()` function:
+
+```{r}
+(m = matrix(1:20, nrow=4, ncol=5))
+```
+
+The first argument is the data (a vector) that the matrix should contain. The second argument `nrow` is the number of rows, and the third argument `ncol` is the number of columns of the matrix. By default, the original data is arranged in the matrix *column-wise*. If you want to arrange the data *row-wise*, you can set the argument `byrow=TRUE`:
+
+```{r}
+matrix(1:20, nrow=4, ncol=5, byrow=TRUE)
+```
+
+
+### Naming rows and columns
+
+Just like you can create a vector with named elements, you can assign row and column names to a matrix:
+
+```{r}
+rownames(m) = c("one", "two", "three", "four")
+colnames(m) = c("A", "B", "C", "D", "E")
+m
+```
+
+
+### Indexing
+
+Extracting individual elements works in the same way as with vectors: with square brackets. The main difference is that for matrices, you specify *two* indices (separated by a comma): the first index corresponds to the *rows* and the second index corresponds to the *columns*. If the first index is omitted, *all rows* are extracted. If the second index is omitted, *all columns* are extracted.
+
+The following examples illustrate indexing a matrix:
+
+```{r}
+m
+m[1, 4]  # row 1, column 4
+m[, 3]  # column 3
+m[3,]  # row 
+m[c(2, 4),]  # rows 2 and 4
+m[c(1, 3), c(1, 2, 5)]  # rows 1 and 3, columns 1, 2, and 5
+m[, "C"]  # column "C"
+m["two",]  # row "two"
+m[m[, "A"] > 2,]  # rows where column "A" is greater than 2
+```
+
+The last example is particularly important in practice, as it allows you to filter rows from a matrix. Make sure you understand this type of indexing – we will need it often!
+
+
+### Coercion
+
+Adding a new column of type `character` to a numeric matrix does not work, because the numeric elements are automatically converted to character strings (remember that a matrix is a homogeneous vector). We will see that data frames are better suited when different column types are needed.
+
+```{r}
+subjects = c("Hans", "Birgit", "Ferdinand", "Joanna")
+cbind(subjects, m)
+```
+
+This example also shows another way to create or extend matrices. The function `cbind()` binds vectors (or matrices) *column-wise*, while the function `rbind()` binds objects *row-wise*, thus creating or extending a matrix.
+
+
+### Arithmetic operations with matrices
+
+Just like with vectors, arithmetic operations with matrices are performed *element-wise*. In addition, there are practical functions to calculate row and column sums of a matrix, namely `rowSums()` and `colSums()`:
+
+```{r}
+rowSums(m)
+colSums(m)
+```
+
+Analogously, there are also `rowMeans()` and `colMeans()` to calculate row and column means.
+
+In general, matrices are only suitable for purely numerical data, as we have seen in the examples above. Often, however, non-numeric columns such as names or group memberships need to be added – this does not work well with matrices, as all elements are converted (coerced) to type `character`.
+
+
+## Data Frames
+
+Data frames are two-dimensional data structures (they consist of rows and columns) just like matrices. However, columns in data frames can have different data types (e.g., one column can be numeric, another column can contain character strings, and so on). Within a column, however, all values must be homogeneous, because individual columns in a data frame are simply vectors.
+
+:::{.callout-note}
+Technically, a data frame is a list of vectors of the same length, which correspond to the individual columns (the general data type `list`, which is used in the background, will not be discussed in detail here).
+:::
+
+
+### Creating data frames
+
+The `data.frame()` function can be used to create a data frame from individual vectors by passing the individual columns as (named) arguments:
+
+```{r}
+data.frame(x=1:5, id=c("X", "c1", "V", "RR", "7G"), value=c(12, 18, 19, 3, 8))
+```
+
+The column names are automatically derived from the respective argument names, resulting in the column names `x`, `id`, and `value`.
+
+Alternatively, you can use the `data.frame()` function similarly to `cbind()` to concatenate vectors and/or two-dimensional objects (like matrices):
+
+```{r}
+(df = data.frame(subjects, m))
+```
+
+As with matrices, you can use the `rownames()` and `colnames()` functions to get or set column names:
+
+```{r}
+colnames(df)
+colnames(df) = c("patient", "age", "weight", "bp", "rating", "test")
+df
+```
+
+While using `rownames()` to set row names works, it is generally best to avoid changing them, as they are then numbered sequentially starting from 1 by default.
+
+
+### Inspecting data frames
+
+Let's create a small data frame `df` for the following examples (note that we can insert line breaks for better readability):
+
+```{r}
+df = data.frame(
+    patient=c("Hans", "Birgit", "Ferdinand", "Joanna"),
+    age=c(34, 17, 26, 44),
+    weight=c(77, 60, 83, 64),
+    height=c(175, 169, 185, 170)
+)
+```
+
+To get a quick overview of a data frame, you can use the functions `str()`, `head()`, and `tail()`.
+
+The `str()` function provides a concise summary of an object's structure:
+
+```{r}
+str(df)
+```
+
+The `head()` function displays the first six rows on the screen, while `tail()` displays the last six rows. With the argument `n`, you can adjust the number of displayed rows.
+
+```{r}
+l = data.frame(a=rnorm(5000), b=rpois(5000, 2), x=rep(letters, length.out=5000))
+dim(l)
+head(l)
+tail(l, n=4)
+```
+
+
+### Indexing
+
+We can use the `$` operator followed by the column name to access individual columns of a data frame (the result is a vector):
+
+```{r}
+df$patient
+df$height
+```
+
+This notation can also be used to add a new column to a data frame. To do this, specify a column name that does not yet exist and assign a vector of the appropriate length to it:
+
+```{r}
+df$value = c("yes", "no", "no", "yes")
+df
+```
+
+Alternatively, you can use `rbind()` or `cbind()` to add new rows or columns, as with matrices.
+
+To remove a column from a data frame, assign `NULL` to it:
+
+```{r}
+df$value = NULL
+df
+```
+
+:::{.callout-tip}
+Since a data frame is essentially a list, you can also extract individual elements of the list (which correspond to the columns) using the following syntax:
+
+```{r}
+df[["patient"]]
+df[["height"]]
+```
+
+This is an alternative to the `$` notation. The latter has the dangerous property that you do not have to specify column names completely; the first few letters are sufficient:
+
+```{r}
+df$pat  # is matched to "patient"
+```
+
+This can lead to errors if there are multiple columns with similar names. This is not the case with double square brackets:
+
+```{r}
+df[["pat"]]
+```
+
+Therefore, you should generally use the double square brackets notation to extract a single column.
+:::
+
+We can also extract rows and columns using standard indexing with (single) square brackets, similar to matrices. You need two indices separated by a comma, where the first index represents the row and the second represents the column. If an index is omitted, all rows or columns will be extracted:
+
+```{r}
+df[1,]
+df[2:3,]
+```
+
+Therefore, entire columns can be indexed with the second index:
+
+```{r}
+df[, 1]
+df[, 4]
+```
+
+:::{.callout-important}
+Do not omit the comma, even if you leave out an index!
+:::
+
+Columns (or rows) can also be addressed by their names instead of their indices:
+
+```{r}
+df[, "patient"]
+df[, "height"]
+```
+
+:::{.callout-tip}
+As previously mentioned, we can (and should) extract columns with double square brackets. Here, we can use not only the column name, but also the column position:
+
+```{r}
+df[["patient"]]
+df[[1]]
+```
+:::
+
+If you want to extract a specific subset, you can specify both row and column ranges:
+
+```{r}
+df[1:2, c(1, 3:4)]
+```
+
+
+## Tibbles
+
+Base R, which includes built-in data types like data frames and their associated functions, is great for data manipulation. However, these constructs can sometimes be a bit cumbersome, which is why the increasingly popular collection of packages known as [Tidyverse](https://www.tidyverse.org/) offers modernized and simplified approaches. You can install the core Tidyverse packages with the `tidyverse` meta-package. This collection includes the `tibble` package, which provides a more modern alternative to data frames. Tibbles make conversion, creation, and indexing more intuitive, and their display on the screen is much clearer. You can use tibbles in any context where you would use data frames.
+
+Before using tibbles, you need to activate either `tibble` or `tidyverse`. The latter activates all core packages from the Tidyverse. Here, we will only activate the `tibble` package:
+
+```{r}
+library(tibble)
+```
+
+The `tibble()` function can now be used to create a new tibble, similar to the `data.frame()` function:
+
+```{r}
+(t = tibble(
+    subjects=c("Hans", "Birgit", "Ferdinand", "Joanna"),
+    A=1:4,
+    B=5:8,
+    C=9:12,
+    D=13:16,
+    E=17:20
+))
+```
+
+Printing a tibble automatically displays the data types for each column.
+
+For longer tables, tibbles offer an additional advantage: when displaying large tibbles on the screen, the output is automatically adjusted to show only a subset of rows and columns, ensuring a clear and readable overview of the data. This feature can be illustrated using the `CO2` data set, which is available as a data frame in R:
+
+```{r}
+CO2
+```
+
+Displaying all 84 rows is not very readable, so it is best to display a summary using `str()`, `head()`, or `tail()`. With tibbles, this is not necessary, as we will see shortly. The `as_tibble()` function converts an existing data frame into a tibble:
+
+```{r}
+(co2_tibble = as_tibble(CO2))
+```
+
+You can see that only the first ten rows are displayed, which is much more readable. If you want to see more (or all) rows, you can use `print()` or `View()` (which also work with data frames):
+
+```r
+print(co2_tibble, n=Inf)  # n=Inf displays all rows
+View(co2_tibble)  # opens a table viewer in RStudio
+```
+
+:::{.callout-tip}
+The `str()` function often provides a very cluttered summary for tibbles. Instead, you can use `glimpse()` from the `tibble` package (this function works for both data frames and tibbles):
+
+```{r}
+glimpse(CO2)
+```
+:::
+
+
+## Exercises
+
+### Exercise 1
+
+Create a vector `u` with the *even* numbers from 98 to 50 (in descending order) and a vector `v` with the *even* numbers from 0 to 48. Then convert both vectors into matrices with 5 rows each (use `dim()`). Concatenate `u` and `v` (in this order) column-wise and store the result in the variable `r`. Finally, display `r` on the screen. What type is the object `r`?
+
+
+### Exercise 2
+
+Answer the following questions about the matrix `r` from Exercise 1 using suitable R commands:
+
+- How many rows and columns does `r` have?
+- How many elements does `r` contain in total?
+- What is the element in the 4th row and 6th column?
+- What are the row means and column means of `r`?
+- What is the mean of the elements in rows 3–5 and columns 1–2 (i.e., the mean of these six values)?
+
+
+### Exercise 3
+
+Create a data frame (or tibble) `df` with 10 rows and 3 columns as follows:
+
+- The first column should be named `name` and contain the values Ben, Emma, Luis, Mia, Paul, Hanna, Lukas, Sophia, Jonas, and Emilia.
+- The second column `gender` should contain the gender of the individuals, i.e., either the letter `m` or `f`.
+- The third column `value` should contain 10 arbitrary numbers between 1 and 100.
+
+Finally, display `df` on the screen. What data types do the three columns have?
+
+
+### Exercise 4
+
+Create a new data frame `df_f` that only contains the rows of female individuals from `df` (from Exercise 3), and display it on the screen. Use a logical index vector to solve this exercise, so that it works for arbitrarily large data frames.
+
+Finally, provide at least four ways to access the first column!
+
+
+### Exercise 5
+
+Create a new data frame named `mtcars1` from the existing data frame `mtcars` in R, which only contains rows where the column `mpg` has values greater than 25. How many rows and columns does `mtcars` have, and how many rows and columns does `mtcars1` have?
+
+
+### Exercise 6
+
+There is a significant difference between data frames and tibbles when indexing with normal square brackets. Try to find this difference by looking at the `airquality` data set available in R.
+
+First, create a tibble named `air` from the `airquality` data frame. Then extract the first column `"Ozone"` from both objects using the following variants:
+
+- `[, 1]`
+- `[, "Ozone"]`
+- `$Ozone`
+- `[["Ozone"]]`
+
+Can you derive a rule from the results on how indexing works with data frames and tibbles? Which variant is more consistent?
