@@ -1,0 +1,92 @@
+---
+title: "5 – Solutions"
+subtitle: "Statistical Data Analysis with R"
+author: "Clemens Brunner"
+date: 2024-10-31
+format:
+  html:
+    page-layout: full
+engine: knitr
+knitr:
+  opts_chunk: 
+    R.options:
+      width: 120
+highlight-style: github
+title-block-banner: true
+theme:
+  light: flatly
+  dark: darkly
+---
+
+## Exercise 1
+
+```{r}
+library(readr)
+```
+
+```r
+?read_delim
+```
+
+The following arguments are used:
+
+- Column separator `delim` (which follows the file name argument); if it is not specified, the function tries to automatically detect the column separator
+- Decimal mark `locale` (e.g., `locale=locale(decimal_mark=",")` for German number formatting)
+- Missing values `na`
+
+
+## Exercise 2
+
+```{r}
+#| message: false
+(df = read_csv2("homework.csv"))
+```
+
+The data types of the four columns are `<chr>`, `<dbl>`, `<dbl>`, `<dbl>` – i.e., the function correctly recognized the German number formatting.
+
+## Exercise 3
+
+```{r}
+#| message: false
+wahl16 = read_csv("wahl16.csv")
+round(colSums(wahl16[, -1]) / sum(wahl16[, -1]) * 100, 1)
+```
+
+
+## Exercise 4
+
+```{r}
+#| message: false
+covid = read_csv2("covid19.csv")
+covid[["Time"]] = as.Date(covid[["Time"]], format="%d.%m.%Y")
+covid
+dim(covid)
+```
+
+Alternatively, you can specify the desired column types directly during import using `col_types`:
+
+```r
+covid = read_csv2("covid19.csv", col_types=cols(Time=col_date("%d.%m.%Y %H:%M:%S")))
+```
+
+
+## Exercise 5
+
+```{r}
+#| message: false
+(df = read_delim("household_power_consumption.zip", delim=";", na=c("?", "")))
+dim(df)  # 2.075.259 Zeilen und 9 Spalten
+```
+
+We could convert the `Date` column to a more appropriate `date` type (it is currently `character`).
+
+
+## Exercise 6
+
+
+```{r}
+x = c(1, 2, 3)
+factor(x, levels=c(1, 2), labels=c("one", "two"))
+```
+
+The resulting factor has levels `1` and `2`, but the original vector `x` also contains the value `3`. This value is not included in the `levels` argument, so it is set to `NA` in the resulting factor.

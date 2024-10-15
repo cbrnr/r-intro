@@ -2,7 +2,7 @@
 title: "5 – Daten importieren"
 subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2024-04-15
+date: 2024-10-31
 format:
   html:
     page-layout: full
