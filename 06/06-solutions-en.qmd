@@ -1,0 +1,106 @@
+---
+title: "6 – Solutions"
+subtitle: "Statistical Data Analysis with R"
+author: "Clemens Brunner"
+date: 2024-11-07
+format:
+  html:
+    page-layout: full
+engine: knitr
+knitr:
+  opts_chunk: 
+    R.options:
+      width: 120
+highlight-style: github
+title-block-banner: true
+theme:
+  light: flatly
+  dark: darkly
+---
+
+## Exercise 1
+
+```{r}
+#| message: false
+library(readr)
+library(psych)
+library(pastecs)
+library(car)
+
+df = read_delim("household_power_consumption.zip", delim=";", na=c("", "?"))
+
+sapply(df[, 3:6], mean, na.rm=TRUE)
+sapply(df[, 3:6], median, na.rm=TRUE)
+sapply(df[, 3:6], min, na.rm=TRUE)
+sapply(df[, 3:6], max, na.rm=TRUE)
+
+summary(df[, 3:6])
+describe(df[, 3:6])
+round(stat.desc(df[, 3:6]), 1)
+```
+
+According to the summary statistics, the mean voltage is 240.84 and the median global active power is 0.602. The `summary()` function also indicates that there are 25979 missing values per column (under `NA's`).
+
+
+## Exercise 2
+
+```{r}
+library(palmerpenguins)
+dim(penguins)  # 344 rows, 8 columns
+summary(penguins)
+by(penguins[, 3:5], penguins$species, colMeans, na.rm=TRUE)
+```
+
+The factor columns `species` and `island` have three levels each, and the `sex` column has two levels (with missing values). According to `summary(penguins)`, columns 3–6 each have 2 missing values, and column 7 has 11 missing values.
+
+
+## Exercise 3
+
+```{r}
+str(mtcars)
+describe(mtcars)  # min, max, mean, median
+shapiro.test(mtcars$mpg)
+```
+
+The null hypothesis of normality *cannot* be rejected ($p = 0.123$).
+
+```{r}
+#| warning: false
+leveneTest(mtcars$mpg, mtcars$cyl)
+```
+
+The null hypothesis of homogeneity of variances *can* be rejected ($p = 0.009$).
+
+
+## Exercise 4
+
+```{r}
+#| message: false
+library(readr)
+
+df = read_tsv("lecturer.dat")
+```
+
+Let's first try to calculate the means of the numerical columns using the `mean()` function:
+
+```{r}
+by(df[, -(1:3)], df$job, mean)
+```
+
+This will result in warnings and `NA` for both groups. The reason is that the grouped data is still a data frame with four numerical columns. However, the `mean()` function only works with a vector (or a single column of a data frame). Therefore, we need to use a different aggregation function that can handle data frames. One option is the `colMeans()` function:
+
+```{r}
+by(df[, -(1:3)], df$job, colMeans)
+```
+
+
+## Exercise 5
+
+```{r}
+#| error: true
+set.seed(4)  # makes the example reproducible
+x = rnorm(5001)
+shapiro.test(x)
+```
+
+The `shapiro.test()` function does not work for sample sizes larger than 5000. This is a limitation of the implementation in R, which is based on the original FORTRAN implementation of the Shapiro-Wilk test. The test is not meaningful for very large sample sizes, as even minor deviations from normality will lead to a significant result. A detailed explanation by [Ben Bolker](https://math.mcmaster.ca/~bolker/) is available [here](https://stats.stackexchange.com/a/506528/53514).

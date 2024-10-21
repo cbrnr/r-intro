@@ -2,7 +2,7 @@
 title: "6 – Deskriptive Statistiken"
 subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2024-04-22
+date: 2024-11-07
 format:
   html:
     page-layout: full

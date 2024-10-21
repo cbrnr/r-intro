@@ -1,0 +1,289 @@
+---
+title: "6 – Descriptive Statistics"
+subtitle: "Statistical Data Analysis with R"
+author: "Clemens Brunner"
+date: 2024-11-07
+format:
+  html:
+    page-layout: full
+engine: knitr
+knitr:
+  opts_chunk: 
+    R.options:
+      width: 120
+highlight-style: github
+title-block-banner: true
+theme:
+  light: flatly
+  dark: darkly
+---
+
+## Introduction
+
+After importing a file correctly (i.e., when the data is available in a data frame or tibble and all columns have a suitable data type), you can start with the statistical analysis. The first step is usually to create an overview of the available data using descriptive statistics.
+
+As an example, we import the file [`lecturer.dat`](lecturer.dat) from the last session:
+
+```{r}
+#| message: false
+library(readr)
+(df = read_tsv("lecturer.dat"))
+```
+
+Next, we convert the columns `birth_date` and `job` to date and factor types, respectively:
+
+```{r}
+df$birth_date = as.Date(df$birth_date, format="%m/%d/%Y")
+df$job = factor(df$job, levels=c(1, 2), labels=c("Lecturer", "Student"))
+df
+```
+
+We no longer need the `name` column for our subsequent considerations, so we remove it:
+
+```{r}
+df$name = NULL
+```
+
+R provides a number of functions that calculate summary statistics for a variable (or a vector). Useful functions include `mean()`, `sd()`, `var()`, `min()`, `max()`, `median()`, `range()`, and `quantile()`. The mean of a vector (and thus also a column of the data frame `df`) can be calculated as follows:
+
+```{r}
+mean(df$friends)
+```
+
+For factors, we might be interested in knowing how many levels they contain. Also, for numerical or text vectors with multiple occurrences of values, it is sometimes useful to find out the unique values. For this purpose, R providers the `unique()` function, which returns the unique elements of a vector:
+
+```{r}
+unique(c(1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2))
+```
+
+```{r}
+unique(df$friends)
+unique(df$job)
+```
+
+We would have to repeat these calculations for each column of interest (because these functions only work with vectors), which would be relatively cumbersome. Therefore, we will introduce the `sapply()` function, which applies a function to each column of a data frame individually. So, if you want to calculate the mean for each numerical column of `df`, you can do this as follows:
+
+```{r}
+sapply(df[, -c(1, 2)], mean)
+```
+
+The first argument of `sapply()` is the data frame, and the second argument is a function that should be applied to each column. Here, we provide a subset of the data frame `df` that excludes the first two columns (the `name` and `birth_date` columns). The function `mean()` is then applied to each column of this subset, resulting in a vector with column means.
+
+:::{.callout-tip}
+Alternatively, you can use the `colMeans()` to calculate column means.
+:::
+
+We can apply the same principle to calculate other summary statistics for each column, such as the standard deviation:
+
+```{r}
+sapply(df[, -c(1, 2)], sd)
+```
+
+However, there are also functions that can deal with data frames directly to calculate *multiple* statistical measures for all columns. In the following paragraphs, we will take a closer look at three of these functions, namely `summary()`, `describe()`, and `stat.desc()`. Only `summary()` is included in base R; the other two functions require additional packages.
+
+
+### The `summary()` function
+
+The `summary()` function provides a suitable summary for each column of a data frame (or tibble). Numerical columns and date columns are described with six values:
+
+1. Minimum
+2. First quartile (25th percentile)
+3. Median (50th percentile)
+4. Third quartile (75th percentile)
+5. Maximum
+6. Arithmetic mean
+
+For factors, the summary includes the levels and the number of cases per level.
+
+```{r}
+summary(df)
+```
+
+The `summary()` function also works for other column types and often provides a useful short description.
+
+
+### The `describe()` function
+
+Another way to output even more statistical measures for numerical columns is provided by the `describe()` function from the `psych` package. This function cannot handle non-numeric columns properly, so you should only summarize numerical columns.
+
+```{r}
+library(psych)
+describe(df[, 3:6])
+```
+
+:::{.callout-note}
+We can use functions from packages without activating them. To do this, we have to prefix the package name followed by `::`. In the previous example, we could therefore omit `library(psych)` and still use the function with `psych::describe()`.
+:::
+
+The related `describeBy()` function provides summary statistics for individual groups (such as for individual levels of the factor `df$job`):
+
+```{r}
+describeBy(df[, c("friends", "alcohol", "income", "neurotic")], df$job)
+```
+
+The first argument is the data frame, and the second argument is a vector which groups the data (usually a factor).
+
+
+### The `stat.desc()` function
+
+The `pastecs` package includes the `stat.desc()` function for summarizing data frames. Since the output of the function is relatively cluttered, you should also specify how many decimal places should be displayed with the `round()` function. If the argument `norm=TRUE` is set, tests for normal distribution are performed for all columns.
+
+```{r}
+library(pastecs)
+round(
+    stat.desc(df[, c("friends", "alcohol", "income", "neurotic")], norm=TRUE),
+    digits=2
+)
+```
+
+:::{.callout-note}
+R supports decimal numbers in the so-called [scientific notation](https://en.wikipedia.org/wiki/Scientific_notation). This notation uses powers of ten, which can be entered with `e` (`e` can be read as "times ten to the power of").
+
+```{r}
+1e0  # 1 times 10 to the power of 0
+```
+
+```{r}
+-4e0  # -4 times 10 to the power of 0
+```
+
+```{r}
+1e1  # 1 times 10 to the power of 1
+```
+
+```{r}
+3.5e2  # 3.5 times 10 to the power of 2
+```
+
+```{r}
+1e-2  # 1 times 10 to the power of -2
+```
+
+```{r}
+1e-15  # 1 times 10 to the power of -15
+```
+:::
+
+:::{.callout-tip}
+If you want to avoid the output of numbers in scientific notation as much as possible, you can set the following option at the beginning of a session:
+
+```r
+options(scipen=100)
+```
+
+However, this does not guarantee that all numbers are displayed in decimal notation. Another option is to display numbers as normal decimal numbers using `format()`. This always results in a character vector, but does not require changing an option:
+
+```{r}
+format(1e-15, scientific=FALSE)
+```
+:::
+
+
+### Grouping with `by()`
+
+There is no direct equivalent for grouped data for the `stat.desc()` function (like `describeBy()` for `describe()`). However, R provides the generic `by()` function, which applies *any* given function to grouped data. The first argument is the data frame, the second argument is the grouping column (vector), and the third argument is the function to be applied to the grouped data.
+
+```{r}
+by(df[, c("friends", "alcohol", "income", "neurotic")], df$job, describe)
+```
+
+If you want to pass arguments to the function in the third argument itself (e.g., `norm=TRUE` for the `stat.desc()` function), you can do this with additional arguments at the very end:
+
+```{r}
+by(
+    df[, c("friends", "alcohol", "income", "neurotic")],
+    df$job,
+    stat.desc,
+    norm=TRUE
+)
+by(df[, -c(1, 2)], df$job, summary)
+by(df$friends, df$job, mean)
+```
+
+
+## Test for normality
+
+The `stat.desc()` function already provides the result of the [Shapiro-Wilk test](https://en.wikipedia.org/wiki/Shapiro%E2%80%93Wilk_test) for normality (the entries `normtest.W` and `normtest.p` contain the the test statistic and the significance, respectively). If `normtest.p` is significant (e.g., less than 0.05), the null hypothesis of normality can be rejected. You can also call the Shapiro-Wilk test directly with the `shapiro.test()` function:
+
+```{r}
+shapiro.test(df$income)
+```
+
+Using the `by()` function, you can also apply the test separately to different groups. For example, to test the normality of the `income` column grouped by the `job` column:
+
+```{r}
+by(df$income, df$job, shapiro.test)
+```
+
+The [Kolmogorov-Smirnov test](https://en.wikipedia.org/wiki/Kolmogorov%E2%80%93Smirnov_test) tests if given data follows *any* given distribution, including the normal distribution. However, the Shapiro-Wilk test is preferable for testing normality, as it is specifically tailored to the normal distribution and therefore has more statistical power.
+
+```{r}
+ks.test(df$income, "pnorm", mean(df$income), sd(df$income))
+```
+
+Since the sample size in our example is very small, no reasonable statements can be made about the distribution of the data anyway.
+
+
+## Test for homogeneity of variances
+
+[Levene's test](https://en.wikipedia.org/wiki/Levene%27s_test) assesses the equality of variances (homogeneity of variance or homoscedasticity) of two or more groups. It tests the null hypothesis that the variances are equal in all groups. You can run the test with the `leveneTest()` function from the `car` package. To illustrate this, we look at the example data `Moore`, which is automatically loaded with the `car` package.
+
+```{r}
+#| message: false
+library(car)
+head(Moore, 4)
+tail(Moore, 4)
+summary(Moore)
+```
+
+We can run Levene's test for the column `conformity` grouped by the column `fcategory` as follows:
+
+```{r}
+leveneTest(Moore$conformity, Moore$fcategory)
+```
+
+In this example, the null hypothesis of variance equality of the variable `conformity` across the groups in `fcategory` cannot be rejected, as the *p*-value (here denoted as `Pr(>F)`) is very large.
+
+
+## Exercises
+
+### Exercise 1
+
+Calculate descriptive statistics such as the mean, median, minimum, and maximum for the four numerical variables `Global_active_power`, `Global_reactive_power`, `Voltage`, and `Global_intensity` from the electric power consumption data you imported in the previous session ([Individual Household Electric Power Consumption](http://archive.ics.uci.edu/ml/datasets/Individual+household+electric+power+consumption)).
+
+- Calculate the statistics with the `sapply()` function.
+- Calculate the statistics with the `summary()` function.
+- Calculate the statistics with the `describe()` function from the `psych` package.
+- Run the `stat.desc()` function from the `pastecs` package (round the results to *one* decimal place).
+- What is the mean measured voltage `Voltage`?
+- What is the median of the global active power `Global_active_power`?
+- How many missing values are there in total and per column?
+
+
+### Exercise 2
+
+The `palmerpenguins` package contains the tibble `penguins` with measurements of physical characteristics of three penguin species (Adélie, Chinstrap, and Gentoo). Activate the package and answer the following questions with suitable R commands:
+
+- How many rows and columns does the `penguins` dataset have?
+- The columns `species`, `island`, and `sex` are factors – how many levels do they each have?
+- Calculate descriptive statistics separately for the three penguin species! What are the mean values of the columns `bill_length_mm`, `bill_depth_mm`, and `flipper_length_mm` for the three species?
+- Are there missing values in the data?
+
+
+### Exercise 3
+
+The dataset `mtcars` contains various characteristics of 32 cars.
+
+- Calculate the minimum and maximum as well as the mean and median of all columns.
+- Check if the data in the column `mpg` is normally distributed.
+- Check for variance homogeneity of the data in the column `mpg` for the three groups defined by the column `cyl`.
+
+
+### Exercise 4
+
+Load the dataset [`lecturer.dat`](lecturer.dat) and calculate the means of all numerical columns grouped by the column `job` using the `by()` function. Why does this calculation not work when passing the `mean` function as an argument to `by()`?
+
+
+### Exercise 5
+
+Generate a vector with 5001 standard normally distributed random numbers using the `rnorm()` function and check if this vector is normally distributed. Use the Shapiro-Wilk test for this purpose. How do you interpret the result?
