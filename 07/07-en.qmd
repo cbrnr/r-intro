@@ -1,0 +1,288 @@
+---
+title: "7 – Data Wrangling"
+subtitle: "Statistical Data Analysis with R"
+author: "Clemens Brunner"
+date: 2024-11-21
+format:
+  html:
+    page-layout: full
+engine: knitr
+knitr:
+  opts_chunk: 
+    R.options:
+      width: 120
+highlight-style: github
+title-block-banner: true
+theme:
+  light: flatly
+  dark: darkly
+---
+
+## Reshaping data
+
+There are (at least) two different ways to represent the same data in a table, either in wide format or in long format. The wide format is better suited for calculating descriptive statistics, but the long format is necessary for other tasks. Therefore, it is useful to know how to convert one representation into the other.
+
+A wide data frame has a separate column for each variable. A long data frame has only one column that contains all values, and one or more columns with indicator variables that define the meaning of the values. The following table shows example data in wide format:
+
+| Person | Age | Weight | Height |
+|:-------|----:|-------:|-------:|
+| Bob    |  32 |     98 |    188 |
+| Al     |  24 |     61 |    176 |
+| Sue    |  64 |     87 |    174 |
+
+There are three value columns (`Age`, `Weight`, and `Height`), as well as a column that identifies the person (`Person`). The same data in long format looks like this (note that there is only one value column called `Value`):
+
+| Person | Variable | Value |
+|:-------|:---------|------:|
+| Bob    | Age      |    32 |
+| Bob    | Weight   |    98 |
+| Bob    | Height   |   188 |
+| Al     | Age      |    24 |
+| Al     | Weight   |    61 |
+| Al     | Height   |   176 |
+| Sue    | Age      |    64 |
+| Sue    | Weight   |    87 |
+| Sue    | Height   |   174 |
+
+The `tidyr` package in R allows you to switch between these two formats, i.e., if the data is in one format, you can relatively easily produce the other format. First, let's create a data frame with data from the previous example in wide format as follows:
+
+```{r}
+library(tibble)
+
+(df = tibble(
+    Person=c("Bob", "Al", "Sue"),
+    Age=c(32, 24, 64),
+    Weight=c(98, 61, 87),
+    Height=c(188, 176, 174)
+))
+```
+
+The `tidyr` package (part of the Tidyverse) includes the functions `pivot_longer()` and `pivot_wider()`, which can convert data frames from wide to long and vice versa. Our data frame `df` (which is in wide format) can be converted to long format as follows:
+
+```{r}
+library(tidyr)
+
+(df_long = pivot_longer(
+    df,
+    Age:Height,
+    names_to="Variable",
+    values_to="Value"
+))
+```
+
+Here, we first pass the wide-format data (`df`), followed by a selection of the (value) columns that we want to convert to long format – in our example, these are the columns from `Age` to `Height`. For this column selection, we can write the column names without quotes, and the colon works like in number sequences (it creates a range from `Age` to `Height`). We could also use the column indices here, i.e., `2:4` instead of `Age:Height`. Finally, we specify the desired name of the indicator column with `names_to` (in our example, this should be `Variable`) and the name of the new value column with `values_to` (`Value`). The resulting data frame `df_long` is now in long format.
+
+Conversely, the `pivot_wider()` function can split a (value) column into multiple columns, i.e., convert from long to wide format:
+
+```{r}
+(df_wide = pivot_wider(
+    df_long,
+    id_cols=Person,
+    names_from=Variable,
+    values_from=Value
+))
+```
+
+Here, we first specify the long-format data (`df_long`). Then we provide the column names that identify the individual cases (in our example, this is only one column named `Person`) with `id_cols`. Next, we specify the column that contains the variable names (i.e., the indicator column `Variable`) with `names_from`. Finally, we define the column that contains the values (`Value`) with `values_from`.
+
+These two functions can convert much more complex structures into the respective formats – all of this is documented in the help, including many examples that demonstrate the usage.
+
+
+:::{.callout-note}
+The Tidyverse is based on a representation of data called "tidy." Essentially, this corresponds to the wide format, where each variable has its own column and each data point has its own row (more details can be found in [this article](https://www.jstatsoft.org/article/view/v059i10)).
+:::
+
+
+## Filtering rows with `subset()`
+
+Often, it is desirable to use only a subset of rows from an existing data frame. For example, it might be necessary to separately analyze male and female participants to address a specific research question. This information is encoded the `sex` column with values `m` and `f` in the following example:
+
+```{r}
+(df = tibble(
+    name=c("Bob", "Al", "Sue", "John", "Mary", "Ann"),
+    age=c(32, 24, 64, 44, 21, 75),
+    weight=c(98, 61, 87, 82, 73, 66),
+    height=c(188, 176, 174, 182, 181, 159),
+    sex=factor(c("m", "m", "f", "m", "f", "f"))
+))
+```
+
+We have already learned that we can filter specific rows by indexing. With the following command, we create a new data frame consisting of all female participants:
+
+```{r}
+df[df$sex == "f",]
+```
+
+This notation is relatively cumbersome for data frames, especially because the underlying data frame `df` has to be written twice. Fortunately, there is a more intuitive alternative using the `subset()` function. This function can create subsets of existing vectors or data frames. In the case of a data frame, this means that you can select a subset of rows and/or columns.
+
+Let's start with selecting rows (this operation is also called "filtering"). You pass the original data frame as the first argument to the `subset()` function. The second argument (called `subset`, not to be confused with the function name) then determines which rows should be selected (filtered). The example above can be rewritten as follows:
+
+```{r}
+subset(df, sex == "f")
+```
+
+Note that you can directly mention the column name without having to prepend `df$`. The result is the same as in the previous example.
+
+You can also perform more complex filtering operations by passing a more complex comparison to the `subset` argument, e.g., by combining multiple comparisons:
+
+```{r}
+subset(df, age > 40 & weight <= 73)
+```
+
+Here you can use all kinds of comparison or logical operators (`&` and, `|` or, `xor()` [exclusive or](https://en.wikipedia.org/wiki/Exclusive_or)).
+
+
+## Selecting columns with `subset()`
+
+Sometimes it is useful to use only specific columns from a data frame. Classically, this can be solved again by indexing. The following example creates a subset consisting of the columns `name`, `age`, and `sex`:
+
+```{r}
+df[, c("name", "age", "sex")]
+```
+
+Alternatively, you can use the `subset()` function with the third argument (called `select`):
+
+```{r}
+subset(df, select=c(name, age, sex))
+```
+
+Note that column names can also be specified without quotes. It is even possible to address a range with a `:` as follows (as we have already seen with `pivot_longer()` or `pivot_wider()`):
+
+```{r}
+subset(df, select=name:weight)
+```
+
+This command selects all columns from `name` to `weight`. Of course, you can also combine row and column selections in a single command:
+
+```{r}
+subset(df, subset=age > 30, select=c(name, age, sex))
+```
+
+
+## Creating new columns with `transform()`
+
+Another important task in data analysis is to add new columns to an existing data frame. If the values of these new columns are based on existing columns, this is called a *transformation*. Consider the `airquality` data frame available in R:
+
+```{r}
+head(airquality)
+```
+
+Temperature values in the `Temp` column are given in Fahrenheit. We can now add a new column called `celsius` by transforming the existing `Temp` column as follows:
+
+```{r}
+aq = transform(airquality, celsius=(Temp - 32) * (5/9))
+head(aq)
+```
+
+Note that we can reuse existing columns directly in the transformation (in the example `Temp`) without having to use quotes or `airquality$`. Also, the function always creates a *new* data frame; you could even assign it to the original name if you want (so `airquality` in the example above instead of `aq`).
+
+:::{.callout-important}
+The result of the `transform()` function is a data frame, even if you use a tibble as the source data frame. If the result should be a tibble, you must explicitly convert the return value of `transform()` to a tibble with `tibble::as_tibble()`.
+:::
+
+
+## The pipe operator `|>`
+
+R gained a new operator with version 4.1, the so-called pipe operator, written as `|>`. The principle behind it is as simple as it is ingenious. Although it does not add any new functionality (i.e., all operations can also be implemented without the pipe operator), many operations become easier and/or more intuitive.
+
+In principle, you can write a function call `f(x)` as `x |> f()`. This is a pure syntactic alternative, i.e., both variants do exactly the same thing. For example:
+
+```{r}
+x = 1:10
+mean(x)  # classic
+x |> mean()  # pipe
+```
+
+:::{.callout-tip}
+The pipe operator *pulls* the *first* argument in front of the function call.
+:::
+
+In this example, this makes little sense, because `mean(x)` is much shorter and easier to read. However, it gets more interesting when you want to use the result of a function call directly as an argument (input) for another function call. Classically, you would write this as:
+
+```r
+g(f(x))
+```
+
+In this case, it is more difficult to see in which order the calculation is actually performed: first `f(x)` is calculated, and its result is passed as an argument to the function `g()`. R performs the calculations from the inside out. With the pipe operator, the same operation would look like this:
+
+```r
+x |> f() |> g()
+```
+
+This makes the order of operations immediately clear: `x` is first passed to the function `f()`, and the result of that is passed to the function `g()`. Therefore, the pipe operator is particularly useful when you have a sequence of operations that you want to perform one after the other. The following example first calculates the mean of a vector `x` and then the logarithm of this mean:
+
+```{r}
+log(mean(x))
+x |> mean() |> log()
+```
+
+Using the pipe operator is usually more intuitive. Moreover, it becomes even clearer if each step in the pipeline is written on a separate line (this is possible in R with all commands in principle):
+
+```{r}
+x |>
+    mean() |>
+    log()
+```
+
+
+## Data wrangling
+
+Combining everything we have learned in this chapter (namely `subset()`, `transform()`, and `|>`), we get a set of tools that allows for very intuitive data frame transformations (so-called data wrangling). Let's look at the `airquality` data set again. Suppose we want to investigate the temperatures (in °C) in the month of July. We could use the following pipeline:
+
+```{r}
+library(tibble)
+
+airquality |>
+    transform(celsius=(Temp - 32) * (5/9)) |>
+    subset(Month == 7) |>
+    subset(select=-c(Month, Day)) |>
+    as_tibble()
+```
+
+:::{.callout-note}
+In this example, we have converted the final result into a tibble with `as_tibble()`. Otherwise, we would have ended up with a data frame because we used the `transform()` function.
+:::
+
+To continue working with this data frame, you should assign the result to a (new) variable, e.g.:
+
+```{r}
+aq = airquality |>
+    transform(celsius=(Temp - 32) * (5/9)) |>
+    subset(Month == 7) |>
+    subset(select=-c(Month, Day))
+
+mean(aq$celsius)  # mean temperature (in °C) in July
+```
+
+Finally, it should be noted that the [Tidyverse](https://www.tidyverse.org/) offers many more functions that can be elegantly combined with the pipe operator. In particular, grouped summary statistics (e.g., the average temperatures for all months) become similarly intuitive as in the examples shown here. With base R, this is also possible, but not as elegant and concise.
+
+
+## Exercises
+
+### Exercise 1
+
+Install and activate the `tidyr` package. It contains the data set `table2`. Create a new data frame from this data set, which contains the values in the columns `type` and `count` in two columns `cases` and `population`.
+
+
+### Exercise 2
+
+The `tidyr` package also contains a data set `table4a`. Combine the two columns `1999` and `2000` into a value column named `count` and an indicator column named `year`.
+
+:::{.callout-note}
+The two column names must be enclosed in backticks (`` ` ``), because names starting with numbers would otherwise be interpreted as numbers by R, i.e., `` `1999` `` and `` `2000` ``.
+:::
+
+
+### Exercise 3
+
+Create a new data frame called `mtcars1` from the existing data frame `mtcars`, which only contains rows where the column `mpg` has values greater than 25. How many rows and columns does `mtcars` have, and how many rows and columns does `mtcars1` have? Use the `subset()` function!
+
+
+### Exercise 4
+
+Install and activate the `nycflights13` package. We use the `flights` data set from this package in this exercise. First, read the documentation for `flights`. Then perform the following tasks (using the pipe operator and the `subset()` or `transform()` functions):
+
+- Create a new data frame that contains all flights on January 1, 2013. Only the columns `year`, `month`, `day`, `dep_time`, `arr_time`, and `tailnum` should be retained. How many flights are there?
+- Create two new columns `hours` (the flight time in hours; the column `air_time` contains the flight time in minutes) and `speed` (the flight speed in km/h; the column `distance` contains the distance traveled in miles, so an additional column `km` would be helpful). Output the new data frame with only the columns `month`, `day`, `carrier`, `tailnum`, and `speed`!
+- Create a new data frame that contains all early flights (flights that departed before 6:00).
+- Create a new data frame that contains only those flights that were faster than planned (i.e., where the delay at arrival was smaller than at departure).

@@ -1,8 +1,8 @@
 ---
-title: "7 – Lösungen"
-subtitle: "Statistische Datenanalyse mit R"
+title: "7 – Solutions"
+subtitle: "Statistical Data Analysis with R"
 author: "Clemens Brunner"
-date: 2024-04-29
+date: 2024-11-21
 format:
   html:
     page-layout: full
@@ -16,12 +16,9 @@ title-block-banner: true
 theme:
   light: flatly
   dark: darkly
-lang: de
-author-title: "Autor"
-published-title: "Veröffentlicht"
 ---
 
-## Übung 1
+## Exercise 1
 
 ```{r}
 library(tidyr)
@@ -30,32 +27,32 @@ pivot_wider(table2, names_from=type, values_from=count)
 ```
 
 
-## Übung 2
+## Exercise 2
 
 ```{r}
 pivot_longer(table4a, `1999`:`2000`, names_to="year", values_to="count")
 ```
 
 
-## Übung 3
+## Exercise 3
 
 ```{r}
 mtcars1 = mtcars |>
     subset(mpg > 25)
 
-nrow(mtcars)  # 32 Zeilen
-nrow(mtcars1)  # 6 Zeilen
+nrow(mtcars)  # 32 rows
+nrow(mtcars1)  # 6 rows
 ```
 
 
-## Übung 4
+## Exercise 4
 
 ```{r}
 library(nycflights13)
 library(tibble)
 
 flights |>
-    subset(day == 1 & month == 1) |>  # 842 Zeilen
+    subset(day == 1 & month == 1) |>  # 842 rows
     subset(select=c(year:dep_time, arr_time, tailnum))
 
 flights |>
@@ -66,8 +63,8 @@ flights |>
     as_tibble()
 
 flights |>
-    subset(dep_time < 600)  # 8730 Zeilen
+    subset(dep_time < 600)  # 8730 rows
 
 flights |>
-    subset(arr_delay < dep_delay)  # 221565 Zeilen
+    subset(arr_delay < dep_delay)  # 221565 rows
 ```
