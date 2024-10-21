@@ -1,0 +1,119 @@
+---
+title: "Lösungen"
+subtitle: "Statistische Datenanalyse mit R"
+author: "Clemens Brunner"
+date: 2024-11-14
+format:
+  html:
+    page-layout: full
+engine: knitr
+knitr:
+  opts_chunk: 
+    R.options:
+      width: 120
+highlight-style: github
+title-block-banner: true
+theme:
+  light: flatly
+  dark: darkly
+lang: de
+author-title: "Autor"
+published-title: "Veröffentlicht"
+---
+
+## Übung 1
+
+```{r}
+#| message: false
+library(palmerpenguins)
+
+# a.
+summary(penguins)  # 2 fehlende Werte
+df = penguins[!is.na(penguins[["body_mass_g"]]),]
+
+# b.
+by(df[["body_mass_g"]], df[["species"]], mean)
+by(df[["body_mass_g"]], df[["species"]], sd)
+
+# c.
+df[["id"]] = 1:nrow(df)
+
+# d.
+library(afex)
+
+aov_ez(id="id", dv="body_mass_g", data=df, between="species")
+```
+
+
+## Übung 2
+
+```{r}
+set.seed(123)
+df = data.frame(
+    x = rnorm(1000, mean=10, sd=2),
+    y = sample(LETTERS, 1000, replace=TRUE)
+)
+df[["z"]] = df[["x"]] ** 2
+
+# a.
+colMeans(df[, -2])
+
+# b.
+nrow(df[df[["y"]] == "A",])
+
+# c.
+nrow(df[df[["z"]] > 100,])
+
+# d.
+nrow(df[df[["y"]] == "A" & df[["z"]] > 100,])
+```
+
+
+## Übung 3
+
+```{r}
+summary(penguins)  # 165 female, 168 male, 11 NAs
+summary(penguins[["sex"]])
+penguins_f = penguins[penguins[["sex"]] == "female",]
+penguins_m = penguins[penguins[["sex"]] == "male",]
+```
+
+
+## Übung 4
+
+```{r}
+x = seq(1, 100, 2)
+summary(x)  # enthält alles außer sd
+mean(x)
+median(x)
+sd(x)
+quantile(x)
+```
+
+
+## Übung 5
+
+```{r}
+(m1 = matrix(rep(1:5, each=25), nrow=25, ncol=5))
+(m2 = matrix(rep(1:25, each=5), nrow=25, ncol=5, byrow=TRUE))
+```
+
+
+## Übung 6
+
+```{r}
+#| message: false
+library(readr)
+
+df = read_csv2("thg-emissionen_1990-2022_nach_crf_long.csv")
+
+# a.
+unique(df[["Schadstoff"]])  # 8 verschiedene Schadstoffe
+
+# b.
+length(unique(df[["CRF_Code"]]))  # 83 verschiedene Codes
+
+# c.
+df = df[df[["CRF_Code"]] == "0" & df[["Schadstoff"]] == "CO2",]
+df
+```

@@ -2,7 +2,7 @@
 title: "Übungen"
 subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2024-04-23
+date: 2024-11-14
 format:
   html:
     page-layout: full
@@ -23,7 +23,7 @@ published-title: "Veröffentlicht"
 
 ## Übung 1
 
-Wir betrachten das Data Frame `penguins` aus dem Paket `palmerpenguins`. Untersuchen Sie, ob sich die drei Spezies (Adelie, Chinstrap, Gentoo) in Bezug auf die Körpermasse (Spalte `body_mass_g`) unterscheiden.
+Wir betrachten das Data Frame `penguins` aus dem Paket `palmerpenguins`. Untersuchen Sie, ob sich die drei Spezies (Adélie, Chinstrap, Gentoo) in Bezug auf die Körpermasse (Spalte `body_mass_g`) unterscheiden.
 
 a. Überprüfen Sie, ob es fehlende Werte in der Spalte `body_mass_g` gibt. Falls ja, entfernen Sie die entsprechenden Zeilen aus dem Data Frame.
 b. Berechnen Sie die Mittelwerte und Standardabweichungen der Körpermasse für jede Spezies.
