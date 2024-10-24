@@ -61,7 +61,7 @@ seq(14, 15, length.out=35)
 ## Exercise 5
 
 ```{r}
-rep(c("Placebo", "Gruppe 1", "Gruppe 2"), each=10)
+rep(c("Placebo", "Group 1", "Group 2"), each=10)
 ```
 
 

@@ -20,7 +20,7 @@ theme:
 
 ## Introduction
 
-R uses vectors to represent one-dimensional data. However, data is often structured in two dimensions, typically in the form of a table. For such tabular data, R offers two suitable data types: *matrices* (singular: *matrix*) and *data frames*. Matrices can only contain elements of a single data type (they are homogeneous data types, just like vectorsJ). In contrast, data frames can accomodate columns with different data types.
+R uses vectors to represent one-dimensional data. However, data is often structured in two dimensions, typically in the form of a table. For such tabular data, R offers two suitable data types: *matrices* (singular: *matrix*) and *data frames*. Matrices can only contain elements of a single data type (they are homogeneous data types, just like vectorsJ). In contrast, data frames can accommodate columns with different data types.
 
 
 ## Matrices

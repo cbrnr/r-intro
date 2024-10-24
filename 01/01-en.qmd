@@ -155,7 +155,7 @@ R uses the English notation for decimals, with a *period* as the decimal separat
 
 ### Exercise 1
 
-Install the latest versions of R and RStudio. Then, start RStudio and find out how to display the version numbers of both R and RStudio. What versions did you install? Are they the latest versions availble?
+Install the latest versions of R and RStudio. Then, start RStudio and find out how to display the version numbers of both R and RStudio. What versions did you install? Are they the latest versions available?
 
 
 ### Exercise 2

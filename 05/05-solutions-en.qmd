@@ -75,7 +75,7 @@ covid = read_csv2("covid19.csv", col_types=cols(Time=col_date("%d.%m.%Y %H:%M:%S
 ```{r}
 #| message: false
 (df = read_delim("household_power_consumption.zip", delim=";", na=c("?", "")))
-dim(df)  # 2.075.259 Zeilen und 9 Spalten
+dim(df)  # 2,075,259 rows and 9 columns
 ```
 
 We could convert the `Date` column to a more appropriate `date` type (it is currently `character`).
