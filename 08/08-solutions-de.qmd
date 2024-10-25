@@ -1,0 +1,94 @@
+---
+title: "8 – Lösungen"
+subtitle: "Statistische Datenanalyse mit R"
+author: "Clemens Brunner"
+date: 2024-11-28
+format:
+  html:
+    page-layout: full
+engine: knitr
+knitr:
+  opts_chunk: 
+    R.options:
+      width: 120
+highlight-style: github
+title-block-banner: true
+theme:
+  light: flatly
+  dark: darkly
+lang: de
+author-title: "Autor"
+published-title: "Veröffentlicht"
+---
+
+## Übung 1
+
+```{r}
+library(palmerpenguins)
+plot(
+    penguins$bill_length_mm,
+    penguins$bill_depth_mm,
+    xlab="Bill length (mm)",
+    ylab="Bill depth (mm)",
+    pch=19,
+    col="orange"
+)
+```
+
+## Übung 2
+
+```{r}
+plot(
+    penguins$bill_length_mm,
+    penguins$bill_depth_mm,
+    xlab="Bill length (mm)",
+    ylab="Bill depth (mm)",
+    type="n"
+)
+with(
+    subset(penguins, species=="Adelie"),
+    points(bill_length_mm, bill_depth_mm, col="red", pch=19)
+)
+with(
+    subset(penguins, species=="Gentoo"),
+    points(bill_length_mm, bill_depth_mm, col="blue", pch=19)
+)
+with(
+    subset(penguins, species=="Chinstrap"),
+    points(bill_length_mm, bill_depth_mm, col="green", pch=19)
+)
+legend(
+    "bottomright",
+    pch=19,
+    col=c("red", "blue", "green"),
+    legend=c("Adelie", "Gentoo", "Chinstrap")
+)
+```
+
+
+## Übung 3
+
+```{r}
+boxplot(ToothGrowth$len ~ ToothGrowth$supp + ToothGrowth$dose)
+```
+
+
+## Übung 4
+
+```{r}
+boxplot(mtcars$mpg ~ mtcars$cyl)
+```
+
+Mit steigender Zylinderanzahl sinkt die Treibstoffeffizienz (d.h. der Treibstoffverbrauch steigt).
+
+
+## Übung 5
+
+```{r}
+#| fig-width: 7
+#| fig-height: 9
+layout(matrix(c(1, 1, 2, 3), nrow=2, byrow=TRUE))
+boxplot(mtcars$mpg ~ mtcars$cyl)
+plot(mtcars$mpg, mtcars$drat)
+hist(mtcars$mpg)
+```

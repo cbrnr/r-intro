@@ -2,7 +2,7 @@
 title: "8 – Grafiken"
 subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2024-05-13
+date: 2024-11-28
 format:
   html:
     page-layout: full
