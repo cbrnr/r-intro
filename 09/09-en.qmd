@@ -1,8 +1,8 @@
 ---
-title: "9 – Korrelation"
-subtitle: "Statistische Datenanalyse mit R"
+title: "9 – Correlation"
+subtitle: "Statistical Data Analysis with R"
 author: "Clemens Brunner"
-date: 2024-05-27
+date: 2024-12-05
 format:
   html:
     page-layout: full
@@ -16,56 +16,51 @@ title-block-banner: true
 theme:
   light: flatly
   dark: darkly
-lang: de
-author-title: "Autor"
-published-title: "Veröffentlicht"
 ---
 
-## Allgemeines
+## Introduction
 
-Oft ist es interessant zu fragen, ob zwei Variablen eine gegenseitige Abhängigkeit zeigen. Man möchte also wissen, ob sich die beiden Größen ähnlich verhalten oder nicht – wenn die eine Variable zunimmt, nimmt dann die andere auch zu? Oder ist es genau umgekehrt und sie nimmt dann immer ab? Die Korrelation ist ein einfaches und populäres Maß, um diese Fragestellungen zu beantworten.
+It is often interesting to ask whether two variables show mutual dependence. In other words, do they behave similarly – when one quantity increases, does the other increase as well? Or is it the opposite, where one increases and the other decreases? Or is there no relationship at all? The correlation is a simple and popular measure to answer these questions.
 
-Dabei ist es aber wichtig zu wissen, dass kein kausaler Zusammenhang zwischen den beiden Variablen bestehen muss. Folgende Beispiele von [Spurious Correlations](http://www.tylervigen.com/spurious-correlations) illustrieren die Gefahr der fehlerhaften Interpretation von Korrelationen. Im ersten Beispiel werden die Ausgaben für den Bereich Wissenschaft, Raumfahrt und Technik der USA im Zeitraum 1999–2009 dargestellt. Gleichzeitig werden die Anzahl der Selbstmorde durch Hängen, Strangulieren und Erstickung im selben Zeitraum gezeigt. Man sieht, dass beide Kurven einen sehr ähnlichen Verlauf haben, und der Korrelationskoeffizient (dazu später mehr) ist mit $r=0.998$ extrem hoch:
+However, it is important to note that [correlation does not imply causation]((https://en.wikipedia.org/wiki/Cum_hoc_ergo_propter_hoc)). The following examples of [spurious correlations](http://www.tylervigen.com/spurious-correlations) illustrate the danger of misinterpreting correlations. The first example shows the US spending on science, space, and technology from 1999 to 2009 (red line) alongside the number of suicides by hanging, strangulation, and suffocation (black line). Both curves exhibit a remarkably similar trend, and the correlation coefficient is extremely high at $r = 0.998$:
 
 ![](spurious1.png)
 
-Das zweite Beispiel zeigt den Zusammenhang zwischen der Anzahl an Personen, die in einen Pool gefallen und ertrunken sind und der Anzahl an Filmen mit Nicolas Cage im Zeitraum 1999–2009. Auch hier kann man einen schönen Zusammenhang erkennen, welcher einen recht hohen Korrelationskoeffizienten von $r=0.666$ aufweist:
+The second example shows the relationship between the number of people who drowned by falling into a pool and the number of movies featuring Nicolas Cage from 1999 to 2009. Again, a strong correlation with a correlation coefficient of $r = 0.666$ can be observed:
 
 ![](spurious2.png)
 
-Diese Beispiele sollen verdeutlichen, dass Korrelation nicht automatisch einen kausalen Zusammenhang darstellt (["correlation is not causation"](https://de.wikipedia.org/wiki/Cum_hoc_ergo_propter_hoc)). Denn offensichtlich sind die gezeigten Beispiele rein zufällige Korrelationen, die in keinerlei kausalem Zusammenhang stehen.
 
+## Pearson correlation (product-moment correlation)
 
-## Produkt-Moment-Korrelation (Pearson-Korrelation)
+The product-moment correlation $r$ (also called Pearson correlation) is a measure of the degree of *linear* relationship between two interval-scaled variables. The correlation takes values between −1 and 1 and is derived from the variances and the covariance of both variables.
 
-Die Produkt-Moment-Korrelation $r$ (auch Pearson-Korrelation genannt) ist ein Maß für den Grad des *linearen* Zusammenhangs zweier intervallskalierter Variablen. Die Korrelation nimmt Werte zwischen −1 und 1 an und wird aus den Varianzen und der Kovarianz beider Variablen berechnet.
-
-Die Varianz einer Variablen $x$ ist wie folgt definiert:
+The variance of a variable $x$ is defined as follows:
 
 $$\mathrm{Var}(x) = \frac{1}{N-1} \sum_{i=1}^N (x_i - \bar{x})^2$$
 
-Hier ist $\bar{x}$ der Mittelwert über alle $N$ Werte (welche als $x_i$ bezeichnet werden), also
+Here, $\bar{x}$ is the mean over all $N$ values (denoted as $x_i$), i.e.,
 
 $$\bar{x} = \frac{1}{N} \sum_{i=1}^N x_i.$$
 
-Alternativ kann man die Varianz auch so schreiben (das Quadrat wird explizit als Multiplikation angeschrieben):
+Alternatively, we can write the variance by explicitly multiplying the square:
 
 $$\mathrm{Var}(x) = \frac{1}{N-1} \sum_{i=1}^N (x_i - \bar{x})(x_i - \bar{x})$$
 
-Die Varianz beschreibt, wie stark die Datenpunkte um deren Mittelwert variieren (streuen). Dementsprechend ist die Kovarianz zwischen zwei Variablen $x$ und $y$ definiert als
+The variance describes how much the data points vary around their mean. Accordingly, the covariance between two variables $x$ and $y$ is defined as
 
 $$\mathrm{Cov}(x, y) = \frac{1}{N-1} \sum_{i=1}^N (x_i - \bar{x})(y_i - \bar{y}).$$
 
-Die Kovarianz beschreibt, wie stark die beiden Variablen gemeinsam um den jeweiligen Mittelwert variieren. Eine positive Kovarianz bedeutet, dass beide Variablen gleichsinnig variieren (d.h. wenn eine Variable größer als ihr Mittelwert ist, dann ist die andere auch größer). Umgekehrt bedeutet eine negative Kovarianz, dass beide Variablen gegensinnig variieren (ist eine Variable größer als ihr Mittelwert, dann ist die andere Variable kleiner).
+The covariance describes how strongly the two variables vary together around their respective means. A positive covariance means that both variables vary in the same direction (i.e., if one variable is larger than its mean, the other is also larger). Conversely, a negative covariance means that both variables vary in opposite directions (if one variable is larger than its mean, the other variable is smaller).
 
-Die Kovarianz ist kein standardisiertes Maß, d.h. man kann nicht einfach zwei Kovarianzen aus unterschiedlichen Messreihen miteinander vergleichen, da sie von der Skalierung der beiden Variablen abhängt. Die Pearson-Korrelation standardisiert nun die Kovarianz mit den Varianzen der einzelnen Variablen und stellt somit sicher, dass die Korrelation im Wertebereich zwischen −1 und 1 liegt:
+The covariance is not a standardized measure, i.e., we cannot simply compare two covariances from different data sets, as it depends on the scaling of the two variables. The Pearson correlation standardizes the covariance with the variances of the individual variables, ensuring that the correlation lies in the range between −1 and 1:
 
 $$r = \frac{\mathrm{Cov}(x, y)}{\sqrt{\mathrm{Var}(x) \mathrm{Var}(y)}}$$
 
 
-### Rechenbeispiel
+### Example
 
-Versuchen wir, die Korrelation mit den Formeln für zwei Beispielvektoren $x$ und $y$ zu berechnen:
+Let's calculate the correlation for two example vectors $x$ and $y$:
 
 $$
 \begin{aligned}
@@ -74,7 +69,7 @@ y &= (-2, -5, -6, 0, 3, 7, 10)
 \end{aligned}
 $$
 
-Wir können diese sieben Datenpunkte in einem Scatterplot visualisieren:
+We can visualize these seven data points in a scatter plot:
 
 ```{r}
 #| echo: false
@@ -92,7 +87,7 @@ ggplot(df, aes(x, y)) +
     scale_y_continuous(breaks=-6:10)
 ```
 
-Zunächst berechnen wir die beiden Mittelwerte:
+First, we calculate the two means:
 
 $$
 \begin{aligned}
@@ -101,7 +96,7 @@ $$
 \end{aligned}
 $$
 
-Damit können wir die Varianzen berechnen:
+Next, we can calculate the variances:
 
 $$
 \begin{aligned}
@@ -112,7 +107,7 @@ $$
 \end{aligned}
 $$
 
-Schließlich berechnen wir die Kovarianz:
+Finally, we calculate the covariance:
 
 $$
 \begin{aligned}
@@ -122,14 +117,14 @@ $$
 \end{aligned}
 $$
 
-Um die Pearson-Korrelation zu erhalten, müssen wir noch diese Größen laut Formel verarbeiten und erhalten somit:
+To obtain the Pearson correlation, we need to process these values according to the formula:
 
 $$r = \frac{24.\dot{3}}{\sqrt{24.\dot{6} \cdot 36}} = 0.8165732$$
 
 
-### Signifikanz
+### Significance testing
 
-Meist wird nach der Berechnung der Korrelation ein Test durchgeführt, welcher prüft, ob die erhaltene Korrelation signifikant von der Nullhypothese ("es existiert *keine* Korrelation, d.h. die Korrelation ist 0") abweicht. Da die Stichprobenverteilung der Korrelation keine Normalverteilung aufweist, kann man den Wert von $r$ mit Hilfe der [Fisher-Transformation](https://en.wikipedia.org/wiki/Fisher_transformation) in eine Normalverteilung mit Mittelwert
+Usually, after calculating the correlation, a test is performed to check whether the obtained correlation significantly deviates from the null hypothesis ("there is *no* correlation, i.e., the correlation is 0"). Since the sampling distribution of the correlation is not normally distributed, the value of $r$ needs to be transformed into a normal distribution using the [Fisher transformation](https://en.wikipedia.org/wiki/Fisher_transformation). The transformed value $z_r$ is calculated as follows:
 
 $$z_r = \frac{1}{2} \ln \frac{1 + r}{1 - r} = \text{arctanh}(r)$$
 
