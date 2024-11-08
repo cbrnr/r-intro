@@ -124,60 +124,85 @@ $$r = \frac{24.\dot{3}}{\sqrt{24.\dot{6} \cdot 36}} = 0.8165732$$
 
 ### Significance testing
 
-Usually, after calculating the correlation, a test is performed to check whether the obtained correlation significantly deviates from the null hypothesis ("there is *no* correlation, i.e., the correlation is 0"). Since the sampling distribution of the correlation is not normally distributed, the value of $r$ needs to be transformed into a normal distribution using the [Fisher transformation](https://en.wikipedia.org/wiki/Fisher_transformation). The transformed value $z_r$ is calculated as follows:
+After calculating the correlation, a test can be performed to check whether the obtained correlation significantly deviates from the null hypothesis ("there is *no* correlation, i.e., the correlation is 0"). Since the sampling distribution of the correlation is not normally distributed, the value of $r$ needs to be transformed into a normal distribution using the [Fisher transformation](https://en.wikipedia.org/wiki/Fisher_transformation). The transformed value $z_r$ is calculated as follows:
 
 $$z_r = \frac{1}{2} \ln \frac{1 + r}{1 - r} = \text{arctanh}(r)$$
 
-umwandeln. Der Standardfehler von $z_r$ beträgt dabei:
+The standard error of $z_r$ is given by:
 
 $$\mathrm{SE}(z_r) = \frac{1}{\sqrt{N - 3}}$$
 
-Nun kann man den erhaltenen Wert von $z_r$ durch den Standardfehler dividieren und das Ergebnis dann mit Werten aus einer Tabelle der Standardnormalverteilung vergleichen. So erhält man dann den $p$-Wert (siehe auch [hier](https://en.wikipedia.org/wiki/Pearson_correlation_coefficient#Using_the_Fisher_transformation)).
+We can then divide $z_r$ by the standard error and compare the result with values from a table of the standard normal distribution to obtain the $p$-value (see also [here](https://en.wikipedia.org/wiki/Pearson_correlation_coefficient#Using_the_Fisher_transformation)).
 
 :::{.callout-note}
-Der $p$-Wert gibt hier die Wahrscheinlichkeit an, dass man eine Korrelation erhält, die *mindestens* so groß ist wie die beobachtete, unter der Annahme, dass die Nullhypothese zutrifft (also dass die Korrelation 0 ist).
+The $p$-value indicates the probability of obtaining a correlation that is *at least* as extreme as the observed one, given that the null hypothesis is true (i.e., that the correlation is 0).
 
-Ein kleiner $p$-Wert bedeutet also, dass der beobachtete Wert unter der Nullhypothese sehr unwahrscheinlich ist. Daher entscheidet man sich in solchen Situationen, die Nullhypothese zu verwerfen und die Korrelation als signifikant (unterschiedlich von 0) zu betrachten.
+A small $p$-value suggests that the observed correlation is unlikely if the null hypothesis is true. In such cases, we reject the null hypothesis and conclude that the correlation is statistically significant (different from 0).
 :::
 
-Betrachten wir dazu ein Beispiel zur Veranschaulichung der Berechnung des $p$-Wertes sowie des Konfidenzintervalls für eine gegebene Pearson-Korrelation.
+Let's consider an example to illustrate the calculation of the $p$-value and the confidence interval for a given Pearson correlation.
 
 
-### Beispiel
+### Example
 
-Gegeben sei eine Korrelation $r = 0.25$ berechnet aus einer Stichprobe der Größe $N = 40$:
+Given a correlation $r = 0.25$ calculated based on a sample size of $N = 40$:
 
 ```{r}
 r = 0.25
 N = 40
 ```
 
-Weiters geben wir ein Signifikanzniveau von $\alpha = 0.05$ vor (das ist der Schwellwert für den $p$-Wert, ab dem wir eine Korrelation als signifikant betrachten wollen):
+We also specify a significance level of $\alpha = 0.05$ (this is the threshold for the $p$-value below which we consider a correlation significant):
 
 ```{r}
 alpha = 0.05
 ```
 
-Wir möchten nun wissen, ob die Korrelation $r = 0.25$ bei einem gegebenen Signifikanzniveau signifikant unterschiedlich von 0 ist. Dazu berechnen wir den $p$-Wert und das Konfidenzintervall. Um dies berechnen zu können, müssen wir zuerst die Fisher-Transformation von $r$ berechnen:
+We would like to know whether the correlation $r = 0.25$ is significantly different from 0 at a given significance level. To do this, we calculate the $p$-value and the confidence interval. First, we need to calculate the Fisher transformation of $r$:
 
 ```{r}
 (z = atanh(r))
 ```
 
-Jetzt können wir den Standardfehler berechnen:
+Now we can calculate the standard error:
+
 ```{r}
 (se_z = 1 / sqrt(N - 3))
 ```
+The $p$-value is the probability of obtaining values greater than $z / \text{SE}(z) \approx 1.55$ in a standard normal distribution. To calculate this, we can look up the value 1.55 in a [table of the standard normal distribution](https://en.wikipedia.org/wiki/Standard_normal_table#Complementary_cumulative) (the value we are looking for is located in row "z = 1.5" and column "+0.05"):
 
-Den $p$-Wert erhält man nun, indem man die Wahrscheinlichkeit berechnet, dass man in einer Standardnormalverteilung Werte größer als $z \, / \, \text{SE}(z) \approx 1.55$ erhält. Dazu sieht man entweder in einer [Tabelle der Standardnormalverteilung](https://en.wikipedia.org/wiki/Standard_normal_table#Complementary_cumulative) nach oder man berechnet diesen Wert mit entsprechenden Funktionen in R (der Faktor 2 wird benötigt, da wir keine gerichtete Hypothese haben):
+| z | +0.00 | +0.01 | +0.02 | +0.03 | +0.04 | +0.05 | +0.06 | +0.07 | +0.08 | +0.09 |
+|--:|------:|------:|------:|------:|------:|------:|------:|------:|------:|------:|
+| 0.0 | 0.50000 | 0.49601 | 0.49202 | 0.48803 | 0.48405 | 0.48006 | 0.47608 | 0.47210 | 0.46812 | 0.46414 |
+| 0.1 | 0.46017 | 0.45620 | 0.45224 | 0.44828 | 0.44433 | 0.44038 | 0.43640 | 0.43251 | 0.42858 | 0.42465 |
+| 0.2 | 0.42074 | 0.41683 | 0.41294 | 0.40905 | 0.40517 | 0.40129 | 0.39743 | 0.39358 | 0.38974 | 0.38591 |
+| 0.3 | 0.38209 | 0.37828 | 0.37448 | 0.37070 | 0.36693 | 0.36317 | 0.35942 | 0.35569 | 0.35197 | 0.34827 |
+| 0.4 | 0.34458 | 0.34090 | 0.33724 | 0.33360 | 0.32997 | 0.32636 | 0.32276 | 0.31918 | 0.31561 | 0.31207 |
+| 0.5 | 0.30854 | 0.30503 | 0.30153 | 0.29806 | 0.29460 | 0.29116 | 0.28774 | 0.28434 | 0.28096 | 0.27760 |
+| 0.6 | 0.27425 | 0.27093 | 0.26763 | 0.26435 | 0.26109 | 0.25785 | 0.25463 | 0.25143 | 0.24825 | 0.24510 |
+| 0.7 | 0.24196 | 0.23885 | 0.23576 | 0.23277 | 0.22965 | 0.22663 | 0.22363 | 0.22065 | 0.21770 | 0.21476 |
+| 0.8 | 0.21186 | 0.20897 | 0.20611 | 0.20327 | 0.20045 | 0.19766 | 0.19489 | 0.19215 | 0.18943 | 0.18673 |
+| 0.9 | 0.18406 | 0.18141 | 0.17879 | 0.17619 | 0.17361 | 0.17106 | 0.16853 | 0.16602 | 0.16354 | 0.16109 |
+| 1.0 | 0.15866 | 0.15625 | 0.15386 | 0.15151 | 0.14917 | 0.14686 | 0.14457 | 0.14231 | 0.14007 | 0.13786 |
+| 1.1 | 0.13567 | 0.13350 | 0.13136 | 0.12924 | 0.12714 | 0.12507 | 0.12302 | 0.12100 | 0.11900 | 0.11702 |
+| 1.2 | 0.11507 | 0.11314 | 0.11123 | 0.10935 | 0.10749 | 0.10565 | 0.10383 | 0.10204 | 0.10027 | 0.09853 |
+| 1.3 | 0.09680 | 0.09510 | 0.09342 | 0.09176 | 0.09012 | 0.08851 | 0.08692 | 0.08534 | 0.08379 | 0.08226 |
+| 1.4 | 0.08076 | 0.07927 | 0.07778 | 0.07636 | 0.07493 | 0.07353 | 0.07215 | 0.07078 | 0.06944 | 0.06811 |
+| 1.5 | 0.06681 | 0.06552 | 0.06426 | 0.06301 | 0.06178 | 0.06057 | 0.05938 | 0.05821 | 0.05705 | 0.05592 |
+| 1.6 | 0.05480 | 0.05370 | 0.05262 | 0.05155 | 0.05050 | 0.04947 | 0.04846 | 0.04746 | 0.04648 | 0.04552 |
+| 1.7 | 0.04457 | 0.04363 | 0.04272 | 0.04182 | 0.04093 | 0.04006 | 0.03920 | 0.03836 | 0.03754 | 0.03673 |
+
+: {.striped .hover}
+
+Alternatively (and even better), we can use appropriate functions in R (note that we need to multiply the obtained probability by 2, because we do not have a directional hypothesis):
 
 ```{r}
 (p = 2 * (1 - pnorm(z / se_z)))
 ```
 
-Dieser $p$-Wert ist größer als $\alpha = 0.05$, d.h. wir können die Nullhypothese (keine Korrelation) *nicht* verwerfen.
+This $p$-value is greater than $\alpha = 0.05$, so we can *not* reject the null hypothesis (no correlation).
 
-Das Konfidenzintervall um $z$ erhält man, indem man zum gegebenen Wert $z$ das Produkt aus dem Signifikanzniveau entsprechenden Quantil (ca. 1.96 für $\alpha = 0.05$) mit dem Standardfehler addiert bzw. subtrahiert:
+We can compute the confidence interval around $z$ by adding and subtracting the product of the quantile corresponding to the significance level (approximately 1.96 for $\alpha = 0.05$) and the standard error from the given value $z$:
 
 ```{r}
 cl_z = z - qnorm(1 - alpha/2) * se_z
@@ -185,7 +210,7 @@ cu_z = z + qnorm(1 - alpha/2) * se_z
 c(cl_z, z, cu_z)
 ```
 
-Man beachte, dass es sich bei allen drei Werten um Fisher-transformierte Werte handelt. Möchte man ein Konfidenzintervall um die ursprüngliche Korrelation $r$ angeben, so muss man diese drei Werte noch rücktransformieren (`tanh` ist die Umkehrfunktion von `atanh`):
+Here, we use `alpha/2` because we are interested in a two-tailed test (we do not have a directional hypothesis). Note that all three values are Fisher-transformed values. If we want to provide a confidence interval around the original correlation $r$, we need to transform these three values back (the inverse function of `atanh` is `tanh`):
 
 ```{r}
 cl_r = tanh(cl_z)
@@ -194,85 +219,86 @@ c(cl_r, r, cu_r)
 ```
 
 :::{.callout-note}
-Das Konfidenzintervall gibt an, in welchem Bereich der wahre Wert der Korrelation mit einer gegebenen Sicherheit (Konfidenz) liegt. Die Konfidenz ist *nicht* die *Wahrscheinlichkeit*, dass der wahre Wert in dem berechneten Intervall liegt – denn der wahre Wert ist entweder in dem Intervall oder nicht. Wenn man viele Stichproben ziehen würde und damit jedes Mal ein Konfidenzintervall berechnen würde, dann würde im Falle eines 95%-Konfidenzintervalls in 95% der berechneten Fälle der wahre Wert in dem Intervall liegen.
+A confidence interval indicates the range in which the true value of the correlation is expected to lie, given a specified level of confidence (e.g., 95%). This confidence level is *not* the probability that the true value lies within the particular interval calculated from a single sample. Instead, if many samples were drawn and a confidence interval was calculated each time, then for a 95% confidence interval, the true value would lie within approximately 95% of these intervals.
 :::
 
 :::{.callout-tip}
-Die Tatsache, dass die Korrelation $r=0.25$ bei einer Stichprobe von $N=40$ nicht signifikant unterschiedlich von Null ist ($p=0.12$) kann man auch daran erkennen, dass das 95%-Konfidenzintervall den Wert 0 (also die Nullhypothese) enthält. Das bedeutet also, dass wir die Nullhypothese (keine Korrelation) *nicht* verwerfen können.
+The correlation of $r = 0.25$ for a sample size of $N = 40$ is not significantly different from zero ($p = 0.12$). This is also evident from the 95% confidence interval, which includes 0 (the value under the null hypothesis of no correlation). Therefore, we *cannot* reject the null hypothesis, indicating that the data do not provide strong evidence of a nonzero correlation.
 :::
 
 
-## Nicht-parametrische Korrelationskoeffizienten
+## Nonparametric correlation coefficients
 
-### Spearman Rangkorrelationskoeffizient
+### Spearman rank correlation coefficient
 
-Im Gegensatz zur Pearson-Korrelation misst der Spearman Rangkorrelationskoeffizient $\rho$ nicht nur lineare Zusammenhänge zwischen zwei Variablen, sondern der Zusammenhang kann eine beliebige monotone (nicht-lineare) Funktion sein. Die beiden Variablen müssen auch nicht intervallskaliert sein, d.h. so kann man auch ordinalskalierte Daten miteinander korrelieren.
+Unlike the Pearson correlation, the Spearman rank correlation coefficient $\rho$ can capture any monotonic relationship between two variables, not just linear ones. The two variables do not need to be interval-scaled; ordinal data can also be used with Spearman correlation.
 
-Im Prinzip berechnet man die Spearman-Korrelation, indem man die Daten $x$ und $y$ vorher in Ränge konvertiert und dann die Pearson-Korrelation berechnet. Zur Berechnung kann folgende vereinfachte Formel verwendet werden:
+In principle, the Spearman correlation entails converting the data $x$ and $y$ into ranks and then calculating the Pearson correlation. The following simplified formula can be used to calculate the Spearman correlation:
 
 $$\rho = 1 - \frac{6 \sum d_i^2}{N \cdot (N^2 - 1)}$$
-Hier ist $d_i$ die Differenz der Ränge einer Beobachtung.
+
+Here, $d_i$ is the difference in ranks of an observation.
 
 
-### Kendall Rangkorrelationskoeffizient
+### Kendall rank correlation coefficient
 
-Bei kleinen Stichproben und relativ großer Anzahl an gleichen Rängen liefert oft der Kendall Rangkorrelationskoeffizient $\tau$ bessere Ergebnisse. Hier werden nicht die Differenzen zwischen den Rängen betrachtet (also die Abstände der Ränge zwischen beiden Variablen), sondern ob es Unterschiede in den Rängen zwischen Datenpaaren gibt oder nicht.
+For small samples and a relatively large number of equal ranks, the Kendall rank correlation coefficient $\tau$ often provides better results. Here, the Kendall correlation coefficient does not consider the differences between the ranks (i.e., the distances between the ranks of both variables), but rather whether there are differences in the ranks between data pairs or not.
 
 
-## Korrelationen mit R berechnen
+## Calculating correlations with R
 
-Korrelationskoeffizienten kann man mit den folgenden drei Funktionen berechnen: `cor()`, `cor.test()` und `rcorr()`. Die ersten beiden Funktionen sind Teil von R, die Funktion `rcorr()` muss mit dem `Hmisc`-Paket geladen werden.
+The following three functions can be used to calculate correlation coefficients: `cor()`, `cor.test()`, and `rcorr()`. The first two functions are part of R, while the function `rcorr()` is available in the `Hmisc` package:
 
 ```{r}
 #| message: false
 library(Hmisc)
 ```
 
-Die drei Funktionen haben unterschiedliche Features, d.h. welche Funktion man benutzt ist abhängig von den benötigten Eigenschaften, welche in nachfolgender Tabelle zusammengefasst sind ("CI" steht für Konfidenzintervall, "Mehrfach" bedeutet, dass Korrelationen zwischen mehr als zwei Variablen paarweise berechnet werden können).
+These three functions have different features, i.e., which function to use depends on the required properties, which are summarized in the following table ("CI" stands for confidence interval):
 
-|            | Pearson | Spearman | Kendall | $p$-Werte | CI | Mehrfach |
-|:-----------|:-------:|:--------:|:-------:|:---------:|:--:|:--------:|
-| `cor`      | x       | x        | x       |           |    | x        |
-| `cor.test` | x       | x        | x       | x         | x  |          |
-| `rcorr`    | x       | x        |         | x         |    | x        |
+|            | Pearson | Spearman | Kendall | $p$-values | CI | pairwise |
+|:-----------|:-------:|:--------:|:-------:|:----------:|:--:|:--------:|
+| `cor`      | x       | x        | x       |            |    | x        |
+| `cor.test` | x       | x        | x       | x          | x  |          |
+| `rcorr`    | x       | x        |         | x          |    | x        |
 
 
-### Funktion `cor()`
+### The `cor()` function
 
-Die Funktion `cor()` ruft man wie folgt auf:
+We call the `cor()` function as follows:
 
 ```r
 cor(x, y, method="pearson")
 ```
 
-Hier übergibt man zwei Vektoren und spezifiziert, welche Korrelation berechnet werden soll (standardmäßig wird die Pearson-Korrelation berechnet). Wenn `x` ein Data Frame mit mindestens zwei Spalten ist, kann man `y` weglassen – dann werden automatisch die Korrelationen zwischen allen Spaltenpaaren berechnet.
+Here, we pass two vectors and specify which correlation should be calculated (by default, the Pearson correlation is calculated). If `x` is a data frame with at least two columns, `y` can be omitted – then the function calculates pairwise correlations between all columns of the data frame.
 
 
-## Funktion `cor.test()`
+### The `cor.test()` function
 
-Der Aufruf der Funktion `cor.test()` ist sehr ähnlich:
+Calling the `cor.test()` function is very similar:
 
 ```r
 cor.test(x, y, alternative="t", method="pearson", conf.level=0.95)
 ```
 
-Hier kann man die Form der Alternativhypothese (`"two-sided"`, `"greater"`, `"less"`) sowie das Konfidenzniveau angeben. Diese Funktion kann nur mit genau zwei Vektoren umgehen.
+Here, we can specify the form of the alternative hypothesis (`"two-sided"`, `"greater"`, `"less"`) and the confidence level. This function can only handle two variables.
 
 
-## Funktion `rcorr()`
+### The `rcorr()` function
 
-Die Funktion `rcorr()` verwendet man wie folgt:
+We call the `rcorr()` function as follows:
 
 ```r
 rcorr(x, y, type="pearson")
 ```
 
-Wie bei den anderen Funktionen sind `x` und `y` Vektoren. Weiters ist es wie bei `cor()` möglich, nur das Argument `x` anzugeben, wenn dieses eine Matrix mit mindestens zwei Spalten ist.
+Here, `x` and `y` are vectors. As with the `cor()` function, it is possible to specify only the `x` argument if it is a matrix with at least two columns.
 
 
-## Beispiel
+## Example
 
-Am besten können die drei Funktionen anhand eines Beispiels veranschaulicht werden. Dazu laden wir einen (fiktiven) Datensatz [`exam.dat`](exam.dat) über Prüfungsangst:
+The three functions can best be illustrated using an example. We load a (fictional) data set [`exam.dat`](exam.dat) on exam anxiety:
 
 ```{r}
 #| message: false
@@ -280,7 +306,7 @@ library(readr)
 (exam = read_tsv("exam.dat"))
 ```
 
-Es ist hilfreich, die Daten zuerst einmal grafisch darzustellen. Für den Zusammenhang zwischen zwei Variablen bietet sich ein Scatterplot (inklusive Regressionsgeraden) an – so kann man die Korrelation direkt visualisieren. Wir können eine solche Grafik zunächst einmal separat für alle drei Kombinationen erzeugen:
+It is helpful to first visualize the data. A scatter plot (including the regression line) is suitable for visualizing the relationship between two variables. We can create three separate plots for the three pairwise combinations:
 
 ```{r}
 plot(exam$Revise, exam$Exam, pch=16, col=rgb(0, 0, 0, 0.5))
@@ -292,13 +318,13 @@ abline(lm(exam$Anxiety ~ exam$Revise), col="blue")
 ```
 
 :::{.callout-tip}
-Bei mehreren Variablen (wie in diesem Beispiel) kann man die Funktion `pairs()` verwenden, um alle paarweisen Scatterplots gleichzeitig darzustellen:
+If there are more than two variables (as in this example), the `pairs()` function can be used to display all pairwise scatter plots simultaneously:
 
 ```{r}
 pairs(exam[, 2:4])
 ```
 
-Möchte man auch Regressionsgeraden einzeichnen, kann man eine (anonyme) Funktion als `panel`-Argument übergeben:
+If you also want to include regression lines, you can pass an (anonymous) function as an argument to the `panel` argument:
 
 ```{r}
 pairs(
@@ -312,34 +338,34 @@ pairs(
 :::
 
 
-### Pearson-Korrelation
+### Pearson correlation
 
-Nun berechnen wir die Pearson-Korrelationen zwischen den drei Variablen `Exam`, `Anxiety` und `Revise`:
+Now we calculate the Pearson correlations between the three variables `Exam`, `Anxiety`, and `Revise`:
 
 ```{r}
 cor(exam[, c("Exam", "Anxiety", "Revise")])
 ```
 
-Man kann aus dieser Korrelationsmatrix direkt die einzelnen Koeffizienten für alle Variablenpaare ablesen. Die Diagonale beinhaltet die Korrelationen der Variablen mit sich selbst und besteht daher aus lauter Werten, die exakt gleich 1 sind. Außerdem ist es egal, ob man die Korrelationen in dem Dreieck *unter* der Diagonale oder *über* der Diagonale abliest, da die Korrelationsmatrix symmetrisch ist (die Korrelation zwischen "Exam" und "Revise" ist dieselbe wie zwischen "Revise" und "Exam" – die Korrelation misst ja keine kausalen Zusammenhänge).
+The output is a correlation matrix. We can obtain the individual coefficients for all variable pairs directly from this matrix. The diagonal contains the correlations of the variables with themselves and therefore consists of values that are exactly 1. It does not matter whether we read the correlations in the triangle *below* the diagonal or *above* the diagonal, as the correlation matrix is symmetric (the correlation between "Exam" and "Revise" is the same as between "Revise" and "Exam" – the correlation does not measure causal relationships).
 
-Möchte man jedoch auch $p$-Werte, muss man die Funktion `rcorr()` verwenden. Diese Funktion erwartet die Daten jedoch nicht als Data Frame, sondern als Matrix. Daher müssen die Daten beim Aufruf der Funktion in eine Matrix umgewandelt werden:
+If we also need $p$-values, we have to use the `rcorr()` function. However, this function does not expect the data as a data frame but as a matrix. Therefore, we must convert the data into a matrix when calling the function:
 
 ```{r}
 rcorr(as.matrix(exam[, c("Exam", "Anxiety", "Revise")]))
 ```
 
-Zusätzlich zur Korrelationsmatrix bekommt man auch die $p$-Werte geliefert. In diesem Beispiel sind alle Korrelationen signifikant, da die $p$-Werte sehr klein sind (gerundet Null).
+In addition to the correlation matrix, the function also provides the $p$-values. In this example, all correlations are significant, as the $p$-values are very small (rounded to zero).
 
-Wenn man auch Konfidenzintervalle benötigt, muss man die Funktion `cor.test()` verwenden. Diese Funktion unterstützt aber nur zwei Variablen, d.h. bei mehreren Variablen muss man die Funktion mehrmals aufrufen, um alle paarweisen Korrelationen zu erhalten.
+If we also need confidence intervals, we must use the `cor.test()` function. However, this function only supports two variables, so we must call the function multiple times to obtain all pairwise correlations. For example, to calculate the correlation between "Anxiety" and "Exam":
 
 ```{r}
 cor.test(exam$Anxiety, exam$Exam)
 ```
 
 
-### Bestimmtheitsmaß $R^2$
+### Coefficient of determination $R^2$
 
-Wenn man den Korrelationskoeffizienten $r$ quadriert, erhält man das Bestimmtheitsmaß $R^2$. Es gibt an, wie viel Varianz in einer Variablen von der zweiten erklärt werden kann (wobei auch hier wieder gilt, dass dies keine Aussage über Kausalität ist). Es ist üblich, die Korrelation mit dem Kleinbuchstaben $r$ zu bezeichnen, für das Bestimmtheitsmaß verwendet man aber einen Großbuchstaben $R^2$.
+If we square the correlation coefficient $r$, we obtain the coefficient of determination $R^2$. It indicates how much variance in one variable can be explained by the other (again, this does not imply causation). It is common to denote the correlation with the lowercase $r$, but the coefficient of determination uses an uppercase $R^2$.
 
 $$R^2 = r^2$$
 
@@ -348,9 +374,9 @@ cor(exam[, c("Exam", "Anxiety", "Revise")])^2
 ```
 
 
-### Spearman Rangkorrelationskoeffizient
+### Spearman rank correlation coefficient
 
-Für die Beispieldaten können wir analog auch die Spearman-Korrelation bestimmen:
+We can also determine the Spearman correlation:
 
 ```{r}
 cor(exam[, c("Exam", "Anxiety", "Revise")], method="spearman")
@@ -359,53 +385,53 @@ cor.test(exam$Revise, exam$Exam, method="spearman")
 ```
 
 
-### Kendall Rangkorrelationskoeffizient
+### Kendall rank correlation coefficient
 
-Die Funktion `cor.test()` gibt im vorigen Beispiel eine Warnung aus, dass der berechnete $p$-Wert nicht exakt ist, da die Daten gleiche Ränge beinhalten. In solchen Fällen ist daher der Kendall-Korrelationskoeffizient die bessere Wahl:
+The function `cor.test()` emits a warning in the previous example, because the data contain equal ranks. In such cases, the Kendall correlation coefficient is the better choice:
 
 ```{r}
 cor.test(exam$Revise, exam$Exam, method="kendall")
 ```
 
 
-## Übungen
+## Exercises
 
-### Übung 1
+### Exercise 1
 
-Im theoretischen Teil der Übung haben wir in einem Beispiel die Signifikanz einer Korrelation $r = 0.25$ bei einer Stichprobengröße von $N = 40$ berechnet. Diese war mit $p = 0.12$ nicht signifikant.
+In this chapter, we calculated the significance of a correlation $r = 0.25$ with a sample size of $N = 40$. This correlation was not significant with $p = 0.12$. Now, consider the following questions:
 
-1. Welche Stichprobengröße $N$ müssten Sie mindestens wählen, um ein mit $\alpha = 0.05$ signifikantes Ergebnis zu erhalten?
-2. Ab welcher Stichprobengröße wird sogar eine sehr kleine Korrelation von $r = 0.05$ signifikant?
+1. What is the smallest sample size $N$ that you would need to choose to obtain a significant result with $\alpha = 0.05$?
+2. What is the smallest sample size $N$ that would make even a very small correlation of $r = 0.05$ significant?
 
-Sie können dieses Beispiel durch Probieren lösen, indem Sie die Stichprobengröße schrittweise verändern (vergrößern) und sich den zugehörigen $p$-Wert ausrechnen.
-
-
-### Übung 2
-
-In dieser Einheit haben wir die Korrelation zwischen $x = (8, 1, -4, 5, 6, 10, 9)^T$ und $y = (-2, -5, -6, 0, 3, 7, 10)^T$ händisch berechnet. Berechnen Sie nun mit Hilfe von R die Pearson-Korrelation zwischen $x$ und $y$. Geben Sie außerdem das 99%-Konfidenzintervall sowie den $p$-Wert an! Ist diese Korrelation signifikant bei einem Signifikanzniveau von $\alpha = 0.01$?
+You can solve this example by trying different sample sizes (increasing them step by step) and calculating the corresponding $p$-values.
 
 
-### Übung 3
+### Exercise 2
 
-Verwenden Sie die Beispieldaten `mtcars` und analysieren Sie den Zusammenhang zwischen den Variablen `mpg`, `disp` und `hp`. Stellen Sie den Zusammenhang zwischen den Variablenpaaren grafisch dar, und berechnen Sie danach Pearson- und Spearman-Korrelationen!
+We manually calculated the correlation between $x = (8, 1, -4, 5, 6, 10, 9)^T$ and $y = (-2, -5, -6, 0, 3, 7, 10)^T$ in this chapter. Now calculate this correlation using R! In addition, provide the 99% confidence interval and the $p$-value! Is this correlation significant at a significance level of $\alpha = 0.01$?
 
 
-### Übung 4
+### Exercise 3
 
-In der Datei [`pm10.csv`](pm10.csv) finden Sie die monatlichen Feinstaubwerte PM10 von zwei Messstationen in Graz im Zeitraum Februar 2006 bis Mai 2016. Führen Sie folgende Analysen durch:
+Using the example data set `mtcars`, analyze the relationship between the variables `mpg`, `disp`, and `hp`. Visualize the relationship between the variable pairs and then calculate Pearson and Spearman correlations!
 
-- Erstellen Sie eine Grafik, in der Sie den Verlauf der PM10-Konzentration von beiden Messstationen über die Zeit darstellen.
-- Erstellen Sie eine Grafik, in der Sie den Zusammenhang zwischen den beiden Messstationen darstellen.
 
-Berechnen Sie abschließend die Pearson-Korrelation zwischen den Daten beider Messstationen inklusive Konfidenzinterval sowie $p$-Wert. Wie viel Varianz der einen Variable kann durch die andere Variable erklärt werden?
+### Exercise 4
+
+The file [`pm10.csv`](pm10.csv) contains the monthly PM10 particulate matter concentration values from two measurement stations in Graz from February 2006 to May 2016. Perform the following analyses:
+
+- Create a line plot showing the PM10 concentration over time for both measurement stations.
+- Create a plot showing the relationship between the two measurement stations.
+
+Finally, calculate the Pearson correlation between both measurement stations, including the confidence interval and $p$-value. How much variance of one variable can be explained by the other variable?
 
 :::{.callout-note}
-Wandeln Sie die Spalte `Datum` nach dem Einlesen in einen Datums-Typ um. Für die gleichzeitige Darstellung der beiden Zeitverläufe können Sie zuerst eine Liniengrafik einer Variable erzeugen und dann mit der Funktion `lines()` den zweiten Zeitverlauf mit einer anderen Farbe hinzufügen.
+After importing the data, convert the `Date` column to a date type. To display both time series simultaneously, you can first create a line plot of one variable and then add the second time series with a different color using the `lines()` function.
 
-Wenn Sie die Funktion `cor()` zur Berechnung der Korrelation zwischen den beiden Variablen verwenden möchten, können Sie fehlende Werte in jeder der beiden Variablen mit dem Argument `use="complete.obs"` ausschließen.
+If you use the `cor()` function to calculate the correlation, you can exclude missing values in either of the two variables using the argument `use="complete.obs"`.
 :::
 
 
-### Übung 5
+### Exercise 5
 
-Berechnen Sie die Korrelation der Schnabellänge (`bill_length_mm`) mit der Schnabeltiefe (`bill_depth_mm`) im Datensatz `penguins` (aus dem Paket `palmerpenguins`). Berechnen Sie außerdem diese Korrelation für jede Spezies separat! Was stellen Sie fest?
+First, calculate the correlation between bill length (`bill_length_mm`) and bill depth (`bill_depth_mm`) in the `penguins` data set (from the `palmerpenguins` package). Second, calculate this correlation for each species separately! What do you notice?

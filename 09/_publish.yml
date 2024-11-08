@@ -10,3 +10,7 @@
   netlify:
     - id: 4c5bf644-219d-4752-bc80-47a11ba3d989
       url: 'https://r-24w-09-solutions-en.netlify.app'
+- source: 09-en.qmd
+  netlify:
+    - id: e79f24bb-ebca-473b-9d6c-fed1b61362c2
+      url: 'https://r-24w-09-en.netlify.app/'
