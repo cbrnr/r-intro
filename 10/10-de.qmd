@@ -2,7 +2,7 @@
 title: "10 – Lineare Regression"
 subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2024-06-03
+date: 2024-12-12
 format:
   html:
     page-layout: full
