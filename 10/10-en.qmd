@@ -35,18 +35,20 @@ In linear regression, the model $\hat{y}_i$ is a *straight line*, which is the s
 $$y_i = \underbrace{\left(b_0 + b_1 x_i\right)}_{\hat{y}_i} + \varepsilon_i$$
 
 ::: {.callout-note}
-A straight line can be written as a linear equation $y = k \cdot x + d$. The following figure illustrates how to identify these two parameters for any given line.
+A straight line can be written as a linear equation $y = k \cdot x + d$. The following figure illustrates how to visually identify these two parameters for any given line.
 
-1. The y-intercept $d$ is the intersection of the line with the y-axis. For this example, the line intersects the y-axis at $d=3$.
-2. The slope $k$ describes the rate of change in the y-direction relative to changes in the x-direction. To calculate the slope, we observe how much the line rises or falls ($\Delta y$) for a given horizontal movement ($\Delta x$), or in other words, $k = \frac{\Delta y}{\Delta x}$. In this case, the slope is $k = \frac{\Delta y}{\Delta x} = \frac{-0.5}{1} = - 0.5$, meaning that for every unit increase in $x$ (corresponding to $\Delta x = 1$), the value of $y$ decreases by 0.5 units (corresponding to $\Delta y = -0.5$):
+1. The intercept $d$ is the intersection of the line with the y-axis. For this example, the line intersects the y-axis at $d=3$.
+2. The slope $k$ describes the rate of change in the y-direction relative to changes in the x-direction. To calculate the slope, we observe how much the line rises or falls for a given horizontal movement, or in other words, $k = \frac{\Delta y}{\Delta x}$. In this case, the slope is $k = \frac{\Delta y}{\Delta x} = \frac{-0.5}{1} = - 0.5$, meaning that for every unit increase in $x$ (corresponding to $\Delta x = 1$), the value of $y$ decreases by 0.5 units (corresponding to $\Delta y = -0.5$):
 
 ![](line.png){width=50%}
+
+Therefore, this line can be written as $y = -\frac{1}{2} \cdot x + 3$.
 :::
 
-Die Variablen $b_0$ und $b_1$ beschreiben den Schnittpunkt mit der y-Achse (Intercept) bzw. die Steigung der Geraden und werden als *Regressionskoeffizienten* bezeichnet. Der Term $\varepsilon$ beschreibt den Fehler zwischen den vom Modell vorhergesagten Werten und den tatsächlich gemessenen Werten. Der Term $x$ wird als unabhängige Variable, Prädiktor oder Treatment bezeichnet. Der Term $y$ wird als abhängige Variable oder Outcome bezeichnet. Das tiefgestellte $i$ steht für den $i$-ten Datenpunkt, d.h. $y_i$ ist der zugehörige Wert für den $i$-ten Datenpunkt $x_i$. Das Modell macht für diesen Datenpunkt den Fehler $\varepsilon_i$. Den vom Modell vorhergesagten Wert bezeichnet man als $\hat{y}_i$.
+The model coefficients $b_0$ and $b_1$ correspond to the intercept and the slope of the line, respectively. In the context of regression, these variables are called *regression coefficients*. The term $\varepsilon$ describes the error between the values predicted by the model and the actual measured values. The term $x$ is called the independent variable, predictor, or treatment. The term $y$ is called the dependent variable or outcome. The subscript $i$ denotes the $i$-th data point, i.e., $y_i$ is the value associated with the $i$-th data point $x_i$. The model makes an error $\varepsilon_i$ for this data point. The value predicted by the model is denoted as $\hat{y}_i$.
 
-:::{.callout-tip}
-Zur Veranschaulichung sind in der folgenden Abbildung drei Geraden mit gleichen Intercepts aber unterschiedlichen Steigungen (links) sowie unterschiedlichen Intercepts aber gleichen Steigungen (rechts) abgebildet.
+::: {.callout-tip}
+To illustrate different intercepts and slopes, consider the following two figures. The left figure shows three lines with the same intercept but different slopes, while the right figure shows three lines with different intercepts but the same slope.
 
 ```{r}
 #| echo: false
@@ -76,12 +78,10 @@ p2 = ggplot(data.frame(x=0, y=0), aes(x, y)) +
 p1 + p2
 ```
 
-In der linken Abbildung haben alle drei Geraden denselben Intercept $b_0 = 50$ (sie schneiden die y-Achse an der Stelle $y = 50$). Die Steigung der ersten Geraden beträgt $b_1 = 1$. Dies ist aus der Grafik ersichtlich, denn wenn man $x$ beispielsweise um 25 erhöht, dann erhöht sich $y$ ebenfalls um 25. Die Steigung beträgt also $b_1 = \frac{\Delta y}{\Delta x} = \frac{25}{25} = 1$. Die Steigung der zweiten Geraden beträgt $b_1 = -\frac{1}{3}$, denn wenn man $x$ um 75 erhöht, dann *erniedrigt* sich $y$ um 25. Die Steigung beträgt also $b_1 = \frac{-25}{75} = -\frac{1}{3}$. Die Steigung der dritten Geraden ist entsprechend $b_1 = \frac{-50}{75} = -\frac{2}{3}$.
-
-In der rechten Abbildung haben alle drei Geraden die Steigung $b_1 = \frac{1}{2}$. Die erste Gerade schneidet die y-Achse bei $y = 70$, die zweite bei $y = 50$ und die dritte bei $y = 20$, was den drei Intercepts entspricht.
+In the left figure, all three lines have the same intercept $b_0 = 50$ (they intersect the y-axis at $y = 50$). By visual inspection, the slopes of the lines are $b_1 = 1$, $b_1 = -\frac{1}{3}$, and $b_1 = -\frac{2}{3}$, respectively. In the right figure, all three lines have the same slope $b_1 = \frac{1}{2}$. The first line intersects the y-axis at $y = 70$, the second at $y = 50$, and the third at $y = 20$, corresponding to the three intercepts.
 :::
 
-Das Modell (also die Regressionsgerade) soll die Daten möglichst gut beschreiben, was meist durch die [Methode der kleinsten Fehlerquadrate (Least Squares)](https://de.wikipedia.org/wiki/Methode_der_kleinsten_Quadrate) erreicht wird. Diese Methode findet jene Gerade, welche die quadrierten Unterschiede zwischen dem Modell (der Geraden) und den einzelnen Datenpunkten minimiert. Die Unterschiede (Fehler) werden hier als *Residuen* bezeichnet. In der folgenden Grafik sind die Daten als schwarze Punkte, das Modell als schwarze Gerade und die Residuen als rote vertikale Linien dargestellt. Beachten Sie, dass es sowohl positive als auch negative Residuen gibt (in der Grafik sind beispielhaft zwei Werte zu sehen). Damit sich die positiven und negativen Terme nicht aufheben, werden die einzelnen Residuen zuerst quadriert und erst dann summiert – diese Quadratsumme wird minimiert (es wird also die Gerade gesucht, welche die kleinste Quadratsumme ergibt). Die von dieser Methode gefundene Gerade hat also die kleinste Fehlerquadratsumme unter allen möglichen Geraden.
+We are looking for a model (i.e., a straight line) that best describes the data, which is usually achieved by the [method of least squares](https://en.wikipedia.org/wiki/Least_squares). This method finds the line that minimizes the squared differences between the model (the line) and the individual data points. These differences (errors) are called *residuals*. In the following figure, the data points are shown as black dots, the model as a black line, and the residuals as red vertical lines. Note that there are both positive and negative residuals (two examples are shown in the figure). To prevent positive and negative terms from canceling each other out, the individual residuals are first squared and then summed. The method of least squares finds the line that minimizes this sum of squared errors among all possible lines.
 
 ```{r}
 #| echo: false
@@ -103,12 +103,11 @@ ggplot(df, aes(x, y)) +
 ```
 
 
-## Quadratsummen
+## Sum of squares
 
-Die Fehlerquadratsumme ist ein Maß für die Güte des Modells (Model Fit). Für die gefundene Gerade ist diese Fehlerquadratsumme zwar immer minimal (unter allen möglichen Geraden), es ist aber trotzdem nicht klar, wie gut sich die Daten überhaupt mit einer Gerade beschreiben lassen. Deswegen vergleicht man das lineare Modell mit dem einfachsten Modell, welches die Prädiktorvariable vollkommen ignoriert – dem Mittelwert über alle Datenpunkte $y_i$ (das entspricht einer waagrechten Geraden). Bei diesem Modell ist der Wert der Prädiktorvariable $x_i$ also vollkommen egal, da komplett unabhängig davon immer derselbe Wert für die abhängige Variable $y_i$ vorhergesagt wird. Das lineare Modell ist dann ein guter Fit, wenn es signifikant besser als dieses einfachste Modell ist.
+The sum of squared residuals measures how well a model fits the data. While least squares *always* finds the line that minimizes this sum, it does not guarantee that the model describes the data well. To assess this, we compare the linear model to a baseline model that ignores the predictor variable entirely – using the mean of all $y_i$ values as its prediction (a horizontal line). In this baseline model, the predictor $x_i$ has no effect; the predicted $y_i$ is always the same. The linear model is considered a good fit if it significantly outperforms this simple baseline model.
 
-
-Die Summe der quadratischen Abweichungen vom einfachsten Modell (Mittelwert) wird auch als SST bezeichnet (totale Quadratsumme). Die Summe der quadratischen Abweichungen vom linearen Modell wird als SSR (Residuenquadratsumme) bezeichnet, denn das lineare Modell macht im Allgemeinen Fehler (geht nicht perfekt durch alle Datenpunkte). Schließlich gibt es noch die quadratischen Abweichungen des linearen Modells vom einfachsten Modell, welche man als SSM (Modellquadratsumme) bezeichnet.
+The sum of squared deviations of the data points from the baseline (mean) is called the *total sum of squares* (SST). The sum of squared deviations of the data points from the linear model are known as the *residual sum of squares* (SSR). Lastly, the sum of squared deviations of the linear model's predictions from the baseline model are referred to as the *model sum of squares* (SSM).
 
 ```{r}
 #| echo: false
@@ -145,9 +144,9 @@ p_ssr = ggplot(df, aes(x, y)) +
 p_sst + p_ssm + p_ssr
 ```
 
-Die vorangegangenen drei Abbildungen veranschaulichen diese Quadratsummen. SST ist hier nichts anderes als die (nicht normierte) *Varianz* der Daten. SSM sollte möglichst groß sein, denn dann ist das lineare Modell wesentlich besser als der globale Mittelwert. SSR sollte möglichst klein sein bei einem guten Modell – an SSR sieht man die übrig gebliebene Varianz, die das Modell nicht erklären kann.
+The previous figure illustrates these sums of squares. The left panel shows the total sum of squares (SST), representing the *variance* of the data. The middle panel displays the model sum of squares (SSM), which should be as large as possible to indicate that the linear model significantly outperforms the baseline. The right panel shows the residual sum of squares (SSR), which should be as small as possible for a good model, as it represents the remaining variance that the model fails to explain.
 
-In mathematischer Notation sieht dies wie folgt aus:
+Mathematically, these sums are defined as follows:
 
 $$\mathrm{SST} = \sum_{i=1}^N (y_i - \bar{y})^2$$
 
@@ -155,64 +154,69 @@ $$\mathrm{SSR} = \sum_{i=1}^N (y_i - \hat{y}_i)^2$$
 
 $$\mathrm{SSM} = \sum_{i=1}^N (\hat{y}_i - \bar{y})^2$$
 
-Hier sind $y_i$ die einzelnen Messwerte, $\bar{y}$ ist der Mittelwert und $\hat{y}_i$ sind die einzelnen vom Modell vorhergesagten Werte (also die auf der Geraden liegenden Werte). $N$ ist die Anzahl der Datenpunkte. In Formeln kann man $\bar{y}$ und $\hat{y}_i$ so schreiben:
+Here, $y_i$ are the individual data points, $\bar{y}$ is the mean, and $\hat{y}_i$ are the individual predicted values ($N$ represents the number of data points). Moreover, $\bar{y}$ and $\hat{y}_i$ can be written as:
 
 $$\bar{y} = \frac{1}{N} \sum_{i=1}^N y_i$$
 
 $$\hat{y}_i = b_0 + b_1 x_i$$
 
-Es gilt:
+The following relationship holds:
 
 $$\mathrm{SST} = \mathrm{SSM} + \mathrm{SSR}$$
 
 
-## Modellgüte
+## Model fit
 
-### Bestimmtheitsmaß $R^2$
+### Coefficient of determination $R^2$
 
-Ein Maß für die Modellgüte ist das Verhältnis von SSM zu SST, welches als $R^2$ bezeichnet wird. Es ist der Anteil an Varianz der Daten, die vom Modell erklärt werden kann:
+The ratio of SSM to SST is a popular measure of model fit, known as $R^2$, the coefficient of determination. It represents the proportion of variance in the data that the model can explain:
 
 $$R^2 = \frac{\mathrm{SSM}}{\mathrm{SST}}$$
 
-Dies ist derselbe Wert, den wir auch schon bei der Korrelation kennengelernt haben. Um die Pearson-Korrelation zwischen den beiden Variablen zu bekommen, muss man also nur die Wurzel aus $R^2$ ziehen. Diese Beziehung gilt in dieser Form allerdings nur für die einfache lineare Regression, also nur bei einer einzigen unabhängigen Variable.
+This value ranges from 0 to 1, where 0 indicates that the model does not explain any variance, and 1 indicates that the model explains all variance. This is the same value we encountered when discussing correlation. To obtain the Pearson correlation $r$ between the two variables $x$ and $y$, we simply take the square root of $R^2$. However, this relationship only holds for simple linear regression, i.e., for a single independent variable.
 
 
-### $F$-Wert
+### $F$ value
 
-Eine weitere wichtige Anwendung der Quadratsummen ist die Berechnung des $F$-Wertes. Dies ist das Verhältnis der systematischen Varianz (also die vom Modell erklärten Varianz) zur unsystematischen Varianz (also die Varianz, die nicht vom Modell erklärt werden kann). Für den $F$-Wert verwendet man aber nicht direkt SSM und SSR, sondern die *mittleren* Quadratsummen. Hier dividiert man die Quadratsummen durch die jeweiligen Freiheitsgrade und erhält so MSM und MSR. Die Anzahl der Freiheitsgrade von MSM entspricht der Anzahl der geschätzten Modellparameter $p$ minus 1. Die Anzahl der Freiheitsgrade von MSR entspricht der Anzahl der Messwerte $N$ minus der Anzahl der geschätzten Modellparameter $p$.
+We can use the sum of squares to calculate another important model statistic, the so-called $F$ value. This value is the ratio of the systematic variance (i.e., the variance explained by the model) to the unsystematic variance (i.e., the variance that cannot be explained by the model). However, we do not use SSM and SSR directly for the $F$ value, but rather the *mean* sum of squares. Here, we divide the sum of squares by the respective degrees of freedom to obtain MSM and MSR. The degrees of freedom of MSM correspond to the number of estimated model parameters $p$ minus 1. The degrees of freedom of MSR correspond to the number of observations $N$ minus the number of estimated model parameters $p$.
 
 $$\mathrm{MSM} = \frac{\mathrm{SSM}}{\mathrm{dfM}} = \frac{\mathrm{SSM}}{p - 1}$$
 
 $$\mathrm{MSR} = \frac{\mathrm{SSR}}{\mathrm{dfR}} = \frac{\mathrm{SSR}}{N - p}$$
 
-Für die einfache Regression gibt es genau zwei Modellparameter $b_0$ und $b_1$, daher ist $p = 2$. Für die Freiheitsgrade der Modellquadratsumme gilt daher:
+For simple regression, there are exactly two model parameters $b_0$ and $b_1$, so $p = 2$. The degrees of freedom for the model sum of squares are therefore:
 
 $$\mathrm{dfM} = p - 1 = 2 - 1 = 1$$
 
-Die Freiheitsgrade der Residuenquadratsumme sind in diesem Fall dann
+The degrees of freedom for the residual sum of squares are in this case:
 
 $$\mathrm{dfR} = N - p = N - 2.$$
 
-Der $F$-Wert kann dann wie folgt berechnet werden:
+We can then calculate $F$ as follows:
+
 $$F=\frac{\mathrm{MSM}}{\mathrm{MSR}}$$
 
-Dieser Wert ist ebenso wie $R^2$ ein Maß für die Güte des Modells. Er gibt an, wie viel Varianz das Modell erklärt gegenüber wie viel Varianz das Modell nicht erklärt. D.h. ein Wert von 1 entspricht dem Fall, dass die erklärte Varianz gleich groß ist wie die nicht erklärte – also ein schlechtes Modell. Für ein gutes Modell sollte daher $F \gg 1$ gelten.
+::: {.callout-tip}
+Since $F$ depends on two degrees of freedom, we typically make this explicit as $F(\mathrm{dfM}, \mathrm{dfR})$.
+:::
+
+Like $R^2$, the $F$ value is a measure of model fit. It indicates how much variance the model explains compared to how much variance the model cannot explain. A value of $F=1$ corresponds to the case where the explained variance is equal to the unexplained variance, which corresponds to a bad model. For a good model, we should have $F \gg 1$.
 
 
-## Koeffizienten
+## Coefficients
 
-In der einfachen linearen Regression entspricht der Regressionskoeffizient $b_1$ der Steigung der Geraden. Er entspricht der Änderung der abhängigen Variable (AV) relativ zu einer Änderung der unabhängigen Variable (UV) um eine Einheit. Ein schlechtes Modell (wie der Mittelwert) sagt immer denselben Wert für die AV vorher, unabhängig vom Wert der UV. Die Steigung $b_1$ ist für so ein Modell also Null. Wenn aber die UV den Wert der AV vorhersagen kann, muss die Steigung signifikant von Null verschieden sein. Diese Hypothese kann man mit dem sogenannten $t$-Test überprüfen. Ein $t$-Test kann also in der linearen Regression eingesetzt werden, um zu beurteilen, ob eine UV ein signifikanter Prädiktor für die AV ist.
+In simple linear regression, the regression coefficient $b_1$ corresponds to the slope of the regression line. It represents the change in the dependent variable (DV) relative to a unit change in the independent variable (IV). A poor model (like the global mean) always predicts the same value for the DV, regardless of the IV. The slope $b_1$ is therefore zero for such a model. However, if the IV can predict the value of the DV, the slope must be significantly different from zero. This hypothesis can be tested using the so-called $t$-test. In linear regression, a $t$-test can be used to assess whether an IV is a significant predictor of the DV.
 
-Die $t$-Statistik vergleicht das Modell mit seinem Fehler; konkret möchte man hier wissen, ob der beobachtete Wert des Regressionskoeffizienten groß gegenüber seinem Standardfehler ist:
+The $t$-statistic compares the model to its error; specifically, it tests whether the observed value of the regression coefficient is large relative to its standard error:
 
 $$t = \frac{b}{\mathrm{SE}_b}$$
 
-Die Freiheitsgrade dieser Statistik sind $N-p$, also im Fall der einfachen linearen Regression $N-2$.
+The degrees of freedom for this statistic are $N - p$, which corresponds to $N - 2$ in the case of simple linear regression.
 
 
-## Beispiel
+## Example (simple linear regression)
 
-Wie man eine Regressionsanalyse in R durchführt lässt sich am besten anhand eines Beispiels zeigen. Laden wir einen Datensatz [`sales1.dat`](sales1.dat), welcher Daten über Musikalbenverkäufe (Spalte `sales`) und die Höhe des Werbebudgets (Spalte `adverts`) enthält:
+Let's work through an example to demonstrate how to perform a regression analysis in R. We will load a dataset [`sales1.dat`](sales1.dat) containing data on music album sales (column `sales`) and the amount of advertising budget (column `adverts`) per album:
 
 ```{r}
 #| message: false
@@ -220,7 +224,7 @@ library(readr)
 (album = read_tsv("sales1.dat"))
 ```
 
-Es ist anzunehmen, dass ein höheres Werbebudget zu höheren Verkaufszahlen führt. Neben der Berechnung diverser deskriptiver Statistiken (wird hier nicht durchgeführt) ist es wichtig, die Daten vor einer Regressionsanalyse grafisch darzustellen. Hier bietet sich ein Scatterplot mit überlagerter Regressionsgerade an (das Argument von `abline()`, nämlich `lm(sales ~ adverts, data=album)`, ist das Regressionsmodell und wird gleich erklärt):
+We hypothesize that a higher advertising budget leads to higher sales. Besides calculating various descriptive statistics (not done here), it is essential to visualize the data before performing a regression analysis. We will use scatter plot with an overlaid regression line (we'll explain the argument of `abline()`, namely `lm(sales ~ adverts, data=album)`, shortly):
 
 ```{r}
 plot(
@@ -234,50 +238,51 @@ plot(
 abline(lm(sales ~ adverts, data=album), col="blue", lwd=2)
 ```
 
-Es ist klar, dass eine positive Beziehung zwischen den beiden Variablen besteht (je größer das Werbebudget desto mehr Albenverkäufe). Außerdem ist die Steigung der Regressionsgeraden stark verschieden von Null, d.h. es ist zu erwarten, dass das Regressionsmodell signifikant ist.
+Clearly, there is a positive relationship between the two variables (the higher the advertising budget, the more album sales). Moreover, the slope of the regression line is significantly different from zero, indicating that the regression model is likely to be a good fit.
 
-In R kann man mit der Funktion `lm()` (steht für "linear model") eine Regressionsanalyse durchführen:
+We can perform a regression analysis in R using the `lm()` function (which stands for "linear model"):
 
 ```{r}
 model = lm(sales ~ adverts, data=album)
 ```
 
-Das erste Argument `sales ~ adverts` ist eine Formel (welche durch eine Tilde `~` gekennzeichnet ist). Diese Formel kann man als "`sales` wird vorhergesagt durch `adverts`" lesen. Im allgemeinen nimmt die Formel die Form `AV ~ UV` an. Mit dem Argument `data=album` teilt man der Funktion mit, dass sich die Namen in der Formel auf Spaltennamen des Data Frames `album` beziehen.
+The first argument `sales ~ adverts` is a formula (indicated by a tilde `~`). This formula can be read as "`sales` is predicted by `adverts`" (in general, the formula takes the form `DV ~ IV`). With the argument `data=album`, we tell the function that the names in the formula refer to columns of the data frame `album`.
 
-Das Ergebnis der Regressionsanalyse weisen wir hier der Variablen `model` zu. Eine kompakte Darstellung des Ergebnisses kann man sich ausgeben lassen, indem man sich eine Zusammenfassung des Modells mittels `summary()` ansieht:
+We store the result of the regression analysis in the variable `model`. We can obtain a summary of the regression analysis by calling `summary()` on this variable:
 
 ```{r}
 summary(model)
 ```
 
-Beginnen wir mit der vorletzten Zeile:
+Let's interpret the output, starting with the penultimate line:
 
 ```
 Multiple R-squared:  0.3346,    Adjusted R-squared:  0.3313
 ```
 
-Hier sehen wir $R^2$, also das Verhältnis von SSM zu SST. Daraus können wir schließen, dass die Werbeausgaben ca. 33.5% der Varianz der Albenverkäufe erklären können. Dies bedeutet natürlich, dass ca. 66.5% der Varianz unerklärt ist, d.h. es muss andere relevante Faktoren dafür geben, die wir nicht im Modell berücksichtigt haben.
+This line shows $R^2$, the ratio of SSM to SST (there are actually two different estimates for $R^2$, but we will not discuss the details here, also because they are almost identical anyway). From this value, we can infer that advertising expenses can explain approximately 33.5% of the variance in album sales. This means that approximately 66.5% of the variance remains unexplained, indicating that there must be other relevant factors that we have not considered in the model.
 
-Im Fall der einfachen linearen Regression können wir auch sofort die Pearson-Korrelation zwischen den beiden Variablen berechnen, indem wir die Wurzel aus $R^2$ ziehen:
+In the case of simple linear regression, we can also immediately calculate the Pearson correlation between advertising budget and album sales by taking the square root of $R^2$:
 
 ```{r}
 sqrt(summary(model)$r.squared)
 ```
 
-Diesen Wert könnte man jetzt vergleichen mit jenem aus der direkten Berechnung der Korrelation (z.B. mit `cor()` oder `cor.test()`) – das Ergebnis ist identisch:
+Let's compare this value with the result computed by the `cor()` function:
+
 ```{r}
 cor(album$adverts, album$sales)
 ```
 
-Die letzte Zeile der Modellzusammenfassung zeigt die $F$-Statistik und deren Signifikanz:
+The last line of the model summary shows the $F$ statistic and its significance (the $p$-value):
 
 ```
 F-statistic: 99.59 on 1 and 198 DF,  p-value: < 2.2e-16
 ```
 
-Die $F$-Statistik ist das Verhältnis von MSM zu MSR. Der Wert liegt bei 99.59, was bei Freiheitsgraden 1 und 198 einer Signifikanz von $p<0.001$ entspricht. Dies bedeutet, dass die Wahrscheinlichkeit kleiner als 0.1% ist, diesen $F$-Wert (oder einen noch größeren) unter der Nullhypothese (das Modell unterscheidet sich nicht vom einfachen Mittelwertsmodell) zu erhalten. Wir können also daraus schließen, dass das lineare Modell signifikant besser als das einfachste Modell ist.
+The $F$ statistic is the ratio of MSM to MSR. Its value is 99.59, which corresponds to a significance of $p < 0.001$ with 1 and 198 degrees of freedom, respectively. This means that the probability of obtaining this $F$ value (or a larger one) under the null hypothesis (the model does not differ from the baseline mean model) is less than 0.1%. We can therefore conclude that the linear model is significantly better than the baseline model.
 
-Der $F$-Wert bedeutet also, dass das Modell insgesamt ein guter Fit der Daten ist (verglichen mit dem globalen Mittelwert). Es wird aber eigentlich keine Aussage über die individuellen Prädiktoren getroffen (wobei man im Fall der einfachen Regression natürlich darauf schließen kann, dass die einzige Variable dann ebenfalls ein guter Prädiktor ist). In der Zusammenfassung sind die Regressionskoeffizienten wie folgt ersichtlich:
+The $F$ statistic indicates that the model is a good fit for the data (compared to the global mean). However, it does not actually make any statements about the individual predictors (although in the case of simple regression, there is only one variable, so one can infer that this variable is a good predictor). The regression coefficients are summarized as follows:
 
 ```
 Coefficients:
@@ -288,58 +293,58 @@ adverts     9.612e-02  9.632e-03   9.979   <2e-16 ***
 Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 ```
 
-In der Zeile `(Intercept)` listet die Spalte `Estimate` den Wert für $b_0$, also die Albenverkäufe wenn das Werbebudget gleich 0 ist (Schnittpunkt mit der y-Achse). Dieser Wert beträgt `1.341e+02`, also 134100 Verkäufe (weil die Maßeinheit in 1000 Einheiten ist).
+The row `(Intercept)` shows the value for $b_0$, which corresponds to album sales when the advertising budget is zero. This value is `1.341e+02`, or `134.1`, which translates to 134,100 sales, as the variable is measured in thousands of units.
 
-Der Wert für $b_1$, also die Steigung der Geraden, ist in der Zeile `adverts` mit `9.612e-02`, also 0.09612 abzulesen. Das bedeutet, wenn die Prädiktorvariable `adverts` sich um eine Einheit ändert, dann ändert sich die Ergebnisvariable `sales` um 0.09612 Einheiten. Das heißt wenn man das Werbebudget um 1000€ erhöht, verkauft man 96 Alben mehr.
+The value for $b_1$ (the slope of the regression line) is listed in the row `adverts` as `9.612e-02`, or `0.09612`. This means that for every one-unit increase in the predictor variable `adverts`, the outcome variable `sales` increases by 0.09612 units. In practical terms, increasing the advertising budget by €1,000 results in 96 additional album sales.
 
-Weiters sieht man die Standardfehler der Koeffizienten sowie deren $t$-Werte. Die letzte Spalte `Pr(>|t|)` gibt die $p$-Werte an inklusive Codes für signifikante Ergebnisse. Beide Koeffizienten sind signifikant mit $p<0.001$, wobei uns hier eigentlich nur die Steigung der Geraden interessiert und es für uns nicht wichtig ist, ob der Intercept signifikant von Null verschieden ist.
+Furthermore, the table shows the standard errors of the coefficients, the $t$-values, and the $p$-values. Both coefficients are significant with $p < 0.001$. However, we are usually only interested in the slope, as it is not important whether the intercept differs significantly from zero.
 
 
-## Werte vorhersagen
+## Predicting values
 
-Das Modell `model` kann man nun verwenden, um neue Werte für `sales` in Abhängigkeit von `adverts` vorherzusagen. Hierfür muss man einfach die berechneten Werte von $b_0$ und $b_1$ in das lineare Modell einsetzen. Die exakten Koeffizienten erhält man mit `model$coefficients` oder `coefficients(model)`.
+We can now use our model to predict new values for `sales` based on `adverts`. To do this, we simply insert the calculated values of $b_0$ and $b_1$ into the linear model. The exact coefficients can be obtained with `model$coefficients` or `coefficients(model)`:
 
 $$\hat{y} = b_0 + b_1 x = 134.1 + 0.09612 \cdot x$$
 
-Nun kann man berechnen, wie hoch die Verkäufe $y$ wären, wenn man ein Werbebudget von $x=100$ hätte:
+Now we can calculate the sales $y$ if we had an advertising budget of $x = 100$:
 
 $$\hat{y} = 134.1 + 0.09612 \cdot 100 = 143.75$$
 
-D.h. man würde 143750 Alben verkaufen bei einem Werbebudget von 100000 EUR.
+This means that with an advertising budget of €100,000, we would sell 143,750 albums.
 
-Einfacher und allgemeiner kann man aber die Funktion `predict()` verwenden. Als Argumente gibt man das Modell und die neuen Daten an (welche als Data Frame übergeben werden müssen):
+However, it is easier and more convenient to use the `predict()` function. As arguments, we pass the model and the new data (which must be passed as a data frame):
 
 ```{r}
 predict(model, data.frame(adverts=100))
 ```
 
-So kann man auch gleich Vorhersagen für mehrere Werte gleichzeitig berechnen:
+This way, we can also make predictions for multiple values at once:
 
 ```{r}
 predict(model, data.frame(adverts=c(0, 10, 100, 2000)))
 ```
 
 
-## Multiple lineare Regression
+## Multiple linear regression
 
-Die multiple lineare Regression ist eine Erweiterung der einfachen linearen Regression auf Situationen mit mehreren Prädiktoren. Das grundlegende Konzept bleibt aber unverändert, wir verwenden nach wie vor folgende allgemeine Modellgleichung:
+Multiple linear regression is an extension of simple linear regression to situations with multiple predictors. The basic concept remains the same; we still use the general model equation:
 
 $$y_i = \hat{y}_i + \varepsilon_i$$
 
-Das Modell mit $n$ Prädiktoren $x_{1}$, $x_{2}$, $\ldots$, $x_{n}$ wird nun wie folgt formuliert:
+The model with $n$ predictors $x_{1}$, $x_{2}$, $\ldots$, $x_{n}$ is now written as follows:
 
 $$y_i = (b_0 + b_1 x_{1i} + b_2 x_{2i} + \ldots + b_n x_{ni}) + \varepsilon_i$$
 
-Jeder Prädiktor erhält also ein eigenes Gewicht bzw. einen eigenen Regressionskoeffizienten. Die Koeffizienten werden mittels Least Squares wieder so berechnet, dass die entstehende "Gerade" (technisch spricht man hier von einer [Hyperebene](https://de.wikipedia.org/wiki/Hyperebene)) den mittleren quadratischen Fehler minimiert.
+Each predictor has its own weight or regression coefficient. Again, we use least squares to calculate the coefficients in such a way that the resulting "line" (technically, a [hyperplane](https://en.wikipedia.org/wiki/Hyperplane)) minimizes the mean squared error.
 
-Die Quadratsummen SST, SSM und SSR werden analog wie bei der einfachen Regression berechnet. Wieder kann man $R^2$ berechnen, welches den Anteil der Varianz in der abhängigen Variable angibt, welche durch das Modell erklärt wird. Je höher dieser Wert ist, desto besser kann das Modell die Daten beschreiben. Im Gegensatz zur einfachen Regression kann man aus $R^2$ nicht die Pearson-Korrelation zwischen den einzelnen Variablen berechnen, sondern die Korrelation zwischen den *vorhergesagten* Werten und den tatsächlich *beobachteten* Werten.
+We compute the sum of squares SST, SSM, and SSR in the same way as in simple regression. We can also calculate $R^2$, which indicates the proportion of variance in the dependent variable that is explained by the model. The higher this value, the better the model can describe the data. However, unlike simple regression, we cannot calculate the Pearson correlation between the individual variables from $R^2$. Instead, by taking the square root, we can calculate the correlation between the *predicted* values and the *observed* values.
 
 
-## Überprüfen der Datenpunkte
+## Outliers and leverage
 
-Ein gegebenes Modell sollte man immer darauf überprüfen, wie gut es die gemessenen Daten tatsächlich beschreibt. Lineare Modelle können sehr sensitiv auf einzelne Datenpunkte reagieren, welche nicht zum generellen Trend der Daten passen. Einen tatsächlichen Einfluss auf das Modell üben solche Ausreißer aber nur aus, wenn sie weit weg vom Mittelwert der Prädiktoren liegen – man bezeichnet diesen potentiellen Einfluss jedes Datenpunkts als *Leverage*.
+We should always check how well a given model describes the measured data. Linear models can be very sensitive to individual data points that do not fit the general trend of the data. However, such outliers only have an actual impact on the model if they are far from the mean of the predictors. This potential influence of each data point is called *leverage*.
 
-Kritisch sind also jene Punkte, welche einen potentiellen hohen Einfluss haben (hohe Leverage) und gleichzeitig nicht zum generellen Trend der Daten passen, also Ausreißer sind. Die folgende Grafik veranschaulicht die drei möglichen Situationen. Dabei sind die vier Ausgangsdatenpunkte schwarz dargestellt und die zugehörige Regressionsgerade ist schwarz strichliert. Der zusätzliche fünfte Datenpunkt ist rot dargestellt, und die Regressionsgerade durch alle fünf Datenpunkte ist ebenfalls rot. Durch einen einzigen zusätzlichen Datenpunkt ändert sich also das ursprüngliche Modell mehr oder weniger stark (von schwarz strichliert auf rot durchgezogen).
+The most critical data points are those that have high leverage and do not fit the general trend of the data. The following figure illustrates three possible situations. The four original data points are shown in black, and the corresponding regression line is shown as a black dashed line. The additional fifth data point is shown in red, and the regression line through all five data points is also shown in red. Adding a single data point therefore changes the original model more or less (from black dashed to red solid).
 
 ```{r}
 #| echo: false
@@ -382,7 +387,7 @@ abline(l3, col="red")
 title("high leverage outlier")
 ```
 
-Je weniger Datenpunkte vorhanden sind, desto größer ist der Einfluss von Ausreißern auf das lineare Modell. Die folgende Grafik veranschaulicht die Auswirkung eines Ausreißers für drei verschiedene Stichprobengrößen. Man erkennt, dass ein Ausreißer das Modell nur wenig verändert, wenn sehr viele Datenpunkte vorhanden sind. Wenn es aber nur wenige Datenpunkte gibt, kann ein einziger Ausreißer das Modell stark verändern.
+The fewer data points are available, the greater the influence of outliers on the linear model. The following figure illustrates the effect of a single outlier for three different sample sizes. If there are many data points, the outlier does not really influence the model significantly (left panel). However, the smaller the sample size, the greater the influence of the outlier (middle and right panels).
 
 ```{r}
 #| echo: false
@@ -410,28 +415,28 @@ outlier(10, alpha=0.8)
 ```
 
 
-## Modellannahmen
+## Model assumptions
 
-Um mit einem linearen Regressionsmodell Vorhersagen auf ungesehene Daten machen zu können, müssen folgende Annahmen erfüllt sein:
+In order to use a linear model to make predictions on unseen data, the following assumptions must be met:
 
-* Die abhängige Variable muss intervallskaliert sein.
-* Die unabhängigen Variablen (Prädiktoren) müssen intervallskaliert (oder nominalskaliert in zwei Kategorien) sein.
-* Die Prädiktoren müssen Varianzen ungleich 0 haben.
-* Es darf keine Multikollinearität bestehen, d.h. zwei oder mehrere Prädiktoren dürfen nicht linear voneinander abhängig sein. Dies kann z.B. mit der VIF-Statistik (Variance Inflation Factor) überprüft werden.
-* Homoskedastizität, d.h. die Varianz der Residuen muss konstant über die Werte der Prädiktoren sein (Varianzhomogenität).
-* Die Residuen müssen normalverteilt sein.
-    
+* The dependent variable must be continuous (interval scale).
+* The independent variables (predictors) must be continuous (or on a nominal scale with two categories).
+* The predictors must have non-zero variances.
+* Predictors must not be linearly dependent (multicollinearity). This can be checked, for example, with the VIF statistic (variance inflation factor).
+* Homoscedasticity, i.e., the variance of the residuals must be constant across the values of the predictors (homogeneity of variance).
+* The residuals must be normally distributed.
+
   :::{.callout-important}
-  Diese Voraussetzung der Normalverteilung gilt für die *Residuen* und *nicht* für die Prädiktoren!
+  This assumption of normality applies to the *residuals* and *not* to the predictors!
   :::
 
-* Die Residuen müssen unabhängig voneinander sein (kann z.B. mit dem Durbin-Watson-Test überprüft werden).
-* Die Beziehung zwischen unabhängigen Variablen und abhängiger Variable muss linear sein.
+* The residuals must be independent of each other (this can be checked, for example, with the Durbin-Watson test).
+* The relationship between independent variables and the dependent variable must be linear.
 
 
-## Beispiel
+## Example (multiple linear regression)
 
-Im folgenden Beispiel sehen wir uns wieder die Anzahl der Verkäufe von Musikalben in Abhängigkeit der Höhe des Werbebudgets an. Zusätzlich gibt es jetzt aber zwei weitere Prädiktoren, nämlich die Anzahl an Airplay-Stunden im größten nationalen Radiosender und die Attraktivität der Bandmitglieder. Wir beginnen mit dem Laden der Daten [`sales2.dat`](sales2.dat):
+In the following example, we will again look at the number of music album sales in relation to the advertising budget. However, we will now include two additional predictors: the number of airplay hours on the largest national radio stations and the attractiveness of the band members. We start by loading the data [`sales2.dat`](sales2.dat):
 
 ```{r}
 #| message: false
@@ -439,97 +444,103 @@ library(readr)
 album2 = read_tsv("sales2.dat")
 ```
 
-Berechnen wir nun ein lineares Regressionsmodell. Als Vergleichsmodell führen wir zuerst eine einfache Regression mit dem einzigen Prädiktor Werbebudget durch:
+Let's calculate a linear regression model. As a comparison model, we first perform a simple regression with only the advertising budget as a predictor:
 
 ```{r}
 model1 = lm(sales ~ adverts, data=album2)
 ```
 
-Zusätzliche Faktoren kann man nun in einem zweiten Modell einfach durch den `+`-Operator hinzufügen:
+We can now add additional factors to a second model using the `+` operator:
 
 ```{r}
 model2 = lm(sales ~ adverts + airplay + attract, data=album2)
 ```
 
-Anschließend können wir uns die zusammengefassten Ergebnisse der beiden Modelle anzeigen lassen:
+We can the summarize the results of both models:
 
 ```{r}
 summary(model1)
 summary(model2)
 ```
 
-Da das erste Modell identisch mit jenem aus der vorigen Einheit ist, kennen wir die Ergebnisse bereits. Wenden wir uns daher dem zweiten Modell zu. $R^2$ ist hier 0.6647, das heißt das Modell kann nun 66% der Varianz erklären. Im Vergleich zum ersten Modell mit nur einem Prädiktor ist das eine Steigerung um 33%, d.h. die beiden Prädiktoren Airplay und Attraktivität können zusätzliche Varianz im Ausmaß von 33% erklären.
+Since the first model is identical to the one from the previous example, we already know the results. Let's therefore discuss the second model. $R^2$ is 0.6647, meaning the model can now explain 66% of the variance. Compared to the first model with only one predictor, this is an increase of 33%, i.e., the two predictors airplay and attractiveness explain an additional 33% of the variance.
 
-Die Regressionskoeffizienten werden ebenfalls in der Ausgabe dargestellt. Wir können daher das lineare Modell wie folgt schreiben:
+The output of the `summary()` function also shows the regression coefficients. We can write this multiple linear regression model as follows:
 
 $$y = b_0 + b_1 x_1 + b_2 x_2 + b_3 x_3 = -26.613 + 0.085 \cdot x_1 + 3.367 \cdot x_2 + 11.086 \cdot x_3$$
 
-Hier stehen $b_0$ für den Intercept (d.h. jener Wert von $y$, wenn alle Prädiktoren 0 sind), $b_1$ für das Werbebudget `adverts`, $b_2$ für die Airplay-Stunden `airplay` und $b_3$ für die Attraktivität `attract`.
+Here, $b_0$ is the intercept (i.e., the value of $y$ when all predictors are 0), $b_1$ is the advertising budget `adverts`, $b_2$ is the airplay hours `airplay`, and $b_3$ is the attractiveness `attract`.
 
-Die Regressionskoeffizienten geben Auskunft, um wie viel sich die abhängige Variable ändert, wenn man einen Prädiktor um eine Einheit erhöht und dabei alle anderen Prädiktoren konstant hält. Dies bedeutet im Beispiel:
+The regression coefficients reflect how much the dependent variable changes when a predictor is increased by one unit while keeping all other predictors constant. In our example, this means:
 
-* Wenn `adverts` um eine Einheit erhöht wird, dann erhöht sich `sales` um 0.085 Einheiten. D.h. wenn man 1000 EUR mehr für Werbung ausgibt, verkauft man um 85 Alben mehr.
-* Wenn `airplay` um eine Einheit erhöht wird, dann erhöht sich `sales` um 3.37 Einheiten. D.h. wenn man das Album um eine Stunde mehr im Radio spielt, verkauft man um 3367 Alben mehr.
-* Wenn `attract` um eine Einheit erhöht wird, dann erhöht sich `sales` um 11.086 Einheiten (d.h. 11086 zusätzliche Alben).
+* If we increase `adverts` by one unit, `sales` increases by 0.085 units. This means that for every €1,000 spent on advertising, we sell 85 more albums.
+* If we increase `airplay` by one unit, `sales` increases by 3.367 units. This means that for every additional hour of airplay, we sell 3,367 more albums.
+* If we increase `attract` by one unit, `sales` increases by 11.086 units. This means that for every additional attractiveness point, we sell 11,086 more albums.
 
-Für jeden Regressionskoeffizienten wird ein $t$-Test gerechnet, welcher angibt, ob sich der Koeffizient signifikant von 0 unterscheidet (d.h. ob er signifikant zum Modell beiträgt). Die Größe der $t$-Statistik lässt auf den Einfluss der Koeffizienten schließen, d.h. `adverts` und `airplay` haben einen ähnlich großen Einfluss auf das Modell, wo hingegen `attract` einen geringeren Einfluss hat.
+The $t$-values and $p$-values indicate whether the regression coefficients are significantly different from zero. The size of the $t$-value indicates the influence (importance) of the coefficients, i.e., `adverts` and `airplay` have a similar influence on the model, while `attract` has a smaller influence.
 
-Oft ist es hilfreich, nicht nur die Regressionskoeffizienten zu analysieren, sondern auch die standardisierten Regressionskoeffizienten. Diese kann man berechnen, in dem man zuerst alle Variablen standardisiert und danach das lineare Modell berechnet. Standardisierte Variablen haben einen Mittelwert von 0 und eine Standardabweichung von 1. Man könnte die Standardisierung daher relativ einfach selbst vornehmen, in dem man für jede Variable zuerst deren Mittelwert subtrahiert und danach durch deren Standardabweichung dividiert.
+Often, it is helpful to inspect the standardized regression coefficients, because otherwise the coefficients depend on the scale of the predictors. These can be calculated by first standardizing all variables and then calculating the linear model (standardized variables have a mean of 0 and a standard deviation of 1).
 
 :::{.callout-tip}
-Die Funktion `scale()` kann verwendet werden, um die Spalten eine Data Frames zu standardisieren. Diese liefert aber immer eine Matrix zurück, d.h. wenn man ein Data Frame bzw. Tibble standardisieren möchte, muss man danach noch `as.data.frame()` bzw. `tibble::as_tibble()` anwenden.
+The `scale()` function can be used to standardize the columns of a data frame. However, this function always returns a matrix, so if you want to standardize a data frame or tibble, you need to apply `as.data.frame()` or `tibble::as_tibble()` afterwards.
 :::
 
-Alternativ kann man dazu auch *nachträglich* die Funktion `lm.beta()` aus dem `lm.beta`-Paket benutzen:
+Alternatively, you can also use the `lm.beta()` function from the `lm.beta` package after the regular (unstandardized) model has been calculated:
 
 ```{r}
 library(lm.beta)
 lm.beta(model2)
 ```
 
-Die standardisierten Regressionskoeffizienten werden üblicherweise mit $\beta_i$ bezeichnet. Da alle Variablen nun in Standardabweichungen gemessen werden, kann man diese direkt miteinander vergleichen. Man sieht im Beispiel also:
+The standardized regression coefficients are usually denoted by $\beta_i$. Since all variables are now measured in standard deviations, they can be directly compared. In the example, we can make the following statements:
 
-* Wenn `adverts` um eine Standardabweichung erhöht wird (485655 EUR), dann erhöht sich `sales` um 0.511 Standardabweichungen (41240 Alben).
-* Wenn `airplay` um eine Standardabweichung erhöht wird (12.270), dann erhöht sich `sales` um 0.512 Standardabweichungen (41320 Alben).
-* Wenn `attract` um eine Standardabweichung erhöht wird (1.395), dann erhöht sich `sales` um 0.192 Standardabweichungen (15490 Alben).
+* If we increase `adverts` by one standard deviation (€485,655), `sales` increases by 0.511 standard deviations (41,240 albums).
+* If we increase `airplay` by one standard deviation (12.27 hours), `sales` increases by 0.512 standard deviations (41,320 albums).
+* If we increase `attract` by one standard deviation (1.40 points), `sales` increases by 0.192 standard deviations (15,490 albums).
 
-Konfidenzintervalle für die (nicht standardisierten) Regressionskoeffizienten erhält man mit der Funktion `confint()` (standardmäßig werden 95%-Intervalle berechnet):
+Just like we already saw with the $t$-values, the standardized regression coefficients show that `adverts` and `airplay` have a similar influence on the model, while `attract` has a smaller influence.
+
+We can calculate confidence intervals for the (non-standardized) regression coefficients with the `confint()` function (by default, the function computes 95% confidence intervals):
 
 ```{r}
 confint(model2)
 ```
 
-Zwei (oder mehrere) Modelle können mit der $F$-Statistik verglichen werden. Der $F$-Wert, der bei der zusammenfassenden Beschreibung eines Modells angezeigt wird, vergleicht das Modell standardmäßig mit dem einfachsten Mittelwertmodell. Möchte man das Modell mit einem anderen Modell vergleichen, ist zu beachten, dass `model2` eine Erweiterung von `model1` sein muss, d.h. `model2` muss alle Terme von `model1` beinhalten plus eventuelle zusätzliche Faktoren. In R gibt man hier folgenden Befehl ein:
+As we have already seen, we can compare two (or more) models using the $F$ statistic. The $F$ value displayed when summarizing a model compares the model to the simplest baseline model. If you want to compare the model to a different model, `model2` must be an extension of `model1`, i.e., `model2` must include all terms of `model1` plus any additional factors. In R, you can compare two models using the following command:
 
 ```{r}
 anova(model1, model2)
 ```
 
-Der $F$-Wert beträgt also 96.447 und ist signifikant, d.h. das zweite Modell ist signifikant besser als das erste.
+The $F$ value is 96.447, and because the $p$-value is less than 0.001, this indicates that the second model is significantly better than the first.
 
 
-### Datenpunkte mit großem Einfluss
+### Influential data points
 
-Um die diversen Ausreißerstatistiken für jeden einzelnen Wert übersichtlich beurteilen zu können, kann man die Werte mit folgenden Funktionen berechnen:
+We can use the following functions to calculate various outlier statistics for each individual data point:
 
-* `resid()`: Residuen
-* `rstandard()`: Standardisierte Residuen
-* `rstudent()`: Studentisierte Residuen (berechnet mit Leave-One-Out)
+* `resid()`: Residuals
+* `rstandard()`: Standardized residuals
+* `rstudent()`: Studentized residuals (using leave-one-out)
 * `hatvalues()`: Leverage
-* `dfbeta()`: Unterschied der Regressionskoeffizienten mittels Leave-One-Out
-* `cooks.distance()`: Cook's Distanz
-* `dffits()`: Unterschied im vorhergesagtem Wert mittels Leave-One-Out
+* `dfbeta()`: Difference between regression coefficients using leave-one-out
+* `cooks.distance()`: Cook's distance
+* `dffits()`: Difference between predicted values using leave-one-out
 
-Sehr praktisch ist die Funktion `influence.measures()`, welche mehrere Ausreißerstatistiken für jeden Datenpunkt übersichtlich aufbereitet ausgibt.
+::: {.callout-note}
+Leave-one-out means that the respective data point is excluded from the calculation of the statistic. We can then compare the statistic for each data point for a model with and without the respective data point, which allows us to determine the influence of each data point on the model.
+:::
+
+A particularly useful function is `influence.measures()`, which provides an overview of several outlier statistics for each data point:
 
 ```r
 influence.measures(model2)
 ```
 
 
-### Modellannahmen
+### Model diagnostics
 
-Mulitkollinearität kann mit der VIF-Statistik beurteilt werden; in R kann man dazu die Funktion `vif()` aus dem `car`-Paket verwenden.
+We can use the VIF statistic to check for multicollinearity using the `vif()` function from the `car` package:
 
 ```{r}
 #| message: false
@@ -537,13 +548,13 @@ library(car)
 vif(model2)
 ```
 
-Der größte VIF-Wert sollte nicht größer als 10 sein. Der durchschnittliche VIF sollte nicht wesentlich größer als 1 sein, was man wie folgt überprüfen kann:
+The largest VIF value should not exceed 10. The average VIF value should not be significantly greater than 1, which can be checked as follows:
 
 ```{r}
 mean(vif(model2))
 ```
 
-Wenn man den `plot()`-Befehl auf das Modell anwendet, werden vier diagnostische Plots erstellt.
+If we plot a regression model using the `plot()` function, we get four diagnostic plots:
 
 ```{r}
 #| fig-width: 12
@@ -552,71 +563,73 @@ par(mfrow=c(2, 2), cex=0.75)
 plot(model2)
 ```
 
-Im Plot links oben sind die vorhergesagten Werte gegen die Residuen aufgetragen. Hier kann man die Linearitätsannahme (die rote Linie sollte immer ungefähr gleich Null sein) sowie die Homoskedastizitätsannahme (die Streuung der Datenpunkte sollte sich entlang der x-Achse nicht ändern) überprüfen. Der Plot links unten ist ähnlich, nur ist hier statt den (absoluten) Residuen die Wurzel aus dem Betrag der standardisierten Residuen aufgetragen. Auch hier lässt sich beurteilen, ob die Annahme der Varianzhomogenität erfüllt ist oder nicht. Im Plot rechts oben lässt sich die Normalverteilungsannahme der Residuen mit einem QQ-Plot überprüfen. Im Plot rechts unten sind Punkte mit großem Einfluss dargestellt (gemessen an der Leverage); Cook's Distanz ist ebenfalls im Plot ersichtlich.
+The plot in the upper left shows the predicted values versus the residuals. Here, we can check the linearity assumption (the red line should be a straight line around zero) and the homoscedasticity assumption (the spread of the data points should not change along the x-axis). The plot in the lower left is similar, but instead of the (absolute) residuals, the square root of the standardized residuals is shown. This plot allows us to assess whether the assumption of homogeneity of variance is met. The plot in the upper right shows a QQ plot to check the normality assumption of the residuals. If this assumption is met, data point should lie on the straight diagonal line. The plot in the lower right shows influential points (measured by leverage); Cook's distance is also visible in the plot.
 
-Die Annahme über die Unabhängigkeit der Residuen kann mit dem Durbin-Watson-Test `dwt()` überprüft werden.
+We can also check the residuals for independence with the Durbin-Watson test using the `dwt()` function from the `car` package:
 
 ```{r}
 dwt(model2)
 ```
 
-In diesem Beispiel kann man davon ausgehen, dass die Residuen unabhängig sind, da wegen $p\approx 0.7$ die Nullhypothese nicht verworfen werden kann.
+In this example, we can assume that the residuals are independent, as the $p$-value is approximately 0.7, which means that the null hypothesis (residuals are independent) cannot be rejected.
 
 
-## Übungen
+## Exercises
 
-### Übung 1
+### Exercise 1
 
-Die Datei [`cars.csv`](cars.csv) enthält mehrere Messwerte für den Bremsweg (`dist`) von Autos die bei einer bestimmten Geschwindigkeit (`speed`) bremsen. Wir wollen untersuchen, ob es einen (linearen) Zusammenhang zwischen der Geschwindigkeit und dem Bremsweg gibt. Stellen Sie zunächst beide Variablen in einem Scatterplot dar (`speed` auf der *x*-Achse und `dist` auf der *y*-Achse).
-
-
-### Übung 2
-
-Führen Sie mit den Daten aus Übung 1 eine lineare Regressionsanalyse durch und stellen Sie die Ergebnisse zusammengefasst dar. Erwähnen Sie die wichtigsten Eckpunkte Ihres Regressionsmodells.
+The file [`cars.csv`](cars.csv) contains several measurements of braking distances (`dist`) of cars braking at a certain speed (`speed`). We would like to investigate whether there is a (linear) relationship between speed and braking distance. First, plot both variables in a scatter plot (`speed` on the *x*-axis and `dist` on the *y*-axis). What do you observe? Is there a linear relationship between the two variables?
 
 
-### Übung 3
+### Exercise 2
 
-Berechnen Sie die Pearson-Korrelation zwischen den beiden Variablen (ohne Verwendung von $R^2$ aus dem Modell) und überprüfen Sie, ob dieser Wert mit $R^2$ aus dem Regressionsmodell übereinstimmt.
-
-
-### Übung 4
-
-Wie lautet die Gleichung der Regressionsgeraden? Welche Bremswege sagt das Modell für Geschwindigkeiten von 5 bzw. 65 voraus? Verwenden Sie für die Vorhersage sowohl die Geradengleichung als auch die Funktion `predict()`.
+Perform a linear regression analysis and summarize the results!
 
 
-### Übung 5
+### Exercise 3
 
-Laden Sie die Daten aus der Datei `sales2.dat` wie in den Unterlagen gezeigt. Standardisieren Sie danach alle Variablen und berechnen Sie dann ein lineares Regressionsmodell. Vergleichen Sie die Regressionskoeffizienten mit den Ergebnissen der Funktion `lm.beta()`, welche auf ein Modell mit nicht standardisierten Daten angewendet werden kann.
-
-
-### Übung 6
-
-Laden Sie den Datensatz [`aggression.dat`](aggression.dat), welcher (komplett erfundene) Daten über Aggressionen unter Kindern enthält. Es wurden 666 Kinder untersucht und folgende Variablen erhoben:
-
-- Erziehungsstil (hoher Wert entspricht schlechtem Stil)
-- Computerspielen (hoher Wert entspricht viel Computerspielen)
-- Fernsehen (hoher Wert entspricht viel Fernsehen)
-- Ernährung (hoher Wert entspricht gesunder Ernährung)
-- Aggressionen der Geschwister (hoher Wert entspricht hoher Aggression)
-
-Von früheren Studien weiß man, dass Erziehungsstil sowie Aggressionen der Geschwister signifikante Prädiktoren für das Aggressionslevel eines Kindes sind.
-
-Stellen Sie zwei lineare Regressionsmodelle auf. Das erste soll nur die beiden Faktoren beinhalten, welche erwiesenermaßen einen Einfluss auf die Aggression haben. Das zweite Modell soll alle Faktoren beinhalten. Beantworten Sie anschließend folgende Punkte:
-
-1. Bestimmen Sie für beide Modelle das Bestimmtheitsmaß $R^2$ und geben Sie die Tabelle der Regressionskoeffizienten aus.
-2. Interpretieren Sie für beide Modelle getrennt die einzelnen Koeffizienten hinsichtlich Relevanz (hier sind standardisierte Koeffizienten hilfreich) und Signifikanz.
-3. Vergleichen Sie beide Modelle miteinander. Ist das zweite Modell eine signifikante Verbesserung zum ersten?
+Compute the Pearson correlation between the two variables (without using $R^2$ from the model) and check whether this value matches $R^2$ from the regression model.
 
 
-### Übung 7
+### Exercise 4
 
-Überprüfen Sie für das zweite Modell (mit allen Prädiktoren) aus der vorigen Übung folgende Voraussetzungen:
+Write down the model equation. Which braking distances does the model predict for a car driving 5 mph and 65 mph, respectively? Use both the model equation and the `predict()` function to estimate the braking distances.
 
-- Sind die unabhängigen Variablen kollinear (VIF)?
-- Sind die Residuen unabhängig (Durbin-Watson-Test)?
-- Sind die Residuen normalverteilt (QQ-Plot)?
-- Sind die Abhängigkeiten linear und ist die Varianz homogen (Plot Residuen vs. vorhergesagte Werte)?
-- Gibt es Datenpunkte mit großem Einfluss auf das Modell (Plot Residuen vs. Leverage)?
 
-*Hinweis:* Sehen Sie sich die Hilfe zur Funktion `plot.lm()` an (damit können Sie ein lineares Modell plotten und die Grafiken aus den letzten drei Fragen erstellen; mit dem Argument `which` können Sie sich die gewünschte Grafik herauspicken).
+### Exercise 5
+
+Import the data from the file `sales2.dat` as shown in the course materials. Standardize all variables and then calculate a linear regression model. Compare the regression coefficients with the results of the `lm.beta()` function, which can be applied to a model with non-standardized data.
+
+
+### Exercise 6
+
+Import the dataset [`aggression.dat`](aggression.dat), which contains data on aggression among 666 children. It contains the following variables:
+
+- Parenting style (high value corresponds to bad style)
+- Playing computer games (high value corresponds to playing a lot of computer games)
+- Watching TV (high value corresponds to watching a lot of TV)
+- Nutrition (high value corresponds to healthy nutrition)
+- Aggression of siblings (high value corresponds to high aggression)
+
+From previous studies, we know that parenting style and aggression of siblings are significant predictors of a child's aggression.
+
+Fit two linear regression models. The first should only include the two factors that have previously been shown to influence aggression. The second model should include all factors. Then answer the following questions:
+
+1. Calculate the coefficient of determination $R^2$ for both models and provide the table of regression coefficients.
+2. Interpret the individual coefficients in terms of relevance (standardized coefficients are helpful) and significance for both models separately.
+3. Compare both models. Is the second model a significant improvement over the first?
+
+
+### Exercise 7
+
+Check the following assumptions for the second model from the previous exercise:
+
+- Are the predictors linearly dependent (VIF)?
+- Are the residuals independent (Durbin-Watson test)?
+- Are the residuals normally distributed (QQ plot)?
+- Are the dependencies linear and is the variance homogeneous (plot residuals vs. predicted values)?
+- Are there any data points with a large influence on the model (plot residuals vs. leverage)?
+
+::: {.callout-tip}
+Read the documentation of the `plot.lm()` function, which creates diagnostic plots for linear models. The `which` argument allows you to select the desired diagnostic plot.
+:::
