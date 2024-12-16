@@ -2,7 +2,7 @@
 title: "11 – Lösungen"
 subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2024-06-10
+date: 2025-01-09
 format:
   html:
     page-layout: full
