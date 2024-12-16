@@ -1,0 +1,116 @@
+---
+title: "11 – Solutions"
+subtitle: "Statistical Data Analysis with R"
+author: "Clemens Brunner"
+date: 2025-01-09
+format:
+  html:
+    page-layout: full
+engine: knitr
+knitr:
+  opts_chunk: 
+    R.options:
+      width: 120
+highlight-style: github
+title-block-banner: true
+theme:
+  light: flatly
+  dark: darkly
+---
+
+## Exercise 1
+
+### Height
+
+```{r}
+#| message: false
+library(dplyr)
+
+t.test(height ~ gender, data=starwars, alternative="less")
+```
+
+Female characters are not significantly shorter than male characters ($t=-1.25$, $p = .110$).
+
+
+### Weight
+
+```{r}
+t.test(mass ~ gender, data=starwars, alternative="less")
+```
+
+Female characters are significantly lighter than male characters ($t=-1.87$, $p = .034$).
+
+
+## Exercise 2
+
+```{r}
+library(palmerpenguins)
+```
+
+
+### Bill length
+
+```{r}
+with(
+    subset(penguins, species == "Adelie" | species == "Chinstrap"),
+    t.test(bill_length_mm ~ species)
+)
+with(
+    subset(penguins, species == "Adelie" | species == "Gentoo"),
+    t.test(bill_length_mm ~ species)
+)
+with(
+    subset(penguins, species == "Gentoo" | species == "Chinstrap"),
+    t.test(bill_length_mm ~ species)
+)
+```
+
+
+### Bill depth
+
+```{r}
+with(
+    subset(penguins, species == "Adelie" | species == "Chinstrap"),
+    t.test(bill_depth_mm ~ species)
+)
+with(
+    subset(penguins, species == "Adelie" | species == "Gentoo"),
+    t.test(bill_depth_mm ~ species)
+)
+with(
+    subset(penguins, species == "Gentoo" | species == "Chinstrap"),
+    t.test(bill_depth_mm ~ species)
+)
+```
+
+### Mit der Funktion `pairwise.t.test()`
+
+```{r}
+pairwise.t.test(penguins$bill_length_mm, penguins$species)
+pairwise.t.test(penguins$bill_depth_mm, penguins$species)
+```
+
+
+## Exercise 3
+
+For a paired *t*-test, we first need to convert the data to wide format:
+
+```{r}
+library(tidyr)
+
+sleep_wide = pivot_wider(
+    data=sleep,
+    id_cols=ID,
+    names_from=group,
+    names_prefix="g",
+    values_from=extra
+)
+```
+
+Now we can perform the test:
+
+```{r}
+t.test(sleep_wide$g1, sleep_wide$g2, paired=TRUE)
+```
+
+The mean difference is −1.58, which is significantly different from zero ($p = .003$). The 95% confidence interval ranges from −2.46 to −0.7.
