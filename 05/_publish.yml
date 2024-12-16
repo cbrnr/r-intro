@@ -1,16 +1,16 @@
 - source: 05-de.qmd
   netlify:
     - id: e68d3426-2ffa-46c5-b25e-e70532dd48e0
-      url: 'https://r-24w-05-de.netlify.app'
+      url: https://r-24w-05-de.netlify.app
 - source: 05-solutions-de.qmd
   netlify:
     - id: 0edff2e3-962c-40ec-b21a-5f4fdf41db66
-      url: 'https://r-24w-05-solutions-de.netlify.app'
+      url: https://r-24w-05-solutions-de.netlify.app
 - source: 05-en.qmd
   netlify:
     - id: cbca451e-3b50-47f9-b673-6a18a2647f17
-      url: 'https://r-24w-05-en.netlify.app'
+      url: https://r-24w-05-en.netlify.app
 - source: 05-solutions-en.qmd
   netlify:
     - id: ab4b5da6-0cf1-44fb-87b5-9d524dd7287b
-      url: 'https://r-24w-05-solutions-en.netlify.app'
+      url: https://r-24w-05-solutions-en.netlify.app
