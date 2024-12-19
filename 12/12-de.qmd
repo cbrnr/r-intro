@@ -2,7 +2,7 @@
 title: "12 – Reproduzierbare Analysen"
 subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2024-06-17
+date: 2025-01-16
 format:
   html:
     page-layout: full
@@ -287,9 +287,9 @@ Man kann so also eine gesamte Analyse reproduzierbar aufbereiten, inklusive Besc
 
 Erstellen Sie ein Quarto-Dokument, in dem Sie folgende Übungen aus den vorigen Einheiten lösen. Gliedern Sie das Dokument mit Überschriften, und fügen Sie außerdem erklärenden Text hinzu.
 
-- [Einheit 8, Übung 1](https://r-23w-08.netlify.app/#übung-1)
-- [Einheit 5, Übung 1](https://r-23w-05.netlify.app/#übung-1)
-- [Einheit 6, Übung 2](https://r-23w-06.netlify.app/#übung-2)
+- [Einheit 8, Übung 1](https://r-24w-08-de.netlify.app/#übung-1)
+- [Einheit 5, Übung 1](https://r-24w-05-de.netlify.app/#übung-1)
+- [Einheit 6, Übung 2](https://r-24w-06-de.netlify.app/#übung-2)
 
 Rendern Sie das Dokument abschließend als HTML und auch als PDF!
 

@@ -2,7 +2,7 @@
 title: "12 – Lösungen"
 subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2024-06-17
+date: 2025-01-16
 format:
   html:
     page-layout: full
@@ -29,7 +29,7 @@ published-title: "Veröffentlicht"
 ---
 title: "Einheit 12 – Reproduzierbare Analysen"
 author: "Clemens Brunner"
-date: 2024-01-25
+date: 2025-01-16
 format: html
 ---
 

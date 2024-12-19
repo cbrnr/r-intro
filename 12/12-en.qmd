@@ -1,0 +1,308 @@
+---
+title: "12 – Reproducible Documents"
+subtitle: "Statistical Data Analysis with R"
+author: "Clemens Brunner"
+date: 2025-01-16
+format:
+  html:
+    page-layout: full
+engine: knitr
+knitr:
+  opts_chunk: 
+    R.options:
+      width: 120
+highlight-style: github
+title-block-banner: true
+theme:
+  light: flatly
+  dark: darkly
+---
+
+## Quarto
+
+When you have successfully conducted an analysis, you often want to publish the results. Classically, you would use a word processor like Microsoft Word, LibreOffice Writer, or LaTeX, which requires you to manually transfer the results from the analysis to the document. This approach has several disadvantages. Since the word processor is completely independent of the analysis tools (like R), you have to adjust the text document when the data, methods, or results change. Copying and pasting numerical values is error-prone. Also, you generally have to create multiple documents if you want to publish the same content in different formats, like a static PDF document and a website (an HTML document).
+
+[Quarto](https://quarto.org/) is a publication tool for scientific and technical documents. It allows you to combine formatted text and dynamic code to create a reproducible publication in many different formats. This means that the code in the document is actually executed when the publication is created. This way, the results can be used directly in the document, so you don't have to transfer results manually.
+
+::: callout-tip
+In principle, a Quarto document is a text document with the extension `.qmd` (Quarto Markdown), which can then be *rendered* into a target format (like HTML or PDF).
+:::
+
+You can render a Quarto document in different formats without making changes to the `.qmd` source file, for example:
+
+- PDF documents
+- Word documents
+- HTML websites
+- PowerPoint presentations
+- Reveal.js presentations
+- EPUB documents
+
+You can even create entire websites and books with Quarto, examples of which are [my website](https://cbrnr.github.io/blog.html) and the book [R for Data Science](https://r4ds.hadley.nz/).
+
+Currently, Quarto supports embedding (and executing) code from the following programming languages:
+
+- R
+- Python
+- Julia
+- Observable.js (a JavaScript-based language)
+
+Of course we will focus on using R code.
+
+
+## RStudio and Quarto
+
+Conveniently, RStudio supports creating Quarto documents out of the box. To do this, select *File* – *New File* – *Quarto Document* or click on the corresponding icon in the toolbar. This opens a dialog where you can select some options:
+
+![](new-quarto.png)
+
+You can choose between creating an empty document or a document based on a template. We are satisfied with the default settings (HTML document with the title "Untitled") and can click on *Create* directly.
+
+::: callout-note
+All settings can be adjusted at any time later.
+:::
+
+RStudio opens a Quarto document in its editor pane, which is already filled with example text (if you don't want that, you can select "Create Empty Document" in the previous step). This is very convenient, especially at the beginning, because we can learn how to write Quarto documents based on this example. By clicking *Render* in the toolbar (or <kbd>Ctrl</kbd><kbd>Shift</kbd><kbd>K</kbd> on Windows or <kbd>⌘</kbd><kbd>Shift</kbd><kbd>K</kbd> on macOS), you can render the document in the selected format (HTML by default).
+
+
+## Markdown
+
+Quarto documents are based on [Markdown](https://en.wikipedia.org/wiki/Markdown), a simple markup language (similar to HTML) that is suitable for creating formatted text with a text editor. This allows us to create headings at different levels, text formatting like bold, italic, and underlined, lists, tables, and much more. The most important elements are presented here, more details are available [here](https://quarto.org/docs/authoring/markdown-basics.html).
+
+
+### Headings
+
+Headings are introduced with `#` characters. The number of these characters determines the level of the heading (level 1 is the top level, level 6 is the lowest level):
+
++------------------------+----------------------+
+| Markdown syntax        | Result               |
++========================+======================+
+| `# Heading 1`          | # Heading 1          |
++------------------------+----------------------+
+| `## Heading 2`         | ## Heading 2         |
++------------------------+----------------------+
+| `### Heading 3`        | ### Heading 3        |
++------------------------+----------------------+
+| `#### Heading 4`       | #### Heading 4       |
++------------------------+----------------------+
+| `##### Heading 5`      | ##### Heading 5      |
++------------------------+----------------------+
+| `###### Heading 6`     | ###### Heading 6     |
++------------------------+----------------------+
+
+
+### Text formatting
+
+We can format text by enclosing the desired words with corresponding symbols:
+
++--------------------------+-----------------------+
+| Markdown syntax          | Result                |
++==========================+=======================+
+| `*italic*`               | *italic*              |
++--------------------------+-----------------------+
+|  `**bold**`              | **bold**              |
++--------------------------+-----------------------+
+|  `***bold and italic***` | ***bold and italic*** |
++--------------------------+-----------------------+
+|  `~~strikethrough~~`     | ~~strikethrough~~     |
++--------------------------+-----------------------+
+|  `` `code font` ``       | `code font`           |
++--------------------------+-----------------------+
+|  `superscript^2^`        | superscript^2^        |
++--------------------------+-----------------------+
+|  `subscript~2~`          | subscript~2~          |
++--------------------------+-----------------------+
+
+
+### Links
+
+We can represent links to websites directly or with alternative text:
+
++--------------------------------+------------------------------+
+| Markdown syntax                | Result                       |
++================================+==============================+
+| `<https://quarto.org>`         | <https://quarto.org>         |
++--------------------------------+------------------------------+
+| `[Quarto](https://quarto.org)` | [Quarto](https://quarto.org) |
++--------------------------------+------------------------------+
+
+
+### Images
+
+Images can be inserted similar to links:
+
++-------------------------+-----------------------+
+| Markdown syntax         | Result                |
++=========================+=======================+
+| `![Caption](Rlogo.png)` | ![Caption](Rlogo.png) |
++-------------------------+-----------------------+
+
+
+### Lists
+
+Lists can be created as follows:
+
++----------------------------+---------------------------+
+| Markdown syntax            | Result                    |
++============================+===========================+
+| ```markdown                | - Unordered list          |
+| * Unordered list           |     - Item 1              |
+|     + Item 1               |     - Item 2              |
+|     + Item 2               |         - Item A          |
+|         - Item A           |                           |
+| ```                        |                           |
++----------------------------+---------------------------+
+| ```markdown                | 1. Ordered list           |
+| 1. Ordered list            | 2. Item 2                 |
+| 2. Item 2                  |     i) Item A             |
+|     i) Item A              |         a. Text           |
+|         a. Text            |                           |
+| ```                        |                           |
++----------------------------+---------------------------+
+
+:::{.callout-tip}
+Items in an ordered list can all start with `1.` (or `a.` or `i)`) and the numbering will continue automatically.
+
+Here is an example of automatic numbering:
+
+```markdown
+1. First item
+    a. Sub-Item
+    a. Next sub-item
+        i) More nesting
+        i) Even more
+1. Second item
+1. Third item
+```
+
+This will be rendered as:
+
+1. First item
+    a. Sub-Item
+    a. Next sub-item
+        i) More nesting
+        i) Even more
+1. Second item
+1. Third item
+:::
+
+
+### Source code
+
+Source code can be entered in blocks that start and end with ` ``` `:
+
+````markdown
+```
+code
+```
+````
+
+It is also possible to enable syntax highlighting for supported languages:
+
+````markdown
+```r
+x = c(1, 5:8, 12) * 2
+```
+````
+
+````markdown
+```python
+x = sum(i for i in range(25))
+```
+````
+
+::: callout-important
+Code in these code blocks is *not* executed!
+:::
+
+
+## Mathematical formulas
+
+Quarto also supports mathematical formulas, which can be entered in [LaTeX syntax](https://en.wikibooks.org/wiki/LaTeX/Mathematics). A formula that should appear on its own line is enclosed in *double* dollar signs:
+
+```markdown
+$$a^2 + b^2 = c^2 \Rightarrow c = \sqrt{a^2 + b^2}$$
+```
+
+$$a^2 + b^2 = c^2 \Rightarrow c = \sqrt{a^2 + b^2}$$
+
+A formula that should appear within the text is enclosed in *single* dollar signs:
+
+```markdown
+The square root of $x$ is $\sqrt{x}$, which can also be written as $x^\frac{1}{2}$.
+```
+
+The square root of $x$ is $\sqrt{x}$, which can also be written as $x^\frac{1}{2}$.
+
+
+## YAML header
+
+Every Quarto document starts with a so-called [YAML](https://yaml.org) header. This header sets meta-data of the document, like author, title, date, etc. The header is enclosed by `---`. A very simple YAML header looks like this:
+
+```yaml
+---
+title: "Untitled"
+author: "Clemens Brunner"
+format: html
+---
+```
+
+This sets the title of the Quarto document ("Untitled"), the author ("Clemens Brunner"), and the output format (HTML). There are countless other options that can be set here. Some options are only available for specific output formats. We will not go into more details here, since they are described in the Quarto documentation at various places (e.g., [HTML options](https://quarto.org/docs/reference/formats/html.html), [PDF options](https://quarto.org/docs/reference/formats/pdf.html), [options for scientific papers](https://quarto.org/docs/authoring/front-matter.html), etc.).
+
+The `format` option determines the output format of the rendered document. To create a PDF, set the value to `pdf`, a Word document is created with `docx`. All supported output formats are described [here](https://quarto.org/docs/output-formats/all-formats.html).
+
+
+## Code cells
+
+As already mentioned, you can embed code in Quarto documents with so-called code cells, which are executed when rendered. This allows for [literate programming](https://en.wikipedia.org/wiki/Literate_Programming), where you can mix source code with formatted text.
+
+We create a code cell similar to a block of source code, but we have to enclose the programming language in *curly braces*, so for R code `{r}`:
+
+````markdown
+```{{r}}
+mean(1:1000)
+```
+````
+
+The code is executed, and together with the code, any results are rendered. The previous example looks like this:
+
+```{r}
+mean(1:1000)
+```
+
+Plots are also rendered and embedded in the final document:
+
+```{r}
+with(airquality, plot(Temp, Ozone, pch=19, col=rgb(0, 0.3, 1, 0.5)))
+```
+
+In summary, Quarto documents are a great way to combine formatted text with dynamic code. You can thus prepare an entire analysis reproducibly, including descriptions, images, etc., and render the document in different output formats. Just like an R script, everything is executed sequentially from the first to the last line.
+
+
+## Exercises
+
+### Exercise 1
+
+Create a Quarto document in which you solve the following exercises from previous units. Structure the document with headings and add some explanatory text.
+
+- [Session 8, Exercise 1](https://r-24w-08-en.netlify.app/#exercise-1)
+- [Session 5, Exercise 1](https://r-24w-05-en.netlify.app/#exercise-1)
+- [Session 6, Exercise 2](https://r-24w-06-en.netlify.app/#exercise-2)
+
+Render the document as both HTML and PDF!
+
+
+### Exercise 2
+
+What is the difference between the following two blocks?
+
+````markdown
+```r
+mean(1:1000)
+```
+````
+
+````markdown
+```{{r}}
+mean(1:1000)
+```
+````
