@@ -13,4 +13,4 @@
 - source: 11-solutions-en.qmd
   netlify:
     - id: e5c85092-d3a1-422c-aed9-c23180e870d6
-      url: https://r-24w-11-solutions-11.netlify.app
+      url: https://r-24w-11-solutions-en.netlify.app
