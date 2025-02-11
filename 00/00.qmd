@@ -1,0 +1,97 @@
+---
+title: "Course Organization"
+subtitle: "Statistical Data Analysis with R"
+author: "Clemens Brunner"
+date: 2025-03-03
+format:
+  html:
+    page-layout: full
+engine: knitr
+knitr:
+  opts_chunk: 
+    R.options:
+      width: 120
+highlight-style: github
+title-block-banner: true
+theme:
+  light: flatly
+  dark: darkly
+---
+
+## General information
+
+This course introduces the statistical programming environment [R](https://www.r-project.org). No prior knowledge is required, as the course covers the basics of R. Due to time constraints, not all statistical methods can be discussed, but you will gain a solid foundation to learn more advanced methods independently. Classes will alternate between theory and practice, allowing you to immediately apply new concepts through practical examples in R. The plan for this semester is as follows:
+
+| Session | Date       | Content                |
+|--------:|------------|------------------------|
+| 1       | 2025-03-03 | Basics                 |
+| 2       | 2025-03-10 | The R Environment      |
+| 3       | 2025-03-17 | Vectors                |
+| 4       | 2025-03-24 | Tabular Data           |
+| 5       | 2025-03-31 | Importing Data         |
+| 6       | 2025-04-07 | Descriptive Statistics |
+| 7       | 2025-04-28 | Data Wrangling         |
+| 8       | 2025-05-05 | Visualization          |
+| 9       | 2025-05-12 | Correlation            |
+| 10      | 2025-05-19 | Linear Regression (1)  |
+| 11      | 2025-05-26 | Linear Regression (2)  |
+| 12      | 2025-06-02 | Comparing Means        |
+| 13      | 2025-06-16 | Exam                   |
+| 14      | 2025-06-23 | Exam (Retake)          |
+
+: {tbl-colwidths="[10,15,75]"}
+
+All course materials and information will be available on [Moodle](https://moodle.uni-graz.at/login/index.php). Moodle will also be used for communication, including announcements, forum discussions, and questions & answers. Make sure to check the course website regularly for updates.
+
+All sessions will be held in person. If that is not possible, they will be conducted online at the scheduled times (the URL will be provided on Moodle).
+
+
+## Structure of a session
+
+Detailed materials for each session will be available on Moodle. Except for the first session, the course follows the [Flipped Classroom](https://en.wikipedia.org/wiki/Flipped_classroom) approach, meaning that you must study the content *before* each session. In particular, you should make sure to complete the exercises at the end of each chapter, as they help reinforce your understanding and prepare you for the final exam.
+
+Each session will begin with a short graded quiz on the topic of the current session. 
+
+:::{.callout-tip}
+Use the discussion forum on Moodle during your preparation time! The more people actively participate in the forum, the more helpful it will be for everyone.
+:::
+
+After the quiz, we will discuss the exercises you have prepared in detail. You will have the opportunity to ask questions or discuss your own solutions. If time allows, we will explore additional examples or explanations.
+
+You will take quizzes, participate in interactive sessions, and complete the final exam using the university computers in the classroom.
+
+
+## Grading criteria
+
+### Attendance
+
+Due to the continuous assessment nature of this course, attendance is *mandatory*. It will be checked at a random time during each session. You may miss up to two sessions without penalty. For more than two absences, you must provide a valid reason (e.g., a medical certificate). Missing more than a third of the course (i.e., five or more sessions) will result in automatic failure of the course.
+
+
+### Quizzes
+
+At the beginning of each session (except for the first one), a short quiz will be available on Moodle. The quiz will consist of short questions (mostly multiple-choice) on the topic of the session. You can earn a maximum of 10 points per quiz (partial points are possible). The quiz must be completed on-site. A missed quiz (e.g., due to absence or tardiness) counts as 0 points.
+
+
+### Exam
+
+At the end of the semester, there will be an exam covering the entire content of the course. This exam will be taken on-site using a university computer. You may use all course materials (open book), but no other aids (such as AI, solved exercises, internet, etc.) are allowed. The questions will be based on the exercises and quizzes. You can earn a total of 10 points (partial points are possible).
+
+You have the option to retake the exam if needed. In that case, the score from your second attempt will replace the first, regardless of how it affects your grade.
+
+
+## Grading
+
+The final grade is based on the three criteria described previously:
+
+- If you have missed no more than two sessions (or a maximum of four sessions with proof of valid reasons), the attendance requirement is fulfilled. Missing five or more sessions will result in automatic failure of the course.
+- The lowest two quiz scores will be dropped. The arithmetic average of the remaining quiz scores will contribute 50% to your final grade.
+- The exam score will also contribute 50% to your final grade. However, you must score at least 6 points on the exam to pass the course.
+
+If all criteria are met, the final grade will be calculated from the average of the quiz and exam scores as follows:
+
+| Excellent (1) | Good (2)   | Satisfactory (3) | Sufficient (4) | Fail (5)    |
+|---------------|------------|------------------|----------------|-------------|
+| 9–10 points   | 8–9 points | 7–8 points       | 6–7 points     | \< 6 points |
+
+The lowest point of each range will always result in the higher grade. For example, exactly 9 points correspond to "Excellent (1)", and 8.97 points would result in a "Good (2)".
