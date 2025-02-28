@@ -55,7 +55,7 @@ sqrt(2) * (5^5 - pi) * 18 / ((7/5 + 13.2) * 7^(2/3))
 
 ## Exercise 5
 
-The code doesn't work because the object `PI` does not exist (`Error: object 'PI' not found`). R commands are *case sensitive*, and the correct name for $\pi$ is `pi` (in lowercase):
+The code doesn't work because the object `PI` does not exist (`Error: object 'PI' not found`). R commands are *case-sensitive*, and the correct name for $\pi$ is `pi` (in lowercase):
 
 ```{r}
 2 * 1 * pi

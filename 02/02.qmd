@@ -2,7 +2,7 @@
 title: "2 – The R Environment"
 subtitle: "Statistical Data Analysis with R"
 author: "Clemens Brunner"
-date: 2024-10-10
+date: 2025-03-10
 format:
   html:
     page-layout: full
@@ -22,10 +22,10 @@ theme:
 
 In the previous lesson, we installed and used the graphical user interface RStudio. RStudio requires a working installation of R. By default, RStudio's window is divided into four sections (though sometimes only three are visible):
 
-1. The *Console* is located at the bottom left (other tabs here are irrelevant for us). This is where R waits for our input.
+1. The *Console* is located at the bottom left. This is where R waits for our input.
 2. The editor is at the top left (if at least one file is open). Otherwise, the console occupies this space.
-3. The top right shows an overview of all loaded objects (*Environment*) and a list of all previously entered commands (*History*) (other tabs here are not important to us). You can also access the history in the console using the <kbd>↑</kbd> or <kbd>↓</kbd> keys and even edit it before pressing Enter again.
-4. The bottom right displays the current directory's contents (*Files*), graphical outputs (*Plots*), a package manager (*Packages*), or a help window (*Help*) (the other tabs are irrelevant for us).
+3. The top right shows an overview of all loaded objects (*Environment*) and a list of all previously entered commands (*History*). You can also access the history in the console using the <kbd>↑</kbd> or <kbd>↓</kbd> keys and even edit previous commands before pressing <kbd>Enter</kbd> again.
+4. The bottom right displays the current directory's contents (*Files*), graphical outputs (*Plots*), a package manager (*Packages*), and a help browser (*Help*).
 
 ![](rstudio.png)
 
@@ -63,7 +63,7 @@ In RStudio, the *Packages* pane (in the bottom right panel) shows a list of all 
 
 In this view, you can click *Update* to update installed packages, which should be done periodically (regardless of R version updates, which follows an independent release schedule).
 
-To install new packages, click *Install*. When you type the first few letters of a package's name into the *Packages* field, a list of all matching packages will appear. You can uninstall an already installed package by clicking the light gray "X" symbol in the right column of the package list.
+To install new packages, click *Install*. When you type the first few letters of a package's name into the *Packages* field, a list of all matching packages will appear. You can uninstall an already installed package by clicking the gray "X" symbol in the right column of the package list.
 
 ![](rstudio_packages.png)
 
@@ -103,16 +103,14 @@ In this case, you can omit the quotation marks around the package name.
 
 ### Scripts
 
-Typing commands directly into the R console is convenient for trying things out interactively or doing quick calculations. However, for reproducible data analysis, it's best to save the necessary commands in an R script so that you can repeat the analysis at any time. An R script is simply a plain text file with the extension `.R`.
+Typing commands directly into the R console is convenient for trying things out interactively or performing quick calculations. However, for reproducible data analysis, it's best to save the necessary commands in an R script so that you can repeat the analysis at any time. An R script is simply a plain text file with the extension `.R`.
 
-Each line of an R script typically contains a single R command. When you run the script, all lines are executed sequentially from top to bottom. In RStudio, you can execute an entire script by clicking the "Source" button (or "Source with Echo"). To run just the current line or selected lines, click "Run" (you can also use the shortcut <kbd>Ctrl</kbd><kbd>Enter</kbd> on Windows/Linux or <kbd>⌘</kbd><kbd>Enter</kbd> on macOS). Conveniently, the cursor jumps to the next command in the script, which can be executed again if desired.
+Each line of an R script typically contains a single R command. When you run the script, all lines are executed sequentially from top to bottom. In RStudio, you can execute an entire script by clicking the "Source" button (or "Source with Echo"). To run just the current line or selected lines, click "Run" (you can also use the shortcut <kbd>Ctrl</kbd><kbd>Enter</kbd> on Windows/Linux or <kbd>⌘</kbd><kbd>Enter</kbd> on macOS). Conveniently, the cursor jumps to the next command in the script, which can then be executed if desired.
 
-The following image shows a short R script opened in RStudio's editor:
-
-![](rstudio_run_code.png)
+![](rstudio-run-code.png)
 
 ::: {.callout-tip}
-If your script uses commands from additional packages, you *must* also activate those packages in the script with `library(package)`. It's best to do this at the very beginning of the script.
+If your script uses commands from additional packages, you *must* activate each single package with `library(package)`. It's best to do this at the top of the script.
 :::
 
 ::: {.callout-important}
@@ -129,10 +127,10 @@ To get the working directory (i.e., the directory where the current R session is
 getwd()
 ```
 
-This working directory is important because R expects files (such as scripts or data) to be located in this (or relative to this) directory. You can display all files in the current working directory using `dir()` (RStudio also shows this in the bottom right *Files* pane).
+The working directory is important, because R expects files (such as scripts or data) to be located in this (or relative to this) directory. You can display all files in the current working directory using `dir()` (RStudio also shows this in the bottom right *Files* pane).
 
 ::: {.callout-tip}
-The title of the R console in RStudio also shows the current working directory. The name `~` is shorthand for your personal folder.
+The title of *Console* pane in RStudio also shows the current working directory. The name `~` is shorthand for your personal user folder (folder and directory are used interchangeably).
 :::
 
 The command `setwd("/path/to/working/directory")` sets the current working directory to the specified path (e.g., `/path/to/working/directory` in this case). Note that directories on Windows must also be separated by forward slashes `/` as opposed to backslashes `\`.
@@ -146,7 +144,7 @@ In RStudio, there are at least three alternatives to set the working directory u
 ![](set-working-directory.png){width=300}
 
 ::: {.callout-important}
-Before running a script, you should set the working directory correctly (usually to the folder where the script is saved). However, don't automate this in the script itself, as the script should also run in other environments where your specific directory may not exist.
+Before running a script, you should set the working directory correctly (usually to the folder where the script is saved). However, don't automate this in the script itself, as the script should also run in other environments where your specific directory may not exist. This means that you should never include `setwd()` in your scripts!
 :::
 
 :::{.callout-tip}
@@ -168,7 +166,7 @@ In a fresh R session, the workspace is empty (if it isn't, you likely didn't set
 
 ### Syntax
 
-Syntax refers to the rules for creating valid R commands from individual characters. To learn R's syntax, let's examine the following short example script:
+Syntax refers to the rules for creating valid R commands from individual characters. To learn R's syntax, let's examine the following short example:
 
 ```r
 # compute sum of integers from 1 to 100
@@ -178,17 +176,17 @@ sum(x)
 n * (n + 1) / 2  # closed-form solution
 ```
 
-Even in these few lines, you can already observe the basic rules. In principle, each command is written on its own line.
+Even in these few lines, we can already observe the basic rules. In principle, each command is written on its own line.
 
 
 #### Comments
 
-Comments, i.e., all characters from `#` to the end of the line, are *not* executed by R, but simply ignored. Nevertheless, comments are extremely important because they help understand the code — therefore, always add explanatory comments to more complex calculations!
+Comments, i.e., all characters from `#` to the end of the line, are *not* executed by R, but simply ignored. Nevertheless, comments are extremely important, because they help explain and understand the code — therefore, always add explanatory comments to more complex calculations!
 
 
 #### Variables and objects
 
-The assignment operator in R is either `=` or `<-`. You use it to assign values (often referred to as objects) to variables, which you can then reuse (e.g., for further calculations). In the example, `n = 100` assigns the value `100` to the variable `n`. Thus, the example script creates two variables `n` and `x`.
+The assignment operator in R is either `=` or `<-`. You use it to assign values (often referred to as objects) to *variables*, which you can then reuse (e.g., for further calculations). In the example, `n = 100` assigns the value `100` to the variable `n`. Thus, the example script creates two variables `n` and `x`.
 
 :::{.callout-note}
 It doesn't matter whether you use `=` or `<-` for assignments. However, you should be consistent and always use just one of the two operators. These materials use `=`, because it's quicker to type and most other programming languages also use `=`.
@@ -199,12 +197,12 @@ R is case-sensitive, meaning the variable `N` is not the same as `n`. In additio
 
 #### Functions
 
-A function is a mini-script that you can execute by calling it. In the example above, `sum` is a function. To call a function, a pair of parentheses `()` is needed after the function name. Any arguments (needed if the function requires additional information) are passed within the parentheses. Multiple arguments are separated by a comma `,`.
+A function is a mini-script that you can execute by *calling* it. In the example above, `sum` is a function. To call a function, a *pair of parentheses* `()` is needed after the function name. Any arguments (needed if the function requires additional information) are passed *within* the parentheses (multiple arguments are separated by commas `,`).
 
-For example, the command `sum(x)` calls the function `sum` with the argument `x`. Some functions don't require arguments, but the parentheses are still necessary (e.g., `library()` calls the library function with no arguments). Other examples of function calls without arguments that we've already encountered are `search()`, `getwd()`, `dir()`, and `ls()`.
+For example, the command `sum(x)` calls the function `sum` with the argument `x`. Some functions don't require arguments, but the parentheses are still always necessary (e.g., `library()` calls the library function with no arguments). Other examples of function calls without arguments that we've already encountered are `search()`, `getwd()`, `dir()`, and `ls()`.
 
 :::{.callout-note}
-In these materials, function names are followed by parentheses `()` to indicate that they are functions.
+In these materials, function names are always followed by parentheses `()` to indicate that they are functions.
 :::
 
 With objects and functions, we've already covered the two most important concepts in R. In summary (from [John M. Chambers, Extending R, Chapman & Hall/CRC, 2016](https://www.taylorfrancis.com/books/mono/10.1201/9781315381305/extending-john-chambers)):
@@ -225,7 +223,7 @@ help(sum)
 
 #### Example 1
 
-Let's inspect the documentation for `sum()` more closely, because all help pages are organized in a similar way. It is a good habit to quickly skim the help text for every new function that you are about to use for the first time – this will get you started much quicker than just assuming things (that might not be true) or filling in arguments by trial and error.
+Let's inspect the documentation for `sum()` more closely, because all help pages are organized in a similar way. It is a good habit to quickly skim the help text for every function that you are about to use for the first time – this will get you started much quicker than just assuming things (that might not be true) or filling in arguments by trial and error.
 
 The very first line contains the name of the function and the package it comes from in curly braces:
 
@@ -251,11 +249,11 @@ sum(..., ra.rm = FALSE)
 
 We already know that we have to write the function name followed by a pair of parentheses. In addition, this section also tells us which arguments we can pass – in this case, there are two possible arguments (`...` and `na.rm`). The second argument `na.rm` has a default value of `FALSE`, which means that if we do not pass a second argument in our function call, `na.rm` automatically gets its default value of `FALSE`.
 
-More details on each argument are listed in the subsequent "Arguments" section. In this example, we learn that `...` should be "numeric or complex or logical vectors" (we'll learn about vectors soon).
+More details for each argument are listed in the subsequent "Arguments" section. In this example, we learn that `...` should be "numeric or complex or logical vectors" (we'll learn about vectors soon). In fact, `...` is special and allows us to pass an arbitrary number of arguments to the function.
 
 The next section contains a very detailed description of the function. If you want to understand what is going on when you call the function, you need to read this.
 
-The "Value" section tells us what the function returns (what it computes). Often, the help text includes some useful references such as books or articles. Many functions also include a "See Also" section, which lists similar and related functions.
+The "Value" section tells us what the function *returns* (what it computes). Often, the help text includes some useful references such as books or articles. Many functions also include a "See Also" section, which lists similar and related functions.
 
 Last but definitely not least, most help pages contain several usage examples. You can copy and paste them into the console to try them out and see the examples in action.
 
@@ -282,7 +280,7 @@ Function parameters and arguments are often used synonymously, but there is a di
 For example, the `mean()` function has several parameters, and the first parameter is called `x`. When we call the function using `mean(1:10)`, we pass the argument `1:10`, which is used instead of `x` everywhere inside the function to compute the mean.
 :::
 
-Let's try some examples to see the different ways we can call the `mean()` function. Let's assume we have a numeric vector (a collection of numbers) stored in the variable `numbers`:
+Let's try some examples to see the different ways we can call the `mean()` function. Let's assume we have a numeric vector (a collection of numbers, more on that in the next chapter) stored in the variable `numbers`:
 
 ```{r}
 numbers = c(1, 8, 17, -6, 5.5, -12.2)

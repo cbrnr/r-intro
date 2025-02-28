@@ -2,7 +2,7 @@
 title: "2 – Solutions"
 subtitle: "Statistical Data Analysis with R"
 author: "Clemens Brunner"
-date: 2024-10-10
+date: 2025-03-10
 format:
   html:
     page-layout: full
@@ -31,8 +31,8 @@ install.packages("psych")
 The version numbers can be seen in the *Packages* view in RStudio; I have the following versions:
 
 - `tidyverse`: 2.0.0
-- `Hmisc`: 5.1-3
-- `psych`: 2.4.6.26
+- `Hmisc`: 5.2-2
+- `psych`: 2.4.12
 
 Installed packages can be activated using the function `library()`, so for the three packages:
 

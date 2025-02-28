@@ -5,4 +5,4 @@
 - source: 01-solutions.qmd
   netlify:
     - id: af4cd969-0d32-4c6f-8e0b-e532e71853c0
-      url: https://r-25s-01-solutions.netlify.app/
+      url: https://r-25s-01-solutions.netlify.app
