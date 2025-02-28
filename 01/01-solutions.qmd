@@ -2,7 +2,7 @@
 title: "1 – Solutions"
 subtitle: "Statistical Data Analysis with R"
 author: "Clemens Brunner"
-date: 2024-10-03
+date: 2025-03-03
 format:
   html:
     page-layout: full
@@ -20,15 +20,15 @@ theme:
 
 ## Exercise 1
 
-The R version is displayed in the Console as an introductory message immediately after startup. The full version information is:
+The R version is displayed in the console as an introductory message immediately after startup. The full version information is:
 
 ```
-R version 4.4.1 (2024-06-14) -- "Race for Your Life"
+R version 4.4.2 (2024-10-31) -- "Pile of Leaves"
 ```
 
-Additionally, the R version is always visible in the title bar of the Console.
+Additionally, the R version is always visible in the title bar of the console.
 
-The RStudio version is 2024.04.2 Build 764, which can be found in the Help window, accessible through "Help" – "About RStudio".
+The latest RStudio version is 2024.12.1 Build 563, which can be found in the Help window, accessible through "Help" – "About RStudio".
 
 
 ## Exercise 2
@@ -55,7 +55,7 @@ sqrt(2) * (5^5 - pi) * 18 / ((7/5 + 13.2) * 7^(2/3))
 
 ## Exercise 5
 
-The code doesn't work because the object `PI` does not exist (`Error: object 'PI' not found`). Case sensitivity matters, and the correct name for $\pi$ is `pi` (in lowercase):
+The code doesn't work because the object `PI` does not exist (`Error: object 'PI' not found`). R commands are *case sensitive*, and the correct name for $\pi$ is `pi` (in lowercase):
 
 ```{r}
 2 * 1 * pi

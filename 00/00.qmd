@@ -41,7 +41,7 @@ This course introduces the statistical programming environment [R](https://www.r
 
 : {tbl-colwidths="[10,15,75]"}
 
-All course materials and information will be available on [Moodle](https://moodle.uni-graz.at/login/index.php). Moodle will also be used for communication, including announcements, forum discussions, and questions & answers. Make sure to check the course website regularly for updates.
+All course materials will be available on [Moodle](https://moodle.uni-graz.at/login/index.php). Moodle will also be used for communication, including announcements, forum discussions, and questions & answers. Make sure to check the course website regularly for updates.
 
 All sessions will be held in person. If that is not possible, they will be conducted online at the scheduled times (the URL will be provided on Moodle).
 
@@ -70,12 +70,12 @@ Due to the continuous assessment nature of this course, attendance is *mandatory
 
 ### Quizzes
 
-At the beginning of each session (except for the first one), a short quiz will be available on Moodle. The quiz will consist of short questions (mostly multiple-choice) on the topic of the session. You can earn a maximum of 10 points per quiz (partial points are possible). The quiz must be completed on-site. A missed quiz (e.g., due to absence or tardiness) counts as 0 points.
+At the beginning of each session (except for the first one), a short quiz will be available on Moodle. The quiz will consist of short questions (mostly multiple-choice) on the topic of the session. You can earn a maximum of 10 points per quiz (partial points are possible). The quiz must be taken on site. A missed quiz (e.g., due to absence or tardiness) counts as 0 points.
 
 
 ### Exam
 
-At the end of the semester, there will be an exam covering the entire content of the course. This exam will be taken on-site using a university computer. You may use all course materials (open book), but no other aids (such as AI, solved exercises, internet, etc.) are allowed. The questions will be based on the exercises and quizzes. You can earn a total of 10 points (partial points are possible).
+At the end of the semester, there will be an exam covering the entire content of the course. This exam will be taken on site using a university computer. You may use all course materials (open book), but no other aids (such as AI, solved exercises, internet, chat, etc.) are allowed. The questions will be based on the exercises and quizzes. You can earn a total of 10 points (partial points are possible).
 
 You have the option to retake the exam if needed. In that case, the score from your second attempt will replace the first, regardless of how it affects your grade.
 
@@ -86,7 +86,7 @@ The final grade is based on the three criteria described previously:
 
 - If you have missed no more than two sessions (or a maximum of four sessions with proof of valid reasons), the attendance requirement is fulfilled. Missing five or more sessions will result in automatic failure of the course.
 - The lowest two quiz scores will be dropped. The arithmetic average of the remaining quiz scores will contribute 50% to your final grade.
-- The exam score will also contribute 50% to your final grade. However, you must score at least 6 points on the exam to pass the course.
+- The exam score will also contribute 50% to your final grade. In addition, you must score at least 6 points on the exam to pass the course.
 
 If all criteria are met, the final grade will be calculated from the average of the quiz and exam scores as follows:
 
