@@ -2,7 +2,7 @@
 title: "3 – Solutions"
 subtitle: "Statistical Data Analysis with R"
 author: "Clemens Brunner"
-date: 2024-10-17
+date: 2025-03-17
 format:
   html:
     page-layout: full
@@ -82,6 +82,7 @@ k[k > 11]
 t = c(10, 20, NA, 30, 40)
 mean(t)  # result is NA
 mean(t, na.rm=TRUE)  # ignores NA elements
+mean(t[!is.na(t)])  # alternative way to ignore NA elements
 ```
 
 
@@ -102,12 +103,16 @@ sum(x == 0)
 which(x == 0)
 ```
 
+::: {.callout-tip}
+R treats `TRUE` as `1` and `FALSE` as `0`. Therefore, `sum(x == 0)` counts the number of `TRUE` values in the logical vector `x == 0`.
+:::
+
 
 ### Exercise 10
 
-The indices inside the square brackets must always be contained in a single vector. If you want to index three positions, you need to create this vector with `c()`. Therefore, `x[2, 4, 6]` does not work because three vectors are specified (separated by commas) instead of a single vector.
+The indices inside the square brackets must always be contained in a *single* vector. If you want to index three positions, you need to create this vector with `c()`. Therefore, `x[2, 4, 6]` does not work because three vectors are specified (separated by commas) instead of a single vector.
 
-The correct way to index the second, fourth, and sixth element of `x` is:
+The correct way to index the second, fourth, and sixth element of `x` is therefore:
 
 ```{r}
 x = 1:10

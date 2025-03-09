@@ -2,7 +2,7 @@
 title: "3 – Vectors"
 subtitle: "Statistical Data Analysis with R"
 author: "Clemens Brunner"
-date: 2024-10-17
+date: 2025-03-17
 format:
   html:
     page-layout: full
@@ -20,18 +20,18 @@ theme:
 
 ## Creating vectors
 
-The basic (atomic) data type in R is the vector. A vector is a data structure that consists of one or more elements. Therefore, even a number (a scalar) like `5` is a vector (with only one element).
+The fundamental (atomic) data type in R is the *vector*, a data structure that contains one or more elements. Even a single number (a scalar) like `5` is considered a vector with one element.
 
-The `c()` function (stands for combine or concatenate) is used to create a vector. In the following example, we create a vector with four elements and assign the name `y` to it:
+The `c()` function (stands for "combine" or "concatenate") can be used to create a vector. In the following example, we create a vector with four elements and assign the name `y` to it:
 
 ```{r}
 (y = c(1, 2, 3.1415, -100))
 ```
 
-:::{.callout-note}
+:::{.callout-tip}
 If you enclose a command in parentheses, the resulting value is always printed to the console (this is normally not the case with assignments).
 
-The previous example could also be written in two lines, but this is of course more typing:
+Therefore, the previous example could also be written in two lines:
 
 ```r
 y = c(1, 2, 3.1415, -100)
@@ -45,7 +45,7 @@ The length of a vector (i.e., its number of elements) can be determined with the
 length(y)
 ```
 
-The following example creates a vector `a` with a single element – in this case, you don't even need to use the `c()` function:
+The following example creates a vector `a` with a single element – in this case, you don't need to use the `c()` function, as there is nothing to concatenate:
 
 ```{r}
 a = 6
@@ -61,13 +61,13 @@ c(666, y, 666, c(23, 24))
 
 ## Types of vectors
 
-A vector always consists of elements of the same type. Vectors are therefore called *homogeneous* data types. So far, we have learned about numerical vectors, which consist exclusively of numbers. However, there are also vectors that contain logical elements or characters. We can roughly distinguish between the following vector types in R:
+A vector always consists of elements of the same type. Vectors are therefore called *homogeneous* data types. So far, we have learned about numerical vectors, which consist exclusively of numbers. However, there are also vector types that contain logical elements or characters. We can roughly distinguish between the following vector types in R:
 
 - Numeric vectors
 - Logical vectors
 - Character vectors
 
-In one of the next sessions, we will also learn about factors as a fourth important type (in general, there are many more specific data types in R that we will not cover in this course).
+In one of the next sessions, we will also cover factors and datetime types as additional important data types. However, R includes many more specific data types that we will not cover in this course.
 
 
 ### Numeric vectors
@@ -78,7 +78,7 @@ Numeric vectors are of type `numeric` and contain only numbers, for example:
 c(2, 13, 15, 17)
 ```
 
-The function `class()` can be used to determine the type (class) of an object. Examples:
+The function `class()` can be used to determine the type (class) of an object:
 
 ```{r}
 class(2)
@@ -90,7 +90,7 @@ class(c(3.1, 2.2, 10))
 
 ### Logical vectors
 
-Logical vectors consist exclusively of the values `TRUE` or `FALSE` (pay attention to the correct spelling). They are of type `logical`.
+Logical vectors contain only the values `TRUE` or `FALSE` (note the correct spelling in all caps) and are of type `logical`.
 
 ```{r}
 class(TRUE)
@@ -98,17 +98,17 @@ class(c(FALSE, FALSE, TRUE))
 ```
 
 :::{.callout-note}
-It is possible to abbreviate the values `TRUE` and `FALSE` with `T` and `F`. However, I recommend not using these abbreviations because they are less readable.
+It is possible to abbreviate the values `TRUE` and `FALSE` with `T` and `F`. However, I recommend to avoid these abbreviations, because they are less readable.
 :::
 
-Logical vectors are created, among other things, by comparing two vectors:
+Logical vectors are also the result of comparing two vectors.
 
 ```{r}
 x = 5
 class(x)
 ```
 
-Let's compare the vector `x` with the vector `1`. In the following example, we want to know if `x` is less than `1`:
+Let's compare the vector `x` with (the vector) `1`. In the following example, we want to know if `x` is less than `1`:
 
 ```{r}
 x < 1
@@ -120,7 +120,7 @@ This comparison results in `FALSE`, which is a logical vector:
 class(x < 1)
 ```
 
-R has the following comparison operators: `>`, `>=`, `<`, `<=`, `==`, and `!=`. Comparisons (or logical vectors) can be combined with `|` (or) and `&` (and) and negated with `!`. Grouping with parentheses is also possible.
+R has the following comparison operators: `>`, `>=`, `<`, `<=`, `==`, and `!=`. Comparisons (or logical vectors) can be combined with `|` (or) and `&` (and) and negated with `!` (not). Grouping with parentheses is also possible.
 
 ```{r}
 !TRUE
@@ -137,7 +137,7 @@ The equality operator is `==` (two equal signs) and not `=` (a single equal sign
 
 ### Character vectors
 
-Character vectors (type `character`) consist of characters enclosed in quotes. Both single `'` and double `"` quotes can be used. A single element of a character vector can consist of one or more letters, numbers, and special characters.
+Character vectors (type `character`) in R are composed of one or more string elements, each enclosed in either single (`'`) or double (`"`) quotes. Each element can contain any combination of letters, numbers, spaces, and special characters.
 
 ```{r}
 "Hello!"
@@ -147,7 +147,7 @@ class("Hello!")
 class(s)
 ```
 
-The `length()` function returns the length of the vector (i.e., the number of elements) and not the number of characters in a character string. For this, you can use the `nchar()` function:
+The `length()` function returns the number of elements in a vector, not the number of characters in a string. To determine the number of characters in a string, use the `nchar()` function:
 
 ```{r}
 s = c('Hello!', 'world')
@@ -158,7 +158,7 @@ nchar(s)
 
 ## Coercion
 
-Vectors are homogeneous data types, meaning they contain only elements of the same type. If you try to create a vector with elements of different types, R will automatically coerce the vector to a type that can represent all elements. If you mix numbers with characters, all items will be converted to characters (since characters cannot generally be represented as numbers, but numbers can indeed be represented as characters).
+Vectors are homogeneous data types, meaning they contain only elements of the same type. If you try to create a vector with elements of different types, the `c()` function will automatically coerce the vector to a type that can represent all elements. If you mix numbers with characters, all items will be converted to characters (since characters cannot generally be represented as numbers, but numbers can indeed be represented as characters).
 
 ```{r}
 (x = c(1, 2.14, "5", 6))
@@ -167,19 +167,19 @@ class(x)
 
 Of course, you can no longer perform calculations with the vector in the previous example, as the elements are now characters and not numbers.
 
-You can also explicitly convert to a desired type with the following functions:
+You can also explicitly convert to a desired type with these functions:
 
 - `as.numeric()`
 - `as.logical()`
 - `as.character()`
 
-The following example converts a character vector to a numeric vector (this works because in the example all character strings can be interpreted as numbers):
+The following example converts a character vector to a numeric vector (this works because all character strings can be interpreted as numbers in this case):
 
 ```{r}
 as.numeric(c("1", "2.12", "66"))
 ```
 
-If this is not possible, R will issue a warning and assume `NA` (stands for "Not Available", i.e., a missing value) for the element that cannot be converted:
+If this is not possible, R will issue a warning and assume `NA` (stands for "Not Available", i.e., a *missing value*) for the element that cannot be converted:
 
 ```{r}
 as.numeric(c("1", "2.12", "X"))
@@ -190,14 +190,14 @@ We will cover missing values in more detail at the end of this session.
 
 ## Calculations with vectors
 
-We can perform arithmetic operations with numerical vectors – these are always applied *elementwise*:
+We can perform arithmetic operations with numerical vectors – these are always applied *element by element*:
 
 ```{r}
 (y = c(1, 2, 3, 4))
 y * 100 + 2  # calculation is performed for each element separately
 ```
 
-As we already know, the usual operators `+`, `-`, `*`, and `/` are used for addition, subtraction, multiplication, and division. The `^` or `**` symbols calculate the power of a base to an exponent. The operator `%/%` calculates the integer division and `%%` calculates the remainder. Other useful functions are `abs()` for the absolute value and `sqrt()` for the square root of a number. The functions `log()` and `exp()` calculate the (natural) logarithm and the exponential function, respectively. The `sin()` and `cos()` functions calculate the sine and cosine, respectively.
+As we already know, the usual operators `+`, `-`, `*`, and `/` are used for addition, subtraction, multiplication, and division. The `^` or `**` symbols calculate the power of a base to an exponent. The operator `%/%` performs integer division and `%%` calculates the remainder. Other useful functions are `abs()` for the absolute value and `sqrt()` for the square root of a number. The functions `log()` and `exp()` calculate the logarithm and the exponential function, respectively. The `sin()` and `cos()` functions calculate the sine and cosine, respectively.
 
 
 ### Recycling
@@ -208,19 +208,19 @@ If two vectors in a calculation are of different lengths, R repeats the values o
 c(1, 2, 3, 4) * 2
 ```
 
-The scalar vector `2` is automatically extended to the vector `c(2, 2, 2, 2)`, so the above operation actually corresponds to the following elementwise calculation:
+The scalar vector `2` is automatically extended to the vector `c(2, 2, 2, 2)`, so the above operation actually corresponds to the following element-wise calculation:
 
 ```{r}
 c(1, 2, 3, 4) * c(2, 2, 2, 2)
 ```
 
-Additional example:
+Here's another example:
 
 ```{r}
 c(1, 2, 3, 4) + c(0, 10)
 ```
 
-The shorter vector `c(0, 10)` is duplicated, and calculation is then performed elementwise:
+The shorter vector `c(0, 10)` is duplicated, and calculation is then performed element-wise:
 
 ```{r}
 c(1, 2, 3, 4) + c(0, 10, 0, 10)
@@ -241,7 +241,7 @@ c(1, 2, 3, 4) + c(0, 10, 8, 0)
 
 ## Creating number sequences
 
-Vectors with defined number sequences can be created with `:` or with `seq()`. In the first option, the step size is always 1, while in the second option, it can be adjusted as desired. The following examples illustrate this:
+Vectors containing number sequences can be created with `:` or with `seq()`. In the first option, the step size is always 1, while in the second option, it can be adjusted as desired. The following examples illustrate this:
 
 ```{r}
 1:20
@@ -256,7 +256,7 @@ seq(1, 20, 2)  # odd numbers
 seq(1, 3, length.out=10)  # total length should be 10
 ```
 
-The `seq()` function can be used to create number sequences with a specific step size (`by` argument) or with a specific total length (`length.out` argument).
+Therefore, the `seq()` function can be used to create number sequences with a specific step size (`by` argument) or with a specific total length (`length.out` argument).
 
 The `rep()` function repeats given values a specified number of times:
 
@@ -314,8 +314,8 @@ x[c(TRUE, FALSE, TRUE, FALSE, FALSE, FALSE, FALSE, FALSE, TRUE, FALSE, FALSE)]
 The following example illustrates creating the logical index vector through a comparison:
 
 ```{r}
-x > 40
-x[x > 40]
+x > 40  # comparison
+x[x > 40]  # all elements of x that are greater than 40
 ```
 
 Usually, the logical index vector has the same length as the vector to be indexed. However, if the index vector is shorter, R will recycle it:
@@ -353,7 +353,7 @@ x
 
 ## Missing values
 
-R encodes missing values with the special value `NA` (Not Available). Missing values can occur in any type of vector. The following example creates a vector with missing values:
+R encodes missing values with the special value `NA` ("Not Available"). Missing values can occur in any type of vector. The following example creates a numeric vector with two missing values:
 
 ```{r}
 (vect = c(15, 1.12, NA, 12, NA, 33.22))
@@ -368,7 +368,7 @@ vect[!is.na(vect)]  # extract all non-missing values
 ```
 
 :::{.callout-important}
-To find out which elements of a vector are missing, you should not compare with `NA`:
+To find out which elements of a vector are missing, you cannot compare with `NA`:
 
 ```{r}
 vect == NA
@@ -382,12 +382,12 @@ Since this comparison always results in `NA`, use the `is.na()` function instead
 
 ### Exercise 1
 
-Calculate the surface area (base plus lateral surface) and the volume of a cylinder with a radius of 5 and a height of 9. Create the variables `r` and `h` for this purpose. Store the results in the variables `A` (area) and `V` (volume). What are the results (i.e., the values of both variables)?
+Calculate the surface area (base plus lateral surface) and the volume of a cylinder with a radius of 5 and a height of 9. Create the variables `r` and `h` for this purpose and store the results in the variables `A` (area) and `V` (volume). What are the results (i.e., the values of both variables)?
 
 
 ### Exercise 2
 
-Create a vector `x` with the elements 4, 18, -7, 16, 4, and -44. Then create a vector `y` containing the squared elements of `x` (remember that R performs arithmetic operations elementwise). Finally, create a vector `z` by concatenating `x` and `y`. Which function can you use to determine the number of elements in `z`?
+Create a vector `x` with the elements 4, 18, -7, 16, 4, and -44. Then create a vector `y` containing the squared elements of `x` (remember that R performs arithmetic operations element-wise). Finally, create a vector `z` by concatenating `x` and `y`. Which function can you use to determine the number of elements in `z`?
 
 
 ### Exercise 3
@@ -398,10 +398,10 @@ Given the following vector:
 x = c(44, 23, -56, 98, 99, 32, 45, 22)
 ```
 
-Which elements of `x` are even? Which elements are odd? Create two corresponding logical vectors that you can use to index the even and odd elements of `x`.
+Which elements of `x` are even? Which elements are odd? Create two logical vectors that you can use to index the even and odd elements of `x`.
 
 ::: {.callout-note}
-Do not create the logical index vectors manually (i.e., for the even numbers in this example, the desired logical index vector is `c(TRUE, FALSE, TRUE, TRUE, FALSE, TRUE, FALSE, TRUE)`), but use a comparison instead. Remember that even numbers have a remainder of 0 when divided by 2 (odd numbers have a remainder of 1). Use the `%%` operator to calculate the remainder of a division. Create a logical index vector with a comparison (for even numbers, compare if the remainder is 0, for odd numbers, compare if the remainder is 1), which you can then use for indexing.
+Do not create the logical index vectors manually (i.e., for the even numbers in this example, the desired logical index vector is `c(TRUE, FALSE, TRUE, TRUE, FALSE, TRUE, FALSE, TRUE)`), but use a comparison instead. Remember that even numbers have a remainder of 0 when divided by 2 and odd numbers have a remainder of 1. Use the `%%` operator to calculate the remainder of a division. Create a logical index vector with a comparison (for even numbers, compare if the remainder is 0, for odd numbers, compare if the remainder is 1), which you can then use for indexing.
 :::
 
 
