@@ -2,7 +2,7 @@
 title: "4 – Tabular Data"
 subtitle: "Statistical Data Analysis with R"
 author: "Clemens Brunner"
-date: 2024-10-24
+date: 2025-03-24
 format:
   html:
     page-layout: full
@@ -20,14 +20,14 @@ theme:
 
 ## Introduction
 
-R uses vectors to represent one-dimensional data. However, data is often structured in two dimensions, typically in the form of a table. For such tabular data, R offers two suitable data types: *matrices* (singular: *matrix*) and *data frames*. Matrices can only contain elements of a single data type (they are homogeneous data types, just like vectorsJ). In contrast, data frames can accommodate columns with different data types.
+R uses vectors to represent one-dimensional data. However, data is often structured in two dimensions, typically in the form of a table. For such tabular data, R provides two suitable data types: *matrices* (singular *matrix*) and *data frames*. Matrices are homogeneous, like vectors, meaning they can only contain elements of a single type. In contrast, data frames allow columns with different types.
 
 
 ## Matrices
 
 ### Connection to vectors
 
-Matrices are vectors with a special *dimension attribute*, which can be queried and set with the `dim()` function:
+Matrices are just vectors with a special *dimension attribute*, which can be queried and set with the `dim()` function:
 
 ```{r}
 (v = 1:20)
@@ -96,9 +96,9 @@ m
 
 ### Indexing
 
-Extracting individual elements works in the same way as with vectors: with square brackets. The main difference is that for matrices, you specify *two* indices (separated by a comma): the first index corresponds to the *rows* and the second index corresponds to the *columns*. If the first index is omitted, *all rows* are extracted. If the second index is omitted, *all columns* are extracted.
+Extracting individual elements works in the same way as with vectors: with square brackets. The main difference is that for matrices, you specify *two* indices (separated by a comma): the first index corresponds to the *rows*, and the second index corresponds to the *columns*. If the first index is omitted, *all rows* are extracted. If the second index is omitted, *all columns* are extracted.
 
-The following examples illustrate indexing a matrix:
+The following examples illustrate this concept:
 
 ```{r}
 m
@@ -112,7 +112,7 @@ m["two",]  # row "two"
 m[m[, "A"] > 2,]  # rows where column "A" is greater than 2
 ```
 
-The last example is particularly important in practice, as it allows you to filter rows from a matrix. Make sure you understand this type of indexing – we will need it often!
+The last example is particularly important in practice, as it allows us to filter rows from a matrix. Make sure you understand this type of indexing – we will need it often!
 
 
 ### Coercion
@@ -174,7 +174,7 @@ colnames(df) = c("patient", "age", "weight", "bp", "rating", "test")
 df
 ```
 
-While using `rownames()` to set row names works, it is generally best to avoid changing them, as they are then numbered sequentially starting from 1 by default.
+While using `rownames()` to set row names works, it is generally best to avoid changing them, as they are numbered sequentially starting from 1 by default (which is usually the most practical way to refer to rows).
 
 
 ### Inspecting data frames
@@ -198,11 +198,16 @@ The `str()` function provides a concise summary of an object's structure:
 str(df)
 ```
 
-The `head()` function displays the first six rows on the screen, while `tail()` displays the last six rows. With the argument `n`, you can adjust the number of displayed rows.
+Data frames also have a dimension attribute, which can be queried with `dim()`:
 
 ```{r}
 l = data.frame(a=rnorm(5000), b=rpois(5000, 2), x=rep(letters, length.out=5000))
 dim(l)
+```
+
+The `head()` function displays the first six rows, while `tail()` displays the last six rows. With the argument `n`, you can adjust the number of displayed rows.
+
+```{r}
 head(l)
 tail(l, n=4)
 ```
@@ -210,7 +215,7 @@ tail(l, n=4)
 
 ### Indexing
 
-We can use the `$` operator followed by the column name to access individual columns of a data frame (the result is a vector):
+We can use the `$` operator followed by the column name to access an individual column of a data frame (the result is a vector):
 
 ```{r}
 df$patient
@@ -224,7 +229,7 @@ df$value = c("yes", "no", "no", "yes")
 df
 ```
 
-Alternatively, you can use `rbind()` or `cbind()` to add new rows or columns, as with matrices.
+Alternatively, you can use `cbind()` to add new columns.
 
 To remove a column from a data frame, assign `NULL` to it:
 
@@ -241,6 +246,12 @@ df[["patient"]]
 df[["height"]]
 ```
 
+We can use not only the column name, but also the column position:
+
+```{r}
+df[[1]]
+```
+
 This is an alternative to the `$` notation. The latter has the dangerous property that you do not have to specify column names completely; the first few letters are sufficient:
 
 ```{r}
@@ -253,10 +264,10 @@ This can lead to errors if there are multiple columns with similar names. This i
 df[["pat"]]
 ```
 
-Therefore, you should generally use the double square brackets notation to extract a single column.
+Therefore, you should generally prefer the double square brackets notation to extract a single column.
 :::
 
-We can also extract rows and columns using standard indexing with (single) square brackets, similar to matrices. You need two indices separated by a comma, where the first index represents the row and the second represents the column. If an index is omitted, all rows or columns will be extracted:
+We can also extract rows and columns using standard indexing with (single) square brackets, similar to matrices. You need two indices separated by a comma, where the first index represents the row(s) and the second represents the column(s). If an index is omitted, all rows or columns will be extracted:
 
 ```{r}
 df[1,]
@@ -281,15 +292,6 @@ df[, "patient"]
 df[, "height"]
 ```
 
-:::{.callout-tip}
-As previously mentioned, we can (and should) extract columns with double square brackets. Here, we can use not only the column name, but also the column position:
-
-```{r}
-df[["patient"]]
-df[[1]]
-```
-:::
-
 If you want to extract a specific subset, you can specify both row and column ranges:
 
 ```{r}
@@ -299,9 +301,9 @@ df[1:2, c(1, 3:4)]
 
 ## Tibbles
 
-Base R, which includes built-in data types like data frames and their associated functions, is great for data manipulation. However, these constructs can sometimes be a bit cumbersome, which is why the increasingly popular collection of packages known as [Tidyverse](https://www.tidyverse.org/) offers modernized and simplified approaches. You can install the core Tidyverse packages with the `tidyverse` meta-package. This collection includes the `tibble` package, which provides a more modern alternative to data frames. Tibbles make conversion, creation, and indexing more intuitive, and their display on the screen is much clearer. You can use tibbles in any context where you would use data frames.
+Base R provides built-in data types like data frames and their associated functions, making it a powerful tool for data manipulation. However, these constructs can sometimes feel a bit cumbersome. The [Tidyverse](https://www.tidyverse.org/), a popular collection of packages, offers a more modern and streamlined approach. You can install its core packages with the `tidyverse` meta-package. Among them, the `tibble` package introduces tibbles, a more user-friendly alternative to data frames. Tibbles improve conversion, creation, and indexing, and their representation is much clearer. They can be used anywhere data frames are used.
 
-Before using tibbles, you need to activate either `tibble` or `tidyverse`. The latter activates all core packages from the Tidyverse. Here, we will only activate the `tibble` package:
+Before using tibbles, you need to activate either `tibble` or `tidyverse` (the latter activates all core Tidyverse packages). Here, we will only activate the `tibble` package:
 
 ```{r}
 library(tibble)
@@ -320,9 +322,9 @@ The `tibble()` function can now be used to create a new tibble, similar to the `
 ))
 ```
 
-Printing a tibble automatically displays the data types for each column.
+Printing a tibble automatically includes the data types for each column.
 
-For longer tables, tibbles offer an additional advantage: when displaying large tibbles on the screen, the output is automatically adjusted to show only a subset of rows and columns, ensuring a clear and readable overview of the data. This feature can be illustrated using the `CO2` data set, which is available as a data frame in R:
+For longer tables, tibbles offer an additional advantage: when displaying large tibbles on the screen, the output is automatically adjusted to show only a subset of rows and columns, ensuring a clear and readable overview of the data. This feature can be illustrated using the `CO2` data set, which is available as a built-in data frame in R:
 
 ```{r}
 CO2
