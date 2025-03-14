@@ -103,15 +103,23 @@ The `hist()` function creates a histogram of a vector:
 hist(airquality$Ozone)
 ```
 
-A histogram visualizes the distribution of the values in a vector. You can explicitly set the number of bins in the histogram with the `breaks` argument:
+A histogram visualizes the distribution of the values in a vector. By default, it shows the absolute frequency (count) of values in each bin. Alternatively, setting `freq=FALSE` shows the probability density (proportion) of values in each bin (where the total area of the histogram sums to 1). The number of bins is determined automatically by default.
+
+You can explicitly set the number of bins in the histogram with the `breaks` argument:
 
 ```{r}
-hist(airquality$Ozone, breaks=4)
+hist(airquality$Ozone, breaks=12)
 ```
 
 :::{.callout-note}
-The `breaks` argument is only a recommendation – the actual number of bins is adjusted to keep the plot readable.
+The `breaks` argument is only a recommendation if you provide a single number – the actual number of bins is adjusted to keep the plot readable. However, you can provide a vector of breakpoints to define the bin edges explicitly (for example, `breaks=seq(0, 200, by=20)` will use exactly these breaks).
 :::
+
+The same histogram showing probability densities can be created with:
+
+```{r}
+hist(airquality$Ozone, breaks=12, freq=FALSE)
+```
 
 
 ## Boxplots
