@@ -2,7 +2,7 @@
 title: "5 – Importing Data"
 subtitle: "Statistical Data Analysis with R"
 author: "Clemens Brunner"
-date: 2024-10-31
+date: 2025-03-31
 format:
   html:
     page-layout: full
@@ -20,7 +20,7 @@ theme:
 
 ## Introduction
 
-R can handle data in many different formats, such as Excel spreadsheets or SPSS datasets. However, these formats are proprietary and therefore not well suited for storing your own data. Ideally, you should save data in an open and simple format that can be opened with a wide variety of (freely available) programs. One example of a simple format is a text file that can be opened with any text editor.
+R can handle data in many different formats, such as Excel spreadsheets or SPSS datasets. However, these formats are proprietary and therefore not well suited for storing your own data. Ideally, you should save data in an open and simple format that can be opened with a wide variety of (freely available) programs. One example of a simple format is a plain text file that can be opened with any text editor.
 
 
 ## Text files
@@ -31,23 +31,19 @@ Data in text files are often separated by commas – this allows representing va
 File extensions are just conventions and do not always reflect the actual content of the file. Text files often use extensions like `.csv`, `.tsv`, or `.dat`, but a `.csv` file might use tabs or semicolons instead of commas. The only way to know for sure is to open the file.
 :::
 
-The [Tidyverse](https://www.tidyverse.org/) includes the `readr` package, which can import text files in a wide variety of formats. This often works better and faster than the functions that come with R by default. The data imported with the `readr` package is also immediately available as a Tibble. Therefore, in this course, we will only use functions from `readr` to import text files.
+The [Tidyverse](https://www.tidyverse.org/) includes the `readr` package, which can import text files in a wide variety of formats. This often works better and faster than the functions that come with base R. Data imported with the `readr` package is also immediately available as a tibble. Therefore, in this course, we will only use functions from `readr` to import text files.
 
 ```{r}
 library(readr)
 ```
 
 :::{.callout-important}
-Functions for importing text data from the `readr` package all start with `read_`, whereas functions that come with R start with `read.`.
+Functions for importing text data from the `readr` package all start with `read_` (underscore), whereas functions that come with R start with `read.` (dot).
 :::
 
-The key function in the `readr` package is `read_delim()`, which lets you adjust many parameters to match the file you want to import, such as the column separator, presence of a header row, comments, or missing values. For comma-separated data, there is the wrapper function `read_csv()`, which uses reasonable default settings. For tab-separated data, you can use `read_tsv()`. There is also `read_csv2()`, which is specifically designed for semicolon-separated data and uses a comma as the decimal separator. However, the `read_delim()` function can handle all of these cases with the appropriate arguments.
+The key function in the `readr` package is `read_delim()`, which provides extensive control over parameters such as column separators, header rows, comments, and missing values to match the file you want to import. For common cases, `read_csv()` is a convenient wrapper with sensible defaults for comma-separated data, while `read_tsv()` handles tab-separated data. Additionally, `read_csv2()` is designed for semicolon-separated data, using a comma as the decimal separator. However, all of these wrappers use `read_delim()` under the hood, which can handle all text file formats with appropriate arguments.
 
-:::{.callout-note}
-These "wrapper functions" are essentially just calling `read_delim()` with specific arguments.
-:::
-
-As an example, let's look at a text file called [`lecturer.csv`](lecturer.csv). If you don't know how the data in a text file is actually formatted, you can open its contents in the RStudio editor with the `file.show()` function:
+As an example, let's look at a text file called [`lecturer.csv`](lecturer.csv). If you don't know how the data in a text file is actually formatted, you can open its contents in the RStudio editor with the `file.show()` function (or use the "File" – "Open File..." menu item):
 
 ```r
 file.show("lecturer.csv")
@@ -76,6 +72,12 @@ The `read_delim()` function usually recognizes the column separator automaticall
 read_delim("lecturer.csv")
 ```
 
+::: {.callout-important}
+If you only specify the file name, R will look for the file in the current working directory. If the file is located relative to the current working directory (for example, in a sub-folder), you can specify a relative path to the file. I do not recommend to specify the full absolute path to the file, as this makes the script less reproducible, because this particular path might not be available on another computer.
+
+Therefore, always make sure that data files are always located in the same directory as the script or in a sub-folder of the script directory.
+:::
+
 If the automatic detection fails, you can explicitly pass the separator with the `delim` argument:
 
 ```{r}
@@ -90,13 +92,13 @@ The result (a tibble) looks correct – it has 10 rows and 7 columns with sensib
 df = read_delim("lecturer.csv")
 ```
 
-Alternatively, we could have used the wrapper function `read_csv()`, which assumes a comma as the column separator:
+Alternatively, we could have used the wrapper function `read_csv()`, which expects a comma as the column separator:
 
 ```r
 read_csv("lecturer.csv")
 ```
 
-Let's look at the same data, but this time it is separated by tabs in a `.dat` file called [`lecturer.dat`](lecturer.dat). To read this file, we can either use the generic `read_delim()` function with automatic detection (or if that doesn't work, with `delim="\t"`, where `\t` represents the tab character) or directly use the specialized `read_tsv()` function:
+Let's look at the same data, but this time it is separated by tabs in a `.dat` file called [`lecturer.dat`](lecturer.dat). To read this file, we can either use the generic `read_delim()` function with automatic detection (or if that doesn't work, with `delim="\t"`, where `\t` represents the tab character) or directly use the `read_tsv()` wrapper:
 
 ```r
 read_delim("lecturer.dat")
@@ -104,16 +106,16 @@ read_delim("lecturer.dat", delim="\t")
 read_tsv("lecturer.dat")
 ```
 
-Another important feature of such text files is the decimal separator for numbers. In English, we use a period for decimals (e.g., `12.3` or `3.1415`), whereas in German, we use a comma (e.g., `12,3` or `3,1415`). You can specify the decimal separator in `read_delim()` using the `locale` argument, which defaults to a period (as in `read_csv()` and `read_tsv()`). When numbers follow German notation, commas cannot also separate columns, so semicolons are typically used. For such files, set `delim=";"` and `locale=locale(decimal_mark=",")`, or use the `read_csv2()` wrapper, which assumes semicolons and commas as defaults.
+Another important feature of such text files is how they represent the decimal separator. In English, we use a point (dot) for decimals (e.g., `12.3` or `3.1415`), whereas in German, we use a comma (e.g., `12,3` or `3,1415`). You can specify the decimal separator in `read_delim()` using the `locale` argument, which defaults to a point (as in `read_csv()` and `read_tsv()`). When numbers follow German notation, commas cannot also separate columns, so semicolons are typically used. For such files, set `delim=";"` and `locale=locale(decimal_mark=",")`, or use the `read_csv2()` wrapper, which assumes semicolons and commas as defaults.
 
 :::{.callout-important}
-Regardless of how decimal separators are represented in text files, R always uses a *period* for decimal numbers!
+Regardless of how decimal separators are represented in text files, R always uses a *point* for decimal numbers!
 :::
 
 
 ## SPSS data
 
-If you want to read existing SPSS datasets (`.sav`), you can use the `read_sav()` function from the `haven` package, resulting in a tibble. The `haven` package can also import data from SAS and Stata. The following example imports data from the SPSS file [`lecturer.sav`](lecturer.sav):
+If you want to read existing SPSS datasets (`.sav`), you can use the `read_sav()` function from the `haven` package. This package can also import data from SAS and Stata. The following example imports data from the SPSS file [`lecturer.sav`](lecturer.sav):
 
 ```r
 library(haven)
@@ -241,7 +243,7 @@ Convert the `Time` column to a date format (you can ignore the time in this colu
 
 ### Exercise 5
 
-The [UCI Machine Learning Repository](http://archive.ics.uci.edu/ml/) provides many data sets for free use. For this exercise, consider the data set [Individual Household Electric Power Consumption](http://archive.ics.uci.edu/ml/datasets/Individual+household+electric+power+consumption), specifically the file [`household_power_consumption.zip`](household_power_consumption.zip). You do not need to unzip this file, but can load it directly with the `read_delim()` function.
+The [UCI Machine Learning Repository](http://archive.ics.uci.edu/ml/) provides many data sets for free use. For this exercise, consider the data set [Individual Household Electric Power Consumption](http://archive.ics.uci.edu/ml/datasets/Individual+household+electric+power+consumption), specifically the file [`household_power_consumption.zip`](household_power_consumption.zip). You do not need to unzip this file, as you can load it directly with the `read_delim()` function.
 
 This file contains the minute-by-minute electrical power consumption of a household over a period of almost four years. There are over 2 million data points and 9 variables, separated by semicolons `;`. Missing values are coded with a question mark `?` or with actually missing entries.
 
@@ -251,7 +253,7 @@ Read the data into a tibble called `df` and display it on the screen to answer t
 -  Which columns could be converted to a more appropriate type?
 
 :::{.callout-tip}
-It is important that R correctly recognizes missing values when reading the data. Ensure that the function `read_delim()` correctly interprets these missing values (and thus correctly interprets them as `NA`) by setting the appropriate argument! Both `"?"` and `""` are missing values in the file.
+It is important that R correctly recognizes missing values when reading the data. Ensure that the function `read_delim()` correctly interprets these missing values (and thus correctly interprets them as `NA`) by setting the appropriate argument! Both `"?"` and `""` are missing values in this particular file.
 
 The correctly imported data should result in a tibble with one `chr` column, seven `dbl` columns, and one `time` column.
 :::

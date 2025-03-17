@@ -2,7 +2,7 @@
 title: "5 – Solutions"
 subtitle: "Statistical Data Analysis with R"
 author: "Clemens Brunner"
-date: 2024-10-31
+date: 2025-03-31
 format:
   html:
     page-layout: full
@@ -30,9 +30,9 @@ library(readr)
 
 The following arguments are used:
 
-- Column separator `delim` (which follows the file name argument); if it is not specified, the function tries to automatically detect the column separator
-- Decimal mark `locale` (e.g., `locale=locale(decimal_mark=",")` for German number formatting)
-- Missing values `na`
+- Column separator: `delim` (which follows the file name argument); if it is not specified, the function tries to automatically detect the column separator
+- Decimal mark: `locale` (e.g., `locale=locale(decimal_mark=",")` for German number formatting)
+- Missing values: `na`
 
 
 ## Exercise 2
