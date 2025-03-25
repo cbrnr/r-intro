@@ -324,6 +324,10 @@ The `tibble()` function can now be used to create a new tibble, similar to the `
 
 Printing a tibble automatically includes the data types for each column.
 
+::: {.callout-note}
+R has two data types for representing numeric data, `numeric` and `integer` (abbreviated as `num` and `int`, respectively). Whereas `numeric` represents decimal numbers, `integer` can only hold integer (whole) numbers. In practice, we can usually ignore this distinction, as R automatically converts between the two types as needed. Therefore, we can interpret both `numeric` and `integer` types as numeric data.
+:::
+
 For longer tables, tibbles offer an additional advantage: when displaying large tibbles on the screen, the output is automatically adjusted to show only a subset of rows and columns, ensuring a clear and readable overview of the data. This feature can be illustrated using the `CO2` data set, which is available as a built-in data frame in R:
 
 ```{r}
