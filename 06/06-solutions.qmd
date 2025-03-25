@@ -2,7 +2,7 @@
 title: "6 – Solutions"
 subtitle: "Statistical Data Analysis with R"
 author: "Clemens Brunner"
-date: 2024-11-07
+date: 2025-04-07
 format:
   html:
     page-layout: full
@@ -87,7 +87,7 @@ Let's first try to calculate the means of the numerical columns using the `mean(
 by(df[, -(1:3)], df$job, mean)
 ```
 
-This will result in warnings and `NA` for both groups. The reason is that the grouped data is still a data frame with four numerical columns. However, the `mean()` function only works with a vector (or a single column of a data frame). Therefore, we need to use a different aggregation function that can handle data frames. One option is the `colMeans()` function:
+This will result in warnings and `NA` for both groups. The reason is that the grouped data is still a *data frame* with four numerical columns. However, the `mean()` function only works with a vector (or a single column of a data frame). Therefore, we need to use a different aggregation function that can handle data frames. One option is the `colMeans()` function:
 
 ```{r}
 by(df[, -(1:3)], df$job, colMeans)

@@ -2,7 +2,7 @@
 title: "6 – Descriptive Statistics"
 subtitle: "Statistical Data Analysis with R"
 author: "Clemens Brunner"
-date: 2024-11-07
+date: 2025-04-07
 format:
   html:
     page-layout: full
@@ -20,7 +20,7 @@ theme:
 
 ## Introduction
 
-After importing a file correctly (i.e., when the data is available in a data frame or tibble and all columns have a suitable data type), you can start with the statistical analysis. The first step is usually to create an overview of the available data using descriptive statistics.
+After importing a file correctly (i.e., the data is available in a data frame or tibble and all columns have a suitable data type), you can start with the statistical analysis. The first step is usually to create an overview of the available data using descriptive statistics.
 
 As an example, we import the file [`lecturer.dat`](lecturer.dat) from the last session:
 
@@ -50,7 +50,7 @@ R provides a number of functions that calculate summary statistics for a variabl
 mean(df$friends)
 ```
 
-For factors, we might be interested in knowing how many levels they contain. Also, for numerical or text vectors with multiple occurrences of values, it is sometimes useful to find out the unique values. For this purpose, R providers the `unique()` function, which returns the unique elements of a vector:
+For factors, we might be interested in knowing how many levels they contain. Also, for numerical or text vectors with multiple occurrences of values, it is sometimes useful to find out the unique values. For this purpose, R provides the `unique()` function, which returns the unique elements of a vector:
 
 ```{r}
 unique(c(1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2))
@@ -61,7 +61,7 @@ unique(df$friends)
 unique(df$job)
 ```
 
-We would have to repeat these calculations for each column of interest (because these functions only work with vectors), which would be relatively cumbersome. Therefore, we will introduce the `sapply()` function, which applies a function to each column of a data frame individually. So, if you want to calculate the mean for each numerical column of `df`, you can do this as follows:
+However, we would have to repeat these calculations for each column of interest (because these functions only work with vectors), which would be relatively cumbersome. Therefore, we will introduce the `sapply()` function, which applies a function to *each column* of a data frame. So, if you want to calculate the mean for each numerical column of `df`, you can do this as follows:
 
 ```{r}
 sapply(df[, -c(1, 2)], mean)
@@ -70,7 +70,7 @@ sapply(df[, -c(1, 2)], mean)
 The first argument of `sapply()` is the data frame, and the second argument is a function that should be applied to each column. Here, we provide a subset of the data frame `df` that excludes the first two columns (the `name` and `birth_date` columns). The function `mean()` is then applied to each column of this subset, resulting in a vector with column means.
 
 :::{.callout-tip}
-Alternatively, you can use the `colMeans()` to calculate column means.
+Alternatively, you could use `colMeans()` to calculate column means.
 :::
 
 We can apply the same principle to calculate other summary statistics for each column, such as the standard deviation:
@@ -99,12 +99,12 @@ For factors, the summary includes the levels and the number of cases per level.
 summary(df)
 ```
 
-The `summary()` function also works for other column types and often provides a useful short description.
+The `summary()` function also works for other column types and often provides a useful short description. In fact, it is a generic function that works with many different types of objects (not just data frames). In a later chapter, we will see how `summary()` can be used to summarize linear models.
 
 
 ### The `describe()` function
 
-Another way to output even more statistical measures for numerical columns is provided by the `describe()` function from the `psych` package. This function cannot handle non-numeric columns properly, so you should only summarize numerical columns.
+Another way to print even more statistical measures for *numerical* columns is provided by the `describe()` function from the `psych` package. This function cannot handle non-numeric columns properly, so you should only summarize numerical columns.
 
 ```{r}
 library(psych)
@@ -126,7 +126,7 @@ The first argument is the data frame, and the second argument is a vector which 
 
 ### The `stat.desc()` function
 
-The `pastecs` package includes the `stat.desc()` function for summarizing data frames. Since the output of the function is relatively cluttered, you should also specify how many decimal places should be displayed with the `round()` function. If the argument `norm=TRUE` is set, tests for normal distribution are performed for all columns.
+The `pastecs` package includes the `stat.desc()` function for summarizing data frames. Since the output of the function is relatively cluttered, you should also specify how many decimal places should be displayed with the `round()` function. If the argument `norm=TRUE` is set, tests for normality are performed for all columns.
 
 ```{r}
 library(pastecs)
@@ -203,7 +203,7 @@ by(df$friends, df$job, mean)
 
 ## Test for normality
 
-The `stat.desc()` function already provides the result of the [Shapiro-Wilk test](https://en.wikipedia.org/wiki/Shapiro%E2%80%93Wilk_test) for normality (the entries `normtest.W` and `normtest.p` contain the the test statistic and the significance, respectively). If `normtest.p` is significant (e.g., less than 0.05), the null hypothesis of normality can be rejected. You can also call the Shapiro-Wilk test directly with the `shapiro.test()` function:
+The `stat.desc()` function already provides the result of the [Shapiro-Wilk test](https://en.wikipedia.org/wiki/Shapiro%E2%80%93Wilk_test) for normality (the entries `normtest.W` and `normtest.p` contain the the test statistic and its significance, respectively). If `normtest.p` is significant (e.g., less than 0.05), the null hypothesis of normality can be rejected. You can also perform the Shapiro-Wilk test directly with the `shapiro.test()` function:
 
 ```{r}
 shapiro.test(df$income)
@@ -215,7 +215,7 @@ Using the `by()` function, you can also apply the test separately to different g
 by(df$income, df$job, shapiro.test)
 ```
 
-The [Kolmogorov-Smirnov test](https://en.wikipedia.org/wiki/Kolmogorov%E2%80%93Smirnov_test) tests if given data follows *any* given distribution, including the normal distribution. However, the Shapiro-Wilk test is preferable for testing normality, as it is specifically tailored to the normal distribution and therefore has more statistical power.
+The [Kolmogorov-Smirnov test](https://en.wikipedia.org/wiki/Kolmogorov%E2%80%93Smirnov_test) checks if the data follows *any* given distribution, including the normal distribution. However, the Shapiro-Wilk test is preferable for testing normality, as it is specifically tailored to the normal distribution and therefore has more statistical power.
 
 ```{r}
 ks.test(df$income, "pnorm", mean(df$income), sd(df$income))
