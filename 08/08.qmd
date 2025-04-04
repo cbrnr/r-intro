@@ -2,7 +2,7 @@
 title: "8 – Visualization"
 subtitle: "Statistical Data Analysis with R"
 author: "Clemens Brunner"
-date: 2024-11-28
+date: 2025-05-05
 format:
   html:
     page-layout: full
@@ -20,11 +20,9 @@ theme:
 
 ## Introduction
 
-The R ecosystem offers several excellent packages for creating data visualizations. However, plots created with different packages cannot be combined. Therefore, we have to decide on a plotting package before creating a visualization.
+The R ecosystem offers several excellent packages for data visualizations. The `graphics` package, also known as the base plotting system, is part of R and requires no separate installation. It excels at quick visualizations and, with some additional effort, can also produce beautiful graphics suitable for publication.
 
-The `graphics` package is also known as the base plotting system. It is part of R and does not need to be installed separately. The base plotting system is very well suited for quick visualizations – and with some additional effort, you can also create beautiful graphics for publications.
-
-The following examples use the `airquality` dataset included in R (a brief description is available in `?airquality`):
+The following examples use the `airquality` dataset included in R (a brief description is available with `?airquality`):
 
 ```{r}
 str(airquality)
@@ -35,19 +33,19 @@ str(airquality)
 
 One of the most important functions in the base plotting system is `plot()`. This function creates appropriate visualizations depending on the data to be displayed.
 
-If you pass a numerical vector, the function produces a dot plot. The x-axis shows the index of the data points, and the y-axis shows the data values:
+If the first argument is a numerical vector, the function creates a dot plot, where the x-axis represents the index of the data points and the y-axis represents their values:
 
 ```{r}
 plot(airquality$Ozone)
 ```
 
-If you pass two numerical vectors, you get a so-called scatter plot. The first argument is displayed on the x-axis, and the second argument is displayed on the y-axis:
+If you provide two numerical vectors, the function creates a scatter plot, with the first argument on the x-axis and the second on the y-axis:
 
 ```{r}
 plot(airquality$Wind, airquality$Ozone)
 ```
 
-The function can also handle date values. First, let's create a new column named `date` from the columns `Month` and `Day` (from the data description, we know that these were recorded in 1973):
+The function can also handle date values. First, let's create a new column `date` from the existing columns `Month` and `Day` (from the description, we know that data was collected in 1973):
 
 ```{r}
 airquality$date = as.Date(
@@ -57,13 +55,13 @@ airquality$date = as.Date(
 ```
 
 :::{.callout-tip}
-The `paste()` function concatenates multiple character vectors element-wise into a single vector (by default, it inserts a space between the elements):
+The `paste()` function concatenates multiple character vectors element-wise into a single vector, inserting a space between elements by default:
 
 ```{r}
 paste("Hello", "World")
 ```
 
-The individual arguments can be vectors with any number of elements:
+The individual arguments can be vectors of any size:
 
 ```{r}
 paste(c("Hello", "Sup"), c("Jane", "John"))
@@ -76,19 +74,19 @@ The result looks like this:
 paste(airquality$Month, airquality$Day, "1973")
 ```
 
-This vector can then be converted into a date vector using the `as.Date()` function with the argument `format="%m %d %Y"`, which we assign to the `date` column in the data frame:
+This vector can then be converted into a date vector using the `as.Date()` function with the argument `format="%m %d %Y"`, which we assigned to the `date` column in the data frame:
 
 ```{r}
 class(airquality$date)
 ```
 
-Now we can use this date column for the x-axis. In this example, the names of the five months are automatically displayed on the x-axis:
+Now we can use this column for the x-axis. In this example, the month names are automatically displayed on the x-axis:
 
 ```{r}
 plot(airquality$date, airquality$Ozone)
 ```
 
-If you pass a factor to the function, you get a bar chart with the frequencies of the individual levels:
+If the first argument is a factor, the function produces a bar chart with the frequencies of the individual levels:
 
 ```{r}
 plot(factor(airquality$Month))
@@ -103,16 +101,18 @@ The `hist()` function creates a histogram of a vector:
 hist(airquality$Ozone)
 ```
 
-A histogram visualizes the distribution of the values in a vector. By default, it shows the absolute frequency (count) of values in each bin. Alternatively, setting `freq=FALSE` shows the probability density (proportion) of values in each bin (where the total area of the histogram sums to 1). The number of bins is determined automatically by default.
+::: {.callout-tip}
+A histogram visualizes the distribution of values in a vector. By default, it shows the absolute frequency (count) of values in each bin. Alternatively, setting `freq=FALSE` shows the probability density (proportion) of values in each bin (where the total area of the histogram sums to 1). The number of bins is determined automatically by default.
+:::
 
-You can explicitly set the number of bins in the histogram with the `breaks` argument:
+We can explicitly set the number of bins in the histogram with the `breaks` argument:
 
 ```{r}
 hist(airquality$Ozone, breaks=12)
 ```
 
 :::{.callout-note}
-The `breaks` argument is only a recommendation if you provide a single number – the actual number of bins is adjusted to keep the plot readable. However, you can provide a vector of breakpoints to define the bin edges explicitly (for example, `breaks=seq(0, 200, by=20)` will use exactly these breaks).
+The `breaks` argument is only a recommendation if we provide a single number – the actual number of bins is adjusted to keep the plot readable. However, we can provide a vector of breakpoints to define the bin edges explicitly (for example, `breaks=seq(0, 200, by=20)` will use exactly these breaks).
 :::
 
 The same histogram showing probability densities can be created with:
@@ -124,16 +124,16 @@ hist(airquality$Ozone, breaks=12, freq=FALSE)
 
 ## Boxplots
 
-Another way to graphically represent the distribution of values is the `boxplot()` function. A boxplot shows the median, the interquartile range (IQR), as well as the minimum and maximum (plus any outliers) of the data. Here is an example of a boxplot for the `Temp` column:
+Another way to summarize the distribution of values is the `boxplot()` function. A boxplot includes the median, the interquartile range (IQR), as well as the minimum and maximum (plus any outliers) of the data. Here is an example of a boxplot for the `Temp` column:
 
 ```{r}
 boxplot(airquality$Temp)
 ```
 
-A single boxplot is relatively uninformative. If you pass a formula instead of a vector, you can create multiple boxplots in a single graph.
+However, a single boxplot is relatively uninformative. If we pass a *formula* instead of a vector, we can create multiple boxplots in a single plot.
 
 :::{.callout-note}
-A formula in R is defined by the tilde character (`~`) with expressions on its left and right sides. An example of a formula is `y ~ x` with `y` on the left side and `x` on the right side. The meaning of a formula depends on the specific function. Many functions require formulas as arguments, and we will use formulas extensively when calculating linear models.
+A formula is defined by the tilde character (`~`) with expressions on its left and right sides. An example of a formula is `y ~ x`, with `y` on the left side and `x` on the right side. The meaning of a formula depends on the specific function. Many functions require formulas as arguments, and we will use formulas extensively when calculating linear models.
 :::
 
 The following example creates boxplots for `airquality$Temp` separately for all levels of `airquality$Month`:
@@ -147,7 +147,7 @@ In this case, the left side of the formula determines the values on the y-axis, 
 
 ## Adjusting plots
 
-Often, we need to adjust various plot properties, such as the line type, colors, symbols, titles, axis labels, and so on. Many parameters can be passed as arguments when creating the graphic. An adapted version of the previous scatter plot example is:
+Often, we need to adjust various plot properties, such as line types, colors, symbols, titles, axis labels, and so on. Many parameters can be passed as arguments when creating the plot. For example, we could modify the previous scatter plot example as follows:
 
 ```{r}
 plot(
@@ -177,7 +177,7 @@ plot(
 
 This line plot also clearly shows missing values in the data (where the line is interrupted).
 
-The various plot functions have many common parameters that can be used to influence the appearance of the plots. In the previous examples, we adjusted the following parameters:
+The various plot functions have many common parameters that can be used to influence the aesthetics of the plots. In the previous examples, we adjusted the following parameters:
 
 * `xlab`: x-axis label
 * `ylab`: y-axis label
@@ -186,7 +186,7 @@ The various plot functions have many common parameters that can be used to influ
 * `main`: title
 * `col`: color
 
-The `par()` function can be used to query or globally set all relevant parameters (the documentation `?par` provides a description of all supported parameters). If you call this function without arguments, you get the current values of all graphical parameters. You can also globally change individual parameters, i.e., after a change, new plots will always be created with the new parameters.
+The `par()` function can be used to query or globally set parameters related to plots (the documentation `?par` provides a description of all supported parameters). Calling this function without arguments lists current values of all parameters. Individual parameters can also be modified, affecting all subsequent plots, which will use the updated values.
 
 The following example demonstrates the use of `par()`. First, we query the current value of the `col` parameter (i.e., the color). This works with the `$` notation (which is similar to extracting columns from a data frame):
 
@@ -194,13 +194,13 @@ The following example demonstrates the use of `par()`. First, we query the curre
 par()$col
 ```
 
-We can observe that the color is set to black. This is also confirmed by a small example plot, which consists of black elements by default:
+We observe that the color is set to black. This is also confirmed by a small example plot, which consists of black elements by default:
 
 ```{r}
 plot(sin(seq(0, 2*pi, length.out=50)), type="o", xlab="", ylab="")
 ```
 
-After globally setting the color to red, all subsequent plots will use this value as a new default:
+After globally setting the color to red, all subsequent plots will use this value by default:
 
 ```{r}
 par(col="red")
@@ -240,12 +240,12 @@ The following line types are possible values for `lty`:
 5       long dash
 6       short dash–long dash
 
-The documentation of the `points()` function lists all available symbols for `pch`. The `cex.axis` parameter sets a scaling factor for the axis label; by default, this is 1 – values less than 1 reduce the axis label, values greater than 1 enlarge it.
+The documentation of the `points()` function lists all available symbols for `pch`. The `cex.axis` scales axis labels, with a default value of 1 – values below 1 shrink the labels, while values above 1 enlarge them.
 
 
 ## Adding elements to plots
 
-The base plotting system allows us to create a plot and then add additional graphical elements. To do this, we use specific functions that we will discuss below.
+The base plotting system allows creating a plot first and adding graphical elements afterward. To do this, we use specific functions that we will discuss below.
 
 We can add a title with `title()`:
 
@@ -255,7 +255,7 @@ title(main="Ozone and Wind in NYC")
 ```
 
 :::{.callout-tip}
-This example also uses the `with()` function. This function allows us to use column names from a data frame directly within the parentheses. For example, instead of `airquality$Ozone`, we can write `Ozone`. This means that the first line of the example is equivalent to `plot(airquality$Wind, airquality$Ozone)`. However, note how the default axis labels depend on the x and y arguments!
+This example also uses the `with()` function, which enables us to use column names from a data frame *directly* within the parentheses. For example, instead of `airquality$Ozone`, we can write `Ozone`. This means that the first line of the example is equivalent to `plot(airquality$Wind, airquality$Ozone)`. However, note how the default axis labels depend on the x and y arguments!
 :::
 
 We can add points with `points()`. This can be used, for example, to display groups of data in different colors. We start with an empty plot (`type="n"`) and then add points with different colors and symbols. The `legend()` function adds a legend:
@@ -280,7 +280,7 @@ model = lm(Ozone ~ Wind, airquality)
 abline(model, lwd=2, col="blue")
 ```
 
-Here, we pass the line as a linear model computed by `lm()`, which we will learn more about later in this course. For now, it is sufficient to know that this function expects a formula of the form `y ~ x`, where you specify the column names corresponding to the x and y axes.
+Here, we pass the line as a linear model computed by `lm()`, which we will learn more about later in this course. For now, it is sufficient to know that this function expects a formula of the form `y ~ x`, where we specify the column names corresponding to the y and x axes.
 
 We can add text and arrows with `text()` and `arrows()`, respectively:
 
@@ -293,9 +293,9 @@ arrows(14.5, 90, 14, 75, length=0.1)
 
 ## Displaying raw data
 
-There are many ways to visualize the distribution of a (numerical) variable (e.g., histograms and boxplots). In principle, you should always display the raw data in the plot in addition to summary statistics (such as mean, median, dispersion, and so on). This is possible with the `stripchart()` function.
+There are many ways to visualize the distribution of a (numerical) variable (e.g., histograms and boxplots). In principle, we should always include the raw data in the plot in addition to summary statistics (such as mean, median, dispersion, and so on). This is possible with the `stripchart()` function.
 
-Let's take the `airquality$Ozone` column as an example. You could display only its mean in a bar chart, but this would not be very informative:
+Let's take the `airquality$Ozone` column as an example. We could display only its mean in a bar chart, but this would not be very informative:
 
 ```{r}
 barplot(mean(airquality$Ozone, na.rm=TRUE))
@@ -320,7 +320,7 @@ stripchart(
 )
 ```
 
-Note that `add=TRUE` must be passed if you want to add the points from `stripchart()` to an existing plot (otherwise, the function creates a new plot). You could make further improvements here, such as jittering the points a little with `method="jitter"`.
+Note that `add=TRUE` must be passed to add the points from `stripchart()` to an existing plot (otherwise, the function creates a new plot).
 
 Here is a complete example with boxplots for each month and the underlying raw data:
 
@@ -338,7 +338,7 @@ stripchart(
 
 ## Combining multiple plots
 
-We can display multiple plots side by side (or in any rectangular grid) using the global `mfrow` or `mfcol` parameters. Specifically, we set the desired parameter to a vector with two elements, which indicates the number of rows and columns to reserve for subsequent plots. For example, `mfrow=c(3, 2)` corresponds to three rows and two columns, resulting in a total of six plots. Then we can create the corresponding number of plots with various functions such as `plot()`, `hist()`, `boxplot()`, and so on. We use `mfrow` if we want to fill the grid row by row or `mfcol` if we want to fill it column by column.
+We can display multiple plots side by side (or in any rectangular grid) using the global `mfrow` or `mfcol` parameters. Specifically, we set the corresponding argument to a vector with two elements, which indicates the number of rows and columns to reserve for subsequent plots. For example, `mfrow=c(3, 2)` corresponds to three rows and two columns, resulting in a total of six plots. Then we can create the corresponding number of plots with various functions such as `plot()`, `hist()`, `boxplot()`, and so on. We use `mfrow` if we want to fill the grid row by row or `mfcol` if we want to fill it column by column.
 
 ```{r}
 par(mfrow=c(1, 2))  # 1 row, 2 columns
@@ -395,7 +395,7 @@ points(airquality$Temp, airquality$Ozone, pch=16, col=rgb(0, 0, 0, 0.5))
 Specifying the color as `col=rgb(0, 0, 0, 0.5)` in the last example defines the color black using the first three values (RGB, i.e., red, green, and blue) and the transparency using the fourth value (1 means opaque and 0 means completely transparent – 0.5 is therefore semi-transparent).
 :::
 
-After creating the plot, you should reset the parameter, either as shown above with `par(mfrow=c(1, 1))` or with:
+After creating the plot, we should reset the parameter, either as shown above with `par(mfrow=c(1, 1))` or simply with:
 
 ```{r}
 layout(1)
