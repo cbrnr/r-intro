@@ -2,7 +2,7 @@
 title: "9 – Correlation"
 subtitle: "Statistical Data Analysis with R"
 author: "Clemens Brunner"
-date: 2024-12-05
+date: 2025-05-12
 format:
   html:
     page-layout: full
@@ -132,15 +132,15 @@ The standard error of $z_r$ is given by:
 
 $$\mathrm{SE}(z_r) = \frac{1}{\sqrt{N - 3}}$$
 
-We can then divide $z_r$ by the standard error and compare the result with values from a table of the standard normal distribution to obtain the $p$-value (see also [here](https://en.wikipedia.org/wiki/Pearson_correlation_coefficient#Using_the_Fisher_transformation)).
+We can then divide $z_r$ by the standard error and compare the result with values from a table of the standard normal distribution to obtain the *p*-value (see also [here](https://en.wikipedia.org/wiki/Pearson_correlation_coefficient#Using_the_Fisher_transformation)).
 
-:::{.callout-note}
-The $p$-value indicates the probability of obtaining a correlation that is *at least* as extreme as the observed one, given that the null hypothesis is true (i.e., that the correlation is 0).
+::: {.callout-important}
+The *p*-value is **not** the probability that the null hypothesis is true! Instead, it corresponds to the probability of obtaining a correlation that is *at least* as extreme as the observed one, given that the null hypothesis is true (i.e., that the correlation is 0).
 
-A small $p$-value suggests that the observed correlation is unlikely if the null hypothesis is true. In such cases, we reject the null hypothesis and conclude that the correlation is statistically significant (different from 0).
+A small *p*-value suggests that the observed correlation is unlikely if the null hypothesis is true. In such cases, we reject the null hypothesis and conclude that the correlation is statistically significant (different from 0).
 :::
 
-Let's consider an example to illustrate the calculation of the $p$-value and the confidence interval for a given Pearson correlation.
+Let's consider an example to illustrate the calculation of the *p*-value and the confidence interval for a given Pearson correlation.
 
 
 ### Example
@@ -152,13 +152,13 @@ r = 0.25
 N = 40
 ```
 
-We also specify a significance level of $\alpha = 0.05$ (this is the threshold for the $p$-value below which we consider a correlation significant):
+We also specify a significance level of $\alpha = 0.05$ (this is the threshold for the *p*-value below which we consider a correlation significant):
 
 ```{r}
 alpha = 0.05
 ```
 
-We would like to know whether the correlation $r = 0.25$ is significantly different from 0 at a given significance level. To do this, we calculate the $p$-value and the confidence interval. First, we need to calculate the Fisher transformation of $r$:
+We would like to know whether the correlation $r = 0.25$ is significantly different from 0 at a given significance level. To do this, we calculate the *p*-value and the confidence interval. First, we need to calculate the Fisher transformation of $r$:
 
 ```{r}
 (z = atanh(r))
@@ -169,7 +169,7 @@ Now we can calculate the standard error:
 ```{r}
 (se_z = 1 / sqrt(N - 3))
 ```
-The $p$-value is the probability of obtaining values greater than $z / \text{SE}(z) \approx 1.55$ in a standard normal distribution. To calculate this, we can look up the value 1.55 in a [table of the standard normal distribution](https://en.wikipedia.org/wiki/Standard_normal_table#Complementary_cumulative) (the value we are looking for is located in row "z = 1.5" and column "+0.05"):
+The *p*-value is the probability of obtaining values greater than $z / \text{SE}(z) \approx 1.55$ in a standard normal distribution. To calculate this, we can look up the value 1.55 in a [table of the standard normal distribution](https://en.wikipedia.org/wiki/Standard_normal_table#Complementary_cumulative) (the value we are looking for is located in row "z = 1.5" and column "+0.05"):
 
 | z | +0.00 | +0.01 | +0.02 | +0.03 | +0.04 | +0.05 | +0.06 | +0.07 | +0.08 | +0.09 |
 |--:|------:|------:|------:|------:|------:|------:|------:|------:|------:|------:|
@@ -200,7 +200,7 @@ Alternatively (and even better), we can use appropriate functions in R (note tha
 (p = 2 * (1 - pnorm(z / se_z)))
 ```
 
-This $p$-value is greater than $\alpha = 0.05$, so we can *not* reject the null hypothesis (no correlation).
+This *p*-value is greater than $\alpha = 0.05$, so we can *not* reject the null hypothesis (no correlation).
 
 We can compute the confidence interval around $z$ by adding and subtracting the product of the quantile corresponding to the significance level (approximately 1.96 for $\alpha = 0.05$) and the standard error from the given value $z$:
 
@@ -218,11 +218,11 @@ cu_r = tanh(cu_z)
 c(cl_r, r, cu_r)
 ```
 
-:::{.callout-note}
-A confidence interval indicates the range in which the true value of the correlation is expected to lie, given a specified level of confidence (e.g., 95%). This confidence level is *not* the probability that the true value lies within the particular interval calculated from a single sample. Instead, if many samples were drawn and a confidence interval was calculated each time, then for a 95% confidence interval, the true value would lie within approximately 95% of these intervals.
+::: {.callout-important}
+A confidence interval indicates the range in which the true value of the correlation is expected to lie, given a specified level of confidence (e.g., 95%). This confidence level is **not** the probability that the true value lies within the particular interval calculated from a single sample. Instead, if many samples were drawn and a confidence interval was calculated each time, then for a 95% confidence interval, the true value would lie within approximately 95% of these intervals.
 :::
 
-:::{.callout-tip}
+::: {.callout-tip}
 The correlation of $r = 0.25$ for a sample size of $N = 40$ is not significantly different from zero ($p = 0.12$). This is also evident from the 95% confidence interval, which includes 0 (the value under the null hypothesis of no correlation). Therefore, we *cannot* reject the null hypothesis, indicating that the data do not provide strong evidence of a nonzero correlation.
 :::
 
@@ -256,7 +256,7 @@ library(Hmisc)
 
 These three functions have different features, i.e., which function to use depends on the required properties, which are summarized in the following table ("CI" stands for confidence interval):
 
-|            | Pearson | Spearman | Kendall | $p$-values | CI | pairwise |
+|            | Pearson | Spearman | Kendall | *p*-values | CI | pairwise |
 |:-----------|:-------:|:--------:|:-------:|:----------:|:--:|:--------:|
 | `cor`      | x       | x        | x       |            |    | x        |
 | `cor.test` | x       | x        | x       | x          | x  |          |
@@ -348,13 +348,13 @@ cor(exam[, c("Exam", "Anxiety", "Revise")])
 
 The output is a correlation matrix. We can obtain the individual coefficients for all variable pairs directly from this matrix. The diagonal contains the correlations of the variables with themselves and therefore consists of values that are exactly 1. It does not matter whether we read the correlations in the triangle *below* the diagonal or *above* the diagonal, as the correlation matrix is symmetric (the correlation between "Exam" and "Revise" is the same as between "Revise" and "Exam" – the correlation does not measure causal relationships).
 
-If we also need $p$-values, we have to use the `rcorr()` function. However, this function does not expect the data as a data frame but as a matrix. Therefore, we must convert the data into a matrix when calling the function:
+If we also need *p*-values, we have to use the `rcorr()` function. However, this function does not expect the data as a data frame but as a matrix. Therefore, we must convert the data into a matrix when calling the function:
 
 ```{r}
 rcorr(as.matrix(exam[, c("Exam", "Anxiety", "Revise")]))
 ```
 
-In addition to the correlation matrix, the function also provides the $p$-values. In this example, all correlations are significant, as the $p$-values are very small (rounded to zero).
+In addition to the correlation matrix, the function also provides the *p*-values. In this example, all correlations are significant, as the *p*-values are very small (rounded to zero).
 
 If we also need confidence intervals, we must use the `cor.test()` function. However, this function only supports two variables, so we must call the function multiple times to obtain all pairwise correlations. For example, to calculate the correlation between "Anxiety" and "Exam":
 
@@ -403,12 +403,12 @@ In this chapter, we calculated the significance of a correlation $r = 0.25$ with
 1. What is the smallest sample size $N$ that you would need to choose to obtain a significant result with $\alpha = 0.05$?
 2. What is the smallest sample size $N$ that would make even a very small correlation of $r = 0.05$ significant?
 
-You can solve this example by trying different sample sizes (increasing them step by step) and calculating the corresponding $p$-values.
+You can solve this example by trying different sample sizes (increasing them step by step) and calculating the corresponding *p*-values.
 
 
 ### Exercise 2
 
-We manually calculated the correlation between $x = (8, 1, -4, 5, 6, 10, 9)^T$ and $y = (-2, -5, -6, 0, 3, 7, 10)^T$ in this chapter. Now calculate this correlation using R! In addition, provide the 99% confidence interval and the $p$-value! Is this correlation significant at a significance level of $\alpha = 0.01$?
+We manually calculated the correlation between $x = (8, 1, -4, 5, 6, 10, 9)^T$ and $y = (-2, -5, -6, 0, 3, 7, 10)^T$ in this chapter. Now calculate this correlation using R! In addition, provide the 99% confidence interval and the *p*-value! Is this correlation significant at a significance level of $\alpha = 0.01$?
 
 
 ### Exercise 3
@@ -423,7 +423,7 @@ The file [`pm10.csv`](pm10.csv) contains the monthly PM10 particulate matter con
 - Create a line plot showing the PM10 concentration over time for both measurement stations.
 - Create a plot showing the relationship between the two measurement stations.
 
-Finally, calculate the Pearson correlation between both measurement stations, including the confidence interval and $p$-value. How much variance of one variable can be explained by the other variable?
+Finally, calculate the Pearson correlation between both measurement stations, including the confidence interval and *p*-value. How much variance of one variable can be explained by the other variable?
 
 :::{.callout-note}
 After importing the data, convert the `Date` column to a date type. To display both time series simultaneously, you can first create a line plot of one variable and then add the second time series with a different color using the `lines()` function.
