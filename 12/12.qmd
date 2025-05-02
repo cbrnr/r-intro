@@ -1,8 +1,8 @@
 ---
-title: "11 – Comparing Means"
+title: "12 – Comparing Means"
 subtitle: "Statistical Data Analysis with R"
 author: "Clemens Brunner"
-date: 2025-01-09
+date: 2025-06-02
 format:
   html:
     page-layout: full

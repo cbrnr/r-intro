@@ -1,0 +1,308 @@
+---
+title: "11 – Linear Regression (2)"
+subtitle: "Statistical Data Analysis with R"
+author: "Clemens Brunner"
+date: 2025-05-26
+format:
+  html:
+    page-layout: full
+engine: knitr
+knitr:
+  opts_chunk: 
+    R.options:
+      width: 120
+highlight-style: github
+title-block-banner: true
+theme:
+  light: flatly
+  dark: darkly
+---
+
+## Multiple linear regression
+
+Multiple linear regression is an extension of simple linear regression to situations with multiple predictors. The basic concept remains the same; we still use the general model equation:
+
+$$y_i = \hat{y}_i + \varepsilon_i$$
+
+The model with $n$ predictors $x_{1}$, $x_{2}$, $\ldots$, $x_{n}$ is now written as follows:
+
+$$y_i = (b_0 + b_1 x_{1i} + b_2 x_{2i} + \ldots + b_n x_{ni}) + \varepsilon_i$$
+
+Each predictor has its own weight or regression coefficient. Again, we use least squares to calculate the coefficients in such a way that the resulting "line" (technically, a [hyperplane](https://en.wikipedia.org/wiki/Hyperplane)) minimizes the mean squared error.
+
+We compute the sum of squares SST, SSM, and SSR in the same way as in simple regression. We can also calculate $R^2$, which indicates the proportion of variance in the dependent variable that is explained by the model. The higher this value, the better the model can describe the data. However, unlike simple regression, we cannot calculate the Pearson correlation between the individual variables from $R^2$. Instead, by taking the square root, we can calculate the correlation between the *predicted* values and the *observed* values.
+
+
+## Outliers and leverage
+
+We should always check how well a given model describes the measured data. Linear models can be very sensitive to individual data points that do not fit the general trend of the data. However, such outliers only have an actual impact on the model if they are far from the mean of the predictors. This potential influence of each data point is called *leverage*.
+
+The most critical data points are those that have high leverage and do not fit the general trend of the data. The following figure illustrates three possible situations. The four original data points are shown in black, and the corresponding regression line is shown as a black dashed line. The additional fifth data point is shown in red, and the regression line through all five data points is also shown in red. Adding a single data point therefore changes the original model more or less (from black dashed to red solid).
+
+```{r}
+#| echo: false
+x = c(5:8)
+y = x + rnorm(length(x), 0, 0.1)
+l = lm(y ~ x)
+
+# low leverage outlier (= uninfluential)
+x1 = 6.5
+y1 = 3
+l1 = lm(c(y, y1) ~ c(x, x1))
+
+# high leverage non-outlier (= uninfluential)
+x2 = 12
+y2 = 11.8
+l2 = lm(c(y, y2) ~ c(x, x2))
+
+# high leverage outlier (= influential)
+x3 = 14
+y3 = 8
+l3 = lm(c(y, y3) ~ c(x, x3))
+
+par(mfrow=c(1, 3), mar=c(1, 1, 1, 1))
+plot(x, y, pch=19, col=rgb(0, 0, 0, 1), xlim=c(2, 14), ylim=c(2, 14), xaxt="n", yaxt="n", ann=FALSE, bty="n")
+abline(l, lty=2)
+points(x1, y1, pch=19, col="red")
+abline(l1, col="red")
+title("low leverage outlier")
+
+plot(x, y, pch=19, col=rgb(0, 0, 0, 1), xlim=c(2, 14), ylim=c(2, 14), xaxt="n", yaxt="n", ann=FALSE, bty="n")
+abline(l, lty=2)
+points(x2, y2, pch=19, col="red")
+abline(l2, col="red")
+title("high leverage non-outlier")
+
+plot(x, y, pch=19, col=rgb(0, 0, 0, 1), xlim=c(2, 14), ylim=c(2, 14), xaxt="n", yaxt="n", ann=FALSE, bty="n")
+abline(l, lty=2)
+points(x3, y3, pch=19, col="red")
+abline(l3, col="red")
+title("high leverage outlier")
+```
+
+The fewer data points are available, the greater the influence of outliers on the linear model. The following figure illustrates the effect of a single outlier for three different sample sizes. If there are many data points, the outlier does not really influence the model significantly (left panel). However, the smaller the sample size, the greater the influence of the outlier (middle and right panels).
+
+```{r}
+#| echo: false
+outlier = function(n=100, alpha=0.5)
+{
+    x = runif(n, 5, 15)
+    y = x + rnorm(length(x), 0, 0.2)
+    l = lm(y ~ x)
+    plot(x, y, pch=19, col=rgb(0, 0, 0, alpha), xlim=c(5, 20), ylim=c(5, 20), axes=FALSE, xlab="", ylab="")
+    abline(l, lty=2)
+
+    x_o = 20
+    y_o = 5
+    points(x_o, y_o, pch=19, col="red")
+    l_o = lm(c(y, y_o) ~ c(x, x_o))
+    abline(l_o, col="red")
+
+    mtext(bquote(italic(n) == .(n)), side=1, family="serif")
+}
+
+par(mfrow=c(1, 3), mar=c(1, 3, 1, 3))
+outlier(1000, alpha=0.15)
+outlier(100)
+outlier(10, alpha=0.8)
+```
+
+
+## Model assumptions
+
+In order to use a linear model to make predictions on unseen data, the following assumptions must be met:
+
+* The dependent variable must be continuous (interval scale).
+* The independent variables (predictors) must be continuous (or on a nominal scale with two categories).
+* The predictors must have non-zero variances.
+* Predictors must not be linearly dependent (multicollinearity). This can be checked, for example, with the VIF statistic (variance inflation factor).
+* Homoscedasticity, i.e., the variance of the residuals must be constant across the values of the predictors (homogeneity of variance).
+* The residuals must be normally distributed.
+
+  :::{.callout-important}
+  This assumption of normality applies to the *residuals* and *not* to the predictors!
+  :::
+
+* The residuals must be independent of each other (this can be checked, for example, with the Durbin-Watson test).
+* The relationship between independent variables and the dependent variable must be linear.
+
+
+## Example (multiple linear regression)
+
+In the following example, we will again look at the number of music album sales in relation to the advertising budget. However, we will now include two additional predictors: the number of airplay hours on the largest national radio stations and the attractiveness of the band members. We start by loading the data [`sales2.dat`](sales2.dat):
+
+```{r}
+#| message: false
+library(readr)
+album2 = read_tsv("sales2.dat")
+```
+
+Let's calculate a linear regression model. As a comparison model, we first perform a simple regression with only the advertising budget as a predictor:
+
+```{r}
+model1 = lm(sales ~ adverts, data=album2)
+```
+
+We can now add additional factors to a second model using the `+` operator:
+
+```{r}
+model2 = lm(sales ~ adverts + airplay + attract, data=album2)
+```
+
+We can the summarize the results of both models:
+
+```{r}
+summary(model1)
+summary(model2)
+```
+
+Since the first model is identical to the one from the previous example, we already know the results. Let's therefore discuss the second model. $R^2$ is 0.6647, meaning the model can now explain 66% of the variance. Compared to the first model with only one predictor, this is an increase of 33%, i.e., the two predictors airplay and attractiveness explain an additional 33% of the variance.
+
+The output of the `summary()` function also shows the regression coefficients. We can write this multiple linear regression model as follows:
+
+$$y = b_0 + b_1 x_1 + b_2 x_2 + b_3 x_3 = -26.613 + 0.085 \cdot x_1 + 3.367 \cdot x_2 + 11.086 \cdot x_3$$
+
+Here, $b_0$ is the intercept (i.e., the value of $y$ when all predictors are 0), $b_1$ is the advertising budget `adverts`, $b_2$ is the airplay hours `airplay`, and $b_3$ is the attractiveness `attract`.
+
+The regression coefficients reflect how much the dependent variable changes when a predictor is increased by one unit while keeping all other predictors constant. In our example, this means:
+
+* If we increase `adverts` by one unit, `sales` increases by 0.085 units. This means that for every €1,000 spent on advertising, we sell 85 more albums.
+* If we increase `airplay` by one unit, `sales` increases by 3.367 units. This means that for every additional hour of airplay, we sell 3,367 more albums.
+* If we increase `attract` by one unit, `sales` increases by 11.086 units. This means that for every additional attractiveness point, we sell 11,086 more albums.
+
+The $t$-values and $p$-values indicate whether the regression coefficients are significantly different from zero. The size of the $t$-value indicates the influence (importance) of the coefficients, i.e., `adverts` and `airplay` have a similar influence on the model, while `attract` has a smaller influence.
+
+Often, it is helpful to inspect the standardized regression coefficients, because otherwise the coefficients depend on the scale of the predictors. These can be calculated by first standardizing all variables and then calculating the linear model (standardized variables have a mean of 0 and a standard deviation of 1).
+
+:::{.callout-tip}
+The `scale()` function can be used to standardize the columns of a data frame. However, this function always returns a matrix, so if you want to standardize a data frame or tibble, you need to apply `as.data.frame()` or `tibble::as_tibble()` afterwards.
+:::
+
+Alternatively, you can also use the `lm.beta()` function from the `lm.beta` package after the regular (unstandardized) model has been calculated:
+
+```{r}
+library(lm.beta)
+lm.beta(model2)
+```
+
+The standardized regression coefficients are usually denoted by $\beta_i$. Since all variables are now measured in standard deviations, they can be directly compared. In the example, we can make the following statements:
+
+* If we increase `adverts` by one standard deviation (€485,655), `sales` increases by 0.511 standard deviations (41,240 albums).
+* If we increase `airplay` by one standard deviation (12.27 hours), `sales` increases by 0.512 standard deviations (41,320 albums).
+* If we increase `attract` by one standard deviation (1.40 points), `sales` increases by 0.192 standard deviations (15,490 albums).
+
+Just like we already saw with the $t$-values, the standardized regression coefficients show that `adverts` and `airplay` have a similar influence on the model, while `attract` has a smaller influence.
+
+We can calculate confidence intervals for the (non-standardized) regression coefficients with the `confint()` function (by default, the function computes 95% confidence intervals):
+
+```{r}
+confint(model2)
+```
+
+As we have already seen, we can compare two (or more) models using the $F$ statistic. The $F$ value displayed when summarizing a model compares the model to the simplest baseline model. If you want to compare the model to a different model, `model2` must be an extension of `model1`, i.e., `model2` must include all terms of `model1` plus any additional factors. In R, you can compare two models using the following command:
+
+```{r}
+anova(model1, model2)
+```
+
+The $F$ value is 96.447, and because the $p$-value is less than 0.001, this indicates that the second model is significantly better than the first.
+
+
+### Influential data points
+
+We can use the following functions to calculate various outlier statistics for each individual data point:
+
+* `resid()`: Residuals
+* `rstandard()`: Standardized residuals
+* `rstudent()`: Studentized residuals (using leave-one-out)
+* `hatvalues()`: Leverage
+* `dfbeta()`: Difference between regression coefficients using leave-one-out
+* `cooks.distance()`: Cook's distance
+* `dffits()`: Difference between predicted values using leave-one-out
+
+::: {.callout-note}
+Leave-one-out means that the respective data point is excluded from the calculation of the statistic. We can then compare the statistic for each data point for a model with and without the respective data point, which allows us to determine the influence of each data point on the model.
+:::
+
+A particularly useful function is `influence.measures()`, which provides an overview of several outlier statistics for each data point:
+
+```r
+influence.measures(model2)
+```
+
+
+### Model diagnostics
+
+We can use the VIF statistic to check for multicollinearity using the `vif()` function from the `car` package:
+
+```{r}
+#| message: false
+library(car)
+vif(model2)
+```
+
+The largest VIF value should not exceed 10. The average VIF value should not be significantly greater than 1, which can be checked as follows:
+
+```{r}
+mean(vif(model2))
+```
+
+If we plot a regression model using the `plot()` function, we get four diagnostic plots:
+
+```{r}
+#| fig-width: 12
+#| fig-height: 8
+par(mfrow=c(2, 2), cex=0.75)
+plot(model2)
+```
+
+The plot in the upper left shows the predicted values versus the residuals. Here, we can check the linearity assumption (the red line should be a straight line around zero) and the homoscedasticity assumption (the spread of the data points should not change along the x-axis). The plot in the lower left is similar, but instead of the (absolute) residuals, the square root of the standardized residuals is shown. This plot allows us to assess whether the assumption of homogeneity of variance is met. The plot in the upper right shows a QQ plot to check the normality assumption of the residuals. If this assumption is met, data point should lie on the straight diagonal line. The plot in the lower right shows influential points (measured by leverage); Cook's distance is also visible in the plot.
+
+We can also check the residuals for independence with the Durbin-Watson test using the `dwt()` function from the `car` package:
+
+```{r}
+dwt(model2)
+```
+
+In this example, we can assume that the residuals are independent, as the $p$-value is approximately 0.7, which means that the null hypothesis (residuals are independent) cannot be rejected.
+
+
+## Exercises
+
+### Exercise 1
+
+Import the data from the file `sales2.dat` as shown in the course materials. Standardize all variables and then calculate a linear regression model. Compare the regression coefficients with the results of the `lm.beta()` function, which can be applied to a model with non-standardized data.
+
+
+### Exercise 2
+
+Import the dataset [`aggression.dat`](aggression.dat), which contains data on aggression among 666 children. It contains the following variables:
+
+- Parenting style (high value corresponds to bad style)
+- Playing computer games (high value corresponds to playing a lot of computer games)
+- Watching TV (high value corresponds to watching a lot of TV)
+- Nutrition (high value corresponds to healthy nutrition)
+- Aggression of siblings (high value corresponds to high aggression)
+
+From previous studies, we know that parenting style and aggression of siblings are significant predictors of a child's aggression.
+
+Fit two linear regression models. The first should only include the two factors that have previously been shown to influence aggression. The second model should include all factors. Then answer the following questions:
+
+1. Calculate the coefficient of determination $R^2$ for both models and provide the table of regression coefficients.
+2. Interpret the individual coefficients in terms of relevance (standardized coefficients are helpful) and significance for both models separately.
+3. Compare both models. Is the second model a significant improvement over the first?
+
+
+### Exercise 3
+
+Check the following assumptions for the second model from the previous exercise:
+
+- Are the predictors linearly dependent (VIF)?
+- Are the residuals independent (Durbin-Watson test)?
+- Are the residuals normally distributed (QQ plot)?
+- Are the dependencies linear and is the variance homogeneous (plot residuals vs. predicted values)?
+- Are there any data points with a large influence on the model (plot residuals vs. leverage)?
+
+::: {.callout-tip}
+Read the documentation of the `plot.lm()` function, which creates diagnostic plots for linear models. The `which` argument allows you to select the desired diagnostic plot.
+:::

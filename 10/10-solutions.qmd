@@ -1,0 +1,76 @@
+---
+title: "10 – Solutions"
+subtitle: "Statistical Data Analysis with R"
+author: "Clemens Brunner"
+date: 2025-05-19
+format:
+  html:
+    page-layout: full
+engine: knitr
+knitr:
+  opts_chunk: 
+    R.options:
+      width: 120
+highlight-style: github
+title-block-banner: true
+theme:
+  light: flatly
+  dark: darkly
+---
+
+## Exercise 1
+
+```{r}
+#| message: false
+library(ggplot2)
+library(readr)
+
+(cars = read_csv("cars.csv"))
+
+plot(
+    x=cars$speed,
+    y=cars$dist,
+    pch=21,
+    bg=rgb(0, 0, 0, 0.5),
+    xlab="Speed (miles per hour)",
+    ylab="Distance (feet)"
+)
+abline(lm(dist ~ speed, data=cars), col="blue", lwd=2)
+```
+
+
+## Exercise 2
+
+```{r}
+model = lm(dist ~ speed, data=cars)
+summary(model)
+```
+
+
+## Exercise 3
+
+```{r}
+r = with(cars, cor(speed, dist))
+r**2  # identical to R² from linear regression
+summary(model)$r.squared
+```
+
+
+## Exercise 4
+
+The equation of the line is:
+
+$$y = b_0 + b_1 \cdot x$$
+
+Using the concrete values of the coefficients:
+
+$$y = -17.5791 + 3.9324 \cdot x$$
+
+And the predicted values are:
+
+$$-17.5791 + 3.9324 \cdot 5 = 2.08$$
+$$-17.5791 + 3.9324 \cdot 65 = 238.03$$
+
+```{r}
+predict(model, data.frame(speed=c(5, 65)))
+```

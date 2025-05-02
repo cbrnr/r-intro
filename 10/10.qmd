@@ -1,0 +1,375 @@
+---
+title: "10 – Linear Regression (1)"
+subtitle: "Statistical Data Analysis with R"
+author: "Clemens Brunner"
+date: 2025-05-19
+format:
+  html:
+    page-layout: full
+engine: knitr
+knitr:
+  opts_chunk: 
+    R.options:
+      width: 120
+highlight-style: github
+title-block-banner: true
+theme:
+  light: flatly
+  dark: darkly
+---
+
+## Simple linear regression
+
+Correlation describes the relationship between two variables. We can now take this a step further and try to "predict" one variable from the other. A widely used method for this task is regression, which tries to explain a dependent variable by *one* independent variable (simple regression) or by *multiple* independent variables (multiple regression).
+
+Let's start with the most general form of a statistical model:
+
+$$\mathrm{outcome}_i = \mathrm{model}_i + \mathrm{error}_i$$
+
+This equation uses a model to describe the measured data (the outcome), but the model is not perfect and generally does not describe the data exactly (it makes errors). We can write this equation more concisely by setting $y_i = \mathrm{outcome}_i$, $\hat{y}_i = \mathrm{model}_i$, and $\varepsilon_i = \mathrm{error}_i$:
+
+$$y_i = \hat{y}_i + \varepsilon_i$$
+
+In linear regression, the model $\hat{y}_i$ is a *straight line*, which is the simplest possible useful model. Despite its simplicity, this linear approach is incredibly powerful and widely applicable. The model equation can therefore be written as:
+
+$$y_i = \underbrace{\left(b_0 + b_1 x_i\right)}_{\hat{y}_i} + \varepsilon_i$$
+
+::: {.callout-note}
+A straight line can be written as a linear equation $y = k \cdot x + d$. The following figure illustrates how to visually identify its two parameters $k$ and $d$ for any given line.
+
+1. The intercept $d$ is the intersection of the line with the y-axis. For this example, the line intersects the y-axis at $d=3$.
+2. The slope $k$ describes the rate of change in the y-direction relative to changes in the x-direction. To calculate the slope, we observe how much the line rises or falls for a given horizontal movement, or in other words, $k = \frac{\Delta y}{\Delta x}$. In this case, the slope is $k = \frac{\Delta y}{\Delta x} = \frac{-0.5}{1} = - 0.5$, meaning that for every unit increase in $x$ (corresponding to $\Delta x = 1$), the value of $y$ decreases by 0.5 units (corresponding to $\Delta y = -0.5$).
+
+![](line.png){width=50%}
+
+Therefore, this line can be described as $y = -\frac{1}{2} \cdot x + 3$.
+:::
+
+The two model coefficients $b_0$ and $b_1$ correspond to the intercept and the slope of the line, respectively. In the context of regression, these variables are called *regression coefficients*. The term $\varepsilon$ describes the error between the values predicted by the model and the actual measured values. The term $x$ is called the independent variable, predictor, or treatment. The term $y$ is called the dependent variable or outcome. The subscript $i$ denotes the $i$-th data point, i.e., $y_i$ is the value associated with the $i$-th data point $x_i$. The model makes an error $\varepsilon_i$ for this data point. The value predicted by the model is denoted as $\hat{y}_i$.
+
+::: {.callout-tip}
+To illustrate different intercepts and slopes, consider the following two figures. The left figure shows three lines with the same intercept but different slopes, while the right figure shows three lines with different intercepts but the same slope.
+
+```{r}
+#| echo: false
+#| fig-width: 10
+#| fig-height: 5
+library(ggplot2)
+library(patchwork)
+
+theme_set(theme_minimal())
+
+p1 = ggplot(data.frame(x=0, y=0), aes(x, y)) +
+    scale_x_continuous(limits=c(0, 100)) +
+    scale_y_continuous(limits=c(0, 100)) +
+    labs(x="x", y="y") +
+    geom_abline(slope=(1/1), intercept=50) +
+    geom_abline(slope=(-1/3), intercept=50) +
+    geom_abline(slope=(-2/3), intercept=50) +
+    theme(aspect.ratio=1)
+p2 = ggplot(data.frame(x=0, y=0), aes(x, y)) +
+    scale_x_continuous(limits=c(0, 100)) +
+    scale_y_continuous(limits=c(0, 100)) +
+    labs(x="x", y="y") +
+    geom_abline(slope=(1/2), intercept=50) +
+    geom_abline(slope=(1/2), intercept=20) +
+    geom_abline(slope=(1/2), intercept=70) +
+    theme(aspect.ratio=1)
+p1 + p2
+```
+
+In the left figure, all three lines have the same intercept $b_0 = 50$ (they intersect the y-axis at $y = 50$). By visual inspection, the slopes of the lines are $b_1 = 1$, $b_1 = -\frac{1}{3}$, and $b_1 = -\frac{2}{3}$, respectively. In the right figure, all three lines have the same slope $b_1 = \frac{1}{2}$. The first line intersects the y-axis at $y = 70$, the second at $y = 50$, and the third at $y = 20$, corresponding to the three intercepts.
+:::
+
+We are looking for a model (i.e., a straight line) that best describes the data, which is usually achieved by the [method of least squares](https://en.wikipedia.org/wiki/Least_squares). This method finds the line that minimizes the squared differences between the model (the line) and the individual data points. These differences (errors) are called *residuals*. In the following figure, the data points are shown as black dots, the model as a black line, and the residuals as red vertical lines. Note that there are both positive and negative residuals (two examples are shown in the figure). To prevent positive and negative terms from canceling each other out, the individual residuals are first squared and then summed. The method of least squares finds the line that minimizes this sum of squared errors among all possible lines.
+
+```{r}
+#| echo: false
+set.seed(2)
+x = rnorm(15, mean=12, sd=7)
+y = 5 * x + rnorm(15, sd=20)
+df = data.frame(x=x, y=y)
+m = lm(y ~ x)
+yhat = m$fitted.values
+ggplot(df, aes(x, y)) +
+    geom_segment(aes(x=x, xend=x, y=y, yend=yhat, color="error")) +
+    geom_smooth(method=lm, formula=y ~ x, se=FALSE, color="black") +
+    geom_point(size=2) +
+    theme(legend.position="none") +
+    scale_x_continuous(breaks=0:30, minor_breaks=NULL) +
+    scale_y_continuous(breaks=seq(-20, 170, 20)) +
+    annotate("text", x=27, y=155, label="28.5", color="red") +
+    annotate("text", x=6.8, y=5, label="\u201345.8", color="red")
+```
+
+
+## Sum of squares
+
+The sum of squared residuals measures how well a model fits the data. While least squares *always* finds the line that minimizes this sum, it does not guarantee that the model describes the data well. To assess this, we compare the linear model to a baseline model that ignores the predictor variable entirely – using just the mean of all $y_i$ values as its prediction (a horizontal line). In this baseline model, the predictor $x_i$ has no effect; the predicted $y_i$ is always the same. The linear model is considered a good fit if it significantly outperforms this simple baseline model.
+
+The sum of squared deviations of the data points from the baseline (mean) is called the *total sum of squares* (SST). The sum of squared deviations of the data points from the linear model are known as the *residual sum of squares* (SSR). Lastly, the sum of squared deviations of the linear model's predictions from the baseline model are referred to as the *model sum of squares* (SSM).
+
+```{r}
+#| echo: false
+#| fig-width: 15
+set.seed(2)
+x = rnorm(15, mean=12, sd=7)
+y = 5 * x + rnorm(15, sd=20)
+df = data.frame(x=x, y=y)
+m = lm(y ~ x)
+yhat = m$fitted.values
+p_sst = ggplot(df, aes(x, y)) +
+    geom_segment(aes(x=x, xend=x, y=y, yend=mean(y), color="error")) +
+    geom_point() +
+    geom_hline(yintercept=mean(y), linewidth=0.75) +
+    theme(legend.position="none", plot.title=element_text(hjust=0.5)) +
+    ggtitle("SST")
+
+p_ssm = ggplot(df, aes(x, y)) +
+    geom_segment(aes(x=x, xend=x, y=mean(y), yend=yhat, color="error")) +
+    geom_point() +
+    geom_hline(yintercept=mean(y), linewidth=0.75) +
+    geom_smooth(method=lm, formula=y ~ x, se=FALSE, color="black") +
+    theme(legend.position="none", plot.title=element_text(hjust=0.5), axis.title.y=element_blank(), axis.text.y=element_blank()) +
+    ggtitle("SSM")
+
+p_ssr = ggplot(df, aes(x, y)) +
+    geom_segment(aes(x=x, xend=x, y=y, yend=yhat, color="error")) +
+    geom_point() +
+    geom_hline(yintercept=mean(y), linewidth=0.75) +
+    geom_smooth(method=lm, formula=y ~ x, se=FALSE, color="black") +
+    theme(legend.position="none", plot.title=element_text(hjust=0.5), axis.title.y=element_blank(), axis.text.y=element_blank()) +
+    ggtitle("SSR")
+
+p_sst + p_ssm + p_ssr
+```
+
+The previous figure illustrates these sums of squares. The left panel shows the total sum of squares (SST), representing the *variance* of the data. The middle panel displays the model sum of squares (SSM), which should be as large as possible to indicate that the linear model significantly outperforms the baseline. The right panel shows the residual sum of squares (SSR), which should be as small as possible for a good model, as it represents the remaining variance that the model fails to explain.
+
+Mathematically, these sums are defined as follows:
+
+$$\mathrm{SST} = \sum_{i=1}^N (y_i - \bar{y})^2$$
+
+$$\mathrm{SSR} = \sum_{i=1}^N (y_i - \hat{y}_i)^2$$
+
+$$\mathrm{SSM} = \sum_{i=1}^N (\hat{y}_i - \bar{y})^2$$
+
+Here, $y_i$ are the individual data points, $\bar{y}$ is the mean, and $\hat{y}_i$ are the individual predicted values ($N$ represents the number of data points). Moreover, $\bar{y}$ and $\hat{y}_i$ can be written as:
+
+$$\bar{y} = \frac{1}{N} \sum_{i=1}^N y_i$$
+
+$$\hat{y}_i = b_0 + b_1 x_i$$
+
+The following relationship holds:
+
+$$\mathrm{SST} = \mathrm{SSM} + \mathrm{SSR}$$
+
+
+## Model fit
+
+### Coefficient of determination $R^2$
+
+The ratio of the model sum of squares (SSM) to the total sum of squares (SST) is a widely used measure of model fit, known as $R^2$, the coefficient of determination. It expresses the proportion of variance in the dependent variable that is explained by the model:
+
+$$R^2 = \frac{\mathrm{SSM}}{\mathrm{SST}}$$
+
+The value of $R^2$ ranges from 0 to 1, where 0 indicates that the model explains none of the variance, and 1 indicates that it explains all of it. This is the same value we encountered when discussing correlation. In the case of simple linear regression (that is, when there is only one predictor), the square root of $R^2$ gives the Pearson correlation coefficient $r$ between the predictor $x$ and the outcome $y$.
+
+
+### $F$ value
+
+We can also use the sum of squares to compute another key measure of model performance: the $F$-statistic. This statistic expresses the ratio of *systematic* variance (variance explained by the model) to *unsystematic* variance (residual variance). However, rather than using the raw sums of squares (SSM and SSR), we use their corresponding *mean* squares – that is, we divide each sum of squares by its associated degrees of freedom:
+
+$$F = \frac{\mathrm{MSM}}{\mathrm{MSR}} = \frac{\mathrm{SSM}/\mathrm{dfM}}{\mathrm{SSR}/\mathrm{dfR}}$$
+
+Here, $\mathrm{MSM}$ is the mean square for the model, $\mathrm{MSR}$ is the mean square for the residuals, $\mathrm{dfM}$ is the degrees of freedom for the model, and $\mathrm{dfR}$ is the degrees of freedom for the residuals. The degrees of freedom are calculated as follows:
+
+$$\mathrm{dfM} = p - 1$$
+
+$$\mathrm{dfR} = N - p$$
+
+In these equations, $p$ is the number of parameters in the model (including the intercept) and $N$ is the number of observations. This scaling by degrees of freedom is necessary because the $F$-statistic is used for hypothesis testing, whereas $R^2$ is a purely descriptive statistic.
+
+For simple regression, there are exactly two model parameters $b_0$ and $b_1$, so $p = 2$. The degrees of freedom for the model sum of squares are therefore:
+
+$$\mathrm{dfM} = p - 1 = 2 - 1 = 1$$
+
+The degrees of freedom for the residual sum of squares are in this case:
+
+$$\mathrm{dfR} = N - p = N - 2.$$
+
+
+## Coefficients
+
+In simple linear regression, the regression coefficient $b_1$ represents the slope of the regression line. It quantifies how much the dependent variable (DV) is expected to change for each one-unit increase in the independent variable (IV). In other words, it reflects the strength and direction of the linear relationship between the two variables.
+
+A poor model – such as one that always predicts the overall mean of the DV, regardless of the IV – will have a slope of zero, since changes in the IV have no effect on the predicted value. In contrast, if the IV is a meaningful predictor of the DV, the estimated slope $b_1$ should differ significantly from zero. This can be evaluated using a $t$-test, which tests the null hypothesis that $b_1 = 0$.
+
+The $t$-statistic is calculated as the ratio of the estimated regression coefficient to its standard error:
+
+$$t = \frac{b_1}{\mathrm{SE}_{b_1}}$$
+​
+The standard error of the slope, $\mathrm{SE}_{b_1}$, quantifies the uncertainty or variability in the estimate of $b_1$ due to sampling. A smaller standard error indicates that the estimate is more precise. The test asks whether the observed coefficient is large relative to this uncertainty.
+
+The degrees of freedom for this test are $N − p$, which equals $N − 2$ in simple linear regression, since the model estimates two parameters (the intercept and the slope).
+
+
+## Example
+
+Let's work through an example to demonstrate how to perform a regression analysis in R.
+
+
+### Importing the data
+
+First, we load the dataset [`sales1.dat`](sales1.dat), which contains data on music album sales (column `sales`) and the amount of advertising budget per album (column `adverts`):
+
+```{r}
+#| message: false
+library(readr)
+(album = read_tsv("sales1.dat"))
+```
+
+
+### Data visualization
+
+We hypothesize that a higher advertising budget leads to higher sales. Besides calculating various descriptive statistics (not done here), it is essential to visualize the data before performing a regression analysis. We will use a scatter plot with an overlaid regression line (we'll explain the argument of `abline()`, namely `lm(sales ~ adverts, data=album)`, shortly):
+
+```{r}
+plot(
+    x=album$adverts,
+    y=album$sales,
+    pch=21,
+    bg=rgb(0, 0, 0, 0.5),
+    xlab="Advertising (1000 €)",
+    ylab="Sales (1000)"
+)
+abline(lm(sales ~ adverts, data=album), col="blue", lwd=2)
+```
+
+Clearly, there is a positive relationship between the two variables (the higher the advertising budget, the more album sales). Moreover, the slope of the regression line seems to be significantly different from zero, indicating that the regression model is likely to be a good fit.
+
+
+### Regression analysis
+
+We can perform a regression analysis in R using the `lm()` function (which stands for "linear model"):
+
+```{r}
+model = lm(sales ~ adverts, data=album)
+```
+
+The first argument `sales ~ adverts` is a formula (indicated by a tilde `~`). This formula can be read as "`sales` is predicted by `adverts`" (in general, the formula takes the form `DV ~ IV`). With the argument `data=album`, we tell the function that the names in the formula refer to columns of the data frame `album`.
+
+We store the result of the regression analysis in the variable `model`. We can obtain a summary of the regression analysis by calling `summary()` on this variable:
+
+```{r}
+summary(model)
+```
+
+
+### Coefficient of determination $R^2$
+
+Let's interpret the output, starting with the penultimate line:
+
+```
+Multiple R-squared:  0.3346,    Adjusted R-squared:  0.3313
+```
+
+This line shows $R^2$, the ratio of SSM to SST (there are actually two different estimates for $R^2$, but we will not discuss the details here, also because they are almost identical anyway). From this value, we can infer that advertising expenses can explain approximately 33.5% of the variance in album sales. This means that approximately 66.5% of the variance remains unexplained, indicating that there must be other relevant factors that we have not considered in the model.
+
+In the case of simple linear regression, we can also immediately calculate Pearson's correlation between advertising budget and album sales by taking the square root of $R^2$:
+
+```{r}
+sqrt(summary(model)$r.squared)
+```
+
+Let's compare this value with the result computed by the `cor()` function:
+
+```{r}
+cor(album$adverts, album$sales)
+```
+
+
+### $F$-statistic
+
+The last line of the model summary shows the $F$-statistic and its significance (the $p$-value):
+
+```
+F-statistic: 99.59 on 1 and 198 DF,  p-value: < 2.2e-16
+```
+
+The $F$-statistic is the ratio of MSM to MSR. Its value is 99.59, which corresponds to a significance of $p < 0.001$ with 1 and 198 degrees of freedom, respectively (remember that for simple linear regression, a model with two parameters, $\mathrm{dfM} = 1$ and $\mathrm{dfR} = N - 2$). This means that the probability of obtaining this $F$ value (or a larger one) under the null hypothesis is less than 0.1% (it's actually less than `2.2e-16`). We can therefore conclude that the linear model is significantly better than the baseline model.
+
+A significant $F$-statistic indicates that the regression model provides a better fit to the data than a baseline model that predicts only the global mean. In other words, the model explains a nontrivial portion of the variance in the dependent variable. However, the $F$-test evaluates the model as a whole and does not assess the contribution of individual predictors.
+
+In the case of simple linear regression, where there is only one predictor (besides the intercept, which is also included in the simple baseline model), the situation is different: the model contains just a single slope parameter $b_1$. Therefore, a significant $F$-statistic necessarily implies that this slope is significantly different from zero. In fact, in simple regression, the $F$-statistic and the squared $t$-statistic for the slope are mathematically equivalent:
+
+$$F = t^2$$
+ 
+This equivalence does not hold in multiple regression (see next chapter), where the overall $F$-statistic can be significant even if some individual predictors are not.
+
+
+### Regression coefficients
+
+The regression coefficients are summarized as follows:
+
+```
+Coefficients:
+             Estimate Std. Error t value Pr(>|t|)
+(Intercept) 1.341e+02  7.537e+00  17.799   <2e-16 ***
+adverts     9.612e-02  9.632e-03   9.979   <2e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+```
+
+The row `(Intercept)` shows the value for $b_0$, which corresponds to album sales when the advertising budget is zero. This value is `1.341e+02`, or `134.1`, which translates to 134,100 sales, as the variable is measured in thousands of units.
+
+The value for $b_1$ (the slope of the regression line) is listed in the row `adverts` as `9.612e-02`, or `0.09612`. This means that for every one-unit increase in the predictor variable `adverts`, the outcome variable `sales` increases by 0.09612 units. In practical terms, increasing the advertising budget by €1,000 results in 96 additional album sales.
+
+Furthermore, the table shows the standard errors of the coefficients, the $t$-values, and the $p$-values. Both coefficients are significant with $p < 0.001$. However, we are usually only interested in the slope, as it is not important whether the intercept differs significantly from zero.
+
+
+### Predicting values
+
+We can now use our model to predict new values for `sales` based on `adverts`. To do this, we simply substitute the calculated values of $b_0$ and $b_1$ into the linear model. The exact coefficients can be obtained with `model$coefficients` or `coefficients(model)`:
+
+$$\hat{y} = b_0 + b_1 x = 134.1 + 0.09612 \cdot x$$
+
+Now we can calculate the sales $y$ if we had an advertising budget of $x = 100$:
+
+$$\hat{y} = 134.1 + 0.09612 \cdot 100 = 143.75$$
+
+This means that with an advertising budget of €100,000, we would sell 143,750 albums.
+
+However, it is easier and more convenient to use the `predict()` function. As arguments, we pass the model and the new data (which must be passed as a data frame):
+
+```{r}
+predict(model, data.frame(adverts=100))
+```
+
+This way, we can also make predictions for multiple values at once:
+
+```{r}
+predict(model, data.frame(adverts=c(0, 10, 100, 2000)))
+```
+
+
+## Exercises
+
+### Exercise 1
+
+The file [`cars.csv`](cars.csv) contains several measurements of braking distances (`dist`) of cars braking at a certain speed (`speed`). We would like to investigate whether there is a (linear) relationship between speed and braking distance. First, plot both variables in a scatter plot (`speed` on the *x*-axis and `dist` on the *y*-axis). What do you observe? Is there a linear relationship between the two variables?
+
+
+### Exercise 2
+
+Perform a linear regression analysis and summarize the results!
+
+
+### Exercise 3
+
+Compute the Pearson correlation between the two variables (without using $R^2$ from the model) and check whether this value matches $R^2$ from the regression model.
+
+
+### Exercise 4
+
+Write down the model equation. Which braking distances does the model predict for a car driving 5 mph and 65 mph, respectively? Use both the model equation and the `predict()` function to estimate the braking distances.

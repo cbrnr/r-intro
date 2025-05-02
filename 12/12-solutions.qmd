@@ -1,8 +1,8 @@
 ---
-title: "11 – Lösungen"
-subtitle: "Statistische Datenanalyse mit R"
+title: "12 – Solutions"
+subtitle: "Statistical Data Analysis with R"
 author: "Clemens Brunner"
-date: 2025-01-09
+date: 2025-06-02
 format:
   html:
     page-layout: full
@@ -16,14 +16,11 @@ title-block-banner: true
 theme:
   light: flatly
   dark: darkly
-lang: de
-author-title: "Autor"
-published-title: "Veröffentlicht"
 ---
 
-## Übung 1
+## Exercise 1
 
-### Größe
+### Height
 
 ```{r}
 #| message: false
@@ -32,25 +29,26 @@ library(dplyr)
 t.test(height ~ gender, data=starwars, alternative="less")
 ```
 
-Weibliche Charaktere sind nicht signifikant kleiner als männliche ($t=-1.25$, $p = .110$).
+Female characters are not significantly shorter than male characters ($t=-1.25$, $p = .110$).
 
-### Gewicht
+
+### Weight
 
 ```{r}
 t.test(mass ~ gender, data=starwars, alternative="less")
 ```
 
-Weibliche Charaktere sind signifikant leichter als männliche ($t=-1.87$, $p = .034$).
+Female characters are significantly lighter than male characters ($t=-1.87$, $p = .034$).
 
 
-## Übung 2
+## Exercise 2
 
 ```{r}
 library(palmerpenguins)
 ```
 
 
-### Schnabellänge
+### Bill length
 
 ```{r}
 with(
@@ -68,7 +66,7 @@ with(
 ```
 
 
-### Schnabeltiefe
+### Bill depth
 
 ```{r}
 with(
@@ -93,9 +91,9 @@ pairwise.t.test(penguins$bill_depth_mm, penguins$species)
 ```
 
 
-## Übung 3
+## Exercise 3
 
-Für einen gepaarten t-Test müssen wir die Daten zuerst ins Wide-Format umwandeln:
+For a paired *t*-test, we first need to convert the data to wide format:
 
 ```{r}
 library(tidyr)
@@ -109,10 +107,10 @@ sleep_wide = pivot_wider(
 )
 ```
 
-Danach können wir den Test durchführen:
+Now we can perform the test:
 
 ```{r}
 t.test(sleep_wide$g1, sleep_wide$g2, paired=TRUE)
 ```
 
-Die mittlere Differenz beträgt −1.58, diese ist signifikant von Null verschieden ($p = .003$). Das 95%-Konfidenzintervall erstreckt sich von −2.46 bis −0.7.
+The mean difference is −1.58, which is significantly different from zero ($p = .003$). The 95% confidence interval ranges from −2.46 to −0.7.
