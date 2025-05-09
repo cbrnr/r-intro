@@ -1,0 +1,8 @@
+- source: 11.qmd
+  netlify:
+    - id: 174c02cc-69e1-49b2-9860-6a82e863c948
+      url: https://r-25s-11.netlify.app/
+- source: 11-solutions.qmd
+  netlify:
+    - id: c5064394-0b0f-4e62-b8b5-be2fe0fab372
+      url: https://r-25s-11-solutions.netlify.app/

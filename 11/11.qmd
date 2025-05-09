@@ -30,7 +30,7 @@ $$y_i = (b_0 + b_1 x_{1i} + b_2 x_{2i} + \ldots + b_n x_{ni}) + \varepsilon_i$$
 
 Each predictor has its own weight or regression coefficient. Again, we use least squares to calculate the coefficients in such a way that the resulting "line" (technically, a [hyperplane](https://en.wikipedia.org/wiki/Hyperplane)) minimizes the mean squared error.
 
-We compute the sum of squares SST, SSM, and SSR in the same way as in simple regression. We can also calculate $R^2$, which indicates the proportion of variance in the dependent variable that is explained by the model. The higher this value, the better the model can describe the data. However, unlike simple regression, we cannot calculate the Pearson correlation between the individual variables from $R^2$. Instead, by taking the square root, we can calculate the correlation between the *predicted* values and the *observed* values.
+We compute the sum of squares SST, SSM, and SSR in the same way as in simple regression. We can also calculate $R^2$, which indicates the proportion of variance in the dependent variable that is explained by the model. The higher this value, the better the model describes the data. However, unlike simple regression, we cannot calculate the Pearson correlation between the individual variables from $R^2$. Instead, by taking the square root, we can calculate the correlation between the *predicted* values $\hat{y}_i$ and the *observed* values $y_i$.
 
 
 ## Outliers and leverage
@@ -80,7 +80,7 @@ abline(l3, col="red")
 title("high leverage outlier")
 ```
 
-The fewer data points are available, the greater the influence of outliers on the linear model. The following figure illustrates the effect of a single outlier for three different sample sizes. If there are many data points, the outlier does not really influence the model significantly (left panel). However, the smaller the sample size, the greater the influence of the outlier (middle and right panels).
+The fewer data points are available, the greater the influence of outliers on the linear model. The following figure illustrates the effect of a single outlier for three different sample sizes. If there are many data points, one outlier does not really influence the model significantly (left panel). However, the smaller the sample size, the greater the influence of the outlier (middle and right panels).
 
 ```{r}
 #| echo: false
@@ -127,7 +127,7 @@ In order to use a linear model to make predictions on unseen data, the following
 * The relationship between independent variables and the dependent variable must be linear.
 
 
-## Example (multiple linear regression)
+## Example
 
 In the following example, we will again look at the number of music album sales in relation to the advertising budget. However, we will now include two additional predictors: the number of airplay hours on the largest national radio stations and the attractiveness of the band members. We start by loading the data [`sales2.dat`](sales2.dat):
 
@@ -149,14 +149,14 @@ We can now add additional factors to a second model using the `+` operator:
 model2 = lm(sales ~ adverts + airplay + attract, data=album2)
 ```
 
-We can the summarize the results of both models:
+We now summarize the results of both models:
 
 ```{r}
 summary(model1)
 summary(model2)
 ```
 
-Since the first model is identical to the one from the previous example, we already know the results. Let's therefore discuss the second model. $R^2$ is 0.6647, meaning the model can now explain 66% of the variance. Compared to the first model with only one predictor, this is an increase of 33%, i.e., the two predictors airplay and attractiveness explain an additional 33% of the variance.
+Since the first model is identical to the one from the previous chapter, we already know the results. Let's therefore discuss the second model. $R^2$ is 0.6647, meaning the model can now explain 66% of the total variance. Compared to the first model with only one predictor, this is an increase of 33%, i.e., the two predictors airplay and attractiveness explain an additional 33% of the variance.
 
 The output of the `summary()` function also shows the regression coefficients. We can write this multiple linear regression model as follows:
 
@@ -172,13 +172,13 @@ The regression coefficients reflect how much the dependent variable changes when
 
 The $t$-values and $p$-values indicate whether the regression coefficients are significantly different from zero. The size of the $t$-value indicates the influence (importance) of the coefficients, i.e., `adverts` and `airplay` have a similar influence on the model, while `attract` has a smaller influence.
 
-Often, it is helpful to inspect the standardized regression coefficients, because otherwise the coefficients depend on the scale of the predictors. These can be calculated by first standardizing all variables and then calculating the linear model (standardized variables have a mean of 0 and a standard deviation of 1).
+Often, it is helpful to inspect the standardized regression coefficients, because otherwise the coefficients depend on the scale of the predictors. These can be calculated by first standardizing all variables and then fitting the linear model (standardized variables have a mean of 0 and a standard deviation of 1).
 
 :::{.callout-tip}
-The `scale()` function can be used to standardize the columns of a data frame. However, this function always returns a matrix, so if you want to standardize a data frame or tibble, you need to apply `as.data.frame()` or `tibble::as_tibble()` afterwards.
+The `scale()` function can be used to standardize the columns of a data frame. However, this function always returns a matrix, so if we want to standardize a data frame or tibble, we need to apply `as.data.frame()` or `tibble::as_tibble()` afterwards.
 :::
 
-Alternatively, you can also use the `lm.beta()` function from the `lm.beta` package after the regular (unstandardized) model has been calculated:
+Alternatively, we can also use the `lm.beta()` function from the `lm.beta` package after the regular (unstandardized) model has been calculated:
 
 ```{r}
 library(lm.beta)
@@ -199,7 +199,7 @@ We can calculate confidence intervals for the (non-standardized) regression coef
 confint(model2)
 ```
 
-As we have already seen, we can compare two (or more) models using the $F$ statistic. The $F$ value displayed when summarizing a model compares the model to the simplest baseline model. If you want to compare the model to a different model, `model2` must be an extension of `model1`, i.e., `model2` must include all terms of `model1` plus any additional factors. In R, you can compare two models using the following command:
+As we have already seen, we can compare two (or more) models using the $F$ statistic. The $F$ value displayed when summarizing a model compares the model to the simplest baseline model. If we want to compare the model to a different model, `model2` must be an extension of `model1`, i.e., `model2` must include all terms of `model1` plus any additional factors. In R, we can compare two models using the following command:
 
 ```{r}
 anova(model1, model2)
@@ -256,7 +256,7 @@ par(mfrow=c(2, 2), cex=0.75)
 plot(model2)
 ```
 
-The plot in the upper left shows the predicted values versus the residuals. Here, we can check the linearity assumption (the red line should be a straight line around zero) and the homoscedasticity assumption (the spread of the data points should not change along the x-axis). The plot in the lower left is similar, but instead of the (absolute) residuals, the square root of the standardized residuals is shown. This plot allows us to assess whether the assumption of homogeneity of variance is met. The plot in the upper right shows a QQ plot to check the normality assumption of the residuals. If this assumption is met, data point should lie on the straight diagonal line. The plot in the lower right shows influential points (measured by leverage); Cook's distance is also visible in the plot.
+The plot in the upper left shows the predicted values versus the residuals. Here, we can check the linearity assumption (the red line should be a straight line around zero) and the homoscedasticity assumption (the spread of the data points should not change along the x-axis). The plot in the lower left is similar, but instead of the (absolute) residuals, the square root of the standardized residuals is shown. This plot allows us to assess whether the assumption of homogeneity of variance is met. The plot in the upper right shows a QQ plot to check the normality assumption of the residuals. If this assumption is met, data points should lie on the straight diagonal line. The plot in the lower right shows influential points (measured by leverage); Cook's distance is also visible in the plot.
 
 We can also check the residuals for independence with the Durbin-Watson test using the `dwt()` function from the `car` package:
 

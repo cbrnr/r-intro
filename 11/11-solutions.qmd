@@ -22,6 +22,7 @@ theme:
 
 ```{r}
 #| message: false
+library(readr)
 library(tibble)
 
 sales = read_tsv("sales2.dat")
