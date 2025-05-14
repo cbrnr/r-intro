@@ -20,20 +20,14 @@ theme:
 
 ## Experimental designs
 
-Not only are we interested in relationships between two (or more) variables in studies – as we have seen, such (linear) relationships can be described with correlations and regression models. Often, we are also interested in mean differences between two (or more) groups.
+Besides looking at how variables relate – for example, with correlations or regression – we often want to know if two (or more) groups differ in their average scores. In correlational (or [observational](https://en.wikipedia.org/wiki/Observational_study)) studies, we simply collect data *without* manipulating anything. Experimental (or [intervention](https://en.wikipedia.org/wiki/Interventional_study)) studies deliberately *manipulate* one or more variables (for example, one group receives a drug, another a placebo). This allows us to attribute any differences in the outcome to the manipulation, letting us draw causal conclusions that correlational studies cannot offer.
 
-In contrast to *correlational* study designs, *experimental* study designs allow us to infer causality. In experimental designs, we are often interested in mean differences between two (or more) groups that can be attributed to a specific treatment (usually compared to a control group).
-
-:::{.callout-tip}
-Correlational studies are also called [observational studies](https://en.wikipedia.org/wiki/Observational_study) – here, data are collected *without* making manipulations according to the research hypothesis. Experimental studies are also called [intervention studies](https://en.wikipedia.org/wiki/Interventional_study) – here, one or more variables relevant to the research hypothesis are *manipulated* (e.g., one group receives a drug, another a placebo).
-:::
-
-In general, we also distinguish between *independent* and *dependent* designs. In independent designs, individuals in the different groups are independent of each other (e.g., different persons). In dependent designs, individuals are independent *within* groups, but there is a dependency *between* groups (e.g., the same persons are in multiple groups, also called a repeated-measures design). Dependent designs take into account individual differences that are not relevant for the treatment and can therefore better detect smaller differences than independent designs. This is best illustrated by an example.
+Within experimental studies, we distinguish between *independent* and *dependent* (repeated-measures) designs. In an independent design, each group is made up of different participants, so observations are unrelated across groups. In a dependent design, the same participants appear in multiple conditions, creating a dependency between groups. Because each person serves as their own control, dependent designs automatically factor out individual differences that are irrelevant to the treatment, giving the analysis more power to detect small effects than an independent design. This advantage becomes clear in the following example.
 
 
 ## Example
 
-In a fictitious study, fear of spiders was measured on a scale from 0 to 100 (larger values indicate higher fear). Twenty-four people participated in the study and were divided into two groups (12 participants per group). One group viewed photos of spiders, whereas the other group was confronted with real spiders. We start by importing the data from the file [`spider.dat`](spider.dat):
+Imagine a study that measured fear of spiders on a scale from 0 to 100 (higher scores indicate greater fear). Twenty-four volunteers participated in the study and were split into two groups (12 participants per group). One group viewed photos of spiders, whereas the other group was confronted with real spiders. We start by importing the data from the file [`spider.dat`](spider.dat):
 
 ```{r}
 #| message: false
@@ -83,7 +77,7 @@ ggplot(spider_stats, aes(Group, mean)) +
     geom_errorbar(aes(ymin=mean-ci, ymax=mean+ci), width=0.1) +
     xlab("") +
     ylab("Anxiety") +
-    ggtitle("Unabhängiges Design")
+    ggtitle("Independent design")
 ```
 
 The plot clearly shows that the confidence intervals overlap significantly, i.e., the difference between the two means is probably not significant.
@@ -91,7 +85,7 @@ The plot clearly shows that the confidence intervals overlap significantly, i.e.
 
 ### Dependent samples
 
-For dependent groups (e.g., from a repeated-measures design in which each of the 12 persons was in both groups), it is best to first convert the data to a wider format:
+Now imagine we've switched to a dependent design: the same 12 participants took part in both conditions. To reflect this, we reshape the data into a wide format, putting each person into a single row with two columns (one for each condition):
 
 ```{r}
 #| message: false
@@ -105,7 +99,7 @@ spider_w$id = NULL
 spider_w
 ```
 
-Next, we calculate adjusted values that take into account the individual differences of the persons. First, we add a column with the mean anxiety of each person:
+Next, we calculate adjusted values that take individual fear levels into account. First, we add a column with the mean anxiety of each person:
 
 ```{r}
 spider_w$mean = rowMeans(spider_w)
@@ -161,7 +155,7 @@ ggplot(spider_w_stats, aes(Group, mean)) +
     geom_errorbar(aes(ymin=mean-ci, ymax=mean+ci), width=0.1) +
     xlab("") +
     ylab("Anxiety") +
-    ggtitle("Abhängiges Design")
+    ggtitle("Dependent design")
 ```
 
 The plot shows that the group means (black dots) are identical to the independent design. The raw data (red dots) have not changed either. However, the confidence intervals are much smaller, because we removed individual differences. In this example, they no longer overlap, indicating a significant difference between the group means.
@@ -169,27 +163,27 @@ The plot shows that the group means (black dots) are identical to the independen
 
 ## The *t*-test
 
-After visualizing group differences, let's now discuss the *t*-test, which is used to compare the means of two groups. There are two variants of the *t*-test, namely a *dependent* and an *independent* *t*-test. The former is also called a *paired* or *dependent* *t*-test, the latter an *independent* *t*-test.
+After visualizing group differences, let's now discuss the *t*-test, which is used to compare the means of two groups. There are two variants of the *t*-test, namely a *dependent* (or *paired*) and an *independent* version.
 
-The *t*-statistic is relates the variance explained by the model to the variance *not* explained by the model (or, in other words, effect divided by error). In the case of the *t*-test, the model is the difference between the two means minus the expected difference, and the error is estimated by the standard error of the mean difference:
+The *t*-statistic relates the variance explained by the model to the variance *not* explained by the model (or, in other words, *effect* divided by *error*). In the case of the *t*-test, the model is the difference between the two means minus the expected difference, and the error is estimated by the standard error of the mean difference:
 
 $$t = \frac{\text{Observed difference} - \text{Expected difference}}{\text{Standard error of the difference}}$$
 
-Here, the difference always refers to the difference between the means. The expected difference (under the null hypothesis) is usually zero (we expect no group differences). The procedure for testing is as follows:
+Here, the difference always refers to the difference between the group means. The expected difference (under the null hypothesis) is usually zero (we expect no group differences). The procedure for testing is as follows:
 
-* We collect two samples and calculate their means. The two means can be identical or differ slightly or greatly.
-* If both samples come from the same population, the means should be approximately equal. This is the null hypothesis (there is no difference). Large differences can occur randomly (but rarely).
+* We collect two samples and calculate their means.
+* If both samples come from the same population, the means should be approximately equal. This is the null hypothesis (there is no difference). Larger differences can occur randomly (but rarely).
 * We compare the observed difference with the expected difference, and we use the standard error as a measure of the variability of the sample means.
 * If the observed difference is greater than the expected difference, this can have two reasons:
-    1. There is no difference, and the observed difference occurred by chance, i.e., at least one sample is not representative of its population.
-    2. The two samples come from different populations, i.e., both samples are representative of their population. This means that there is indeed a difference!
+    1. There is no difference, and the observed difference occurred by chance (i.e., one sample is not representative of its population).
+    2. The two samples come from different populations, i.e., both samples are representative of their population. This means that there is indeed a significant difference between the two groups!
 
-The larger the difference or rather the *t*-statistic, the more evidence there is for the second case (i.e., for an actual effect).
+The larger the difference (or rather, the *t*-statistic), the more evidence there is for the second case (i.e., for an actual effect).
 
 
 ## The *t*-test as a linear model
 
-We have already encountered the *t*-test in the context of linear regression, where we used it to check whether regression coefficients are significantly different from zero. As we have just learned, the *t*-test is also used to compare means. In fact, group means can be written as a linear model:
+We first encountered the *t*-test in the context of linear regression, where we used it to check whether regression coefficients differ significantly from zero. The very same test also lets us compare group means, because a difference between means can be framed as a simple linear model:
 
 $$y_i = \hat{y}_i + \varepsilon_i$$
 
@@ -216,7 +210,7 @@ Graphically, we can represent the situation as follows:
 #| echo: false
 library(ggplot2)
 ggplot(spider, aes(Group, Anxiety)) +
-    geom_point(alpha=0.5) +
+    geom_jitter(width=0.05, height=0, alpha=0.5) +
     geom_smooth(method="lm", aes(group=1), formula="y~x") +
     xlab("")
 ```
@@ -239,7 +233,7 @@ $$\bar{y}_{\text{picture}} = b_0 + b_1 \cdot x_{\text{picture}}$$
 $$40 = b_0 + b_1 \cdot 0$$
 $$b_0 = 40$$
 
-Apparently, the intercept $b_0$ corresponds to the group mean of the first group (coded as 0). Next, we substitute the values for the `real` group. Here, the group mean is 47:
+Apparently, the intercept $b_0$ corresponds to the group mean of the first group (encoded as 0). Next, we substitute the values for the `real` group. Here, the group mean is 47:
 
 ```{r}
 mean(spider$Anxiety[spider$Group=="real"])
@@ -249,7 +243,7 @@ $$\bar{y}_{\text{real}} = b_0 + b_1 \cdot x_{\text{real}}$$
 $$47 = 40 + b_1 \cdot 1$$
 $$b_1 = 7$$
 
-Therefore, the slope of the line corresponds to the difference between the two means.
+Therefore, the slope $b_1$ corresponds to the difference between the two means.
 
 
 ## Assumptions
@@ -288,29 +282,27 @@ The formula for the *t*-test with $N_1 + N_2 - 2$ degrees of freedom is then:
 
 $$t = \frac{\bar{x}_1 - \bar{x}_2}{\sqrt{\frac{s_p^2}{N_1} + \frac{s_p^2}{N_2}}}$$
 
-In R, you can perform *t*-tests with the `t.test()` function. The function can be called in two different ways. One way is to call the function like a linear model:
+Instead of fitting the model with `lm()`, we can use `t.test()`, whose output is often more familiar. Behind the scenes, it fits the same linear model to obtain the *t*-statistic, so the results are identical.
 
 ```{r}
 (model = t.test(Anxiety ~ Group, data=spider))
 ```
 
-The first argument is a formula with the data points (column `Anxiety` in this example) on the left side. The right side of the formula specifies the grouping column (here `Group`). To use column names directly, you need to specify `data=spider` to indicate that these columns are in the `spider` data frame.
+The first argument is a formula with the outcome on the left side and the grouping factor on the right side. To use column names directly, we need to specify `data=spider` to indicate that these columns are contained in the `spider` data frame.
 
-The output shows the value of the *t*-statistic, the degrees of freedom (usually corrected according to Welch, which makes the assumption of homogeneity of variance unnecessary), and the *p*-value. Furthermore, the 95% confidence interval for the *t*-statistic and the group means are given.
+The output shows the value of the *t*-statistic, the degrees of freedom (usually corrected according to Welch, which makes the assumption of homogeneity of variance unnecessary), and the *p*-value. Furthermore, the 95% confidence interval for the *t*-statistic and the group means are also included.
 
-The second way to call the function uses two arguments; here, you pass the data of the two groups as vectors in two separate arguments:
+Alternatively, instead of the formula interface, we can call `t.test()` with two separate vectors, one for each group's anxiety scores:
 
 ```{r}
 (model = t.test(spider_w$picture, spider_w$real))
 ```
 
-The result is always the same, regardless of how the function is called. The difference between the group means is not significant.
-
-We can also calculate the effect size by converting the value of $t$ into a correlation $r$:
+We can also calculate an effect size by converting the value of $t$ into a correlation $r$:
 
 $$r = \sqrt{\frac{t^2}{t^2 + \text{df}}}$$
 
-In the example, the effect size $r$ is:
+In this example, the effect size $r$ is:
 
 ```{r}
 t = model$statistic[[1]]
@@ -322,7 +314,7 @@ round(r, 3)
 
 ## Dependent *t*-test in R
 
-The dependent (or paired) *t*-test works similarly but uses the means of the individual *differences* instead of the difference of the means:
+The dependent (or paired) *t*-test works similarly, but uses the means of the individual *differences* instead of the difference of the means:
 
 $$t = \frac{\bar{D} - \mu_D}{s_D / \sqrt{N}}$$
 
@@ -330,15 +322,15 @@ Under the null hypothesis, $\mu_D = 0$:
 
 $$t = \frac{\bar{D}}{s_D / \sqrt{N}}$$
 
-In R, we use the `t.test()` function again, but this time we set the argument `paired=TRUE`. Here, we should use the variant with two arguments (i.e., the data should be in wide format):
+In R, we can again use the `t.test()` function, but this time we set the argument `paired=TRUE`. In this case, we can only use the variant with two arguments (i.e., the data should be in wide format):
 
 ```{r}
 (model = t.test(spider_w$picture, spider_w$real, paired=TRUE))
 ```
 
-The result is significant with $p=0.03098$. This corresponds to our considerations with the different confidence intervals of dependent and independent designs. Dependent designs can detect smaller differences.
+This time, the result is significant with $p=0.03098$. This corresponds to our considerations with the different confidence intervals of dependent and independent designs. Dependent designs can detect smaller differences!
 
-Again, we can calculate the effect size by converting the value of $t$ into a correlation $r$:
+Again, we can calculate the effect size by converting the $t$-value into a correlation:
 
 ```{r}
 t = model$statistic[[1]]
@@ -347,21 +339,19 @@ r = sqrt(t^2 / (t^2 + df))
 round(r, 3)
 ```
 
-This is a large effect size.
-
 
 ## Outlook
 
-In summary, we have seen that comparing means via the *t*-test can be reduced to a linear model. If you want to compare more than two means, you can use a linear model with multiple predictors (dummy coding). In classical analysis of variance, we look at the *F*-statistic, which is also part of the linear regression (it measures the goodness of fit of the model) and therefore also appears in the output. Therefore, ANOVA is also just a special case of a linear model (to obtain the familiar ANOVA table in R, you can use the `afex` package).
+In summary, an independent *t*-test is simply a linear regression model, containing a single predictor that separates two groups. Extending the idea, comparisons among more than two groups can be handled by adding dummy-coded predictors to the linear model. In classical analysis of variance, we focus on the *F*-statistic, which is merely the goodness-of-fit measure already reported in linear regression. Thus, ANOVA is just another special case of the general linear model. If you want the familiar ANOVA table in R, the `afex` package will print it for you.
 
-For dependent measurements, we cannot use simple linear models, as one of the most important assumptions is the independence of the measurement points. So-called linear mixed models can handle these dependencies and are increasingly used instead of the classical repeated-measures ANOVAs. Mixed models are generalizations of linear models, or conversely, linear models are special cases of mixed models. The `lme4` package has become the standard for calculating these models in R (or the packages `lmerTest` and `afex` based on it).
+When measurements are dependent because the same participants (or items) appear in several conditions, the assumption of independent errors is violated and ordinary linear models are no longer adequate. Linear mixed-effects models solve this by adding random effects for participants (and/or items), and they are increasingly preferred over the classical repeated-measures ANOVA. In R, these models are fitted with `lme4`, while companion packages such as `lmerTest` and `afex` supply *p*-values and ANOVA-style summaries.
 
 
 ## Exercises
 
 ### Exercise 1
 
-The `dplyr` package contains the `starwars` dataset (load the package to access this dataset). Use this data to find out if female characters are significantly smaller than male characters (column `height`). Use the `gender` column to distinguish between `"feminine"` and `"masculine"` characters. Use a significance level of 5% and report the means of both groups.
+The `dplyr` package contains the `starwars` dataset (load the package to access this dataset). Use this data frame to find out if female characters are significantly smaller than male characters (column `height`). Use the `gender` column to distinguish between `"feminine"` and `"masculine"` characters. Use a significance level of 5% and report the means of both groups.
 
 In addition, compare the weight (column `mass`) of the characters (check the hypothesis that male characters weigh more than female characters). Report the means of both groups here as well.
 
@@ -372,7 +362,7 @@ Use the `alternative` argument of `t.test()` to perform a *one-sided* test.
 
 ### Exercise 2
 
-Compare the features `bill_length_mm` and `bill_depth_mm` in the `penguins` dataset (from the `palmerpenguins` package) to see if they differ between species (perform pairwise comparisons for each feature). Report the relevant statistics, significances, and effect sizes (correlation coefficient *r*) for each *t*-test.
+Compare the features `bill_length_mm` and `bill_depth_mm` in the `penguins` dataset (from the `palmerpenguins` package) to see if they differ between species (perform pairwise comparisons for each feature). Report the relevant statistics, significances, and effect sizes for each *t*-test.
 
 The `pairwise.t.test()` function calculates multiple pairwise comparisons. Use this function (in addition to the individually calculated *t*-tests from before) to perform the comparisons. You can also correct the *p*-values with the `p.adjust.method` argument, as multiple tests increase the probability of a false positive result (the *t*-test says "there is a difference" even though there is actually no difference).
 

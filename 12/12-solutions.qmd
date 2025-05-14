@@ -44,6 +44,7 @@ Female characters are significantly lighter than male characters ($t=-1.87$, $p 
 ## Exercise 2
 
 ```{r}
+#| message: false
 library(palmerpenguins)
 ```
 
@@ -83,7 +84,7 @@ with(
 )
 ```
 
-### Mit der Funktion `pairwise.t.test()`
+### Using `pairwise.t.test()`
 
 ```{r}
 pairwise.t.test(penguins$bill_length_mm, penguins$species)
@@ -113,4 +114,4 @@ Now we can perform the test:
 t.test(sleep_wide$g1, sleep_wide$g2, paired=TRUE)
 ```
 
-The mean difference is −1.58, which is significantly different from zero ($p = .003$). The 95% confidence interval ranges from −2.46 to −0.7.
+The mean difference is −1.58, which is significantly different from zero ($p = .003$). The 95% confidence interval ranges from −2.46 to −0.70.

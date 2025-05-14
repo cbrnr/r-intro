@@ -1,0 +1,8 @@
+- source: 12.qmd
+  netlify:
+    - id: 3d25d229-250f-412e-a854-f492cc0cb0f6
+      url: https://r-25s-12.netlify.app/
+- source: 12-solutions.qmd
+  netlify:
+    - id: 8f4f26e9-7754-4c56-a019-2029c81c4f24
+      url: https://r-25s-12-solutions.netlify.app/
