@@ -1,8 +1,8 @@
 ---
-title: "Course Organization"
-subtitle: "Statistical Data Analysis with R"
+title: "Organisatorisches"
+subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2025-03-03
+date: 2025-10-02
 format:
   html:
     page-layout: full
@@ -16,82 +16,95 @@ title-block-banner: true
 theme:
   light: flatly
   dark: darkly
+lang: de
+author-title: "Autor"
+published-title: "Veröffentlicht"
 ---
 
-## General information
+## Allgemeines
 
-This course introduces the statistical programming environment [R](https://www.r-project.org). No prior knowledge is required, as the course covers the basics of R. Due to time constraints, not all statistical methods can be discussed, but you will gain a solid foundation to learn more advanced methods independently. Classes will alternate between theory and practice, allowing you to immediately apply new concepts through practical examples in R. The plan for this semester is as follows:
+In dieser Lehrveranstaltung werden Sie das Statistikpaket [R](https://www.r-project.org/) kennenlernen. Da diese Lehrveranstaltung die Grundlagen von R abdeckt und keinerlei Vorwissen voraussetzt, ist es aufgrund der begrenzten Zeit nicht möglich, alle in der Praxis relevanten statistischen Verfahren abzudecken. Sie werden durch ein umfassendes Basiswissen aber darauf vorbereitet, sich weitere Methoden selbst anzueignen.
 
-| Session | Date       | Content                |
-|--------:|------------|------------------------|
-| 1       | 2025-03-03 | Basics                 |
-| 2       | 2025-03-10 | The R Environment      |
-| 3       | 2025-03-17 | Vectors                |
-| 4       | 2025-03-24 | Tabular Data           |
-| 5       | 2025-03-31 | Importing Data         |
-| 6       | 2025-04-07 | Descriptive Statistics |
-| 7       | 2025-04-28 | Data Wrangling         |
-| 8       | 2025-05-05 | Visualization          |
-| 9       | 2025-05-12 | Correlation            |
-| 10      | 2025-05-19 | Linear Regression (1)  |
-| 11      | 2025-05-26 | Linear Regression (2)  |
-| 12      | 2025-06-02 | Comparing Means        |
-| 13      | 2025-06-16 | Exam                   |
-| 14      | 2025-06-23 | Exam (Retake)          |
+Der Plan für dieses Semester sieht wie folgt aus:
 
-: {tbl-colwidths="[10,15,75]"}
+| Einheit | Datum      | Inhalt                  |
+|--------:|-----------:|-------------------------|
+| 1       |  2.10.2025 | Grundlagen              |
+| 2       |  9.10.2025 | Die R-Umgebung          |
+| 3       | 16.10.2025 | Vektoren                |
+| 4       | 23.10.2025 | Tabellen                |
+| 5       |  6.11.2025 | Daten importieren       |
+| 6       | 13.11.2025 | Deskriptive Statistiken |
+| 7       | 20.11.2025 | Datenaufbereitung       |
+| 8       | 27.11.2025 | Grafiken                |
+| 9       |  4.12.2025 | Korrelation             |
+| 10      | 11.12.2025 | Lineare Regression (1)  |
+| 11      |   8.1.2026 | Lineare Regression (2)  |
+| 12      |  15.1.2026 | Mittelwertvergleich     |
+| 13      |  22.1.2026 | Prüfung                 |
+| 14      |  29.1.2026 | Prüfung (Ersatztermin)  |
 
-All course materials will be available on [Moodle](https://moodle.uni-graz.at/login/index.php). Moodle will also be used for communication, including announcements, forum discussions, and questions & answers. Make sure to check the course website regularly for updates.
+: {tbl-colwidths="[10,10,80]"}
 
-All sessions will be held in person. If that is not possible, they will be conducted online at the scheduled times (the URL will be provided on Moodle).
+Alle Informationen und Unterlagen zu dieser Lehrveranstaltung werden auf [Moodle](https://moodle.uni-graz.at/login/index.php) zur Verfügung gestellt. Insbesondere wird auch die Kommunikation (Ankündigungen, Forumsdiskussionen, Fragen & Antworten) über Moodle abgewickelt.
+
+Die Einheiten finden grundsätzlich in Präsenz statt. Sollte das einmal nicht möglich sein, wird dies auf Moodle bekanntgegeben und die betreffende Einheit wird gegebenenfalls zur geplanten Zeit online abgehalten.
 
 
-## Structure of a session
+## Ablauf einer Einheit
 
-Detailed materials for each session will be available on Moodle. Except for the first session, the course follows the [Flipped Classroom](https://en.wikipedia.org/wiki/Flipped_classroom) approach, meaning that you must study the content *before* each session. In particular, you should make sure to complete the exercises at the end of each chapter, as they help reinforce your understanding and prepare you for the final exam.
-
-Each session will begin with a short graded quiz on the topic of the current session. 
+Zu jeder Einheit gibt es auf Moodle ausführliche Unterlagen, welche das jeweilige Thema detailliert behandeln. Diese Unterlagen sind so gestaltet, dass Sie sich die Inhalte im Selbststudium aneignen können. Alle inhaltlichen Einheiten (mit Ausnahme der ersten) werden nach dem Prinzip des [Flipped Classroom](https://de.wikipedia.org/wiki/Umgedrehter_Unterricht) abgehalten. Das bedeutet, dass Sie die Inhalte der jeweiligen Einheit *vor* dem tatsächlichen Termin erarbeiten müssen. Besonders wichtig sind die Übungsbeispiele am Ende jedes Kapitels. Diese überprüfen Ihr Verständnis der vermittelten Inhalte und sind außerdem eine essenzielle Vorbereitung für die abschließende Prüfung.
 
 :::{.callout-tip}
-Use the discussion forum on Moodle during your preparation time! The more people actively participate in the forum, the more helpful it will be for everyone.
+Nutzen Sie während der Vorbereitungszeit das Diskussionsforum auf Moodle – dort können Sie Fragen stellen und selbstverständlich auch beantworten. Je mehr Personen sich aktiv im Forum beteiligen, desto hilfreicher wird es für alle!
 :::
 
-After the quiz, we will discuss the exercises you have prepared in detail. You will have the opportunity to ask questions or discuss your own solutions. If time allows, we will explore additional examples or explanations.
+::: {.callout-tip}
+Wenn Sie die Möglichkeit haben, sich die Inhalte gemeinsam mit anderen Studierenden zu erarbeiten, ist das natürlich umso besser! Gerade bei Programmieraufgaben ist es oft hilfreich, sich auszutauschen und gemeinsam Lösungen zu erarbeiten ([Pair Programming](https://de.wikipedia.org/wiki/Paarprogrammierung)).
+:::
 
-You will take quizzes, participate in interactive sessions, and complete the final exam using the university computers in the classroom.
+Jede Einheit beginnt mit einem kurzen Quiz zum Thema der jeweiligen Einheit (dazu später mehr). Danach werden die von Ihnen vorbereiteten Übungsbeispiele aus den Unterlagen detailliert besprochen und Musterlösungen präsentiert. Dabei haben Sie die Möglichkeit, Fragen zu stellen bzw. Ihre individuellen Lösungsansätze zu diskutieren. Falls darüber hinaus noch Zeit bleiben sollte, wird das jeweilige Thema durch vertiefende Beispiele bzw. Erklärungen ergänzt.
+
+::: {.callout-note}
+Der Einsatz von Künstlicher Intelligenz (KI), insbesondere von Large Language Models (LLMs) wie [ChatGPT](https://chatgpt.com/), [Gemini](https://gemini.google.com/app) oder [Claude](https://claude.ai/login), ist für die Vorbereitung der Einheiten ausdrücklich erlaubt und wird sogar empfohlen. Diese Werkzeuge können Ihnen helfen, Konzepte zu verstehen, Codebeispiele nachzuvollziehen und alternative Erklärungen zu finden. Allerdings sollten Sie immer versuchen, die Übungsaufgaben selbständig zu lösen, um ein tiefes Verständnis der Materie zu entwickeln.
+:::
 
 
-## Grading criteria
+## Beurteilungskriterien
 
-### Attendance
+### Anwesenheit
 
-Due to the continuous assessment nature of this course, attendance is *mandatory*. It will be checked at a random time during each session. You may miss up to two sessions without penalty. For more than two absences, you must provide a valid reason (e.g., a medical certificate). Missing more than a third of the course (i.e., five or more sessions) will result in automatic failure of the course.
+Durch den immanenten Prüfungscharakter dieser Lehrveranstaltung besteht Anwesenheitspflicht. Ihre Anwesenheit wird zu einem zufälligen Zeitpunkt während der Einheit überprüft. Sie können allerdings ohne Auswirkungen auf die Beurteilung bei bis zu drei Einheiten fehlen.
 
 
 ### Quizzes
 
-At the beginning of each session (except for the first one), a short quiz will be available on Moodle. The quiz will consist of short questions (mostly multiple-choice) on the topic of the session. You can earn a maximum of 10 points per quiz (partial points are possible). The quiz must be taken on site. A missed quiz (e.g., due to absence or tardiness) counts as 0 points.
+Zu Beginn jeder Einheit (mit Ausnahme der ersten) findet ein Quiz auf Moodle statt. Es werden kurze Fragen zum jeweiligen Thema der Einheit gestellt. Hilfsmittel (wie z.B. die Unterlagen) sind nicht erlaubt. Sie können bei einem Quiz maximal 10 Punkte erreichen (es gibt auch Teilpunkte). Das Quiz muss vor Ort auf einem Universitäts-PC absolviert werden. Ein nicht absolviertes Quiz (z.B. durch Fehlen oder Zuspätkommen) zählt 0 Punkte.
+
+::: {.callout-note}
+Stellen Sie vorab sicher, dass Ihre aktuellen Zugangsdaten (einschließlich der Zwei-Faktor-Authentifizierung) für die Anmeldung funktionieren!
+:::
 
 
-### Exam
+### Prüfung
 
-At the end of the semester, there will be an exam covering the entire content of the course. This exam will be taken on site using a university computer. You may use all course materials (open book), but no other aids (such as AI, solved exercises, internet, chat, etc.) are allowed. The questions will be based on the exercises and quizzes. You can earn a total of 10 points (partial points are possible).
+Am Ende des Semesters findet eine Prüfung über alle Inhalte der Lehrveranstaltung statt, welche vor Ort auf einem Universitäts-PC absolviert wird. Als einziges Hilfsmittel ist ein von Ihnen erstelltes, zweiseitig beschriebenes A4-Blatt erlaubt, auf dem Sie vorab die wichtigsten Inhalte der Lehrveranstaltung zusammenfassen können. Fertig gelöste Beispiele dürfen darauf jedoch nicht enthalten sein. Es können maximal 10 Punkte erreicht werden (Teilpunkte sind möglich).
 
-You have the option to retake the exam if needed. In that case, the score from your second attempt will replace the first, regardless of how it affects your grade.
+Die Prüfung kann bei Bedarf wiederholt werden. In diesem Fall zählen die Punkte des zweiten Termins, d.h. man kann sich sowohl verbessern als auch verschlechtern.
 
 
-## Grading
+## Benotung
 
-The final grade is based on the three criteria described previously:
+Die Gesamtnote ergibt sich aus den drei beschriebenen Kriterien:
 
-- If you have missed no more than two sessions (or a maximum of four sessions with proof of valid reasons), the attendance requirement is fulfilled. Missing five or more sessions will result in automatic failure of the course.
-- The lowest two quiz scores will be dropped. The arithmetic average of the remaining quiz scores will contribute 50% to your final grade.
-- The exam score will also contribute 50% to your final grade. In addition, you must score at least 6 points on the exam to pass the course.
+- Wenn Sie nicht öfter als drei Mal gefehlt haben, ist das Anwesenheitskriterium erfüllt. Mehr als drei Fehleinheiten führen automatisch zu einer negativen Beurteilung der Lehrveranstaltung.
+- Aus den Punkten aller Quizzes werden zunächst die *niedrigsten drei* Bewertungen entfernt. Aus den übrigen Bewertungen wird der arithmetische Mittelwert berechnet – dieser Mittelwert fließt dann zu 50% in die Gesamtnote ein.
+- Die Punkte aus der Prüfung fließen ebenfalls zu 50% in die Gesamtnote ein. Es müssen allerdings *mindestens* 6 Punkte bei der Prüfung erreicht werden, um die Lehrveranstaltung positiv abzuschließen.
 
-If all criteria are met, the final grade will be calculated from the average of the quiz and exam scores as follows:
+Sofern diese Kriterien erfüllt sind, ergibt sich die Gesamtnote aus dem Mittelwert der Punkte aus den Quizzes und der Prüfung wie folgt:
 
-| Excellent (1) | Good (2)   | Satisfactory (3) | Sufficient (4) | Fail (5)    |
-|---------------|------------|------------------|----------------|-------------|
-| 9–10 points   | 8–9 points | 7–8 points       | 6–7 points     | \< 6 points |
+| Sehr gut    | Gut        | Befriedigend | Genügend   | Nicht genügend |
+|-------------|------------|--------------|------------|----------------|
+| 9–10 Punkte | 8–9 Punkte | 7–8 Punkte   | 6–7 Punkte | \< 6 Punkte    |
 
-The lowest point of each range will always result in the higher grade. For example, exactly 9 points correspond to "Excellent (1)", and 8.97 points would result in a "Good (2)".
+Die niedrigste Punktanzahl einer Kategorie wird immer der besseren Note zugeordnet. Beispielsweise entsprechen exakt 9 Punkte der Note "Sehr gut". Die gemittelte Punkteanzahl wird auch nicht mehr auf- oder abgerundet, daher entsprechen z.B. 8,97 Punkte der Note "Gut".
