@@ -1,8 +1,8 @@
 ---
-title: "1 – Solutions"
-subtitle: "Statistical Data Analysis with R"
+title: "1 – Lösungen"
+subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2025-03-03
+date: 2025-10-09
 format:
   html:
     page-layout: full
@@ -16,29 +16,34 @@ title-block-banner: true
 theme:
   light: flatly
   dark: darkly
+lang: de
+author-title: "Autor"
+published-title: "Veröffentlicht"
 ---
 
-## Exercise 1
+## Übung 1
 
-The R version is displayed in the console as an introductory message immediately after startup. The full version information is:
+Die R-Version wird in der Console als Einleitungstext direkt nach dem Starten angezeigt. Die gesamte Versionsinformation lautet beispielsweise:
 
 ```
-R version 4.4.2 (2024-10-31) -- "Pile of Leaves"
+R version 4.5.1 (2025-06-13) -- "Great Square Root"
 ```
 
-Additionally, the R version is always visible in the title bar of the console.
+Außerdem ist die R-Version immer im Titel der Console ersichtlich.
 
-The latest RStudio version is 2024.12.1 Build 563, which can be found in the Help window, accessible through "Help" – "About RStudio".
+Die RStudio-Version lautet z.B. 2025.09.0 Build 387 – dies kann man im Hilfefenster, welches mit "Help" – "About RStudio" aufgerufen werden kann, ablesen.
 
 
-## Exercise 2
+## Übung 2
 
 ```{r}
 4 * pi * 6371^2
 ```
 
+Die Erdoberfläche beträgt ungefähr 510 Millionen km².
 
-## Exercise 3
+
+## Übung 3
 
 ```{r}
 (11 + 27 + 15 + 10 + 33 + 18 + 25 + 22 + 39 + 11) / 10
@@ -46,16 +51,16 @@ The latest RStudio version is 2024.12.1 Build 563, which can be found in the Hel
 ```
 
 
-## Exercise 4
+## Übung 4
 
 ```{r}
 sqrt(2) * (5^5 - pi) * 18 / ((7/5 + 13.2) * 7^(2/3))
 ```
 
 
-## Exercise 5
+## Übung 5
 
-The code doesn't work because the object `PI` does not exist (`Error: object 'PI' not found`). R commands are *case-sensitive*, and the correct name for $\pi$ is `pi` (in lowercase):
+Der Code funktioniert nicht, weil es das Objekt `PI` nicht gibt (`Error: object 'PI' not found`). Groß-/Kleinschreibung ist relevant, und der korrekte Name von $\pi$ lautet `pi` (in Kleinbuchstaben):
 
 ```{r}
 2 * 1 * pi

@@ -1,8 +1,8 @@
 ---
-title: "1 – Basics"
-subtitle: "Statistical Data Analysis with R"
+title: "1 – Grundlagen"
+subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2025-03-03
+date: 2025-10-09
 format:
   html:
     page-layout: full
@@ -16,44 +16,47 @@ title-block-banner: true
 theme:
   light: flatly
   dark: darkly
+lang: de
+author-title: "Autor"
+published-title: "Veröffentlicht"
 ---
 
-## Overview
+## Überblick
 
-This course introduces the basics of the R statistical programming environment. In the first sessions, you'll learn about key properties and data types. After that, we'll cover essential data analysis concepts (importing data, descriptive statistics, creating visualizations) and fundamental statistical models (correlation and linear regression).
+In dieser Lehrveranstaltung werden die Grundlagen der statistischen Programmierumgebung [R](https://www.r-project.org) vermittelt. In den ersten Einheiten werden wichtige Eigenschaften und Datentypen eingeführt, und erst danach werden elementare Konzepte der Datenanalyse (Importieren von Daten, deskriptive Statistiken, Erzeugen von Grafiken) sowie einfache statistische Modelle (Korrelation, lineare Regression, Mittelwertvergleich) beschrieben.
 
 
-## What is R?
+## Was ist R?
 
-R is a programming environment designed for data analysis and statistics. Using specialized programming languages (like R) allows us to solve certain problems more quickly, efficiently, and elegantly than with general-purpose languages. However, with general-purpose languages (like Python), we're not limited to a specific area. For example, we can easily create web applications or graphical user interfaces in Python – tasks that are more challenging or more cumbersome in R.
+R ist eine auf Datenanalyse und Statistik spezialisierte Programmiersprache. Mit spezialisierten Programmiersprachen kann man manche Dinge schneller, besser, eleganter oder kürzer lösen als mit universellen Programmiersprachen. Im Gegensatz dazu ist man mit universellen Programmiersprachen (wie beispielsweise Python) aber nicht auf ein relativ spezifisches Gebiet eingeschränkt. Mit Python kann man nicht nur Datenanalysen, numerische Berechnungen und statistische Auswertungen durchführen, sondern auch Webanwendungen oder interaktive Programme mit grafischen Oberflächen relativ einfach erstellen – etwas, das mit R eher schwierig oder umständlich ist.
 
 ::: {.callout-tip}
-Choosing the right language for the current problem at hand is crucial. If you're dealing with data analysis or statistical modeling, R is likely an excellent choice!
+Es ist wichtig, für ein gegebenes Problem eine geeignete Programmiersprache zu finden. Wenn das Problem den Bereichen Datenanalyse oder statistische Modellierung zugeordnet werden kann, dann ist R sehr wahrscheinlich eine ausgezeichnete Wahl.
 :::
 
-Here are some important features of R:
+R kann man wie folgt charakterisieren:
 
-- [Open source](https://en.wikipedia.org/wiki/Open_source) (free to use, but open source is more than just cost)
-- Cross-platform (works on Windows, macOS, and Linux)
-- Relatively easy to learn (at least the basics)
-- Efficient handling of complex data structures
-- Extensive documentation and help available
-- Large, friendly, and supportive community
-- Vast number of available packages
-
-
-## Popularity
-
-R is extremely widely used nowadays. Various rankings that assess programming language popularity (e.g., [PYPL](https://pypl.github.io/PYPL.html), [IEEE Spectrum Top Programming Languages](https://spectrum.ieee.org/top-programming-languages/) and [TIOBE](https://www.tiobe.com/tiobe-index/)) have consistently ranked R among the top languages. This is particularly notable since R is a specialized language, making it the most popular statistical programming environment, well ahead of commercial statistics packages like SPSS, Stata, and Statistica.
-
-The popularity of a programming language can be important in practice. A larger, more active community means you're more likely to find existing solutions to problems, or get quicker answers to new questions.
+- [Open Source](https://de.wikipedia.org/wiki/Open_Source) (nicht nur kostenlos, sondern offen einsehbarer Quellcode)
+- [Plattformübergreifend](https://de.wikipedia.org/wiki/Plattformunabh%C3%A4ngigkeit) (läuft auf Windows, macOS und Linux)
+- Relativ einfach zu erlernen (zumindest die Grundlagen für die Anwendung)
+- Einfaches Arbeiten mit komplexen Datenstrukturen
+- Umfangreiche Hilfe und Dokumentation
+- Große und hilfsbereite Community
+- [Riesige Anzahl an Zusatzpaketen](https://cran.r-project.org/web/packages/available_packages_by_name.html) verfügbar
 
 
-## What does R code look like?
+## Popularität
 
-We interact with R by entering text commands into the so-called *console*. Unlike in SPSS, where you navigate through a graphical user interface, R relies on text commands to perform statistical calculations. This approach has several advantages – it makes your analysis *reproducible* since it is *fully* defined by the commands you use.
+R ist mittlerweile sehr weit verbreitet. Auch in verschiedenen Beliebtheitsranglisten zählt R regelmäßig zu den populärsten Programmiersprachen (z.B. [PYPL](https://pypl.github.io/PYPL.html), [IEEE Spectrum Top Programming Languages](https://spectrum.ieee.org/top-programming-languages-2024) und [TIOBE](https://www.tiobe.com/tiobe-index/)). Das ist besonders bemerkenswert, da R keine universelle Sprache ist und damit mit Abstand die beliebteste statistische Programmiersprache, weit vor kommerziellen Statistikpaketen wie SPSS, Stata und Statistica.
 
-Here's an example of typical input and output in R:
+In der Praxis ist die Popularität einer Programmiersprache durchaus relevant, denn je größer und aktiver die Community einer Sprache ist, desto einfacher wird es, bestehende Lösungen für Probleme zu finden oder schnell Antworten auf neue Fragen zu bekommen.
+
+
+## Wie sieht R-Code aus?
+
+R bedient man, indem man Textbefehle in der sogenannten *Console* eingibt. Statistische Berechnungen werden daher nicht wie z.B. in SPSS üblich durch Navigieren in einer grafischen Oberfläche durchgeführt. Zwar gibt es in SPSS ebenfalls die Möglichkeit, eine sogenannte *Syntax* zu verwenden, um Analysen per Code auszuführen. Im Gegensatz zu R ist dies in SPSS jedoch optional – die meisten Anwenderinnen und Anwender nutzen ausschließlich die grafische Oberfläche und verzichten auf die Syntax. In R hingegen ist die Arbeit mit Code die einzige Möglichkeit, Analysen durchzuführen. Dies ist aber keineswegs ein Nachteil, sondern hat ganz im Gegenteil mehrere Vorteile – insbesondere wird die Datenanalyse dadurch automatisch *reproduzierbar*, weil diese *vollständig* durch die verwendeten Befehle definiert ist.
+
+Typische Ein- und Ausgaben in R sehen beispielsweise wie folgt aus:
 
 ```{r}
 x = c(1, 3, 8, 12, 13, 27)
@@ -65,20 +68,20 @@ cor.test(x, y)
 plot(x, y, pch=20)
 ```
 
-The gray boxes show R commands (which you enter into the console), followed by the results of those commands. These examples might seem confusing right now, but as you progress through the course, you'll understand all of this (and much more)!
+In diesen Unterlagen werden R-Befehle in grauen Kästchen gezeigt, während direkt darunter die Ergebnisse der Befehle folgen. Im Moment sind die gezeigten Beispiele vielleicht noch vollkommen unverständlich, aber im Laufe dieser Lehrveranstaltung werden wir all das (und noch einiges mehr) kennenlernen und verstehen.
 
 
 ## Installation
 
-Before using R, you'll need to install two programs: R and RStudio.
+Bevor wir R verwenden können, müssen wir zwei Programme auf unserem Rechner installieren, nämlich R und RStudio:
 
-1. All the information needed to install R can be found on the [official website](https://www.r-project.org/). Detailed instructions are available for each supported platform. The download link is located on the top left under "Download" – "CRAN." It's best to always use the latest version of R (at the time of writing, this was version 4.4.2).
-2. Although the graphical interface that comes with R is fairly usable (and of course you could even work without a graphical interface), many people prefer using [RStudio](https://posit.co/download/rstudio-desktop/) to interact with R. RStudio is a graphical user interface that requires an existing R installation. As with R, I strongly recommend to always use the latest version (at the time of writing, this was version 2024.12.1+563).
+1. Alle relevanten Informationen zur Installation von R sind auf der [offiziellen Website](https://www.r-project.org/) zu finden. Hier finden sich detaillierte Anleitungen für jede unterstützte Plattform. Der Download-Link befindet sich in der linken Spalte ganz oben unter "Download" – "CRAN". Es ist sinnvoll, stets mit der aktuellsten Version von R zu arbeiten.
+2. Obwohl die mit R mitgelieferte Oberfläche relativ komfortabel ist (und man auch komplett ohne grafische Oberfläche auskommen könnte), verwenden sehr viele Personen [RStudio](https://posit.co/download/rstudio-desktop/), um mit R zu arbeiten. RStudio ist "nur" eine grafische Oberfläche, d.h. es wird eine zuvor installierte R-Umgebung vorausgesetzt. Auch hier ist es ratsam, stets die aktuellste Version zu verwenden.
 
 
-## First steps
+## Erste Schritte
 
-Let's now start RStudio for the first time and start with some basic calculations. Indeed, R can be used as a powerful calculator. Entering mathematical expressions is intuitive, and a prompt (the `>` symbol) in the *console* (on the left side of the RStudio window) signals that R is ready for input. After you type a command and press <kbd>Enter</kbd>, the result appears in the next line. Basic arithmetic operations like addition, subtraction, multiplication, and division work as expected (try them out):
+R kann als umfangreicher Taschenrechner verwendet werden. Die Eingabe von mathematischen Ausdrücken ist intuitiv, ein sogenannter Prompt (das `>`-Symbol) in der Console (im linken Bereich des RStudio-Fensters) signalisiert, dass R bereit für Eingaben ist. Nach dem Eingeben eines Befehls und Bestätigen mit <kbd>Enter</kbd> wird das Ergebnis der Berechnung in der nächsten Zeile ausgegeben. Die Grundrechenarten Addition, Subtraktion, Multiplikation und Division funktionieren wie erwartet:
 
 ```{r}
 13 + 7
@@ -97,23 +100,21 @@ Let's now start RStudio for the first time and start with some basic calculation
 ```
 
 :::{.callout-tip}
-For better readability, it is recommended to add spaces before and after the operator, because it is easier to read `13 + 7` as opposed to `13+7`. Both are correct in R, but the first version is more readable.
+Aus Gründen der besseren Lesbarkeit sollten Leerzeichen vor und nach dem Operator eingefügt werden, also besser `13 + 7` und nicht `13+7`. Für R ist zwar beides korrekt, aber die erste Variante ist leichter lesbar.
 :::
 
-To perform integer division, use the `%/%` operator (this operator consists of three characters):
+Für eine Ganzzahl-Division verwendet man den aus drei Zeichen bestehenden Operator `%/%`:
 
 ```{r}
 1563 %/% 43
 ```
 
-To get the remainder of a division, use `%%`:
-
+Den Rest einer Division erhält man mit ```%%```:
 ```{r}
 1563 %% 43
 ```
 
-For exponentiation, use `^` or `**`:
-
+Potenzieren kann man mit ```^``` oder ```**```:
 ```{r}
 16^2
 ```
@@ -122,86 +123,80 @@ For exponentiation, use `^` or `**`:
 16**2
 ```
 
-R follows the standard order of operations when chaining multiple operations, including parentheses:
+R kennt selbstverständlich auch die korrekten Vorrangsregeln bei Verkettung von mehreren Operationen (inklusive Klammersetzung):
 
 ```{r}
 (13 + 6) * 8 - 12**2 / (2.5 + 1.6)
 ```
 
-To calculate a square root, use `sqrt` and provide the number within parentheses:
+Die Quadratwurzel berechnet man mit `sqrt` (aus dem englischen *square root*):
 
 ```{r}
 sqrt(144)
 ```
 
-The constant $\pi \approx 3.141593$ is available as `pi`:
+Die Kreiszahl $\pi \approx 3.141593$ ist als `pi` verfügbar:
 
 ```{r}
 pi
 ```
 
-Euler's number $e \approx 2.718282$ is not available as a constant but can be calculated using the exponential function $e^1$:
+Die Eulersche Zahl $e \approx 2.718282$ ist nicht unmittelbar verfügbar, kann aber mit Hilfe der Exponentialfunktion eingegeben werden:
 
 ```{r}
 exp(1)
 ```
 
 :::{.callout-important}
-R uses the English notation for decimals, with a *period* as the decimal separator, not a *comma* commonly used in some languages like German. *Always* enter decimal numbers with a period, regardless of your system language settings!
+Beachten Sie, dass R die *englische* Zahlenschreibweise mit einem *Punkt* als Dezimaltrennzeichen verwendet und nicht das im deutschen Sprachraum übliche *Komma*. Kommazahlen müssen daher immer mit einem Punkt eingegeben werden, ganz egal welche Sprache im Betriebssystem eingestellt ist. In diesen Unterlagen wird ebenfalls ein Punkt als Dezimaltrennzeichen verwendet.
 :::
 
 
-## Exercises
+## Übungen
 
-### Exercise 1
+### Übung 1
 
-Install the latest versions of R and RStudio. Then, start RStudio and find out how to display the version numbers of both R and RStudio. What versions did you install? Are they the latest versions available?
+Installieren Sie die neuesten Versionen von R und RStudio auf Ihrem Rechner. Starten Sie dann RStudio und suchen Sie nach einer Möglichkeit, die Versionsnummern sowohl von R als auch von RStudio anzuzeigen. Welche Versionen beider Programme haben Sie installiert? Sind das die aktuellsten Versionen?
 
 
-### Exercise 2
+### Übung 2
 
-We can approximate the Earth as a sphere with a radius of 6371 km. Use R to calculate the surface area of the Earth.
-
-The formula for the surface area $A$ of a sphere with radius $r$ is:
+Die Erde kann näherungsweise als Kugel mit einem Radius von 6371 km betrachtet werden. Berechnen Sie damit die Oberfläche der Erde! Die Formel für die Oberfläche $A$ einer Kugel mit Radius $r$ lautet:
 
 $$A = 4 \pi r^2$$
 
 
-### Exercise 3
+### Übung 3
 
-Given the values 11, 27, 15, 10, 33, 18, 25, 22, 39, and 11, calculate both the arithmetic mean and the geometric mean using basic arithmetic operations. Perform each calculation with a single command (without intermediate results).
+Gegeben seien folgende Messwerte: 11, 27, 15, 10, 33, 18, 25, 22, 39, 11. Berechnen Sie den arithmetischen sowie den geometrischen Mittelwert (unter Verwendung von Grundrechenarten). Führen Sie die Berechnung mit jeweils einem einzigen Befehl (ohne Zwischenergebnisse) durch.
 
-The formulas for the arithmetic mean $\bar x$ and geometric mean $\bar x_g$ are:
+Die Formeln für den arithmetischen bzw. geometrischen Mittelwert lauten:
 
 $$\bar x = \frac{1}{n} \sum_{i=1}^n x_i$$
 
 $$\bar x_g = \sqrt[n]{\prod_{i=1}^n x_i}$$
 
-:::{.callout-tip}
-The symbol $\prod$ represents the product of all numbers $x_i$. You can also express the $n$-th root as a power, i.e., $\sqrt[n]{x}$ is equivalent to $x^\frac{1}{n}$.
+:::{.callout-note}
+Die *n*-te Wurzel kann man auch als Potenz anschreiben, also $\sqrt[n]{x}$ ist gleichbedeutend mit $x^\frac{1}{n}$.
 :::
 
 
-### Exercise 4
+### Übung 4
 
-Calculate the result of the following expression with a single command:
+Berechnen Sie das Ergebnis des folgenden Ausdrucks mit einem Befehl (d.h. in einer Zeile):
 
 $$\sqrt 2 \cdot \frac{(5^5 - \pi) \cdot 18}{\left(\frac{7}{5} + 13.2 \right) \cdot 7^\frac{2}{3}}$$
 
 :::{.callout-note}
-Pay attention to parentheses. The last term in the denominator, $7^\frac{2}{3}$, means "seven raised to the power of two thirds".
+Achten Sie auf die Klammersetzung! Der letzte Term im Nenner $7^\frac{2}{3}$ lautet sieben *hoch* zwei Drittel.
 :::
 
 
-### Exercise 5
+### Übung 5
 
-Why does the following code fail to calculate the circumference of a circle with a radius of $r = 1$ (the correct calculation is $2 \cdot r \cdot \pi = 2 \cdot 1 \cdot \pi \approx 6.283185$)?
+Warum funktioniert folgender Code zur Berechnung des Umfangs eines Kreises mit einem Radius von $r = 1$ nicht (die korrekte Berechnung lautet $2 \cdot r \cdot \pi = 2 \cdot 1 \cdot \pi \approx 6.283185$)?
 
 ```{r}
 #| eval: false
 2 * 1 * PI
 ```
-
-:::{.callout-note}
-Use the console to experiment with commands, even if the input is incorrect! In fact, a wrong input will generate an error message that can help you find the problem. So, feel free to try things in the console – you can't break anything!
-:::
