@@ -1,8 +1,8 @@
 ---
-title: "2 – Solutions"
-subtitle: "Statistical Data Analysis with R"
+title: "2 – Lösungen"
+subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2025-03-10
+date: 2025-10-09
 format:
   html:
     page-layout: full
@@ -18,9 +18,9 @@ theme:
   dark: darkly
 ---
 
-## Exercise 1
+## Übung 1
 
-Packages can be installed using the function `install.packages()`. For the three mentioned packages, you would run the following three commands:
+Pakete können mit der Funktion `install.packages()` installiert werden, für die drei genannten Pakete führt man also folgende drei Befehle aus:
 
 ```r
 install.packages("tidyverse")
@@ -28,13 +28,13 @@ install.packages("Hmisc")
 install.packages("psych")
 ```
 
-The version numbers can be seen in the *Packages* view in RStudio; I have the following versions:
+Die Versionsnummern sind in der "Packages"-Ansicht in RStudio ersichtlich; ich habe folgende Versionen installiert:
 
 - `tidyverse`: 2.0.0
-- `Hmisc`: 5.2-2
-- `psych`: 2.4.12
+- `Hmisc`: 5.1-3
+- `psych`: 2.4.6.26
 
-Installed packages can be activated using the function `library()`, so for the three packages:
+Installierte Pakete können mit der Funktion `library()` aktiviert werden, also für die drei Pakete:
 
 ```r
 library(tidyverse)
@@ -43,7 +43,7 @@ library(psych)
 ```
 
 
-## Exercise 2
+## Übung 2
 
 ```r
 ?help
@@ -51,30 +51,30 @@ help(help)
 ```
 
 
-## Exercise 3
+## Übung 3
 
-A function call consists of the function name followed by `()`. Within these parentheses, you can pass arguments to the function.
+Ein Funktionsaufruf besteht aus dem Funktionsnamen gefolgt von `()`. Innerhalb dieser Klammern können der Funktion eventuelle Argumente übergeben werden.
 
 
-## Exercise 4
+## Übung 4
 
-The contents of the text file `my_first_script.R` is as follows:
+Folgender Inhalt wird in der Textdatei `my_first_script.R` gespeichert:
 
 ```r
-# Exercise 4
+# Übung 4
 library(Hmisc)
 (45 + 66 + 37 + 54 + 7 + 22) / 6
 ```
 
-This script can be executed without errors (e.g., by clicking the "Source" button in RStudio).
+Dieses Script lässt sich fehlerfrei ausführen (z.B. durch Klicken auf "Source" in RStudio).
 
 
-## Exercise 5
+## Übung 5
 
-The command `?sum` opens the documentation of the function. It shows that it can be called with *no* arguments (the result of `sum()` is `0`). The argument `...` has a special meaning; it stands for "any number of arguments", meaning none, one, two, three, etc. So, in a way, there are two optional arguments (since `na.rm` has a default value of `FALSE`).
+Die Hilfe wird mit `?sum` angezeigt. Daraus ist zu entnehmen, dass die Funktion auch mit *keinem* Argument aufzurufen ist (das Ergebnis von `sum()` ist `0`). Das Argument `...` hat nämlich eine spezielle Bedeutung, es steht für "beliebig viele Argumente", also keines, eines, zwei, drei, usw. Es gibt insgesamt also gewissermaßen zwei optionale Argumente (denn `na.rm` hat den Standardwert `FALSE`).
 
-According to the documentation, the sum of "nothing" – that is, `sum()` – is zero. This does not work with the function `mean()`, because you *must pass one argument* (a vector of numbers).
+Laut Hilfe ist die Summe von "nichts" – also `sum()` – gleich Null. Dies funktioniert bei der Funktion `mean()` nicht, da man hier *ein Argument übergeben muss* (einen Vektor mit Zahlen).
 
-The first argument of the function `sum()` is `...`, which, as mentioned, means that any number of values (numbers) can be passed. In contrast, the function `mean()` expects all the numbers to be available in the first argument `x`. Therefore, when you call `mean(1, 2, 3)`, the first argument `x` equals `1` (it will only average the number `1`). The other numbers `2` and `3` are then assigned to the second and third arguments (i.e., `trim` and `na.rm`).
+Das erste Argument der Funktion `sum()` ist `...`, was wie bereits erwähnt bedeutet, dass beliebig viele Werte (Zahlen) übergeben werden können. Die Funktion `mean()` erwartet hingegen alle zu mittelnden Zahlen im ersten Argument `x`. Wenn man also `mean(1, 2, 3)` aufruft, dann ist das erste Argument `x` gleich `1` (es soll also nur die Zahl `1` gemittelt werden). Die weiteren Zahlen `2` und `3` werden dann dem zweiten bzw. dritten Argument zugewiesen (also `trim` und `na.rm`).
 
-The command `sum` does *not* invoke (or call) the function. It merely outputs information about the object named `sum`. In most cases, this is not desired; you almost always want to call a function.
+Der Befehl `sum` ruft die Funktion *nicht* auf. Es werden lediglich Informationen über das Objekt `sum` ausgegeben. In den allermeisten Fällen ist das nicht gewünscht, sondern man möchte eine Funktion mit `sum()` aufrufen.

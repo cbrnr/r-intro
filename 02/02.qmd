@@ -1,8 +1,8 @@
 ---
-title: "2 – The R Environment"
-subtitle: "Statistical Data Analysis with R"
+title: "2 – Die R-Umgebung"
+subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2025-03-10
+date: 2025-10-09
 format:
   html:
     page-layout: full
@@ -16,157 +16,161 @@ title-block-banner: true
 theme:
   light: flatly
   dark: darkly
+lang: de
+author-title: "Autor"
+published-title: "Veröffentlicht"
 ---
 
 ## RStudio
 
-In the previous lesson, we installed and used the graphical user interface RStudio. RStudio requires a working installation of R. By default, RStudio's window is divided into four sections (though sometimes only three are visible):
+Bereits in der vorigen Einheit haben wir die grafische Benutzeroberfläche RStudio installiert und verwendet. RStudio setzt eine funktionierende Installation von R voraus. Das Programmfenster von RStudio ist in der Standardeinstellung in vier Bereiche unterteilt (wobei oft nur drei Bereiche sichtbar sind):
 
-1. The *Console* is located at the bottom left. This is where R waits for our input.
-2. The editor is at the top left (if at least one file is open). Otherwise, the console occupies this space.
-3. The top right shows an overview of all loaded objects (*Environment*) and a list of all previously entered commands (*History*). You can also access the history in the console using the <kbd>↑</kbd> or <kbd>↓</kbd> keys and even edit previous commands before pressing <kbd>Enter</kbd> again.
-4. The bottom right displays the current directory's contents (*Files*), graphical outputs (*Plots*), a package manager (*Packages*), and a help browser (*Help*).
+1. Links unten befindet sich die *Console* (die anderen Tabs sind für uns nicht relevant). Hier wartet R auf unsere Eingaben.
+2. Links oben befindet sich der Editor (falls zumindest eine Datei geöffnet ist). Ansonsten nimmt die Console diesen Platz ein.
+3. Rechts oben gibt es eine Übersicht aller geladenen Objekte (*Environment*) und eine Liste aller jemals eingegebenen Befehle (*History*) (die anderen Tabs sind für uns hier nicht von Bedeutung). Auf die History kann man übrigens auch in der Console mit den Tasten <kbd>↑</kbd> bzw. <kbd>↓</kbd> zugreifen und vor der erneuten Bestätigung mit der Eingabetaste auch editieren.
+4. Rechts unten werden wahlweise der Inhalt des aktuellen Verzeichnisses (*Files*), grafische Ausgaben (*Plots*), eine Paketverwaltung (*Packages*) oder ein Hilfefenster (*Help*) angezeigt (die anderen Tabs sind für uns nicht relevant).
 
 ![](rstudio.png)
 
-::: {.callout-tip}
-You can extensively adjust the layout in the settings. For example, if you prefer having the console at the bottom right, you can configure it there.
+:::{.callout-tip}
+Die Aufteilung der Bereiche kann in den Einstellungen umfangreich angepasst werden. Wenn Sie z.B. die Console gerne rechts unten haben möchten, können Sie das dort festlegen.
 :::
 
-::: {.callout-important}
-Most of RStudio's settings have reasonable default values, but you should definitely change the following two settings. Go to the settings (*Tools* – *Global Options*) and modify these options:
+:::{.callout-important}
+Die meisten Einstellungen von RStudio haben vernünftige Standardwerte, aber die folgenden zwei Punkte sollten Sie unbedingt ändern. Gehen Sie dazu in die Einstellungen (*Tools* – *Global Options*) und ändern Sie diese beiden Optionen:
 
-1. "Restore .RData into workspace at startup" should be *disabled*.
-2. "Save workspace to .RData on exit" should be set to *Never*.
+1. "Restore .RData into workspace at startup" sollte *deaktiviert* sein.
+2. "Save workspace to .RData on exit" sollte auf *Never* gesetzt sein.
 
 ![](rstudio-settings.png)
 
-This ensures that each restart of RStudio generates a completely fresh R session, which is crucial for reproducibility of analyses.
+Dies bewirkt, dass jeder Neustart von RStudio auch eine komplett frische R-Sitzung generiert, was für die Reproduzierbarkeit von Analysen unerlässlich ist.
 :::
 
 
-## Packages
+## Pakete
 
-Packages extend the functionality of R, which comes with only a handful of packages by default. When that's not enough, you can easily add more. Most additional packages are available through the [Comprehensive R Archive Network (CRAN)](https://cran.r-project.org/web/packages/). Once a package is *installed*, it can be *activated* and used at any time. This means two dependent steps must be followed:
+Pakete erweitern den Funktionsumfang von R. Werksmäßig wird R nur mit einer Handvoll an Paketen ausgeliefert – sobald man damit nicht mehr auskommt, kann man sehr einfach zusätzliche Pakete hinzufügen. Die meisten Zusatzpakete sind im [Comprehensive R Archive Network (CRAN)](https://cran.r-project.org/web/packages/) verfügbar. Wenn ein Paket einmal *installiert* ist, kann es danach jederzeit *aktiviert* und verwendet werden. Das bedeutet also, dass folgende zwei voneinander abhängige Schritte auszuführen sind:
 
-1. Install a new package (just once).
-2. Activate an installed package (before each use, i.e., once per R session).
+1. Installieren eines neuen Pakets (nur ein Mal)
+2. Aktivieren eines installierten Pakets (vor jeder Verwendung, d.h. ein Mal pro R-Sitzung)
 
-There are thousands of packages in CRAN, which can make finding the right one difficult. A practical overview is available on [CRAN Task Views](https://cran.r-project.org/web/views/), where packages are grouped thematically by application area. Additionally, searching the internet for a specific topic in combination with the search term "R" often leads to the desired package.
+Im CRAN gibt es tausende Pakete, und deswegen kann es mitunter schwierig sein, ein passendes bzw. das gesuchte Paket zu finden. Eine sehr praktische Übersicht gibt es auf [CRAN Task Views](https://cran.r-project.org/web/views/). Hier werden ausgewählte Pakete nach Anwendungsgebieten thematisch gruppiert dargestellt. Zusätzlich ist eine Internet-Suche nach dem gewünschten Thema in Verbindung mit R sehr häufig zielführend.
 
-You can manage packages either through the *Packages* pane in RStudio or by using R commands.
+Zur Paketverwaltung gibt es zwei Möglichkeiten: entweder man verwendet den Bereich *Packages* in RStudio, oder man benutzt R-Befehle dafür.
 
 
-### Package management in RStudio
+### Paketverwaltung in RStudio
 
-In RStudio, the *Packages* pane (in the bottom right panel) shows a list of all installed packages. You can also see which packages are currently activated (by checking/unchecking the box next to a package, you can activate/deactivate a package).
+RStudio bietet im Bereich *Packages* (im Panel rechts unten) eine Liste aller installierten Pakete. Hier ist auch ersichtlich, welche Pakete gerade aktiviert sind (durch Setzen/Entfernen des Häkchens vor einem Paket kann dieses aktiviert/deaktiviert werden).
 
-In this view, you can click *Update* to update installed packages, which should be done periodically (regardless of R version updates, which follows an independent release schedule).
+In dieser Ansicht kann man durch Klicken auf *Update* installierte Pakete aktualisieren. Dies sollte man von Zeit zu Zeit auch tun, und zwar unabhängig von eventuellen Updates der verwendeten R-Version.
 
-To install new packages, click *Install*. When you type the first few letters of a package's name into the *Packages* field, a list of all matching packages will appear. You can uninstall an already installed package by clicking the gray "X" symbol in the right column of the package list.
+Neue Pakete installiert man durch Klicken auf *Install*. Wenn man in das Feld *Packages* die Anfangsbuchstaben des gesuchten Pakets eingibt, wird automatisch eine Liste aller passenden Pakete vorgeschlagen. Ein bereits installiertes Paket kann man durch Klicken auf das hellgraue X in der rechten Spalte der Paketliste wieder deinstallieren.
 
 ![](rstudio_packages.png)
 
 
-### Package management with R commands
+### Paketverwaltung mit R-Befehlen
 
-In principle, R is controlled via text commands in the console. Therefore, it is not surprising that package management can also be done using special R commands. In fact, package management using the RStudio *Packages* pane simply runs the corresponding R commands in the background (which you can see in the console).
+Prinzipiell interagiert man mit R über Textbefehle in der Console. Daher ist es nicht überraschend, dass auch die Paketverwaltung mit speziellen R-Befehlen funktioniert. Tatsächlich verwendet die gerade beschriebene Paketverwaltung in RStudio einfach entsprechende R-Befehle im Hintergrund (diese sind auch in der Console ersichtlich).
 
-To list all installed packages, type:
+Eine Liste aller installierten Pakete bekommt man mit:
 
 ```{r}
 library()
 ```
 
-This list corresponds to the one shown in RStudio's *Packages* pane. To list all active (loaded) packages, type:
+Diese Liste entspricht der Darstellung im Bereich *Packages* in RStudio. Eine Liste aller aktivierten (geladenen) Pakete erhält man mit:
 
 ```{r}
 search()
 ```
 
-To install a new package from CRAN (e.g., `psych`), type:
+Ein neues Paket aus dem CRAN (z.B. `psych`) installiert man mit:
 
 ```r
 install.packages("psych")
 ```
 
-Note that the name of the package to be installed must be in quotation marks. To activate an already installed package, type:
+Zu beachten ist, dass man den Namen des zu installierenden Paketes in Anführungszeichen angeben muss. Ein bereits installiertes Paket aktiviert man mit:
 
 ```r
 library(psych)
 ```
 
-In this case, you can omit the quotation marks around the package name.
+Hier kann man die Anführungszeichen um den Paketnamen weglassen.
 
 
-## The R programming language
+## Die Programmiersprache R
 
 ### Scripts
 
-Typing commands directly into the R console is convenient for trying things out interactively or performing quick calculations. However, for reproducible data analysis, it's best to save the necessary commands in an R script so that you can repeat the analysis at any time. An R script is simply a plain text file with the extension `.R`.
+Befehle in der R-Console einzugeben ist praktisch, wenn man neue Dinge interaktiv ausprobieren möchte bzw. nur schnell Kleinigkeiten berechnen will. Möchte man eine reproduzierbare Datenanalyse durchführen, dann sollte man die dafür notwendigen Befehle in einem sogenannten *R-Script* abspeichern. Damit kann man die Analyse später jederzeit wiederholen. Ein R-Script ist nichts anderes als eine einfache Textdatei mit der Endung `.R`.
 
-Each line of an R script typically contains a single R command. When you run the script, all lines are executed sequentially from top to bottom. In RStudio, you can execute an entire script by clicking the "Source" button (or "Source with Echo"). To run just the current line or selected lines, click "Run" (you can also use the shortcut <kbd>Ctrl</kbd><kbd>Enter</kbd> on Windows/Linux or <kbd>⌘</kbd><kbd>Enter</kbd> on macOS). Conveniently, the cursor jumps to the next command in the script, which can then be executed if desired.
+In jeder Zeile eines R-Scripts befindet sich (meist) genau ein R-Befehl. Wenn man das Script ausführt, werden alle Zeilen vom Anfang bis zum Ende der Reihe nach ausgeführt. In RStudio kann man ein gesamtes Script durch Klicken auf die Schaltfläche "Source" (bzw. "Source with Echo") ausführen. Möchte man nur die aktuelle Zeile bzw. die markierten Zeilen ausführen, kann man dies durch Klicken auf die Schaltfläche "Run" tun (dafür gibt es auch das Tastenkürzel <kbd>Strg</kbd><kbd>Enter</kbd> unter Windows/Linux bzw. <kbd>⌘</kbd><kbd>Enter</kbd> unter macOS). Praktischerweise springt der Cursor danach zum nächsten Befehl im Script, welcher dann auf Wunsch wieder ausgeführt werden kann.
 
-![](rstudio-run-code.png)
+Die folgende Abbildung zeigt ein kurzes R-Script, welches im Editor-Bereich von RStudio geöffnet ist:
 
-::: {.callout-tip}
-If your script uses commands from additional packages, you *must* activate each single package with `library(package)`. It's best to do this at the top of the script.
+![](rstudio_run_code.png)
+
+:::{.callout-tip}
+Wenn man in einem Script Befehle aus zusätzlichen Paketen benötigt, muss man diese Pakete im Script auch mittels `library(package)` aktivieren. Am besten geschieht dies ganz am Anfang des Scripts.
 :::
 
-::: {.callout-important}
-*Never* install packages in a script (using `install.packages("package")`)! The package would be reinstalled every time you run the script (including downloading it from the internet), which should be avoided. Package installation should always be done manually, as described earlier, in RStudio or the console.
+:::{.callout-important}
+Installieren Sie Pakete *niemals* in einem Script (mittels `install.packages("package")`)! Das Paket würde bei jedem Ausführen des Scripts neu installiert werden (inklusive Download aus dem Internet), was definitiv vermieden werden sollte. Die Installation von Paketen wird also immer wie oben beschrieben manuell mit RStudio oder in der Console durchgeführt.
 :::
 
 
-### Working directory
+### Arbeitsverzeichnis
 
-To get the working directory (i.e., the directory where the current R session is running), use the following command:
-
+Das Arbeitsverzeichnis, also jenes Verzeichnis in dem die aktuelle R-Sitzung ausgeführt wird, erhält man mit dem Funktionsaufruf:
 ```{r}
 #| eval: false
 getwd()
 ```
 
-The working directory is important, because R expects files (such as scripts or data) to be located in this (or relative to this) directory. You can display all files in the current working directory using `dir()` (RStudio also shows this in the bottom right *Files* pane).
+Dieses Arbeitsverzeichnis (Working Directory) ist wichtig, da R diverse Dateien (wie z.B. Scripts oder Daten) immer in diesem (oder relativ zu diesem) Verzeichnis erwartet. Alle Dateien im aktuellen Arbeitsverzeichnis kann man mit `dir()` ausgeben lassen (RStudio zeigt diese rechts unten im Bereich *Files* an).
 
-::: {.callout-tip}
-The title of *Console* pane in RStudio also shows the current working directory. The name `~` is shorthand for your personal user folder (folder and directory are used interchangeably).
+:::{.callout-tip}
+Der Titel der R-Console in RStudio zeigt ebenfalls das aktuelle Arbeitsverzeichnis an. Der Name `~` ist eine Abkürzung für den persönlichen Ordner.
 :::
 
-The command `setwd("/path/to/working/directory")` sets the current working directory to the specified path (e.g., `/path/to/working/directory` in this case). Note that directories on Windows must also be separated by forward slashes `/` as opposed to backslashes `\`.
+Der Befehl `setwd("/path/to/working/directory")` setzt das aktuelle Arbeitsverzeichnis auf den angegebenen Wert (im Beispiel das fiktive Verzeichnis `/path/to/working/directory`). Hierbei ist zu beachten, dass Verzeichnisse auch in Windows durch einen normalen Schrägstrich `/` und nicht durch einen umgekehrten Schrägstrich (Backslash) `\` voneinander zu trennen sind.
 
-In RStudio, there are at least three alternatives to set the working directory using the graphical interface:
+In RStudio hat man aber mindestens drei Alternativen, das Arbeitsverzeichnis auch mit der grafischen Oberfläche zu setzen:
 
-- Menu *Session* – *Set Working Directory* – *Choose Directory...*
-- Navigate to the desired directory in the *Files* pane (bottom right), then click *More* – *Set As Working Directory*
-- If a script file is open in the editor pane, you can right-click the file name in the tab and choose *Set Working Directory* (this sets the working directory to the folder where the script is saved).
+- Menü *Session* – *Set Working Directory* – *Choose Directory...*
+- Navigieren zum gewünschten Verzeichnis im Bereich *Files* (Bereich rechts unten) und dann Klick auf *More* – *Set As Working Directory*
+- Falls eine Script-Datei im Editorbereich geöffnet ist, kann man auf den Dateinamen im Tab rechtsklicken und *Set Working Directory* auswählen (dies setzt das Arbeitsverzeichnis auf jenes Verzeichnis, in dem das Script abgespeichert ist)
 
 ![](set-working-directory.png){width=300}
 
-::: {.callout-important}
-Before running a script, you should set the working directory correctly (usually to the folder where the script is saved). However, don't automate this in the script itself, as the script should also run in other environments where your specific directory may not exist. This means that you should never include `setwd()` in your scripts!
+:::{.callout-important}
+*Bevor* Sie ein Script ausführen, sollten Sie das Arbeitsverzeichnis korrekt setzen (üblicherweise auf das Verzeichnis, in dem das Script abgespeichert ist). Führen Sie dies allerdings *nicht* automatisiert im Script selbst durch, denn das Script soll auch auf anderen Umgebungen laufen, wo es Ihr spezifisches Verzeichnis vielleicht nicht gibt.
 :::
 
 :::{.callout-tip}
-If you open an R script by double-clicking (in Windows Explorer or macOS Finder), RStudio will open and automatically set the working directory to the folder where the script is located.
+Wenn Sie ein R-Script per Doppelklick (im Windows Explorer oder macOS Finder) öffnen, wird RStudio geöffnet und das Arbeitsverzeichnis *automatisch* auf das Verzeichnis gesetzt, in dem sich das Script befindet.
 :::
 
 
 ### Workspace
 
-All objects that you create or load (variables and data) are referred to as the *workspace*. You can display it with the following command:
+Alle selbst erstellten bzw. geladenen Objekte (Variablen und Daten) fasst man unter dem Begriff *Workspace* zusammen. Man kann ihn mit folgendem Befehl anzeigen:
 
 ```{r}
 #| eval: false
 ls()
 ```
 
-In a fresh R session, the workspace is empty (if it isn't, you likely didn't set the options correctly as described previously). This behavior is crucial for the reproducibility of analyses. In RStudio, the workspace is also displayed in the *Environment* pane (top right).
+In einer frisch gestarteten R-Sitzung ist der Workspace leer (falls nicht, haben Sie vermutlich die oben erwähnten Einstellungen nicht korrekt gesetzt). Dieses Verhalten ist für die Reproduzierbarkeit von Analysen eine wichtige Voraussetzung. In RStudio wird der Workspace auch im Bereich *Environment* (rechts oben) angezeigt .
 
 
 ### Syntax
 
-Syntax refers to the rules for creating valid R commands from individual characters. To learn R's syntax, let's examine the following short example:
+Unter Syntax versteht man die Regeln, wie man aus einzelnen Zeichen gültige R-Befehle erstellen kann. Um die Syntax von R kennenzulernen, betrachten wir das folgende kurze Beispiel-Script:
 
 ```r
 # compute sum of integers from 1 to 100
@@ -176,142 +180,117 @@ sum(x)
 n * (n + 1) / 2  # closed-form solution
 ```
 
-Even in these few lines, we can already observe the basic rules. In principle, each command is written on its own line.
+Man erkennt bereits in diesen wenigen Zeilen die grundlegenden Regeln. Prinzipiell wird jeder Befehl in eine eigene Zeile geschrieben.
 
 
-#### Comments
+#### Kommentare
 
-Comments, i.e., all characters from `#` to the end of the line, are *not* executed by R, but simply ignored. Nevertheless, comments are extremely important, because they help explain and understand the code — therefore, always add explanatory comments to more complex calculations!
-
-
-#### Variables and objects
-
-The assignment operator in R is either `=` or `<-`. You use it to assign values (often referred to as objects) to *variables*, which you can then reuse (e.g., for further calculations). In the example, `n = 100` assigns the value `100` to the variable `n`. Thus, the example script creates two variables `n` and `x`.
-
-:::{.callout-note}
-It doesn't matter whether you use `=` or `<-` for assignments. However, you should be consistent and always use just one of the two operators. These materials use `=`, because it's quicker to type and most other programming languages also use `=`.
-:::
-
-R is case-sensitive, meaning the variable `N` is not the same as `n`. In addition to letters, variable names can include numbers, underscores, and even periods (though this is not recommended).
+Kommentare, d.h. alle Zeichen ab `#` bis zum Zeilenende, werden von R *nicht* ausgeführt, sondern einfach komplett ignoriert. Dennoch sind Kommentare extrem wichtig, da Sie zum Verstehen des Codes beitragen können – fügen Sie daher bei komplizierteren Berechnungen immer erklärende Kommentare hinzu!
 
 
-#### Functions
+#### Variablen und Objekte
 
-A function is a mini-script that you can execute by *calling* it. In the example above, `sum` is a function. To call a function, a *pair of parentheses* `()` is needed after the function name. Any arguments (needed if the function requires additional information) are passed *within* the parentheses (multiple arguments are separated by commas `,`).
-
-For example, the command `sum(x)` calls the function `sum` with the argument `x`. Some functions don't require arguments, but the parentheses are still always necessary (e.g., `library()` calls the library function with no arguments). Other examples of function calls without arguments that we've already encountered are `search()`, `getwd()`, `dir()`, and `ls()`.
+Der Zuweisungsoperator in R ist `=` oder `<-`. Damit kann man Werte (oft auch als Objekte bezeichnet) Variablen zuweisen, welche man dann später wieder verwenden kann (um z.B. damit weiterzurechnen). Im Beispiel wird also mit `n = 100` der Wert 100 der Variablen `n` zugewiesen. Im gesamten obigen Beispiel-Script werden daher zwei Variablen namens `n` und `x` erstellt.
 
 :::{.callout-note}
-In these materials, function names are always followed by parentheses `()` to indicate that they are functions.
+Es ist egal, ob man `=` oder `<-` für Zuweisungen verwendet. Man sollte aber konsistent sein und immer nur einen der beiden Zuweisungsoperatoren verwenden. In diesen Unterlagen wird `=` benutzt, weil man weniger tippen muss und die meisten anderen Programmiersprachen ebenfalls `=` verwenden.
 :::
 
-With objects and functions, we've already covered the two most important concepts in R. In summary (from [John M. Chambers, Extending R, Chapman & Hall/CRC, 2016](https://www.taylorfrancis.com/books/mono/10.1201/9781315381305/extending-john-chambers)):
-
-- Everything that *exists* in R is an *object*.
-- Everything that *happens* in R is a *function call*.
+R unterscheidet streng zwischen Groß- und Kleinschreibung, d.h. die Variable `N` ist nicht gleich der Variablen `n`. Neben Buchstaben können auch Ziffern, Unterstriche und sogar Punkte (nicht empfohlen) für Variablennamen verwendet werden.
 
 
-### Documentation
+#### Funktionen
 
-R comes with extensive integrated documentation (which is also available offline). RStudio displays documentation in the *Help* panel (lower right). There are two options to get help for a specific R command directly in the R console (the following example demonstrates this for the `sum()` function):
+Eine Funktion ist ein Mini-Script, welches man durch Aufrufen ausführen kann. Im obigen Beispiel ist `sum` eine Funktion. Zum Aufrufen einer Funktion ist ein Klammernpaar `()` nach dem Funktionsnamen notwendig. Eventuelle Argumente (die man benötigt, wenn die Funktion zusätzliche Informationen braucht) werden innerhalb dieser Klammern übergegeben. Mehrere Argumente werden mit einem `,` voneinander getrennt.
+
+Mit dem Befehl `sum(x)` wird also die Funktion `sum` mit dem Argument `x` aufgerufen. Es gibt auch Funktionen, die keine Argumente benötigen – das runde Klammernpaar ist aber trotzdem notwendig (z.B. `library()` ruft die Funktion `library` ohne Argumente auf). Weitere Beispiele für Funktionsaufrufe ohne Argumente, die wir bereits kennengelernt haben, sind `search()`, `getwd()`, `dir()` und `ls()`.
+
+:::{.callout-note}
+In diesen Unterlagen werden Funktionsnamen mit nachfolgenden Klammern `()` geschrieben, um deutlich zu machen, dass es sich dabei um eine Funktion handelt.
+:::
+
+Mit Objekten und Funktionen hätten wir bereits die wichtigsten beiden Konzepte in R besprochen. Zusammenfassend kann man also sagen (aus [John M. Chambers, Extending R, Chapman & Hall/CRC, 2016](https://www.taylorfrancis.com/books/mono/10.1201/9781315381305/extending-john-chambers)):
+
+- Alles, was in R *existiert*, ist ein *Objekt*.
+- Alles, was in R *passiert*, geschieht durch Aufrufen einer *Funktion*.
+
+
+### Hilfe
+
+R beinhaltet eine sehr gute integrierte Hilfe zu allen möglichen Themen und Befehlen. In RStudio sind im Bereich *Help* alle Hilfethemen gruppiert – es bietet sich an, einmal in diesem Hilfefenster zu stöbern.
+
+Am häufigsten benötigt man aber Hilfe zu einem konkreten Befehl. Wenn man z.B. Informationen zur Funktion `mean()` braucht, gibt man in der Console folgendes ein:
 
 ```r
-help(sum)
-?sum
+help(mean)
 ```
 
-
-#### Example 1
-
-Let's inspect the documentation for `sum()` more closely, because all help pages are organized in a similar way. It is a good habit to quickly skim the help text for every function that you are about to use for the first time – this will get you started much quicker than just assuming things (that might not be true) or filling in arguments by trial and error.
-
-The very first line contains the name of the function and the package it comes from in curly braces:
-
-```
-sum {base}
-```
-
-We now know that the `sum()` function is contained in the `base` package.
-
-Next, the title summarizes the purpose of the function:
-
-```
-Sum of Vector Elements
-```
-
-The "Description" section contains a slightly more detailed summary of what the function is all about.
-
-"Usage" describes how to call the function:
-
-```
-sum(..., ra.rm = FALSE)
-```
-
-We already know that we have to write the function name followed by a pair of parentheses. In addition, this section also tells us which arguments we can pass – in this case, there are two possible arguments (`...` and `na.rm`). The second argument `na.rm` has a default value of `FALSE`, which means that if we do not pass a second argument in our function call, `na.rm` automatically gets its default value of `FALSE`.
-
-More details for each argument are listed in the subsequent "Arguments" section. In this example, we learn that `...` should be "numeric or complex or logical vectors" (we'll learn about vectors soon). In fact, `...` is special and allows us to pass an arbitrary number of arguments to the function.
-
-The next section contains a very detailed description of the function. If you want to understand what is going on when you call the function, you need to read this.
-
-The "Value" section tells us what the function *returns* (what it computes). Often, the help text includes some useful references such as books or articles. Many functions also include a "See Also" section, which lists similar and related functions.
-
-Last but definitely not least, most help pages contain several usage examples. You can copy and paste them into the console to try them out and see the examples in action.
-
-
-#### Example 2
-
-Let's take a look at another help page, this time we'll view the documentation of `mean()`:
+Alternativ und kürzer geht das mit:
 
 ```r
 ?mean
 ```
 
-We learn that this function computes the arithmetic mean, and we can use it like this:
+Der Hilfetext für eine Funktion enthält alle notwendigen Informationen – wenn Sie eine neue Funktion erstmalig verwenden möchten, ist ein Blick in die Hilfe sehr zu empfehlen.
 
-```
-mean(x, trim = 0, na.rm = FALSE, ...)
-```
+Die Hilfetexte sind alle sehr ähnlich aufgebaut. Nach einer kurzen Beschreibung (*Description*) sieht man unter *Usage* wie man die Funktion verwendet (aufruft). Hier ist in unserem Beispiel zu lesen:
 
-The first parameter `x` is a (numeric) vector containing the numbers we want to average. The next two parameters (`trim` and `na.rm`) both have default values, so we don't need to specify values if we are happy with the defaults. The fourth parameter `...` summarizes "further arguments" that are not really explained.
+    mean(x, ...)
 
-:::{.callout-note}
-Function parameters and arguments are often used synonymously, but there is a difference: a *parameter* is formally defined in the function header, and when we *call* a function, we pass *arguments* that replace parameters with *specific values*.
+Gleich danach folgen diese beiden Zeilen mit mehr Details:
 
-For example, the `mean()` function has several parameters, and the first parameter is called `x`. When we call the function using `mean(1:10)`, we pass the argument `1:10`, which is used instead of `x` everywhere inside the function to compute the mean.
-:::
+    ## Default S3 method:
+    mean(x, trim = 0, na.rm = FALSE, ...)
 
-Let's try some examples to see the different ways we can call the `mean()` function. Let's assume we have a numeric vector (a collection of numbers, more on that in the next chapter) stored in the variable `numbers`:
+Hier erkennt man, dass die Funktion ein Argument namens `x` erwartet. Dieses Argument ist *verpflichtend*, d.h. wenn man es nicht angibt, bekommt man eine Fehlermeldung (probieren Sie es in der Console aus, indem Sie `mean()` eintippen). Dies sieht man am Hilfetext, weil kein Standardwert für `x` ersichtlich ist. Im Gegensatz dazu sind die nächsten beiden Argumente `trim` und `na.rm` *optional*, d.h. man muss sie nicht angeben, denn in diesem Fall werden deren Standardwerte verwendet (`trim` hat den Wert `0` und `na.rm` hat den Wert `FALSE`).
 
-```{r}
-numbers = c(1, 8, 17, -6, 5.5, -12.2)
-```
+Die Bedeutung der Argumente wird im Abschnitt *Arguments* genau beschrieben. Der Wert, der von der Funktion berechnet und zurückgegeben wird, wird im Abschnitt *Value* beschrieben. Danach folgen Literaturhinweise, verwandte Funktionen und schließlich Beispiele. Diese Beispiele kann man auch kopieren und in der Console auführen (oder einfach durch Klicken auf "Run examples" im Hilfe-Fenster ausführen).
 
-We can compute the arithmetic mean like this:
 
-```{r}
-mean(numbers)
-```
+### Möglichkeiten zum Aufrufen einer Funktion
 
-Optionally, we can explicitly name arguments in our function call. The first parameter is called `x`, so we could write:
+Nachdem wir nun Funktionen sowie die integrierte Hilfe besprochen haben, sehen wir uns abschließend noch an, mit welchen unterschiedlichen Varianten wir eine Funktion aufrufen können.
 
-```{r}
-mean(x=numbers)
-```
+Einer Funktion kann man Argumente auf zwei verschiedene Arten übergeben:
 
-The same is true for the other arguments; we can either pass values by position or by name:
+1. Man übergibt nur die Werte in der richtigen Reihenfolge (wie von der Funktion laut Hilfe erwartet), z.B. `mean(1)`.
+2. Man verwendet die Namen der Argumente gemeinsam mit deren Werten, z.B. `mean(x=1)`. Die Reihenfolge ist dann egal.
+
+Sehen wir uns einige Beispiele für korrekte Aufrufe der Funktion `mean()` an. Vorausgesetzt ist hier, dass es eine Variable `x` gibt, von deren Werten wir den Mittelwert berechnen möchten (eine detaillierte Erklärung zur Funktion `c()` folgt in der nächsten Einheit).
+
+Wir erstellen also zunächst die Variable (das Objekt) `x`:
 
 ```{r}
-mean(numbers, trim=0.25)
-mean(numbers, 0.25)
-mean(x=numbers, trim=0.25)
-mean(x=numbers, 0.25)
-mean(trim=0.25, x=numbers)
+x = c(-14, 2, 3, 4, 5, 6, 7, 28, 99)
+```
+
+Jetzt sehen wir uns an, mit welchen unterschiedlichen Varianten wir die Funktion `mean()` aufrufen können (die Kommentare zu den Aufrufen geben jeweils die Werte aller Argumente an, auch und vor allem wenn diese *nicht* explizit übergeben wurden und dadurch den Standardwerten entsprechen):
+
+```{r}
+mean(x)  # x=x, trim=0, na.rm=FALSE
+mean(x, 0.1)  # x=x, trim=0.1, na.rm=FALSE
+mean(x, 0.2, TRUE)  # x=x, trim=0.2, na.rm=TRUE
+mean(x, na.rm=TRUE)  # x=x, trim=0, na.rm=TRUE
+mean(x, trim=0.2, na.rm=TRUE)  # x=x, trim=0.2, na.rm=TRUE
+mean(x=x, na.rm=TRUE, trim=0.3)  # x=x, trim=0.3, na.rm=TRUE
+mean(x, 0.2, na.rm=TRUE)  # x=x, trim=0.2, na.rm=TRUE
+```
+
+Anzumerken ist hier, dass der tatsächlich übergebene Wert *nicht* denselben Namen wie das Argument haben muss. Im obigen Beispiel ist dies zufälligerweise der Fall (sowohl der Funktionsparameter als auch der übergebene Wert heißen `x`), aber das ist nicht erforderlich. Im Grunde sind nur die übergebenen *Werte* relevant, ob diese Werte einen Namen haben oder nicht spielt keine Rolle. D.h. man könnte `mean()` auch wie folgt aufrufen:
+
+```{r}
+mean(c(-14, 2, 3, 4, 5, 6, 7, 28, 99))
+mean(x=c(-14, 2, 3, 4, 5, 6, 7, 28, 99))
+
+y = c(-14, 2, 3, 4, 5, 6, 7, 28, 99)
+mean(y)
+mean(x=y)
 ```
 
 
-## Literature
+## Literatur
 
-### Books
+### Bücher
 
 - [Discovering Statistics Using R](https://uk.sagepub.com/en-gb/eur/discovering-statistics-using-r/book236067)
 - [OpenIntro Statistics](https://www.openintro.org/book/os/)
@@ -320,7 +299,7 @@ mean(trim=0.25, x=numbers)
 - [Advanced R](https://adv-r.hadley.nz/)
 
 
-### Tutorials and documentation
+### Tutorials und Dokumentation
 
 - [learnr](https://rstudio.github.io/learnr/)
 - [RStudio Education](https://education.rstudio.com/learn/beginner/)
@@ -331,7 +310,7 @@ mean(trim=0.25, x=numbers)
 - [Cookbook for R](http://www.cookbook-r.com/)
 
 
-### Online courses
+### Online-Kurse
 
 - [Statistics and R](https://www.edx.org/course/statistics-and-r)
 - [R Programming](https://www.coursera.org/learn/r-programming)
@@ -339,47 +318,47 @@ mean(trim=0.25, x=numbers)
 - [Mastering Software Development in R](https://www.coursera.org/specializations/r)
 
 
-### Articles
+### Artikel
 
-If you're interested in the historical development of R, you can find an overview by John M. Chambers, one of the co-developers of R, [here](https://dl.acm.org/doi/10.1145/3386334).
-
-
-## Exercises
-
-### Exercise 1
-
-Install the packages `tidyverse`, `Hmisc`, and `psych` – which R commands do you use? Name the version numbers of these packages. Which commands can you use to activate the installed packages?
+Falls Sie sich für die historische Entwicklung von R interessieren, finden Sie [hier](https://dl.acm.org/doi/10.1145/3386334) einen spannenden Überblick von John M. Chambers, einem der Mitentwickler von R.
 
 
-### Exercise 2
+## Übungen
 
-Display the help for the `help()` function. What are the two options?
+### Übung 1
 
-
-### Exercise 3
-
-What does a function call in R look like?
+Installieren Sie die Pakete `tidyverse`, `Hmisc` und `psych` – welche R-Befehle verwenden Sie dafür? Nennen Sie die Versionsnummern dieser Pakete. Mit welchen Befehlen können Sie die installierten Pakete anschließend aktivieren?
 
 
-### Exercise 4
+### Übung 2
 
-Create a simple script in RStudio named `my_first_script.R`. Include the following elements in this script:
-
-- A comment line with the content "Exercise 4"
-- Activate the package `Hmisc`
-- Calculate the mean of the numbers 45, 66, 37, 54, 7, and 22 (using only basic arithmetic)
-
-The script should consist of three lines (you may add additional empty lines for clarity).
-
-Run the entire script to check for errors – it should run without any issues!
+Zeigen Sie die Hilfe zur Funktion `help()` an. Welche zwei Möglichkeiten haben Sie dafür?
 
 
-### Exercise 5
+### Übung 3
 
-Read the documentation for the `sum()` function and answer the following questions:
+Wie sieht ein Funktionsaufruf in R aus?
 
-- How many mandatory arguments does this function require?
-- How many optional arguments does this function have?
-- What is the result of `sum()` and why (also consider the result of `mean()`)?
-- Explain why `sum(1, 2, 3)` produces the correct result, but `mean(1, 2, 3)` does not!
-- What happens if you execute `sum` in the console (i.e., without parentheses)?
+
+### Übung 4
+
+Erstellen Sie in RStudio ein einfaches Script mit dem Namen `my_first_script.R`. Fügen Sie folgende Elemente in dieses Script ein:
+
+- Eine Kommentarzeile mit dem Inhalt "Übung 4"
+- Aktivieren des Pakets `Hmisc`
+- Berechnung des Mittelwerts der Zahlen 45, 66, 37, 54, 7 und 22 (nur mit Grundrechenarten)
+
+Das fertige Script sollte also aus drei Zeilen bestehen (Sie könnten zur Erhöhung der Übersichtlichkeit aber zusätzliche leere Zeilen einfügen).
+
+Führen Sie zur Kontrolle das gesamte Script aus – es darf dabei kein Fehler auftreten!
+
+
+### Übung 5
+
+Lesen Sie die Hilfe zur Funktion `sum()` und beantworten Sie dann folgende Fragen:
+
+- Wie viele verpflichtende Argumente benötigt diese Funktion?
+- Wie viele optionale Argumente hat diese Funktion?
+- Was ergibt der Aufruf `sum()` und warum (beachten Sie dazu auch das Ergebnis von `mean()`)?
+- Erklären Sie, warum `sum(1, 2, 3)` das korrekte Ergebnis liefert, aber `mean(1, 2, 3)` nicht!
+- Was passiert, wenn Sie nur `sum` in der Console ausführen (also ohne das Klammernpaar)?
