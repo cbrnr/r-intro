@@ -112,7 +112,7 @@ In jeder Zeile eines R-Scripts befindet sich (meist) genau ein R-Befehl. Wenn ma
 
 Die folgende Abbildung zeigt ein kurzes R-Script, welches im Editor-Bereich von RStudio geöffnet ist:
 
-![](rstudio_run_code.png)
+![](rstudio-run-code.png)
 
 :::{.callout-tip}
 Wenn man in einem Script Befehle aus zusätzlichen Paketen benötigt, muss man diese Pakete im Script auch mittels `library(package)` aktivieren. Am besten geschieht dies ganz am Anfang des Scripts.
