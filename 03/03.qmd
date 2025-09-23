@@ -1,8 +1,8 @@
 ---
-title: "3 – Vectors"
-subtitle: "Statistical Data Analysis with R"
+title: "3 – Vektoren"
+subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2025-03-17
+date: 2025-10-16
 format:
   html:
     page-layout: full
@@ -16,22 +16,23 @@ title-block-banner: true
 theme:
   light: flatly
   dark: darkly
+lang: de
+author-title: "Autor"
+published-title: "Veröffentlicht"
 ---
 
-## Creating vectors
+## Erstellen von Vektoren
 
-The fundamental (atomic) data type in R is the *vector*, a data structure that contains one or more elements. Even a single number (a scalar) like `5` is considered a vector with one element.
+Der grundlegende (atomare) Datentyp in R ist der Vektor. Ein Vektor ist eine Datenstruktur, welche aus einem oder mehreren Elementen besteht. Demnach ist also auch eine Zahl (ein Skalar) wie z.B. `5` ein Vektor (mit einem Element).
 
-The `c()` function (stands for "combine" or "concatenate") can be used to create a vector. In the following example, we create a vector with four elements and assign the name `y` to it:
+Ein Vektor kann mit der Funktion `c()` explizit erzeugt werden (steht für combine oder concatenate). Im folgenden Beispiel erzeugen wir einen Vektor mit vier Elementen und weisen ihm den Namen `y` zu:
 
 ```{r}
 (y = c(1, 2, 3.1415, -100))
 ```
 
-:::{.callout-tip}
-If you enclose a command in parentheses, the resulting value is always printed to the console (this is normally not the case with assignments).
-
-Therefore, the previous example could also be written in two lines:
+:::{.callout-note}
+Wenn man in R einen Befehl in Klammern setzt, dann wird der daraus resultierende Wert immer auch in der Console ausgegeben. Normalerweise ist das nämlich bei Zuweisungen nicht der Fall. Das obige Beispiel könnte man also auch in zwei Zeilen schreiben, was aber natürlich mehr Tipparbeit ist:
 
 ```r
 y = c(1, 2, 3.1415, -100)
@@ -39,46 +40,46 @@ y
 ```
 :::
 
-The length of a vector (i.e., its number of elements) can be determined with the `length()` function:
+Die Länge eines Vektors (also die Anzahl der Elemente des Vektors) kann mit der Funktion `length()` bestimmt werden:
 
 ```{r}
 length(y)
 ```
 
-The following example creates a vector `a` with a single element – in this case, you don't need to use the `c()` function, as there is nothing to concatenate:
+Im folgenden Beispiel erzeugen wir einen Vektor `a` mit einem einzigen Element – in diesem Fall muss man die Funktion `c()` also gar nicht verwenden:
 
 ```{r}
 a = 6
 length(a)
 ```
 
-In general, vectors of arbitrary lengths can be combined into a single vector with `c()`:
+Mit `c()` können also Vektoren beliebiger Längen miteinander kombiniert werden:
 
 ```{r}
 c(666, y, 666, c(23, 24))
 ```
 
 
-## Types of vectors
+## Typen von Vektoren
 
-A vector always consists of elements of the same type. Vectors are therefore called *homogeneous* data types. So far, we have learned about numerical vectors, which consist exclusively of numbers. However, there are also vector types that contain logical elements or characters. We can roughly distinguish between the following vector types in R:
+Ein Vektor besteht immer aus Elementen desselben Typs. Man nennt Vektoren daher *homogene* Datentypen. Bis jetzt haben wir numerische Vektoren kennengelernt, welche ausschließlich aus Zahlen bestehen. Es gibt aber auch Vektoren, die logische Elemente oder Zeichen/Buchstaben enthalten. Man unterscheidet in R daher grob zwischen folgenden Vektortypen:
 
-- Numeric vectors
-- Logical vectors
-- Character vectors
+- Numerische Vektoren
+- Logische Vektoren
+- Zeichenkettenvektoren
 
-In one of the next sessions, we will also cover factors and datetime types as additional important data types. However, R includes many more specific data types that we will not cover in this course.
+In einer der nächsten Einheiten werden wir dann noch Faktoren als vierten wichtigen Typ kennenlernen (grundsätzlich gibt es in R aber noch viele weitere spezifischere Datentypen).
 
 
-### Numeric vectors
+### Numerische Vektoren
 
-Numeric vectors are of type `numeric` and contain only numbers, for example:
+Numerische Vektoren sind vom Typ `numeric` und beinhalten ausschließlich Zahlen, zum Beispiel:
 
 ```{r}
 c(2, 13, 15, 17)
 ```
 
-The function `class()` can be used to determine the type (class) of an object:
+Mit der Funktion `class()` kann man den Typ (die Klasse) eines Objektes bestimmen. Beispiele:
 
 ```{r}
 class(2)
@@ -88,9 +89,9 @@ class(c(3.1, 2.2, 10))
 ```
 
 
-### Logical vectors
+### Logische Vektoren
 
-Logical vectors contain only the values `TRUE` or `FALSE` (note the correct spelling in all caps) and are of type `logical`.
+Logische Vektoren bestehen ausschließlich aus den Werten `TRUE` oder `FALSE` (achten Sie auf die korrekte Schreibweise). Sie sind vom Typ `logical`.
 
 ```{r}
 class(TRUE)
@@ -98,29 +99,29 @@ class(c(FALSE, FALSE, TRUE))
 ```
 
 :::{.callout-note}
-It is possible to abbreviate the values `TRUE` and `FALSE` with `T` and `F`. However, I recommend to avoid these abbreviations, because they are less readable.
+Es ist möglich, die Werte `TRUE` und `FALSE` mit `T` und `F` abzukürzen. Aufgrund der schlechteren Lesbarkeit sollte man aber auf diese Abkürzungen verzichten.
 :::
 
-Logical vectors are also the result of comparing two vectors.
+Logische Vektoren entstehen unter anderem durch Vergleiche zweier Vektoren:
 
 ```{r}
 x = 5
 class(x)
 ```
 
-Let's compare the vector `x` with (the vector) `1`. In the following example, we want to know if `x` is less than `1`:
+Im folgenden Beispiel möchten wir wissen, ob `x` kleiner als `1` ist (wir vergleichen also `x` mit `1`):
 
 ```{r}
 x < 1
 ```
 
-This comparison results in `FALSE`, which is a logical vector:
+Dieser Vergleich ergibt `FALSE`, also einen logischen Vektor:
 
 ```{r}
 class(x < 1)
 ```
 
-R has the following comparison operators: `>`, `>=`, `<`, `<=`, `==`, and `!=`. Comparisons (or logical vectors) can be combined with `|` (or) and `&` (and) and negated with `!` (not). Grouping with parentheses is also possible.
+In R gibt es folgende Vergleichsoperatoren: `>`, `>=`, `<`, `<=`, `==` und `!=`. Vergleiche (bzw. logische Vektoren) können mit `|` (oder) und `&` (und) verknüpft und mit `!` negiert werden. Gruppierungen durch Klammersetzung sind ebenfalls möglich.
 
 ```{r}
 !TRUE
@@ -131,13 +132,13 @@ R has the following comparison operators: `>`, `>=`, `<`, `<=`, `==`, and `!=`. 
 ```
 
 :::{.callout-important}
-The equality operator is `==` (two equal signs) and not `=` (a single equal sign, which is the assignment operator).
+Der Gleichheitsoperator lautet `==` (also zwei Gleichheitszeichen) und nicht `=` (ein einziges Gleichheitszeichen, dies ist der Zuweisungsoperator).
 :::
 
 
-### Character vectors
+### Zeichenkettenvektoren
 
-Character vectors (type `character`) in R are composed of one or more string elements, each enclosed in either single (`'`) or double (`"`) quotes. Each element can contain any combination of letters, numbers, spaces, and special characters.
+Zeichenkettenvektoren (Typ `character`) bestehen aus Zeichen, welche innerhalb von Anführungszeichen eingegeben werden. Es können sowohl einfache `'` als auch doppelte `"` Anführungszeichen verwendet werden. Eine Zeichenkette kann aus Buchstaben, Ziffern und Sonderzeichen bestehen.
 
 ```{r}
 "Hello!"
@@ -147,7 +148,7 @@ class("Hello!")
 class(s)
 ```
 
-The `length()` function returns the number of elements in a vector, not the number of characters in a string. To determine the number of characters in a string, use the `nchar()` function:
+Die Funktion `length()` gibt die Länge des Vektors (d.h. die Anzahl der Elemente) und nicht die Anzahl der Zeichen einer Zeichenkette zurück. Dafür kann man die Funktion `nchar()` verwenden:
 
 ```{r}
 s = c('Hello!', 'world')
@@ -156,192 +157,192 @@ nchar(s)
 ```
 
 
-## Coercion
+## Zwang (Coercion)
 
-Vectors are homogeneous data types, meaning they contain only elements of the same type. If you try to create a vector with elements of different types, the `c()` function will automatically coerce the vector to a type that can represent all elements. If you mix numbers with characters, all items will be converted to characters (since characters cannot generally be represented as numbers, but numbers can indeed be represented as characters).
+Vektoren sind homogene Datentypen, d.h. sie enthalten nur Elemente desselben Typs. Wenn man versucht, einen Vektor mit Elementen mit unterschiedlichen Typen zu erstellen, wird dieser automatisch in einen Typ "gezwungen", welcher alle Elemente abbilden kann. Wenn man also Zahlen mit Zeichenketten mischt, werden alle Elemente in Zeichenketten umgewandelt (da Zeichenketten im Allgemeinen nicht als Zahlen dargestellt werden können, umgekehrt können aber Zahlen als Zeichenketten sehr wohl dargestellt werden).
 
 ```{r}
 (x = c(1, 2.14, "5", 6))
 class(x)
 ```
 
-Of course, you can no longer perform calculations with the vector in the previous example, as the elements are now characters and not numbers.
+Rechnen kann man mit dem Vektor im obigen Beispiel allerdings nicht mehr, da die Elemente nun Zeichenketten und keine Zahlen mehr sind.
 
-You can also explicitly convert to a desired type with these functions:
+Man kann mit folgenden Funktionen auch explizit eine Umwandlung in einen gewünschten Typ durchführen:
 
 - `as.numeric()`
 - `as.logical()`
 - `as.character()`
 
-The following example converts a character vector to a numeric vector (this works because all character strings can be interpreted as numbers in this case):
+Folgendes Beispiel wandelt einen Zeichenketten-Vektor in einen numerischen Vektor um (dies funktioniert, weil im Beispiel alle Zeichenketten als Zahlen interpretiert werden können):
 
 ```{r}
 as.numeric(c("1", "2.12", "66"))
 ```
 
-If this is not possible, R will issue a warning and assume `NA` (stands for "Not Available", i.e., a *missing value*) for the element that cannot be converted:
+Wenn das nicht geht, wird eine Warnung ausgegeben und `NA` (steht für "Not Available", also ein fehlender Wert) für das Element, welches sich nicht umwandeln lässt, angenommen:
 
 ```{r}
 as.numeric(c("1", "2.12", "X"))
 ```
 
-We will cover missing values in more detail at the end of this session.
+Mehr Details zu fehlenden Werten werden am Ende dieser Einheit behandelt.
 
 
-## Calculations with vectors
+## Rechnen mit Vektoren
 
-We can perform arithmetic operations with numerical vectors – these are always applied *element by element*:
+Mit numerischen Vektoren kann man Rechenoperationen durchführen – diese werden stets *elementweise* angewendet:
 
 ```{r}
 (y = c(1, 2, 3, 4))
-y * 100 + 2  # calculation is performed for each element separately
+y * 100 + 2  # Berechnung wird für jedes der 4 Elemente separat durchgeführt
 ```
 
-As we already know, the usual operators `+`, `-`, `*`, and `/` are used for addition, subtraction, multiplication, and division. The `^` or `**` symbols calculate the power of a base to an exponent. The operator `%/%` performs integer division and `%%` calculates the remainder. Other useful functions are `abs()` for the absolute value and `sqrt()` for the square root of a number. The functions `log()` and `exp()` calculate the logarithm and the exponential function, respectively. The `sin()` and `cos()` functions calculate the sine and cosine, respectively.
+Wie wir bereits wissen, gibt es die üblichen Operatoren `+`, `-`, `*`, und `/` für die Addition, Subtraktion, Multiplikation und Division. Das Zeichen `^` oder `**` steht für "hoch" (berechnet also die Potenz von einer Basis zum Exponenten). Der Operator `%/%` berechnet die ganzzahlige Division und `%%` berechnet den Rest. Weitere praktische Funktionen sind `abs()` für den Betrag und `sqrt()` für die Quadratwurzel einer Zahl. Die Funktionen `log()` bzw. `exp()` berechnen den (natürlichen) Logarithmus bzw. die Exponentialfunktion. Mit `sin()` bzw. `cos()` kann man den Sinus bzw. Cosinus berechnen. All diese Operatoren und Funktionen werden stets elementweise auf Vektoren angewendet.
 
 
 ### Recycling
 
-If two vectors in a calculation are of different lengths, R repeats the values of the shorter vector so that it has the same number of elements as the longer vector. This is called *recycling*. This is already the case, for example, when you multiply a vector with four elements by a scalar (a vector with one element), as in the following example:
+Wenn zwei Vektoren in einer Berechnung unterschiedlich lang sind, dann wiederholt R die Werte des kürzeren Vektors, sodass dieser dann gleich viele Elemente hat wie der längere Vektor. Man bezeichnet dies als *Recycling*. Dies ist z.B. auch schon der Fall, wenn man einen Vektor mit vier Elementen mit einem Skalar (Vektor mit einem Element) multipliziert, wie im folgenden Beispiel:
 
 ```{r}
 c(1, 2, 3, 4) * 2
 ```
 
-The scalar vector `2` is automatically extended to the vector `c(2, 2, 2, 2)`, so the above operation actually corresponds to the following element-wise calculation:
+Der skalare Vektor `2` wird automatisch auf den Vektor `c(2, 2, 2, 2)` erweitert, daher entspricht die obige Operation eigentlich folgender elementweisen Berechnung:
 
 ```{r}
 c(1, 2, 3, 4) * c(2, 2, 2, 2)
 ```
 
-Here's another example:
+Weiteres Beispiel:
 
 ```{r}
 c(1, 2, 3, 4) + c(0, 10)
 ```
 
-The shorter vector `c(0, 10)` is duplicated, and calculation is then performed element-wise:
+Der kürzere Vektor `c(0, 10)` wird verdoppelt und die Berechnung wird elementweise durchgeführt:
 
 ```{r}
 c(1, 2, 3, 4) + c(0, 10, 0, 10)
 ```
 
-If the recycling does not work out exactly, i.e., if the length of the longer vector is not an integer multiple of the shorter vector, recycling still works in principle, but R issues a warning:
+Wenn sich das Recycling nicht genau ausgeht, d.h. wenn die Länge des längeren Vektors kein ganzzahliges Vielfaches des kürzeren Vektors ist, dann funktioniert das Recycling zwar grundsätzlich trotzdem, aber es wird eine Warnung ausgegeben:
 
 ```{r}
 c(1, 2, 3, 4) + c(0, 10, 8)
 ```
 
-The calculation corresponds to the following operation:
+Die Berechnung entspricht daher folgender Operation:
 
 ```{r}
 c(1, 2, 3, 4) + c(0, 10, 8, 0)
 ```
 
 
-## Creating number sequences
+## Erstellen von Zahlenfolgen
 
-Vectors containing number sequences can be created with `:` or with `seq()`. In the first option, the step size is always 1, while in the second option, it can be adjusted as desired. The following examples illustrate this:
+Vektoren mit definierten Zahlenfolgen erstellt man mit `:` oder mit `seq()`. Bei der ersten Option ist die Schrittweite immer 1, bei der zweiten Option kann diese beliebig angepasst werden.
 
 ```{r}
 1:20
 pi:10
 9:2
-seq(1, 20)  # equivalent to 1:20
-seq(20, 1)  # equivalent to 20:1
-seq(0, 5, by=0.5)  # step size 0.5
-seq(5, 0, by=-0.5)  # negative step size required!
-seq(0, 20, 2)  # even numbers
-seq(1, 20, 2)  # odd numbers
-seq(1, 3, length.out=10)  # total length should be 10
+seq(1, 20)  # äquivalent zu 1:20
+seq(20, 1)  # äquivalent zu 20:1
+seq(0, 5, by=0.5)  # Schrittweite 0.5
+seq(5, 0, by=-0.5)  # negative Schrittweite notwendig!
+seq(0, 20, 2)  # gerade Zahlen
+seq(1, 20, 2)  # ungerade Zahlen
+seq(1, 3, length.out=10)  # Gesamtlänge des Ergebnisses soll 10 sein
 ```
 
-Therefore, the `seq()` function can be used to create number sequences with a specific step size (`by` argument) or with a specific total length (`length.out` argument).
+Mit `seq()` kann man also Zahlenfolgen mit bestimmter Schrittweite (Argument `by`) oder mit bestimmter Gesamtlänge (Argument `length.out`) erzeugen.
 
-The `rep()` function repeats given values a specified number of times:
+Die Funktion `rep()` wiederholt gegebene Werte:
 
 ```{r}
-rep(0, 90)  # create a vector with 90 zeros
+rep(0, 90)  # erzeuge einen Vektor mit 90 Nullen
 ```
 
 :::{.callout-tip}
-Now we can also see the meaning of the values in square brackets that appear before each output line: they indicate the index of the first element of the line (so in the example `[1]` for the first line and `[59]` for the second line). This is useful when the output is long and you want to know which element you are looking at.
+Hier kann man auch die Bedeutung der Werte in eckigen Klammern erkennen, die vor jeder Ausgabezeile stehen: sie geben den Index des ersten Elements der Zeile an (also im Beispiel `[1]` für die erste Zeile und `[59]` für die zweite Zeile).
 ::: 
 
-Notice the different results when using the `times` or `each` arguments:
+Beachten Sie auch die unterschiedlichen Ergebnisse durch Verwendung der Argumente `times` bzw. `each`:
 
 ```{r}
 rep(c(0, 1, 2), times=10)
 rep(c(0, 1, 2), each=10)
-rep(c(0, 1, 2), times=c(10, 10, 10))  # same result as above
+rep(c(0, 1, 2), times=c(10, 10, 10))  # gleiches Ergebnis wie mit each
 ```
 
 
-## Indexing
+## Indizieren
 
-Vectors can be indexed, i.e., individual elements can be extracted. In contrast to many other programming languages, R starts counting at 1 (i.e., the first element corresponds to index 1). R uses square brackets to specify the desired elements.
+Vektoren können indiziert werden, d.h. einzelne Elemente können herausgegriffen werden. Im Gegensatz zu vielen anderen Programmiersprachen beginnt R mit 1 zu zählen (d.h. das erste Element entspricht dem Index 1). Man verwendet dazu eckige Klammern, innerhalb derer die gewünschten Elemente angegeben werden.
 
-Let's consider the following vector `x`, which consists of 11 elements:
+Betrachten wir in den folgenden Beispielen den Vektor `x`, welcher aus 11 Elementen besteht:
 
 ```{r}
 (x = seq(10, 110, 10))
 length(x)
 ```
 
-We now create new subsets of the existing vector by indexing (each result is a new vector):
+Nun erzeugen wir durch Indizieren neue Untermengen des bestehenden Vektors:
 
 ```{r}
-x[1]  # element 1
-x[4]  # element 4
-x[1:5]  # elements 1-5
-x[c(1, 4, 8)]  # elements 1, 4, and 8
+x[1]  # 1. Element
+x[4]  # 4. Element
+x[1:5]  # Elemente 1-5
+x[c(1, 4, 8)]  # Elemente 1, 4 und 8
 ```
 
-Negative indices mean "all elements *except* the specified ones":
+Negative Indizes bedeuten "alle Elemente *außer* die angegebenen":
 
 ```{r}
 x[c(-1, -10)]
 x[-c(1, 10)]
 ```
 
-Logical vectors can also be used for indexing. To do this, we first create a logical vector (e.g., by comparing) and then use it as an index within the square brackets (this can be done in one step). The elements for which the index vector is `TRUE` are selected.
+Man kann auch mit logischen Vektoren indizieren. Dazu erstellt man zuerst einen logischen Vektor (z.B. durch einen Vergleich) und verwendet diesen dann als Index innerhalb der eckigen Klammern (dies kann direkt in einem Schritt gemacht werden). Dabei werden jene Elemente herausgegriffen, für die der Indexvektor `TRUE` ist.
 
 ```{r}
 x
 x[c(TRUE, FALSE, TRUE, FALSE, FALSE, FALSE, FALSE, FALSE, TRUE, FALSE, FALSE)]
 ```
 
-The following example illustrates creating the logical index vector through a comparison:
+Das folgende Beispiel illustriert die Erstellung des logischen Indexvektors durch einen Vergleich:
 
 ```{r}
-x > 40  # comparison
-x[x > 40]  # all elements of x that are greater than 40
+x > 40
+x[x > 40]
 ```
 
-Usually, the logical index vector has the same length as the vector to be indexed. However, if the index vector is shorter, R will recycle it:
+Idealerweise ist der logische Indexvektor gleich lang wie der zu indizierende Vektor. Falls der Indexvektor kürzer ist, findet wieder Recycling statt:
 
 ```{r}
 x[c(FALSE, TRUE)]
 ```
 
 
-## Named vectors
+## Benannte Vektoren
 
-Vectors can also contain elements with names. This way, we can index with the element names instead of the position.
+Vektoren können auch Elemente mit Namen enthalten. So kann man auch mit den Elementnamen anstatt mit der Position indizieren.
 
 ```{r}
-(vect = c(a=11, b=2, c=NA))  # argument names will be used as element names
+(vect = c(a=11, b=2, c=NA))  # Argumentnamen werden als Elementnamen verwendet
 vect[2]
 vect["b"]
 ```
 
-The `names()` function returns the names of the elements:
+Die Funktion `names()` gibt die Namen der Elemente zurück:
 
 ```{r}
 names(vect)
 ```
 
-This function can also be used to set the element names of any vector after the fact:
+Mit dieser Funktion kann man die Elementnamen eines Vektors auch nachträglich setzen:
 
 ```{r}
 x = 1:3
@@ -351,122 +352,122 @@ x
 ```
 
 
-## Missing values
+## Fehlende Werte
 
-R encodes missing values with the special value `NA` ("Not Available"). Missing values can occur in any type of vector. The following example creates a numeric vector with two missing values:
+In R können fehlende Werte mit dem speziellen Wert `NA` (Not Available) codiert werden.
 
 ```{r}
 (vect = c(15, 1.12, NA, 12, NA, 33.22))
 ```
 
-The `is.na()` function can be used to determine the missing values. This way, all values from a vector that are not missing can be extracted.
+Mit der Funktion `is.na()` können die fehlenden Werte bestimmt werden. So kann man alle Werte aus einem Vektor extrahieren, die nicht `NA` sind.
 
 ```{r}
-is.na(vect)  # indices of missing values
-!is.na(vect)  # indices of non-missing values
-vect[!is.na(vect)]  # extract all non-missing values
+is.na(vect)  # die fehlenden Werte
+!is.na(vect)  # die nicht fehlenden Werte
+vect[!is.na(vect)]
 ```
 
 :::{.callout-important}
-To find out which elements of a vector are missing, you cannot compare with `NA`:
+Um herauszufinden, welche Elemente eines Vektors fehlen, darf man nicht mit `NA` vergleichen:
 
 ```{r}
 vect == NA
 ```
 
-Since this comparison always results in `NA`, use the `is.na()` function instead!
+Dieser Vergleich ergibt immer `NA`! Stattdessen sollte man die Funktion `is.na()` verwenden.
 :::
 
 
-## Exercises
+## Übungen
 
-### Exercise 1
+### Übung 1
 
-Calculate the surface area (base plus lateral surface) and the volume of a cylinder with a radius of 5 and a height of 9. Create the variables `r` and `h` for this purpose and store the results in the variables `A` (area) and `V` (volume). What are the results (i.e., the values of both variables)?
-
-
-### Exercise 2
-
-Create a vector `x` with the elements 4, 18, -7, 16, 4, and -44. Then create a vector `y` containing the squared elements of `x` (remember that R performs arithmetic operations element-wise). Finally, create a vector `z` by concatenating `x` and `y`. Which function can you use to determine the number of elements in `z`?
+Berechnen Sie die Oberfläche (Grundflächen plus Mantelfläche) sowie das Volumen eines Zylinders mit Radius 5 und Höhe 9. Erzeugen Sie dafür die Variablen `r` und `h`. Speichern Sie die Ergebnisse in den Variablen `A` (Fläche) bzw. `V` (Volumen) ab. Wie lauten die Ergebnisse (also die Werte beider Variablen)?
 
 
-### Exercise 3
+### Übung 2
 
-Given the following vector:
+Erstellen Sie einen Vektor `x` mit den Elementen 4, 18, -7, 16, 4 und -44. Erstellen Sie danach einen Vektor `y`, welcher die quadrierten Elemente aus `x` enthält (nutzen Sie dazu die Eigenschaft, dass R Rechenoperationen elementweise durchführt). Zum Schluss erstellen Sie einen Vektor `z`, indem Sie `x` und `y` aneinanderhängen. Mit welcher Funktion können Sie die Anzahl der Elemente in `z` bestimmen?
+
+
+### Übung 3
+
+Gegeben sei folgender Vektor:
 
 ```r
 x = c(44, 23, -56, 98, 99, 32, 45, 22)
 ```
 
-Which elements of `x` are even? Which elements are odd? Create two logical vectors that you can use to index the even and odd elements of `x`.
+Welche Elemente aus `x` sind gerade? Welche Elemente sind ungerade? Erstellen Sie zwei entsprechende logische Vektoren, welche Sie dann zum Indizieren der geraden bzw. ungeraden Elemente von `x` verwenden können.
 
 ::: {.callout-note}
-Do not create the logical index vectors manually (i.e., for the even numbers in this example, the desired logical index vector is `c(TRUE, FALSE, TRUE, TRUE, FALSE, TRUE, FALSE, TRUE)`), but use a comparison instead. Remember that even numbers have a remainder of 0 when divided by 2 and odd numbers have a remainder of 1. Use the `%%` operator to calculate the remainder of a division. Create a logical index vector with a comparison (for even numbers, compare if the remainder is 0, for odd numbers, compare if the remainder is 1), which you can then use for indexing.
+Erstellen Sie die logischen Indexvektoren mit einem Vergleich und nicht händisch (d.h. für die geraden Zahlen in diesem Beispiel wäre der gesuchte logische Indexvektor `c(TRUE, FALSE, TRUE, TRUE, FALSE, TRUE, FALSE, TRUE)`, dies sollen Sie aber nicht so eingeben). Verwenden Sie stattdessen die Eigenschaft, dass gerade Zahlen einen Rest von 0 ergeben wenn man sie durch 2 dividiert. Ungerade Zahlen ergeben hier einen Rest von 1. Verwenden Sie daher den Operator `%%` für den Rest einer Division. Erstellen Sie dann mit einem Vergleich jeweils einen logischen Indexvektor (für die geraden Zahlen vergleichen Sie ob der Rest 0 ist, für die ungeraden Zahlen ob der Rest 1 ist), welchen Sie dann zum Indizieren verwenden können.
 :::
 
 
-### Exercise 4
+### Übung 4
 
-Create the following vectors and display them on the screen:
+Erstellen Sie folgende Vektoren und geben Sie sie am Bildschirm aus:
 
-- A vector with all integers from 15 to 40.
-- A vector with descending numbers from 75 to 61 in steps of three.
-- A vector consisting of exactly 35 numbers between 14 and 15.
-
-
-### Exercise 5
-
-Create a character vector with the following entries: 10 times `"Placebo"`, then 10 times `"Group 1"`, and finally 10 times `"Group 2"` (i.e., the result should have 30 elements).
+- Einen Vektor mit den ganzen Zahlen von 15 bis 40.
+- Einen Vektor mit den absteigenden Zahlen von 75 bis 61 in Dreierschritten.
+- Einen Vektor bestehend aus genau 35 Zahlen zwischen 14 und 15.
 
 
-### Exercise 6
+### Übung 5
 
-Create a vector `k` with the *even* numbers from 0 to 20 (preferably with the `seq()` function and the appropriate step size). Then display the following elements of this vector on the screen by indexing:
-
-- All elements except the 3rd and 7th element
-- The first five elements
-- The elements 2, 5, and 16 (do you notice something here?)
-- All elements greater than 11
+Erstellen Sie einen Zeichenketten-Vektor mit folgenden Einträgen: zuerst 10 mal `"Placebo"`, dann 10 mal `"Group 1"` und schließlich 10 mal `"Group 2"` (d.h. das Ergebnis soll 30 Elemente haben).
 
 
-### Exercise 7
+### Übung 6
 
-Create the following vector:
+Erstellen Sie einen Vektor `k` mit den *geraden* Zahlen von 0 bis 20 (am besten mit der Funktion `seq()` und der entsprechenden Schrittweite). Geben Sie dann durch Indizieren die folgenden Elemente dieses Vektors am Bildschirm aus:
+
+- Alle Elemente bis auf das 3. und 7. Element
+- Die ersten fünf Elemente
+- Die Elemente 2, 5 und 16 (fällt Ihnen hier etwas auf?)
+- Alle Elemente, die größer als 11 sind
+
+
+### Übung 7
+
+Erstellen Sie folgenden Vektor:
 
 ```r
 t = c(10, 20, NA, 30, 40)
 ```
 
-Calculate the mean of `t` with the `mean()` function. How does the missing value `NA` influence the result? Consult the documentation of the `mean()` function to find out how you can ignore missing values (which optional argument do you have to set?) and perform this calculation again.
+Berechnen Sie dann mit der Funktion `mean()` den Mittelwert von `t`. Was bewirkt der fehlende Wert `NA`? Sehen Sie in der Hilfe zum Befehl `mean()` nach, wie Sie fehlende Werte bei der Berechnung ignorieren können (welches optionale Argument müssen Sie setzen?) und führen Sie diese Berechnung durch.
 
-Alternatively, you could identify all missing values in `t` with `is.na()` and then apply the `mean()` function to all non-missing values in `t` via indexing (as shown in the course materials).
+Alternativ könnten Sie mit `is.na()` alle fehlenden Werte aus `t` identifizieren und dann die Funktion `mean()` auf alle nicht fehlenden Werte aus `t` anwenden (so wie in den Unterlagen gezeigt).
 
 
-### Exercise 8
+### Übung 8
 
-Given the following standard deviations of five measurements in a vector `s`:
+Gegeben seien folgende Standardabweichungen von fünf Messgrößen in einem Vektor `s`:
 
 ```r
 s = c(1, 11.3, 7.8, 3.4, 6)
 ```
 
-How can you calculate the five variances (in one step)?
+Wie können Sie daraus in einem Schritt die fünf Varianzen berechnen?
 
 
-### Exercise 9
+### Übung 9
 
-Given the following vector `x`:
+Gegeben sei folgender Vektor `x`:
 
 ```r
 x = c(2, 0, -5, 0, 1, -1, 0, 3, 0, 0, 7)
 ```
 
-Create a logical vector that indicates which elements of `x` are equal to `0`. How many values are these? At which positions are these values located? Use the functions `sum()` and `which()` to answer these questions!
+Angenommen, Sie sind an den Werten interessiert, die gleich `0` sind. Wie können Sie diese finden? Wie viele Werte sind das? An welchen Positionen befinden sich diese Werte? Verwenden Sie zur Beantwortung der letzten beiden Fragen die Funktionen `sum()` bzw. `which()`!
 
 
-### Exercise 10
+### Übung 10
 
-Assume you want to extract the second, fourth, and sixth element from the vector `x = 1:10` and assign it to `y`. Why doesn't this work as shown in the following example?
+Angenommen, Sie möchten das zweite, vierte und sechste Element aus dem Vektor `x = 1:10` herausgreifen und `y` zuweisen. Warum funktioniert das nicht wie im folgenden Beispiel dargestellt?
 
 ```{r}
 x = 1:10
@@ -476,4 +477,4 @@ x = 1:10
 y = x[2, 4, 6]
 ```
 
-Provide a working solution to this problem.
+Geben Sie den korrekten Code an!

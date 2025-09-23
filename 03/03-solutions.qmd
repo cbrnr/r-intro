@@ -1,8 +1,8 @@
 ---
-title: "3 – Solutions"
-subtitle: "Statistical Data Analysis with R"
+title: "3 – Lösungen"
+subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2025-03-17
+date: 2025-10-16
 format:
   html:
     page-layout: full
@@ -16,19 +16,22 @@ title-block-banner: true
 theme:
   light: flatly
   dark: darkly
+lang: de
+author-title: "Autor"
+published-title: "Veröffentlicht"
 ---
 
-## Exercise 1
+## Übung 1
 
 ```{r}
-r = 5  # radius
-h = 9  # height
-(A = 2 * r * pi * (r + h))  # area
-(V = r**2 * pi * h)  # volume
+r = 5  # Radius
+h = 9  # Höhe
+(A = 2 * r * pi * (r + h))  # Oberfläche
+(V = r**2 * pi * h)  # Volumen
 ```
 
 
-## Exercise 2
+## Übung 2
 
 ```{r}
 (x = c(4, 18, -7, 16, 4, -44))
@@ -38,18 +41,18 @@ length(z)
 ```
 
 
-## Exercise 3
+## Übung 3
 
 ```{r}
 x = c(44, 23, -56, 98, 99, 32, 45, 22)
-x %% 2 == 0  # logical vector, TRUE for even elements
-x[x %% 2 == 0]  # even elements of x
-x %% 2 != 0  # logical vector, TRUE for odd elements
-x[x %% 2 != 0]  # odd elements of x
+x %% 2 == 0  # logischer Vektor, TRUE bei geraden Elementen
+x[x %% 2 == 0]  # gerade Elemente von x
+x %% 2 != 0  # logischer Vektor, TRUE bei ungeraden Elemente
+x[x %% 2 != 0]  # ungerade Elemente von x
 ```
 
 
-## Exercise 4
+## Übung 4
 
 ```{r}
 15:40
@@ -58,43 +61,42 @@ seq(14, 15, length.out=35)
 ```
 
 
-## Exercise 5
+## Übung 5
 
 ```{r}
-rep(c("Placebo", "Group 1", "Group 2"), each=10)
+rep(c("Placebo", "Gruppe 1", "Gruppe 2"), each=10)
 ```
 
 
-## Exercise 6
+## Übung 6
 
 ```{r}
 k = seq(0, 20, 2)
 k[-c(3, 7)]
 k[1:5]
-k[c(2, 5, 16)]  # element 16 does not exist -> NA
+k[c(2, 5, 16)]  # das 16. Element gibt es nicht -> NA
 k[k > 11]
 ```
 
 
-## Exercise 7
+## Übung 7
 
 ```{r}
 t = c(10, 20, NA, 30, 40)
-mean(t)  # result is NA
-mean(t, na.rm=TRUE)  # ignores NA elements
-mean(t[!is.na(t)])  # alternative way to ignore NA elements
+mean(t)  # Ergebnis ist NA
+mean(t, na.rm=TRUE)  # NA-Elemente werden ignoriert
 ```
 
 
-## Exercise 8
+## Übung 8
 
 ```{r}
-s = c(1, 11.3, 7.8, 3.4, 6)  # standard deviations
-s**2  # variances
+s = c(1, 11.3, 7.8, 3.4, 6)  # Standardabweichungen
+s**2  # Varianzen (elementweises Quadrieren)
 ```
 
 
-### Exercise 9
+### Übung 9
 
 ```{r}
 x = c(2, 0, -5, 0, 1, -1, 0, 3, 0, 0, 7)
@@ -103,16 +105,12 @@ sum(x == 0)
 which(x == 0)
 ```
 
-::: {.callout-tip}
-R treats `TRUE` as `1` and `FALSE` as `0`. Therefore, `sum(x == 0)` counts the number of `TRUE` values in the logical vector `x == 0`.
-:::
 
+### Übung 10
 
-### Exercise 10
+Innerhalb der eckigen Klammer muss immer exakt *ein* Vektor sein. Möchte man also drei Positionen indizieren, muss dieser Vektor also mit `c()` erzeugt werden. Deswegen funktioniert `x[2, 4, 6]` nicht, weil hier innerhalb der eckigen Klammern drei Vektoren angegeben werden (mit Kommas voneinander getrennt).
 
-The indices inside the square brackets must always be contained in a *single* vector. If you want to index three positions, you need to create this vector with `c()`. Therefore, `x[2, 4, 6]` does not work because three vectors are specified (separated by commas) instead of a single vector.
-
-The correct way to index the second, fourth, and sixth element of `x` is therefore:
+Der korrekte Code lautet also:
 
 ```{r}
 x = 1:10
