@@ -2,7 +2,7 @@
 title: "1 – Grundlagen"
 subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2025-10-09
+date: 2025-10-02
 format:
   html:
     page-layout: full
