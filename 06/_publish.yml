@@ -2,7 +2,13 @@
   netlify:
     - id: 7ae71a15-42d2-4607-b26b-9d789a833b48
       url: https://r-25s-06.netlify.app/
+  quarto-pub:
+    - id: b0a1bf1a-0e16-4f02-b7bf-ab0cdda21d25
+      url: https://cbrnr.quarto.pub/r-25w-06
 - source: 06-solutions.qmd
   netlify:
     - id: 587d290b-308e-4027-8d4b-7a861635403d
       url: https://r-25s-06-solutions.netlify.app/
+  quarto-pub:
+    - id: 732988cc-1ac9-4a9d-8e84-6685812d3e73
+      url: https://cbrnr.quarto.pub/r-25w-06-solutions
