@@ -1,8 +1,8 @@
 ---
-title: "5 – Solutions"
-subtitle: "Statistical Data Analysis with R"
+title: "5 – Lösungen"
+subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2025-03-31
+date: 2025-11-06
 format:
   html:
     page-layout: full
@@ -16,9 +16,12 @@ title-block-banner: true
 theme:
   light: flatly
   dark: darkly
+lang: de
+author-title: "Autor"
+published-title: "Veröffentlicht"
 ---
 
-## Exercise 1
+## Übung 1
 
 ```{r}
 library(readr)
@@ -28,23 +31,24 @@ library(readr)
 ?read_delim
 ```
 
-The following arguments are used:
+Folgende Argumente werden verwendet:
 
-- Column separator: `delim` (which follows the file name argument); if it is not specified, the function tries to automatically detect the column separator
-- Decimal mark: `locale` (e.g., `locale=locale(decimal_mark=",")` for German number formatting)
-- Missing values: `na`
+- Spaltentrennzeichen: `delim`, dieses Argument folgt nach dem Dateinamen; wird es nicht angegeben, versucht die Funktion das Spaltentrennzeichen automatisch zu erkennen
+- Dezimaltrennzeichen: `locale` (z.B. `locale=locale(decimal_mark=",")` für deutsche Zahlenschreibweise)
+- Fehlende Werte: `na`
 
 
-## Exercise 2
+## Übung 2
 
 ```{r}
 #| message: false
 (df = read_csv2("homework.csv"))
 ```
 
-The data types of the four columns are `<chr>`, `<dbl>`, `<dbl>`, `<dbl>` – i.e., the function correctly recognized the German number formatting.
+Die Datentypen der vier Spalten sind `<chr>`, `<dbl>`, `<dbl>`, `<dbl>` – d.h. das deutsche Zahlenformat wurde korrekt importiert.
 
-## Exercise 3
+
+## Übung 3
 
 ```{r}
 #| message: false
@@ -53,7 +57,7 @@ round(colSums(wahl16[, -1]) / sum(wahl16[, -1]) * 100, 1)
 ```
 
 
-## Exercise 4
+## Übung 4
 
 ```{r}
 #| message: false
@@ -63,25 +67,25 @@ covid
 dim(covid)
 ```
 
-Alternatively, you can specify the desired column types directly during import using `col_types`:
+Man könnte die gewünschten Spaltentypen auch direkt beim Importieren mittels `col_types` angeben:
 
 ```r
 covid = read_csv2("covid19.csv", col_types=cols(Time=col_date("%d.%m.%Y %H:%M:%S")))
 ```
 
 
-## Exercise 5
+## Übung 5
 
 ```{r}
 #| message: false
 (df = read_delim("household_power_consumption.zip", delim=";", na=c("?", "")))
-dim(df)  # 2,075,259 rows and 9 columns
+dim(df)  # 2.075.259 Zeilen und 9 Spalten
 ```
 
-We could convert the `Date` column to a more appropriate `date` type (it is currently `character`).
+Die Spalte `Date` könnte man noch in einen passenderen Typ konvertieren (ist jetzt `character`).
 
 
-## Exercise 6
+## Übung 6
 
 
 ```{r}
@@ -89,4 +93,4 @@ x = c(1, 2, 3)
 factor(x, levels=c(1, 2), labels=c("one", "two"))
 ```
 
-The resulting factor has levels `1` and `2`, but the original vector `x` also contains the value `3`. This value is not included in the `levels` argument, so it is set to `NA` in the resulting factor.
+Man erkennt, dass alle Stufen, die nicht in `levels` enthalten sind, auch nicht im resultierenden Faktor vorkommen. Daher werden solche Werte auf `NA` gesetzt.

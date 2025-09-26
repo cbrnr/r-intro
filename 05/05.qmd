@@ -1,8 +1,8 @@
 ---
-title: "5 – Importing Data"
-subtitle: "Statistical Data Analysis with R"
+title: "5 – Daten importieren"
+subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2025-03-31
+date: 2025-11-06
 format:
   html:
     page-layout: full
@@ -16,34 +16,41 @@ title-block-banner: true
 theme:
   light: flatly
   dark: darkly
+lang: de
+author-title: "Autor"
+published-title: "Veröffentlicht"
 ---
 
-## Introduction
+## Allgemeines
 
-R can handle data in many different formats, such as Excel spreadsheets or SPSS datasets. However, these formats are proprietary and therefore not well suited for storing your own data. Ideally, you should save data in an open and simple format that can be opened with a wide variety of (freely available) programs. One example of a simple format is a plain text file that can be opened with any text editor.
+R kann mit Daten in vielen unterschiedlichen Formaten umgehen, beispielsweise mit Excel-Tabellen oder auch SPSS-Datensätzen. Diese Formate sind allerdings proprietär und daher für das Abspeichern eigener Daten weniger gut geeignet. Idealerweise speichert man Daten in einem offenen und möglichst einfach aufgebauten Format ab, welches man mit einer Vielzahl an (frei verfügbaren) Programmen öffnen kann. Ein Beispiel für ein einfaches Format ist eine Textdatei, die man mit jedem beliebigen Texteditor öffnen kann.
 
 
-## Text files
+## Textdateien
 
-Data in text files are often separated by commas – this allows representing values from multiple columns of a table. Such formatted text files often have the extension `.csv` ("comma-separated values"). However, there are also other ways to separate values (or columns) from each other, e.g. with semicolons or tabs. Files with these separators often have the extensions `.dat` or `.tsv` ("tab-separated values").
+Daten in Textdateien werden häufig mit Kommas voneinander getrennt – so kann man Werte aus mehreren Spalten einer Tabelle darstellen. Solche speziell formatierten Textdateien haben daher häufig die Endung `.csv` ("comma-separated values"). Es gibt aber auch andere Möglichkeiten, Werte (bzw. Spalten) voneinander zu trennen, z.B. mit Semikolons (Strichpunkten) oder Tabulatoren. Solche Dateien haben dann oft die Endungen `.dat` oder `.tsv` ("tab-separated values").
 
 :::{.callout-note}
-File extensions are just conventions and do not always reflect the actual content of the file. Text files often use extensions like `.csv`, `.tsv`, or `.dat`, but a `.csv` file might use tabs or semicolons instead of commas. The only way to know for sure is to open the file.
+Dateiendungen sind eine Konvention und müssen nicht zwingend etwas mit dem tatsächlichen Inhalt der Datei zu tun haben. Textdateien werden oft mit den bereits erwähnten Erweiterungen `.csv`, `.tsv` und `.dat` versehen. Es kann aber durchaus vorkommen, dass eine Textdatei z.B. mit der Endung `.csv` Werte mit Tabulatoren oder Strichpunkten trennt statt mit Kommas. Letztendlich kann man das nur herausfinden, indem man die Datei öffnet.
 :::
 
-The [Tidyverse](https://www.tidyverse.org/) includes the `readr` package, which can import text files in a wide variety of formats. This often works better and faster than the functions that come with base R. Data imported with the `readr` package is also immediately available as a tibble. Therefore, in this course, we will only use functions from `readr` to import text files.
+Das [Tidyverse](https://www.tidyverse.org/) beinhaltet das Paket `readr`, welches Textdateien in den unterschiedlichsten Formaten importieren kann. Dies funktioniert oft besser und schneller als mit den Funktionen, die standardmäßig mit R mitgeliefert werden. Die mit dem `readr`-Paket eingelesenen Daten stehen außerdem gleich als Tibble zur Verfügung. Daher werden wir in dieser Lehrveranstaltung ausschließlich Funktionen aus `readr` zum Importieren von Textdateien verwenden.
 
 ```{r}
 library(readr)
 ```
 
 :::{.callout-important}
-Functions for importing text data from the `readr` package all start with `read_` (underscore), whereas functions that come with R start with `read.` (dot).
+Funktionen zum Importieren von Textdaten aus dem `readr`-Paket beginnen alle mit `read_`, wohingegen die mit R mitgelieferten Funktionen mit `read.` beginnen.
 :::
 
-The key function in the `readr` package is `read_delim()`, which provides extensive control over parameters such as column separators, header rows, comments, and missing values to match the file you want to import. For common cases, `read_csv()` is a convenient wrapper with sensible defaults for comma-separated data, while `read_tsv()` handles tab-separated data. Additionally, `read_csv2()` is designed for semicolon-separated data, using a comma as the decimal separator. However, all of these wrappers use `read_delim()` under the hood, which can handle all text file formats with appropriate arguments.
+Die wichtigste Funktion aus dem Paket `readr` heißt `read_delim()`. Hier kann man sehr viele Parameter genau auf die einzulesende Datei abstimmen (z.B. das Spaltentrennzeichen, ob es eine Kopfzeile mit Spaltennamen gibt, ob Kommentare oder fehlende Werte vorhanden sind, usw.). Für Daten im CSV-Format (Spalten sind durch Kommas getrennt) gibt es die Wrapper-Funktion `read_csv()`, welche sinnvolle Standardwerte für diverse Argumente annimmt. Für Daten, die mit Tabulatoren getrennt sind, gibt es die Wrapper-Funktion `read_tsv()`.
 
-As an example, let's look at a text file called [`lecturer.csv`](lecturer.csv). If you don't know how the data in a text file is actually formatted, you can open its contents in the RStudio editor with the `file.show()` function (or use the "File" – "Open File..." menu item):
+:::{.callout-note}
+Diese "Wrapper-Funktionen" rufen im Grunde also einfach `read_delim()` mit speziellen Argumenten auf.
+:::
+
+Als Beispiel sehen wir uns eine Textdatei namens [`lecturer.csv`](lecturer.csv) an. Wenn man nicht weiß, wie die Daten in einer Textdatei tatsächlich formatiert sind, kann man deren Inhalt mit der Funktion `file.show()` im RStudio-Editor öffnen:
 
 ```r
 file.show("lecturer.csv")
@@ -63,42 +70,36 @@ Mark,5/20/1973,2,12,17,10000,14
 Zoe,11/12/1984,2,17,18,10,13
 ```
 
-You can see that in this specific file, the columns are indeed separated by commas (so the `.csv` extension matches the content). The first row is a header row with column names.
+Man erkennt, dass bei dieser konkreten Datei die einzelnen Spalten tatsächlich durch Kommas getrennt sind (hier passt also die Endung `.csv` zum Inhalt). Außerdem ist eine Kopfzeile mit den Spaltennamen vorhanden.
 
-The `read_delim()` function usually recognizes the column separator automatically, so you only need to pass the file name as an argument:
+Die Funktion `read_delim()` erkennt das Spaltentrennzeichen meistens automatisch, d.h. es reicht, wenn man ihr lediglich den Dateinamen als Argument übergibt:
 
 ```{r}
 #| message: false
 read_delim("lecturer.csv")
 ```
 
-::: {.callout-important}
-If you only specify the file name, R will look for the file in the current working directory. If the file is located relative to the current working directory (for example, in a sub-folder), you can specify a relative path to the file. I do not recommend to specify the full absolute path to the file, as this makes the script less reproducible, because this particular path might not be available on another computer.
-
-Therefore, always make sure that data files are always located in the same directory as the script or in a sub-folder of the script directory.
-:::
-
-If the automatic detection fails, you can explicitly pass the separator with the `delim` argument:
+Falls die automatische Erkennung einmal nicht funktionieren sollte, kann man das Trennzeichen aber mit dem Argument `delim` explizit übergeben:
 
 ```{r}
 #| message: false
 read_delim("lecturer.csv", delim=",")
 ```
 
-The result (a tibble) looks correct – it has 10 rows and 7 columns with sensible data types in all columns. We can assign it directly to a variable to continue working with it:
+Das Ergebnis (ein Tibble) sieht korrekt aus – es hat 10 Zeilen und 7 Spalten mit sinnvollen Datentypen in allen Spalten. Wir können es direkt einer Variablen zuweisen, um damit weiterarbeiten zu können:
 
 ```{r}
 #| message: false
 df = read_delim("lecturer.csv")
 ```
 
-Alternatively, we could have used the wrapper function `read_csv()`, which expects a comma as the column separator:
+Für diese Datei hätten wir alternativ auch die Wrapper-Funktion `read_csv()` verwenden können, hier wird standardmäßig ein Komma als Spaltentrennzeichen angenommen:
 
 ```r
 read_csv("lecturer.csv")
 ```
 
-Let's look at the same data, but this time it is separated by tabs in a `.dat` file called [`lecturer.dat`](lecturer.dat). To read this file, we can either use the generic `read_delim()` function with automatic detection (or if that doesn't work, with `delim="\t"`, where `\t` represents the tab character) or directly use the `read_tsv()` wrapper:
+Sehen wir uns als zweites Beispiel dieselben Daten an, die aber diesmal mit Tabulatoren voneinander getrennt in einer `.dat`-Datei vorliegen. Um diese Datei namens [`lecturer.dat`](lecturer.dat) einzulesen, können wir entweder die generische Funktion `read_delim()` mit der automatischen Erkennung verwenden (bzw. falls das nicht funktionieren sollte mit `delim="\t"`, wobei `\t` die Darstellung des Tabulator-Zeichens ist) oder direkt die spezialisierte Funktion `read_tsv()`:
 
 ```r
 read_delim("lecturer.dat")
@@ -106,16 +107,16 @@ read_delim("lecturer.dat", delim="\t")
 read_tsv("lecturer.dat")
 ```
 
-Another important feature of such text files is how they represent the decimal separator. In English, we use a point (dot) for decimals (e.g., `12.3` or `3.1415`), whereas in German, we use a comma (e.g., `12,3` or `3,1415`). You can specify the decimal separator in `read_delim()` using the `locale` argument, which defaults to a point (as in `read_csv()` and `read_tsv()`). When numbers follow German notation, commas cannot also separate columns, so semicolons are typically used. For such files, set `delim=";"` and `locale=locale(decimal_mark=",")`, or use the `read_csv2()` wrapper, which assumes semicolons and commas as defaults.
+Ein weiteres wichtiges Merkmal solcher Textdateien ist das verwendete Dezimaltrennzeichen bei Kommazahlen. In der englischen Schreibweise wird ein Punkt als Dezimaltrennzeichen verwendet (z.B. `12.3` oder `3.1415`). In der deutschen Schreibweise wird hingegen ein Komma verwendet (z.B. `12,3` oder `3,1415`). Das Dezimaltrennzeichen kann in der Funktion `read_delim()` mit dem Argument `locale` festgelegt werden. Es ist standardmäßig auf einen Punkt gesetzt, ebenso bei den Funktionen `read_csv()` und `read_tsv()`. Sollten Zahlen jedoch in der deutschen Schreibweise vorliegen, können die Spalten nicht auch durch Kommas getrennt sein – hier werden diese dann oft durch Semikolons getrennt. Für solche Textdateien setzt man daher die Argumente `delim=";"` und `locale=locale(decimal_mark=",")` bzw. verwendet die Wrapper-Funktion `read_csv2()` (welche ein Semikolon als Spaltentrennzeichen und ein Komma als Dezimaltrennzeichen annimmt).
 
 :::{.callout-important}
-Regardless of how decimal separators are represented in text files, R always uses a *point* for decimal numbers!
+Unabhängig davon, wie Dezimaltrennzeichen in den Textdateien dargestellt werden, verwendet R für Dezimalzahlen *immer* einen *Punkt*!
 :::
 
 
-## SPSS data
+## Daten aus SPSS
 
-If you want to read existing SPSS datasets (`.sav`), you can use the `read_sav()` function from the `haven` package. This package can also import data from SAS and Stata. The following example imports data from the SPSS file [`lecturer.sav`](lecturer.sav):
+Sollen bereits vorhandene SPSS-Datensätze (`.sav`) importiert werden, kann man dazu die Funktion `read_sav()` aus dem Paket `haven` verwenden. Das Ergebnis ist wieder ein Tibble. Das `haven`-Paket kann übrigens auch Daten aus SAS und Stata importieren. Das folgende Beispiel importiert Daten aus der Datei [`lecturer.sav`](lecturer.sav):
 
 ```r
 library(haven)
@@ -123,9 +124,9 @@ df = read_sav("lecturer.sav")
 ```
 
 
-## Excel data
+## Daten aus Excel
 
-If data is available as an Excel file (extension `.xlsx` or `.xls`), you can use the `read_excel()` function from the `readxl` package. Since this package is part of the Tidyverse, it also produces a tibble, as shown in the following example using [`lecturer.xlsx`](lecturer.xlsx):
+Wenn Daten als Excel-Datei (Endung `.xlsx` oder `.xls`) vorliegen, verwendet man zum Einlesen die Funktion `read_excel()` aus dem Paket `readxl`. Da dieses Paket Teil des Tidyverse ist, bekommt man auch hier ein Tibble zurückgeliefert, wie das folgende Beispiel anhand von [`lecturer.xlsx`](lecturer.xlsx) zeigt:
 
 ```r
 library(readxl)
@@ -133,138 +134,138 @@ df = read_excel("lecturer.xlsx")
 ```
 
 
-## Importing data with RStudio
+## Importieren mit RStudio
 
-RStudio provides a graphical dialog to import data in many formats. Conveniently, you always get the corresponding R code that correctly imports the data – this code can then be used in your own scripts.
+Mit RStudio kann man Daten in vielen Formaten auch mit einem grafischen Dialog importieren. Praktischerweise bekommt man immer den dazugehörigen R-Code mitgeliefert, welcher die Daten korrekt importiert – diesen Code kann man dann in eigenen Scripts verwenden.
 
-To import data, you can click on the desired file in the *Files* view in the lower right corner and select *Import Dataset*. Alternatively, click on *Import Dataset* in the *Environment* view in the upper right corner, followed by the desired format (for text files, make sure to select "From Text (readr)..."). This functionality is also available in the *File* menu under the *Import Dataset* entry. A new window opens, showing a preview of the file to be imported. You can also tweak various parameters (depending on the file format to be imported) – the effect on the imported data is immediately visible in the preview. The corresponding R code is located at the bottom right. The following image shows this dialog for the previous example SPSS file.
+Dazu klickt man in der *Files*-Ansicht rechts unten auf die gewünschte Datei und wählt *Import Dataset* aus. Alternativ kann man in der *Environment*-Ansicht rechts oben auf *Import Dataset*, gefolgt vom gewünschten Format, klicken. Diese Funktionalität ist auch im *File*-Menü unter dem Eintrag *Import Dataset* zu finden. Es öffnet sich ein neues Fenster, in dem man eine Vorschau der zu importierenden Datei sieht. Es gibt hier auch die Möglichkeit, Optionen zu ändern – wie sich das auf die eingelesenen Daten auswirkt, ist in der Vorschau unmittelbar ersichtlich. Der zugehörige Code befindet sich dann rechts unten. Im folgenden Bild sieht man diesen Dialog beispielhaft für eine zu importierende SPSS-Datei.
 
 ![](import.png)
 
 
-## Data preparation
+## Daten aufbereiten
 
-Regardless of the file format, the data ultimately ends up in a data frame (or tibble), which we can then use in R. In most cases, the data frame will still need to be processed so that each column is in the desired format. Let's look at our example data:
+In welchem Dateiformat die Daten auch immer vorliegen, schlussendlich landen sie in einem Data Frame (oder Tibble), welches wir dann in R weiterverwenden können. In den allermeisten Fällen wird man das Data Frame noch aufbereiten müssen, damit jede Spalte auch wirklich im gewünschten Format vorliegt. Sehen wir uns das anhand unserer Beispieldaten an:
 
 ```{r}
 #| message: false
 (df = read_csv("lecturer.csv"))
 ```
 
-Apparently, all numerical values were correctly recognized as numbers (the abbreviation `<dbl>` means "double" and corresponds to decimal numbers, i.e., a numerical vector). However, the third column `job` has only two values, which actually represent two different professions (`1` stands for "Lecturer", `2` for "Student"). Here, a categorical column (a factor, more on this later) would be better suited than a numerical one. The first column `name` was correctly recognized as `chr` (character vector). The second column `birth_date` was also recognized as a character vector, but there is a specific data type for date values in R (which allows calculations with such values) that we should prefer.
+Man erkennt, dass die numerischen Werte korrekt als Zahlen erkannt wurden (die Abkürzung `<dbl>` bedeutet "double" und entspricht Dezimalzahlen, d.h. einem numerischen Vektor). Allerdings besitzt die dritte Spalte `job` lediglich zwei Werte, welche eigentlich zwei verschiedene Berufe repräsentieren (`1` steht für den Beruf "Lecturer", `2` für den Beruf "Student"). Hier wäre eine kategorische Spalte (ein Faktor, dazu gleich mehr) besser geeignet als eine numerische. Die erste Spalte `name` wurde korrekt als `chr` (Character-Vektor) erkannt. Auch die zweite Spalte `birth_date` wurde als Charakter-Vektor erkannt, aber es gibt in R einen eigenen Datentyp für Datumswerte (was u.a. das Rechnen mit solchen Werten ermöglicht).
 
 
-### Factors
+### Faktoren
 
-In R, categorical data — values that can only take a limited set of options — are represented using the `factor` type. You can create these vectors with the `factor()` function, which by default creates unordered (nominal) factors. To create an ordered (ordinal) factor, set the argument `ordered=TRUE`.
+Kategorische Variablen, d.h. Variablen, die nur eine bestimmte Anzahl an Werten annehmen können, werden in R mit dem Typ `factor` dargestellt. Die Funktion `factor()` kann einen entsprechenden Vektor erzeugen. Standardmäßig werden nicht geordnete (also *nominale*) Faktoren erzeugt. Setzt man das Argument `ordered=TRUE`, kann man auch einen geordneten Faktor (also eine *ordinale* Variable) erzeugen.
 
-In our example, the `job` column is of type `dbl` but should be interpreted as a factor. We can reassign this column accordingly (assuming we know which numbers correspond to the respective factor levels, i.e., `1` corresponds to "Lecturer" and `2` corresponds to "Student"):
+Im Beispiel ist die Spalte `job` vom Typ `dbl`, sollte aber als Faktor interpretiert werden. Die Spalte kann entsprechend neu erstellt und überschrieben werden (hier wird vorausgesetzt, dass wir wissen, welche Zahlen den jeweiligen Faktorstufen entsprechen, also `1` entspricht "Lecturer" und `2` entspricht "Student"):
 
 ```{r}
 df$job = factor(df$job, levels=c(1, 2), labels=c("Lecturer", "Student"))
 df
 ```
 
-The three arguments are:
+Die drei Argumente haben dabei folgende Bedeutung:
 
-- `df$job` is the original vector.
-- `levels=c(1, 2)` specifies which values (levels) are present in the original data and should be used.
-- `labels=c("Lecturer", "Student")` assigns appropriate names (labels) to the levels.
+- `df$job` sind die Ausgangsdaten.
+- `levels=c(1, 2)` gibt an, welche Werte (Stufen) in den Ausgangsdaten vorkommen und wir auch verwenden möchten.
+- `labels=c("Lecturer", "Student")` weist den verwendeten Stufen entsprechende Namen (Labels) zu.
 
-The `job` column now has the desired `factor` type (`<fct>` in the tibble representation). We can also explicitly check this with the `class()` function:
+Die Spalte `job` hat nun den gewünschten Typ (`<fct>` in der Tibble-Darstellung). Dies können wir auch mit der altbekannten Funktion `class()` explizit überprüfen:
 
 ```{r}
 class(df$job)
 ```
 
 
-### Dates
+### Datumswerte
 
-R has a specific data type for date values, making it easier to work with them. The `as.Date()` function converts date values in text form into this type. You need to specify the `format` argument, which describes the original date format. The following example converts the `birth_date` column to date format:
+Für Datumswerte gibt es in R ebenfalls einen eigenen Datentyp, der das Rechnen mit solchen Werten erleichtert. Die Funktion `as.Date()` wandelt eine Datumsangabe in Textform in diesen speziellen Typ um. Anzugeben ist hier insbesondere das Argument `format`, welches das Format der vorliegenden Datumswerte spezifiziert (d.h. man beschreibt damit, wie die Datumswerte ursprünglich aussehen).
 
 ```{r}
 df$birth_date = as.Date(df$birth_date, format="%m/%d/%Y")
 df
 ```
 
-In this example, the `format` argument `"%m/%d/%Y"` indicates that the dates are originally in the month/day/year order, separated by `/`. Here, `%m` represents the month, `%d` the day, and `%Y` a *four-digit* year.
+In diesem Beispiel bedeutet das Argument `format="%m/%d/%Y"`, dass die Werte ursprünglich in der Reihenfolge Monat/Tag/Jahr vorliegen und mit einem `/` getrennt sind (`%m` steht also für einen Monat, `%d` für einen Tag und `%Y` für eine *vierstellige* Jahreszahl).
 
-Let's consider another example. Assume we have the following character vector `dates` with date values:
+Betrachten wir ein weiteres Beispiel. Nehmen wir an, wir hätten folgenden Character-Vektor `dates` mit Datumswerten:
 
 ```{r}
 (dates = c("23.3.95", "17.7.96", "9.12.04", "1.1.10", "23.2.17"))
 class(dates)
 ```
 
-The individual date components are separated by a `.`. Now, let's try to find out the meaning of the three numbers. By examining all values, we find that the order is day, month, and year (two-digit). The corresponding `format` argument is therefore `format="%d.%m.%y"`:
+Die einzelnen Zahlen sind mit einem `.` voneinander getrennt. Nun müssen wir die Bedeutung der drei Zahlen herausfinden. Durch betrachten aller Werte stellt man fest, dass die Reihenfolge Tag, Monat und Jahr (zweistellig) ist. Das entsprechende `format`-Argument lautet daher `format="%d.%m.%y"`:
 
 ```{r}
 (dates = as.Date(dates, format="%d.%m.%y"))
 class(dates)
 ```
 
-The abbreviations like `%d`, `%m`, and `%y`, along with many others, are explained in the documentation for `as.Date()` (or actually its base function `strptime()`). You can look them up by using `?strptime`, so there's no need to memorize them.
+Die Kürzel `%d`, `%m`, `%y` und noch viele weitere sind in der Hilfe von `as.Date()` bzw. eigentlich `strptime()` beschrieben – machen Sie sich daher vor allem mit letzterer vertraut (`?strptime`), denn diese Kürzel muss man sich nicht auswendig merken.
 
 
-## Saving data
+## Daten speichern
 
-To save an existing data frame or tibble as a text file, the simplest method is to use `write_delim()` (or `write_csv()` and `write_tsv()`) from the `readr` package. These functions work similarly to the reading functions mentioned earlier, but you need to specify both the data frame and the file name.
+Wenn man ein bestehendes Data Frame oder Tibble als Textdatei speichern möchte, geht das am einfachsten mit der Funktion `write_delim()` (bzw. `write_csv()` und `write_tsv()`) aus dem `readr`-Paket. Dies funktioniert prinzipiell ganz analog zu den oben beschriebenen Lesefunktionen, nur gibt man hier sowohl das zu speichernde Data Frame als auch den Dateinamen an.
 
 :::{.callout-tip}
-Text files are best for small to medium-sized data sets. Large data sets can result in unnecessarily large files, so more efficient binary data formats like `.RData`, which can be created with the `save()` function and read with `load()`, should be used. Even better alternatives are the highly efficient open formats [Parquet](https://parquet.apache.org/) and [Feather](https://arrow.apache.org/docs/python/feather.html), which can be used across R, Python, and many other languages.
+Es sollten nur kleine bis mittelgroße Datensätze als Textdateien gespeichert werden. Bei großen Datensätzen würde die entstehende Datei sehr viel Speicherplatz benötigen – in solchen Fällen sollte man effizientere Datenformate verwenden wie z.B. das in R verfügbare Datenformat `.RData`, welches mit der Funktion `save()` erzeugt bzw. mit `load()` gelesen werden kann. Noch bessere Alternativen sind die hocheffizienten und offenen Formate [Parquet](https://parquet.apache.org/) und [Feather](https://arrow.apache.org/docs/python/feather.html), welche sowohl mit R als auch mit Python und vielen weiteren Programmiersprachen importiert werden können.
 :::
 
 
-## Exercises
+## Übungen
 
-### Exercise 1
+### Übung 1
 
-Inspect the help for the `read_delim()` function from the `readr` package. Which argument sets the column separator? Which argument sets the decimal separator? Which argument sets the character(s) for missing values?
-
-
-### Exercise 2
-
-Import the file [`homework.csv`](homework.csv) and display the resulting tibble on the screen. Make sure to use the correct column and decimal separators! What are the data types of the four columns?
+Sehen Sie sich die Hilfe zur Funktion `read_delim()` aus dem `readr`-Paket an. Welches Argument setzt das Trennzeichen der Spalten? Welches Argument setzt das Dezimaltrennzeichen? Mit welchem Argument können Sie das Zeichen für fehlende Werte festlegen?
 
 
-### Exercise 3
+### Übung 2
 
-The file [`wahl16.csv`](wahl16.csv) contains the [results of the 2016 Austrian presidential election](https://www.bmi.gv.at/412/Bundespraesidentenwahlen/Bundespraesidentenwahl_2016/start.aspx#pk_05) (after the first round with the six original candidates). Import this data into a tibble called `wahl16` and calculate the relative total number of votes for each candidate (the functions `colSums()`, `rowSums()`, and `sum()` might be helpful).
-
-
-### Exercise 4
-
-The file [`covid19.csv`](covid19.csv) contains data on daily Covid19 infections in Austria from February 2020 to June 2023. Import this file into R (make sure to use suitable arguments for the column and decimal separators). How many rows and columns does this data set have?
-
-Pay attention to the column `SiebenTageInzidenzFaelle` – this column contains decimal numbers and should therefore be numeric!
-
-Convert the `Time` column to a date format (you can ignore the time in this column)!
+Importieren Sie die Datei [`homework.csv`](homework.csv) und geben Sie das entstehende Tibble am Bildschirm aus. Achten Sie darauf, dass Sie die in der Datei verwendeten Spalten- bzw. Dezimaltrennzeichen korrekt erkennen (Achtung: Kommazahlen sind im deutschen Format vorhanden). Welche Datentypen haben die vier Spalten?
 
 
-### Exercise 5
+### Übung 3
 
-The [UCI Machine Learning Repository](http://archive.ics.uci.edu/ml/) provides many data sets for free use. For this exercise, consider the data set [Individual Household Electric Power Consumption](http://archive.ics.uci.edu/ml/datasets/Individual+household+electric+power+consumption), specifically the file [`household_power_consumption.zip`](household_power_consumption.zip). You do not need to unzip this file, as you can load it directly with the `read_delim()` function.
+In der Datei [`wahl16.csv`](wahl16.csv) befinden sich die [Ergebnisse der Bundespräsidentenwahl 2016](https://www.bmi.gv.at/412/Bundespraesidentenwahlen/Bundespraesidentenwahl_2016/start.aspx#pk_05) (und zwar nach dem ersten Wahlgang mit den sechs ursprünglichen Kandidaten/Kandidatinnen). Importieren Sie diese Daten in ein Tibble namens `wahl16`und berechnen Sie die relative Gesamtanzahl an Stimmen für jede Kandidatin/jeden Kandidaten (die Funktionen `colSums()`, `rowSums()` sowie `sum()` könnten dabei hilfreich sein).
 
-This file contains the minute-by-minute electrical power consumption of a household over a period of almost four years. There are over 2 million data points and 9 variables, separated by semicolons `;`. Missing values are coded with a question mark `?` or with actually missing entries.
 
-Read the data into a tibble called `df` and display it on the screen to answer the following questions:
+### Übung 4
 
--  How many rows and columns does the data frame have?
--  Which columns could be converted to a more appropriate type?
+Die Datei [`covid19.csv`](covid19.csv) enthält Daten zu den täglichen Covid19-Neuinfektionen in Österreich im Zeitraum 26.2.2020 bis 26.6.2023. Importieren Sie diese Datei in R (achten Sie auf geeignete Argumente, um die Datei richtig einzulesen wie z.B. das korrekte Spaltentrennzeichen sowie Dezimaltrennzeichen)! Aus wie vielen Zeilen und Spalten besteht dieser Datensatz?
+
+Achten Sie besonders auf die Spalte `SiebenTageInzidenzFaelle` – diese beinhaltet Dezimalzahlen und sollte dementsprechend numerisch sein!
+
+Konvertieren Sie auch die Spalte `Time` in ein Datumsformat (die Uhrzeit in dieser Spalte können Sie einfach ignorieren)!
+
+
+### Übung 5
+
+Das [UCI Machine Learning Repository](http://archive.ics.uci.edu/ml/) stellt viele Datensätze zur freien Verwendung zur Verfügung. Wir betrachten für diese Übung den Datensatz [Individual Household Electric Power Consumption](http://archive.ics.uci.edu/ml/datasets/Individual+household+electric+power+consumption), und zwar die Datei [`household_power_consumption.zip`](household_power_consumption.zip). Sie müssen diese Datei nicht entpacken, sondern können diese direkt mit der Funktion `read_delim()` laden.
+
+Die Datei beinhaltet die minütliche elektrische Leistungsaufnahme eines Haushalts in einem Zeitraum von fast vier Jahren. Insgesamt gibt es über 2 Millionen Messpunkte und 9 Variablen, welche durch Strichpunkte voneinander `;` getrennt sind. Fehlende Werte sind mit einem Fragezeichen `?` bzw. mit tatsächlich fehlenden Einträgen codiert.
+
+Lesen Sie die Daten in ein Tibble namens `df` ein und geben Sie es am Bildschirm aus um folgende Fragen zu beantworten:
+
+-   Wie viele Zeilen und Spalten hat das Data Frame?
+-   Welche Spalten könnte man eventuell noch in einen passenderen Typ umwandeln?
 
 :::{.callout-tip}
-It is important that R correctly recognizes missing values when reading the data. Ensure that the function `read_delim()` correctly interprets these missing values (and thus correctly interprets them as `NA`) by setting the appropriate argument! Both `"?"` and `""` are missing values in this particular file.
+Es ist wichtig, dass R beim Einlesen der Daten fehlende Werte korrekt erkennt. Stellen Sie durch Setzen des entsprechenden Argumentes der Funktion `read_delim()` sicher, dass diese fehlenden Werte richtig eingelesen werden (und somit korrekt als `NA` interpretiert werden)! Es kommen sowohl `"?"` als auch `""` als fehlende Werte in der Datei vor.
 
-The correctly imported data should result in a tibble with one `chr` column, seven `dbl` columns, and one `time` column.
+Die korrekt importierten Daten sollten in einem Tibble mit den folgenden Spaltentypen vorhanden sein: eine Spalte `chr`, sieben Spalten `dbl` und eine Spalte `time`.
 :::
 
 
-### Exercise 6
+### Übung 6
 
-Given the following numeric vector `x`:
+Gegeben sei der folgende numerische Vektor `x`:
 
 ```r
 x = c(1, 2, 3)
 ```
 
-What happens if you convert this vector into a factor, but only want to use the levels `1` and `2` (with the labels `"one"` and `"two"`, respectively)? How does R handle the (unused) value `3` in this case?
+Was passiert, wenn Sie diesen Vektor in einen Faktor konvertieren möchten, aber nur die Stufen `1` und `2` (mit den Labels `"one"` und `"two"`) verwenden möchten? Wie wird der Wert `3` behandelt?
