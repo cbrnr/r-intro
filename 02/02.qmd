@@ -201,7 +201,7 @@ R unterscheidet streng zwischen Groß- und Kleinschreibung, d.h. die Variable `N
 
 #### Funktionen
 
-Eine Funktion ist ein Mini-Script, welches man durch Aufrufen ausführen kann. Im obigen Beispiel ist `sum` eine Funktion. Zum Aufrufen einer Funktion ist ein Klammernpaar `()` nach dem Funktionsnamen notwendig. Eventuelle Argumente (die man benötigt, wenn die Funktion zusätzliche Informationen braucht) werden innerhalb dieser Klammern übergegeben. Mehrere Argumente werden mit einem `,` voneinander getrennt.
+Eine Funktion ist ein Mini-Script, welches man durch Aufrufen ausführen kann. Im obigen Beispiel ist `sum` eine Funktion. Zum Aufrufen einer Funktion ist ein Klammernpaar `()` nach dem Funktionsnamen notwendig. Eventuelle Argumente (die man benötigt, wenn die Funktion zusätzliche Informationen braucht) werden innerhalb dieser Klammern übergeben. Mehrere Argumente werden mit einem `,` voneinander getrennt.
 
 Mit dem Befehl `sum(x)` wird also die Funktion `sum` mit dem Argument `x` aufgerufen. Es gibt auch Funktionen, die keine Argumente benötigen – das runde Klammernpaar ist aber trotzdem notwendig (z.B. `library()` ruft die Funktion `library` ohne Argumente auf). Weitere Beispiele für Funktionsaufrufe ohne Argumente, die wir bereits kennengelernt haben, sind `search()`, `getwd()`, `dir()` und `ls()`.
 
@@ -244,7 +244,7 @@ Gleich danach folgen diese beiden Zeilen mit mehr Details:
 
 Hier erkennt man, dass die Funktion ein Argument namens `x` erwartet. Dieses Argument ist *verpflichtend*, d.h. wenn man es nicht angibt, bekommt man eine Fehlermeldung (probieren Sie es in der Console aus, indem Sie `mean()` eintippen). Dies sieht man am Hilfetext, weil kein Standardwert für `x` ersichtlich ist. Im Gegensatz dazu sind die nächsten beiden Argumente `trim` und `na.rm` *optional*, d.h. man muss sie nicht angeben, denn in diesem Fall werden deren Standardwerte verwendet (`trim` hat den Wert `0` und `na.rm` hat den Wert `FALSE`).
 
-Die Bedeutung der Argumente wird im Abschnitt *Arguments* genau beschrieben. Der Wert, der von der Funktion berechnet und zurückgegeben wird, wird im Abschnitt *Value* beschrieben. Danach folgen Literaturhinweise, verwandte Funktionen und schließlich Beispiele. Diese Beispiele kann man auch kopieren und in der Console auführen (oder einfach durch Klicken auf "Run examples" im Hilfe-Fenster ausführen).
+Die Bedeutung der Argumente wird im Abschnitt *Arguments* genau beschrieben. Der Wert, der von der Funktion berechnet und zurückgegeben wird, wird im Abschnitt *Value* beschrieben. Danach folgen Literaturhinweise, verwandte Funktionen und schließlich Beispiele. Diese Beispiele kann man auch kopieren und in der Console ausführen (oder einfach durch Klicken auf "Run examples" im Hilfe-Fenster ausführen).
 
 
 ### Möglichkeiten zum Aufrufen einer Funktion
