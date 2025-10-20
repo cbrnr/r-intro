@@ -325,6 +325,10 @@ Mit der Funktion `tibble()` kann man nun ein neues Tibble erstellen, ganz analog
 
 Wenn man ein Tibble am Bildschirm ausgibt, werden für jede Spalte automatisch die Datentypen angeführt.
 
+::: {.callout-important}
+In diesem Beispiel wird für die Spalten A bis E der Typ `int` angezeigt, der für *integer* (Ganzzahlen) steht. Dezimalzahlen erscheinen mit dem Typ `dbl` (für *double*), während herkömmliche Data Frames dafür die Bezeichnung `num` verwenden. Entscheidend für uns ist lediglich, dass die Typen `int`, `dbl` und `num` allesamt *numerische* Datentypen darstellen.
+:::
+
 Bei längeren Tabellen zeigt sich ein weiterer Vorteil von Tibbles: gibt man lange Tibbles am Bildschirm aus, wird die Darstellung automatisch so angepasst, dass nicht alle Zeilen/Spalten ausgegeben werden, sondern nur so viel wie möglich, um noch einen guten Überblick über die Daten zu gewährleisten. Dies sieht man beispielsweise am Datensatz `CO2`, welcher als Data Frame in R vorhanden ist:
 
 ```{r}
