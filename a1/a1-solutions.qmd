@@ -28,7 +28,7 @@ published-title: "Veröffentlicht"
 library(palmerpenguins)
 
 # a.
-summary(penguins)  # 2 fehlende Werte
+summary(penguins[["body_mass_g"]])  # 2 fehlende Werte
 df = penguins[!is.na(penguins[["body_mass_g"]]),]
 
 # b.
@@ -76,6 +76,10 @@ summary(penguins)  # 165 female, 168 male, 11 NAs
 summary(penguins[["sex"]])
 penguins_f = penguins[penguins[["sex"]] == "female",]
 penguins_m = penguins[penguins[["sex"]] == "male",]
+
+# Alternative mit subset():
+penguins_f = subset(penguins, sex == "female")
+penguins_m = subset(penguins, sex == "male")
 ```
 
 
