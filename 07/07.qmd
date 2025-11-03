@@ -1,8 +1,8 @@
 ---
-title: "7 – Data Wrangling"
-subtitle: "Statistical Data Analysis with R"
+title: "7 – Datenaufbereitung"
+subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2025-04-28
+date: 2025-11-20
 format:
   html:
     page-layout: full
@@ -16,13 +16,16 @@ title-block-banner: true
 theme:
   light: flatly
   dark: darkly
+lang: de
+author-title: "Autor"
+published-title: "Veröffentlicht"
 ---
 
-## Reshaping data
+## Daten umformen
 
-There are two principle ways to represent data in a table, either in wide format or in long format. The wide format is better suited for calculating descriptive statistics, but the long format is necessary for other tasks. Therefore, it is useful to know how to convert one representation into the other.
+Es gibt in der Praxis (mindestens) zwei verschiedene Möglichkeiten, ein und dieselben Daten in einer Tabelle darzustellen, und zwar entweder im Wide-Format oder im Long-Format. Zur Berechnung deskriptiver Statistiken eignet sich das Wide-Format besser, das Long-Format ist aber bei anderen Aufgabenstellungen notwendig. Deswegen ist es sinnvoll, wenn man weiß, wie man die eine Darstellung in die andere umwandeln kann.
 
-A wide data frame has a separate column for each variable. A long data frame has only one column that contains all values, and one or more columns with indicator variables that define the meaning of the values. The following table shows example data in wide format:
+Bei Daten im Wide-Format gibt es für jede Variable eine eigene Spalte. Daten im Long-Format haben nur eine Spalte, die alle Werte beinhaltet, und eine oder mehrere Spalte(n) mit Indikator-Variablen, welche den Kontext der Werte definieren. Die folgende Tabelle zeigt Beispieldaten im Wide-Format:
 
 | Person | Age | Weight | Height |
 |:-------|----:|-------:|-------:|
@@ -30,7 +33,7 @@ A wide data frame has a separate column for each variable. A long data frame has
 | Al     |  24 |     61 |    176 |
 | Sue    |  64 |     87 |    174 |
 
-There are three value columns (`Age`, `Weight`, and `Height`), as well as a column that identifies the person (`Person`). The same data in long format looks like this (note that there is only one value column called `Value`):
+Man sieht, dass es drei Wertespalten gibt (`Age`, `Weight` und `Height`), sowie eine Spalte, welche die Person identifiziert (`Person`). Dieselben Daten sehen im Long-Format so aus (man beachte, dass es nur eine einzige Werte-Spalte namens `Value` gibt):
 
 | Person | Variable | Value |
 |:-------|:---------|------:|
@@ -44,7 +47,7 @@ There are three value columns (`Age`, `Weight`, and `Height`), as well as a colu
 | Sue    | Weight   |    87 |
 | Sue    | Height   |   174 |
 
-The `tidyr` package in R allows us to switch between these two formats, i.e., if the data is available in one format, we can produce the other format. First, let's create a data frame with data from the previous example in wide format as follows:
+In R kann man mit dem Paket `tidyr` zwischen den beiden Formaten hin- und herwechseln, d.h. wenn die Daten in einem Format vorliegen, kann man relativ einfach das andere Format produzieren. Die Daten aus dem Beispiel oben können wir zunächst einmal im Wide-Format erzeugen:
 
 ```{r}
 library(tibble)
@@ -57,7 +60,7 @@ library(tibble)
 ))
 ```
 
-The `tidyr` package (part of the [Tidyverse](https://www.tidyverse.org/)) includes the functions `pivot_longer()` and `pivot_wider()`, which can convert data frames from wide to long and vice versa. Our data frame `df` (which is in wide format) can be converted to long format as follows:
+Das Paket `tidyr` aus dem Tidyverse beinhaltet die Funktionen `pivot_longer()` und `pivot_wider()`, welche Data Frames von wide nach long bzw. von long nach wide umwandeln können. Das Data Frame `df` (welches im Wide-Format vorliegt) können wir also wie folgt ins Long-Format konvertieren:
 
 ```{r}
 library(tidyr)
@@ -70,9 +73,9 @@ library(tidyr)
 ))
 ```
 
-Here, we first pass the wide-format data (`df`), followed by a selection of the (value) columns that we want to convert to long format – in our example, these are the columns from `Age` to `Height`. For this column selection, we can specify the column names without quotes, and the colon works like in number sequences (it creates a range from columns `Age` to `Height`). We could also use the column indices here, i.e., `2:4` instead of `Age:Height`. Finally, we specify the desired name of the indicator column with `names_to` (in our example, this should be `Variable`) and the name of the new value column with `values_to` (we set it to `Value`). The resulting data frame `df_long` is now in long format.
+Hier übergibt man zuerst die Daten im Wide-Format (`df`), gefolgt von einer Auswahl der (Werte-)Spalten, die man ins Long-Format bringen möchte – in unserem Beispiel sind das die Spalten von `Age` bis `Height`. Für diese Spaltenauswahl kann man die Spaltennamen ohne Anführungszeichen schreiben, und auch der Doppelpunkt funktioniert wie bei Zahlensequenzen. Man könnte hier auch die Indizes der Spalten verwenden, also `2:4` statt `Age:Height`. Schließlich gibt man mit `names_to` den gewünschten Namen der Indikatorspalte an (im Beispiel soll diese also `Variable` heißen) und mit `values_to` den Namen der neuen Werte-Spalte (`Value`).
 
-Conversely, the `pivot_wider()` function can split a single (value) column into multiple columns, i.e., convert from long to wide format:
+Der umgekehrte Weg wird mit `pivot_wider()` beschritten; diese Funktion kann eine Variable auf mehrere Spalten aufteilen, d.h. vom Long-Format ins Wide-Format konvertieren:
 
 ```{r}
 (df_wide = pivot_wider(
@@ -83,19 +86,18 @@ Conversely, the `pivot_wider()` function can split a single (value) column into 
 ))
 ```
 
-Here, we first specify the long-format data (`df_long`). Then we provide the column names that identify the individual cases (in our example, this is only one column named `Person`) with `id_cols`. Next, we specify the column that contains the variable names (i.e., the indicator column `Variable`) with `names_from`. Finally, we define the column that contains the values (`Value`) with `values_from`.
+Hier gibt man zunächst die Daten im Long-Format an (`df_long`). Danach folgen mit `id_cols` die Spaltennamen, welche die einzelnen Fälle identifizieren (in unserem Beispiel ist das nur eine einzige Spalte namens `Person`). Danach gibt man mit `names_from` die Spalte an, welche die Variablennamen beinhaltet (also die Indikatorspalte `Variable`). Schließlich definiert man mit `values_from` die Spalte, welche die Werte beinhaltet (`Value`).
 
-These two functions can convert much more complex structures into the respective formats – all of this is described in their documentation, including many examples that demonstrate the usage.
-
+Diese beiden Funktionen können sehr viel komplexere Strukturen in die jeweiligen Formate konvertieren – dies ist alles in der Hilfe nachzulesen, inklusive vieler Beispiele, die die Verwendung demonstrieren.
 
 :::{.callout-note}
-The Tidyverse is based on a representation of data called "tidy." Essentially, this corresponds to the wide format, where each variable has its own column and each data point has its own row (more details can be found in [this article](https://www.jstatsoft.org/article/view/v059i10)).
+Das Tidyverse basiert auf einer Darstellung von Daten, die man als "tidy" bezeichnet. Im Wesentlichen entspricht dies dem Wide-Format, bei dem jede Variable einer eigenen Spalte sowie jeder Datenpunkt einer eigenen Zeile entspricht (mehr Details dazu sind in [diesem Artikel](https://www.jstatsoft.org/article/view/v059i10) zu finden).
 :::
 
 
-## Filtering rows with `subset()`
+## Zeilen filtern mit `subset()`
 
-Often, it is desirable to use only a subset of rows from an existing data frame. For example, it might be necessary to separately analyze male and female participants to address a specific research question. This information is encoded in the `sex` column with values `m` and `f` in the following example:
+Oft ist es wünschenswert, nur gewisse Zeilen aus einem vorhandenen Data Frame zu verwenden. Beispielsweise könnte es für eine Datenanalyse notwendig sein, männliche und weibliche Versuchspersonen getrennt auszuwerten. Dieses Merkmal ist im folgenden Beispiel in einer Spalte `sex` mit den Ausprägungen `m` und `f` vorhanden:
 
 ```{r}
 (df = tibble(
@@ -107,116 +109,120 @@ Often, it is desirable to use only a subset of rows from an existing data frame.
 ))
 ```
 
-We have already learned that we can filter specific rows by indexing. With the following command, we create a new data frame consisting only of female participants:
+Nun haben wir bereits gelernt, dass wir spezifische Zeilen mittels Indizieren herausfiltern können. Mit folgendem Befehl erhalten wir ein neues Data Frame mit allen weiblichen Versuchspersonen:
 
 ```{r}
 df[df$sex == "f",]
 ```
 
-This notation is relatively cumbersome for data frames, especially because the underlying data frame `df` has to be written twice. Fortunately, there is a more intuitive alternative using the `subset()` function. This function can create subsets of existing vectors or data frames. In the case of a data frame, this means that you can select a subset of rows and/or columns.
+Diese Schreibweise ist für Data Frames aber relativ unübersichtlich, vor allem weil man das zugrundeliegende Data Frame `df` zwei Mal schreiben muss. Glücklicherweise gibt es aber eine intuitivere Alternative durch die Funktion `subset()`. Diese Funktion kann, wie der Name bereits andeutet, Untermengen (Subsets) von bestehenden Vektoren bzw. Data Frames erzeugen. Im Falle eines Data Frames bedeutet das, dass man eine Untermenge der Zeilen und/oder Spalten auswählen kann.
 
-Let's start with selecting rows (this operation is also called *filtering*). You pass the original data frame as the first argument to the `subset()` function. The second argument (called `subset`, not to be confused with the function name) then determines which rows should be selected (filtered). The example above can be rewritten as follows:
+Beginnen wir mit der Auswahl von Zeilen (man bezeichnet diese Operation auch als "filtern"). Hier übergibt man der Funktion `subset()` als erstes Argument das ursprüngliche Data Frame. Das zweite Argument (welches `subset` heißt, nicht zu verwechseln mit dem Funktionsnamen) bestimmt dann, welche Zeilen ausgewählt (gefiltert) werden sollen. Das obige Beispiel kann damit wie folgt angeschrieben werden:
 
 ```{r}
 subset(df, sex == "f")
 ```
 
-Note that we can directly mention the column name without quotes and without having to prepend `df$`. The result is the same as in the previous example.
+Beachten Sie, dass man den Spaltennamen direkt anschreiben kann ohne `df$` voranstellen zu müssen.
 
-We can also perform more complex filtering operations by passing a more complex comparison to the `subset` argument, e.g., by combining multiple comparisons:
+Damit kann man auch komplexere Filter-Operationen durchführen, indem man einen entsprechend komplexen Vergleich für das `subset`-Argument übergibt, z.B. durch Verknüpfen mehrerer Vergleiche:
 
 ```{r}
 subset(df, age > 40 & weight <= 73)
 ```
 
-Here we can use all kinds of comparison or logical operators (like `&` for "and", `|` for "or", and `xor()` for "[exclusive or](https://en.wikipedia.org/wiki/Exclusive_or)").
+Hier kann man also alle möglichen Vergleiche bzw. Verknüpfungsoperatoren (`&` und, `|` oder, `xor()` [exklusives oder](https://de.wikipedia.org/wiki/Kontravalenz)) verwenden.
 
 
-## Selecting columns with `subset()`
+## Spalten selektieren mit `subset()`
 
-Sometimes it is useful to select only specific columns from a data frame. Classically, this can be solved again by indexing. The following example creates a subset consisting of the columns `name`, `age`, and `sex`:
+Manchmal ist es auch gewünscht, nur spezifische Spalten aus einem Data Frame weiterzuverwenden. Klassisch kann man dies wieder über Indizieren lösen, z.B. wenn man im Beispiel nur die Spalten `name`, `age` und `sex` benötigt:
 
 ```{r}
 df[, c("name", "age", "sex")]
 ```
 
-Alternatively, we can use the `subset()` function with the third argument (called `select`):
+Auch hier kann man alternativ die `subset()`-Funktion verwenden, und zwar unter Verwendung des dritten Arguments (namens `select`):
 
 ```{r}
 subset(df, select=c(name, age, sex))
 ```
 
-Note that column names can also be specified without quotes. It is even possible to address a range with a `:` as follows (as we have already seen with `pivot_longer()` or `pivot_wider()`):
+Beachten Sie, dass auch hier die Spaltennamen ohne Anführungszeichen angegeben werden können. Es ist sogar möglich, einen Bereich mit einem `:` wie folgt anzuschreiben (so wie wir es bereits bei `pivot_longer()` bzw. `pivot_wider()` gesehen haben):
 
 ```{r}
 subset(df, select=name:weight)
 ```
 
-This command selects all columns from `name` to `weight`. Of course, we can also combine row and column selections in a single command:
+Hier werden also alle Spalten von `name` bis `weight` selektiert.
+
+Selbstverständlich kann man beide Operationen (also Zeilenauswahl und Spaltenauswahl) auch mit einem Funktionsaufruf durchführen:
 
 ```{r}
 subset(df, subset=age > 30, select=c(name, age, sex))
 ```
 
 
-## Creating new columns with `transform()`
+## Spalten transformieren mit `transform()`
 
-Another important task in data analysis is to add new columns to an existing data frame. If the values of these new columns are based on existing columns, this is called a *transformation*. Consider the `airquality` data frame available in R:
+Eine weitere wichtige Aufgabe in der Datenanalyse ist es, neue Spalten zu einem bestehenden Data Frame hinzuzufügen. Wenn die Werte dieser neuen Spalten dabei auf vorhandenen Spalten basieren, spricht man von einer Transformation. Betrachten wir dazu das in R vorhandene Data Frame `airquality`:
 
 ```{r}
 head(airquality)
 ```
 
-Temperature values in the `Temp` column are given in degrees Fahrenheit. We can now add a new column called `celsius` by transforming the existing `Temp` column as follows:
+Die Temperaturen in der `Temp`-Spalte sind in Fahrenheit angegeben. Wir können nun eine neue Spalte namens `celsius` hinzufügen, indem wir die vorhandene `Temp`-Spalte wie folgt transformieren:
 
 ```{r}
 aq = transform(airquality, celsius=(Temp - 32) * (5/9))
 head(aq)
 ```
 
-Note that we can reuse existing columns directly in the transformation (in the example `Temp`) without having to use quotes or `airquality$`. Also, the function always creates a *new* data frame; you could even assign it to the original name if you want (so `airquality` in the example above instead of `aq`).
+Beachten Sie, dass wir in der Transformation vorhandene Spalten wieder direkt verwenden können (im Beispiel `Temp`), ohne Anführungszeichen oder `airquality$` verwenden zu müssen. Außerdem wird immer ein *neues* Data Frame erzeugt; Sie könnten dieses aber dem ursprünglichen Namen zuweisen, wenn Sie möchten (also `airquality` in obigem Beispiel statt `aq`).
 
 :::{.callout-important}
-The result of the `transform()` function is a data frame, even if you use a tibble as the source. If the result should be a tibble, we must explicitly convert the return value of `transform()` to a tibble with `tibble::as_tibble()`.
+Das Ergebnis der Funktion `transform()` ist ein Data Frame, auch wenn man ein Tibble als Ausgangsdatensatz verwendet. Falls das Ergebnis ein Tibble sein soll, muss man den Rückgabewert von `transform()` mit `tibble::as_tibble()` explizit in ein Tibble konvertieren.
 :::
 
 
-## The pipe operator `|>`
+## Der Pipe-Operator `|>`
 
-R introduced a new operator in version 4.1, the so-called pipe operator `|>`. The principle behind it is as simple as it is ingenious. Although it does not add any new functionality (i.e., all operations can also be implemented without the pipe operator), many operations become easier and/or more intuitive.
+Seit R 4.1 gibt es einen sogenannten Pipe-Operator. Dieser wird als `|>` angeschrieben. Das Prinzip dahinter ist so einfach wie genial. Obwohl damit keinerlei neue Funktionalität hinzugefügt wird (d.h. man kann alle Operationen auch ohne den Pipe-Operator umsetzen), werden viele Operationen dadurch einfacher bzw. intuitiver.
 
-In principle, we can write a function call `f(x)` as `x |> f()`. This is a pure syntactic alternative, i.e., both variants do exactly the same thing. For example:
+Grundsätzlich kann man mit dem Pipe-Operator einen Funktionsaufruf `f(x)` als `x |> f()` anschreiben. Das ist eine reine syntaktische Alternative, d.h. beide Varianten tun genau das gleiche. Beispiel:
 
 ```{r}
 x = 1:10
-mean(x)  # classic
-x |> mean()  # pipe
+mean(x)  # klassisch
+x |> mean()  # Pipe
 ```
 
 :::{.callout-tip}
-The pipe operator *pulls* the *first* argument in front of the function call.
+Der Pipe-Operator zieht also das *erste* Argument vor den Funktionsaufruf hinaus.
 :::
 
-In this example, this makes little sense, because `mean(x)` is much shorter and easier to read. However, it gets more interesting when we want to use the result of a function call directly as an argument (input) for another function call. Classically, we would write this as:
+Das macht in diesem Beispiel natürlich wenig Sinn, denn hier ist `mean(x)` wesentlich kürzer und einfacher lesbar. Interessant wird es aber dann, wenn man das Ergebnis eines Funktionsaufrufes direkt als Argument für einen weiteren Funktionsaufruf verwenden will. Klassisch würde man dies so anschreiben:
 
 ```r
 g(f(x))
 ```
 
-In this case, it is more difficult to see in which order the calculation is actually performed: first `f(x)` is calculated, and its result is passed as an argument to the function `g()`. R performs the calculations from the inside out. With the pipe operator, the same operation would look like this:
+Hier ist es schon schwieriger zu sehen, in welcher Reihenfolge die Berechnung eigentlich durchgeführt wird: zuerst wird `f(x)` berechnet, und dessen Ergebnis wird als Argument für die Funktion `g()` übergeben. R führt die Berechnungen also von innen nach außen durch. Mit dem Pipe-Operator würde dieselbe Operation wie folgt aussehen:
 
 ```r
 x |> f() |> g()
 ```
 
-This makes the order of operations immediately clear: `x` is first passed to the function `f()`, and the result of that is passed to the function `g()`. Therefore, the pipe operator is particularly useful when we have a sequence of operations that we want to perform one after the other. The following example first calculates the mean of a vector `x` and then the logarithm of this mean:
+Hier ist sofort klar, in welcher Reihenfolge die Berechnung durchgeführt wird: `x` wird zuerst der Funktion `f()` übergeben, und das Ergebnis davon wird der Funktion `g()` übergeben.
+
+Das folgende Beispiel berechnet zuerst den Mittelwert von einem Vektor `x` und gleich danach den Logarithmus dieses Mittelwerts:
 
 ```{r}
 log(mean(x))
 x |> mean() |> log()
 ```
 
-Using the pipe operator is usually more intuitive. Moreover, it becomes even clearer if each step in the pipeline is written on a separate line (this is possible in R with all commands in principle):
+Die Variante mit dem Pipe-Operator ist meistens intuitiver. Noch übersichtlicher wird es, wenn jeder Schritt in der Pipeline in eine eigene Zeile geschrieben wird (das ist in R ja bei allen Befehlen prinzipiell möglich):
 
 ```{r}
 x |>
@@ -224,14 +230,12 @@ x |>
     log()
 ```
 
-::: {.callout-tip}
-Since the pipe operator only pulls out the *first* argument, we can simply specify additional arguments in the function call as usual. For example, `f(x, y)` can be written as `x |> f(y)`.
-:::
 
+## Data Wrangling
 
-## Data wrangling
+Kombinieren wir nun alles, was wir in diesem Kapitel gelernt haben (nämlich `subset()`, `transform()` und `|>`), dann erhalten wir ein Werkzeug, welches das Umformen eines Data Frames (das sogenannte Data Wrangling) sehr intuitiv ermöglicht. Sehen wir uns das anhand des `airquality`-Datensatzes an.
 
-Combining everything we have learned in this chapter (namely `subset()`, `transform()`, and `|>`), we get a set of tools that allows for very intuitive data frame transformations (so-called data wrangling). Let's look at the `airquality` data set again. Suppose we want to investigate the temperatures (in °C) in the month of July. We could use the following pipeline:
+Nehmen wir an, wir möchten die Temperaturen (in °C) im Monat Juli untersuchen. Folgende Pipeline könnten wir dazu verwenden:
 
 ```{r}
 library(tibble)
@@ -243,15 +247,11 @@ airquality |>
     as_tibble()
 ```
 
-::: {.callout-tip}
-This pipeline passes the result of each operation directly to the next one, which also means that we do not have to assign intermediate results to variables.
-:::
-
 :::{.callout-note}
-In this example, we have converted the final result into a tibble with `as_tibble()`. Otherwise, we would have ended up with a data frame because we used the `transform()` function.
+Im vorigen Beispiel wird mit `as_tibble()` am Ende alles in ein Tibble konvertiert. Ansonsten hätte man ein Data Frame, weil wir die Funktion `transform()` verwendet haben.
 :::
 
-To continue working with this data frame, we should assign the result to a (new) variable, e.g.:
+Um mit diesem Data Frame weiterzuarbeiten, sollte man das Ergebnis einer (neuen) Variablen zuweisen, z.B.:
 
 ```{r}
 aq = airquality |>
@@ -259,38 +259,38 @@ aq = airquality |>
     subset(Month == 7) |>
     subset(select=-c(Month, Day))
 
-mean(aq$celsius)  # mean temperature (in °C) in July
+mean(aq$celsius)  # mittlere Temperatur (in °C) im Juli
 ```
 
-Finally, it should be noted that the [Tidyverse](https://www.tidyverse.org/) offers many more functions that can be elegantly combined with the pipe operator. In particular, grouped summary statistics (e.g., the average temperatures for all months) become similarly intuitive as in the examples shown here. With base R, this is also possible, but not as elegant and concise.
+Abschließend ist noch anzumerken, dass das [Tidyverse](https://www.tidyverse.org/) wesentlich mehr Funktionen bietet, die mit dem Pipe-Operator elegant miteinander verbunden werden können. Insbesonders gruppierte zusammenfassende Statistiken (z.B. die mittleren Temperaturen für alle Monate) werden dadurch ähnlich intuitiv möglich wie in den hier gezeigten Beispielen. Mit Base-R ist dies zwar auch möglich, aber nicht in dieser einheitlichen Pipeline-Form.
 
 
-## Exercises
+## Übungen
 
-### Exercise 1
+### Übung 1
 
-Install and activate the `tidyr` package. It contains the data set `table2`. Create a new data frame from this data set, which contains the values in the columns `type` and `count` in two columns `cases` and `population`.
+Installieren und aktivieren Sie das Paket `tidyr`. Darin enthalten ist der Datensatz `table2`. Erzeugen Sie daraus ein neues Data Frame, welches aus den Spalten `type` und `count` die Werte in zwei Spalten `cases` und `population` enthält.
 
 
-### Exercise 2
+### Übung 2
 
-The `tidyr` package also contains a data set `table4a`. Combine the two columns `1999` and `2000` into a value column named `count` and an indicator column named `year`.
+Im Paket `tidyr` ist auch ein Datensatz `table4a` enthalten. Fassen Sie die beiden Spalten `1999` und `2000` zu einer Wertespalte namens `count` und einer Indikatorspalte namens `year` zusammen.
 
 :::{.callout-note}
-The two column names must be enclosed in backticks (`` ` ``), because names starting with numbers would otherwise be interpreted as numbers by R, i.e., `` `1999` `` and `` `2000` ``.
+Die beiden Spaltennamen muss man mit Backticks (`` ` ``) umschließen, da Namen die mit Ziffern starten und R diese sonst als Zahlen interpretieren würde, d.h. `` `1999` `` bzw. `` `2000` ``.
 :::
 
 
-### Exercise 3
+### Übung 3
 
-Create a new data frame called `mtcars1` from the existing data frame `mtcars`, which only contains rows where the column `mpg` has values greater than 25. How many rows and columns does `mtcars` have, and how many rows and columns does `mtcars1` have? Use the `subset()` function!
+Erstellen Sie aus dem in R vorhandenen Data Frame `mtcars` ein neues Data Frame namens `mtcars1`, welches nur aus jenen Zeilen besteht in denen die Spalte `mpg` Werte größer als 25 aufweist. Aus wie vielen Zeilen bzw. Spalten bestehen `mtcars` bzw. `mtcars1`? Verwenden Sie dafür die Funktion `subset()`!
 
 
-### Exercise 4
+### Übung 4
 
-Install and activate the `nycflights13` package. We use the `flights` data set from this package in this exercise. First, read the documentation for `flights`. Then perform the following tasks (using the pipe operator and the `subset()` or `transform()` functions):
+Installieren und aktivieren Sie das Paket `nycflights13`. Wir verwenden den Datensatz `flights` aus diesem Paket. Lesen Sie sich zuerst den Hilfetext zu `flights` durch. Führen Sie danach folgende Aufgaben durch (unter Verwendung des Pipe-Operators und den Funktionen `subset()` bzw. `transform()`):
 
-- Create a new data frame that contains all flights on January 1, 2013. Only the columns `year`, `month`, `day`, `dep_time`, `arr_time`, and `tailnum` should be retained. How many flights are there?
-- Create two new columns `hours` (the flight time in hours; the column `air_time` contains the flight time in minutes) and `speed` (the flight speed in km/h; the column `distance` contains the distance traveled in miles, so an additional column `km` would be helpful). Output the new data frame with only the columns `month`, `day`, `carrier`, `tailnum`, and `speed`!
-- Create a new data frame that contains all early flights (flights that departed before 6:00).
-- Create a new data frame that contains only those flights that were faster than planned (i.e., where the delay at arrival was smaller than at departure).
+- Erstellen Sie einen neuen Datensatz, welcher alle Flüge am 1.1.2013 enthält. Außerdem sollen nur die Spalten `year`, `month`, `day`, `dep_time`, `arr_time` und `tailnum` vorhanden sein. Wie viele Flüge sind das?
+- Erzeugen Sie zwei neue Spalten `hours` (die Flugzeit in Stunden; die Spalte `air_time` beinhaltet die Flugzeit in Minuten) und `speed` (die Fluggeschwindigkeit in km/h; die Spalte `distance` beinhaltet den zurückgelegten Weg in Meilen, hier wäre also eine zusätzliche Spalte `km` hilfreich). Geben Sie das neue Data Frame nur mit den Spalten `month`, `day`, `carrier`, `tailnum` und `speed` aus!
+- Erstellen Sie einen neuen Datensatz, welcher alle Frühflüge beinhaltet (Flüge, die vor 6:00 gestartet sind).
+- Erstellen Sie einen neuen Datensatz, welcher nur jene Flüge beinhaltet, die schneller als geplant unterwegs waren (wo also die Verspätung bei der Ankunft kleiner war als beim Abflug).

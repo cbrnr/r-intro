@@ -1,8 +1,8 @@
 ---
-title: "7 – Solutions"
-subtitle: "Statistical Data Analysis with R"
+title: "7 – Lösungen"
+subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2025-04-28
+date: 2025-11-20
 format:
   html:
     page-layout: full
@@ -16,6 +16,9 @@ title-block-banner: true
 theme:
   light: flatly
   dark: darkly
+lang: de
+author-title: "Autor"
+published-title: "Veröffentlicht"
 ---
 
 ## Exercise 1
@@ -40,8 +43,8 @@ pivot_longer(table4a, `1999`:`2000`, names_to="year", values_to="count")
 mtcars1 = mtcars |>
     subset(mpg > 25)
 
-nrow(mtcars)  # 32 rows
-nrow(mtcars1)  # 6 rows
+nrow(mtcars)  # 32 Zeilen
+nrow(mtcars1)  # 6 Zeilen
 ```
 
 
@@ -52,7 +55,7 @@ library(nycflights13)
 library(tibble)
 
 flights |>
-    subset(day == 1 & month == 1) |>  # 842 rows
+    subset(day == 1 & month == 1) |>  # 842 Zeilen
     subset(select=c(year:dep_time, arr_time, tailnum))
 
 flights |>
@@ -63,8 +66,8 @@ flights |>
     as_tibble()
 
 flights |>
-    subset(dep_time < 600)  # 8730 rows
+    subset(dep_time < 600)  # 8730 Zeilen
 
 flights |>
-    subset(arr_delay < dep_delay)  # 221565 rows
+    subset(arr_delay < dep_delay)  # 221565 Zeilen
 ```
