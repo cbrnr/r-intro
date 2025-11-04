@@ -15,4 +15,4 @@ Die folgenden Unterlagen geben eine kurze Einführung in die Grundlagen von R un
 11. [Lineare Regression (2)]() ([Lösungen]())
 12. [Mittelwertvergleich]() ([Lösungen]())
 
-- [Zusätzliche Übungsaufgaben]() ([Lösungen]())
+- [Zusätzliche Übungsaufgaben](https://cbrnr.quarto.pub/r-25w-exercises) ([Lösungen](https://cbrnr.quarto.pub/r-25w-exercises-solutions))

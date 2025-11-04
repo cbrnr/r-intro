@@ -2,7 +2,7 @@
 title: "Übungen"
 subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2024-11-14
+date: 2025-11-03
 format:
   html:
     page-layout: full
@@ -23,12 +23,12 @@ published-title: "Veröffentlicht"
 
 ## Übung 1
 
-Wir betrachten das Data Frame `penguins` aus dem Paket `palmerpenguins`. Untersuchen Sie, ob sich die drei Spezies (Adélie, Chinstrap, Gentoo) in Bezug auf die Körpermasse (Spalte `body_mass_g`) unterscheiden.
+Wir betrachten das Data Frame `penguins` aus dem Paket `palmerpenguins`. Untersuchen Sie, ob sich die drei Spezies (Adélie, Chinstrap, Gentoo) in Bezug auf die Körpermasse (Spalte `body_mass_g`) unterscheiden. Führen Sie dazu folgende Schritte durch:
 
-a. Überprüfen Sie, ob es fehlende Werte in der Spalte `body_mass_g` gibt. Falls ja, entfernen Sie die entsprechenden Zeilen aus dem Data Frame.
+a. Entfernen Sie gegebenenfalls Zeilen mit fehlenden Werten in der Spalte `body_mass_g`.
 b. Berechnen Sie die Mittelwerte und Standardabweichungen der Körpermasse für jede Spezies.
-c. Fügen Sie dem Data Frame eine Spalte namens `id` hinzu, welche die Zeilennummer enthält (1 für die erste Zeile, 2 für die zweite Zeile, usw.). Diese Spalte identifiziert also jede Beobachtung (jeden Pinguin) eindeutig. Die Funktion `nrow()` könnte dabei hilfreich sein.
-d. Installieren und aktivieren Sie das Paket `afex`. Führen Sie eine einfaktorielle ANOVA durch, um zu überprüfen, ob sich die Körpermasse zwischen den Spezies unterscheidet. Verwenden Sie die Funktion `aov_ez()`. Unterscheiden sich die Spezies signifikant in Bezug auf die Körpermasse?
+c. Fügen Sie dem Data Frame eine Spalte namens `id` hinzu, welche die Zeilennummer enthält (beginnend bei 1). Diese Spalte identifiziert jede Beobachtung (jeden Pinguin) eindeutig. Die Funktion `nrow()` könnte dabei hilfreich sein.
+d. Installieren und aktivieren Sie das Paket `afex`. Führen Sie eine einfaktorielle ANOVA durch, um zu überprüfen, ob sich die Körpermasse zwischen den Spezies unterscheidet (verwenden Sie dazu die Funktion `aov_ez()`). Unterscheiden sich die Spezies signifikant in Bezug auf die Körpermasse?
 
 
 ## Übung 2
@@ -70,3 +70,301 @@ Importieren Sie diesen Datensatz in R und beantworten Sie folgende Fragen:
 a. Wie viele verschiedene Schadstoffe werden in diesem Datensatz erfasst?
 b. Wie viele verschiedene CRF-Codes gibt es (CRF bedeutet [Common Reporting Format](https://en.eustat.eus/documentos/elem_13127/definicion.html) und definiert u.a. die Aufteilung der Emissionen in verursachende Sektoren)?
 c. Erstellen Sie ein neues Data Frame `df`, welches nur die CO₂-Emissionen über alle Sektoren (entspricht einem CRF-Code von 0) enthält.
+
+
+## Übung 7
+
+Der eingebaute Datensatz `InsectSprays` enthält 72 Beobachtungen von zwei Variablen und dokumentiert die Wirksamkeit von sechs verschiedenen Insektiziden, die in der Spalte `spray` identifiziert werden. Die Spalte `count` enthält die Anzahl der Insekten, die in einer standardisierten Testeinheit gefunden wurden – weniger Insekten deuten auf eine höhere Wirksamkeit hin.
+
+Verwenden Sie die Funktion `by()`, um die durchschnittliche Anzahl der Insekten für jedes der sechs Insektizide zu berechnen. Erstellen Sie ein Boxplot, um die Verteilung der Insektenanzahl für jedes Insektizid zu visualisieren. Beschriften Sie die Achsen und geben Sie der Grafik einen aussagekräftigen Titel.
+
+
+## Übung 8
+
+Die Datei [`temperature.csv`](temperature.csv) enthält monatliche Durchschnittstemperaturen (in °C) für Innsbruck im Zeitraum von 1906 bis 2012.
+
+Fügen Sie dem Datensatz eine neue Spalte namens `Average` hinzu, welche die mittlere Jahrestemperatur beinhaltet (die Funktion `rowMeans()` kann dabei hilfreich sein).
+
+Erstellen Sie anschließend ein Liniendiagramm, das den Verlauf der durchschnittlichen Jahrestemperatur über den gesamten Zeitraum veranschaulicht. Beschriften Sie die Achsen und geben Sie der Grafik einen Titel.
+
+
+## Übung 9
+
+Wie viele Autos im eingebauten `mtcars`-Datensatz haben eine hohe Kraftstoffeffizienz von mindestens 20 Meilen pro Gallone (Spalte `mpg`), mindestens 110 PS (Spalte `hp`) und sechs Zylinder (Spalte `cyl`)? Erstellen Sie ein neues Data Frame, welches nur die Zeilen enthält, die diese Kriterien erfüllen.
+
+
+## Übung 10
+
+Erstellen Sie die folgenden sechs Vektoren `a` bis `f`:
+
+* `a` besteht aus absteigenden ganzen Zahlen von 100 bis 0 in Schritten von 4 (also 100, 96, 92, ..., 4, 0).
+* `b` enthält die Zahlen von 2.5 bis 10 in Schritten von 0.3.
+* `c` besteht aus 35 gleichmäßig verteilten Zahlen im Bereich von 14 bis 15.
+* `d` besteht aus 50 Wiederholungen des Zeichens `A`, gefolgt von 50 Wiederholungen von `B`, gefolgt von 50 Wiederholungen von `C`.
+* `e` enthält die geraden Zahlen von 4 bis 96.
+* `f` enthält die ungeraden Zahlen von 3 bis 97.
+
+
+## Übung 11
+
+Der eingebaute Datensatz `attitude` enthält Umfragedaten zur Zufriedenheit in verschiedenen Abteilungen eines großen Unternehmens. Verwenden Sie ein lineares Regressionsmodell, um zu untersuchen, ob die erste Spalte (`rating`) durch die verbleibenden sechs Variablen vorhergesagt werden kann, und beantworten Sie dabei folgende Punkte:
+
+- Identifizieren Sie, welche Variablen signifikante Prädiktoren sind, und geben Sie deren Regressionskoeffizienten an.
+- Geben Sie standardisierte Regressionskoeffizienten für alle Prädiktoren an.
+- Wie hoch ist der Bestimmtheitsmaß $R^2$?
+- Ist das Modell statistisch signifikant? Begründen Sie Ihre Antwort.
+
+
+## Übung 12
+
+Gegeben sei ein Vektor `x = 1:100` und der folgende Ausdruck:
+
+```r
+log(sqrt(mean(x^2 + 3, trim=0.25)), base=2)
+```
+
+Schreiben Sie diesen Ausdruck unter Verwendung von drei Pipe-Operatoren um!
+
+
+## Übung 13
+
+Gegeben sei das folgende Data Frame:
+
+```{r}
+set.seed(1)
+df = data.frame(
+    a=sample(0:1000, 20, replace=TRUE),
+    b=sample(0:1000, 20, replace=FALSE)
+)
+```
+
+Berechnen Sie zunächst die Spaltenmittelwerte für beide Spalten in diesem Data Frame. Berechnen Sie anschließend die Spaltenmittelwerte erneut, diesmal jedoch nur für die Zeilen, in denen die Werte in der Spalte `a` ungerade sind.
+
+
+## Übung 14
+
+Erstellen Sie einen Character-Vektor `x` mit den folgenden sieben Elementen: `1`, `9`, `X`, `13`, `Y`, `8` und `27`. Konvertieren Sie diesen Vektor mit einer geeigneten Funktion in einen numerischen Vektor `y`. Verwenden Sie dann `sum()`, um die Summe aller Elemente in `y` zu berechnen, wobei fehlende Werte ignoriert werden sollen. Erstellen Sie schließlich ein Data Frame `df` aus den beiden Vektoren `x` und `y` und fügen Sie eine dritte Spalte namens `z` hinzu, die nur Einsen (als numerische Werte) enthält.
+
+
+## Übung 15
+
+Berechnen Sie das Ergebnis des folgenden Ausdrucks und weisen Sie es der Variablen `result` zu:
+
+$$\sqrt{\left(\frac{25 + 7.1}{5 \pi}\right)^4 + \frac{(-6.2 \cdot \frac{2}{3})^2}{0.8 + 3^{\frac{2}{7}}}}$$
+
+Verwenden Sie die Funktion `round()`, um das Ergebnis auf drei Dezimalstellen gerundet auszugeben.
+
+
+## Übung 16
+
+Gegeben seien die folgenden beiden Vektoren `x` und `y`:
+
+```{r}
+set.seed(4)
+x = rnorm(100, mean=-4, sd=5)
+y = 0.29 * x + 2 * rnorm(100, mean=2, sd=2)
+```
+
+Erstellen Sie ein Streudiagramm der beiden Vektoren einschließlich der Regressionsgeraden. Berechnen Sie die Pearson-Korrelation zwischen `x` und `y` und geben Sie an, ob diese Korrelation signifikant ist (bei einem Signifikanzniveau von $\alpha = 0.05$). Begründen Sie Ihre Antwort, indem Sie die Faktoren erklären, die die statistische Signifikanz in diesem Zusammenhang bestimmen.
+
+
+## Übung 17
+
+Importieren Sie die Daten aus der Datei [`inflation.csv`](inflation.csv) und erstellen Sie ein Diagramm, das die zeitliche Entwicklung der Inflation in Österreich (AT), Deutschland (DE) und der Schweiz (CH) zeigt. Das Diagramm sollte unterschiedliche Farben für die drei Länder verwenden, eine Legende in der oberen linken Ecke enthalten, klar beschriftete Achsen haben und fehlende Werte korrekt behandeln.
+
+::: {.callout-note}
+Fehlende Werte sind in der Datei als `:` kodiert. Damit die Legende farbige Linien anzeigt, müssen Sie das Argument `lty=1` im Funktionsaufruf von `legend()` verwenden.
+:::
+
+
+## Übung 18
+
+Gegeben sei der folgende Vektor `x`:
+
+```{r}
+set.seed(4)
+x = sample(-10:10, 500, replace=TRUE)
+```
+
+Erstellen Sie einen neuen Vektor `y`, indem Sie nur die *ungeraden* Werte von `x` verwenden. Wie viele Elemente hat der ursprüngliche Vektor `x` und wie viele Elemente hat der neue Vektor `y`? Welcher der beiden Vektoren hat einen größeren Mittelwert?
+
+
+## Übung 19
+
+Berechnen Sie den Mittelwert, die Standardabweichung und die Quantile, die den Wahrscheinlichkeiten 0, 0.25, 0.33, 0.5, 0.66, 0.75 und 1 des folgenden Vektors `x` entsprechen:
+
+```{r}
+set.seed(4)
+x = sample(c(-10:10, NA), 500, replace=TRUE)
+```
+
+
+## Übung 20
+
+Importieren Sie die Datei `winequality-white.csv` in R. Dieser Datensatz enthält verschiedene chemische Messungen für verschiedene Arten von Weißweinen.
+
+Wie viele Zeilen und Spalten hat dieser Datensatz? Verwenden Sie die Funktion `describe()` aus dem Paket `psych`, um verschiedene deskriptive Statistiken für alle Spalten anzuzeigen. Beantworten Sie anschließend basierend auf dieser Ausgabe folgende Fragen:
+
+* Wie hoch ist der durchschnittliche Alkoholgehalt (Spalte `alcohol`)?
+* Wie hoch ist der Median der Spalte `free sulfur dioxide`?
+* Wie groß ist die Differenz zwischen dem Maximum und Minimum der Spalte `pH`?
+
+Berechnen Sie außerdem den Mittelwert der Spalte `pH` separat für jede Stufe der Spalte `quality`.
+
+
+## Übung 21
+
+Gegeben sei das folgende Data Frame `df`:
+
+```{r}
+set.seed(4)
+df = data.frame(
+    A=sample(-1000:1000, 500, replace=TRUE),
+    B=runif(500, -1, 10)
+)
+```
+
+Zählen Sie die Zeilen in `df`, in denen die Spalte `A` negative Werte aufweist. Berechnen Sie anschließend den Mittelwert und die Standardabweichung der Spalte `B` für diese Zeilen.
+
+
+## Übung 22
+
+Gegeben sei der folgende Vektor `x`:
+
+```{r}
+set.seed(4)
+x = sample(-10:10, 500, replace=TRUE)
+```
+
+Erstellen Sie die folgenden vier Vektoren durch Indizieren aus `x`:
+
+1. `y1` soll alle Werte von `x` enthalten, außer den Elementen an den Positionen 20 und 37.
+2. `y2` soll alle Werte von `x` enthalten, die größer als 4 sind.
+3. `y3` soll die ersten 25 Werte von `x` enthalten.
+4. `y4` soll die Elemente von `x` an den Positionen 2, 128 und 37 enthalten (in dieser Reihenfolge).
+
+
+## Übung 23
+
+Gegeben sei der folgende Vektor `x`:
+
+```{r}
+set.seed(4)
+x = sample(-10:10, 500, replace=TRUE)
+```
+
+Erstellen Sie neue Vektoren `x_odd` und `x_even`, die die ungeraden bzw. geraden Elemente von `x` enthalten. Wie viele Elemente enthalten diese Vektoren?
+
+
+## Übung 24
+
+Der eingebaute Datensatz `sleep` enthält Daten über die Wirkung von zwei Schlafmitteln bei 10 Patienten (gemessen als Zunahme der Schlafdauer im Vergleich zu einer Kontrollgruppe). Verwenden Sie einen geeigneten *t*-Test, um die Wirkungen der beiden Medikamente zu vergleichen. Fassen Sie die Ergebnisse zusammen (Teststatistik und *p*-Wert) und ziehen Sie eine Schlussfolgerung unter Verwendung eines Signifikanzniveaus von $\alpha = 0.05$.
+
+
+## Übung 25
+
+Gegeben sei ein Vektor `x = 1:100` und der folgende Ausdruck:
+
+```r
+sum(log(exp(quantile(x, probs=0.4)), base=10))
+```
+
+Schreiben Sie diesen Ausdruck unter Verwendung von Pipe-Operatoren um!
+
+
+## Übung 26
+
+Aktivieren Sie das Paket `palmerpenguins` und erstellen Sie ein neues Data Frame basierend auf dem `penguins`-Datensatz, das nur die Gentoo-Spezies enthält und nur die zwei Spalten `island` und `sex` sowie eine neu zu erstellende Spalte `mass` umfasst – diese soll die Körpermasse in kg enthalten, welche aus der gegebenen Spalte `body_mass_g` (Masse in g) berechnet werden kann. Verwenden Sie den Pipe-Operator `|>` sowie die Funktionen `subset()` und `transform()`, um dieses Problem zu lösen!
+
+
+## Übung 27
+
+Gegeben sei folgendes Data Frame `df`:
+
+```r
+set.seed(1)
+df = data.frame(
+    A=sample(0:1000, 20, replace=TRUE),
+    B=sample(0:1000, 20, replace=FALSE)
+)
+```
+
+1. Berechnen Sie die beiden Spaltenmittelwerte dieses Data Frames.
+2. Berechnen Sie die Spaltenmittelwerte, wenn Sie nur jene Zeilen berücksichtigen, in denen die Werte in Spalte `B` im Bereich 250 bis 750 (beides inklusive) liegen.
+3. Berechnen Sie die Spaltenmittelwerte, wenn Sie nur jene Zeilen berücksichtigen, in denen die Werte in Spalte `A` größer als in Spalte `B` sind.
+
+
+## Übung 28
+
+Die Excel-Datei `luis-daten.xls` enthält die Feinstaubkonzentration für die Stadt Graz von Februar 2005 bis Juni 2024. Auf zwei separaten Arbeitsblättern finden sich Daten von zwei verschiedenen Messstationen Graz Don Bosco (Graz-DB) und Graz Süd (Graz-S).
+
+1. Importieren Sie die Daten von Graz-DB und Graz-S in zwei separate Data Frames.
+2. Konvertieren Sie die Spalte `Datum` in beiden Data Frames in ein Datumsformat.
+3. Stellen Sie für beide Messstationen den Zeitverlauf der Feinstaubkonzentrationen als Liniengrafiken dar. Dabei soll Graz-DB in blau und Graz-S in rot dargestellt werden.
+4. Berechnen Sie die Pearson-Korrelation zwischen den Feinstaubkonzentrationen der beiden Messstationen und geben Sie an, ob diese Korrelation signifikant ist (bei einem Signifikanzniveau von $\alpha = 0.05$).
+
+::: {.callout-note}
+Mit der Funktion `lines()` kann man eine Liniengrafik zu einer bereits bestehenden Grafik hinzufügen.
+:::
+
+
+## Übung 29
+
+Die Datei `temperature-graz.csv` beinhaltet historische Temperaturjahresmittelwerte in Graz. Bearbeiten Sie folgende Aufgabenstellungen:
+
+1. Importieren Sie diese Datei in R (beachten Sie, dass fehlende Werte in der Datei als `999.90` codiert sind)!
+2. Erstellen Sie eine Grafik, welche den Temperaturverlauf über die Zeit zeigt (Spalten `metANN` bzw. `YEAR`). Stellen Sie die Datenpunkte mit Punkten dar und verbinden Sie die einzelnen Punkte mit Linien. Erstellen Sie passende Achsenbeschriftungen sowie einen aussagekräftigen Titel.
+3. Wie lautet der minimale bzw. maximale Temperaturjahresmittelwert im gesamten Zeitraum?
+
+
+## Übung 30
+
+Lesen Sie die Datei `divorce_margarine.csv` in R ein. Dieser Datensatz beinhaltet die Anzahl der Scheidungen pro 1000 Personen im US-Bundesstaat Maine und den Margarineverbrauch pro Kopf und Jahr (in Pfund) im Zeitraum 2000 bis 2009.
+
+Erstellen Sie einen Scatterplot mit einer überlagerten Regressionsgeraden, um den Zusammenhang zwischen diesen beiden Messgrößen darzustellen.
+
+Berechnen Sie anschließend die Pearson-Korrelation zwischen den beiden Variablen und testen Sie ob diese Korrelation signifikant ist (unter der Annahme eines Signifikanzniveaus von $\alpha = 0.05$).
+
+
+## Übung 31
+
+Gegeben sei folgendes Data Frame `df`:
+
+```r
+set.seed(1)
+df = data.frame(
+    A=rep(c("A", "B", "C"), each=10),
+    B=sample(0:100, 30, replace=TRUE),
+    X=rep(1:10, 3)
+)
+```
+
+Erzeugen Sie ein neues Data Frame, welches dieselben Daten wie `df` enthält, aber diese im Wide-Format darstellt. Im ursprünglichen Data Frame `df` ist die Spalte `A` die Indikatorspalte, die Spalte B enthält die Werte, und die Spalte X identifiziert die einzelnen Fälle.
+
+
+## Übung 32
+
+Aktivieren Sie das Paket `dplyr`, um den Datensatz `starwars` verwenden zu können. Es soll der Zusammenhang zwischen Körpergewicht (`mass`) und Körpergröße (`height`) untersucht werden.
+
+Entfernen Sie zunächst alle Datenpunkte mit einer Masse von 1000 kg oder mehr. Erstellen Sie mit den bereinigten Daten ein Streudiagramm inklusive Regressionsgeraden (`mass` auf der x-Achse und `height` auf der y-Achse).
+
+Berechnen Sie dann ein lineares Regressionsmodel mit `mass` als Prädiktor und `height` als abhängiger Variable. Beantworten Sie folgende Fragen:
+
+- Ist die Steigung signifikant?
+- Ist das Regressionsmodel insgesamt signifikant?
+- Welche Modellannahmen könnten hier verletzt sein (betrachten Sie dazu die diagnostischen Plots)?
+
+Begründen Sie Ihre Antworten!
+
+
+## Übung 33
+
+Gegeben sind folgende zwei Vektoren `x` und `y`:
+
+```R
+set.seed(4)
+x = rnorm(500, mean=-4, sd=5)
+y = rnorm(500, mean=-2, sd=3) + 0.05 * x
+```
+
+Berechnen Sie die Spearman-Korrelation zwischen `x` und `y` und geben Sie an, ob diese Korrelation signifikant ist (bei $\alpha = 0.01$).
