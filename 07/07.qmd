@@ -2,7 +2,7 @@
 title: "7 – Datenaufbereitung"
 subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2025-11-20
+date: 2025-11-27
 format:
   html:
     page-layout: full

@@ -34,13 +34,13 @@ Der Plan für dieses Semester sieht wie folgt aus:
 | 3       | 16.10.2025 | Vektoren                |
 | 4       | 23.10.2025 | Tabellen                |
 | 5       |  6.11.2025 | Daten importieren       |
-| 6       | 13.11.2025 | Deskriptive Statistiken |
-| 7       | 20.11.2025 | Datenaufbereitung       |
-| 8       | 27.11.2025 | Grafiken                |
-| 9       |  4.12.2025 | Korrelation             |
-| 10      | 11.12.2025 | Lineare Regression (1)  |
-| 11      |   8.1.2026 | Lineare Regression (2)  |
-| 12      |  15.1.2026 | Mittelwertvergleich     |
+| 6       | 20.11.2025 | Deskriptive Statistiken |
+| 7       | 27.11.2025 | Datenaufbereitung       |
+| 8       |  4.12.2025 | Grafiken                |
+| 9       | 11.12.2025 | Korrelation             |
+| 10      |   8.1.2026 | Lineare Regression (1)  |
+| 11      |  15.1.2026 | Lineare Regression (2)  |
+| ~~12~~  | ~~15.1.2026~~ | ~~Mittelwertvergleich~~     |
 | 13      |  22.1.2026 | Prüfung                 |
 | 14      |  29.1.2026 | Prüfung (Ersatztermin)  |
 
