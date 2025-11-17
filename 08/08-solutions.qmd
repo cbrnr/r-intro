@@ -1,8 +1,8 @@
 ---
-title: "8 – Solutions"
-subtitle: "Statistical Data Analysis with R"
+title: "8 – Lösungen"
+subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2025-05-05
+date: 2025-12-04
 format:
   html:
     page-layout: full
@@ -16,9 +16,12 @@ title-block-banner: true
 theme:
   light: flatly
   dark: darkly
+lang: de
+author-title: "Autor"
+published-title: "Veröffentlicht"
 ---
 
-## Exercise 1
+## Übung 1
 
 ```{r}
 library(palmerpenguins)
@@ -32,7 +35,7 @@ plot(
 )
 ```
 
-## Exercise 2
+## Übung 2
 
 ```{r}
 plot(
@@ -63,23 +66,23 @@ legend(
 ```
 
 
-## Exercise 3
+## Übung 3
 
 ```{r}
 boxplot(ToothGrowth$len ~ ToothGrowth$supp + ToothGrowth$dose)
 ```
 
 
-## Exercise 4
+## Übung 4
 
 ```{r}
 boxplot(mtcars$mpg ~ mtcars$cyl)
 ```
 
-Fuel efficiency decreases with increasing number of cylinders (i.e., fuel consumption increases).
+Mit steigender Zylinderanzahl sinkt die Treibstoffeffizienz (d.h. der Treibstoffverbrauch steigt).
 
 
-## Exercise 5
+## Übung 5
 
 ```{r}
 #| fig-width: 7
