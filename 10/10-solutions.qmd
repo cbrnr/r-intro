@@ -1,8 +1,8 @@
 ---
-title: "10 – Solutions"
-subtitle: "Statistical Data Analysis with R"
+title: "10 – Lösungen"
+subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2025-05-19
+date: 2026-01-08
 format:
   html:
     page-layout: full
@@ -16,9 +16,12 @@ title-block-banner: true
 theme:
   light: flatly
   dark: darkly
+lang: de
+author-title: "Autor"
+published-title: "Veröffentlicht"
 ---
 
-## Exercise 1
+## Übung 1
 
 ```{r}
 #| message: false
@@ -39,7 +42,7 @@ abline(lm(dist ~ speed, data=cars), col="blue", lwd=2)
 ```
 
 
-## Exercise 2
+## Übung 2
 
 ```{r}
 model = lm(dist ~ speed, data=cars)
@@ -47,7 +50,7 @@ summary(model)
 ```
 
 
-## Exercise 3
+## Übung 3
 
 ```{r}
 r = with(cars, cor(speed, dist))
@@ -56,17 +59,17 @@ summary(model)$r.squared
 ```
 
 
-## Exercise 4
+## Übung 4
 
-The equation of the line is:
+Die Geradengleichung lautet:
 
 $$y = b_0 + b_1 \cdot x$$
 
-Using the concrete values of the coefficients:
+Eingesetzt mit den Werten der Koeffizienten:
 
 $$y = -17.5791 + 3.9324 \cdot x$$
 
-And the predicted values are:
+Und die Vorhersagen:
 
 $$-17.5791 + 3.9324 \cdot 5 = 2.08$$
 $$-17.5791 + 3.9324 \cdot 65 = 238.03$$
