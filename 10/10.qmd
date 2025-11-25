@@ -1,5 +1,5 @@
 ---
-title: "10 – Lineare Regression"
+title: "10 – Lineare Regression (1)"
 subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
 date: 2026-01-08
