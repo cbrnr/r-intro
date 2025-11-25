@@ -1,8 +1,8 @@
 ---
-title: "9 – Solutions"
-subtitle: "Statistical Data Analysis with R"
+title: "9 – Lösungen"
+subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2025-05-12
+date: 2025-12-11
 format:
   html:
     page-layout: full
@@ -16,11 +16,14 @@ title-block-banner: true
 theme:
   light: flatly
   dark: darkly
+lang: de
+author-title: "Autor"
+published-title: "Veröffentlicht"
 ---
 
-## Exercise 1
+## Übung 1
 
-By trying different values for $N$ we find $N = 62$ for $p < 0.05$. This means that a correlation of $r = 0.25$ is significant for $N = 62$ or larger.
+Durch Probieren mit verschiedenen Werten für $N$ erhält man $N = 62$ für $p < 0.05$. Dies bedeutet, dass eine Korrelation von $r = 0.25$ signfikant ist bei $N = 62$ oder größer.
 
 ```{r}
 r = 0.25
@@ -31,7 +34,7 @@ se_z = 1 / sqrt(N - 3)
 (p = 2 * (1 - pnorm(z / se_z)))
 ```
 
-Again, by trying different values for $N$ we find $N = 1538$ (at least) for $p < 0.05$. This shows that even a very small correlation becomes significant for a certain sample size.
+Wiederum durch Probieren erhält man $N = 1538$ (mindestens) damit $p < 0.05$. Man sieht, dass selbst eine sehr kleine Korrelation ab einer gewissen Stichprobengröße signifikant wird.
 
 ```{r}
 r = 0.05
@@ -43,7 +46,7 @@ se_z = 1 / sqrt(N - 3)
 ```
 
 
-## Exercise 2
+## Übung 2
 
 ```{r}
 x = c(8, 1, -4, 5, 6, 10, 9)
@@ -51,10 +54,10 @@ y = c(-2, -5, -6, 0, 3, 7, 10)
 cor.test(x, y, conf.level=0.99)
 ```
 
-The Pearson correlation is 0.8166, the corresponding $p$-value is 0.02501 (this is not significant for $\alpha=0.99$). The 99% confidence interval is $(-0.1405326, 0.9847508)$. It includes the value 0, which also indicates that the correlation is not significant.
+Die Pearson-Korrelation beträgt 0.8166, der zugehörige $p$-Wert ist 0.02501. Bei $\alpha=0.99$ ist dies nicht signifikant. Das 99%-Konfidenzintervall lautet $(-0.1405326, 0.9847508)$. Es beinhaltet den Wert 0, daher ist die Korrelation nicht signifikant.
 
 
-## Exercise 3
+## Übung 3
 
 ```{r}
 cor(mtcars[, c("mpg", "disp", "hp")], method="pearson")
@@ -66,7 +69,7 @@ pairs(subset(mtcars, select=c(mpg, disp, hp)))
 ```
 
 
-## Exercise 4
+## Übung 4
 
 ```{r}
 #| message: false
@@ -76,29 +79,28 @@ pm10$Datum = as.Date(pm10$Datum, format="%d.%m.%y")
 ```
 
 
-### Time course of PM10 for both measurement locations
+### Zeitlicher Verlauf von PM10 für beide Messorte
 
 ```{r}
 plot(pm10$Datum, pm10$Petersgasse, type="l", col="blue", xlab="", ylab="PM10")
 lines(pm10$Datum, pm10$DonBosco, col="red")
 ```
 
-
-### Correlation between the two measurement locations
+### Zusammenhang der beiden Messstationen
 
 ```{r}
 with(pm10, plot(Petersgasse, DonBosco, pch=16, col=rgb(0, 0, 0, 0.5)))
 abline(lm(pm10$DonBosco ~ pm10$Petersgasse), col="blue")
 
 (r = cor.test(pm10$Petersgasse, pm10$DonBosco))
-r$estimate**2  # explained variance
+r$estimate**2  # erklärte Varianz
 
-# we must exclude missing values explicitly
+# fehlende Werte (NA) müssen explizit ausgeschlossen werden
 cor(pm10$Petersgasse, pm10$DonBosco, use="complete.obs")
 ```
 
 
-## Exercise 5
+## Übung 5
 
 ```{r}
 library(palmerpenguins)
