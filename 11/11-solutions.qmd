@@ -1,8 +1,8 @@
 ---
-title: "11 – Solutions"
-subtitle: "Statistical Data Analysis with R"
+title: "11 – Lösungen"
+subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2025-05-26
+date: 2026-01-15
 format:
   html:
     page-layout: full
@@ -16,9 +16,12 @@ title-block-banner: true
 theme:
   light: flatly
   dark: darkly
+lang: de
+author-title: "Autor"
+published-title: "Veröffentlicht"
 ---
 
-## Exercise 1
+## Übung 1
 
 ```{r}
 #| message: false
@@ -29,21 +32,21 @@ sales = read_tsv("sales2.dat")
 sales = as_tibble(scale(sales))
 model = lm(sales ~ adverts + airplay + attract, data=sales)
 summary(model)
-coef(model)  # matches output of lm.beta
+coef(model)  # stimmt mit lm.beta überein
 ```
 
 
-## Exercise 2
+## Übung 2
 
 ```{r}
 #| message: false
-library(lm.beta)  # for lm.beta
+library(lm.beta)  # für lm.beta
 
 aggression = read_tsv("aggression.dat")
 
 model1 = lm(Aggression ~ Parenting_Style + Sibling_Aggression, data=aggression)
-summary(model1)  # both predictors are significant
-lm.beta(model1)  # Parenting_Style has greater influence than Sibling_Aggression
+summary(model1)  # beide Variablen erwartungsgemäß signifikant
+lm.beta(model1)  # Parenting_Style hat größeren Einfluss als Sibling_Aggression
 
 model2 = lm(
     Aggression ~ Parenting_Style + Sibling_Aggression + Television +
@@ -53,27 +56,27 @@ model2 = lm(
 summary(model2)
 lm.beta(model2)
 
-anova(model1, model2)  # compare models
+anova(model1, model2)  # Vergleich beider Modelle
 ```
 
 
-## Exercise 3
+## Übung 3
 
 ```{r}
-library(car)  # for dwt, vif
+library(car)  # für dwt, vif
 
-# collinearity
+# Kollinearität
 vif(model2)
 
-# independence of residuals
+# Unabhängigkeit der Residuen
 dwt(model2)
 
-# normality of residuals
+# Normalverteilung Residuen
 plot(model2, which=2)
 
-# linearity and homogeneity of variance
+# Linearität und Varianzhomogenität
 plot(model2, which=1)
 
-# points with high leverage
+# Punkte mit großem Einfluss
 plot(model2, which=5)
 ```

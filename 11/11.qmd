@@ -1,8 +1,8 @@
 ---
-title: "11 – Linear Regression (2)"
-subtitle: "Statistical Data Analysis with R"
+title: "11 – Lineare Regression (2)"
+subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2025-05-26
+date: 2026-01-15
 format:
   html:
     page-layout: full
@@ -16,28 +16,31 @@ title-block-banner: true
 theme:
   light: flatly
   dark: darkly
+lang: de
+author-title: "Autor"
+published-title: "Veröffentlicht"
 ---
 
-## Multiple linear regression
+## Multiple lineare Regression
 
-Multiple linear regression is an extension of simple linear regression to situations with multiple predictors. The basic concept remains the same; we still use the general model equation:
+Die multiple lineare Regression ist eine Erweiterung der einfachen linearen Regression auf Situationen mit mehreren Prädiktoren. Das grundlegende Konzept bleibt aber unverändert, wir verwenden nach wie vor folgende allgemeine Modellgleichung:
 
 $$y_i = \hat{y}_i + \varepsilon_i$$
 
-The model with $n$ predictors $x_{1}$, $x_{2}$, $\ldots$, $x_{n}$ is now written as follows:
+Das Modell $\hat{y}_i$ mit $n$ Prädiktoren $x_{1}$, $x_{2}$, $\ldots$, $x_{n}$ wird nun wie folgt formuliert:
 
 $$y_i = (b_0 + b_1 x_{1i} + b_2 x_{2i} + \ldots + b_n x_{ni}) + \varepsilon_i$$
 
-Each predictor has its own weight or regression coefficient. Again, we use least squares to calculate the coefficients in such a way that the resulting "line" (technically, a [hyperplane](https://en.wikipedia.org/wiki/Hyperplane)) minimizes the mean squared error.
+Jeder Prädiktor erhält also ein eigenes Gewicht bzw. einen eigenen Regressionskoeffizienten. Die Koeffizienten werden mittels Least Squares wieder so berechnet, dass die entstehende "Gerade" (technisch spricht man hier von einer [Hyperebene](https://de.wikipedia.org/wiki/Hyperebene)) den mittleren quadratischen Fehler minimiert.
 
-We compute the sum of squares SST, SSM, and SSR in the same way as in simple regression. We can also calculate $R^2$, which indicates the proportion of variance in the dependent variable that is explained by the model. The higher this value, the better the model describes the data. However, unlike simple regression, we cannot calculate the Pearson correlation between the individual variables from $R^2$. Instead, by taking the square root, we can calculate the correlation between the *predicted* values $\hat{y}_i$ and the *observed* values $y_i$.
+Die Quadratsummen SST, SSM und SSR werden analog wie bei der einfachen Regression berechnet. Wieder kann man $R^2$ berechnen, welches den Anteil der Varianz in der abhängigen Variable angibt, welche durch das Modell erklärt wird. Je höher dieser Wert ist, desto besser kann das Modell die Daten beschreiben. Aus $R^2$ kann man hier die Pearson-Korrelation zwischen den *vorhergesagten* Werten und den tatsächlich *beobachteten* Werten berechnen.
 
 
-## Outliers and leverage
+## Überprüfen der Datenpunkte
 
-We should always check how well a given model describes the measured data. Linear models can be very sensitive to individual data points that do not fit the general trend of the data. However, such outliers only have an actual impact on the model if they are far from the mean of the predictors. This potential influence of each data point is called *leverage*.
+Ein gegebenes Modell sollte man immer darauf überprüfen, wie gut es die gemessenen Daten tatsächlich beschreibt. Lineare Modelle können sehr sensitiv auf einzelne Datenpunkte reagieren, wenn diese nicht zum generellen (linearen) Trend der Daten passen. Einen tatsächlichen Einfluss auf das Modell üben solche Ausreißer aber nur aus, wenn sie weit weg vom Mittelwert der Prädiktoren liegen – man bezeichnet diesen potentiellen Einfluss jedes Datenpunkts als *Leverage*.
 
-The most critical data points are those that have high leverage and do not fit the general trend of the data. The following figure illustrates three possible situations. The four original data points are shown in black, and the corresponding regression line is shown as a black dashed line. The additional fifth data point is shown in red, and the regression line through all five data points is also shown in red. Adding a single data point therefore changes the original model more or less (from black dashed to red solid).
+Kritisch sind also jene Punkte, welche einen potentiellen hohen Einfluss haben (hohe Leverage) und gleichzeitig nicht zum generellen Trend der Daten passen, also Ausreißer sind. Die folgende Grafik veranschaulicht die drei möglichen Situationen. Dabei sind die vier Ausgangsdatenpunkte schwarz dargestellt und die zugehörige Regressionsgerade ist schwarz strichliert. Der zusätzliche fünfte Datenpunkt ist rot dargestellt, und die Regressionsgerade durch alle fünf Datenpunkte ist ebenfalls rot. Durch einen einzigen zusätzlichen Datenpunkt ändert sich also das ursprüngliche Modell mehr oder weniger stark (von schwarz strichliert auf rot durchgezogen).
 
 ```{r}
 #| echo: false
@@ -80,7 +83,7 @@ abline(l3, col="red")
 title("high leverage outlier")
 ```
 
-The fewer data points are available, the greater the influence of outliers on the linear model. The following figure illustrates the effect of a single outlier for three different sample sizes. If there are many data points, one outlier does not really influence the model significantly (left panel). However, the smaller the sample size, the greater the influence of the outlier (middle and right panels).
+Je weniger Datenpunkte vorhanden sind, desto größer ist der Einfluss von Ausreißern auf das lineare Modell. Die folgende Grafik veranschaulicht die Auswirkung eines Ausreißers für drei verschiedene Stichprobengrößen. Man erkennt, dass ein Ausreißer das Modell nur wenig verändert, wenn sehr viele Datenpunkte vorhanden sind. Wenn es aber nur wenige Datenpunkte gibt, kann ein einziger Ausreißer das Modell stark verändern.
 
 ```{r}
 #| echo: false
@@ -108,28 +111,28 @@ outlier(10, alpha=0.8)
 ```
 
 
-## Model assumptions
+## Modellannahmen
 
-In order to use a linear model to make predictions on unseen data, the following assumptions must be met:
+Um mit einem linearen Regressionsmodell Vorhersagen auf ungesehene Daten machen zu können, müssen folgende Annahmen erfüllt sein:
 
-* The dependent variable must be continuous (interval scale).
-* The independent variables (predictors) must be continuous (or on a nominal scale with two categories).
-* The predictors must have non-zero variances.
-* Predictors must not be linearly dependent (multicollinearity). This can be checked, for example, with the VIF statistic (variance inflation factor).
-* Homoscedasticity, i.e., the variance of the residuals must be constant across the values of the predictors (homogeneity of variance).
-* The residuals must be normally distributed.
-
+* Die abhängige Variable muss intervallskaliert sein.
+* Die unabhängigen Variablen (Prädiktoren) müssen intervallskaliert (oder nominalskaliert in zwei Kategorien) sein.
+* Die Prädiktoren müssen Varianzen ungleich 0 haben (sie dürfen also nicht konstant sein).
+* Es darf keine Multikollinearität bestehen, d.h. zwei oder mehrere Prädiktoren dürfen nicht linear voneinander abhängig sein. Dies kann z.B. mit der VIF-Statistik (Variance Inflation Factor) überprüft werden.
+* Homoskedastizität, d.h. die Varianz der Residuen muss konstant über die Werte der Prädiktoren sein (Varianzhomogenität).
+* Die Residuen müssen normalverteilt sein (dies ist insbesondere für kleine Stichproben wichtig).
+    
   :::{.callout-important}
-  This assumption of normality applies to the *residuals* and *not* to the predictors!
+  Diese Voraussetzung der Normalverteilung gilt für die *Residuen* und *nicht* für die Prädiktoren!
   :::
 
-* The residuals must be independent of each other (this can be checked, for example, with the Durbin-Watson test).
-* The relationship between independent variables and the dependent variable must be linear.
+* Die Residuen müssen unabhängig voneinander sein (kann z.B. mit dem Durbin-Watson-Test überprüft werden).
+* Die Beziehung zwischen unabhängigen Variablen und abhängiger Variable muss linear sein.
 
 
-## Example
+## Beispiel
 
-In the following example, we will again look at the number of music album sales in relation to the advertising budget. However, we will now include two additional predictors: the number of airplay hours on the largest national radio stations and the attractiveness of the band members. We start by loading the data [`sales2.dat`](sales2.dat):
+Im folgenden Beispiel sehen wir uns wieder die Anzahl der Verkäufe von Musikalben in Abhängigkeit der Höhe des Werbebudgets an. Zusätzlich gibt es jetzt aber zwei weitere Prädiktoren, nämlich die Anzahl an Airplay-Stunden im größten nationalen Radiosender und die Attraktivität der Bandmitglieder. Wir beginnen mit dem Laden der Daten [`sales2.dat`](sales2.dat):
 
 ```{r}
 #| message: false
@@ -137,103 +140,101 @@ library(readr)
 album2 = read_tsv("sales2.dat")
 ```
 
-Let's calculate a linear regression model. As a comparison model, we first perform a simple regression with only the advertising budget as a predictor:
+Berechnen wir nun ein lineares Regressionsmodell. Als Vergleichsmodell führen wir zuerst eine einfache Regression mit dem einzigen Prädiktor Werbebudget durch:
 
 ```{r}
 model1 = lm(sales ~ adverts, data=album2)
 ```
 
-We can now add additional factors to a second model using the `+` operator:
+Zusätzliche Faktoren kann man nun in einem zweiten Modell einfach durch den `+`-Operator hinzufügen:
 
 ```{r}
 model2 = lm(sales ~ adverts + airplay + attract, data=album2)
 ```
 
-We now summarize the results of both models:
+Anschließend können wir uns die zusammengefassten Ergebnisse der beiden Modelle anzeigen lassen:
 
 ```{r}
 summary(model1)
 summary(model2)
 ```
 
-Since the first model is identical to the one from the previous chapter, we already know the results. Let's therefore discuss the second model. $R^2$ is 0.6647, meaning the model can now explain 66% of the total variance. Compared to the first model with only one predictor, this is an increase of 33%, i.e., the two predictors airplay and attractiveness explain an additional 33% of the variance.
+Da das erste Modell identisch mit jenem aus der vorigen Einheit ist, kennen wir die Ergebnisse bereits. Wenden wir uns daher dem zweiten Modell zu. $R^2$ ist hier 0.6647, das heißt das Modell kann nun 66% der Varianz erklären. Im Vergleich zum ersten Modell mit nur einem Prädiktor ist das eine Steigerung um 33%, d.h. die beiden Prädiktoren Airplay und Attraktivität können zusätzliche Varianz im Ausmaß von 33% erklären.
 
-The output of the `summary()` function also shows the regression coefficients. We can write this multiple linear regression model as follows:
+Die Regressionskoeffizienten werden ebenfalls in der Ausgabe dargestellt. Wir können daher das lineare Modell wie folgt schreiben:
 
 $$y = b_0 + b_1 x_1 + b_2 x_2 + b_3 x_3 = -26.613 + 0.085 \cdot x_1 + 3.367 \cdot x_2 + 11.086 \cdot x_3$$
 
-Here, $b_0$ is the intercept (i.e., the value of $y$ when all predictors are 0), $b_1$ is the advertising budget `adverts`, $b_2$ is the airplay hours `airplay`, and $b_3$ is the attractiveness `attract`.
+Hier stehen $b_0$ für den Intercept (d.h. jener Wert von $y$, wenn alle Prädiktoren 0 sind), $b_1$ für das Werbebudget `adverts`, $b_2$ für die Airplay-Stunden `airplay` und $b_3$ für die Attraktivität `attract`.
 
-The regression coefficients reflect how much the dependent variable changes when a predictor is increased by one unit while keeping all other predictors constant. In our example, this means:
+Die Regressionskoeffizienten geben Auskunft, um wie viel sich die abhängige Variable ändert, wenn man einen Prädiktor um eine Einheit erhöht und dabei alle anderen Prädiktoren konstant hält. Dies bedeutet im Beispiel:
 
-* If we increase `adverts` by one unit, `sales` increases by 0.085 units. This means that for every €1,000 spent on advertising, we sell 85 more albums.
-* If we increase `airplay` by one unit, `sales` increases by 3.367 units. This means that for every additional hour of airplay, we sell 3,367 more albums.
-* If we increase `attract` by one unit, `sales` increases by 11.086 units. This means that for every additional attractiveness point, we sell 11,086 more albums.
+* Wenn `adverts` um eine Einheit erhöht wird, dann erhöht sich `sales` um 0.085 Einheiten. D.h. wenn man 1000 EUR mehr für Werbung ausgibt, verkauft man um 85 Alben mehr.
+* Wenn `airplay` um eine Einheit erhöht wird, dann erhöht sich `sales` um 3.37 Einheiten. D.h. wenn man das Album um eine Stunde mehr im Radio spielt, verkauft man um 3367 Alben mehr.
+* Wenn `attract` um eine Einheit erhöht wird, dann erhöht sich `sales` um 11.086 Einheiten (d.h. 11086 zusätzliche Alben).
 
-The $t$-values and $p$-values indicate whether the regression coefficients are significantly different from zero. The size of the $t$-value indicates the influence (importance) of the coefficients, i.e., `adverts` and `airplay` have a similar influence on the model, while `attract` has a smaller influence.
+Für jeden Regressionskoeffizienten wird ein $t$-Test gerechnet, welcher angibt, ob sich der Koeffizient signifikant von 0 unterscheidet (d.h. ob er signifikant zum Modell beiträgt). Die Größe der $t$-Statistik lässt auf den Einfluss der Koeffizienten schließen, d.h. `adverts` und `airplay` haben einen ähnlich großen Einfluss auf das Modell, wo hingegen `attract` einen geringeren Einfluss hat.
 
-Often, it is helpful to inspect the standardized regression coefficients, because otherwise the coefficients depend on the scale of the predictors. These can be calculated by first standardizing all variables and then fitting the linear model (standardized variables have a mean of 0 and a standard deviation of 1).
+Oft ist es hilfreich, nicht nur die Regressionskoeffizienten zu analysieren, sondern auch die standardisierten Regressionskoeffizienten. Diese kann man berechnen, in dem man zuerst alle Variablen standardisiert und danach das lineare Modell berechnet. Standardisierte Variablen haben einen Mittelwert von 0 und eine Standardabweichung von 1. Man könnte die Standardisierung daher relativ einfach selbst vornehmen, in dem man für jede Variable zuerst deren Mittelwert subtrahiert und danach durch deren Standardabweichung dividiert.
 
 :::{.callout-tip}
-The `scale()` function can be used to standardize the columns of a data frame. However, this function always returns a matrix, so if we want to standardize a data frame or tibble, we need to apply `as.data.frame()` or `tibble::as_tibble()` afterwards.
+Die Funktion `scale()` kann verwendet werden, um die Spalten eine Data Frames zu standardisieren. Diese liefert aber immer eine Matrix zurück, d.h. wenn man ein Data Frame bzw. Tibble standardisieren möchte, muss man danach noch `as.data.frame()` bzw. `tibble::as_tibble()` anwenden.
 :::
 
-Alternatively, we can also use the `lm.beta()` function from the `lm.beta` package after the regular (unstandardized) model has been calculated:
+Alternativ kann man dazu auch *nachträglich* die Funktion `lm.beta()` aus dem `lm.beta`-Paket benutzen:
 
 ```{r}
 library(lm.beta)
 lm.beta(model2)
 ```
 
-The standardized regression coefficients are usually denoted by $\beta_i$. Since all variables are now measured in standard deviations, they can be directly compared. In the example, we can make the following statements:
+Die standardisierten Regressionskoeffizienten werden üblicherweise mit $\beta_i$ bezeichnet. Da alle Variablen nun in Standardabweichungen gemessen werden, kann man diese direkt miteinander vergleichen. Man sieht im Beispiel also:
 
-* If we increase `adverts` by one standard deviation (€485,655), `sales` increases by 0.511 standard deviations (41,240 albums).
-* If we increase `airplay` by one standard deviation (12.27 hours), `sales` increases by 0.512 standard deviations (41,320 albums).
-* If we increase `attract` by one standard deviation (1.40 points), `sales` increases by 0.192 standard deviations (15,490 albums).
+* Wenn `adverts` um eine Standardabweichung erhöht wird (485655 EUR), dann erhöht sich `sales` um 0.511 Standardabweichungen (41240 Alben).
+* Wenn `airplay` um eine Standardabweichung erhöht wird (12.270), dann erhöht sich `sales` um 0.512 Standardabweichungen (41320 Alben).
+* Wenn `attract` um eine Standardabweichung erhöht wird (1.395), dann erhöht sich `sales` um 0.192 Standardabweichungen (15490 Alben).
 
-Just like we already saw with the $t$-values, the standardized regression coefficients show that `adverts` and `airplay` have a similar influence on the model, while `attract` has a smaller influence.
-
-We can calculate confidence intervals for the (non-standardized) regression coefficients with the `confint()` function (by default, the function computes 95% confidence intervals):
+Konfidenzintervalle für die (nicht standardisierten) Regressionskoeffizienten erhält man mit der Funktion `confint()` (standardmäßig werden 95%-Intervalle berechnet):
 
 ```{r}
 confint(model2)
 ```
 
-As we have already seen, we can compare two (or more) models using the $F$ statistic. The $F$ value displayed when summarizing a model compares the model to the simplest baseline model. If we want to compare the model to a different model, `model2` must be an extension of `model1`, i.e., `model2` must include all terms of `model1` plus any additional factors. In R, we can compare two models using the following command:
+Zwei (oder mehrere) Modelle können mit der $F$-Statistik verglichen werden. Der $F$-Wert, der bei der zusammenfassenden Beschreibung eines Modells angezeigt wird, vergleicht das Modell standardmäßig mit dem einfachsten Mittelwertmodell. Möchte man das Modell mit einem anderen Modell vergleichen, ist zu beachten, dass `model2` eine Erweiterung von `model1` sein muss, d.h. `model2` muss alle Terme von `model1` beinhalten plus eventuelle zusätzliche Faktoren. In R gibt man hier folgenden Befehl ein:
 
 ```{r}
 anova(model1, model2)
 ```
 
-The $F$ value is 96.447, and because the $p$-value is less than 0.001, this indicates that the second model is significantly better than the first.
+Der $F$-Wert beträgt also 96.447 und ist signifikant, d.h. das zweite Modell ist signifikant besser als das erste.
 
 
-### Influential data points
+### Datenpunkte mit großem Einfluss
 
-We can use the following functions to calculate various outlier statistics for each individual data point:
+Um die diversen Ausreißerstatistiken für jeden einzelnen Wert übersichtlich beurteilen zu können, kann man die Werte mit folgenden Funktionen berechnen:
 
-* `resid()`: Residuals
-* `rstandard()`: Standardized residuals
-* `rstudent()`: Studentized residuals (using leave-one-out)
+* `resid()`: Residuen
+* `rstandard()`: Standardisierte Residuen
+* `rstudent()`: Studentisierte Residuen (berechnet mit Leave-One-Out)
 * `hatvalues()`: Leverage
-* `dfbeta()`: Difference between regression coefficients using leave-one-out
-* `cooks.distance()`: Cook's distance
-* `dffits()`: Difference between predicted values using leave-one-out
+* `dfbeta()`: Unterschied der Regressionskoeffizienten mittels Leave-One-Out
+* `cooks.distance()`: Cook's Distanz
+* `dffits()`: Unterschied im vorhergesagtem Wert mittels Leave-One-Out
 
 ::: {.callout-note}
-Leave-one-out means that the respective data point is excluded from the calculation of the statistic. We can then compare the statistic for each data point for a model with and without the respective data point, which allows us to determine the influence of each data point on the model.
+"Leave-One-Out" bedeutet, dass der jeweilige Datenpunkt aus der Berechnung des Werts ausgeschlossen wird.
 :::
 
-A particularly useful function is `influence.measures()`, which provides an overview of several outlier statistics for each data point:
+Sehr praktisch ist die Funktion `influence.measures()`, welche mehrere Ausreißerstatistiken für jeden Datenpunkt übersichtlich aufbereitet ausgibt.
 
 ```r
 influence.measures(model2)
 ```
 
 
-### Model diagnostics
+### Modellannahmen
 
-We can use the VIF statistic to check for multicollinearity using the `vif()` function from the `car` package:
+Multikollinearität kann mit der VIF-Statistik beurteilt werden; in R kann man dazu die Funktion `vif()` aus dem `car`-Paket verwenden.
 
 ```{r}
 #| message: false
@@ -241,13 +242,13 @@ library(car)
 vif(model2)
 ```
 
-The largest VIF value should not exceed 10. The average VIF value should not be significantly greater than 1, which can be checked as follows:
+Der größte VIF-Wert sollte nicht größer als 10 sein (für einen konservativeren Schwellwert kann man auch 5 benutzen). Der durchschnittliche VIF sollte nicht wesentlich größer als 1 sein, was man wie folgt überprüfen kann:
 
 ```{r}
 mean(vif(model2))
 ```
 
-If we plot a regression model using the `plot()` function, we get four diagnostic plots:
+Wenn man den `plot()`-Befehl auf das Modell anwendet, werden vier diagnostische Plots erstellt.
 
 ```{r}
 #| fig-width: 12
@@ -256,53 +257,51 @@ par(mfrow=c(2, 2), cex=0.75)
 plot(model2)
 ```
 
-The plot in the upper left shows the predicted values versus the residuals. Here, we can check the linearity assumption (the red line should be a straight line around zero) and the homoscedasticity assumption (the spread of the data points should not change along the x-axis). The plot in the lower left is similar, but instead of the (absolute) residuals, the square root of the standardized residuals is shown. This plot allows us to assess whether the assumption of homogeneity of variance is met. The plot in the upper right shows a QQ plot to check the normality assumption of the residuals. If this assumption is met, data points should lie on the straight diagonal line. The plot in the lower right shows influential points (measured by leverage); Cook's distance is also visible in the plot.
+Im Plot links oben sind die vorhergesagten Werte gegen die Residuen aufgetragen. Hier kann man die Linearitätsannahme (die rote Linie sollte immer ungefähr gleich Null sein) sowie die Homoskedastizitätsannahme (die Streuung der Datenpunkte sollte sich entlang der x-Achse nicht ändern) überprüfen. Der Plot links unten ist ähnlich, nur ist hier statt den (absoluten) Residuen die Wurzel aus dem Betrag der standardisierten Residuen aufgetragen. Auch hier lässt sich beurteilen, ob die Annahme der Varianzhomogenität erfüllt ist oder nicht. Im Plot rechts oben lässt sich die Normalverteilungsannahme der Residuen mit einem QQ-Plot überprüfen. Im Plot rechts unten sind Punkte mit großem Einfluss dargestellt (gemessen an der Leverage); Cook's Distanz ist ebenfalls im Plot ersichtlich.
 
-We can also check the residuals for independence with the Durbin-Watson test using the `dwt()` function from the `car` package:
+Die Annahme über die Unabhängigkeit der Residuen kann mit dem Durbin-Watson-Test `durbinWatsonTest()` aus dem `car`-Paket überprüft werden.
 
 ```{r}
-dwt(model2)
+durbinWatsonTest(model2)
 ```
 
-In this example, we can assume that the residuals are independent, as the $p$-value is approximately 0.7, which means that the null hypothesis (residuals are independent) cannot be rejected.
+In diesem Beispiel kann man davon ausgehen, dass die Residuen unabhängig sind, da wegen $p\approx 0.7$ die Nullhypothese nicht verworfen werden kann.
 
 
-## Exercises
+## Übungen
 
-### Exercise 1
+### Übung 1
 
-Import the data from the file `sales2.dat` as shown in the course materials. Standardize all variables and then calculate a linear regression model. Compare the regression coefficients with the results of the `lm.beta()` function, which can be applied to a model with non-standardized data.
-
-
-### Exercise 2
-
-Import the dataset [`aggression.dat`](aggression.dat), which contains data on aggression among 666 children. It contains the following variables:
-
-- Parenting style (high value corresponds to bad style)
-- Playing computer games (high value corresponds to playing a lot of computer games)
-- Watching TV (high value corresponds to watching a lot of TV)
-- Nutrition (high value corresponds to healthy nutrition)
-- Aggression of siblings (high value corresponds to high aggression)
-
-From previous studies, we know that parenting style and aggression of siblings are significant predictors of a child's aggression.
-
-Fit two linear regression models. The first should only include the two factors that have previously been shown to influence aggression. The second model should include all factors. Then answer the following questions:
-
-1. Calculate the coefficient of determination $R^2$ for both models and provide the table of regression coefficients.
-2. Interpret the individual coefficients in terms of relevance (standardized coefficients are helpful) and significance for both models separately.
-3. Compare both models. Is the second model a significant improvement over the first?
+Laden Sie die Daten aus der Datei `sales2.dat` wie in den Unterlagen gezeigt. Standardisieren Sie danach alle Variablen und berechnen Sie dann ein lineares Regressionsmodell. Vergleichen Sie die Regressionskoeffizienten mit den Ergebnissen der Funktion `lm.beta()`, welche auf ein Modell mit nicht standardisierten Daten angewendet werden kann.
 
 
-### Exercise 3
+### Übung 2
 
-Check the following assumptions for the second model from the previous exercise:
+Laden Sie den Datensatz [`aggression.dat`](aggression.dat), welcher (komplett erfundene) Daten über Aggressionen unter Kindern enthält. Es wurden 666 Kinder untersucht und folgende Variablen erhoben:
 
-- Are the predictors linearly dependent (VIF)?
-- Are the residuals independent (Durbin-Watson test)?
-- Are the residuals normally distributed (QQ plot)?
-- Are the dependencies linear and is the variance homogeneous (plot residuals vs. predicted values)?
-- Are there any data points with a large influence on the model (plot residuals vs. leverage)?
+- Erziehungsstil (hoher Wert entspricht schlechtem Stil)
+- Computerspielen (hoher Wert entspricht viel Computerspielen)
+- Fernsehen (hoher Wert entspricht viel Fernsehen)
+- Ernährung (hoher Wert entspricht gesunder Ernährung)
+- Aggressionen der Geschwister (hoher Wert entspricht hoher Aggression)
 
-::: {.callout-tip}
-Read the documentation of the `plot.lm()` function, which creates diagnostic plots for linear models. The `which` argument allows you to select the desired diagnostic plot.
-:::
+Von früheren Studien weiß man, dass Erziehungsstil sowie Aggressionen der Geschwister signifikante Prädiktoren für das Aggressionslevel eines Kindes sind.
+
+Stellen Sie zwei lineare Regressionsmodelle auf. Das erste soll nur die beiden Faktoren beinhalten, welche erwiesenermaßen einen Einfluss auf die Aggression haben. Das zweite Modell soll alle Faktoren beinhalten. Beantworten Sie anschließend folgende Punkte:
+
+1. Bestimmen Sie für beide Modelle das Bestimmtheitsmaß $R^2$ und geben Sie die Tabelle der Regressionskoeffizienten aus.
+2. Interpretieren Sie für beide Modelle getrennt die einzelnen Koeffizienten hinsichtlich Relevanz (hier sind standardisierte Koeffizienten hilfreich) und Signifikanz.
+3. Vergleichen Sie beide Modelle miteinander. Ist das zweite Modell eine signifikante Verbesserung zum ersten?
+
+
+### Übung 3
+
+Überprüfen Sie für das zweite Modell (mit allen Prädiktoren) aus der vorigen Übung folgende Voraussetzungen:
+
+- Sind die unabhängigen Variablen kollinear (VIF)?
+- Sind die Residuen unabhängig (Durbin-Watson-Test)?
+- Sind die Residuen normalverteilt (QQ-Plot)?
+- Sind die Abhängigkeiten linear und ist die Varianz homogen (Plot Residuen vs. vorhergesagte Werte)?
+- Gibt es Datenpunkte mit großem Einfluss auf das Modell (Plot Residuen vs. Leverage)?
+
+*Hinweis:* Sehen Sie sich die Hilfe zur Funktion `plot.lm()` an (damit können Sie ein lineares Modell plotten und die Grafiken aus den letzten drei Fragen erstellen; mit dem Argument `which` können Sie sich die gewünschte Grafik herauspicken).
