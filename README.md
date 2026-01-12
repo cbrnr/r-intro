@@ -13,6 +13,6 @@ Die folgenden Unterlagen geben eine kurze Einführung in die Grundlagen von R un
  9. [Korrelation](https://cbrnr.quarto.pub/r-25w-09) ([Lösungen](https://cbrnr.quarto.pub/r-25w-09-solutions))
 10. [Lineare Regression (1)](https://cbrnr.quarto.pub/r-25w-10) ([Lösungen](https://cbrnr.quarto.pub/r-25w-10-solutions))
 11. [Lineare Regression (2)](https://cbrnr.quarto.pub/r-25w-11) ([Lösungen](https://cbrnr.quarto.pub/r-25w-11-solutions))
-12. [Mittelwertvergleich]() ([Lösungen]())
+12. [Mittelwertvergleich](https://cbrnr.quarto.pub/r-25w-12) ([Lösungen](https://cbrnr.quarto.pub/r-25w-12-solutions))
 
 - [Zusätzliche Übungsaufgaben](https://cbrnr.quarto.pub/r-25w-exercises) ([Lösungen](https://cbrnr.quarto.pub/r-25w-exercises-solutions))

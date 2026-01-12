@@ -1,8 +1,8 @@
 ---
-title: "12 – Solutions"
-subtitle: "Statistical Data Analysis with R"
+title: "12 – Lösungen"
+subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2025-06-02
+date: 2026-01-22
 format:
   html:
     page-layout: full
@@ -18,9 +18,9 @@ theme:
   dark: darkly
 ---
 
-## Exercise 1
+## Übung 1
 
-### Height
+### Größe
 
 ```{r}
 #| message: false
@@ -29,19 +29,19 @@ library(dplyr)
 t.test(height ~ gender, data=starwars, alternative="less")
 ```
 
-Female characters are not significantly shorter than male characters ($t=-1.25$, $p = .110$).
+Weibliche Charaktere sind *nicht* signifikant kleiner als männliche Charaktere ($t=-1.25$, $p = .110$).
 
 
-### Weight
+### Gewicht
 
 ```{r}
 t.test(mass ~ gender, data=starwars, alternative="less")
 ```
 
-Female characters are significantly lighter than male characters ($t=-1.87$, $p = .034$).
+Weibliche Charaktere sind signifikant leichter als männliche Charaktere ($t=-1.87$, $p = .034$).
 
 
-## Exercise 2
+## Übung 2
 
 ```{r}
 #| message: false
@@ -49,7 +49,7 @@ library(palmerpenguins)
 ```
 
 
-### Bill length
+### Schnabellänge
 
 ```{r}
 with(
@@ -67,7 +67,7 @@ with(
 ```
 
 
-### Bill depth
+### Schnabeltiefe
 
 ```{r}
 with(
@@ -84,7 +84,7 @@ with(
 )
 ```
 
-### Using `pairwise.t.test()`
+### Verwendung von `pairwise.t.test()`
 
 ```{r}
 pairwise.t.test(penguins$bill_length_mm, penguins$species)
@@ -92,9 +92,9 @@ pairwise.t.test(penguins$bill_depth_mm, penguins$species)
 ```
 
 
-## Exercise 3
+## Übung 3
 
-For a paired *t*-test, we first need to convert the data to wide format:
+Für einen gepaarten *t*-Test müssen wir die Daten zunächst ins Wide-Format konvertieren:
 
 ```{r}
 library(tidyr)
@@ -108,10 +108,10 @@ sleep_wide = pivot_wider(
 )
 ```
 
-Now we can perform the test:
+Jetzt können wir den Test durchführen:
 
 ```{r}
 t.test(sleep_wide$g1, sleep_wide$g2, paired=TRUE)
 ```
 
-The mean difference is −1.58, which is significantly different from zero ($p = .003$). The 95% confidence interval ranges from −2.46 to −0.70.
+Der mittlere Unterschied beträgt −1.58, welcher signifikant von Null verschieden ist ($p = .003$). Das 95%-Konfidenzintervall reicht von −2.46 bis −0.70.

@@ -1,8 +1,8 @@
 ---
-title: "12 – Comparing Means"
-subtitle: "Statistical Data Analysis with R"
+title: "12 – Mittelwertvergleich"
+subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2025-06-02
+date: 2026-01-22
 format:
   html:
     page-layout: full
@@ -16,18 +16,23 @@ title-block-banner: true
 theme:
   light: flatly
   dark: darkly
+lang: de
+author-title: "Autor"
+published-title: "Veröffentlicht"
 ---
 
-## Experimental designs
+## Versuchsdesigns
 
-Besides looking at how variables relate – for example, with correlations or regression – we often want to know if two (or more) groups differ in their average scores. In correlational (or [observational](https://en.wikipedia.org/wiki/Observational_study)) studies, we simply collect data *without* manipulating anything. Experimental (or [intervention](https://en.wikipedia.org/wiki/Interventional_study)) studies deliberately *manipulate* one or more variables (for example, one group receives a drug, another a placebo). This allows us to attribute any differences in the outcome to the manipulation, letting us draw causal conclusions that correlational studies cannot offer.
+Neben der Betrachtung von *Zusammenhängen* zwischen Variablen (zum Beispiel mittels Korrelation oder Regression) möchten wir häufig wissen, ob sich zwei (oder mehr) Gruppen in ihren *Mittelwerten* unterscheiden. In *korrelativen Studien* (*Beobachtungsstudien*) erheben wir Daten, ohne etwas zu manipulieren. *Experimentelle Studien* (*Interventionsstudien*) manipulieren hingegen gezielt eine oder mehrere Variablen (z.B. eine Gruppe erhält ein Medikament und eine andere ein Placebo). Dadurch können wir Unterschiede im Ergebnis der Manipulation zuschreiben und kausale Schlussfolgerungen ziehen, was bei korrelativen Studien nicht möglich ist.
 
-Within experimental studies, we distinguish between *independent* and *dependent* (repeated-measures) designs. In an independent design, each group is made up of different participants, so observations are unrelated across groups. In a dependent design, the same participants appear in multiple conditions, creating a dependency between groups. Because each person serves as their own control, dependent designs automatically factor out individual differences that are irrelevant to the treatment, giving the analysis more power to detect small effects than an independent design. This advantage becomes clear in the following example.
+Innerhalb experimenteller Studien unterscheiden wir zwischen *unabhängigen* und *abhängigen* Designs. In einem unabhängigen Design bestehen die Gruppen aus unterschiedlichen Personen, sodass die Beobachtungen zwischen den Gruppen nicht zusammenhängen. In einem abhängigen Design (auch Messwiederholungs-Design genannt) nehmen dieselben Personen an mehreren Bedingungen teil, wodurch eine Abhängigkeit zwischen den Gruppen entsteht. Da jede Person als ihre eigene Kontrollbedingung dient, rechnen abhängige Designs automatisch individuelle Unterschiede heraus, die für die Behandlung irrelevant sind. Dadurch hat die Analyse mehr statistische Power als bei einem unabhängigen Design (d.h. kleinere Unterschiede können besser erkannt werden). Dieser Vorteil wird im folgenden Beispiel deutlich.
 
 
-## Example
+## Beispiel
 
-Imagine a study that measured fear of spiders on a scale from 0 to 100 (higher scores indicate greater fear). Twenty-four volunteers participated in the study and were split into two groups (12 participants per group). One group viewed photos of spiders, whereas the other group was confronted with real spiders. We start by importing the data from the file [`spider.dat`](spider.dat):
+In einer fiktiven Studie wurde die Angst vor Spinnen auf einer Skala von 0 bis 100 gemessen (größere Werte stehen für höhere Angst). Es wurden 24 Personen in zwei Gruppen untersucht (also 12 Personen pro Gruppe). Einer Gruppe wurden Fotos von Spinnen gezeigt, der anderen Gruppe wurden echte Spinnen gezeigt.
+
+Wir beginnen mit dem Importieren der Daten aus der Datei [`spider.dat`](spider.dat):
 
 ```{r}
 #| message: false
@@ -35,19 +40,18 @@ library(readr)
 (spider = read_tsv("spider.dat"))
 ```
 
-The mean anxiety values for the two groups are:
+Die mittleren Angstwerte für die beiden Gruppen betragen:
 
 ```{r}
 by(spider$Anxiety, spider$Group, mean)
 ```
 
-The mean anxiety for the real spider group is 7 points higher than for the picture group.
+Im Durchschnitt ist die Angst also in der Gruppe, in der echte Spinnen präsentiert wurden, um 7 größer.
 
 
-### Independent samples
+### Unabhängige Stichproben
 
-The `spider` data frame contains data from one person per row (which is a useful format for independent designs). The following plot shows the anxiety values for each person in both groups (black dots represent the group means, red dots represent individual anxiety values, and the error bars represent 95% confidence intervals):
-
+Die Daten in `spider` enthalten eine Person pro Zeile (ein Format, das sich gut für unabhängige Designs eignet). Die folgende Abbildung zeigt die Angstwerte für jede Person in beiden Gruppen (schwarze Punkte stellen die Gruppenmittelwerte dar, rote Punkte die individuellen Angstwerte, und die Fehlerbalken zeigen 95%-Konfidenzintervalle):
 
 ```{r}
 #| message: false
@@ -76,16 +80,16 @@ ggplot(spider_stats, aes(Group, mean)) +
     geom_point(size=4) +
     geom_errorbar(aes(ymin=mean-ci, ymax=mean+ci), width=0.1) +
     xlab("") +
-    ylab("Anxiety") +
-    ggtitle("Independent design")
+    ylab("Angst") +
+    ggtitle("Unabhängiges Design")
 ```
 
-The plot clearly shows that the confidence intervals overlap significantly, i.e., the difference between the two means is probably not significant.
+Man erkennt, dass die Konfidenzintervalle stark überlappen, d.h. der Unterschied zwischen den beiden Mittelwerten ist wahrscheinlich nicht signifikant.
 
 
-### Dependent samples
+### Abhängige Stichproben
 
-Now imagine we've switched to a dependent design: the same 12 participants took part in both conditions. To reflect this, we reshape the data into a wide format, putting each person into a single row with two columns (one for each condition):
+Stellen wir uns nun vor, dass insgesamt nur 12 Personen untersucht wurden, die aber jeweils in beiden Gruppen getestet wurden. Wir konvertieren also die Daten am besten ins Wide-Format, indem wir für jede Person zwei Spalten mit den Angstwerten erstellen (eine für jede Gruppe):
 
 ```{r}
 #| message: false
@@ -99,40 +103,39 @@ spider_w$id = NULL
 spider_w
 ```
 
-Next, we calculate adjusted values that take individual fear levels into account. First, we add a column with the mean anxiety of each person:
+Anschließend berechnen wir angepasste Werte, welche die individuellen Unterschiede der Personen berücksichtigen. Dazu fügen wir zunächst eine Spalte mit der mittleren Angst jeder Person hinzu.
 
 ```{r}
 spider_w$mean = rowMeans(spider_w)
 spider_w
 ```
 
-Now we calculate the difference between the individual mean values and the overall mean value of all data points – this is the correction factor for repeated-measures designs.
+Nun berechnen wir die Differenz der Personenmittelwerte zum *Gesamtmittelwert aller Datenpunkte* – dies ist der Korrekturfaktor für Designs mit Messwiederholung.
 
 ```{r}
 spider_w$adj = mean(c(spider_w$picture, spider_w$real)) - spider_w$mean
 spider_w
 ```
 
-This way, we can correct the individual anxiety values per person.
+Damit können wir die einzelnen Angstwerte pro Person korrigieren.
 
 ```{r}
 spider_w$picture_adj = spider_w$picture + spider_w$adj
 spider_w$real_adj = spider_w$real + spider_w$adj
 ```
 
-The corrected values are now centered around the same mean value for all persons, i.e., individual differences are taken into account, and only the difference between the groups remains:
+Dadurch haben wir erreicht, dass die korrigierten Werte nun für alle Personen denselben Mittelwert ergeben, d.h. personenspezifische Unterschiede werden herausgerechnet und nur der Unterschied zwischen den Gruppen wird untersucht:
 
 ```{r}
 rowMeans(spider_w[, c("picture_adj", "real_adj")])
 ```
 
-The data now look like this:
-
+Die Daten sehen nun so aus:
 ```{r}
 spider_w
 ```
 
-We can visualize the adjusted values in a plot:
+Die angepassten Werte können wir wieder in einer Grafik darstellen:
 
 ```{r echo=FALSE}
 spider_w_stats = data.frame(Group=c("picture", "real"),
@@ -154,44 +157,44 @@ ggplot(spider_w_stats, aes(Group, mean)) +
     geom_point(size=4) +
     geom_errorbar(aes(ymin=mean-ci, ymax=mean+ci), width=0.1) +
     xlab("") +
-    ylab("Anxiety") +
-    ggtitle("Dependent design")
+    ylab("Angst") +
+    ggtitle("Abhängiges Design")
 ```
 
-The plot shows that the group means (black dots) are identical to the independent design. The raw data (red dots) have not changed either. However, the confidence intervals are much smaller, because we removed individual differences. In this example, they no longer overlap, indicating a significant difference between the group means.
+Aus der Grafik ist ersichtlich, dass die Gruppenmittelwerte (schwarze Punkte) gleich wie im unabhängigen Design sind. Auch die Rohdaten (rote Punkte) haben sich nicht geändert. Die Konfidenzintervalle sind jedoch aufgrund des abhängigen Designs wesentlich kleiner geworden. In diesem Beispiel überlappen sie jetzt nicht mehr, was auf einen signifikanten Unterschied zwischen den Gruppenmittelwerten schließen lässt.
 
 
-## The *t*-test
+## Der _t_-Test
 
-After visualizing group differences, let's now discuss the *t*-test, which is used to compare the means of two groups. There are two variants of the *t*-test, namely a *dependent* (or *paired*) and an *independent* version.
+Nach der grafischen Darstellung von Gruppenunterschieden wenden wir uns jetzt der statistischen Analyse zu. Man verwendet den _t_-Test, um die Mittelwerte zweier Gruppen miteinander zu vergleichen. Hier gibt es zwei Varianten, nämlich einen _t_-Test für *abhängige* Gruppen und einen für *unabhängige* Gruppen. Ersteren nennt man auch *gepaarten* oder *abhängigen* _t_-Test, letzteren nennt man *unabhängigen* _t_-Test.
 
-The *t*-statistic relates the variance explained by the model to the variance *not* explained by the model (or, in other words, *effect* divided by *error*). In the case of the *t*-test, the model is the difference between the two means minus the expected difference, and the error is estimated by the standard error of the mean difference:
+Die _t_-Statistik ist wie viele Statistiken aufgebaut. Sie setzt die Varianz, die vom Modell erklärt werden kann, in Beziehung zur Varianz, die *nicht* vom Modell erklärt werden kann (oder anders formuliert, Effekt geteilt durch Fehler). Im Falle des _t_-Tests ist das Modell der Unterschied der beiden Mittelwerte minus der erwarteten Differenz, und der Fehler wird durch den Standardfehler der Mittelwertsdifferenz geschätzt:
 
-$$t = \frac{\text{Observed difference} - \text{Expected difference}}{\text{Standard error of the difference}}$$
+$$t = \frac{\text{Beobachtete Differenz} - \text{Erwartete Differenz}}{\text{Standardfehler der Differenz}}$$
 
-Here, the difference always refers to the difference between the group means. The expected difference (under the null hypothesis) is usually zero (we expect no group differences). The procedure for testing is as follows:
+Die beobachtete Differenz bezieht sich auf die beobachtete Differenz zwischen den Mittelwerten. Die erwartete Differenz (unter der Annahme der Nullhypothese) ist in den meisten Fällen gleich Null (wir erwarten keine Gruppenunterschiede). Die Vorgehensweise beim Testen ist also wie folgt:
 
-* We collect two samples and calculate their means.
-* If both samples come from the same population, the means should be approximately equal. This is the null hypothesis (there is no difference). Larger differences can occur randomly (but rarely).
-* We compare the observed difference with the expected difference, and we use the standard error as a measure of the variability of the sample means.
-* If the observed difference is greater than the expected difference, this can have two reasons:
-    1. There is no difference, and the observed difference occurred by chance (i.e., one sample is not representative of its population).
-    2. The two samples come from different populations, i.e., both samples are representative of their population. This means that there is indeed a significant difference between the two groups!
+* Zwei Stichproben werden erhoben und deren Mittelwerte berechnet.
+* Wenn beide Stichproben aus derselben Population stammen, sollten die Mittelwerte ungefähr gleich sein. Dies ist die Annahme der Nullhypothese (es gibt keinen Unterschied). Große Differenzen können in seltenen Fällen aber zufällig auftreten.
+* Wir vergleichen den beobachteten Unterschied mit dem erwarteten Unterschied, und wir verwenden den Standardfehler als Maß für die Variabilität der Stichprobenmittelwerte.
+* Wenn der beobachtete Unterschied größer als der erwartete ist, kann das zwei Gründe haben:
+    1. Es gibt keinen Unterschied und der beobachtete Unterschied ist zufällig aufgetreten, d.h. zumindest eine Stichprobe ist nicht repräsentativ für die Population.
+    2. Die beiden Stichproben kommen aus unterschiedlichen Populationen, d.h. beide Stichproben sind repräsentativ für ihre Population. Das bedeutet, dass es also tatsächlich einen Unterschied gibt!
 
-The larger the difference (or rather, the *t*-statistic), the more evidence there is for the second case (i.e., for an actual effect).
+Je größer der Unterschied bzw. die _t_-Statistik, desto mehr spricht für den zweiten Fall (d.h. für einen tatsächlichen Effekt).
 
 
-## The *t*-test as a linear model
+## Der _t_-Test als lineares Modell
 
-We first encountered the *t*-test in the context of linear regression, where we used it to check whether regression coefficients differ significantly from zero. The very same test also lets us compare group means, because a difference between means can be framed as a simple linear model:
+Wir haben den _t_-Test bereits bei der linearen Regression kennengelernt. Hier wird er verwendet, um zu überprüfen, ob Regressionskoeffizienten signifikant unterschiedlich von 0 sind. Wie wir außerdem soeben erfahren haben, wird der _t_-Test auch angewendet, um Mittelwerte zu vergleichen. Tatsächlich ist es so, dass man Gruppenmittelwerte als lineares Modell anschreiben kann:
 
 $$y_i = \hat{y}_i + \varepsilon_i$$
 
-The *dependent* variable $y$ is the variable whose group means we want to compare (e.g., fear of spiders). The *independent* variable $x$ encodes the groups. We then fit a linear model $\hat{y}$:
+Die *abhängige* Variable $y$ ist die Variable, deren Gruppenmittelwerte man vergleichen möchte (z.B. Angst vor Spinnen). Die *unabhängige* Variable $x$ codiert die Gruppen. Man verwendet dann für $\hat{y}$ das lineare Modell:
 
 $$\hat{y}_i = b_0 + b_1 \cdot x_i$$
 
-Let's illustrate this with an example (using the spider fear data). We create a linear regression model that predicts `Anxiety` from `Group`:
+Am besten illustriert man die Funktionsweise mit einem Beispiel. Dazu verwenden wir wieder die Daten über die Angst vor Spinnen. Erstellen wir nun ein lineares Regressionsmodell, welches `Anxiety` durch `Group` vorhersagt:
 
 ```{r}
 model = lm(Anxiety ~ Group, data=spider)
@@ -199,12 +202,12 @@ summary(model)
 ```
 
 :::{.callout-note}
-R automatically encodes the categorical variable `Group` as 0 and 1 (alphabetically, i.e., the level `picture` corresponds to 0 and the level `real` corresponds to 1). This is called *dummy coding*.
+Hier ist anzumerken, dass die kategorische Variable `Group` von R automatisch mit 0 und 1 codiert wird (und zwar alphabetisch, d.h. die Stufe `picture` entspricht 0 und die Stufe `real` entspricht 1). Man spricht hier von Dummy-Coding.
 :::
 
-Looking at the regression coefficients, we observe that the intercept $b_0 = 40$ corresponds to the mean of group 0 (`picture`). The slope $b_1 = 7$ corresponds to the difference between the group means ($47 - 40 = 7$). The *t*-test for this coefficient tests whether the slope is significantly different from zero. However, it also tests whether the difference between the group means is significantly different from zero. We see that this test is not significant with $p=0.107$, i.e., we can conclude that the means do not differ significantly. This result confirms the insight from our graphical representation (overlapping confidence intervals) from the independent samples design.
+Wenn man sich nun die Regressionskoeffizienten ansieht, erkennt man, dass der Intercept $b_0 = 40$ dem Mittelwert der Gruppe 0 (`picture`) entspricht. Die Steigung $b_1 = 7$ entspricht dem Unterschied der Mittelwerte zwischen den beiden Gruppen ($47 - 40 = 7$). Der _t_-Test für diesen Koeffizienten testet, ob die *Steigung* signifikant von Null verschieden ist. Er testet somit also auch automatisch, ob der *Unterschied zwischen den Mittelwerten* signifikant von Null verschieden ist. Man sieht, dass dieser Test mit $p=0.107$ *nicht* signifikant ist, d.h. man kann daraus schließen, dass sich die Mittelwerte *nicht* signifikant voneinander unterscheiden. Dieses Ergebnis bestätigt also die Erkenntnis aus unserer grafischen Darstellung (stark überlappende Konfidenzintervalle).
 
-Graphically, we can represent the situation as follows:
+Grafisch kann man die Situation wie folgt darstellen:
 
 ```{r}
 #| echo: false
@@ -215,25 +218,24 @@ ggplot(spider, aes(Group, Anxiety)) +
     xlab("")
 ```
 
-The regression line connects both group means, and its slope is 7.
+Die Regressionsgerade verbindet beide Gruppenmittelwerte und die Steigung beträgt 7; diese ist statistisch nicht signifikant von Null verschieden.
 
-We can verify this by substituting the group means into the equation of the linear model. We start with group 0, i.e., `picture`. We know that the mean of this group is 40.
+Wir können dies durch Einsetzen der Gruppenmittelwerte in die Gleichung des linearen Modells selbst nachrechnen. Wir beginnen mit der Gruppe 0, also `picture`. Wir wissen, dass der Mittelwert dieser Gruppe gleich 40 ist.
 
 ```{r}
 mean(spider$Anxiety[spider$Group=="picture"])
 ```
 
-We substitute the group mean into the equation:
-
+Wir setzen in die Modellgleichung ein:
 $$\hat{y}_i = b_0 + b_1 \cdot x_i$$
-
-We use the group mean of the `picture` group for $\hat{y}_i$, and the corresponding $x_i$ is thus $x_{\text{picture}}$ (encoded as 0).
-
+Für $\hat{y}_i$ verwenden wir den Gruppenmittelwert der `picture`-Gruppe, und das zugehörige $x_i$ ist also $x_{\text{Picture}}$ (codiert mit 0).
 $$\bar{y}_{\text{picture}} = b_0 + b_1 \cdot x_{\text{picture}}$$
 $$40 = b_0 + b_1 \cdot 0$$
 $$b_0 = 40$$
 
-Apparently, the intercept $b_0$ corresponds to the group mean of the first group (encoded as 0). Next, we substitute the values for the `real` group. Here, the group mean is 47:
+Man sieht also, dass der Intercept $b_0$ dem Gruppenmittelwert der ersten Gruppe (mit Codierung 0) entspricht.
+
+Setzen wir jetzt die Werte für die Gruppe `real` ein. Hier beträgt der Gruppenmittelwert 47:
 
 ```{r}
 mean(spider$Anxiety[spider$Group=="real"])
@@ -243,66 +245,68 @@ $$\bar{y}_{\text{real}} = b_0 + b_1 \cdot x_{\text{real}}$$
 $$47 = 40 + b_1 \cdot 1$$
 $$b_1 = 7$$
 
-Therefore, the slope $b_1$ corresponds to the difference between the two means.
+Die Steigung der Geraden $b_1$ entspricht also tatsächlich genau dem Unterschied der beiden Mittelwerte.
 
 
-## Assumptions
+## Annahmen
 
-Since the *t*-test is based on linear regression, it also has the same assumptions as linear regression:
+Da der _t_-Test auf einer lineare Regression basiert, setzt er auch dieselben Annahmen wie diese voraus:
 
-* The residuals are normally distributed (for the dependent *t*-test, this means the residuals of the differences).
-* The data are interval-scaled.
-* For the independent *t*-test, the data in the groups must be independent of each other.
-* For the independent *t*-test, homogeneity of variance must be given. In practice, this assumption is not necessary, as an improved method is applied by default, which automatically corrects violations of this assumption ([Welch *t*-test](https://en.wikipedia.org/wiki/Welch%27s_t-test)).
+* Die Residuen sind normalverteilt (beim abhängigen _t_-Test sind die Residuen der Differenzen gemeint).
+* Die Daten sind intervallskaliert.
+* Beim unabhängigen _t_-Test müssen die Daten in den Gruppen voneinander unabhängig sein.
+* Beim unabhängigen _t_-Test muss Varianzhomogenität gegeben sein. Praktisch ist diese Voraussetzung aber nicht notwendig, da standardmäßig ein verbessertes Verfahren angewendet wird, welches Verletzungen dieser Annahme automatisch korrigiert ([Welch _t_-Test](https://de.wikipedia.org/wiki/Zweistichproben-t-Test#Welch-Test)).
 
 
-## Independent *t*-test in R
+## Unabhängiger _t_-Test in R
 
-The *t*-statistic is calculated as the ratio of explained variance (column `Estimate`) to unexplained variance (column `Std. Error`). In the independent *t*-test, we compare the means of both conditions:
+Die _t_-Statistik berechnet sich also durch das Verhältnis erklärter Varianz zu nicht erklärter Varianz. In der Ausgabe von `summary(model)` (wobei `model` das mit `lm()` gerechnete lineare Regressionsmodell ist) kann man diese Größen in den Spalten `Estimate` bzw. `Std. Error` ablesen. Beim unabhängigen _t_-Test vergleicht man so die Mittelwerte beider Bedingungen:
 
-$$t = \frac{(\bar{x}_1 - \bar{x}_2) - (\mu_1 - \mu_2)}{\text{Standard error}}$$
+$$t = \frac{(\bar{x}_1 - \bar{x}_2) - (\mu_1 - \mu_2)}{\text{Standardfehler}}$$
 
-The null hypothesis states that $\mu_1 = \mu_2$, so the equation simplifies to:
+Die Nullhypothese besagt dass $\mu_1 = \mu_2$, daher vereinfacht sich die Gleichung zu:
 
-$$t = \frac{\bar{x}_1 - \bar{x}_2}{\text{Standard error}}$$
+$$t = \frac{\bar{x}_1 - \bar{x}_2}{\text{Standardfehler}}$$
 
-The standard error of the difference between both groups is defined as follows (when both groups have the same size):
+Der Standardfehler der Differenz beider Gruppen ist bei gleicher Gruppengröße wie folgt definiert:
 
 $$\text{SE} = \sqrt{\frac{s_1^2}{N_1} + \frac{s_2^2}{N_2}}$$
 
-Therefore, the formula for the *t*-test is:
+Daher lautet die Gleichung für den _t_-Test:
 
 $$t = \frac{\bar{x}_1 - \bar{x}_2}{\sqrt{\frac{s_1^2}{N_1} + \frac{s_2^2}{N_2}}}$$
 
-If the two groups are of different sizes, the standard error must be calculated using the pooled variance:
+Wenn die beiden Gruppen unterschiedlich viele Personen enthalten, muss man den Standardfehler über die gepoolte Varianz berechnen:
 
 $$s_p^2 = \frac{(N_1 - 1) s_1^2 + (N_2 - 1) s_2^2}{N_1 + N_2 - 2}$$
 
-The formula for the *t*-test with $N_1 + N_2 - 2$ degrees of freedom is then:
+Daraus ergibt sich dann für den _t_-Test mit $N_1 + N_2 - 2$ Freiheitsgraden:
 
 $$t = \frac{\bar{x}_1 - \bar{x}_2}{\sqrt{\frac{s_p^2}{N_1} + \frac{s_p^2}{N_2}}}$$
 
-Instead of fitting the model with `lm()`, we can use `t.test()`, whose output is often more familiar. Behind the scenes, it fits the same linear model to obtain the *t*-statistic, so the results are identical.
+In R kann man _t_-Tests mit der Funktion `lm()` durchführen. Alternativ gibt es aber auch die Funktion `t.test()`, welche im Hintergrund ebenfalls `lm()` verwendet, aber eine vertrautere Darstellung der Ergebnisse bietet:
 
 ```{r}
 (model = t.test(Anxiety ~ Group, data=spider))
 ```
 
-The first argument is a formula with the outcome on the left side and the grouping factor on the right side. To use column names directly, we need to specify `data=spider` to indicate that these columns are contained in the `spider` data frame.
+Das erste Argument ist also eine Formel, deren linke Seite die Datenpunkte angibt (die Spalte `Anxiety` in diesem Beispiel). Die rechte Seite der Formel gibt die Gruppierungsspalte an (also hier `Group`). Damit man die Spaltennamen direkt verwenden kann, spezifiziert man noch `data=spider`, damit klar ist, dass diese Spalten im Data Frame `spider` zu finden sind.
 
-The output shows the value of the *t*-statistic, the degrees of freedom (usually corrected according to Welch, which makes the assumption of homogeneity of variance unnecessary), and the *p*-value. Furthermore, the 95% confidence interval for the *t*-statistic and the group means are also included.
+Ausgegeben wird der Wert der _t_-Statistik, die Freiheitsgrade (standardmäßig korrigiert nach Welch, was die Voraussetzung der Varianzhomogenität überflüssig macht), sowie der _p_-Wert. Weiters gibt es noch das 95%-Konfidenzintervall für die _t_-Statistik sowie die Gruppenmittelwerte.
 
-Alternatively, instead of the formula interface, we can call `t.test()` with two separate vectors, one for each group's anxiety scores:
+Die zweite Möglichkeit, die Funktion aufzurufen, verwendet zwei Argumente; hier übergibt man also die Daten der beiden Gruppen in zwei separaten Vektoren:
 
 ```{r}
 (model = t.test(spider_w$picture, spider_w$real))
 ```
 
-We can also calculate an effect size by converting the value of $t$ into a correlation $r$:
+Das Ergebnis ist aber natürlich dasselbe.
+
+Die Effektgröße kann man aus dem Wert von $t$ in eine Korrelation $r$ umrechnen:
 
 $$r = \sqrt{\frac{t^2}{t^2 + \text{df}}}$$
 
-In this example, the effect size $r$ is:
+Im Beispiel ist die Effektgröße $r$ also:
 
 ```{r}
 t = model$statistic[[1]]
@@ -312,25 +316,24 @@ round(r, 3)
 ```
 
 
-## Dependent *t*-test in R
+## Abhängiger _t_-Test in R
 
-The dependent (or paired) *t*-test works similarly, but uses the means of the individual *differences* instead of the difference of the means:
+Der abhängige (oder gepaarte) _t_-Test funktioniert ähnlich, verwendet aber die Mittelwerte der einzelnen *Differenzen* anstelle der Differenz der Mittelwerte, um die individuellen Unterschiede herauszurechnen:
 
 $$t = \frac{\bar{D} - \mu_D}{s_D / \sqrt{N}}$$
 
-Under the null hypothesis, $\mu_D = 0$:
-
+Unter der Nullhypothese ist $\mu_D = 0$:
 $$t = \frac{\bar{D}}{s_D / \sqrt{N}}$$
 
-In R, we can again use the `t.test()` function, but this time we set the argument `paired=TRUE`. In this case, we can only use the variant with two arguments (i.e., the data should be in wide format):
+Für den abhängigen _t_-Test verwendet man wieder die Funktion `t.test()` und setzt das Argument `paired=TRUE`. Hier sollte man die Variante mit zwei Argumenten verwenden (d.h. die Daten sollten im Wide-Format vorliegen):
 
 ```{r}
 (model = t.test(spider_w$picture, spider_w$real, paired=TRUE))
 ```
 
-This time, the result is significant with $p=0.03098$. This corresponds to our considerations with the different confidence intervals of dependent and independent designs. Dependent designs can detect smaller differences!
+Das Ergebnis ist diesmal signifikant mit $p=0.03098$. Dies entspricht unseren Überlegungen mit den unterschiedlich großen Konfidenzintervallen von abhängigen und unabhängigen Versuchsdesigns. Abhängige Designs können also kleinere Unterschiede detektieren.
 
-Again, we can calculate the effect size by converting the $t$-value into a correlation:
+Die Effektgröße kann man wieder aus $t$ mit der Formel oben in $r$ umwandeln:
 
 ```{r}
 t = model$statistic[[1]]
@@ -339,38 +342,40 @@ r = sqrt(t^2 / (t^2 + df))
 round(r, 3)
 ```
 
-
-## Outlook
-
-In summary, an independent *t*-test is simply a linear regression model, containing a single predictor that separates two groups. Extending the idea, comparisons among more than two groups can be handled by adding dummy-coded predictors to the linear model. In classical analysis of variance, we focus on the *F*-statistic, which is merely the goodness-of-fit measure already reported in linear regression. Thus, ANOVA is just another special case of the general linear model. If you want the familiar ANOVA table in R, the `afex` package will print it for you.
-
-When measurements are dependent because the same participants (or items) appear in several conditions, the assumption of independent errors is violated and ordinary linear models are no longer adequate. Linear mixed-effects models solve this by adding random effects for participants (and/or items), and they are increasingly preferred over the classical repeated-measures ANOVA. In R, these models are fitted with `lme4`, while companion packages such as `lmerTest` and `afex` supply *p*-values and ANOVA-style summaries.
+Es handelt sich also in diesem Fall um einen großen Effekt.
 
 
-## Exercises
+## Ausblick
 
-### Exercise 1
+Zusammenfassend haben wir gesehen, dass der Mittelwertsvergleich über den *t*-Test auf ein lineares Modell zurückgeführt werden kann. Möchte man mehr als zwei Mittelwerte vergleichen, kann man das lineare Modell mit mehreren Prädiktoren verwenden (Dummy-Coding). In der klassischen Varianzanalyse betrachtet man die *F*-Statistik, welche aber auch Teil der linearen Regression ist (sie misst die Güte des Modells) und dementsprechend auch in der Ausgabe aufscheint. Man kann also auch eine ANOVA als Spezialfall eines linearen Modells sehen. Um die vertrauten ANOVA-Tabellen dennoch auch in R zu erhalten, kann man beispielsweise das Paket `afex` benutzen.
 
-The `dplyr` package contains the `starwars` dataset (load the package to access this dataset). Use this data frame to find out if female characters are significantly smaller than male characters (column `height`). Use the `gender` column to distinguish between `"feminine"` and `"masculine"` characters. Use a significance level of 5% and report the means of both groups.
+Bei abhängigen Messungen kann man keine linearen Modelle rechnen, da eine der wichtigsten Voraussetzungen die Unabhängigkeit der Messpunkte ist. Sogenannte lineare gemischte Modelle (engl. *linear mixed models*) können aber mit diesen Abhängigkeiten umgehen und werden immer häufiger statt den klassischen Messwiederholungs-ANOVAs eingesetzt. Gemischte Modelle sind Verallgemeinerungen von linearen Modellen, oder umgekehrt sind lineare Modelle Spezialfälle von linearen gemischten Modellen. Das Paket `lme4` hat sich in R als Standard zur Berechnung dieser Modelle durchgesetzt (bzw. die darauf aufbauenden Pakete `lmerTest` und `afex`).
 
-In addition, compare the weight (column `mass`) of the characters (check the hypothesis that male characters weigh more than female characters). Report the means of both groups here as well.
+
+## Übungen
+
+### Übung 1
+
+Das Paket `dplyr` beinhaltet den Datensatz `starwars` (aktivieren Sie das Paket um auf diesen Datensatz zugreifen zu können). Verwenden Sie diese Daten um herauszufinden, ob die weiblichen Charaktere signifikant kleiner sind als die männlichen (Spalte `height`). Verwenden Sie die Spalte `gender` um zwischen den Geschlechtern `"feminine"` und `"masculine"` zu unterscheiden. Verwenden Sie für Ihre Analyse ein Signifikanzniveau von 5% und geben Sie die Mittelwerte beider Gruppen an.
+
+Führen Sie auch einen Vergleich des Gewichtes (Spalte `mass`) durch (überprüfen Sie die Hypothese, dass männliche Charaktere mehr wiegen als weibliche). Geben Sie auch hier die Mittelwerte beider Gruppen an.
 
 :::{.callout-note}
-Use the `alternative` argument of `t.test()` to perform a *one-sided* test.
+Verwenden Sie das Argument `alternative` von `t.test()`, um einen *einseitigen* Test durchzuführen.
 :::
 
 
-### Exercise 2
+### Übung 2
 
-Compare the features `bill_length_mm` and `bill_depth_mm` in the `penguins` dataset (from the `palmerpenguins` package) to see if they differ between species (perform pairwise comparisons for each feature). Report the relevant statistics, significances, and effect sizes for each *t*-test.
+Vergleichen Sie im `penguins`-Datensatz (aus dem Paket `palmerpenguins`), ob sich die Merkmale `bill_length_mm` bzw. `bill_depth_mm` zwischen den Spezies unterscheiden (führen Sie paarweise Vergleiche für jedes Merkmal durch). Berichten Sie die relevanten Statistiken, Signifikanzen und Effektgrößen (Korrelationskoeffizient *r*) für jeden *t*-Test.
 
-The `pairwise.t.test()` function calculates multiple pairwise comparisons. Use this function (in addition to the individually calculated *t*-tests from before) to perform the comparisons. You can also correct the *p*-values with the `p.adjust.method` argument, as multiple tests increase the probability of a false positive result (the *t*-test says "there is a difference" even though there is actually no difference).
+Die Funktion `pairwise.t.test()` rechnet mehrere paarweise Vergleiche. Verwenden Sie diese Funktion (zusätzlich zu den einzeln gerechneten *t*-Tests von zuvor), um die Vergleiche durchzuführen. Mit dem Argument `p.adjust.method` können Sie außerdem die *p*-Werte korrigieren, weil mehrere Tests die Wahrscheinlichkeit eines falsch positiven Ergebnisses (der *t*-Test sagt "es gibt einen Unterschied" obwohl tatsächlich kein Unterschied besteht) erhöhen.
 
 
-### Exercise 3
+### Übung 3
 
-Load the `sleep` dataset (included by default in R). Do the two groups (`group`) differ in the number of additional hours of sleep (`extra`)? If so, what is the difference on average? Provide a 95% confidence interval.
+Laden Sie den Datensatz `sleep` (standardmäßig bei R dabei). Unterscheiden sich die beiden Gruppen (`group`) in der Anzahl an zusätzlichen Schlafstunden (`extra`)? Wenn ja, wie groß ist dieser Unterschied im Mittel? Geben Sie auch ein 95%-Konfidenzintervall an.
 
 :::{.callout-note}
-Refer to the documentation to determine whether you need to calculate a dependent or independent *t*-test.
+Entnehmen Sie dem Hilfetext, ob Sie einen abhängigen oder unabhängigen *t*-Test rechnen müssen.
 :::
