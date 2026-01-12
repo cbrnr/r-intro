@@ -201,7 +201,7 @@ x = sample(c(-10:10, NA), 500, replace=TRUE)
 
 ## Übung 20
 
-Importieren Sie die Datei `winequality-white.csv` in R. Dieser Datensatz enthält verschiedene chemische Messungen für verschiedene Arten von Weißweinen.
+Importieren Sie die Datei [`winequality-white.csv`](winequality-white.csv) in R. Dieser Datensatz enthält verschiedene chemische Messungen für verschiedene Arten von Weißweinen.
 
 Wie viele Zeilen und Spalten hat dieser Datensatz? Verwenden Sie die Funktion `describe()` aus dem Paket `psych`, um verschiedene deskriptive Statistiken für alle Spalten anzuzeigen. Beantworten Sie anschließend basierend auf dieser Ausgabe folgende Fragen:
 
@@ -296,7 +296,7 @@ df = data.frame(
 
 ## Übung 28
 
-Die Excel-Datei `luis-daten.xls` enthält die Feinstaubkonzentration für die Stadt Graz von Februar 2005 bis Juni 2024. Auf zwei separaten Arbeitsblättern finden sich Daten von zwei verschiedenen Messstationen Graz Don Bosco (Graz-DB) und Graz Süd (Graz-S).
+Die Excel-Datei [`luis-daten.xls`](luis-daten.xls) enthält die Feinstaubkonzentration für die Stadt Graz von Februar 2005 bis Juni 2024. Auf zwei separaten Arbeitsblättern finden sich Daten von zwei verschiedenen Messstationen Graz Don Bosco (Graz-DB) und Graz Süd (Graz-S).
 
 1. Importieren Sie die Daten von Graz-DB und Graz-S in zwei separate Data Frames.
 2. Konvertieren Sie die Spalte `Datum` in beiden Data Frames in ein Datumsformat.
@@ -310,7 +310,7 @@ Mit der Funktion `lines()` kann man eine Liniengrafik zu einer bereits bestehend
 
 ## Übung 29
 
-Die Datei `temperature-graz.csv` beinhaltet historische Temperaturjahresmittelwerte in Graz. Bearbeiten Sie folgende Aufgabenstellungen:
+Die Datei [`temperature-graz.csv`](temperature-graz.csv) beinhaltet historische Temperaturjahresmittelwerte in Graz. Bearbeiten Sie folgende Aufgabenstellungen:
 
 1. Importieren Sie diese Datei in R (beachten Sie, dass fehlende Werte in der Datei als `999.90` codiert sind)!
 2. Erstellen Sie eine Grafik, welche den Temperaturverlauf über die Zeit zeigt (Spalten `metANN` bzw. `YEAR`). Stellen Sie die Datenpunkte mit Punkten dar und verbinden Sie die einzelnen Punkte mit Linien. Erstellen Sie passende Achsenbeschriftungen sowie einen aussagekräftigen Titel.
@@ -319,7 +319,7 @@ Die Datei `temperature-graz.csv` beinhaltet historische Temperaturjahresmittelwe
 
 ## Übung 30
 
-Lesen Sie die Datei `divorce_margarine.csv` in R ein. Dieser Datensatz beinhaltet die Anzahl der Scheidungen pro 1000 Personen im US-Bundesstaat Maine und den Margarineverbrauch pro Kopf und Jahr (in Pfund) im Zeitraum 2000 bis 2009.
+Lesen Sie die Datei [`divorce_margarine.csv`](divorce_margarine.csv) in R ein. Dieser Datensatz beinhaltet die Anzahl der Scheidungen pro 1000 Personen im US-Bundesstaat Maine und den Margarineverbrauch pro Kopf und Jahr (in Pfund) im Zeitraum 2000 bis 2009.
 
 Erstellen Sie einen Scatterplot mit einer überlagerten Regressionsgeraden, um den Zusammenhang zwischen diesen beiden Messgrößen darzustellen.
 
