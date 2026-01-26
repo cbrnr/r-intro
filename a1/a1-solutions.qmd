@@ -513,3 +513,55 @@ y = rnorm(500, mean=-2, sd=3) + 0.05 * x
 
 cor.test(x, y, method="spearman")  # rho = 0.1049, nicht signifikant da p > 0.01
 ```
+
+
+## Übung 34
+
+```{r}
+result = (exp(2.74) + sin(0.55 * pi + 1.23)) / sqrt(1 + 8.3^1.4)
+round(result, 3)
+```
+
+
+## Übung 35
+
+```{r}
+set.seed(4)
+x = sample(c(-10:10, NA), 500, replace=TRUE)
+
+mean(x, na.rm=TRUE)
+sd(x, na.rm=TRUE)
+quantile(x, probs=c(0, 0.25, 0.33, 0.5, 0.66, 0.75, 1), na.rm=TRUE)
+```
+
+
+## Übung 36
+
+```{r}
+library(readr)
+library(lm.beta)
+
+wine = read_csv("wine.csv")
+pairs(wine)  # Year und Age sind perfekt korreliert -> entferne Year
+
+model = lm(Price ~ WinterRain + AGST + HarvestRain + Age + FrancePop, data=wine[, -1])
+summary(model)
+# Signifikante Prädiktoren: WinterRain, AGST, HarvestRain
+# R² = 0.8278
+# Das Modell ist insgesamt statistisch signifikant (p = 2.232e-07)
+lm.beta(model)
+# Den größten Einfluss hat AGST, gefolgt von HarvestRain, gefolgt von WinterRain.
+```
+
+
+## Übung 37
+
+```{r}
+x = seq(-76, 120, by=2)
+length(x)
+mean(x)
+sd(x)
+median(x)
+quantile(x, c(0.25, 0.75))
+length(x[x > mean(x)])
+```

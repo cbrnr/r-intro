@@ -368,3 +368,51 @@ y = rnorm(500, mean=-2, sd=3) + 0.05 * x
 ```
 
 Berechnen Sie die Spearman-Korrelation zwischen `x` und `y` und geben Sie an, ob diese Korrelation signifikant ist (bei $\alpha = 0.01$).
+
+
+## Übung 34
+
+Berechnen Sie das Ergebnis des folgenden mathematischen Ausdrucks und weisen Sie das Ergebnis der Variablen `result` zu:
+
+$$ \frac{e^{2.74} + \sin(0.55 \pi + 1.23)}{\sqrt{1 + 8.3^{1.4}}} $$
+
+Geben Sie das Ergebnis mit `round()` auf drei Dezimalstellen gerundet aus.
+
+
+## Übung 35
+
+Berechnen Sie den Mittelwert, die Standardabweichung und die Quantile zu den Wahrscheinlichkeiten 0, 0.25, 0.33, 0.5, 0.66, 0.75 und 1 des folgenden Vektors `x`:
+
+```{r}
+set.seed(4)
+x = sample(c(-10:10, NA), 500, replace=TRUE)
+```
+
+
+## Übung 36
+
+Importieren Sie den Datensatz [`wine.csv`](wine.csv), welcher Eigenschaften verschiedener französischer Weine enthält (diese wurden 1983 erhoben):
+
+- `Year`: Jahrgang des Weins
+- `Price`: Preis des Weins (relativer Preisindex)
+- `WinterRain`: Niederschlag im Winter (in mm)
+- `AGST`: Durchschnittliche Temperatur während der Wachstumsperiode (in °C)
+- `HarvestRain`: Niederschlag während der Erntezeit (in mm)
+- `Age`: Alter des Weins (in Jahren)
+- `FrancePop`: Bevölkerung Frankreichs (in Millionen)
+
+Erstellen Sie ein lineares Regressionsmodell, um den Preis des Weins (`Price`) anhand der anderen Variablen vorherzusagen. Beachten Sie dabei, dass zwei Variablen perfekt korreliert sind und entfernen Sie daher eine davon aus dem Modell (begründen Sie Ihre Wahl).
+
+Geben Sie die Zusammenfassung des Modells aus und beantworten Sie folgende Fragen:
+
+- Welche Variablen sind statistisch signifikante Prädiktoren?
+- Wie hoch ist der $R^2$-Wert des Modells?
+- Ist das Modell insgesamt statistisch signifikant?
+- Welche Variablen haben den größten Einfluss auf den Preis des Weins? Berechnen Sie dazu die standardisierten Koeffizienten und nennen Sie die drei wichtigsten Variablen (geordnet nach Einfluss).
+
+
+## Übung 37
+
+Erzeugen Sie einen Vektor `x` mit den geraden Zahlen von $-76$ bis 120. Bestimmen Sie die Anzahl der Elemente sowie den Mittelwert, die Standardabweichung, den Median, das 25. Perzentil und das 75. Perzentil von `x`.
+
+Bestimmen Sie außerdem die Anzahl der Elemente, die größer als der Mittelwert sind.
