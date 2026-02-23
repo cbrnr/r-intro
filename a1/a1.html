@@ -423,7 +423,7 @@ window.Quarto = {
       <div>
       <div class="quarto-title-meta-heading">Veröffentlicht</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">3. November 2025</p>
+        <p class="date">23. Februar 2026</p>
       </div>
     </div>
     
@@ -716,6 +716,19 @@ Hinweis
 <li>Erstellen Sie eine Grafik, welche den Temperaturverlauf über die Zeit zeigt (Spalten <code>metANN</code> bzw. <code>YEAR</code>). Stellen Sie die Datenpunkte mit Punkten dar und verbinden Sie die einzelnen Punkte mit Linien. Erstellen Sie passende Achsenbeschriftungen sowie einen aussagekräftigen Titel.</li>
 <li>Wie lautet der minimale bzw. maximale Temperaturjahresmittelwert im gesamten Zeitraum?</li>
 </ol>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Hinweis
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Eine kombinierte Punkte- und Liniengrafik kann mit dem Argument <code>type="b"</code> in der Funktion <code>plot()</code> erstellt werden.</p>
+</div>
+</div>
 </section>
 <section id="übung-30" class="level2">
 <h2 class="anchored" data-anchor-id="übung-30">Übung 30</h2>
@@ -793,6 +806,36 @@ Hinweis
 <h2 class="anchored" data-anchor-id="übung-37">Übung 37</h2>
 <p>Erzeugen Sie einen Vektor <code>x</code> mit den geraden Zahlen von <span class="math inline">\(-76\)</span> bis 120. Bestimmen Sie die Anzahl der Elemente sowie den Mittelwert, die Standardabweichung, den Median, das 25. Perzentil und das 75. Perzentil von <code>x</code>.</p>
 <p>Bestimmen Sie außerdem die Anzahl der Elemente, die größer als der Mittelwert sind.</p>
+</section>
+<section id="übung-38" class="level2">
+<h2 class="anchored" data-anchor-id="übung-38">Übung 38</h2>
+<p>Der folgende Code importiert einen Datensatz von IMDb (Internet Movie Database):</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>df <span class="ot">=</span> <span class="fu">read_tsv</span>(<span class="st">"imdb-ratings.tsv.zip"</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Dieser Datensatz beinhaltet die folgenden drei Spalten:</p>
+<ul>
+<li><code>tconst</code> (Film-ID)</li>
+<li><code>averageRating</code> (durchschnittliche Bewertung des Films)</li>
+<li><code>numVotes</code> (Anzahl der abgegebenen Bewertungen)</li>
+</ul>
+<p>Berechnen Sie eine neue Spalte <code>weightedRating</code>, welche die gewichtete Bewertung eines Films beinhalten soll. Diese gewichtete Bewertung <span class="math inline">\(R_w\)</span> wird wie folgt berechnet:</p>
+<p><span class="math display">\[ R_w = \frac{R \cdot n + \bar{R} \cdot v}{n + v} \]</span></p>
+<ul>
+<li><span class="math inline">\(R\)</span>: Bewertung des Films (Spalte <code>averageRating</code>)</li>
+<li><span class="math inline">\(n\)</span>: Anzahl der Bewertungen des Films (Spalte <code>numVotes</code>)</li>
+<li><span class="math inline">\(\bar{R}\)</span>: Arithmetisches Mittel aller Bewertungen</li>
+<li><span class="math inline">\(v\)</span>: Das 0.90-Quantil der Anzahl der Bewertungen</li>
+</ul>
+<p>Welcher Film hat die höchste gewichtete Bewertung? Sortieren Sie dazu den Datensatz nach <code>weightedRating</code> in absteigender Reihenfolge:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>df[<span class="fu">order</span>(<span class="sc">-</span>df<span class="sc">$</span>weightedRating), ]</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="übung-39" class="level2">
+<h2 class="anchored" data-anchor-id="übung-39">Übung 39</h2>
+<p>Gegeben sei ein Vektor <code>x</code>:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="fu">sample</span>(<span class="sc">-</span><span class="dv">100</span><span class="sc">:</span><span class="dv">120</span>, <span class="at">size=</span><span class="dv">100</span>, <span class="at">replace=</span><span class="cn">TRUE</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Schreiben Sie den folgenden Befehl <em>ohne</em> Verwendung von Pipe-Operatoren an:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>x <span class="sc">|&gt;</span> <span class="fu">unique</span>() <span class="sc">|&gt;</span> <span class="fu">mean</span>(<span class="at">trim=</span><span class="fl">0.25</span>) <span class="sc">|&gt;</span> <span class="fu">round</span>(<span class="dv">2</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 
 
 </section>

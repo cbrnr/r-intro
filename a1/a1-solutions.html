@@ -1539,6 +1539,63 @@ Standardized Coefficients::
 <pre><code>[1] 49</code></pre>
 </div>
 </div>
+</section>
+<section id="übung-38" class="level2">
+<h2 class="anchored" data-anchor-id="übung-38">Übung 38</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb167"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb167-1"><a href="#cb167-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">=</span> <span class="fu">read_tsv</span>(<span class="st">"imdb-ratings.tsv.zip"</span>)</span>
+<span id="cb167-2"><a href="#cb167-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb167-3"><a href="#cb167-3" aria-hidden="true" tabindex="-1"></a>m_g <span class="ot">=</span> <span class="fu">mean</span>(df<span class="sc">$</span>averageRating)</span>
+<span id="cb167-4"><a href="#cb167-4" aria-hidden="true" tabindex="-1"></a>m <span class="ot">=</span> <span class="fu">quantile</span>(df<span class="sc">$</span>numVotes, <span class="fl">0.9</span>)</span>
+<span id="cb167-5"><a href="#cb167-5" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>weightedRating <span class="ot">=</span> (df<span class="sc">$</span>averageRating <span class="sc">*</span> df<span class="sc">$</span>numVotes <span class="sc">+</span> m_g <span class="sc">*</span> m) <span class="sc">/</span> (df<span class="sc">$</span>numVotes <span class="sc">+</span> m)</span>
+<span id="cb167-6"><a href="#cb167-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb167-7"><a href="#cb167-7" aria-hidden="true" tabindex="-1"></a>df[<span class="fu">order</span>(<span class="sc">-</span>df<span class="sc">$</span>weightedRating), ]</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1,628,304 × 4
+   tconst     averageRating numVotes weightedRating
+   &lt;chr&gt;              &lt;dbl&gt;    &lt;dbl&gt;          &lt;dbl&gt;
+ 1 tt2301451           10     282095           9.99
+ 2 tt4283088            9.9   251299           9.89
+ 3 tt4283094            9.9   181028           9.89
+ 4 tt2301455            9.9   179032           9.89
+ 5 tt2178784            9.9   139417           9.89
+ 6 tt1683088            9.9    97718           9.89
+ 7 tt12187040           9.9    73261           9.88
+ 8 tt38504411           9.9    63904           9.88
+ 9 tt8084176            9.9    42499           9.87
+10 tt38504412           9.9    39322           9.86
+# ℹ 1,628,294 more rows</code></pre>
+</div>
+</div>
+<p>Der Film mit der höchsten gewichteten Bewertung von 9.99 ist “tt2301451”. Dabei handelt es sich um die Folge “Ozymandias” aus Breaking Bad (<a href="https://www.imdb.com/title/tt2301451/">S5E14</a>).</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Hinweis
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Der in dieser Aufgabe verwendete Datensatz kann, neben anderen, auf <a href="https://datasets.imdbws.com/">IMDb</a> heruntergeladen werden.</p>
+</div>
+</div>
+</section>
+<section id="übung-39" class="level2">
+<h2 class="anchored" data-anchor-id="übung-39">Übung 39</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb169"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb169-1"><a href="#cb169-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb169-2"><a href="#cb169-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="fu">sample</span>(<span class="sc">-</span><span class="dv">100</span><span class="sc">:</span><span class="dv">120</span>, <span class="at">size=</span><span class="dv">100</span>, <span class="at">replace=</span><span class="cn">TRUE</span>)</span>
+<span id="cb169-3"><a href="#cb169-3" aria-hidden="true" tabindex="-1"></a>x <span class="sc">|&gt;</span> <span class="fu">unique</span>() <span class="sc">|&gt;</span> <span class="fu">mean</span>(<span class="at">trim=</span><span class="fl">0.25</span>) <span class="sc">|&gt;</span> <span class="fu">round</span>(<span class="dv">2</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2.31</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb171"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb171-1"><a href="#cb171-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">mean</span>(<span class="fu">unique</span>(x), <span class="at">trim=</span><span class="fl">0.25</span>), <span class="dv">2</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2.31</code></pre>
+</div>
+</div>
 
 
 </section>
