@@ -2,7 +2,7 @@
 title: "1 – Grundlagen"
 subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2025-10-02
+date: 2026-03-02
 format:
   html:
     page-layout: full
@@ -49,12 +49,12 @@ R kann man wie folgt charakterisieren:
 
 R ist mittlerweile sehr weit verbreitet. Auch in verschiedenen Beliebtheitsranglisten zählt R regelmäßig zu den populärsten Programmiersprachen (z.B. [PYPL](https://pypl.github.io/PYPL.html), [IEEE Spectrum Top Programming Languages](https://spectrum.ieee.org/top-programming-languages-2024) und [TIOBE](https://www.tiobe.com/tiobe-index/)). Das ist besonders bemerkenswert, da R keine universelle Sprache ist und damit mit Abstand die beliebteste statistische Programmiersprache, weit vor kommerziellen Statistikpaketen wie SPSS, Stata und Statistica.
 
-In der Praxis ist die Popularität einer Programmiersprache durchaus relevant, denn je größer und aktiver die Community einer Sprache ist, desto einfacher wird es, bestehende Lösungen für Probleme zu finden oder schnell Antworten auf neue Fragen zu bekommen.
+In der Praxis ist die Popularität einer Programmiersprache durchaus relevant, denn je größer und aktiver die Community einer Sprache ist, desto einfacher wird es, bestehende Lösungen für Probleme zu finden oder Antworten auf neue Fragen zu bekommen.
 
 
 ## Wie sieht R-Code aus?
 
-R bedient man, indem man Textbefehle in der sogenannten *Console* eingibt. Statistische Berechnungen werden daher nicht wie z.B. in SPSS üblich durch Navigieren in einer grafischen Oberfläche durchgeführt. Zwar gibt es in SPSS ebenfalls die Möglichkeit, eine sogenannte *Syntax* zu verwenden, um Analysen per Code auszuführen. Im Gegensatz zu R ist dies in SPSS jedoch optional – die meisten Anwenderinnen und Anwender nutzen ausschließlich die grafische Oberfläche und verzichten auf die Syntax. In R hingegen ist die Arbeit mit Code die einzige Möglichkeit, Analysen durchzuführen. Dies ist aber keineswegs ein Nachteil, sondern hat ganz im Gegenteil mehrere Vorteile – insbesondere wird die Datenanalyse dadurch automatisch *reproduzierbar*, weil diese *vollständig* durch die verwendeten Befehle definiert ist.
+R bedient man, indem man Textbefehle in der sogenannten *Console* eingibt. Statistische Berechnungen werden daher nicht wie z.B. in SPSS üblich durch Navigieren in einer grafischen Oberfläche durchgeführt. Zwar gibt es in SPSS ebenfalls die Möglichkeit, eine sogenannte *Syntax* zu verwenden, um Analysen per Code auszuführen. Im Gegensatz zu R ist dies in SPSS jedoch optional – die meisten Anwenderinnen und Anwender nutzen ausschließlich die grafische Oberfläche und verzichten auf die Syntax. In R hingegen ist die Arbeit mit Code die *einzige* Möglichkeit, Analysen durchzuführen. Dies ist aber keineswegs ein Nachteil, sondern hat ganz im Gegenteil mehrere Vorteile – insbesondere wird die Datenanalyse dadurch automatisch *reproduzierbar*, weil diese *vollständig* durch die verwendeten Befehle definiert ist.
 
 Typische Ein- und Ausgaben in R sehen beispielsweise wie folgt aus:
 
@@ -73,7 +73,7 @@ In diesen Unterlagen werden R-Befehle in grauen Kästchen gezeigt, während dire
 
 ## Installation
 
-Bevor wir R verwenden können, müssen wir zwei Programme auf unserem Rechner installieren, nämlich R und RStudio:
+Bevor wir R verwenden können, müssen wir zwei Programme installieren, nämlich R und RStudio:
 
 1. Alle relevanten Informationen zur Installation von R sind auf der [offiziellen Website](https://www.r-project.org/) zu finden. Hier finden sich detaillierte Anleitungen für jede unterstützte Plattform. Der Download-Link befindet sich in der linken Spalte ganz oben unter "Download" – "CRAN". Es ist sinnvoll, stets mit der aktuellsten Version von R zu arbeiten.
 2. Obwohl die mit R mitgelieferte Oberfläche relativ komfortabel ist (und man auch komplett ohne grafische Oberfläche auskommen könnte), verwenden sehr viele Personen [RStudio](https://posit.co/download/rstudio-desktop/), um mit R zu arbeiten. RStudio ist "nur" eine grafische Oberfläche, d.h. es wird eine zuvor installierte R-Umgebung vorausgesetzt. Auch hier ist es ratsam, stets die aktuellste Version zu verwenden.
@@ -81,7 +81,9 @@ Bevor wir R verwenden können, müssen wir zwei Programme auf unserem Rechner in
 
 ## Erste Schritte
 
-R kann als umfangreicher Taschenrechner verwendet werden. Die Eingabe von mathematischen Ausdrücken ist intuitiv, ein sogenannter Prompt (das `>`-Symbol) in der Console (im linken Bereich des RStudio-Fensters) signalisiert, dass R bereit für Eingaben ist. Nach dem Eingeben eines Befehls und Bestätigen mit <kbd>Enter</kbd> wird das Ergebnis der Berechnung in der nächsten Zeile ausgegeben. Die Grundrechenarten Addition, Subtraktion, Multiplikation und Division funktionieren wie erwartet:
+R kann als umfangreicher Taschenrechner verwendet werden. Um das auszuprobieren, starten Sie jetzt RStudio. Die Eingabe von mathematischen Ausdrücken ist intuitiv, ein sogenannter Prompt (das `>`-Symbol) in der Console (im linken Bereich des RStudio-Fensters) signalisiert, dass R bereit für Eingaben ist. Nach dem Eingeben eines Befehls und Bestätigen mit <kbd>Enter</kbd> wird das Ergebnis der Berechnung in der nächsten Zeile ausgegeben.
+
+Die Grundrechenarten Addition, Subtraktion, Multiplikation und Division funktionieren wie erwartet:
 
 ```{r}
 13 + 7
@@ -100,7 +102,7 @@ R kann als umfangreicher Taschenrechner verwendet werden. Die Eingabe von mathem
 ```
 
 :::{.callout-tip}
-Aus Gründen der besseren Lesbarkeit sollten Leerzeichen vor und nach dem Operator eingefügt werden, also besser `13 + 7` und nicht `13+7`. Für R ist zwar beides korrekt, aber die erste Variante ist leichter lesbar.
+Aus Gründen der besseren Lesbarkeit sollten Leerzeichen *vor* und *nach* dem Operator eingefügt werden, also besser `13 + 7` und nicht `13+7`. Für R ist zwar beides korrekt, aber die erste Variante ist leichter lesbar.
 :::
 
 Für eine Ganzzahl-Division verwendet man den aus drei Zeichen bestehenden Operator `%/%`:
@@ -188,13 +190,13 @@ Berechnen Sie das Ergebnis des folgenden Ausdrucks mit einem Befehl (d.h. in ein
 $$\sqrt 2 \cdot \frac{(5^5 - \pi) \cdot 18}{\left(\frac{7}{5} + 13.2 \right) \cdot 7^\frac{2}{3}}$$
 
 :::{.callout-note}
-Achten Sie auf die Klammersetzung! Der letzte Term im Nenner $7^\frac{2}{3}$ lautet sieben *hoch* zwei Drittel.
+Achten Sie auf die Klammersetzung! Der letzte Term im Nenner $7^\frac{2}{3}$ lautet "sieben *hoch* zwei Drittel".
 :::
 
 
 ### Übung 5
 
-Warum funktioniert folgender Code zur Berechnung des Umfangs eines Kreises mit einem Radius von $r = 1$ nicht (die korrekte Berechnung lautet $2 \cdot r \cdot \pi = 2 \cdot 1 \cdot \pi \approx 6.283185$)?
+Warum funktioniert folgender Code zur Berechnung des Umfangs eines Kreises mit einem Radius von $r = 1$ nicht?
 
 ```{r}
 #| eval: false
