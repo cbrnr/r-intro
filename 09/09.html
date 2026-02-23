@@ -1,0 +1,1410 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="de" xml:lang="de"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.27">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Clemens Brunner">
+
+<title>9 – Korrelation – Statistische Datenanalyse mit R</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-8b4baf804e461d9b72633f0de59a0cac.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-f1aadacce99040138bbb613f9330654f.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-8b4baf804e461d9b72633f0de59a0cac.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-70acd5334efd903f5a7ee98cc20b8936.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-f43fd6ecb9380c5f2fb0abebe514624c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-70acd5334efd903f5a7ee98cc20b8936.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/quarto-contrib/academicons-1.9.2/all.css" rel="stylesheet">
+<link href="../site_libs/quarto-contrib/academicons-1.9.2/size.css" rel="stylesheet">
+<link href="../site_libs/quarto-contrib/fontawesome6-0.1.0/all.css" rel="stylesheet">
+<link href="../site_libs/quarto-contrib/fontawesome6-0.1.0/latex-fontsize.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "Keine Treffer",
+    "search-matching-documents-text": "Treffer",
+    "search-copy-link-title": "Link in die Suche kopieren",
+    "search-hide-matches-text": "Zusätzliche Treffer verbergen",
+    "search-more-match-text": "weitere Treffer in diesem Dokument",
+    "search-more-matches-text": "weitere Treffer in diesem Dokument",
+    "search-clear-button-title": "Zurücksetzen",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Abbrechen",
+    "search-submit-button-title": "Abschicken",
+    "search-label": "Suchen"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Statistische Datenanalyse mit R</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Suchen"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Navigation umschalten" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../01/01.html"> 
+<span class="menu-text">1</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../02/02.html"> 
+<span class="menu-text">2</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../03/03.html"> 
+<span class="menu-text">3</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../04/04.html"> 
+<span class="menu-text">4</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../05/05.html"> 
+<span class="menu-text">5</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../06/06.html"> 
+<span class="menu-text">6</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../07/07.html"> 
+<span class="menu-text">7</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../08/08.html"> 
+<span class="menu-text">8</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="../09/09.html" aria-current="page"> 
+<span class="menu-text">9</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../10/10.html"> 
+<span class="menu-text">10</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../11/11.html"> 
+<span class="menu-text">11</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../12/12.html"> 
+<span class="menu-text">12</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="https://orcid.org/0000-0002-6030-2233"> 
+<span class="menu-text"><i class="ai  ai-orcid" title="" style="color:"></i></span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://scholar.social/web/@cbrnr"> 
+<span class="menu-text"><i class="fa-brands fa-mastodon" aria-label="mastodon"></i></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/cbrnr"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="mailto:clemens.brunner@gmail.com"> <i class="bi bi-envelope-fill" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Dunkelmodus umschalten"><i class="bi"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-page">
+      <h1 class="title">9 – Korrelation</h1>
+            <p class="subtitle lead">Statistische Datenanalyse mit R</p>
+                      </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta column-page">
+
+      <div>
+      <div class="quarto-title-meta-heading">Autor</div>
+      <div class="quarto-title-meta-contents">
+               <p>Clemens Brunner </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Veröffentlicht</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">11. Dezember 2025</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content quarto-banner-title-block column-page" id="quarto-document-content">
+
+
+
+
+
+
+<section id="allgemeines" class="level2">
+<h2 class="anchored" data-anchor-id="allgemeines">Allgemeines</h2>
+<p>Oft ist es interessant zu fragen, ob zwei Variablen eine gegenseitige Abhängigkeit zeigen. Man möchte also wissen, ob sich die beiden Größen ähnlich verhalten oder nicht – wenn die eine Variable zunimmt, nimmt dann die andere auch zu? Oder ist es genau umgekehrt und sie nimmt dann immer ab? Die Korrelation ist ein einfaches und populäres Maß, um diese Fragestellungen zu beantworten.</p>
+<p>Dabei ist es aber wichtig zu wissen, dass kein kausaler Zusammenhang zwischen den beiden Variablen bestehen muss. Folgende Beispiele von <a href="http://www.tylervigen.com/spurious-correlations">Spurious Correlations</a> illustrieren die Gefahr der fehlerhaften Interpretation von Korrelationen. Im ersten Beispiel werden die Ausgaben für den Bereich Wissenschaft, Raumfahrt und Technik der USA im Zeitraum 1999–2009 dargestellt. Gleichzeitig werden die Anzahl der Selbstmorde durch Hängen, Strangulieren und Erstickung im selben Zeitraum gezeigt. Man sieht, dass beide Kurven einen sehr ähnlichen Verlauf haben, und der Korrelationskoeffizient (dazu später mehr) ist mit <span class="math inline">\(r=0.998\)</span> extrem hoch:</p>
+<p><img src="spurious1.png" class="img-fluid"></p>
+<p>Das zweite Beispiel zeigt den Zusammenhang zwischen der Anzahl an Personen, die in einen Pool gefallen und ertrunken sind und der Anzahl an Filmen mit Nicolas Cage im Zeitraum 1999–2009. Auch hier kann man einen schönen Zusammenhang erkennen, welcher einen recht hohen Korrelationskoeffizienten von <span class="math inline">\(r=0.666\)</span> aufweist:</p>
+<p><img src="spurious2.png" class="img-fluid"></p>
+<p>Diese Beispiele sollen verdeutlichen, dass Korrelation nicht automatisch einen kausalen Zusammenhang darstellt (<a href="https://de.wikipedia.org/wiki/Cum_hoc_ergo_propter_hoc">“correlation is not causation”</a>). Denn offensichtlich sind die gezeigten Beispiele rein zufällige Korrelationen, die in keinerlei kausalem Zusammenhang stehen.</p>
+</section>
+<section id="produkt-moment-korrelation-pearson-korrelation" class="level2">
+<h2 class="anchored" data-anchor-id="produkt-moment-korrelation-pearson-korrelation">Produkt-Moment-Korrelation (Pearson-Korrelation)</h2>
+<p>Die Produkt-Moment-Korrelation <span class="math inline">\(r\)</span> (auch Pearson-Korrelation genannt) ist ein Maß für den Grad des <em>linearen</em> Zusammenhangs zweier intervallskalierter Variablen. Die Korrelation nimmt Werte zwischen −1 und 1 an und wird aus den Varianzen und der Kovarianz beider Variablen berechnet.</p>
+<p>Die Varianz einer Variablen <span class="math inline">\(x\)</span> ist wie folgt definiert:</p>
+<p><span class="math display">\[\mathrm{Var}(x) = \frac{1}{N-1} \sum_{i=1}^N (x_i - \bar{x})^2\]</span></p>
+<p>Hier ist <span class="math inline">\(\bar{x}\)</span> der Mittelwert über alle <span class="math inline">\(N\)</span> Werte (welche als <span class="math inline">\(x_i\)</span> bezeichnet werden), also</p>
+<p><span class="math display">\[\bar{x} = \frac{1}{N} \sum_{i=1}^N x_i.\]</span></p>
+<p>Alternativ kann man die Varianz auch so schreiben (das Quadrat wird explizit als Multiplikation angeschrieben):</p>
+<p><span class="math display">\[\mathrm{Var}(x) = \frac{1}{N-1} \sum_{i=1}^N (x_i - \bar{x})(x_i - \bar{x})\]</span></p>
+<p>Die Varianz beschreibt, wie stark die Datenpunkte um deren Mittelwert variieren (streuen). Dementsprechend ist die Kovarianz zwischen zwei Variablen <span class="math inline">\(x\)</span> und <span class="math inline">\(y\)</span> definiert als</p>
+<p><span class="math display">\[\mathrm{Cov}(x, y) = \frac{1}{N-1} \sum_{i=1}^N (x_i - \bar{x})(y_i - \bar{y}).\]</span></p>
+<p>Die Kovarianz beschreibt, wie stark die beiden Variablen gemeinsam um den jeweiligen Mittelwert variieren. Eine positive Kovarianz bedeutet, dass beide Variablen gleichsinnig variieren (d.h. wenn eine Variable größer als ihr Mittelwert ist, dann ist die andere auch größer). Umgekehrt bedeutet eine negative Kovarianz, dass beide Variablen gegensinnig variieren (ist eine Variable größer als ihr Mittelwert, dann ist die andere Variable kleiner).</p>
+<p>Die Kovarianz ist kein standardisiertes Maß, d.h. man kann nicht einfach zwei Kovarianzen aus unterschiedlichen Messreihen miteinander vergleichen, da sie von der Skalierung der beiden Variablen abhängt. Die Pearson-Korrelation standardisiert nun die Kovarianz mit den Varianzen der einzelnen Variablen und stellt somit sicher, dass die Korrelation im Wertebereich zwischen −1 und 1 liegt:</p>
+<p><span class="math display">\[r = \frac{\mathrm{Cov}(x, y)}{\sqrt{\mathrm{Var}(x) \mathrm{Var}(y)}}\]</span></p>
+<section id="rechenbeispiel" class="level3">
+<h3 class="anchored" data-anchor-id="rechenbeispiel">Rechenbeispiel</h3>
+<p>Versuchen wir, die Korrelation mit den Formeln für zwei Beispielvektoren <span class="math inline">\(x\)</span> und <span class="math inline">\(y\)</span> zu berechnen:</p>
+<p><span class="math display">\[
+\begin{aligned}
+x &amp;= (8, 1, -4, 5, 6, 10, 9) \\
+y &amp;= (-2, -5, -6, 0, 3, 7, 10)
+\end{aligned}
+\]</span></p>
+<p>Wir können diese sieben Datenpunkte in einem Scatterplot visualisieren:</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="09_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Zunächst berechnen wir die beiden Mittelwerte:</p>
+<p><span class="math display">\[
+\begin{aligned}
+\bar{x} &amp;= \frac{1}{7} \cdot (8 + 1 - 4 + 5 + 6 + 10 + 9) = 5 \\
+\bar{y} &amp;= \frac{1}{7} \cdot (-2 - 5 - 6 + 0 + 3 + 7 + 10) = 1
+\end{aligned}
+\]</span></p>
+<p>Damit können wir die Varianzen berechnen:</p>
+<p><span class="math display">\[
+\begin{aligned}
+\text{Var}(x) = \frac{1}{6} \cdot \Bigl[ &amp; (8 - 5)^2 + (1 - 5)^2 + (-4 - 5)^2 \\
+&amp;+ (5 - 5)^2 + (6 - 5)^2 + (10 - 5)^2 + (9 - 5)^2 \Bigr] = 24.\dot{6} \\
+\text{Var}(y) = \frac{1}{6} \cdot \Bigl[ &amp; (-2 - 1)^2 + (-5 - 1)^2 + (-6 - 1)^2 \\
+&amp;+ (0 - 1)^2 + (3 - 1)^2 + (7 - 1)^2 + (10 - 1)^2 \Bigr] = 36
+\end{aligned}
+\]</span></p>
+<p>Schließlich berechnen wir die Kovarianz:</p>
+<p><span class="math display">\[
+\begin{aligned}
+\text{Cov}(x, y) = \frac{1}{6} \cdot \Bigl[ &amp; (8 - 5) \cdot (-2 -1) + (1 - 5) \cdot (-5 - 1) \\
+&amp;+ (-4 - 5) \cdot (-6 - 1) + (5 - 5) \cdot (0 - 1) \\
+&amp;+ (6 - 5) \cdot (3 - 1) + (10 - 5) \cdot (7 - 1) + (9 - 5) \cdot (10 - 1) \Bigr] = 24.\dot{3}
+\end{aligned}
+\]</span></p>
+<p>Um die Pearson-Korrelation zu erhalten, müssen wir noch diese Größen laut Formel verarbeiten und erhalten somit:</p>
+<p><span class="math display">\[r = \frac{24.\dot{3}}{\sqrt{24.\dot{6} \cdot 36}} = 0.8165732\]</span></p>
+</section>
+<section id="signifikanz" class="level3">
+<h3 class="anchored" data-anchor-id="signifikanz">Signifikanz</h3>
+<p>Meist wird nach der Berechnung der Korrelation ein Test durchgeführt, welcher prüft, ob die erhaltene Korrelation signifikant von der Nullhypothese (“es existiert <em>keine</em> Korrelation, d.h. die Korrelation ist 0”) abweicht. Da die Stichprobenverteilung der Korrelation keine Normalverteilung aufweist, kann man den Wert von <span class="math inline">\(r\)</span> mit Hilfe der <a href="https://en.wikipedia.org/wiki/Fisher_transformation">Fisher-Transformation</a> in eine Normalverteilung mit Mittelwert</p>
+<p><span class="math display">\[z_r = \frac{1}{2} \ln \frac{1 + r}{1 - r} = \text{arctanh}(r)\]</span></p>
+<p>umwandeln. Der Standardfehler von <span class="math inline">\(z_r\)</span> beträgt dabei:</p>
+<p><span class="math display">\[\mathrm{SE}(z_r) = \frac{1}{\sqrt{N - 3}}\]</span></p>
+<p>Nun kann man den erhaltenen Wert von <span class="math inline">\(z_r\)</span> durch den Standardfehler dividieren und das Ergebnis dann mit Werten aus einer Tabelle der Standardnormalverteilung vergleichen. So erhält man dann den <span class="math inline">\(p\)</span>-Wert (siehe auch <a href="https://en.wikipedia.org/wiki/Pearson_correlation_coefficient#Using_the_Fisher_transformation">hier</a>).</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Hinweis
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Der <span class="math inline">\(p\)</span>-Wert gibt hier die Wahrscheinlichkeit an, dass man eine Korrelation erhält, die <em>mindestens</em> so groß ist wie die beobachtete, unter der Annahme, dass die Nullhypothese zutrifft (also dass die Korrelation 0 ist).</p>
+<p>Ein kleiner <span class="math inline">\(p\)</span>-Wert bedeutet also, dass der beobachtete Wert unter der Nullhypothese sehr unwahrscheinlich ist. Daher entscheidet man sich in solchen Situationen, die Nullhypothese zu verwerfen und die Korrelation als signifikant (unterschiedlich von 0) zu betrachten.</p>
+</div>
+</div>
+<p>Betrachten wir dazu ein Beispiel zur Veranschaulichung der Berechnung des <span class="math inline">\(p\)</span>-Wertes sowie des Konfidenzintervalls für eine gegebene Pearson-Korrelation.</p>
+</section>
+<section id="beispiel" class="level3">
+<h3 class="anchored" data-anchor-id="beispiel">Beispiel</h3>
+<p>Gegeben sei eine Korrelation <span class="math inline">\(r = 0.25\)</span> berechnet aus einer Stichprobe der Größe <span class="math inline">\(N = 40\)</span>:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>r <span class="ot">=</span> <span class="fl">0.25</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>N <span class="ot">=</span> <span class="dv">40</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Weiters geben wir ein Signifikanzniveau von <span class="math inline">\(\alpha = 0.05\)</span> vor (das ist der Schwellwert für den <span class="math inline">\(p\)</span>-Wert, ab dem wir eine Korrelation als signifikant betrachten wollen):</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>alpha <span class="ot">=</span> <span class="fl">0.05</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Wir möchten nun wissen, ob die Korrelation <span class="math inline">\(r = 0.25\)</span> bei einem gegebenen Signifikanzniveau signifikant unterschiedlich von 0 ist. Dazu berechnen wir den <span class="math inline">\(p\)</span>-Wert und das Konfidenzintervall. Um dies berechnen zu können, müssen wir zuerst die Fisher-Transformation von <span class="math inline">\(r\)</span> berechnen:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>(<span class="at">z =</span> <span class="fu">atanh</span>(r))</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.2554128</code></pre>
+</div>
+</div>
+<p>Jetzt können wir den Standardfehler berechnen:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>(<span class="at">se_z =</span> <span class="dv">1</span> <span class="sc">/</span> <span class="fu">sqrt</span>(N <span class="sc">-</span> <span class="dv">3</span>))</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.164399</code></pre>
+</div>
+</div>
+<p>Den <span class="math inline">\(p\)</span>-Wert erhält man nun, indem man die Wahrscheinlichkeit berechnet, dass man in einer Standardnormalverteilung Werte größer als <span class="math inline">\(z \, / \, \text{SE}(z) \approx 1.55\)</span> erhält. Dazu sieht man entweder in einer <a href="https://en.wikipedia.org/wiki/Standard_normal_table#Complementary_cumulative">Tabelle der Standardnormalverteilung</a> nach oder man berechnet diesen Wert mit entsprechenden Funktionen in R (der Faktor 2 wird benötigt, da wir keine gerichtete Hypothese haben):</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>(<span class="at">p =</span> <span class="dv">2</span> <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">pnorm</span>(z <span class="sc">/</span> se_z)))</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.1202762</code></pre>
+</div>
+</div>
+<p>Dieser <span class="math inline">\(p\)</span>-Wert ist größer als <span class="math inline">\(\alpha = 0.05\)</span>, d.h. wir können die Nullhypothese (keine Korrelation) <em>nicht</em> verwerfen.</p>
+<p>Das Konfidenzintervall um <span class="math inline">\(z\)</span> erhält man, indem man zum gegebenen Wert <span class="math inline">\(z\)</span> das Produkt aus dem Signifikanzniveau entsprechenden Quantil (ca. 1.96 für <span class="math inline">\(\alpha = 0.05\)</span>) mit dem Standardfehler addiert bzw. subtrahiert:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>cl_z <span class="ot">=</span> z <span class="sc">-</span> <span class="fu">qnorm</span>(<span class="dv">1</span> <span class="sc">-</span> alpha<span class="sc">/</span><span class="dv">2</span>) <span class="sc">*</span> se_z</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>cu_z <span class="ot">=</span> z <span class="sc">+</span> <span class="fu">qnorm</span>(<span class="dv">1</span> <span class="sc">-</span> alpha<span class="sc">/</span><span class="dv">2</span>) <span class="sc">*</span> se_z</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(cl_z, z, cu_z)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -0.06680328  0.25541281  0.57762891</code></pre>
+</div>
+</div>
+<p>Man beachte, dass es sich bei allen drei Werten um Fisher-transformierte Werte handelt. Möchte man ein Konfidenzintervall um die ursprüngliche Korrelation <span class="math inline">\(r\)</span> angeben, so muss man diese drei Werte noch rücktransformieren (<code>tanh</code> ist die Umkehrfunktion von <code>atanh</code>):</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>cl_r <span class="ot">=</span> <span class="fu">tanh</span>(cl_z)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>cu_r <span class="ot">=</span> <span class="fu">tanh</span>(cu_z)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(cl_r, r, cu_r)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -0.06670409  0.25000000  0.52093993</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Hinweis
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Das Konfidenzintervall gibt an, in welchem Bereich der wahre Wert der Korrelation mit einer gegebenen Sicherheit (Konfidenz) liegt. Die Konfidenz ist <em>nicht</em> die <em>Wahrscheinlichkeit</em>, dass der wahre Wert in dem berechneten Intervall liegt – denn der wahre Wert ist entweder in dem Intervall oder nicht. Wenn man viele Stichproben ziehen würde und damit jedes Mal ein Konfidenzintervall berechnen würde, dann würde im Falle eines 95%-Konfidenzintervalls in 95% der berechneten Fälle der wahre Wert in dem Intervall liegen.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tipp
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Die Tatsache, dass die Korrelation <span class="math inline">\(r=0.25\)</span> bei einer Stichprobe von <span class="math inline">\(N=40\)</span> nicht signifikant unterschiedlich von Null ist (<span class="math inline">\(p=0.12\)</span>) kann man auch daran erkennen, dass das 95%-Konfidenzintervall den Wert 0 (also die Nullhypothese) enthält. Das bedeutet also, dass wir die Nullhypothese (keine Korrelation) <em>nicht</em> verwerfen können.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="nicht-parametrische-korrelationskoeffizienten" class="level2">
+<h2 class="anchored" data-anchor-id="nicht-parametrische-korrelationskoeffizienten">Nicht-parametrische Korrelationskoeffizienten</h2>
+<section id="spearman-rangkorrelationskoeffizient" class="level3">
+<h3 class="anchored" data-anchor-id="spearman-rangkorrelationskoeffizient">Spearman Rangkorrelationskoeffizient</h3>
+<p>Im Gegensatz zur Pearson-Korrelation misst der Spearman Rangkorrelationskoeffizient <span class="math inline">\(\rho\)</span> nicht nur lineare Zusammenhänge zwischen zwei Variablen, sondern der Zusammenhang kann eine beliebige monotone (nicht-lineare) Funktion sein. Die beiden Variablen müssen auch nicht intervallskaliert sein, d.h. so kann man auch ordinalskalierte Daten miteinander korrelieren.</p>
+<p>Im Prinzip berechnet man die Spearman-Korrelation, indem man die Daten <span class="math inline">\(x\)</span> und <span class="math inline">\(y\)</span> vorher in Ränge konvertiert und dann die Pearson-Korrelation berechnet. Zur Berechnung kann folgende vereinfachte Formel verwendet werden:</p>
+<p><span class="math display">\[\rho = 1 - \frac{6 \sum d_i^2}{N \cdot (N^2 - 1)}\]</span> Hier ist <span class="math inline">\(d_i\)</span> die Differenz der Ränge einer Beobachtung.</p>
+</section>
+<section id="kendall-rangkorrelationskoeffizient" class="level3">
+<h3 class="anchored" data-anchor-id="kendall-rangkorrelationskoeffizient">Kendall Rangkorrelationskoeffizient</h3>
+<p>Bei kleinen Stichproben und relativ großer Anzahl an gleichen Rängen liefert oft der Kendall Rangkorrelationskoeffizient <span class="math inline">\(\tau\)</span> bessere Ergebnisse. Hier werden nicht die Differenzen zwischen den Rängen betrachtet (also die Abstände der Ränge zwischen beiden Variablen), sondern ob es Unterschiede in den Rängen zwischen Datenpaaren gibt oder nicht.</p>
+</section>
+</section>
+<section id="korrelationen-mit-r-berechnen" class="level2">
+<h2 class="anchored" data-anchor-id="korrelationen-mit-r-berechnen">Korrelationen mit R berechnen</h2>
+<p>Korrelationskoeffizienten kann man mit den folgenden drei Funktionen berechnen: <code>cor()</code>, <code>cor.test()</code> und <code>rcorr()</code>. Die ersten beiden Funktionen sind Teil von R, die Funktion <code>rcorr()</code> muss mit dem <code>Hmisc</code>-Paket geladen werden.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(Hmisc)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Die drei Funktionen haben unterschiedliche Features, d.h. welche Funktion man benutzt ist abhängig von den benötigten Eigenschaften, welche in nachfolgender Tabelle zusammengefasst sind (“CI” steht für Konfidenzintervall, “Mehrfach” bedeutet, dass Korrelationen zwischen mehr als zwei Variablen paarweise berechnet werden können).</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 18%">
+<col style="width: 13%">
+<col style="width: 15%">
+<col style="width: 13%">
+<col style="width: 16%">
+<col style="width: 6%">
+<col style="width: 15%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: center;">Pearson</th>
+<th style="text-align: center;">Spearman</th>
+<th style="text-align: center;">Kendall</th>
+<th style="text-align: center;"><span class="math inline">\(p\)</span>-Werte</th>
+<th style="text-align: center;">CI</th>
+<th style="text-align: center;">Mehrfach</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><code>cor</code></td>
+<td style="text-align: center;">x</td>
+<td style="text-align: center;">x</td>
+<td style="text-align: center;">x</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">x</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>cor.test</code></td>
+<td style="text-align: center;">x</td>
+<td style="text-align: center;">x</td>
+<td style="text-align: center;">x</td>
+<td style="text-align: center;">x</td>
+<td style="text-align: center;">x</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>rcorr</code></td>
+<td style="text-align: center;">x</td>
+<td style="text-align: center;">x</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">x</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">x</td>
+</tr>
+</tbody>
+</table>
+<section id="funktion-cor" class="level3">
+<h3 class="anchored" data-anchor-id="funktion-cor">Funktion <code>cor()</code></h3>
+<p>Die Funktion <code>cor()</code> ruft man wie folgt auf:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(x, y, <span class="at">method=</span><span class="st">"pearson"</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Hier übergibt man zwei Vektoren und spezifiziert, welche Korrelation berechnet werden soll (standardmäßig wird die Pearson-Korrelation berechnet). Wenn <code>x</code> ein Data Frame mit mindestens zwei Spalten ist, kann man <code>y</code> weglassen – dann werden automatisch die Korrelationen zwischen allen Spaltenpaaren berechnet.</p>
+</section>
+</section>
+<section id="funktion-cor.test" class="level2">
+<h2 class="anchored" data-anchor-id="funktion-cor.test">Funktion <code>cor.test()</code></h2>
+<p>Der Aufruf der Funktion <code>cor.test()</code> ist sehr ähnlich:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor.test</span>(x, y, <span class="at">alternative=</span><span class="st">"t"</span>, <span class="at">method=</span><span class="st">"pearson"</span>, <span class="at">conf.level=</span><span class="fl">0.95</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Hier kann man die Form der Alternativhypothese (<code>"two-sided"</code>, <code>"greater"</code>, <code>"less"</code>) sowie das Konfidenzniveau angeben. Diese Funktion kann nur mit genau zwei Vektoren umgehen.</p>
+</section>
+<section id="funktion-rcorr" class="level2">
+<h2 class="anchored" data-anchor-id="funktion-rcorr">Funktion <code>rcorr()</code></h2>
+<p>Die Funktion <code>rcorr()</code> verwendet man wie folgt:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rcorr</span>(x, y, <span class="at">type=</span><span class="st">"pearson"</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Wie bei den anderen Funktionen sind <code>x</code> und <code>y</code> Vektoren. Weiters ist es wie bei <code>cor()</code> möglich, nur das Argument <code>x</code> anzugeben, wenn dieses eine Matrix mit mindestens zwei Spalten ist.</p>
+</section>
+<section id="beispiel-1" class="level2">
+<h2 class="anchored" data-anchor-id="beispiel-1">Beispiel</h2>
+<p>Am besten können die drei Funktionen anhand eines Beispiels veranschaulicht werden. Dazu laden wir einen (fiktiven) Datensatz <a href="exam.dat"><code>exam.dat</code></a> über Prüfungsangst:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>(<span class="at">exam =</span> <span class="fu">read_tsv</span>(<span class="st">"exam.dat"</span>))</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 103 × 5
+    Code Revise  Exam Anxiety Gender
+   &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt; 
+ 1     1      4    40    86.3 Male  
+ 2     2     11    65    88.7 Female
+ 3     3     27    80    70.2 Male  
+ 4     4     53    80    61.3 Male  
+ 5     5      4    40    89.5 Male  
+ 6     6     22    70    60.5 Female
+ 7     7     16    20    81.5 Female
+ 8     8     21    55    75.8 Female
+ 9     9     25    50    69.4 Female
+10    10     18    40    82.3 Female
+# ℹ 93 more rows</code></pre>
+</div>
+</div>
+<p>Es ist hilfreich, die Daten zuerst einmal grafisch darzustellen. Für den Zusammenhang zwischen zwei Variablen bietet sich ein Scatterplot (inklusive Regressionsgeraden) an – so kann man die Korrelation direkt visualisieren. Wir können eine solche Grafik zunächst einmal separat für alle drei Kombinationen erzeugen:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(exam<span class="sc">$</span>Revise, exam<span class="sc">$</span>Exam, <span class="at">pch=</span><span class="dv">16</span>, <span class="at">col=</span><span class="fu">rgb</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="fl">0.5</span>))</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="fu">lm</span>(exam<span class="sc">$</span>Exam <span class="sc">~</span> exam<span class="sc">$</span>Revise), <span class="at">col=</span><span class="st">"blue"</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="09_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(exam<span class="sc">$</span>Anxiety, exam<span class="sc">$</span>Exam, <span class="at">pch=</span><span class="dv">16</span>, <span class="at">col=</span><span class="fu">rgb</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="fl">0.5</span>))</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="fu">lm</span>(exam<span class="sc">$</span>Exam <span class="sc">~</span> exam<span class="sc">$</span>Anxiety), <span class="at">col=</span><span class="st">"blue"</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="09_files/figure-html/unnamed-chunk-11-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(exam<span class="sc">$</span>Revise, exam<span class="sc">$</span>Anxiety, <span class="at">pch=</span><span class="dv">16</span>, <span class="at">col=</span><span class="fu">rgb</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="fl">0.5</span>))</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="fu">lm</span>(exam<span class="sc">$</span>Anxiety <span class="sc">~</span> exam<span class="sc">$</span>Revise), <span class="at">col=</span><span class="st">"blue"</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="09_files/figure-html/unnamed-chunk-11-3.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tipp
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Bei mehreren Variablen (wie in diesem Beispiel) kann man die Funktion <code>pairs()</code> verwenden, um alle paarweisen Scatterplots gleichzeitig darzustellen:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pairs</span>(exam[, <span class="dv">2</span><span class="sc">:</span><span class="dv">4</span>])</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="09_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Möchte man auch Regressionsgeraden einzeichnen, kann man eine (anonyme) Funktion als <code>panel</code>-Argument übergeben:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pairs</span>(</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>    exam[<span class="dv">2</span><span class="sc">:</span><span class="dv">4</span>],</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel=</span><span class="cf">function</span>(x, y) {</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>        <span class="fu">points</span>(x, y, <span class="at">pch=</span><span class="dv">16</span>, <span class="at">col=</span><span class="fu">rgb</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="fl">0.5</span>))</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>        <span class="fu">abline</span>(<span class="fu">lm</span>(y <span class="sc">~</span> x), <span class="at">col=</span><span class="st">"blue"</span>)</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="09_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+<section id="pearson-korrelation" class="level3">
+<h3 class="anchored" data-anchor-id="pearson-korrelation">Pearson-Korrelation</h3>
+<p>Nun berechnen wir die Pearson-Korrelationen zwischen den drei Variablen <code>Exam</code>, <code>Anxiety</code> und <code>Revise</code>:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(exam[, <span class="fu">c</span>(<span class="st">"Exam"</span>, <span class="st">"Anxiety"</span>, <span class="st">"Revise"</span>)])</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>              Exam    Anxiety     Revise
+Exam     1.0000000 -0.4409934  0.3967207
+Anxiety -0.4409934  1.0000000 -0.7092493
+Revise   0.3967207 -0.7092493  1.0000000</code></pre>
+</div>
+</div>
+<p>Man kann aus dieser Korrelationsmatrix direkt die einzelnen Koeffizienten für alle Variablenpaare ablesen. Die Diagonale beinhaltet die Korrelationen der Variablen mit sich selbst und besteht daher aus lauter Werten, die exakt gleich 1 sind. Außerdem ist es egal, ob man die Korrelationen in dem Dreieck <em>unter</em> der Diagonale oder <em>über</em> der Diagonale abliest, da die Korrelationsmatrix symmetrisch ist (die Korrelation zwischen “Exam” und “Revise” ist dieselbe wie zwischen “Revise” und “Exam” – die Korrelation misst ja keine kausalen Zusammenhänge).</p>
+<p>Möchte man jedoch auch <span class="math inline">\(p\)</span>-Werte, muss man die Funktion <code>rcorr()</code> verwenden. Diese Funktion erwartet die Daten jedoch nicht als Data Frame, sondern als Matrix. Daher müssen die Daten beim Aufruf der Funktion in eine Matrix umgewandelt werden:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rcorr</span>(<span class="fu">as.matrix</span>(exam[, <span class="fu">c</span>(<span class="st">"Exam"</span>, <span class="st">"Anxiety"</span>, <span class="st">"Revise"</span>)]))</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         Exam Anxiety Revise
+Exam     1.00   -0.44   0.40
+Anxiety -0.44    1.00  -0.71
+Revise   0.40   -0.71   1.00
+
+n= 103 
+
+
+P
+        Exam Anxiety Revise
+Exam          0       0    
+Anxiety  0            0    
+Revise   0    0            </code></pre>
+</div>
+</div>
+<p>Zusätzlich zur Korrelationsmatrix bekommt man auch die <span class="math inline">\(p\)</span>-Werte geliefert. In diesem Beispiel sind alle Korrelationen signifikant, da die <span class="math inline">\(p\)</span>-Werte sehr klein sind (gerundet Null).</p>
+<p>Wenn man auch Konfidenzintervalle benötigt, muss man die Funktion <code>cor.test()</code> verwenden. Diese Funktion unterstützt aber nur zwei Variablen, d.h. bei mehreren Variablen muss man die Funktion mehrmals aufrufen, um alle paarweisen Korrelationen zu erhalten.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor.test</span>(exam<span class="sc">$</span>Anxiety, exam<span class="sc">$</span>Exam)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Pearson's product-moment correlation
+
+data:  exam$Anxiety and exam$Exam
+t = -4.938, df = 101, p-value = 3.128e-06
+alternative hypothesis: true correlation is not equal to 0
+95 percent confidence interval:
+ -0.5846244 -0.2705591
+sample estimates:
+       cor 
+-0.4409934 </code></pre>
+</div>
+</div>
+</section>
+<section id="bestimmtheitsmaß-r2" class="level3">
+<h3 class="anchored" data-anchor-id="bestimmtheitsmaß-r2">Bestimmtheitsmaß <span class="math inline">\(R^2\)</span></h3>
+<p>Wenn man den Korrelationskoeffizienten <span class="math inline">\(r\)</span> quadriert, erhält man das Bestimmtheitsmaß <span class="math inline">\(R^2\)</span>. Es gibt an, wie viel Varianz in einer Variablen von der zweiten erklärt werden kann (wobei auch hier wieder gilt, dass dies keine Aussage über Kausalität ist). Es ist üblich, die Korrelation mit dem Kleinbuchstaben <span class="math inline">\(r\)</span> zu bezeichnen, für das Bestimmtheitsmaß verwendet man aber einen Großbuchstaben <span class="math inline">\(R^2\)</span>.</p>
+<p><span class="math display">\[R^2 = r^2\]</span></p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(exam[, <span class="fu">c</span>(<span class="st">"Exam"</span>, <span class="st">"Anxiety"</span>, <span class="st">"Revise"</span>)])<span class="sc">^</span><span class="dv">2</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>             Exam   Anxiety    Revise
+Exam    1.0000000 0.1944752 0.1573873
+Anxiety 0.1944752 1.0000000 0.5030345
+Revise  0.1573873 0.5030345 1.0000000</code></pre>
+</div>
+</div>
+</section>
+<section id="spearman-rangkorrelationskoeffizient-1" class="level3">
+<h3 class="anchored" data-anchor-id="spearman-rangkorrelationskoeffizient-1">Spearman Rangkorrelationskoeffizient</h3>
+<p>Für die Beispieldaten können wir analog auch die Spearman-Korrelation bestimmen:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(exam[, <span class="fu">c</span>(<span class="st">"Exam"</span>, <span class="st">"Anxiety"</span>, <span class="st">"Revise"</span>)], <span class="at">method=</span><span class="st">"spearman"</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>              Exam    Anxiety     Revise
+Exam     1.0000000 -0.4046141  0.3498948
+Anxiety -0.4046141  1.0000000 -0.6219694
+Revise   0.3498948 -0.6219694  1.0000000</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rcorr</span>(<span class="fu">as.matrix</span>(exam[, <span class="fu">c</span>(<span class="st">"Exam"</span>, <span class="st">"Anxiety"</span>, <span class="st">"Revise"</span>)]), <span class="at">type=</span><span class="st">"spearman"</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         Exam Anxiety Revise
+Exam     1.00   -0.40   0.35
+Anxiety -0.40    1.00  -0.62
+Revise   0.35   -0.62   1.00
+
+n= 103 
+
+
+P
+        Exam  Anxiety Revise
+Exam          0e+00   3e-04 
+Anxiety 0e+00         0e+00 
+Revise  3e-04 0e+00         </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor.test</span>(exam<span class="sc">$</span>Revise, exam<span class="sc">$</span>Exam, <span class="at">method=</span><span class="st">"spearman"</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in cor.test.default(exam$Revise, exam$Exam, method = "spearman"): Cannot compute exact p-value with ties</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Spearman's rank correlation rho
+
+data:  exam$Revise and exam$Exam
+S = 118387, p-value = 0.0002913
+alternative hypothesis: true rho is not equal to 0
+sample estimates:
+      rho 
+0.3498948 </code></pre>
+</div>
+</div>
+</section>
+<section id="kendall-rangkorrelationskoeffizient-1" class="level3">
+<h3 class="anchored" data-anchor-id="kendall-rangkorrelationskoeffizient-1">Kendall Rangkorrelationskoeffizient</h3>
+<p>Die Funktion <code>cor.test()</code> gibt im vorigen Beispiel eine Warnung aus, dass der berechnete <span class="math inline">\(p\)</span>-Wert nicht exakt ist, da die Daten gleiche Ränge beinhalten. In solchen Fällen ist daher der Kendall-Korrelationskoeffizient die bessere Wahl:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor.test</span>(exam<span class="sc">$</span>Revise, exam<span class="sc">$</span>Exam, <span class="at">method=</span><span class="st">"kendall"</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Kendall's rank correlation tau
+
+data:  exam$Revise and exam$Exam
+z = 3.8034, p-value = 0.0001427
+alternative hypothesis: true tau is not equal to 0
+sample estimates:
+      tau 
+0.2633259 </code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="übungen" class="level2">
+<h2 class="anchored" data-anchor-id="übungen">Übungen</h2>
+<section id="übung-1" class="level3">
+<h3 class="anchored" data-anchor-id="übung-1">Übung 1</h3>
+<p>Im theoretischen Teil der Übung haben wir in einem Beispiel die Signifikanz einer Korrelation <span class="math inline">\(r = 0.25\)</span> bei einer Stichprobengröße von <span class="math inline">\(N = 40\)</span> berechnet. Diese war mit <span class="math inline">\(p = 0.12\)</span> nicht signifikant.</p>
+<ol type="1">
+<li>Welche Stichprobengröße <span class="math inline">\(N\)</span> müssten Sie mindestens wählen, um ein mit <span class="math inline">\(\alpha = 0.05\)</span> signifikantes Ergebnis zu erhalten?</li>
+<li>Ab welcher Stichprobengröße wird sogar eine sehr kleine Korrelation von <span class="math inline">\(r = 0.05\)</span> signifikant?</li>
+</ol>
+<p>Sie können dieses Beispiel durch Probieren lösen, indem Sie die Stichprobengröße schrittweise verändern (vergrößern) und sich den zugehörigen <span class="math inline">\(p\)</span>-Wert ausrechnen.</p>
+</section>
+<section id="übung-2" class="level3">
+<h3 class="anchored" data-anchor-id="übung-2">Übung 2</h3>
+<p>In dieser Einheit haben wir die Korrelation zwischen <span class="math inline">\(x = (8, 1, -4, 5, 6, 10, 9)^T\)</span> und <span class="math inline">\(y = (-2, -5, -6, 0, 3, 7, 10)^T\)</span> händisch berechnet. Berechnen Sie nun mit Hilfe von R die Pearson-Korrelation zwischen <span class="math inline">\(x\)</span> und <span class="math inline">\(y\)</span>. Geben Sie außerdem das 99%-Konfidenzintervall sowie den <span class="math inline">\(p\)</span>-Wert an! Ist diese Korrelation signifikant bei einem Signifikanzniveau von <span class="math inline">\(\alpha = 0.01\)</span>?</p>
+</section>
+<section id="übung-3" class="level3">
+<h3 class="anchored" data-anchor-id="übung-3">Übung 3</h3>
+<p>Verwenden Sie die Beispieldaten <code>mtcars</code> und analysieren Sie den Zusammenhang zwischen den Variablen <code>mpg</code>, <code>disp</code> und <code>hp</code>. Stellen Sie den Zusammenhang zwischen den Variablenpaaren grafisch dar, und berechnen Sie danach Pearson- und Spearman-Korrelationen!</p>
+</section>
+<section id="übung-4" class="level3">
+<h3 class="anchored" data-anchor-id="übung-4">Übung 4</h3>
+<p>In der Datei <a href="pm10.csv"><code>pm10.csv</code></a> finden Sie die monatlichen Feinstaubwerte PM10 von zwei Messstationen in Graz im Zeitraum Februar 2006 bis Mai 2016. Führen Sie folgende Analysen durch:</p>
+<ul>
+<li>Erstellen Sie eine Grafik, in der Sie den Verlauf der PM10-Konzentration von beiden Messstationen über die Zeit darstellen.</li>
+<li>Erstellen Sie eine Grafik, in der Sie den Zusammenhang zwischen den beiden Messstationen darstellen.</li>
+</ul>
+<p>Berechnen Sie abschließend die Pearson-Korrelation zwischen den Daten beider Messstationen inklusive Konfidenzinterval sowie <span class="math inline">\(p\)</span>-Wert. Wie viel Varianz der einen Variable kann durch die andere Variable erklärt werden?</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Hinweis
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Wandeln Sie die Spalte <code>Datum</code> nach dem Einlesen in einen Datums-Typ um. Für die gleichzeitige Darstellung der beiden Zeitverläufe können Sie zuerst eine Liniengrafik einer Variable erzeugen und dann mit der Funktion <code>lines()</code> den zweiten Zeitverlauf mit einer anderen Farbe hinzufügen.</p>
+<p>Wenn Sie die Funktion <code>cor()</code> zur Berechnung der Korrelation zwischen den beiden Variablen verwenden möchten, können Sie fehlende Werte in jeder der beiden Variablen mit dem Argument <code>use="complete.obs"</code> ausschließen.</p>
+</div>
+</div>
+</section>
+<section id="übung-5" class="level3">
+<h3 class="anchored" data-anchor-id="übung-5">Übung 5</h3>
+<p>Berechnen Sie die Korrelation der Schnabellänge (<code>bill_length_mm</code>) mit der Schnabeltiefe (<code>bill_depth_mm</code>) im Datensatz <code>penguins</code> (aus dem Paket <code>palmerpenguins</code>). Berechnen Sie außerdem diese Korrelation für jede Spezies separat! Was stellen Sie fest?</p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Kopiert");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Kopiert");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/cbrnr\.github\.io\/r-intro\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<p>© Clemens Brunner</p>
+</div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

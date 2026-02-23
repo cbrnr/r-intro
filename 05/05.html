@@ -1,0 +1,1173 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="de" xml:lang="de"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.27">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Clemens Brunner">
+
+<title>5 – Daten importieren – Statistische Datenanalyse mit R</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-8b4baf804e461d9b72633f0de59a0cac.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-f1aadacce99040138bbb613f9330654f.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-8b4baf804e461d9b72633f0de59a0cac.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-70acd5334efd903f5a7ee98cc20b8936.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-f43fd6ecb9380c5f2fb0abebe514624c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-70acd5334efd903f5a7ee98cc20b8936.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/quarto-contrib/academicons-1.9.2/all.css" rel="stylesheet">
+<link href="../site_libs/quarto-contrib/academicons-1.9.2/size.css" rel="stylesheet">
+<link href="../site_libs/quarto-contrib/fontawesome6-0.1.0/all.css" rel="stylesheet">
+<link href="../site_libs/quarto-contrib/fontawesome6-0.1.0/latex-fontsize.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "Keine Treffer",
+    "search-matching-documents-text": "Treffer",
+    "search-copy-link-title": "Link in die Suche kopieren",
+    "search-hide-matches-text": "Zusätzliche Treffer verbergen",
+    "search-more-match-text": "weitere Treffer in diesem Dokument",
+    "search-more-matches-text": "weitere Treffer in diesem Dokument",
+    "search-clear-button-title": "Zurücksetzen",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Abbrechen",
+    "search-submit-button-title": "Abschicken",
+    "search-label": "Suchen"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Statistische Datenanalyse mit R</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Suchen"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Navigation umschalten" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../01/01.html"> 
+<span class="menu-text">1</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../02/02.html"> 
+<span class="menu-text">2</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../03/03.html"> 
+<span class="menu-text">3</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../04/04.html"> 
+<span class="menu-text">4</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="../05/05.html" aria-current="page"> 
+<span class="menu-text">5</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../06/06.html"> 
+<span class="menu-text">6</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../07/07.html"> 
+<span class="menu-text">7</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../08/08.html"> 
+<span class="menu-text">8</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../09/09.html"> 
+<span class="menu-text">9</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../10/10.html"> 
+<span class="menu-text">10</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../11/11.html"> 
+<span class="menu-text">11</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../12/12.html"> 
+<span class="menu-text">12</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="https://orcid.org/0000-0002-6030-2233"> 
+<span class="menu-text"><i class="ai  ai-orcid" title="" style="color:"></i></span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://scholar.social/web/@cbrnr"> 
+<span class="menu-text"><i class="fa-brands fa-mastodon" aria-label="mastodon"></i></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/cbrnr"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="mailto:clemens.brunner@gmail.com"> <i class="bi bi-envelope-fill" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Dunkelmodus umschalten"><i class="bi"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-page">
+      <h1 class="title">5 – Daten importieren</h1>
+            <p class="subtitle lead">Statistische Datenanalyse mit R</p>
+                      </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta column-page">
+
+      <div>
+      <div class="quarto-title-meta-heading">Autor</div>
+      <div class="quarto-title-meta-contents">
+               <p>Clemens Brunner </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Veröffentlicht</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">6. November 2025</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content quarto-banner-title-block column-page" id="quarto-document-content">
+
+
+
+
+
+
+<section id="allgemeines" class="level2">
+<h2 class="anchored" data-anchor-id="allgemeines">Allgemeines</h2>
+<p>R kann mit Daten in vielen unterschiedlichen Formaten umgehen, beispielsweise mit Excel-Tabellen oder auch SPSS-Datensätzen. Diese Formate sind allerdings proprietär und daher für das Abspeichern eigener Daten weniger gut geeignet. Idealerweise speichert man Daten in einem offenen und möglichst einfach aufgebauten Format ab, welches man mit einer Vielzahl an (frei verfügbaren) Programmen öffnen kann. Ein Beispiel für ein einfaches Format ist eine Textdatei, die man mit jedem beliebigen Texteditor öffnen kann.</p>
+</section>
+<section id="textdateien" class="level2">
+<h2 class="anchored" data-anchor-id="textdateien">Textdateien</h2>
+<p>Daten in Textdateien werden häufig mit Kommas voneinander getrennt – so kann man Werte aus mehreren Spalten einer Tabelle darstellen. Solche speziell formatierten Textdateien haben daher häufig die Endung <code>.csv</code> (“comma-separated values”). Es gibt aber auch andere Möglichkeiten, Werte (bzw. Spalten) voneinander zu trennen, z.B. mit Semikolons (Strichpunkten) oder Tabulatoren. Solche Dateien haben dann oft die Endungen <code>.dat</code> oder <code>.tsv</code> (“tab-separated values”).</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Hinweis
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Dateiendungen sind eine Konvention und müssen nicht zwingend etwas mit dem tatsächlichen Inhalt der Datei zu tun haben. Textdateien werden oft mit den bereits erwähnten Erweiterungen <code>.csv</code>, <code>.tsv</code> und <code>.dat</code> versehen. Es kann aber durchaus vorkommen, dass eine Textdatei z.B. mit der Endung <code>.csv</code> Werte mit Tabulatoren oder Strichpunkten trennt statt mit Kommas. Letztendlich kann man das nur herausfinden, indem man die Datei öffnet.</p>
+</div>
+</div>
+<p>Das <a href="https://www.tidyverse.org/">Tidyverse</a> beinhaltet das Paket <code>readr</code>, welches Textdateien in den unterschiedlichsten Formaten importieren kann. Dies funktioniert oft besser und schneller als mit den Funktionen, die standardmäßig mit R mitgeliefert werden. Die mit dem <code>readr</code>-Paket eingelesenen Daten stehen außerdem gleich als Tibble zur Verfügung. Daher werden wir in dieser Lehrveranstaltung ausschließlich Funktionen aus <code>readr</code> zum Importieren von Textdateien verwenden.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Wichtig
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Funktionen zum Importieren von Textdaten aus dem <code>readr</code>-Paket beginnen alle mit <code>read_</code>, wohingegen die mit R mitgelieferten Funktionen mit <code>read.</code> beginnen.</p>
+</div>
+</div>
+<p>Die wichtigste Funktion aus dem Paket <code>readr</code> heißt <code>read_delim()</code>. Hier kann man sehr viele Parameter genau auf die einzulesende Datei abstimmen (z.B. das Spaltentrennzeichen, ob es eine Kopfzeile mit Spaltennamen gibt, ob Kommentare oder fehlende Werte vorhanden sind, usw.). Für Daten im CSV-Format (Spalten sind durch Kommas getrennt) gibt es die Wrapper-Funktion <code>read_csv()</code>, welche sinnvolle Standardwerte für diverse Argumente annimmt. Für Daten, die mit Tabulatoren getrennt sind, gibt es die Wrapper-Funktion <code>read_tsv()</code>.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Hinweis
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Diese “Wrapper-Funktionen” rufen im Grunde also einfach <code>read_delim()</code> mit speziellen Argumenten auf.</p>
+</div>
+</div>
+<p>Als Beispiel sehen wir uns eine Textdatei namens <a href="lecturer.csv"><code>lecturer.csv</code></a> an. Wenn man nicht weiß, wie die Daten in einer Textdatei tatsächlich formatiert sind, kann man deren Inhalt mit der Funktion <code>file.show()</code> im RStudio-Editor öffnen:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">file.show</span>(<span class="st">"lecturer.csv"</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<pre><code>name,birth_date,job,friends,alcohol,income,neurotic
+Ben,7/3/1977,1,5,10,20000,10
+Martin,5/24/1969,1,2,15,40000,17
+Andy,6/21/1973,1,0,20,35000,14
+Paul,7/16/1970,1,4,5,22000,13
+Graham,10/10/1949,1,1,30,50000,21
+Carina,11/5/1983,2,10,25,5000,7
+Karina,10/8/1987,2,12,20,100,13
+Doug,1/23/1989,2,15,16,3000,9
+Mark,5/20/1973,2,12,17,10000,14
+Zoe,11/12/1984,2,17,18,10,13</code></pre>
+<p>Man erkennt, dass bei dieser konkreten Datei die einzelnen Spalten tatsächlich durch Kommas getrennt sind (hier passt also die Endung <code>.csv</code> zum Inhalt). Außerdem ist eine Kopfzeile mit den Spaltennamen vorhanden.</p>
+<p>Die Funktion <code>read_delim()</code> erkennt das Spaltentrennzeichen meistens automatisch, d.h. es reicht, wenn man ihr lediglich den Dateinamen als Argument übergibt:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read_delim</span>(<span class="st">"lecturer.csv"</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 10 × 7
+   name   birth_date   job friends alcohol income neurotic
+   &lt;chr&gt;  &lt;chr&gt;      &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;    &lt;dbl&gt;
+ 1 Ben    7/3/1977       1       5      10  20000       10
+ 2 Martin 5/24/1969      1       2      15  40000       17
+ 3 Andy   6/21/1973      1       0      20  35000       14
+ 4 Paul   7/16/1970      1       4       5  22000       13
+ 5 Graham 10/10/1949     1       1      30  50000       21
+ 6 Carina 11/5/1983      2      10      25   5000        7
+ 7 Karina 10/8/1987      2      12      20    100       13
+ 8 Doug   1/23/1989      2      15      16   3000        9
+ 9 Mark   5/20/1973      2      12      17  10000       14
+10 Zoe    11/12/1984     2      17      18     10       13</code></pre>
+</div>
+</div>
+<p>Falls die automatische Erkennung einmal nicht funktionieren sollte, kann man das Trennzeichen aber mit dem Argument <code>delim</code> explizit übergeben:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read_delim</span>(<span class="st">"lecturer.csv"</span>, <span class="at">delim=</span><span class="st">","</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 10 × 7
+   name   birth_date   job friends alcohol income neurotic
+   &lt;chr&gt;  &lt;chr&gt;      &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;    &lt;dbl&gt;
+ 1 Ben    7/3/1977       1       5      10  20000       10
+ 2 Martin 5/24/1969      1       2      15  40000       17
+ 3 Andy   6/21/1973      1       0      20  35000       14
+ 4 Paul   7/16/1970      1       4       5  22000       13
+ 5 Graham 10/10/1949     1       1      30  50000       21
+ 6 Carina 11/5/1983      2      10      25   5000        7
+ 7 Karina 10/8/1987      2      12      20    100       13
+ 8 Doug   1/23/1989      2      15      16   3000        9
+ 9 Mark   5/20/1973      2      12      17  10000       14
+10 Zoe    11/12/1984     2      17      18     10       13</code></pre>
+</div>
+</div>
+<p>Das Ergebnis (ein Tibble) sieht korrekt aus – es hat 10 Zeilen und 7 Spalten mit sinnvollen Datentypen in allen Spalten. Wir können es direkt einer Variablen zuweisen, um damit weiterarbeiten zu können:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">=</span> <span class="fu">read_delim</span>(<span class="st">"lecturer.csv"</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Für diese Datei hätten wir alternativ auch die Wrapper-Funktion <code>read_csv()</code> verwenden können, hier wird standardmäßig ein Komma als Spaltentrennzeichen angenommen:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read_csv</span>(<span class="st">"lecturer.csv"</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Sehen wir uns als zweites Beispiel dieselben Daten an, die aber diesmal mit Tabulatoren voneinander getrennt in einer <code>.dat</code>-Datei vorliegen. Um diese Datei namens <a href="lecturer.dat"><code>lecturer.dat</code></a> einzulesen, können wir entweder die generische Funktion <code>read_delim()</code> mit der automatischen Erkennung verwenden (bzw. falls das nicht funktionieren sollte mit <code>delim="\t"</code>, wobei <code>\t</code> die Darstellung des Tabulator-Zeichens ist) oder direkt die spezialisierte Funktion <code>read_tsv()</code>:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read_delim</span>(<span class="st">"lecturer.dat"</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">read_delim</span>(<span class="st">"lecturer.dat"</span>, <span class="at">delim=</span><span class="st">"</span><span class="sc">\t</span><span class="st">"</span>)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="fu">read_tsv</span>(<span class="st">"lecturer.dat"</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Ein weiteres wichtiges Merkmal solcher Textdateien ist das verwendete Dezimaltrennzeichen bei Kommazahlen. In der englischen Schreibweise wird ein Punkt als Dezimaltrennzeichen verwendet (z.B. <code>12.3</code> oder <code>3.1415</code>). In der deutschen Schreibweise wird hingegen ein Komma verwendet (z.B. <code>12,3</code> oder <code>3,1415</code>). Das Dezimaltrennzeichen kann in der Funktion <code>read_delim()</code> mit dem Argument <code>locale</code> festgelegt werden. Es ist standardmäßig auf einen Punkt gesetzt, ebenso bei den Funktionen <code>read_csv()</code> und <code>read_tsv()</code>. Sollten Zahlen jedoch in der deutschen Schreibweise vorliegen, können die Spalten nicht auch durch Kommas getrennt sein – hier werden diese dann oft durch Semikolons getrennt. Für solche Textdateien setzt man daher die Argumente <code>delim=";"</code> und <code>locale=locale(decimal_mark=",")</code> bzw. verwendet die Wrapper-Funktion <code>read_csv2()</code> (welche ein Semikolon als Spaltentrennzeichen und ein Komma als Dezimaltrennzeichen annimmt).</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Wichtig
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Unabhängig davon, wie Dezimaltrennzeichen in den Textdateien dargestellt werden, verwendet R für Dezimalzahlen <em>immer</em> einen <em>Punkt</em>!</p>
+</div>
+</div>
+</section>
+<section id="daten-aus-spss" class="level2">
+<h2 class="anchored" data-anchor-id="daten-aus-spss">Daten aus SPSS</h2>
+<p>Sollen bereits vorhandene SPSS-Datensätze (<code>.sav</code>) importiert werden, kann man dazu die Funktion <code>read_sav()</code> aus dem Paket <code>haven</code> verwenden. Das Ergebnis ist wieder ein Tibble. Das <code>haven</code>-Paket kann übrigens auch Daten aus SAS und Stata importieren. Das folgende Beispiel importiert Daten aus der Datei <a href="lecturer.sav"><code>lecturer.sav</code></a>:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(haven)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>df <span class="ot">=</span> <span class="fu">read_sav</span>(<span class="st">"lecturer.sav"</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="daten-aus-excel" class="level2">
+<h2 class="anchored" data-anchor-id="daten-aus-excel">Daten aus Excel</h2>
+<p>Wenn Daten als Excel-Datei (Endung <code>.xlsx</code> oder <code>.xls</code>) vorliegen, verwendet man zum Einlesen die Funktion <code>read_excel()</code> aus dem Paket <code>readxl</code>. Da dieses Paket Teil des Tidyverse ist, bekommt man auch hier ein Tibble zurückgeliefert, wie das folgende Beispiel anhand von <a href="lecturer.xlsx"><code>lecturer.xlsx</code></a> zeigt:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>df <span class="ot">=</span> <span class="fu">read_excel</span>(<span class="st">"lecturer.xlsx"</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="importieren-mit-rstudio" class="level2">
+<h2 class="anchored" data-anchor-id="importieren-mit-rstudio">Importieren mit RStudio</h2>
+<p>Mit RStudio kann man Daten in vielen Formaten auch mit einem grafischen Dialog importieren. Praktischerweise bekommt man immer den dazugehörigen R-Code mitgeliefert, welcher die Daten korrekt importiert – diesen Code kann man dann in eigenen Scripts verwenden.</p>
+<p>Dazu klickt man in der <em>Files</em>-Ansicht rechts unten auf die gewünschte Datei und wählt <em>Import Dataset</em> aus. Alternativ kann man in der <em>Environment</em>-Ansicht rechts oben auf <em>Import Dataset</em>, gefolgt vom gewünschten Format, klicken. Diese Funktionalität ist auch im <em>File</em>-Menü unter dem Eintrag <em>Import Dataset</em> zu finden. Es öffnet sich ein neues Fenster, in dem man eine Vorschau der zu importierenden Datei sieht. Es gibt hier auch die Möglichkeit, Optionen zu ändern – wie sich das auf die eingelesenen Daten auswirkt, ist in der Vorschau unmittelbar ersichtlich. Der zugehörige Code befindet sich dann rechts unten. Im folgenden Bild sieht man diesen Dialog beispielhaft für eine zu importierende SPSS-Datei.</p>
+<p><img src="import.png" class="img-fluid"></p>
+</section>
+<section id="daten-aufbereiten" class="level2">
+<h2 class="anchored" data-anchor-id="daten-aufbereiten">Daten aufbereiten</h2>
+<p>In welchem Dateiformat die Daten auch immer vorliegen, schlussendlich landen sie in einem Data Frame (oder Tibble), welches wir dann in R weiterverwenden können. In den allermeisten Fällen wird man das Data Frame noch aufbereiten müssen, damit jede Spalte auch wirklich im gewünschten Format vorliegt. Sehen wir uns das anhand unserer Beispieldaten an:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>(<span class="at">df =</span> <span class="fu">read_csv</span>(<span class="st">"lecturer.csv"</span>))</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 10 × 7
+   name   birth_date   job friends alcohol income neurotic
+   &lt;chr&gt;  &lt;chr&gt;      &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;    &lt;dbl&gt;
+ 1 Ben    7/3/1977       1       5      10  20000       10
+ 2 Martin 5/24/1969      1       2      15  40000       17
+ 3 Andy   6/21/1973      1       0      20  35000       14
+ 4 Paul   7/16/1970      1       4       5  22000       13
+ 5 Graham 10/10/1949     1       1      30  50000       21
+ 6 Carina 11/5/1983      2      10      25   5000        7
+ 7 Karina 10/8/1987      2      12      20    100       13
+ 8 Doug   1/23/1989      2      15      16   3000        9
+ 9 Mark   5/20/1973      2      12      17  10000       14
+10 Zoe    11/12/1984     2      17      18     10       13</code></pre>
+</div>
+</div>
+<p>Man erkennt, dass die numerischen Werte korrekt als Zahlen erkannt wurden (die Abkürzung <code>&lt;dbl&gt;</code> bedeutet “double” und entspricht Dezimalzahlen, d.h. einem numerischen Vektor). Allerdings besitzt die dritte Spalte <code>job</code> lediglich zwei Werte, welche eigentlich zwei verschiedene Berufe repräsentieren (<code>1</code> steht für den Beruf “Lecturer”, <code>2</code> für den Beruf “Student”). Hier wäre eine kategorische Spalte (ein Faktor, dazu gleich mehr) besser geeignet als eine numerische. Die erste Spalte <code>name</code> wurde korrekt als <code>chr</code> (Character-Vektor) erkannt. Auch die zweite Spalte <code>birth_date</code> wurde als Charakter-Vektor erkannt, aber es gibt in R einen eigenen Datentyp für Datumswerte (was u.a. das Rechnen mit solchen Werten ermöglicht).</p>
+<section id="faktoren" class="level3">
+<h3 class="anchored" data-anchor-id="faktoren">Faktoren</h3>
+<p>Kategorische Variablen, d.h. Variablen, die nur eine bestimmte Anzahl an Werten annehmen können, werden in R mit dem Typ <code>factor</code> dargestellt. Die Funktion <code>factor()</code> kann einen entsprechenden Vektor erzeugen. Standardmäßig werden nicht geordnete (also <em>nominale</em>) Faktoren erzeugt. Setzt man das Argument <code>ordered=TRUE</code>, kann man auch einen geordneten Faktor (also eine <em>ordinale</em> Variable) erzeugen.</p>
+<p>Im Beispiel ist die Spalte <code>job</code> vom Typ <code>dbl</code>, sollte aber als Faktor interpretiert werden. Die Spalte kann entsprechend neu erstellt und überschrieben werden (hier wird vorausgesetzt, dass wir wissen, welche Zahlen den jeweiligen Faktorstufen entsprechen, also <code>1</code> entspricht “Lecturer” und <code>2</code> entspricht “Student”):</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>job <span class="ot">=</span> <span class="fu">factor</span>(df<span class="sc">$</span>job, <span class="at">levels=</span><span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>), <span class="at">labels=</span><span class="fu">c</span>(<span class="st">"Lecturer"</span>, <span class="st">"Student"</span>))</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>df</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 10 × 7
+   name   birth_date job      friends alcohol income neurotic
+   &lt;chr&gt;  &lt;chr&gt;      &lt;fct&gt;      &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;    &lt;dbl&gt;
+ 1 Ben    7/3/1977   Lecturer       5      10  20000       10
+ 2 Martin 5/24/1969  Lecturer       2      15  40000       17
+ 3 Andy   6/21/1973  Lecturer       0      20  35000       14
+ 4 Paul   7/16/1970  Lecturer       4       5  22000       13
+ 5 Graham 10/10/1949 Lecturer       1      30  50000       21
+ 6 Carina 11/5/1983  Student       10      25   5000        7
+ 7 Karina 10/8/1987  Student       12      20    100       13
+ 8 Doug   1/23/1989  Student       15      16   3000        9
+ 9 Mark   5/20/1973  Student       12      17  10000       14
+10 Zoe    11/12/1984 Student       17      18     10       13</code></pre>
+</div>
+</div>
+<p>Die drei Argumente haben dabei folgende Bedeutung:</p>
+<ul>
+<li><code>df$job</code> sind die Ausgangsdaten.</li>
+<li><code>levels=c(1, 2)</code> gibt an, welche Werte (Stufen) in den Ausgangsdaten vorkommen und wir auch verwenden möchten.</li>
+<li><code>labels=c("Lecturer", "Student")</code> weist den verwendeten Stufen entsprechende Namen (Labels) zu.</li>
+</ul>
+<p>Die Spalte <code>job</code> hat nun den gewünschten Typ (<code>&lt;fct&gt;</code> in der Tibble-Darstellung). Dies können wir auch mit der altbekannten Funktion <code>class()</code> explizit überprüfen:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(df<span class="sc">$</span>job)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "factor"</code></pre>
+</div>
+</div>
+</section>
+<section id="datumswerte" class="level3">
+<h3 class="anchored" data-anchor-id="datumswerte">Datumswerte</h3>
+<p>Für Datumswerte gibt es in R ebenfalls einen eigenen Datentyp, der das Rechnen mit solchen Werten erleichtert. Die Funktion <code>as.Date()</code> wandelt eine Datumsangabe in Textform in diesen speziellen Typ um. Anzugeben ist hier insbesondere das Argument <code>format</code>, welches das Format der vorliegenden Datumswerte spezifiziert (d.h. man beschreibt damit, wie die Datumswerte ursprünglich aussehen).</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>birth_date <span class="ot">=</span> <span class="fu">as.Date</span>(df<span class="sc">$</span>birth_date, <span class="at">format=</span><span class="st">"%m/%d/%Y"</span>)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>df</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 10 × 7
+   name   birth_date job      friends alcohol income neurotic
+   &lt;chr&gt;  &lt;date&gt;     &lt;fct&gt;      &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;    &lt;dbl&gt;
+ 1 Ben    1977-07-03 Lecturer       5      10  20000       10
+ 2 Martin 1969-05-24 Lecturer       2      15  40000       17
+ 3 Andy   1973-06-21 Lecturer       0      20  35000       14
+ 4 Paul   1970-07-16 Lecturer       4       5  22000       13
+ 5 Graham 1949-10-10 Lecturer       1      30  50000       21
+ 6 Carina 1983-11-05 Student       10      25   5000        7
+ 7 Karina 1987-10-08 Student       12      20    100       13
+ 8 Doug   1989-01-23 Student       15      16   3000        9
+ 9 Mark   1973-05-20 Student       12      17  10000       14
+10 Zoe    1984-11-12 Student       17      18     10       13</code></pre>
+</div>
+</div>
+<p>In diesem Beispiel bedeutet das Argument <code>format="%m/%d/%Y"</code>, dass die Werte ursprünglich in der Reihenfolge Monat/Tag/Jahr vorliegen und mit einem <code>/</code> getrennt sind (<code>%m</code> steht also für einen Monat, <code>%d</code> für einen Tag und <code>%Y</code> für eine <em>vierstellige</em> Jahreszahl).</p>
+<p>Betrachten wir ein weiteres Beispiel. Nehmen wir an, wir hätten folgenden Character-Vektor <code>dates</code> mit Datumswerten:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>(<span class="at">dates =</span> <span class="fu">c</span>(<span class="st">"23.3.95"</span>, <span class="st">"17.7.96"</span>, <span class="st">"9.12.04"</span>, <span class="st">"1.1.10"</span>, <span class="st">"23.2.17"</span>))</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "23.3.95" "17.7.96" "9.12.04" "1.1.10"  "23.2.17"</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(dates)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "character"</code></pre>
+</div>
+</div>
+<p>Die einzelnen Zahlen sind mit einem <code>.</code> voneinander getrennt. Nun müssen wir die Bedeutung der drei Zahlen herausfinden. Durch betrachten aller Werte stellt man fest, dass die Reihenfolge Tag, Monat und Jahr (zweistellig) ist. Das entsprechende <code>format</code>-Argument lautet daher <code>format="%d.%m.%y"</code>:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>(<span class="at">dates =</span> <span class="fu">as.Date</span>(dates, <span class="at">format=</span><span class="st">"%d.%m.%y"</span>))</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "1995-03-23" "1996-07-17" "2004-12-09" "2010-01-01" "2017-02-23"</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(dates)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Date"</code></pre>
+</div>
+</div>
+<p>Die Kürzel <code>%d</code>, <code>%m</code>, <code>%y</code> und noch viele weitere sind in der Hilfe von <code>as.Date()</code> bzw. eigentlich <code>strptime()</code> beschrieben – machen Sie sich daher vor allem mit letzterer vertraut (<code>?strptime</code>), denn diese Kürzel muss man sich nicht auswendig merken.</p>
+</section>
+</section>
+<section id="daten-speichern" class="level2">
+<h2 class="anchored" data-anchor-id="daten-speichern">Daten speichern</h2>
+<p>Wenn man ein bestehendes Data Frame oder Tibble als Textdatei speichern möchte, geht das am einfachsten mit der Funktion <code>write_delim()</code> (bzw. <code>write_csv()</code> und <code>write_tsv()</code>) aus dem <code>readr</code>-Paket. Dies funktioniert prinzipiell ganz analog zu den oben beschriebenen Lesefunktionen, nur gibt man hier sowohl das zu speichernde Data Frame als auch den Dateinamen an.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tipp
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Es sollten nur kleine bis mittelgroße Datensätze als Textdateien gespeichert werden. Bei großen Datensätzen würde die entstehende Datei sehr viel Speicherplatz benötigen – in solchen Fällen sollte man effizientere Datenformate verwenden wie z.B. das in R verfügbare Datenformat <code>.RData</code>, welches mit der Funktion <code>save()</code> erzeugt bzw. mit <code>load()</code> gelesen werden kann. Noch bessere Alternativen sind die hocheffizienten und offenen Formate <a href="https://parquet.apache.org/">Parquet</a> und <a href="https://arrow.apache.org/docs/python/feather.html">Feather</a>, welche sowohl mit R als auch mit Python und vielen weiteren Programmiersprachen importiert werden können.</p>
+</div>
+</div>
+</section>
+<section id="übungen" class="level2">
+<h2 class="anchored" data-anchor-id="übungen">Übungen</h2>
+<section id="übung-1" class="level3">
+<h3 class="anchored" data-anchor-id="übung-1">Übung 1</h3>
+<p>Sehen Sie sich die Hilfe zur Funktion <code>read_delim()</code> aus dem <code>readr</code>-Paket an. Welches Argument setzt das Trennzeichen der Spalten? Welches Argument setzt das Dezimaltrennzeichen? Mit welchem Argument können Sie das Zeichen für fehlende Werte festlegen?</p>
+</section>
+<section id="übung-2" class="level3">
+<h3 class="anchored" data-anchor-id="übung-2">Übung 2</h3>
+<p>Importieren Sie die Datei <a href="homework.csv"><code>homework.csv</code></a> und geben Sie das entstehende Tibble am Bildschirm aus. Achten Sie darauf, dass Sie die in der Datei verwendeten Spalten- bzw. Dezimaltrennzeichen korrekt erkennen (Achtung: Kommazahlen sind im deutschen Format vorhanden). Welche Datentypen haben die vier Spalten?</p>
+</section>
+<section id="übung-3" class="level3">
+<h3 class="anchored" data-anchor-id="übung-3">Übung 3</h3>
+<p>In der Datei <a href="wahl16.csv"><code>wahl16.csv</code></a> befinden sich die <a href="https://www.bmi.gv.at/412/Bundespraesidentenwahlen/Bundespraesidentenwahl_2016/start.aspx#pk_05">Ergebnisse der Bundespräsidentenwahl 2016</a> (und zwar nach dem ersten Wahlgang mit den sechs ursprünglichen Kandidaten/Kandidatinnen). Importieren Sie diese Daten in ein Tibble namens <code>wahl16</code>und berechnen Sie die relative Gesamtanzahl an Stimmen für jede Kandidatin/jeden Kandidaten (die Funktionen <code>colSums()</code>, <code>rowSums()</code> sowie <code>sum()</code> könnten dabei hilfreich sein).</p>
+</section>
+<section id="übung-4" class="level3">
+<h3 class="anchored" data-anchor-id="übung-4">Übung 4</h3>
+<p>Die Datei <a href="covid19.csv"><code>covid19.csv</code></a> enthält Daten zu den täglichen Covid19-Neuinfektionen in Österreich im Zeitraum 26.2.2020 bis 26.6.2023. Importieren Sie diese Datei in R (achten Sie auf geeignete Argumente, um die Datei richtig einzulesen wie z.B. das korrekte Spaltentrennzeichen sowie Dezimaltrennzeichen)! Aus wie vielen Zeilen und Spalten besteht dieser Datensatz?</p>
+<p>Achten Sie besonders auf die Spalte <code>SiebenTageInzidenzFaelle</code> – diese beinhaltet Dezimalzahlen und sollte dementsprechend numerisch sein!</p>
+<p>Konvertieren Sie auch die Spalte <code>Time</code> in ein Datumsformat (die Uhrzeit in dieser Spalte können Sie einfach ignorieren)!</p>
+</section>
+<section id="übung-5" class="level3">
+<h3 class="anchored" data-anchor-id="übung-5">Übung 5</h3>
+<p>Das <a href="http://archive.ics.uci.edu/ml/">UCI Machine Learning Repository</a> stellt viele Datensätze zur freien Verwendung zur Verfügung. Wir betrachten für diese Übung den Datensatz <a href="http://archive.ics.uci.edu/ml/datasets/Individual+household+electric+power+consumption">Individual Household Electric Power Consumption</a>, und zwar die Datei <a href="household_power_consumption.zip"><code>household_power_consumption.zip</code></a>. Sie müssen diese Datei nicht entpacken, sondern können diese direkt mit der Funktion <code>read_delim()</code> laden.</p>
+<p>Die Datei beinhaltet die minütliche elektrische Leistungsaufnahme eines Haushalts in einem Zeitraum von fast vier Jahren. Insgesamt gibt es über 2 Millionen Messpunkte und 9 Variablen, welche durch Strichpunkte voneinander <code>;</code> getrennt sind. Fehlende Werte sind mit einem Fragezeichen <code>?</code> bzw. mit tatsächlich fehlenden Einträgen codiert.</p>
+<p>Lesen Sie die Daten in ein Tibble namens <code>df</code> ein und geben Sie es am Bildschirm aus um folgende Fragen zu beantworten:</p>
+<ul>
+<li>Wie viele Zeilen und Spalten hat das Data Frame?</li>
+<li>Welche Spalten könnte man eventuell noch in einen passenderen Typ umwandeln?</li>
+</ul>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tipp
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Es ist wichtig, dass R beim Einlesen der Daten fehlende Werte korrekt erkennt. Stellen Sie durch Setzen des entsprechenden Argumentes der Funktion <code>read_delim()</code> sicher, dass diese fehlenden Werte richtig eingelesen werden (und somit korrekt als <code>NA</code> interpretiert werden)! Es kommen sowohl <code>"?"</code> als auch <code>""</code> als fehlende Werte in der Datei vor.</p>
+<p>Die korrekt importierten Daten sollten in einem Tibble mit den folgenden Spaltentypen vorhanden sein: eine Spalte <code>chr</code>, sieben Spalten <code>dbl</code> und eine Spalte <code>time</code>.</p>
+</div>
+</div>
+</section>
+<section id="übung-6" class="level3">
+<h3 class="anchored" data-anchor-id="übung-6">Übung 6</h3>
+<p>Gegeben sei der folgende numerische Vektor <code>x</code>:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Was passiert, wenn Sie diesen Vektor in einen Faktor konvertieren möchten, aber nur die Stufen <code>1</code> und <code>2</code> (mit den Labels <code>"one"</code> und <code>"two"</code>) verwenden möchten? Wie wird der Wert <code>3</code> behandelt?</p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Kopiert");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Kopiert");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/cbrnr\.github\.io\/r-intro\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<p>© Clemens Brunner</p>
+</div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>
