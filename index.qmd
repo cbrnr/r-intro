@@ -1,0 +1,21 @@
+---
+title: "Statistische Datenanalyse mit R"
+---
+
+Die folgenden Unterlagen dienen als Basis für die Lehrveranstaltung [Statistische Datenanalyse mit R (PSY.921)](https://online.uni-graz.at/kfu_online/wbLv.wbShowLVDetail?pStpSpNr=941568).
+
+ 0. [Organisatorisches](00/00.qmd)
+ 1. [Grundlagen](01/01.qmd) ([Lösungen](01/01-solutions.qmd))
+ 2. [Die R-Umgebung](02/02.qmd) ([Lösungen](02/02-solutions.qmd))
+ 3. [Vektoren](03/03.qmd) ([Lösungen](03/03-solutions.qmd))
+ 4. [Tabellen](04/04.qmd) ([Lösungen](04/04-solutions.qmd))
+ 5. [Daten importieren](05/05.qmd) ([Lösungen](05/05-solutions.qmd))
+ 6. [Deskriptive Statistiken](06/06.qmd) ([Lösungen](06/06-solutions.qmd))
+ 7. [Datenaufbereitung](07/07.qmd) ([Lösungen](07/07-solutions.qmd))
+ 8. [Grafiken](08/08.qmd) ([Lösungen](08/08-solutions.qmd))
+ 9. [Korrelation](09/09.qmd) ([Lösungen](09/09-solutions.qmd))
+10. [Lineare Regression (1)](10/10.qmd) ([Lösungen](10/10-solutions.qmd))
+11. [Lineare Regression (2)](11/11.qmd) ([Lösungen](11/11-solutions.qmd))
+12. [Mittelwertvergleich](12/12.qmd) ([Lösungen](12/12-solutions.qmd))
+
+- [Zusätzliche Übungsaufgaben](a1/a1.qmd) ([Lösungen](a1/a1-solutions.qmd))

@@ -1,8 +1,0 @@
-- source: 08.qmd
-  quarto-pub:
-    - id: ae2bb37f-0ed6-46fe-9e37-a58794c2df02
-      url: https://cbrnr.quarto.pub/r-25w-08
-- source: 08-solutions.qmd
-  quarto-pub:
-    - id: 1462ecb3-82fc-4ea9-ae81-f2a7eb885ba9
-      url: https://cbrnr.quarto.pub/r-25w-08-solutions

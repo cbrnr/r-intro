@@ -1,0 +1,50 @@
+project:
+  type: website
+
+website:
+  title: Statistische Datenanalyse mit R
+  navbar:
+    left:
+      - text: "1"
+        href: 01/01.qmd
+      - text: "2"
+        href: 02/02.qmd
+      - text: "3"
+        href: 03/03.qmd
+      - text: "4"
+        href: 04/04.qmd
+      - text: "5"
+        href: 05/05.qmd
+      - text: "6"
+        href: 06/06.qmd
+      - text: "7"
+        href: 07/07.qmd
+      - text: "8"
+        href: 08/08.qmd
+      - text: "9"
+        href: 09/09.qmd
+      - text: "10"
+        href: 10/10.qmd
+      - text: "11"
+        href: 11/11.qmd
+      - text: "12"
+        href: 12/12.qmd
+    right:
+      - text: "{{< ai orcid >}}"
+        href: https://orcid.org/0000-0002-6030-2233
+      - text: "{{< fa brands mastodon >}}"
+        href: https://scholar.social/web/@cbrnr
+      - icon: github
+        href: https://github.com/cbrnr
+      - icon: envelope-fill
+        href: mailto:clemens.brunner@gmail.com
+  page-footer:
+    center: © Clemens Brunner
+
+format:
+  html:
+    page-layout: full
+    theme:
+      light: [custom.scss, flatly]
+      dark: [custom.scss, darkly]
+    css: styles.css

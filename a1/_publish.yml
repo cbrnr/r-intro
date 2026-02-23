@@ -1,8 +1,0 @@
-- source: a1.qmd
-  quarto-pub:
-    - id: 472bba24-aa3b-4a2c-bc6b-33a1bfc43564
-      url: https://cbrnr.quarto.pub/r-25w-exercises
-- source: a1-solutions.qmd
-  quarto-pub:
-    - id: 1f60adce-f7f8-4087-a3ed-2b77abf280bb
-      url: https://cbrnr.quarto.pub/r-25w-exercises-solutions
