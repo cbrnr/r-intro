@@ -565,3 +565,34 @@ median(x)
 quantile(x, c(0.25, 0.75))
 length(x[x > mean(x)])
 ```
+
+
+## Übung 38
+
+```{r}
+#| message: false
+df = read_tsv("imdb-ratings.tsv.zip")
+
+m_g = mean(df$averageRating)
+m = quantile(df$numVotes, 0.9)
+df$weightedRating = (df$averageRating * df$numVotes + m_g * m) / (df$numVotes + m)
+
+df[order(-df$weightedRating), ]
+```
+
+Der Film mit der höchsten gewichteten Bewertung von 9.99 ist "tt2301451". Dabei handelt es sich um die Folge "Ozymandias" aus Breaking Bad ([S5E14](https://www.imdb.com/title/tt2301451/)).
+
+::: {.callout-note}
+Der in dieser Aufgabe verwendete Datensatz kann, neben anderen, auf [IMDb](https://datasets.imdbws.com/) heruntergeladen werden.
+:::
+
+
+## Übung 39
+
+```{r}
+set.seed(123)
+x = sample(-100:120, size=100, replace=TRUE)
+x |> unique() |> mean(trim=0.25) |> round(2)
+
+round(mean(unique(x), trim=0.25), 2)
+```

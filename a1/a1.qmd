@@ -2,7 +2,7 @@
 title: "Übungen"
 subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2025-11-03
+date: 2026-02-23
 format:
   html:
     page-layout: full
@@ -316,6 +316,10 @@ Die Datei [`temperature-graz.csv`](temperature-graz.csv) beinhaltet historische 
 2. Erstellen Sie eine Grafik, welche den Temperaturverlauf über die Zeit zeigt (Spalten `metANN` bzw. `YEAR`). Stellen Sie die Datenpunkte mit Punkten dar und verbinden Sie die einzelnen Punkte mit Linien. Erstellen Sie passende Achsenbeschriftungen sowie einen aussagekräftigen Titel.
 3. Wie lautet der minimale bzw. maximale Temperaturjahresmittelwert im gesamten Zeitraum?
 
+::: {.callout-note}
+Eine kombinierte Punkte- und Liniengrafik kann mit dem Argument `type="b"` in der Funktion `plot()` erstellt werden.
+:::
+
 
 ## Übung 30
 
@@ -416,3 +420,50 @@ Geben Sie die Zusammenfassung des Modells aus und beantworten Sie folgende Frage
 Erzeugen Sie einen Vektor `x` mit den geraden Zahlen von $-76$ bis 120. Bestimmen Sie die Anzahl der Elemente sowie den Mittelwert, die Standardabweichung, den Median, das 25. Perzentil und das 75. Perzentil von `x`.
 
 Bestimmen Sie außerdem die Anzahl der Elemente, die größer als der Mittelwert sind.
+
+
+## Übung 38
+
+Der folgende Code importiert einen Datensatz von IMDb (Internet Movie Database):
+
+```r
+library(readr)
+df = read_tsv("imdb-ratings.tsv.zip")
+```
+
+Dieser Datensatz beinhaltet die folgenden drei Spalten:
+
+- `tconst` (Film-ID)
+- `averageRating` (durchschnittliche Bewertung des Films)
+- `numVotes` (Anzahl der abgegebenen Bewertungen)
+
+Berechnen Sie eine neue Spalte `weightedRating`, welche die gewichtete Bewertung eines Films beinhalten soll. Diese gewichtete Bewertung $R_w$ wird wie folgt berechnet:
+
+$$ R_w = \frac{R \cdot n + \bar{R} \cdot v}{n + v} $$
+
+- $R$: Bewertung des Films (Spalte `averageRating`)
+- $n$: Anzahl der Bewertungen des Films (Spalte `numVotes`)
+- $\bar{R}$: Arithmetisches Mittel aller Bewertungen
+- $v$: Das 0.90-Quantil der Anzahl der Bewertungen
+
+Welcher Film hat die höchste gewichtete Bewertung? Sortieren Sie dazu den Datensatz nach `weightedRating` in absteigender Reihenfolge:
+
+```r
+df[order(-df$weightedRating), ]
+```
+
+
+## Übung 39
+
+Gegeben sei ein Vektor `x`:
+
+```r
+set.seed(123)
+x = sample(-100:120, size=100, replace=TRUE)
+```
+
+Schreiben Sie den folgenden Befehl *ohne* Verwendung von Pipe-Operatoren an:
+
+```r
+x |> unique() |> mean(trim=0.25) |> round(2)
+```
