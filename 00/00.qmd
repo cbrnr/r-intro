@@ -2,7 +2,7 @@
 title: "Organisatorisches"
 subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2025-10-02
+date: 2026-03-02
 format:
   html:
     page-layout: full
@@ -29,20 +29,20 @@ Der Plan für dieses Semester sieht wie folgt aus:
 
 | Einheit | Datum      | Inhalt                  |
 |--------:|-----------:|-------------------------|
-| 1       |  2.10.2025 | Grundlagen              |
-| 2       |  9.10.2025 | Die R-Umgebung          |
-| 3       | 16.10.2025 | Vektoren                |
-| 4       | 23.10.2025 | Tabellen                |
-| 5       |  6.11.2025 | Daten importieren       |
-| 6       | 20.11.2025 | Deskriptive Statistiken |
-| 7       | 27.11.2025 | Datenaufbereitung       |
-| 8       |  4.12.2025 | Grafiken                |
-| 9       | 11.12.2025 | Korrelation             |
-| 10      |   8.1.2026 | Lineare Regression (1)  |
-| 11      |  15.1.2026 | Lineare Regression (2)  |
-| ~~12~~  | ~~15.1.2026~~ | ~~Mittelwertvergleich~~     |
-| 13      |  22.1.2026 | Prüfung                 |
-| 14      |  29.1.2026 | Prüfung (Ersatztermin)  |
+| 1       |   2.3.2026 | Grundlagen              |
+| 2       |   9.3.2026 | Die R-Umgebung          |
+| 3       |  16.3.2026 | Vektoren                |
+| 4       |  23.3.2026 | Tabellen                |
+| 5       |  13.4.2026 | Daten importieren       |
+| 6       |  20.4.2026 | Deskriptive Statistiken |
+| 7       |  27.4.2026 | Datenaufbereitung       |
+| 8       |   4.5.2026 | Grafiken                |
+| 9       |  11.5.2026 | Korrelation             |
+| 10      |  18.5.2026 | Lineare Regression (1)  |
+| 11      |   1.6.2026 | Lineare Regression (2)  |
+| 12      |   8.6.2026 | Mittelwertvergleich     |
+| 13      |  15.6.2026 | Prüfung                 |
+| 14      |  22.6.2026 | Prüfung (Ersatztermin)  |
 
 : {tbl-colwidths="[10,10,80]"}
 
@@ -66,7 +66,7 @@ Wenn Sie die Möglichkeit haben, sich die Inhalte gemeinsam mit anderen Studiere
 Jede Einheit beginnt mit einem kurzen Quiz zum Thema der jeweiligen Einheit (dazu später mehr). Danach werden die von Ihnen vorbereiteten Übungsbeispiele aus den Unterlagen detailliert besprochen und Musterlösungen präsentiert. Dabei haben Sie die Möglichkeit, Fragen zu stellen bzw. Ihre individuellen Lösungsansätze zu diskutieren. Falls darüber hinaus noch Zeit bleiben sollte, wird das jeweilige Thema durch vertiefende Beispiele bzw. Erklärungen ergänzt.
 
 ::: {.callout-note}
-Der Einsatz von Künstlicher Intelligenz (KI), insbesondere von Large Language Models (LLMs) wie [ChatGPT](https://chatgpt.com/), [Gemini](https://gemini.google.com/app) oder [Claude](https://claude.ai/login), ist für die Vorbereitung der Einheiten ausdrücklich erlaubt und wird sogar empfohlen. Diese Werkzeuge können Ihnen helfen, Konzepte zu verstehen, Codebeispiele nachzuvollziehen und alternative Erklärungen zu finden. Allerdings sollten Sie immer versuchen, die Übungsaufgaben selbständig zu lösen, um ein tiefes Verständnis der Materie zu entwickeln.
+Der Einsatz von Künstlicher Intelligenz, insbesondere von Large Language Models (wie z.B. [ChatGPT](https://chatgpt.com/), [Gemini](https://gemini.google.com/app), [Mistral](https://mistral.ai/) oder [Claude](https://claude.ai/login)), ist für die Vorbereitung der Einheiten ausdrücklich erlaubt und wird sogar empfohlen. Diese Werkzeuge können helfen, Konzepte zu verstehen, Codebeispiele nachzuvollziehen und alternative Erklärungen zu finden. Allerdings sollten Sie immer versuchen, die Übungsaufgaben selbständig zu lösen, um ein tiefes Verständnis der Materie zu entwickeln.
 :::
 
 
@@ -74,12 +74,14 @@ Der Einsatz von Künstlicher Intelligenz (KI), insbesondere von Large Language M
 
 ### Anwesenheit
 
-Durch den immanenten Prüfungscharakter dieser Lehrveranstaltung besteht Anwesenheitspflicht. Ihre Anwesenheit wird zu einem zufälligen Zeitpunkt während der Einheit überprüft. Sie können allerdings ohne Auswirkungen auf die Beurteilung bei bis zu drei Einheiten fehlen.
+Durch den immanenten Prüfungscharakter dieser Lehrveranstaltung besteht Anwesenheitspflicht. Ihre Anwesenheit wird zu einem zufälligen Zeitpunkt während der Einheit überprüft. Sie können allerdings ohne Auswirkungen auf die Beurteilung bei bis zu drei Einheiten fehlen (eine Begründung ist nicht erforderlich).
 
 
 ### Quizzes
 
-Zu Beginn jeder Einheit (mit Ausnahme der ersten) findet ein Quiz auf Moodle statt. Es werden kurze Fragen zum jeweiligen Thema der Einheit gestellt. Hilfsmittel (wie z.B. die Unterlagen) sind nicht erlaubt. Sie können bei einem Quiz maximal 10 Punkte erreichen (es gibt auch Teilpunkte). Das Quiz muss vor Ort auf einem Universitäts-PC absolviert werden. Ein nicht absolviertes Quiz (z.B. durch Fehlen oder Zuspätkommen) zählt 0 Punkte.
+Zu Beginn jeder Einheit (mit Ausnahme der ersten) findet ein Quiz auf Moodle statt. Es werden kurze Fragen zum jeweiligen Thema der Einheit gestellt (meist Multiple-Choice). Hilfsmittel (wie z.B. die Unterlagen) sind *nicht* erlaubt.
+
+Sie können bei einem Quiz maximal 10 Punkte erreichen (es gibt auch Teilpunkte). Das Quiz muss *vor Ort* auf einem Universitäts-PC absolviert werden. Ein nicht absolviertes Quiz (z.B. durch Fehlen oder Zuspätkommen) zählt 0 Punkte.
 
 ::: {.callout-note}
 Stellen Sie vorab sicher, dass Ihre aktuellen Zugangsdaten (einschließlich der Zwei-Faktor-Authentifizierung) für die Anmeldung funktionieren!
@@ -88,7 +90,9 @@ Stellen Sie vorab sicher, dass Ihre aktuellen Zugangsdaten (einschließlich der 
 
 ### Prüfung
 
-Am Ende des Semesters findet eine Prüfung über alle Inhalte der Lehrveranstaltung statt, welche vor Ort auf einem Universitäts-PC absolviert wird. Als einziges Hilfsmittel ist ein von Ihnen erstelltes, zweiseitig beschriebenes A4-Blatt erlaubt, auf dem Sie vorab die wichtigsten Inhalte der Lehrveranstaltung zusammenfassen können. Fertig gelöste Beispiele dürfen darauf jedoch nicht enthalten sein. Es können maximal 10 Punkte erreicht werden (Teilpunkte sind möglich).
+Am Ende des Semesters findet eine Prüfung über alle Inhalte der Lehrveranstaltung statt, welche vor Ort auf einem Universitäts-PC absolviert wird. Als einziges Hilfsmittel ist ein von Ihnen erstelltes, zweiseitig beschriebenes A4-Blatt erlaubt, auf dem Sie die wichtigsten Inhalte der Lehrveranstaltung zusammenfassen können. Fertig gelöste Beispiele dürfen darauf jedoch nicht enthalten sein. Da Sie mit RStudio arbeiten werden (Ihre Lösung ist dann als R-Script auf Moodle abzugeben), können Sie natürlich auch die integrierte Hilfe von R nutzen, um Informationen zu Funktionen oder Paketen abzurufen.
+
+Es können maximal 10 Punkte erreicht werden (Teilpunkte sind möglich).
 
 Die Prüfung kann bei Bedarf wiederholt werden. In diesem Fall zählen die Punkte des zweiten Termins, d.h. man kann sich sowohl verbessern als auch verschlechtern.
 
@@ -107,4 +111,4 @@ Sofern diese Kriterien erfüllt sind, ergibt sich die Gesamtnote aus dem Mittelw
 |-------------|------------|--------------|------------|----------------|
 | 9–10 Punkte | 8–9 Punkte | 7–8 Punkte   | 6–7 Punkte | \< 6 Punkte    |
 
-Die niedrigste Punktanzahl einer Kategorie wird immer der besseren Note zugeordnet. Beispielsweise entsprechen exakt 9 Punkte der Note "Sehr gut". Die gemittelte Punkteanzahl wird auch nicht mehr auf- oder abgerundet, daher entsprechen z.B. 8,97 Punkte der Note "Gut".
+Die niedrigste Punkteanzahl einer Kategorie wird immer der besseren Note zugeordnet. Beispielsweise entsprechen exakt 9 Punkte der Note "Sehr gut". Die gemittelte Punkteanzahl wird auch nicht mehr auf- oder abgerundet, daher entsprechen z.B. 8.97 Punkte der Note "Gut".
