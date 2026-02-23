@@ -2,7 +2,7 @@
 title: "Statistische Datenanalyse mit R"
 ---
 
-Die folgenden Unterlagen dienen als Basis für die Lehrveranstaltung [Statistische Datenanalyse mit R (PSY.921)](https://online.uni-graz.at/kfu_online/wbLv.wbShowLVDetail?pStpSpNr=941568).
+Die folgenden Unterlagen dienen als Basis für die Lehrveranstaltung [Statistische Datenanalyse mit R](https://online.uni-graz.at/kfu_online/wbLv.wbShowLVDetail?pStpSpNr=941568).
 
  0. [Organisatorisches](00/00.qmd)
  1. [Grundlagen](01/01.qmd) ([Lösungen](01/01-solutions.qmd))
