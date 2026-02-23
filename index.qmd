@@ -18,4 +18,4 @@ Die folgenden Unterlagen dienen als Basis für die Lehrveranstaltung [Statistisc
 11. [Lineare Regression (2)](11/11.qmd) ([Lösungen](11/11-solutions.qmd))
 12. [Mittelwertvergleich](12/12.qmd) ([Lösungen](12/12-solutions.qmd))
 
-- [Zusätzliche Übungsaufgaben](a1/a1.qmd) ([Lösungen](a1/a1-solutions.qmd))
+- [Übungen](a1/a1.qmd) ([Lösungen](a1/a1-solutions.qmd))
