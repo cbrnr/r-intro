@@ -2,7 +2,7 @@
 title: "3 – Vektoren"
 subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2025-10-16
+date: 2026-03-16
 format:
   html:
     page-layout: full
@@ -32,7 +32,7 @@ Ein Vektor kann mit der Funktion `c()` explizit erzeugt werden (steht für combi
 ```
 
 :::{.callout-note}
-Wenn man in R einen Befehl in Klammern setzt, dann wird der daraus resultierende Wert immer auch in der Console ausgegeben. Normalerweise ist das nämlich bei Zuweisungen nicht der Fall. Das obige Beispiel könnte man also auch in zwei Zeilen schreiben, was aber natürlich mehr Tipparbeit ist:
+Wenn man in R einen Befehl in Klammern setzt, dann wird der daraus resultierende Wert immer auch in der Console ausgegeben (normalerweise ist das nämlich bei Zuweisungen nicht der Fall). Das obige Beispiel könnte man also auch in zwei Zeilen schreiben, was aber natürlich mehr Tipparbeit ist:
 
 ```r
 y = c(1, 2, 3.1415, -100)
@@ -66,9 +66,9 @@ Ein Vektor besteht immer aus Elementen desselben Typs. Man nennt Vektoren daher 
 
 - Numerische Vektoren
 - Logische Vektoren
-- Zeichenkettenvektoren
+- Zeichenvektoren
 
-In einer der nächsten Einheiten werden wir dann noch Faktoren als vierten wichtigen Typ kennenlernen (grundsätzlich gibt es in R aber noch viele weitere spezifischere Datentypen).
+In einer der nächsten Einheiten werden wir dann noch Faktoren als vierten wichtigen Typ kennenlernen (grundsätzlich gibt es in R aber noch viele weitere nützliche Datentypen).
 
 
 ### Numerische Vektoren
@@ -88,10 +88,13 @@ class(z)
 class(c(3.1, 2.2, 10))
 ```
 
+::: {.callout-note}
+Obwohl es technisch gesehen Unterschiede zwischen ganzen Zahlen und Dezimalzahlen gibt, werden beide in R als `numeric` klassifiziert.
+:::
 
 ### Logische Vektoren
 
-Logische Vektoren bestehen ausschließlich aus den Werten `TRUE` oder `FALSE` (achten Sie auf die korrekte Schreibweise). Sie sind vom Typ `logical`.
+Logische Vektoren bestehen ausschließlich aus den Werten `TRUE` oder `FALSE`. Sie sind vom Typ `logical`.
 
 ```{r}
 class(TRUE)
@@ -99,7 +102,7 @@ class(c(FALSE, FALSE, TRUE))
 ```
 
 :::{.callout-note}
-Es ist möglich, die Werte `TRUE` und `FALSE` mit `T` und `F` abzukürzen. Aufgrund der schlechteren Lesbarkeit sollte man aber auf diese Abkürzungen verzichten.
+Es ist möglich, die Werte `TRUE` und `FALSE` mit `T` und `F` abzukürzen. Aufgrund der schlechteren Lesbarkeit sollte man aber auf diese Abkürzungen verzichten!
 :::
 
 Logische Vektoren entstehen unter anderem durch Vergleiche zweier Vektoren:
@@ -121,7 +124,16 @@ Dieser Vergleich ergibt `FALSE`, also einen logischen Vektor:
 class(x < 1)
 ```
 
-In R gibt es folgende Vergleichsoperatoren: `>`, `>=`, `<`, `<=`, `==` und `!=`. Vergleiche (bzw. logische Vektoren) können mit `|` (oder) und `&` (und) verknüpft und mit `!` negiert werden. Gruppierungen durch Klammersetzung sind ebenfalls möglich.
+In R gibt es folgende Vergleichsoperatoren:
+
+- `>` (größer)
+- `>=` (größer gleich)
+- `<` (kleiner)
+- `<=` (kleiner gleich)
+- `==` (gleich)
+- `!=` (ungleich)
+
+Vergleiche (bzw. logische Vektoren) können mit `|` (oder) und `&` (und) verknüpft und mit `!` negiert (invertiert) werden. Gruppierungen durch Klammersetzung sind ebenfalls möglich.
 
 ```{r}
 !TRUE
@@ -136,9 +148,9 @@ Der Gleichheitsoperator lautet `==` (also zwei Gleichheitszeichen) und nicht `=`
 :::
 
 
-### Zeichenkettenvektoren
+### Zeichenvektoren
 
-Zeichenkettenvektoren (Typ `character`) bestehen aus Zeichen, welche innerhalb von Anführungszeichen eingegeben werden. Es können sowohl einfache `'` als auch doppelte `"` Anführungszeichen verwendet werden. Eine Zeichenkette kann aus Buchstaben, Ziffern und Sonderzeichen bestehen.
+Zeichenvektoren (Typ `character`) bestehen aus Zeichen, welche innerhalb von Anführungszeichen eingegeben werden (es können sowohl einfache `'` als auch doppelte `"` Anführungszeichen verwendet werden). Jedes Element eines Zeichenvektors kann beliebig viele Zeichen enthalten, und zwar eine Kombination aus Buchstaben, Ziffern und Sonderzeichen.
 
 ```{r}
 "Hello!"
@@ -148,7 +160,7 @@ class("Hello!")
 class(s)
 ```
 
-Die Funktion `length()` gibt die Länge des Vektors (d.h. die Anzahl der Elemente) und nicht die Anzahl der Zeichen einer Zeichenkette zurück. Dafür kann man die Funktion `nchar()` verwenden:
+Die Funktion `length()` gibt die Länge des Vektors (d.h. die Anzahl der Elemente) und nicht die Anzahl der Zeichen zurück. Dafür kann man die Funktion `nchar()` verwenden:
 
 ```{r}
 s = c('Hello!', 'world')
@@ -159,14 +171,14 @@ nchar(s)
 
 ## Zwang (Coercion)
 
-Vektoren sind homogene Datentypen, d.h. sie enthalten nur Elemente desselben Typs. Wenn man versucht, einen Vektor mit Elementen mit unterschiedlichen Typen zu erstellen, wird dieser automatisch in einen Typ "gezwungen", welcher alle Elemente abbilden kann. Wenn man also Zahlen mit Zeichenketten mischt, werden alle Elemente in Zeichenketten umgewandelt (da Zeichenketten im Allgemeinen nicht als Zahlen dargestellt werden können, umgekehrt können aber Zahlen als Zeichenketten sehr wohl dargestellt werden).
+Vektoren sind homogene Datentypen, d.h. sie enthalten nur Elemente desselben Typs. Wenn Elemente unterschiedlicher Typen kombiniert werden, wandelt R sie automatisch in einen Typ um, der alle Werte darstellen kann. Mischt man beispielsweise Zahlen und Zeichen, werden alle Elemente in Zeichen umgewandelt: Zahlen können als Zeichen dargestellt werden, Zeichen jedoch im Allgemeinen nicht als Zahlen.
 
 ```{r}
 (x = c(1, 2.14, "5", 6))
 class(x)
 ```
 
-Rechnen kann man mit dem Vektor im obigen Beispiel allerdings nicht mehr, da die Elemente nun Zeichenketten und keine Zahlen mehr sind.
+Rechnen kann man mit dem Vektor im obigen Beispiel allerdings nicht mehr, da dessen Elemente nun Zeichen und keine Zahlen mehr sind.
 
 Man kann mit folgenden Funktionen auch explizit eine Umwandlung in einen gewünschten Typ durchführen:
 
@@ -174,7 +186,7 @@ Man kann mit folgenden Funktionen auch explizit eine Umwandlung in einen gewüns
 - `as.logical()`
 - `as.character()`
 
-Folgendes Beispiel wandelt einen Zeichenketten-Vektor in einen numerischen Vektor um (dies funktioniert, weil im Beispiel alle Zeichenketten als Zahlen interpretiert werden können):
+Folgendes Beispiel wandelt einen Zeichenvektor in einen numerischen Vektor um – dies funktioniert, weil hier alle Zeichen als Zahlen interpretiert werden können:
 
 ```{r}
 as.numeric(c("1", "2.12", "66"))
@@ -259,7 +271,12 @@ seq(1, 3, length.out=10)  # Gesamtlänge des Ergebnisses soll 10 sein
 
 Mit `seq()` kann man also Zahlenfolgen mit bestimmter Schrittweite (Argument `by`) oder mit bestimmter Gesamtlänge (Argument `length.out`) erzeugen.
 
-Die Funktion `rep()` wiederholt gegebene Werte:
+::: {.callout-note}
+Beachten Sie, dass `1:20` bereits einen Vektor erzeugt. Die Funktion `c()` ist hier daher nicht nötig. Man schreibt also einfach `1:20` statt `c(1:20)`.
+Im Allgemeinen braucht man `c()` nur, wenn man mehrere vorhandene Objekte oder Werte zu einem Vektor zusammenfügen möchte.
+:::
+
+Die Funktion `rep()` wiederholt bestimmte Werte:
 
 ```{r}
 rep(0, 90)  # erzeuge einen Vektor mit 90 Nullen
@@ -280,12 +297,12 @@ rep(c(0, 1, 2), times=c(10, 10, 10))  # gleiches Ergebnis wie mit each
 
 ## Indizieren
 
-Vektoren können indiziert werden, d.h. einzelne Elemente können herausgegriffen werden. Im Gegensatz zu vielen anderen Programmiersprachen beginnt R mit 1 zu zählen (d.h. das erste Element entspricht dem Index 1). Man verwendet dazu eckige Klammern, innerhalb derer die gewünschten Elemente angegeben werden.
+Vektoren können indiziert werden, d.h. einzelne Elemente können herausgegriffen werden. Man verwendet dazu eckige Klammern, innerhalb derer die gewünschten Elemente angegeben werden. Das erste Element entspricht dem Index 1, das zweite Element dem Index 2, und so weiter.
 
 Betrachten wir in den folgenden Beispielen den Vektor `x`, welcher aus 11 Elementen besteht:
 
 ```{r}
-(x = seq(10, 110, 10))
+(x = c(44, 23, -56, 98, 99, 32, 45, 22, 11, 0, -1))
 length(x)
 ```
 
@@ -305,7 +322,7 @@ x[c(-1, -10)]
 x[-c(1, 10)]
 ```
 
-Man kann auch mit logischen Vektoren indizieren. Dazu erstellt man zuerst einen logischen Vektor (z.B. durch einen Vergleich) und verwendet diesen dann als Index innerhalb der eckigen Klammern (dies kann direkt in einem Schritt gemacht werden). Dabei werden jene Elemente herausgegriffen, für die der Indexvektor `TRUE` ist.
+Man kann auch mit logischen Vektoren indizieren. Dazu erstellt man zuerst einen logischen Vektor (z.B. durch einen Vergleich) und verwendet diesen dann innerhalb der eckigen Klammern (dies kann direkt in einem Schritt gemacht werden). Dabei werden jene Elemente herausgegriffen, für die der logische Vektor `TRUE` ist.
 
 ```{r}
 x
@@ -346,7 +363,7 @@ Mit dieser Funktion kann man die Elementnamen eines Vektors auch nachträglich s
 
 ```{r}
 x = 1:3
-names(x)
+names(x)  # x hat noch keine Namen, daher wird NULL zurückgegeben
 names(x) = c("test", "value", "x")
 x
 ```
@@ -354,13 +371,13 @@ x
 
 ## Fehlende Werte
 
-In R können fehlende Werte mit dem speziellen Wert `NA` (Not Available) codiert werden.
+In R können fehlende Werte mit `NA` (Not Available) codiert werden.
 
 ```{r}
 (vect = c(15, 1.12, NA, 12, NA, 33.22))
 ```
 
-Mit der Funktion `is.na()` können die fehlenden Werte bestimmt werden. So kann man alle Werte aus einem Vektor extrahieren, die nicht `NA` sind.
+Mit der Funktion `is.na()` können die fehlenden Werte bestimmt werden. So kann man alle Werte aus einem Vektor extrahieren, die nicht `NA` sind:
 
 ```{r}
 is.na(vect)  # die fehlenden Werte
@@ -417,7 +434,7 @@ Erstellen Sie folgende Vektoren und geben Sie sie am Bildschirm aus:
 
 ### Übung 5
 
-Erstellen Sie einen Zeichenketten-Vektor mit folgenden Einträgen: zuerst 10 mal `"Placebo"`, dann 10 mal `"Group 1"` und schließlich 10 mal `"Group 2"` (d.h. das Ergebnis soll 30 Elemente haben).
+Erstellen Sie einen Zeichenvektor mit folgenden Einträgen: zuerst 10 mal `"Placebo"`, dann 10 mal `"Group 1"` und schließlich 10 mal `"Group 2"` (d.h. das Ergebnis soll 30 Elemente haben).
 
 
 ### Übung 6
