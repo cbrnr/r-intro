@@ -394,7 +394,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <div>
       <div class="quarto-title-meta-heading">Veröffentlicht</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">16. Oktober 2025</p>
+        <p class="date">16. März 2026</p>
       </div>
     </div>
     
@@ -434,7 +434,7 @@ Hinweis
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Wenn man in R einen Befehl in Klammern setzt, dann wird der daraus resultierende Wert immer auch in der Console ausgegeben. Normalerweise ist das nämlich bei Zuweisungen nicht der Fall. Das obige Beispiel könnte man also auch in zwei Zeilen schreiben, was aber natürlich mehr Tipparbeit ist:</p>
+<p>Wenn man in R einen Befehl in Klammern setzt, dann wird der daraus resultierende Wert immer auch in der Console ausgegeben (normalerweise ist das nämlich bei Zuweisungen nicht der Fall). Das obige Beispiel könnte man also auch in zwei Zeilen schreiben, was aber natürlich mehr Tipparbeit ist:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>y <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="fl">3.1415</span>, <span class="sc">-</span><span class="dv">100</span>)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>y</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
@@ -468,9 +468,9 @@ Hinweis
 <ul>
 <li>Numerische Vektoren</li>
 <li>Logische Vektoren</li>
-<li>Zeichenkettenvektoren</li>
+<li>Zeichenvektoren</li>
 </ul>
-<p>In einer der nächsten Einheiten werden wir dann noch Faktoren als vierten wichtigen Typ kennenlernen (grundsätzlich gibt es in R aber noch viele weitere spezifischere Datentypen).</p>
+<p>In einer der nächsten Einheiten werden wir dann noch Faktoren als vierten wichtigen Typ kennenlernen (grundsätzlich gibt es in R aber noch viele weitere nützliche Datentypen).</p>
 <section id="numerische-vektoren" class="level3">
 <h3 class="anchored" data-anchor-id="numerische-vektoren">Numerische Vektoren</h3>
 <p>Numerische Vektoren sind vom Typ <code>numeric</code> und beinhalten ausschließlich Zahlen, zum Beispiel:</p>
@@ -496,10 +496,23 @@ Hinweis
 <pre><code>[1] "numeric"</code></pre>
 </div>
 </div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Hinweis
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Obwohl es technisch gesehen Unterschiede zwischen ganzen Zahlen und Dezimalzahlen gibt, werden beide in R als <code>numeric</code> klassifiziert.</p>
+</div>
+</div>
 </section>
 <section id="logische-vektoren" class="level3">
 <h3 class="anchored" data-anchor-id="logische-vektoren">Logische Vektoren</h3>
-<p>Logische Vektoren bestehen ausschließlich aus den Werten <code>TRUE</code> oder <code>FALSE</code> (achten Sie auf die korrekte Schreibweise). Sie sind vom Typ <code>logical</code>.</p>
+<p>Logische Vektoren bestehen ausschließlich aus den Werten <code>TRUE</code> oder <code>FALSE</code>. Sie sind vom Typ <code>logical</code>.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(<span class="cn">TRUE</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -520,7 +533,7 @@ Hinweis
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Es ist möglich, die Werte <code>TRUE</code> und <code>FALSE</code> mit <code>T</code> und <code>F</code> abzukürzen. Aufgrund der schlechteren Lesbarkeit sollte man aber auf diese Abkürzungen verzichten.</p>
+<p>Es ist möglich, die Werte <code>TRUE</code> und <code>FALSE</code> mit <code>T</code> und <code>F</code> abzukürzen. Aufgrund der schlechteren Lesbarkeit sollte man aber auf diese Abkürzungen verzichten!</p>
 </div>
 </div>
 <p>Logische Vektoren entstehen unter anderem durch Vergleiche zweier Vektoren:</p>
@@ -545,7 +558,16 @@ Hinweis
 <pre><code>[1] "logical"</code></pre>
 </div>
 </div>
-<p>In R gibt es folgende Vergleichsoperatoren: <code>&gt;</code>, <code>&gt;=</code>, <code>&lt;</code>, <code>&lt;=</code>, <code>==</code> und <code>!=</code>. Vergleiche (bzw. logische Vektoren) können mit <code>|</code> (oder) und <code>&amp;</code> (und) verknüpft und mit <code>!</code> negiert werden. Gruppierungen durch Klammersetzung sind ebenfalls möglich.</p>
+<p>In R gibt es folgende Vergleichsoperatoren:</p>
+<ul>
+<li><code>&gt;</code> (größer)</li>
+<li><code>&gt;=</code> (größer gleich)</li>
+<li><code>&lt;</code> (kleiner)</li>
+<li><code>&lt;=</code> (kleiner gleich)</li>
+<li><code>==</code> (gleich)</li>
+<li><code>!=</code> (ungleich)</li>
+</ul>
+<p>Vergleiche (bzw. logische Vektoren) können mit <code>|</code> (oder) und <code>&amp;</code> (und) verknüpft und mit <code>!</code> negiert (invertiert) werden. Gruppierungen durch Klammersetzung sind ebenfalls möglich.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="sc">!</span><span class="cn">TRUE</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -582,9 +604,9 @@ Wichtig
 </div>
 </div>
 </section>
-<section id="zeichenkettenvektoren" class="level3">
-<h3 class="anchored" data-anchor-id="zeichenkettenvektoren">Zeichenkettenvektoren</h3>
-<p>Zeichenkettenvektoren (Typ <code>character</code>) bestehen aus Zeichen, welche innerhalb von Anführungszeichen eingegeben werden. Es können sowohl einfache <code>'</code> als auch doppelte <code>"</code> Anführungszeichen verwendet werden. Eine Zeichenkette kann aus Buchstaben, Ziffern und Sonderzeichen bestehen.</p>
+<section id="zeichenvektoren" class="level3">
+<h3 class="anchored" data-anchor-id="zeichenvektoren">Zeichenvektoren</h3>
+<p>Zeichenvektoren (Typ <code>character</code>) bestehen aus Zeichen, welche innerhalb von Anführungszeichen eingegeben werden (es können sowohl einfache <code>'</code> als auch doppelte <code>"</code> Anführungszeichen verwendet werden). Jedes Element eines Zeichenvektors kann beliebig viele Zeichen enthalten, und zwar eine Kombination aus Buchstaben, Ziffern und Sonderzeichen.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="st">"Hello!"</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -607,7 +629,7 @@ Wichtig
 <pre><code>[1] "character"</code></pre>
 </div>
 </div>
-<p>Die Funktion <code>length()</code> gibt die Länge des Vektors (d.h. die Anzahl der Elemente) und nicht die Anzahl der Zeichen einer Zeichenkette zurück. Dafür kann man die Funktion <code>nchar()</code> verwenden:</p>
+<p>Die Funktion <code>length()</code> gibt die Länge des Vektors (d.h. die Anzahl der Elemente) und nicht die Anzahl der Zeichen zurück. Dafür kann man die Funktion <code>nchar()</code> verwenden:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>s <span class="ot">=</span> <span class="fu">c</span>(<span class="st">'Hello!'</span>, <span class="st">'world'</span>)</span>
 <span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(s)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
@@ -623,7 +645,7 @@ Wichtig
 </section>
 <section id="zwang-coercion" class="level2">
 <h2 class="anchored" data-anchor-id="zwang-coercion">Zwang (Coercion)</h2>
-<p>Vektoren sind homogene Datentypen, d.h. sie enthalten nur Elemente desselben Typs. Wenn man versucht, einen Vektor mit Elementen mit unterschiedlichen Typen zu erstellen, wird dieser automatisch in einen Typ “gezwungen”, welcher alle Elemente abbilden kann. Wenn man also Zahlen mit Zeichenketten mischt, werden alle Elemente in Zeichenketten umgewandelt (da Zeichenketten im Allgemeinen nicht als Zahlen dargestellt werden können, umgekehrt können aber Zahlen als Zeichenketten sehr wohl dargestellt werden).</p>
+<p>Vektoren sind homogene Datentypen, d.h. sie enthalten nur Elemente desselben Typs. Wenn Elemente unterschiedlicher Typen kombiniert werden, wandelt R sie automatisch in einen Typ um, der alle Werte darstellen kann. Mischt man beispielsweise Zahlen und Zeichen, werden alle Elemente in Zeichen umgewandelt: Zahlen können als Zeichen dargestellt werden, Zeichen jedoch im Allgemeinen nicht als Zahlen.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>(<span class="at">x =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="fl">2.14</span>, <span class="st">"5"</span>, <span class="dv">6</span>))</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -634,14 +656,14 @@ Wichtig
 <pre><code>[1] "character"</code></pre>
 </div>
 </div>
-<p>Rechnen kann man mit dem Vektor im obigen Beispiel allerdings nicht mehr, da die Elemente nun Zeichenketten und keine Zahlen mehr sind.</p>
+<p>Rechnen kann man mit dem Vektor im obigen Beispiel allerdings nicht mehr, da dessen Elemente nun Zeichen und keine Zahlen mehr sind.</p>
 <p>Man kann mit folgenden Funktionen auch explizit eine Umwandlung in einen gewünschten Typ durchführen:</p>
 <ul>
 <li><code>as.numeric()</code></li>
 <li><code>as.logical()</code></li>
 <li><code>as.character()</code></li>
 </ul>
-<p>Folgendes Beispiel wandelt einen Zeichenketten-Vektor in einen numerischen Vektor um (dies funktioniert, weil im Beispiel alle Zeichenketten als Zahlen interpretiert werden können):</p>
+<p>Folgendes Beispiel wandelt einen Zeichenvektor in einen numerischen Vektor um – dies funktioniert, weil hier alle Zeichen als Zahlen interpretiert werden können:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as.numeric</span>(<span class="fu">c</span>(<span class="st">"1"</span>, <span class="st">"2.12"</span>, <span class="st">"66"</span>))</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -769,7 +791,20 @@ Wichtig
 </div>
 </div>
 <p>Mit <code>seq()</code> kann man also Zahlenfolgen mit bestimmter Schrittweite (Argument <code>by</code>) oder mit bestimmter Gesamtlänge (Argument <code>length.out</code>) erzeugen.</p>
-<p>Die Funktion <code>rep()</code> wiederholt gegebene Werte:</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Hinweis
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Beachten Sie, dass <code>1:20</code> bereits einen Vektor erzeugt. Die Funktion <code>c()</code> ist hier daher nicht nötig. Man schreibt also einfach <code>1:20</code> statt <code>c(1:20)</code>. Im Allgemeinen braucht man <code>c()</code> nur, wenn man mehrere vorhandene Objekte oder Werte zu einem Vektor zusammenfügen möchte.</p>
+</div>
+</div>
+<p>Die Funktion <code>rep()</code> wiederholt bestimmte Werte:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb98"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb98-1"><a href="#cb98-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rep</span>(<span class="dv">0</span>, <span class="dv">90</span>)  <span class="co"># erzeuge einen Vektor mit 90 Nullen</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -808,12 +843,12 @@ Tipp
 </section>
 <section id="indizieren" class="level2">
 <h2 class="anchored" data-anchor-id="indizieren">Indizieren</h2>
-<p>Vektoren können indiziert werden, d.h. einzelne Elemente können herausgegriffen werden. Im Gegensatz zu vielen anderen Programmiersprachen beginnt R mit 1 zu zählen (d.h. das erste Element entspricht dem Index 1). Man verwendet dazu eckige Klammern, innerhalb derer die gewünschten Elemente angegeben werden.</p>
+<p>Vektoren können indiziert werden, d.h. einzelne Elemente können herausgegriffen werden. Man verwendet dazu eckige Klammern, innerhalb derer die gewünschten Elemente angegeben werden. Das erste Element entspricht dem Index 1, das zweite Element dem Index 2, und so weiter.</p>
 <p>Betrachten wir in den folgenden Beispielen den Vektor <code>x</code>, welcher aus 11 Elementen besteht:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb106"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb106-1"><a href="#cb106-1" aria-hidden="true" tabindex="-1"></a>(<span class="at">x =</span> <span class="fu">seq</span>(<span class="dv">10</span>, <span class="dv">110</span>, <span class="dv">10</span>))</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb106"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb106-1"><a href="#cb106-1" aria-hidden="true" tabindex="-1"></a>(<span class="at">x =</span> <span class="fu">c</span>(<span class="dv">44</span>, <span class="dv">23</span>, <span class="sc">-</span><span class="dv">56</span>, <span class="dv">98</span>, <span class="dv">99</span>, <span class="dv">32</span>, <span class="dv">45</span>, <span class="dv">22</span>, <span class="dv">11</span>, <span class="dv">0</span>, <span class="sc">-</span><span class="dv">1</span>))</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> [1]  10  20  30  40  50  60  70  80  90 100 110</code></pre>
+<pre><code> [1]  44  23 -56  98  99  32  45  22  11   0  -1</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb108"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb108-1"><a href="#cb108-1" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(x)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -824,59 +859,59 @@ Tipp
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb110"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb110-1"><a href="#cb110-1" aria-hidden="true" tabindex="-1"></a>x[<span class="dv">1</span>]  <span class="co"># 1. Element</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 10</code></pre>
+<pre><code>[1] 44</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb112"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb112-1"><a href="#cb112-1" aria-hidden="true" tabindex="-1"></a>x[<span class="dv">4</span>]  <span class="co"># 4. Element</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 40</code></pre>
+<pre><code>[1] 98</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb114"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb114-1"><a href="#cb114-1" aria-hidden="true" tabindex="-1"></a>x[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>]  <span class="co"># Elemente 1-5</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 10 20 30 40 50</code></pre>
+<pre><code>[1]  44  23 -56  98  99</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb116"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb116-1"><a href="#cb116-1" aria-hidden="true" tabindex="-1"></a>x[<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">4</span>, <span class="dv">8</span>)]  <span class="co"># Elemente 1, 4 und 8</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 10 40 80</code></pre>
+<pre><code>[1] 44 98 22</code></pre>
 </div>
 </div>
 <p>Negative Indizes bedeuten “alle Elemente <em>außer</em> die angegebenen”:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb118"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb118-1"><a href="#cb118-1" aria-hidden="true" tabindex="-1"></a>x[<span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="sc">-</span><span class="dv">10</span>)]</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1]  20  30  40  50  60  70  80  90 110</code></pre>
+<pre><code>[1]  23 -56  98  99  32  45  22  11  -1</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb120"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb120-1"><a href="#cb120-1" aria-hidden="true" tabindex="-1"></a>x[<span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">10</span>)]</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1]  20  30  40  50  60  70  80  90 110</code></pre>
+<pre><code>[1]  23 -56  98  99  32  45  22  11  -1</code></pre>
 </div>
 </div>
-<p>Man kann auch mit logischen Vektoren indizieren. Dazu erstellt man zuerst einen logischen Vektor (z.B. durch einen Vergleich) und verwendet diesen dann als Index innerhalb der eckigen Klammern (dies kann direkt in einem Schritt gemacht werden). Dabei werden jene Elemente herausgegriffen, für die der Indexvektor <code>TRUE</code> ist.</p>
+<p>Man kann auch mit logischen Vektoren indizieren. Dazu erstellt man zuerst einen logischen Vektor (z.B. durch einen Vergleich) und verwendet diesen dann innerhalb der eckigen Klammern (dies kann direkt in einem Schritt gemacht werden). Dabei werden jene Elemente herausgegriffen, für die der logische Vektor <code>TRUE</code> ist.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb122"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb122-1"><a href="#cb122-1" aria-hidden="true" tabindex="-1"></a>x</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> [1]  10  20  30  40  50  60  70  80  90 100 110</code></pre>
+<pre><code> [1]  44  23 -56  98  99  32  45  22  11   0  -1</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb124"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb124-1"><a href="#cb124-1" aria-hidden="true" tabindex="-1"></a>x[<span class="fu">c</span>(<span class="cn">TRUE</span>, <span class="cn">FALSE</span>, <span class="cn">TRUE</span>, <span class="cn">FALSE</span>, <span class="cn">FALSE</span>, <span class="cn">FALSE</span>, <span class="cn">FALSE</span>, <span class="cn">FALSE</span>, <span class="cn">TRUE</span>, <span class="cn">FALSE</span>, <span class="cn">FALSE</span>)]</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 10 30 90</code></pre>
+<pre><code>[1]  44 -56  11</code></pre>
 </div>
 </div>
 <p>Das folgende Beispiel illustriert die Erstellung des logischen Indexvektors durch einen Vergleich:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb126"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb126-1"><a href="#cb126-1" aria-hidden="true" tabindex="-1"></a>x <span class="sc">&gt;</span> <span class="dv">40</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> [1] FALSE FALSE FALSE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE</code></pre>
+<pre><code> [1]  TRUE FALSE FALSE  TRUE  TRUE FALSE  TRUE FALSE FALSE FALSE FALSE</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb128"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb128-1"><a href="#cb128-1" aria-hidden="true" tabindex="-1"></a>x[x <span class="sc">&gt;</span> <span class="dv">40</span>]</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1]  50  60  70  80  90 100 110</code></pre>
+<pre><code>[1] 44 98 99 45</code></pre>
 </div>
 </div>
 <p>Idealerweise ist der logische Indexvektor gleich lang wie der zu indizierende Vektor. Falls der Indexvektor kürzer ist, findet wieder Recycling statt:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb130"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb130-1"><a href="#cb130-1" aria-hidden="true" tabindex="-1"></a>x[<span class="fu">c</span>(<span class="cn">FALSE</span>, <span class="cn">TRUE</span>)]</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1]  20  40  60  80 100</code></pre>
+<pre><code>[1] 23 98 32 22  0</code></pre>
 </div>
 </div>
 </section>
@@ -910,7 +945,7 @@ Tipp
 <p>Mit dieser Funktion kann man die Elementnamen eines Vektors auch nachträglich setzen:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb140"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb140-1"><a href="#cb140-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span></span>
-<span id="cb140-2"><a href="#cb140-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(x)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb140-2"><a href="#cb140-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(x)  <span class="co"># x hat noch keine Namen, daher wird NULL zurückgegeben</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>NULL</code></pre>
 </div>
@@ -924,14 +959,14 @@ Tipp
 </section>
 <section id="fehlende-werte" class="level2">
 <h2 class="anchored" data-anchor-id="fehlende-werte">Fehlende Werte</h2>
-<p>In R können fehlende Werte mit dem speziellen Wert <code>NA</code> (Not Available) codiert werden.</p>
+<p>In R können fehlende Werte mit <code>NA</code> (Not Available) codiert werden.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb144"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb144-1"><a href="#cb144-1" aria-hidden="true" tabindex="-1"></a>(<span class="at">vect =</span> <span class="fu">c</span>(<span class="dv">15</span>, <span class="fl">1.12</span>, <span class="cn">NA</span>, <span class="dv">12</span>, <span class="cn">NA</span>, <span class="fl">33.22</span>))</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 15.00  1.12    NA 12.00    NA 33.22</code></pre>
 </div>
 </div>
-<p>Mit der Funktion <code>is.na()</code> können die fehlenden Werte bestimmt werden. So kann man alle Werte aus einem Vektor extrahieren, die nicht <code>NA</code> sind.</p>
+<p>Mit der Funktion <code>is.na()</code> können die fehlenden Werte bestimmt werden. So kann man alle Werte aus einem Vektor extrahieren, die nicht <code>NA</code> sind:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb146"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb146-1"><a href="#cb146-1" aria-hidden="true" tabindex="-1"></a><span class="fu">is.na</span>(vect)  <span class="co"># die fehlenden Werte</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -1007,7 +1042,7 @@ Hinweis
 </section>
 <section id="übung-5" class="level3">
 <h3 class="anchored" data-anchor-id="übung-5">Übung 5</h3>
-<p>Erstellen Sie einen Zeichenketten-Vektor mit folgenden Einträgen: zuerst 10 mal <code>"Placebo"</code>, dann 10 mal <code>"Group 1"</code> und schließlich 10 mal <code>"Group 2"</code> (d.h. das Ergebnis soll 30 Elemente haben).</p>
+<p>Erstellen Sie einen Zeichenvektor mit folgenden Einträgen: zuerst 10 mal <code>"Placebo"</code>, dann 10 mal <code>"Group 1"</code> und schließlich 10 mal <code>"Group 2"</code> (d.h. das Ergebnis soll 30 Elemente haben).</p>
 </section>
 <section id="übung-6" class="level3">
 <h3 class="anchored" data-anchor-id="übung-6">Übung 6</h3>
