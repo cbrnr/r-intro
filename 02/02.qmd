@@ -131,7 +131,9 @@ Das Arbeitsverzeichnis, also jenes Verzeichnis in dem die aktuelle R-Sitzung aus
 getwd()
 ```
 
-Dieses Arbeitsverzeichnis (Working Directory) ist wichtig, da R diverse Dateien (wie z.B. Scripts oder Daten) immer in diesem (oder relativ zu diesem) Verzeichnis erwartet. Alle Dateien im aktuellen Arbeitsverzeichnis kann man mit `dir()` ausgeben lassen (RStudio zeigt diese rechts unten im Bereich *Files* an).
+Dieses Arbeitsverzeichnis (Working Directory) ist wichtig, da R diverse Dateien (wie z.B. Scripts oder Daten) immer in diesem (oder relativ zu diesem) Verzeichnis erwartet. Eine reproduzierbare Datenanalyse setzt daher voraus, dass man sowohl das R-Script als auch die Daten in einem gemeinsamen Verzeichnis abspeichert. Bevor man das Script ausführen möchte, muss man das Arbeitsverzeichnis auf dieses Verzeichnis setzen (siehe weiter unten).
+
+Alle Dateien im aktuellen Arbeitsverzeichnis kann man mit `dir()` ausgeben lassen (RStudio zeigt diese rechts unten im Bereich *Files* an).
 
 :::{.callout-tip}
 Der Titel der R-Console in RStudio zeigt ebenfalls das aktuelle Arbeitsverzeichnis an. Der Name `~` ist eine Abkürzung für den persönlichen Ordner.
@@ -149,10 +151,12 @@ In RStudio hat man aber mindestens drei Alternativen, das Arbeitsverzeichnis auc
 
 :::{.callout-important}
 *Bevor* Sie ein Script ausführen, sollten Sie das Arbeitsverzeichnis korrekt setzen (üblicherweise auf das Verzeichnis, in dem das Script abgespeichert ist). Führen Sie dies allerdings *nicht* automatisiert im Script selbst durch, denn das Script soll auch auf anderen Umgebungen laufen, wo es Ihr spezifisches Verzeichnis vielleicht nicht gibt.
+
+Betrachten wir zur Veranschaulichung ein konkretes Beispiel. Angenommen, Sie haben ein Script namens `my_analysis.R` in einem Verzeichnis namens `C:/Users/MiaMusterfrau/my_project/` abgespeichert. Wenn Sie in Ihrem Script die Zeile `setwd("C:/Users/MiaMusterfrau/my_project/")` einfügen, dann würde das Script nur auf Ihrem Computer funktionieren, aber nicht auf anderen Computern (auf denen dieses Verzeichnis sehr wahrscheinlich nicht existiert). Deswegen sollte man also das Arbeitsverzeichnis manuell (mit einer der oben genannten Methoden) auf das Verzeichnis setzen, in dem sich das Script befindet.
 :::
 
 :::{.callout-tip}
-Wenn Sie ein R-Script per Doppelklick (im Windows Explorer oder macOS Finder) öffnen, wird RStudio geöffnet und das Arbeitsverzeichnis *automatisch* auf das Verzeichnis gesetzt, in dem sich das Script befindet.
+Wenn man ein R-Script per Doppelklick (im Windows Explorer oder macOS Finder) öffnet, wird dieses in RStudio geöffnet und das Arbeitsverzeichnis wird *automatisch* auf das Verzeichnis gesetzt, in dem sich das Script befindet.
 :::
 
 
