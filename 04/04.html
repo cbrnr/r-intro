@@ -394,7 +394,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <div>
       <div class="quarto-title-meta-heading">Veröffentlicht</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">23. Oktober 2025</p>
+        <p class="date">23. März 2026</p>
       </div>
     </div>
     
@@ -495,7 +495,7 @@ Hinweis
 [4,]    4    8   12   16   20</code></pre>
 </div>
 </div>
-<p>Das erste Argument sind die Daten (ein Vektor), die die Matrix enthalten soll. Das zweite Argument <code>nrow</code> ist die Anzahl der Zeilen, und das dritte Argument <code>ncol</code> ist die Anzahl der Spalten der Matrix. Die ursprünglichen Daten werden standardmäßig <em>spaltenweise</em> in der Matrix angeordnet. Möchte man die Daten <em>zeilenweise</em> anordnen, kann man das Argument <code>byrow=TRUE</code> setzen:</p>
+<p>Das erste Argument sind die Daten (ein Vektor), die die Matrix enthalten soll. Das zweite Argument <code>nrow</code> bestimmt die Anzahl der Zeilen, und das dritte Argument <code>ncol</code> setzt die Anzahl der Spalten der Matrix. Die ursprünglichen Daten werden standardmäßig <em>spaltenweise</em> in der Matrix angeordnet. Möchte man die Daten <em>zeilenweise</em> anordnen, kann man das Argument <code>byrow=TRUE</code> setzen:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">matrix</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>, <span class="at">nrow=</span><span class="dv">4</span>, <span class="at">ncol=</span><span class="dv">5</span>, <span class="at">byrow=</span><span class="cn">TRUE</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -579,11 +579,11 @@ three 3 7 11 15 19
 four  4 8 12 16 20</code></pre>
 </div>
 </div>
-<p>Das letzte Beispiel ist in der Praxis sehr wichtig, da man so Zeilen aus einer Matrix filtern kann. Stellen Sie daher sicher, dass Sie diese Art der Indizierung verstehen – wir werden sie noch öfter brauchen!</p>
+<p>Das letzte Beispiel ist in der Praxis sehr wichtig, da man so Zeilen aus einer Matrix filtern kann.</p>
 </section>
 <section id="zwang-coercion" class="level3">
 <h3 class="anchored" data-anchor-id="zwang-coercion">Zwang (Coercion)</h3>
-<p>Wenn man einer numerischen Matrix z.B. eine neue Spalte vom Typ <code>character</code> hinzufügen möchte, dann funktioniert das nicht wie gewünscht, denn die numerischen Elemente werden automatisch in Zeichenketten umgewandelt (es handelt sich bei einer Matrix ja um einen homogenen Vektor). Wir werden sehen, dass Data Frames besser geeignet sind, wenn man unterschiedliche Spaltentypen benötigt.</p>
+<p>Wenn man einer numerischen Matrix z.B. eine neue Spalte vom Typ <code>character</code> hinzufügen möchte, dann funktioniert das nicht wie gewünscht, denn die numerischen Elemente werden automatisch in Zeichen umgewandelt (es handelt sich bei einer Matrix ja um einen homogenen Vektor). Wir werden sehen, dass Data Frames besser geeignet sind, wenn man unterschiedliche Spaltentypen benötigt.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>subjects <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"Hans"</span>, <span class="st">"Birgit"</span>, <span class="st">"Ferdinand"</span>, <span class="st">"Johanna"</span>)</span>
 <span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cbind</span>(subjects, m)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
@@ -618,7 +618,7 @@ four  "Johanna"   "4" "8" "12" "16" "20"</code></pre>
 </section>
 <section id="data-frames" class="level2">
 <h2 class="anchored" data-anchor-id="data-frames">Data Frames</h2>
-<p>Data Frames sind ebenso wie Matrizen zweidimensionale Datenstrukturen (sie bestehen aus Zeilen und Spalten). Im Gegensatz zu Matrizen können Spalten aber unterschiedliche Datentypen haben (z.B. kann eine Spalte numerisch sein, eine andere Spalte kann Zeichenketten beinhalten, und so weiter). Innerhalb einer Spalte müssen aber alle Werte homogen sein. Man kann sich die einzelnen Spalten in einem Data Frame daher als Vektoren vorstellen.</p>
+<p>Data Frames sind ebenso wie Matrizen zweidimensionale Datenstrukturen (sie bestehen aus Zeilen und Spalten). Im Gegensatz zu Matrizen können Spalten aber unterschiedliche Datentypen haben (z.B. kann eine Spalte numerisch sein, eine andere Spalte kann Zeichen beinhalten, und so weiter). Innerhalb einer Spalte müssen aber alle Werte homogen sein. Man kann sich die einzelnen Spalten in einem Data Frame daher als Vektoren vorstellen.</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -708,21 +708,21 @@ four    Johanna   4      8 12     16   20</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(l)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>            a b x
-1 -0.49340786 2 a
-2  1.15564515 2 b
-3 -0.69813920 0 c
-4  0.05941765 2 d
-5 -0.86659530 1 e
-6  1.91887756 2 f</code></pre>
+<pre><code>           a b x
+1  1.2745023 2 a
+2 -0.8274883 1 b
+3  0.9378862 0 c
+4 -0.1879415 0 d
+5 -0.9769482 5 e
+6  0.4578070 2 f</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span>(l, <span class="at">n=</span><span class="dv">4</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>              a b x
-4997  0.6614978 1 e
-4998  0.9097254 2 f
-4999 -0.7591944 4 g
-5000 -0.7674439 2 h</code></pre>
+4997  1.1686420 0 e
+4998  0.9974855 2 f
+4999 -1.6992774 4 g
+5000  0.6719597 3 h</code></pre>
 </div>
 </div>
 </section>
