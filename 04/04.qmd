@@ -2,7 +2,7 @@
 title: "4 – Tabellarische Daten"
 subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2025-10-23
+date: 2026-03-23
 format:
   html:
     page-layout: full
@@ -79,7 +79,7 @@ Eine Matrix kann nicht nur aus einem bereits vorhandenen Vektor, sondern auch di
 (m = matrix(1:20, nrow=4, ncol=5))
 ```
 
-Das erste Argument sind die Daten (ein Vektor), die die Matrix enthalten soll. Das zweite Argument `nrow` ist die Anzahl der Zeilen, und das dritte Argument `ncol` ist die Anzahl der Spalten der Matrix. Die ursprünglichen Daten werden standardmäßig *spaltenweise* in der Matrix angeordnet. Möchte man die Daten *zeilenweise* anordnen, kann man das Argument `byrow=TRUE` setzen:
+Das erste Argument sind die Daten (ein Vektor), die die Matrix enthalten soll. Das zweite Argument `nrow` bestimmt die Anzahl der Zeilen, und das dritte Argument `ncol` setzt die Anzahl der Spalten der Matrix. Die ursprünglichen Daten werden standardmäßig *spaltenweise* in der Matrix angeordnet. Möchte man die Daten *zeilenweise* anordnen, kann man das Argument `byrow=TRUE` setzen:
 
 ```{r}
 matrix(1:20, nrow=4, ncol=5, byrow=TRUE)
@@ -115,12 +115,12 @@ m["two",]  # Zeile "two"
 m[m[, "A"] > 2,]  # Zeilen, in denen die Spalte A > 2 ist
 ```
 
-Das letzte Beispiel ist in der Praxis sehr wichtig, da man so Zeilen aus einer Matrix filtern kann. Stellen Sie daher sicher, dass Sie diese Art der Indizierung verstehen – wir werden sie noch öfter brauchen!
+Das letzte Beispiel ist in der Praxis sehr wichtig, da man so Zeilen aus einer Matrix filtern kann.
 
 
 ### Zwang (Coercion)
 
-Wenn man einer numerischen Matrix z.B. eine neue Spalte vom Typ `character` hinzufügen möchte, dann funktioniert das nicht wie gewünscht, denn die numerischen Elemente werden automatisch in Zeichenketten umgewandelt (es handelt sich bei einer Matrix ja um einen homogenen Vektor). Wir werden sehen, dass Data Frames besser geeignet sind, wenn man unterschiedliche Spaltentypen benötigt.
+Wenn man einer numerischen Matrix z.B. eine neue Spalte vom Typ `character` hinzufügen möchte, dann funktioniert das nicht wie gewünscht, denn die numerischen Elemente werden automatisch in Zeichen umgewandelt (es handelt sich bei einer Matrix ja um einen homogenen Vektor). Wir werden sehen, dass Data Frames besser geeignet sind, wenn man unterschiedliche Spaltentypen benötigt.
 
 ```{r}
 subjects = c("Hans", "Birgit", "Ferdinand", "Johanna")
@@ -146,7 +146,7 @@ Eine Matrix ist, wie man anhand der obigen Beispiele erkennt, eigentlich nur fü
 
 ## Data Frames
 
-Data Frames sind ebenso wie Matrizen zweidimensionale Datenstrukturen (sie bestehen aus Zeilen und Spalten). Im Gegensatz zu Matrizen können Spalten aber unterschiedliche Datentypen haben (z.B. kann eine Spalte numerisch sein, eine andere Spalte kann Zeichenketten beinhalten, und so weiter). Innerhalb einer Spalte müssen aber alle Werte homogen sein. Man kann sich die einzelnen Spalten in einem Data Frame daher als Vektoren vorstellen.
+Data Frames sind ebenso wie Matrizen zweidimensionale Datenstrukturen (sie bestehen aus Zeilen und Spalten). Im Gegensatz zu Matrizen können Spalten aber unterschiedliche Datentypen haben (z.B. kann eine Spalte numerisch sein, eine andere Spalte kann Zeichen beinhalten, und so weiter). Innerhalb einer Spalte müssen aber alle Werte homogen sein. Man kann sich die einzelnen Spalten in einem Data Frame daher als Vektoren vorstellen.
 
 :::{.callout-note}
 Tatsächlich ist ein Data Frame eine Liste aus Vektoren gleicher Länge, welche den einzelnen Spalten entsprechen (den allgemeinen Datentyp `list`, welcher hier im Hintergrund verwendet wird, werden wir allerdings nicht genauer kennenlernen).
