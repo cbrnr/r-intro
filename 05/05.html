@@ -394,7 +394,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <div>
       <div class="quarto-title-meta-heading">Veröffentlicht</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">6. November 2025</p>
+        <p class="date">13. April 2026</p>
       </div>
     </div>
     
@@ -416,11 +416,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="allgemeines" class="level2">
 <h2 class="anchored" data-anchor-id="allgemeines">Allgemeines</h2>
-<p>R kann mit Daten in vielen unterschiedlichen Formaten umgehen, beispielsweise mit Excel-Tabellen oder auch SPSS-Datensätzen. Diese Formate sind allerdings proprietär und daher für das Abspeichern eigener Daten weniger gut geeignet. Idealerweise speichert man Daten in einem offenen und möglichst einfach aufgebauten Format ab, welches man mit einer Vielzahl an (frei verfügbaren) Programmen öffnen kann. Ein Beispiel für ein einfaches Format ist eine Textdatei, die man mit jedem beliebigen Texteditor öffnen kann.</p>
+<p>R kann mit Daten in vielen unterschiedlichen Formaten umgehen, beispielsweise mit Excel-Tabellen oder auch SPSS-Datensätzen. Diese Formate sind allerdings proprietär (bzw. zumindest extrem komplex) und daher für das Abspeichern eigener Daten weniger gut geeignet. Idealerweise speichert man Daten in einem offenen und möglichst einfach aufgebauten Format ab, welches man mit einer Vielzahl an (frei verfügbaren) Programmen öffnen kann. Ein Beispiel für ein einfaches und offenes Format ist eine Textdatei, die man mit jedem beliebigen Texteditor öffnen kann.</p>
 </section>
 <section id="textdateien" class="level2">
 <h2 class="anchored" data-anchor-id="textdateien">Textdateien</h2>
-<p>Daten in Textdateien werden häufig mit Kommas voneinander getrennt – so kann man Werte aus mehreren Spalten einer Tabelle darstellen. Solche speziell formatierten Textdateien haben daher häufig die Endung <code>.csv</code> (“comma-separated values”). Es gibt aber auch andere Möglichkeiten, Werte (bzw. Spalten) voneinander zu trennen, z.B. mit Semikolons (Strichpunkten) oder Tabulatoren. Solche Dateien haben dann oft die Endungen <code>.dat</code> oder <code>.tsv</code> (“tab-separated values”).</p>
+<p>Daten in Textdateien werden häufig mit Kommas voneinander getrennt – so kann man Werte aus mehreren Spalten einer Tabelle darstellen. Solche speziell formatierten Textdateien haben daher häufig die Endung <code>.csv</code> (“Comma-Separated Values”). Es gibt aber auch andere Möglichkeiten, Werte (bzw. Spalten) voneinander zu trennen, z.B. mit Semikolons oder Tabulatoren. Solche Dateien haben dann oft die Endungen <code>.dat</code> oder <code>.tsv</code> (“Tab-Separated Values”).</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -431,10 +431,11 @@ Hinweis
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Dateiendungen sind eine Konvention und müssen nicht zwingend etwas mit dem tatsächlichen Inhalt der Datei zu tun haben. Textdateien werden oft mit den bereits erwähnten Erweiterungen <code>.csv</code>, <code>.tsv</code> und <code>.dat</code> versehen. Es kann aber durchaus vorkommen, dass eine Textdatei z.B. mit der Endung <code>.csv</code> Werte mit Tabulatoren oder Strichpunkten trennt statt mit Kommas. Letztendlich kann man das nur herausfinden, indem man die Datei öffnet.</p>
+<p>Dateiendungen sind nur eine Konvention und müssen nicht zwingend etwas mit dem tatsächlichen Inhalt der Datei zu tun haben. Textdateien werden oft mit den bereits erwähnten Erweiterungen <code>.csv</code>, <code>.tsv</code> und <code>.dat</code> versehen. Es kann aber durchaus vorkommen, dass eine Textdatei z.B. mit der Endung <code>.csv</code> Werte mit Tabulatoren oder Strichpunkten trennt statt mit Kommas. Letztendlich kann man das nur herausfinden, indem man die Datei öffnet und den Inhalt prüft.</p>
 </div>
 </div>
 <p>Das <a href="https://www.tidyverse.org/">Tidyverse</a> beinhaltet das Paket <code>readr</code>, welches Textdateien in den unterschiedlichsten Formaten importieren kann. Dies funktioniert oft besser und schneller als mit den Funktionen, die standardmäßig mit R mitgeliefert werden. Die mit dem <code>readr</code>-Paket eingelesenen Daten stehen außerdem gleich als Tibble zur Verfügung. Daher werden wir in dieser Lehrveranstaltung ausschließlich Funktionen aus <code>readr</code> zum Importieren von Textdateien verwenden.</p>
+<p>Wir aktivieren daher zunächst das Paket:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
@@ -451,7 +452,7 @@ Wichtig
 <p>Funktionen zum Importieren von Textdaten aus dem <code>readr</code>-Paket beginnen alle mit <code>read_</code>, wohingegen die mit R mitgelieferten Funktionen mit <code>read.</code> beginnen.</p>
 </div>
 </div>
-<p>Die wichtigste Funktion aus dem Paket <code>readr</code> heißt <code>read_delim()</code>. Hier kann man sehr viele Parameter genau auf die einzulesende Datei abstimmen (z.B. das Spaltentrennzeichen, ob es eine Kopfzeile mit Spaltennamen gibt, ob Kommentare oder fehlende Werte vorhanden sind, usw.). Für Daten im CSV-Format (Spalten sind durch Kommas getrennt) gibt es die Wrapper-Funktion <code>read_csv()</code>, welche sinnvolle Standardwerte für diverse Argumente annimmt. Für Daten, die mit Tabulatoren getrennt sind, gibt es die Wrapper-Funktion <code>read_tsv()</code>.</p>
+<p>Die wichtigste Funktion darin ist <code>read_delim()</code>. Hier kann man sehr viele Parameter genau auf die einzulesende Datei abstimmen (z.B. das Spaltentrennzeichen, ob es eine Kopfzeile mit Spaltennamen gibt, ob Kommentare oder fehlende Werte vorhanden sind, usw.). Für Daten im CSV-Format (Spalten sind durch Kommas getrennt) gibt es die Wrapper-Funktion <code>read_csv()</code>, welche sinnvolle Standardwerte für diverse Argumente annimmt. Für Daten, die mit Tabulatoren getrennt sind, gibt es die Wrapper-Funktion <code>read_tsv()</code>.</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -478,6 +479,19 @@ Karina,10/8/1987,2,12,20,100,13
 Doug,1/23/1989,2,15,16,3000,9
 Mark,5/20/1973,2,12,17,10000,14
 Zoe,11/12/1984,2,17,18,10,13</code></pre>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Hinweis
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Selbstverständlich könnte man die Datei auch mit einem beliebigen Texteditor öffnen.</p>
+</div>
+</div>
 <p>Man erkennt, dass bei dieser konkreten Datei die einzelnen Spalten tatsächlich durch Kommas getrennt sind (hier passt also die Endung <code>.csv</code> zum Inhalt). Außerdem ist eine Kopfzeile mit den Spaltennamen vorhanden.</p>
 <p>Die Funktion <code>read_delim()</code> erkennt das Spaltentrennzeichen meistens automatisch, d.h. es reicht, wenn man ihr lediglich den Dateinamen als Argument übergibt:</p>
 <div class="cell">
@@ -523,11 +537,11 @@ Zoe,11/12/1984,2,17,18,10,13</code></pre>
 </div>
 <p>Für diese Datei hätten wir alternativ auch die Wrapper-Funktion <code>read_csv()</code> verwenden können, hier wird standardmäßig ein Komma als Spaltentrennzeichen angenommen:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read_csv</span>(<span class="st">"lecturer.csv"</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Sehen wir uns als zweites Beispiel dieselben Daten an, die aber diesmal mit Tabulatoren voneinander getrennt in einer <code>.dat</code>-Datei vorliegen. Um diese Datei namens <a href="lecturer.dat"><code>lecturer.dat</code></a> einzulesen, können wir entweder die generische Funktion <code>read_delim()</code> mit der automatischen Erkennung verwenden (bzw. falls das nicht funktionieren sollte mit <code>delim="\t"</code>, wobei <code>\t</code> die Darstellung des Tabulator-Zeichens ist) oder direkt die spezialisierte Funktion <code>read_tsv()</code>:</p>
+<p>Sehen wir uns als zweites Beispiel dieselben Daten an, die aber diesmal mit Tabulatoren voneinander getrennt in einer <code>.dat</code>-Datei vorliegen. Um diese Datei namens <a href="lecturer.dat"><code>lecturer.dat</code></a> einzulesen, können wir entweder die generische Funktion <code>read_delim()</code> mit der automatischen Erkennung verwenden (bzw. falls das nicht funktionieren sollte mit <code>delim="\t"</code>, wobei <code>\t</code> das Tabulator-Zeichens repräsentiert) oder direkt die spezialisierte Funktion <code>read_tsv()</code>:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read_delim</span>(<span class="st">"lecturer.dat"</span>)</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">read_delim</span>(<span class="st">"lecturer.dat"</span>, <span class="at">delim=</span><span class="st">"</span><span class="sc">\t</span><span class="st">"</span>)</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="fu">read_tsv</span>(<span class="st">"lecturer.dat"</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Ein weiteres wichtiges Merkmal solcher Textdateien ist das verwendete Dezimaltrennzeichen bei Kommazahlen. In der englischen Schreibweise wird ein Punkt als Dezimaltrennzeichen verwendet (z.B. <code>12.3</code> oder <code>3.1415</code>). In der deutschen Schreibweise wird hingegen ein Komma verwendet (z.B. <code>12,3</code> oder <code>3,1415</code>). Das Dezimaltrennzeichen kann in der Funktion <code>read_delim()</code> mit dem Argument <code>locale</code> festgelegt werden. Es ist standardmäßig auf einen Punkt gesetzt, ebenso bei den Funktionen <code>read_csv()</code> und <code>read_tsv()</code>. Sollten Zahlen jedoch in der deutschen Schreibweise vorliegen, können die Spalten nicht auch durch Kommas getrennt sein – hier werden diese dann oft durch Semikolons getrennt. Für solche Textdateien setzt man daher die Argumente <code>delim=";"</code> und <code>locale=locale(decimal_mark=",")</code> bzw. verwendet die Wrapper-Funktion <code>read_csv2()</code> (welche ein Semikolon als Spaltentrennzeichen und ein Komma als Dezimaltrennzeichen annimmt).</p>
+<p>Ein weiteres wichtiges Merkmal solcher Textdateien ist das verwendete Dezimaltrennzeichen bei Kommazahlen. In der englischen Schreibweise wird ein Punkt als Dezimaltrennzeichen verwendet (z.B. <code>12.3</code> oder <code>3.1415</code>). In der deutschen Schreibweise wird hingegen ein Komma verwendet (z.B. <code>12,3</code> oder <code>3,1415</code>). Das in der Datei verwendete Dezimaltrennzeichen kann in der Funktion <code>read_delim()</code> mit dem Argument <code>locale</code> festgelegt werden. Es ist standardmäßig auf einen Punkt gesetzt, ebenso bei den Funktionen <code>read_csv()</code> und <code>read_tsv()</code>. Sollten Zahlen jedoch in der deutschen Schreibweise vorliegen, können die Spalten nicht auch durch Kommas getrennt sein – hier werden diese dann oft durch Semikolons getrennt. Für solche Textdateien setzt man daher die Argumente <code>delim=";"</code> und <code>locale=locale(decimal_mark=",")</code> bzw. verwendet die Wrapper-Funktion <code>read_csv2()</code> (welche ein Semikolon als Spaltentrennzeichen und ein Komma als Dezimaltrennzeichen annimmt).</p>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">

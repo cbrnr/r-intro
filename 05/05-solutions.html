@@ -394,7 +394,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <div>
       <div class="quarto-title-meta-heading">Veröffentlicht</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">6. November 2025</p>
+        <p class="date">13. April 2026</p>
       </div>
     </div>
     
@@ -441,13 +441,25 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 4 B               13.3    54   87.2</code></pre>
 </div>
 </div>
-<p>Die Datentypen der vier Spalten sind <code>&lt;chr&gt;</code>, <code>&lt;dbl&gt;</code>, <code>&lt;dbl&gt;</code>, <code>&lt;dbl&gt;</code> – d.h. das deutsche Zahlenformat wurde korrekt importiert.</p>
+<p>Die Datentypen der vier Spalten sind <code>&lt;chr&gt;</code>, <code>&lt;dbl&gt;</code>, <code>&lt;dbl&gt;</code>, <code>&lt;dbl&gt;</code> – d.h. das deutsche Zahlenformat wurde korrekt importiert. Alternativ könnte man auch <code>read_delim</code> mit den entsprechenden Argumenten verwenden:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>(<span class="at">df =</span> <span class="fu">read_delim</span>(<span class="st">"homework.csv"</span>, <span class="at">delim=</span><span class="st">";"</span>, <span class="at">locale=</span><span class="fu">locale</span>(<span class="at">decimal_mark=</span><span class="st">","</span>)))</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 4 × 4
+  category temperature   age height
+  &lt;chr&gt;          &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;
+1 A               23.5    33   76.1
+2 A               20.1    17   65.2
+3 X               19.6    65   99.0
+4 B               13.3    54   87.2</code></pre>
+</div>
+</div>
 </section>
 <section id="übung-3" class="level2">
 <h2 class="anchored" data-anchor-id="übung-3">Übung 3</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>wahl16 <span class="ot">=</span> <span class="fu">read_csv</span>(<span class="st">"wahl16.csv"</span>)</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">colSums</span>(wahl16[, <span class="sc">-</span><span class="dv">1</span>]) <span class="sc">/</span> <span class="fu">sum</span>(wahl16[, <span class="sc">-</span><span class="dv">1</span>]) <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">1</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>wahl16 <span class="ot">=</span> <span class="fu">read_csv</span>(<span class="st">"wahl16.csv"</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">colSums</span>(wahl16[, <span class="sc">-</span><span class="dv">1</span>]) <span class="sc">/</span> <span class="fu">sum</span>(wahl16[, <span class="sc">-</span><span class="dv">1</span>]) <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">1</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>      griss       hofer hundstorfer        khol      lugner         vdb 
        18.9        35.1        11.3        11.1         2.3        21.3 </code></pre>
@@ -457,9 +469,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="übung-4" class="level2">
 <h2 class="anchored" data-anchor-id="übung-4">Übung 4</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>covid <span class="ot">=</span> <span class="fu">read_csv2</span>(<span class="st">"covid19.csv"</span>)</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>covid[[<span class="st">"Time"</span>]] <span class="ot">=</span> <span class="fu">as.Date</span>(covid[[<span class="st">"Time"</span>]], <span class="at">format=</span><span class="st">"%d.%m.%Y"</span>)</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>covid</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>covid <span class="ot">=</span> <span class="fu">read_csv2</span>(<span class="st">"covid19.csv"</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>covid[[<span class="st">"Time"</span>]] <span class="ot">=</span> <span class="fu">as.Date</span>(covid[[<span class="st">"Time"</span>]], <span class="at">format=</span><span class="st">"%d.%m.%Y"</span>)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>covid</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 12,170 × 12
    Time       Bundesland BundeslandID AnzEinwohner AnzahlFaelle AnzahlFaelleSum AnzahlFaelle7Tage SiebenTageInzidenzFa…¹
@@ -478,18 +490,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 # ℹ abbreviated name: ¹​SiebenTageInzidenzFaelle
 # ℹ 4 more variables: AnzahlTotTaeglich &lt;dbl&gt;, AnzahlTotSum &lt;dbl&gt;, AnzahlGeheiltTaeglich &lt;dbl&gt;, AnzahlGeheiltSum &lt;dbl&gt;</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(covid)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(covid)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 12170    12</code></pre>
 </div>
 </div>
 <p>Man könnte die gewünschten Spaltentypen auch direkt beim Importieren mittels <code>col_types</code> angeben:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>covid <span class="ot">=</span> <span class="fu">read_csv2</span>(<span class="st">"covid19.csv"</span>, <span class="at">col_types=</span><span class="fu">cols</span>(<span class="at">Time=</span><span class="fu">col_date</span>(<span class="st">"%d.%m.%Y %H:%M:%S"</span>)))</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>covid <span class="ot">=</span> <span class="fu">read_csv2</span>(<span class="st">"covid19.csv"</span>, <span class="at">col_types=</span><span class="fu">cols</span>(<span class="at">Time=</span><span class="fu">col_date</span>(<span class="st">"%d.%m.%Y %H:%M:%S"</span>)))</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="übung-5" class="level2">
 <h2 class="anchored" data-anchor-id="übung-5">Übung 5</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>(<span class="at">df =</span> <span class="fu">read_delim</span>(<span class="st">"household_power_consumption.zip"</span>, <span class="at">delim=</span><span class="st">";"</span>, <span class="at">na=</span><span class="fu">c</span>(<span class="st">"?"</span>, <span class="st">""</span>)))</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>(<span class="at">df =</span> <span class="fu">read_delim</span>(<span class="st">"household_power_consumption.zip"</span>, <span class="at">delim=</span><span class="st">";"</span>, <span class="at">na=</span><span class="fu">c</span>(<span class="st">"?"</span>, <span class="st">""</span>)))</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 2,075,259 × 9
    Date       Time   Global_active_power Global_reactive_power Voltage Global_intensity Sub_metering_1 Sub_metering_2
@@ -507,7 +519,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 # ℹ 2,075,249 more rows
 # ℹ 1 more variable: Sub_metering_3 &lt;dbl&gt;</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(df)  <span class="co"># 2.075.259 Zeilen und 9 Spalten</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(df)  <span class="co"># 2.075.259 Zeilen und 9 Spalten</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 2075259       9</code></pre>
 </div>
@@ -517,8 +529,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="übung-6" class="level2">
 <h2 class="anchored" data-anchor-id="übung-6">Übung 6</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>)</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">factor</span>(x, <span class="at">levels=</span><span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>), <span class="at">labels=</span><span class="fu">c</span>(<span class="st">"one"</span>, <span class="st">"two"</span>))</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">factor</span>(x, <span class="at">levels=</span><span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>), <span class="at">labels=</span><span class="fu">c</span>(<span class="st">"one"</span>, <span class="st">"two"</span>))</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] one  two  &lt;NA&gt;
 Levels: one two</code></pre>
