@@ -2,7 +2,7 @@
 title: "5 – Lösungen"
 subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2025-11-06
+date: 2026-04-13
 format:
   html:
     page-layout: full
@@ -45,7 +45,12 @@ Folgende Argumente werden verwendet:
 (df = read_csv2("homework.csv"))
 ```
 
-Die Datentypen der vier Spalten sind `<chr>`, `<dbl>`, `<dbl>`, `<dbl>` – d.h. das deutsche Zahlenformat wurde korrekt importiert.
+Die Datentypen der vier Spalten sind `<chr>`, `<dbl>`, `<dbl>`, `<dbl>` – d.h. das deutsche Zahlenformat wurde korrekt importiert. Alternativ könnte man auch `read_delim` mit den entsprechenden Argumenten verwenden:
+
+```{r}
+#| message: false
+(df = read_delim("homework.csv", delim=";", locale=locale(decimal_mark=",")))
+```
 
 
 ## Übung 3

@@ -2,7 +2,7 @@
 title: "5 – Daten importieren"
 subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2025-11-06
+date: 2026-04-13
 format:
   html:
     page-layout: full
@@ -23,18 +23,20 @@ published-title: "Veröffentlicht"
 
 ## Allgemeines
 
-R kann mit Daten in vielen unterschiedlichen Formaten umgehen, beispielsweise mit Excel-Tabellen oder auch SPSS-Datensätzen. Diese Formate sind allerdings proprietär und daher für das Abspeichern eigener Daten weniger gut geeignet. Idealerweise speichert man Daten in einem offenen und möglichst einfach aufgebauten Format ab, welches man mit einer Vielzahl an (frei verfügbaren) Programmen öffnen kann. Ein Beispiel für ein einfaches Format ist eine Textdatei, die man mit jedem beliebigen Texteditor öffnen kann.
+R kann mit Daten in vielen unterschiedlichen Formaten umgehen, beispielsweise mit Excel-Tabellen oder auch SPSS-Datensätzen. Diese Formate sind allerdings proprietär (bzw. zumindest extrem komplex) und daher für das Abspeichern eigener Daten weniger gut geeignet. Idealerweise speichert man Daten in einem offenen und möglichst einfach aufgebauten Format ab, welches man mit einer Vielzahl an (frei verfügbaren) Programmen öffnen kann. Ein Beispiel für ein einfaches und offenes Format ist eine Textdatei, die man mit jedem beliebigen Texteditor öffnen kann.
 
 
 ## Textdateien
 
-Daten in Textdateien werden häufig mit Kommas voneinander getrennt – so kann man Werte aus mehreren Spalten einer Tabelle darstellen. Solche speziell formatierten Textdateien haben daher häufig die Endung `.csv` ("comma-separated values"). Es gibt aber auch andere Möglichkeiten, Werte (bzw. Spalten) voneinander zu trennen, z.B. mit Semikolons (Strichpunkten) oder Tabulatoren. Solche Dateien haben dann oft die Endungen `.dat` oder `.tsv` ("tab-separated values").
+Daten in Textdateien werden häufig mit Kommas voneinander getrennt – so kann man Werte aus mehreren Spalten einer Tabelle darstellen. Solche speziell formatierten Textdateien haben daher häufig die Endung `.csv` ("Comma-Separated Values"). Es gibt aber auch andere Möglichkeiten, Werte (bzw. Spalten) voneinander zu trennen, z.B. mit Semikolons oder Tabulatoren. Solche Dateien haben dann oft die Endungen `.dat` oder `.tsv` ("Tab-Separated Values").
 
 :::{.callout-note}
-Dateiendungen sind eine Konvention und müssen nicht zwingend etwas mit dem tatsächlichen Inhalt der Datei zu tun haben. Textdateien werden oft mit den bereits erwähnten Erweiterungen `.csv`, `.tsv` und `.dat` versehen. Es kann aber durchaus vorkommen, dass eine Textdatei z.B. mit der Endung `.csv` Werte mit Tabulatoren oder Strichpunkten trennt statt mit Kommas. Letztendlich kann man das nur herausfinden, indem man die Datei öffnet.
+Dateiendungen sind nur eine Konvention und müssen nicht zwingend etwas mit dem tatsächlichen Inhalt der Datei zu tun haben. Textdateien werden oft mit den bereits erwähnten Erweiterungen `.csv`, `.tsv` und `.dat` versehen. Es kann aber durchaus vorkommen, dass eine Textdatei z.B. mit der Endung `.csv` Werte mit Tabulatoren oder Strichpunkten trennt statt mit Kommas. Letztendlich kann man das nur herausfinden, indem man die Datei öffnet und den Inhalt prüft.
 :::
 
 Das [Tidyverse](https://www.tidyverse.org/) beinhaltet das Paket `readr`, welches Textdateien in den unterschiedlichsten Formaten importieren kann. Dies funktioniert oft besser und schneller als mit den Funktionen, die standardmäßig mit R mitgeliefert werden. Die mit dem `readr`-Paket eingelesenen Daten stehen außerdem gleich als Tibble zur Verfügung. Daher werden wir in dieser Lehrveranstaltung ausschließlich Funktionen aus `readr` zum Importieren von Textdateien verwenden.
+
+Wir aktivieren daher zunächst das Paket:
 
 ```{r}
 library(readr)
@@ -44,7 +46,7 @@ library(readr)
 Funktionen zum Importieren von Textdaten aus dem `readr`-Paket beginnen alle mit `read_`, wohingegen die mit R mitgelieferten Funktionen mit `read.` beginnen.
 :::
 
-Die wichtigste Funktion aus dem Paket `readr` heißt `read_delim()`. Hier kann man sehr viele Parameter genau auf die einzulesende Datei abstimmen (z.B. das Spaltentrennzeichen, ob es eine Kopfzeile mit Spaltennamen gibt, ob Kommentare oder fehlende Werte vorhanden sind, usw.). Für Daten im CSV-Format (Spalten sind durch Kommas getrennt) gibt es die Wrapper-Funktion `read_csv()`, welche sinnvolle Standardwerte für diverse Argumente annimmt. Für Daten, die mit Tabulatoren getrennt sind, gibt es die Wrapper-Funktion `read_tsv()`.
+Die wichtigste Funktion darin ist `read_delim()`. Hier kann man sehr viele Parameter genau auf die einzulesende Datei abstimmen (z.B. das Spaltentrennzeichen, ob es eine Kopfzeile mit Spaltennamen gibt, ob Kommentare oder fehlende Werte vorhanden sind, usw.). Für Daten im CSV-Format (Spalten sind durch Kommas getrennt) gibt es die Wrapper-Funktion `read_csv()`, welche sinnvolle Standardwerte für diverse Argumente annimmt. Für Daten, die mit Tabulatoren getrennt sind, gibt es die Wrapper-Funktion `read_tsv()`.
 
 :::{.callout-note}
 Diese "Wrapper-Funktionen" rufen im Grunde also einfach `read_delim()` mit speziellen Argumenten auf.
@@ -69,6 +71,10 @@ Doug,1/23/1989,2,15,16,3000,9
 Mark,5/20/1973,2,12,17,10000,14
 Zoe,11/12/1984,2,17,18,10,13
 ```
+
+::: {.callout-note}
+Selbstverständlich könnte man die Datei auch mit einem beliebigen Texteditor öffnen.
+:::
 
 Man erkennt, dass bei dieser konkreten Datei die einzelnen Spalten tatsächlich durch Kommas getrennt sind (hier passt also die Endung `.csv` zum Inhalt). Außerdem ist eine Kopfzeile mit den Spaltennamen vorhanden.
 
@@ -99,7 +105,7 @@ Für diese Datei hätten wir alternativ auch die Wrapper-Funktion `read_csv()` v
 read_csv("lecturer.csv")
 ```
 
-Sehen wir uns als zweites Beispiel dieselben Daten an, die aber diesmal mit Tabulatoren voneinander getrennt in einer `.dat`-Datei vorliegen. Um diese Datei namens [`lecturer.dat`](lecturer.dat) einzulesen, können wir entweder die generische Funktion `read_delim()` mit der automatischen Erkennung verwenden (bzw. falls das nicht funktionieren sollte mit `delim="\t"`, wobei `\t` die Darstellung des Tabulator-Zeichens ist) oder direkt die spezialisierte Funktion `read_tsv()`:
+Sehen wir uns als zweites Beispiel dieselben Daten an, die aber diesmal mit Tabulatoren voneinander getrennt in einer `.dat`-Datei vorliegen. Um diese Datei namens [`lecturer.dat`](lecturer.dat) einzulesen, können wir entweder die generische Funktion `read_delim()` mit der automatischen Erkennung verwenden (bzw. falls das nicht funktionieren sollte mit `delim="\t"`, wobei `\t` das Tabulator-Zeichens repräsentiert) oder direkt die spezialisierte Funktion `read_tsv()`:
 
 ```r
 read_delim("lecturer.dat")
@@ -107,7 +113,7 @@ read_delim("lecturer.dat", delim="\t")
 read_tsv("lecturer.dat")
 ```
 
-Ein weiteres wichtiges Merkmal solcher Textdateien ist das verwendete Dezimaltrennzeichen bei Kommazahlen. In der englischen Schreibweise wird ein Punkt als Dezimaltrennzeichen verwendet (z.B. `12.3` oder `3.1415`). In der deutschen Schreibweise wird hingegen ein Komma verwendet (z.B. `12,3` oder `3,1415`). Das Dezimaltrennzeichen kann in der Funktion `read_delim()` mit dem Argument `locale` festgelegt werden. Es ist standardmäßig auf einen Punkt gesetzt, ebenso bei den Funktionen `read_csv()` und `read_tsv()`. Sollten Zahlen jedoch in der deutschen Schreibweise vorliegen, können die Spalten nicht auch durch Kommas getrennt sein – hier werden diese dann oft durch Semikolons getrennt. Für solche Textdateien setzt man daher die Argumente `delim=";"` und `locale=locale(decimal_mark=",")` bzw. verwendet die Wrapper-Funktion `read_csv2()` (welche ein Semikolon als Spaltentrennzeichen und ein Komma als Dezimaltrennzeichen annimmt).
+Ein weiteres wichtiges Merkmal solcher Textdateien ist das verwendete Dezimaltrennzeichen bei Kommazahlen. In der englischen Schreibweise wird ein Punkt als Dezimaltrennzeichen verwendet (z.B. `12.3` oder `3.1415`). In der deutschen Schreibweise wird hingegen ein Komma verwendet (z.B. `12,3` oder `3,1415`). Das in der Datei verwendete Dezimaltrennzeichen kann in der Funktion `read_delim()` mit dem Argument `locale` festgelegt werden. Es ist standardmäßig auf einen Punkt gesetzt, ebenso bei den Funktionen `read_csv()` und `read_tsv()`. Sollten Zahlen jedoch in der deutschen Schreibweise vorliegen, können die Spalten nicht auch durch Kommas getrennt sein – hier werden diese dann oft durch Semikolons getrennt. Für solche Textdateien setzt man daher die Argumente `delim=";"` und `locale=locale(decimal_mark=",")` bzw. verwendet die Wrapper-Funktion `read_csv2()` (welche ein Semikolon als Spaltentrennzeichen und ein Komma als Dezimaltrennzeichen annimmt).
 
 :::{.callout-important}
 Unabhängig davon, wie Dezimaltrennzeichen in den Textdateien dargestellt werden, verwendet R für Dezimalzahlen *immer* einen *Punkt*!
