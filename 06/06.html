@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="de" xml:lang="de"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.26">
+<meta name="generator" content="quarto-1.9.36">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -10,6 +10,9 @@
 
 <title>6 – Deskriptive Statistiken – Statistische Datenanalyse mit R</title>
 <style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
 div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -68,19 +71,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <meta name="quarto:offset" content="../">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-597958c53c93a607afca12fd375c57ed.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-7ac2f9da8c2617a4fdd15004b4601015.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-597958c53c93a607afca12fd375c57ed.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-a06763021a52c43c40a351ac8b799b8f.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-dbc92dda8186f57fa2e333fbb71d6a9d.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-a06763021a52c43c40a351ac8b799b8f.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-94a11f9d2ef63b4d3e14a49c60b54d86.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-31dd7b97cc2105c3f43b9904fe8c5fac.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../site_libs/bootstrap/bootstrap-94a11f9d2ef63b4d3e14a49c60b54d86.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-c6344c862f46cf6a68a6928f4c326ca4.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-a4cc7722e2170b143ab83d7d6445229a.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-c6344c862f46cf6a68a6928f4c326ca4.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <link href="../site_libs/quarto-contrib/academicons-1.9.2/all.css" rel="stylesheet">
 <link href="../site_libs/quarto-contrib/academicons-1.9.2/size.css" rel="stylesheet">
 <link href="../site_libs/quarto-contrib/fontawesome6-0.1.0/all.css" rel="stylesheet">
@@ -394,7 +396,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <div>
       <div class="quarto-title-meta-heading">Veröffentlicht</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">20. November 2025</p>
+        <p class="date">20. April 2026</p>
       </div>
     </div>
     
@@ -567,7 +569,7 @@ Hinweis
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Eigentlich kann man Funktionen aus Paketen auch ohne Aktivierung verwenden. Dazu muss man den Paketnamen gefolgt von <code>::</code> voranstellen. Im vorigen Beispiel könnte man also auf <code>library(psych)</code> verzichten und die Funktion mit <code>psych::describe()</code> trotzdem verwenden.</p>
+<p>Eigentlich kann man Funktionen aus Paketen auch ohne Aktivierung verwenden. Dazu muss man den Paketnamen gefolgt von <code>::</code> voranstellen. Im vorigen Beispiel könnte man also auf <code>library(psych)</code> verzichten und die Funktion mit <code>psych::describe()</code> trotzdem verwenden. Dies ist praktisch, wenn man wirklich nur eine einzelne Funktion aus einem Paket verwenden möchte.</p>
 </div>
 </div>
 <p>Man kann diese Funktion auch auf einzelne Gruppen separat anwenden. Im Beispiel könnte man dies getrennt für jede Stufe von <code>df$job</code> tun. Dazu verwendet man die verwandte Funktion <code>describeBy()</code>:</p>
@@ -912,11 +914,11 @@ group  2   0.046 0.9551
 </section>
 <section id="übung-2" class="level3">
 <h3 class="anchored" data-anchor-id="übung-2">Übung 2</h3>
-<p>Das Paket <code>palmerpenguins</code> beinhaltet im Tibble <code>penguins</code> Messdaten über physische Eigenschaften von drei Pinguinarten (Adélie, Chinstrap und Gentoo). Aktivieren Sie das Paket und beantworten Sie mit geeigneten R-Befehlen folgende Fragen:</p>
+<p>Der in R verfügbare Datensatz <code>penguins</code> enthält Messdaten über physische Eigenschaften von drei Pinguinarten (Adélie, Chinstrap und Gentoo). Beantworten Sie mit geeigneten R-Befehlen folgende Fragen:</p>
 <ul>
 <li>Aus wie vielen Zeilen und Spalten besteht der Datensatz <code>penguins</code>?</li>
 <li>Die Spalten <code>species</code>, <code>island</code> und <code>sex</code> sind Faktoren – wie viele Stufen gibt es jeweils?</li>
-<li>Berechnen Sie deskriptive Statistiken getrennt für die drei Pinguinspezies! Wie lauten die Mittelwerte der Spalten <code>bill_length_mm</code>, <code>bill_depth_mm</code> und <code>flipper_length_mm</code> für die drei Spezies?</li>
+<li>Berechnen Sie deskriptive Statistiken getrennt für die drei Pinguinspezies! Wie lauten die Mittelwerte der Spalten <code>bill_len</code>, <code>bill_dep</code> und <code>flipper_len</code> für die drei Spezies?</li>
 <li>Gibt es fehlende Werte in den Daten?</li>
 </ul>
 </section>
