@@ -2,7 +2,7 @@
 title: "6 – Deskriptive Statistiken"
 subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2025-11-20
+date: 2026-04-20
 format:
   html:
     page-layout: full
@@ -113,7 +113,7 @@ describe(df[, 3:6])
 ```
 
 :::{.callout-note}
-Eigentlich kann man Funktionen aus Paketen auch ohne Aktivierung verwenden. Dazu muss man den Paketnamen gefolgt von `::` voranstellen. Im vorigen Beispiel könnte man also auf `library(psych)` verzichten und die Funktion mit `psych::describe()` trotzdem verwenden.
+Eigentlich kann man Funktionen aus Paketen auch ohne Aktivierung verwenden. Dazu muss man den Paketnamen gefolgt von `::` voranstellen. Im vorigen Beispiel könnte man also auf `library(psych)` verzichten und die Funktion mit `psych::describe()` trotzdem verwenden. Dies ist praktisch, wenn man wirklich nur eine einzelne Funktion aus einem Paket verwenden möchte.
 :::
 
 Man kann diese Funktion auch auf einzelne Gruppen separat anwenden. Im Beispiel könnte man dies getrennt für jede Stufe von `df$job` tun. Dazu verwendet man die verwandte Funktion `describeBy()`:
@@ -263,11 +263,11 @@ Berechnen Sie statistische Kenngrößen wie Mittelwert, Median, Minimum und Maxi
 
 ### Übung 2
 
-Das Paket `palmerpenguins` beinhaltet im Tibble `penguins` Messdaten über physische Eigenschaften von drei Pinguinarten (Adélie, Chinstrap und Gentoo). Aktivieren Sie das Paket und beantworten Sie mit geeigneten R-Befehlen folgende Fragen:
+Der in R verfügbare Datensatz `penguins` enthält Messdaten über physische Eigenschaften von drei Pinguinarten (Adélie, Chinstrap und Gentoo). Beantworten Sie mit geeigneten R-Befehlen folgende Fragen:
 
 -   Aus wie vielen Zeilen und Spalten besteht der Datensatz `penguins`?
 -   Die Spalten `species`, `island` und `sex` sind Faktoren – wie viele Stufen gibt es jeweils?
--   Berechnen Sie deskriptive Statistiken getrennt für die drei Pinguinspezies! Wie lauten die Mittelwerte der Spalten `bill_length_mm`, `bill_depth_mm` und `flipper_length_mm` für die drei Spezies?
+-   Berechnen Sie deskriptive Statistiken getrennt für die drei Pinguinspezies! Wie lauten die Mittelwerte der Spalten `bill_len`, `bill_dep` und `flipper_len` für die drei Spezies?
 -   Gibt es fehlende Werte in den Daten?
 
 

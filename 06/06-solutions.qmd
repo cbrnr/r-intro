@@ -2,7 +2,7 @@
 title: "6 – Lösungen"
 subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2025-11-20
+date: 2026-04-20
 format:
   html:
     page-layout: full
@@ -48,7 +48,6 @@ Aus den Ausgaben der zusammenfassenden Statistiken kann abgelesen werden, dass d
 ## Übung 2
 
 ```{r}
-library(palmerpenguins)
 dim(penguins)  # 344 Zeilen, 8 Spalten
 summary(penguins)
 by(penguins[, 3:5], penguins$species, colMeans, na.rm=TRUE)
