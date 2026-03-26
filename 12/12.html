@@ -423,7 +423,7 @@ window.Quarto = {
       <div>
       <div class="quarto-title-meta-heading">Veröffentlicht</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">22. Januar 2026</p>
+        <p class="date">8. Juni 2026</p>
       </div>
     </div>
     
@@ -445,7 +445,7 @@ window.Quarto = {
 
 <section id="versuchsdesigns" class="level2">
 <h2 class="anchored" data-anchor-id="versuchsdesigns">Versuchsdesigns</h2>
-<p>Neben der Betrachtung von <em>Zusammenhängen</em> zwischen Variablen (zum Beispiel mittels Korrelation oder Regression) möchten wir häufig wissen, ob sich zwei (oder mehr) Gruppen in ihren <em>Mittelwerten</em> unterscheiden. In <em>korrelativen Studien</em> (<em>Beobachtungsstudien</em>) erheben wir Daten, ohne etwas zu manipulieren. <em>Experimentelle Studien</em> (<em>Interventionsstudien</em>) manipulieren hingegen gezielt eine oder mehrere Variablen (z.B. eine Gruppe erhält ein Medikament und eine andere ein Placebo). Dadurch können wir Unterschiede im Ergebnis der Manipulation zuschreiben und kausale Schlussfolgerungen ziehen, was bei korrelativen Studien nicht möglich ist.</p>
+<p>Neben der Betrachtung von <em>Zusammenhängen</em> zwischen Variablen (zum Beispiel mittels Korrelation oder Regression) möchte man häufig wissen, ob sich zwei (oder mehr) Gruppen in ihren <em>Mittelwerten</em> unterscheiden. In <em>korrelativen Studien</em> (<em>Beobachtungsstudien</em>) erheben wir Daten, ohne etwas zu manipulieren. <em>Experimentelle Studien</em> (<em>Interventionsstudien</em>) manipulieren hingegen gezielt eine oder mehrere Variablen (z.B. eine Gruppe erhält ein Medikament und eine andere ein Placebo). Dadurch können wir Unterschiede im Ergebnis der Manipulation zuschreiben und kausale Schlussfolgerungen ziehen, was bei korrelativen Studien nicht möglich ist.</p>
 <p>Innerhalb experimenteller Studien unterscheiden wir zwischen <em>unabhängigen</em> und <em>abhängigen</em> Designs. In einem unabhängigen Design bestehen die Gruppen aus unterschiedlichen Personen, sodass die Beobachtungen zwischen den Gruppen nicht zusammenhängen. In einem abhängigen Design (auch Messwiederholungs-Design genannt) nehmen dieselben Personen an mehreren Bedingungen teil, wodurch eine Abhängigkeit zwischen den Gruppen entsteht. Da jede Person als ihre eigene Kontrollbedingung dient, rechnen abhängige Designs automatisch individuelle Unterschiede heraus, die für die Behandlung irrelevant sind. Dadurch hat die Analyse mehr statistische Power als bei einem unabhängigen Design (d.h. kleinere Unterschiede können besser erkannt werden). Dieser Vorteil wird im folgenden Beispiel deutlich.</p>
 </section>
 <section id="beispiel" class="level2">
@@ -713,7 +713,7 @@ Hinweis
 </section>
 <section id="annahmen" class="level2">
 <h2 class="anchored" data-anchor-id="annahmen">Annahmen</h2>
-<p>Da der <em>t</em>-Test auf einer lineare Regression basiert, setzt er auch dieselben Annahmen wie diese voraus:</p>
+<p>Da der <em>t</em>-Test auf einer linearen Regression basiert, setzt er auch dieselben Annahmen wie diese voraus:</p>
 <ul>
 <li>Die Residuen sind normalverteilt (beim abhängigen <em>t</em>-Test sind die Residuen der Differenzen gemeint).</li>
 <li>Die Daten sind intervallskaliert.</li>
@@ -847,7 +847,7 @@ Hinweis
 </section>
 <section id="übung-2" class="level3">
 <h3 class="anchored" data-anchor-id="übung-2">Übung 2</h3>
-<p>Vergleichen Sie im <code>penguins</code>-Datensatz (aus dem Paket <code>palmerpenguins</code>), ob sich die Merkmale <code>bill_length_mm</code> bzw. <code>bill_depth_mm</code> zwischen den Spezies unterscheiden (führen Sie paarweise Vergleiche für jedes Merkmal durch). Berichten Sie die relevanten Statistiken, Signifikanzen und Effektgrößen (Korrelationskoeffizient <em>r</em>) für jeden <em>t</em>-Test.</p>
+<p>Vergleichen Sie im <code>penguins</code>-Datensatz, ob sich die Merkmale <code>bill_len</code> bzw. <code>bill_dep</code> zwischen den Spezies unterscheiden (führen Sie paarweise Vergleiche für jedes Merkmal durch). Berichten Sie die relevanten Statistiken, Signifikanzen und Effektgrößen (Korrelationskoeffizient <em>r</em>) für jeden <em>t</em>-Test.</p>
 <p>Die Funktion <code>pairwise.t.test()</code> rechnet mehrere paarweise Vergleiche. Verwenden Sie diese Funktion (zusätzlich zu den einzeln gerechneten <em>t</em>-Tests von zuvor), um die Vergleiche durchzuführen. Mit dem Argument <code>p.adjust.method</code> können Sie außerdem die <em>p</em>-Werte korrigieren, weil mehrere Tests die Wahrscheinlichkeit eines falsch positiven Ergebnisses (der <em>t</em>-Test sagt “es gibt einen Unterschied” obwohl tatsächlich kein Unterschied besteht) erhöhen.</p>
 </section>
 <section id="übung-3" class="level3">
