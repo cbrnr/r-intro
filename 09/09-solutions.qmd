@@ -2,7 +2,7 @@
 title: "9 – Lösungen"
 subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2025-12-11
+date: 2026-05-11
 format:
   html:
     page-layout: full
@@ -103,10 +103,9 @@ cor(pm10$Petersgasse, pm10$DonBosco, use="complete.obs")
 ## Übung 5
 
 ```{r}
-library(palmerpenguins)
-cor(penguins$bill_length_mm, penguins$bill_depth_mm, use="complete.obs")
+cor(penguins$bill_len, penguins$bill_dep, use="complete.obs")
 by(
-    penguins[, c("bill_length_mm", "bill_depth_mm")],
+    penguins[, c("bill_len", "bill_dep")],
     penguins$species,
     cor,
     use="complete.obs"

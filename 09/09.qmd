@@ -2,7 +2,7 @@
 title: "9 – Korrelation"
 subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2025-12-11
+date: 2026-05-11
 format:
   html:
     page-layout: full
@@ -23,17 +23,7 @@ published-title: "Veröffentlicht"
 
 ## Allgemeines
 
-Oft ist es interessant zu fragen, ob zwei Variablen eine gegenseitige Abhängigkeit zeigen. Man möchte also wissen, ob sich die beiden Größen ähnlich verhalten oder nicht – wenn die eine Variable zunimmt, nimmt dann die andere auch zu? Oder ist es genau umgekehrt und sie nimmt dann immer ab? Die Korrelation ist ein einfaches und populäres Maß, um diese Fragestellungen zu beantworten.
-
-Dabei ist es aber wichtig zu wissen, dass kein kausaler Zusammenhang zwischen den beiden Variablen bestehen muss. Folgende Beispiele von [Spurious Correlations](http://www.tylervigen.com/spurious-correlations) illustrieren die Gefahr der fehlerhaften Interpretation von Korrelationen. Im ersten Beispiel werden die Ausgaben für den Bereich Wissenschaft, Raumfahrt und Technik der USA im Zeitraum 1999–2009 dargestellt. Gleichzeitig werden die Anzahl der Selbstmorde durch Hängen, Strangulieren und Erstickung im selben Zeitraum gezeigt. Man sieht, dass beide Kurven einen sehr ähnlichen Verlauf haben, und der Korrelationskoeffizient (dazu später mehr) ist mit $r=0.998$ extrem hoch:
-
-![](spurious1.png)
-
-Das zweite Beispiel zeigt den Zusammenhang zwischen der Anzahl an Personen, die in einen Pool gefallen und ertrunken sind und der Anzahl an Filmen mit Nicolas Cage im Zeitraum 1999–2009. Auch hier kann man einen schönen Zusammenhang erkennen, welcher einen recht hohen Korrelationskoeffizienten von $r=0.666$ aufweist:
-
-![](spurious2.png)
-
-Diese Beispiele sollen verdeutlichen, dass Korrelation nicht automatisch einen kausalen Zusammenhang darstellt (["correlation is not causation"](https://de.wikipedia.org/wiki/Cum_hoc_ergo_propter_hoc)). Denn offensichtlich sind die gezeigten Beispiele rein zufällige Korrelationen, die in keinerlei kausalem Zusammenhang stehen.
+Oft ist es interessant zu fragen, ob zwei Variablen eine gegenseitige Abhängigkeit zeigen. Man möchte also wissen, ob sich die beiden Größen ähnlich verhalten oder nicht – wenn die eine Variable zunimmt, nimmt dann die andere auch zu? Oder ist es genau umgekehrt und sie nimmt dann immer ab? Die Korrelation ist ein einfaches und populäres Maß, um diese Fragestellungen zu beantworten. Aber Achtung: Korrelationen messen *keine* kausalen Zusammenhänge, sondern nur die Stärke eines Zusammenhangs zwischen zwei Variablen.
 
 
 ## Produkt-Moment-Korrelation (Pearson-Korrelation)
@@ -52,7 +42,7 @@ Alternativ kann man die Varianz auch so schreiben (das Quadrat wird explizit als
 
 $$\mathrm{Var}(x) = \frac{1}{N-1} \sum_{i=1}^N (x_i - \bar{x})(x_i - \bar{x})$$
 
-Die Varianz beschreibt, wie stark die Datenpunkte um deren Mittelwert variieren (streuen). Dementsprechend ist die Kovarianz zwischen zwei Variablen $x$ und $y$ definiert als
+Die Varianz beschreibt, wie stark die Datenpunkte um ihren Mittelwert variieren (streuen). Dementsprechend ist die Kovarianz zwischen zwei Variablen $x$ und $y$ definiert als
 
 $$\mathrm{Cov}(x, y) = \frac{1}{N-1} \sum_{i=1}^N (x_i - \bar{x})(y_i - \bar{y}).$$
 
@@ -74,7 +64,7 @@ y &= (-2, -5, -6, 0, 3, 7, 10)
 \end{aligned}
 $$
 
-Wir können diese sieben Datenpunkte in einem Scatterplot visualisieren:
+Wir können diese sieben Datenpunkte in einem Streudiagramm visualisieren:
 
 ```{r}
 #| echo: false
@@ -124,7 +114,7 @@ $$
 
 Um die Pearson-Korrelation zu erhalten, müssen wir noch diese Größen laut Formel verarbeiten und erhalten somit:
 
-$$r = \frac{24.\dot{3}}{\sqrt{24.\dot{6} \cdot 36}} = 0.8165732$$
+$$r = \frac{24.\dot{3}}{\sqrt{24.\dot{6} \cdot 36}} \approx 0.8166$$
 
 
 ### Signifikanz
@@ -199,7 +189,7 @@ c(cl_r, r, cu_r)
 ```
 
 :::{.callout-note}
-Das Konfidenzintervall gibt an, in welchem Bereich der wahre Wert der Korrelation mit einer gegebenen Sicherheit (Konfidenz) liegt. Die Konfidenz ist *nicht* die *Wahrscheinlichkeit*, dass der wahre Wert in dem berechneten Intervall liegt – denn der wahre Wert ist entweder in dem Intervall oder nicht. Wenn man viele Stichproben ziehen würde und damit jedes Mal ein Konfidenzintervall berechnen würde, dann würde im Falle eines 95%-Konfidenzintervalls in 95% der berechneten Fälle der wahre Wert in dem Intervall liegen.
+Das Konfidenzintervall gibt an, in welchem Bereich der wahre Wert der Korrelation mit einer gegebenen Sicherheit (Konfidenz) liegt. Die Konfidenz ist *nicht* die *Wahrscheinlichkeit*, dass der wahre Wert in dem berechneten Intervall liegt – denn der wahre Wert ist entweder in dem Intervall oder nicht. Wenn man viele Stichproben erheben und damit jedes Mal ein Konfidenzintervall berechnen würde, dann würde im Falle eines 95%-Konfidenzintervalls in 95% der berechneten Intervalle der wahre Wert in dem Intervall liegen.
 :::
 
 :::{.callout-tip}
@@ -285,7 +275,7 @@ library(readr)
 (exam = read_tsv("exam.dat"))
 ```
 
-Es ist hilfreich, die Daten zuerst einmal grafisch darzustellen. Für den Zusammenhang zwischen zwei Variablen bietet sich ein Scatterplot (inklusive Regressionsgeraden) an – so kann man die Korrelation direkt visualisieren. Wir können eine solche Grafik zunächst einmal separat für alle drei Kombinationen erzeugen:
+Es ist hilfreich, die Daten zuerst einmal grafisch darzustellen. Für den Zusammenhang zwischen zwei Variablen bietet sich ein Streudiagramm (inklusive Regressionsgeraden) an – so kann man die Korrelation direkt visualisieren. Wir können eine solche Grafik zunächst einmal separat für alle drei Kombinationen erzeugen:
 
 ```{r}
 plot(exam$Revise, exam$Exam, pch=16, col=rgb(0, 0, 0, 0.5))
@@ -297,7 +287,7 @@ abline(lm(exam$Anxiety ~ exam$Revise), col="blue")
 ```
 
 :::{.callout-tip}
-Bei mehreren Variablen (wie in diesem Beispiel) kann man die Funktion `pairs()` verwenden, um alle paarweisen Scatterplots gleichzeitig darzustellen:
+Bei mehreren Variablen (wie in diesem Beispiel) kann man die Funktion `pairs()` verwenden, um alle paarweisen Streudiagramme gleichzeitig darzustellen:
 
 ```{r}
 pairs(exam[, 2:4])
@@ -402,7 +392,7 @@ In der Datei [`pm10.csv`](pm10.csv) finden Sie die monatlichen Feinstaubwerte PM
 - Erstellen Sie eine Grafik, in der Sie den Verlauf der PM10-Konzentration von beiden Messstationen über die Zeit darstellen.
 - Erstellen Sie eine Grafik, in der Sie den Zusammenhang zwischen den beiden Messstationen darstellen.
 
-Berechnen Sie abschließend die Pearson-Korrelation zwischen den Daten beider Messstationen inklusive Konfidenzinterval sowie $p$-Wert. Wie viel Varianz der einen Variable kann durch die andere Variable erklärt werden?
+Berechnen Sie abschließend die Pearson-Korrelation zwischen den Daten beider Messstationen inklusive Konfidenzintervall sowie $p$-Wert. Wie viel Varianz der einen Variable kann durch die andere Variable erklärt werden?
 
 :::{.callout-note}
 Wandeln Sie die Spalte `Datum` nach dem Einlesen in einen Datums-Typ um. Für die gleichzeitige Darstellung der beiden Zeitverläufe können Sie zuerst eine Liniengrafik einer Variable erzeugen und dann mit der Funktion `lines()` den zweiten Zeitverlauf mit einer anderen Farbe hinzufügen.
@@ -413,4 +403,4 @@ Wenn Sie die Funktion `cor()` zur Berechnung der Korrelation zwischen den beiden
 
 ### Übung 5
 
-Berechnen Sie die Korrelation der Schnabellänge (`bill_length_mm`) mit der Schnabeltiefe (`bill_depth_mm`) im Datensatz `penguins` (aus dem Paket `palmerpenguins`). Berechnen Sie außerdem diese Korrelation für jede Spezies separat! Was stellen Sie fest?
+Berechnen Sie die Korrelation der Schnabellänge (`bill_len`) mit der Schnabeltiefe (`bill_dep`) im Datensatz `penguins`. Berechnen Sie außerdem diese Korrelation für jede Spezies separat! Was stellen Sie fest?
