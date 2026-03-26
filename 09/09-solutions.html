@@ -423,7 +423,7 @@ window.Quarto = {
       <div>
       <div class="quarto-title-meta-heading">Veröffentlicht</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">11. Dezember 2025</p>
+        <p class="date">11. Mai 2026</p>
       </div>
     </div>
     
@@ -584,41 +584,31 @@ sample estimates:
 <section id="übung-5" class="level2">
 <h2 class="anchored" data-anchor-id="übung-5">Übung 5</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(palmerpenguins)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>
-Attaching package: 'palmerpenguins'</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>The following objects are masked from 'package:datasets':
-
-    penguins, penguins_raw</code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(penguins<span class="sc">$</span>bill_length_mm, penguins<span class="sc">$</span>bill_depth_mm, <span class="at">use=</span><span class="st">"complete.obs"</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(penguins<span class="sc">$</span>bill_len, penguins<span class="sc">$</span>bill_dep, <span class="at">use=</span><span class="st">"complete.obs"</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] -0.2350529</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">by</span>(</span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>    penguins[, <span class="fu">c</span>(<span class="st">"bill_length_mm"</span>, <span class="st">"bill_depth_mm"</span>)],</span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>    penguins<span class="sc">$</span>species,</span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>    cor,</span>
-<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">use=</span><span class="st">"complete.obs"</span></span>
-<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">by</span>(</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>    penguins[, <span class="fu">c</span>(<span class="st">"bill_len"</span>, <span class="st">"bill_dep"</span>)],</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    penguins<span class="sc">$</span>species,</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>    cor,</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">use=</span><span class="st">"complete.obs"</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>penguins$species: Adelie
-               bill_length_mm bill_depth_mm
-bill_length_mm      1.0000000     0.3914917
-bill_depth_mm       0.3914917     1.0000000
+          bill_len  bill_dep
+bill_len 1.0000000 0.3914917
+bill_dep 0.3914917 1.0000000
 ------------------------------------------------------------------------------------------ 
 penguins$species: Chinstrap
-               bill_length_mm bill_depth_mm
-bill_length_mm      1.0000000     0.6535362
-bill_depth_mm       0.6535362     1.0000000
+          bill_len  bill_dep
+bill_len 1.0000000 0.6535362
+bill_dep 0.6535362 1.0000000
 ------------------------------------------------------------------------------------------ 
 penguins$species: Gentoo
-               bill_length_mm bill_depth_mm
-bill_length_mm      1.0000000     0.6433839
-bill_depth_mm       0.6433839     1.0000000</code></pre>
+          bill_len  bill_dep
+bill_len 1.0000000 0.6433839
+bill_dep 0.6433839 1.0000000</code></pre>
 </div>
 </div>
 

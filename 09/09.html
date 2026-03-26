@@ -423,7 +423,7 @@ window.Quarto = {
       <div>
       <div class="quarto-title-meta-heading">Veröffentlicht</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">11. Dezember 2025</p>
+        <p class="date">11. Mai 2026</p>
       </div>
     </div>
     
@@ -445,12 +445,7 @@ window.Quarto = {
 
 <section id="allgemeines" class="level2">
 <h2 class="anchored" data-anchor-id="allgemeines">Allgemeines</h2>
-<p>Oft ist es interessant zu fragen, ob zwei Variablen eine gegenseitige Abhängigkeit zeigen. Man möchte also wissen, ob sich die beiden Größen ähnlich verhalten oder nicht – wenn die eine Variable zunimmt, nimmt dann die andere auch zu? Oder ist es genau umgekehrt und sie nimmt dann immer ab? Die Korrelation ist ein einfaches und populäres Maß, um diese Fragestellungen zu beantworten.</p>
-<p>Dabei ist es aber wichtig zu wissen, dass kein kausaler Zusammenhang zwischen den beiden Variablen bestehen muss. Folgende Beispiele von <a href="http://www.tylervigen.com/spurious-correlations">Spurious Correlations</a> illustrieren die Gefahr der fehlerhaften Interpretation von Korrelationen. Im ersten Beispiel werden die Ausgaben für den Bereich Wissenschaft, Raumfahrt und Technik der USA im Zeitraum 1999–2009 dargestellt. Gleichzeitig werden die Anzahl der Selbstmorde durch Hängen, Strangulieren und Erstickung im selben Zeitraum gezeigt. Man sieht, dass beide Kurven einen sehr ähnlichen Verlauf haben, und der Korrelationskoeffizient (dazu später mehr) ist mit <span class="math inline">\(r=0.998\)</span> extrem hoch:</p>
-<p><img src="spurious1.png" class="img-fluid"></p>
-<p>Das zweite Beispiel zeigt den Zusammenhang zwischen der Anzahl an Personen, die in einen Pool gefallen und ertrunken sind und der Anzahl an Filmen mit Nicolas Cage im Zeitraum 1999–2009. Auch hier kann man einen schönen Zusammenhang erkennen, welcher einen recht hohen Korrelationskoeffizienten von <span class="math inline">\(r=0.666\)</span> aufweist:</p>
-<p><img src="spurious2.png" class="img-fluid"></p>
-<p>Diese Beispiele sollen verdeutlichen, dass Korrelation nicht automatisch einen kausalen Zusammenhang darstellt (<a href="https://de.wikipedia.org/wiki/Cum_hoc_ergo_propter_hoc">“correlation is not causation”</a>). Denn offensichtlich sind die gezeigten Beispiele rein zufällige Korrelationen, die in keinerlei kausalem Zusammenhang stehen.</p>
+<p>Oft ist es interessant zu fragen, ob zwei Variablen eine gegenseitige Abhängigkeit zeigen. Man möchte also wissen, ob sich die beiden Größen ähnlich verhalten oder nicht – wenn die eine Variable zunimmt, nimmt dann die andere auch zu? Oder ist es genau umgekehrt und sie nimmt dann immer ab? Die Korrelation ist ein einfaches und populäres Maß, um diese Fragestellungen zu beantworten. Aber Achtung: Korrelationen messen <em>keine</em> kausalen Zusammenhänge, sondern nur die Stärke eines Zusammenhangs zwischen zwei Variablen.</p>
 </section>
 <section id="produkt-moment-korrelation-pearson-korrelation" class="level2">
 <h2 class="anchored" data-anchor-id="produkt-moment-korrelation-pearson-korrelation">Produkt-Moment-Korrelation (Pearson-Korrelation)</h2>
@@ -461,7 +456,7 @@ window.Quarto = {
 <p><span class="math display">\[\bar{x} = \frac{1}{N} \sum_{i=1}^N x_i.\]</span></p>
 <p>Alternativ kann man die Varianz auch so schreiben (das Quadrat wird explizit als Multiplikation angeschrieben):</p>
 <p><span class="math display">\[\mathrm{Var}(x) = \frac{1}{N-1} \sum_{i=1}^N (x_i - \bar{x})(x_i - \bar{x})\]</span></p>
-<p>Die Varianz beschreibt, wie stark die Datenpunkte um deren Mittelwert variieren (streuen). Dementsprechend ist die Kovarianz zwischen zwei Variablen <span class="math inline">\(x\)</span> und <span class="math inline">\(y\)</span> definiert als</p>
+<p>Die Varianz beschreibt, wie stark die Datenpunkte um ihren Mittelwert variieren (streuen). Dementsprechend ist die Kovarianz zwischen zwei Variablen <span class="math inline">\(x\)</span> und <span class="math inline">\(y\)</span> definiert als</p>
 <p><span class="math display">\[\mathrm{Cov}(x, y) = \frac{1}{N-1} \sum_{i=1}^N (x_i - \bar{x})(y_i - \bar{y}).\]</span></p>
 <p>Die Kovarianz beschreibt, wie stark die beiden Variablen gemeinsam um den jeweiligen Mittelwert variieren. Eine positive Kovarianz bedeutet, dass beide Variablen gleichsinnig variieren (d.h. wenn eine Variable größer als ihr Mittelwert ist, dann ist die andere auch größer). Umgekehrt bedeutet eine negative Kovarianz, dass beide Variablen gegensinnig variieren (ist eine Variable größer als ihr Mittelwert, dann ist die andere Variable kleiner).</p>
 <p>Die Kovarianz ist kein standardisiertes Maß, d.h. man kann nicht einfach zwei Kovarianzen aus unterschiedlichen Messreihen miteinander vergleichen, da sie von der Skalierung der beiden Variablen abhängt. Die Pearson-Korrelation standardisiert nun die Kovarianz mit den Varianzen der einzelnen Variablen und stellt somit sicher, dass die Korrelation im Wertebereich zwischen −1 und 1 liegt:</p>
@@ -475,7 +470,7 @@ x &amp;= (8, 1, -4, 5, 6, 10, 9) \\
 y &amp;= (-2, -5, -6, 0, 3, 7, 10)
 \end{aligned}
 \]</span></p>
-<p>Wir können diese sieben Datenpunkte in einem Scatterplot visualisieren:</p>
+<p>Wir können diese sieben Datenpunkte in einem Streudiagramm visualisieren:</p>
 <div class="cell">
 <div class="cell-output-display">
 <div>
@@ -510,7 +505,7 @@ y &amp;= (-2, -5, -6, 0, 3, 7, 10)
 \end{aligned}
 \]</span></p>
 <p>Um die Pearson-Korrelation zu erhalten, müssen wir noch diese Größen laut Formel verarbeiten und erhalten somit:</p>
-<p><span class="math display">\[r = \frac{24.\dot{3}}{\sqrt{24.\dot{6} \cdot 36}} = 0.8165732\]</span></p>
+<p><span class="math display">\[r = \frac{24.\dot{3}}{\sqrt{24.\dot{6} \cdot 36}} \approx 0.8166\]</span></p>
 </section>
 <section id="signifikanz" class="level3">
 <h3 class="anchored" data-anchor-id="signifikanz">Signifikanz</h3>
@@ -596,7 +591,7 @@ Hinweis
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Das Konfidenzintervall gibt an, in welchem Bereich der wahre Wert der Korrelation mit einer gegebenen Sicherheit (Konfidenz) liegt. Die Konfidenz ist <em>nicht</em> die <em>Wahrscheinlichkeit</em>, dass der wahre Wert in dem berechneten Intervall liegt – denn der wahre Wert ist entweder in dem Intervall oder nicht. Wenn man viele Stichproben ziehen würde und damit jedes Mal ein Konfidenzintervall berechnen würde, dann würde im Falle eines 95%-Konfidenzintervalls in 95% der berechneten Fälle der wahre Wert in dem Intervall liegen.</p>
+<p>Das Konfidenzintervall gibt an, in welchem Bereich der wahre Wert der Korrelation mit einer gegebenen Sicherheit (Konfidenz) liegt. Die Konfidenz ist <em>nicht</em> die <em>Wahrscheinlichkeit</em>, dass der wahre Wert in dem berechneten Intervall liegt – denn der wahre Wert ist entweder in dem Intervall oder nicht. Wenn man viele Stichproben erheben und damit jedes Mal ein Konfidenzintervall berechnen würde, dann würde im Falle eines 95%-Konfidenzintervalls in 95% der berechneten Intervalle der wahre Wert in dem Intervall liegen.</p>
 </div>
 </div>
 <div class="callout callout-style-default callout-tip callout-titled">
@@ -727,7 +722,7 @@ Tipp
 # ℹ 93 more rows</code></pre>
 </div>
 </div>
-<p>Es ist hilfreich, die Daten zuerst einmal grafisch darzustellen. Für den Zusammenhang zwischen zwei Variablen bietet sich ein Scatterplot (inklusive Regressionsgeraden) an – so kann man die Korrelation direkt visualisieren. Wir können eine solche Grafik zunächst einmal separat für alle drei Kombinationen erzeugen:</p>
+<p>Es ist hilfreich, die Daten zuerst einmal grafisch darzustellen. Für den Zusammenhang zwischen zwei Variablen bietet sich ein Streudiagramm (inklusive Regressionsgeraden) an – so kann man die Korrelation direkt visualisieren. Wir können eine solche Grafik zunächst einmal separat für alle drei Kombinationen erzeugen:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(exam<span class="sc">$</span>Revise, exam<span class="sc">$</span>Exam, <span class="at">pch=</span><span class="dv">16</span>, <span class="at">col=</span><span class="fu">rgb</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="fl">0.5</span>))</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="fu">lm</span>(exam<span class="sc">$</span>Exam <span class="sc">~</span> exam<span class="sc">$</span>Revise), <span class="at">col=</span><span class="st">"blue"</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
@@ -767,7 +762,7 @@ Tipp
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Bei mehreren Variablen (wie in diesem Beispiel) kann man die Funktion <code>pairs()</code> verwenden, um alle paarweisen Scatterplots gleichzeitig darzustellen:</p>
+<p>Bei mehreren Variablen (wie in diesem Beispiel) kann man die Funktion <code>pairs()</code> verwenden, um alle paarweisen Streudiagramme gleichzeitig darzustellen:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pairs</span>(exam[, <span class="dv">2</span><span class="sc">:</span><span class="dv">4</span>])</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
@@ -951,7 +946,7 @@ sample estimates:
 <li>Erstellen Sie eine Grafik, in der Sie den Verlauf der PM10-Konzentration von beiden Messstationen über die Zeit darstellen.</li>
 <li>Erstellen Sie eine Grafik, in der Sie den Zusammenhang zwischen den beiden Messstationen darstellen.</li>
 </ul>
-<p>Berechnen Sie abschließend die Pearson-Korrelation zwischen den Daten beider Messstationen inklusive Konfidenzinterval sowie <span class="math inline">\(p\)</span>-Wert. Wie viel Varianz der einen Variable kann durch die andere Variable erklärt werden?</p>
+<p>Berechnen Sie abschließend die Pearson-Korrelation zwischen den Daten beider Messstationen inklusive Konfidenzintervall sowie <span class="math inline">\(p\)</span>-Wert. Wie viel Varianz der einen Variable kann durch die andere Variable erklärt werden?</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -969,7 +964,7 @@ Hinweis
 </section>
 <section id="übung-5" class="level3">
 <h3 class="anchored" data-anchor-id="übung-5">Übung 5</h3>
-<p>Berechnen Sie die Korrelation der Schnabellänge (<code>bill_length_mm</code>) mit der Schnabeltiefe (<code>bill_depth_mm</code>) im Datensatz <code>penguins</code> (aus dem Paket <code>palmerpenguins</code>). Berechnen Sie außerdem diese Korrelation für jede Spezies separat! Was stellen Sie fest?</p>
+<p>Berechnen Sie die Korrelation der Schnabellänge (<code>bill_len</code>) mit der Schnabeltiefe (<code>bill_dep</code>) im Datensatz <code>penguins</code>. Berechnen Sie außerdem diese Korrelation für jede Spezies separat! Was stellen Sie fest?</p>
 
 
 </section>
