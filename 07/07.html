@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="de" xml:lang="de"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.9.36">
+<meta name="generator" content="quarto-1.8.26">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -10,9 +10,6 @@
 
 <title>7 – Datenaufbereitung – Statistische Datenanalyse mit R</title>
 <style>
-/* Default styles provided by pandoc.
-** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
-*/
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
 div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -71,18 +68,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <meta name="quarto:offset" content="../">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-a06763021a52c43c40a351ac8b799b8f.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-dbc92dda8186f57fa2e333fbb71d6a9d.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-a06763021a52c43c40a351ac8b799b8f.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-597958c53c93a607afca12fd375c57ed.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-7ac2f9da8c2617a4fdd15004b4601015.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-597958c53c93a607afca12fd375c57ed.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-c6344c862f46cf6a68a6928f4c326ca4.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-a4cc7722e2170b143ab83d7d6445229a.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../site_libs/bootstrap/bootstrap-c6344c862f46cf6a68a6928f4c326ca4.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-94a11f9d2ef63b4d3e14a49c60b54d86.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-31dd7b97cc2105c3f43b9904fe8c5fac.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-94a11f9d2ef63b4d3e14a49c60b54d86.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <link href="../site_libs/quarto-contrib/academicons-1.9.2/all.css" rel="stylesheet">
 <link href="../site_libs/quarto-contrib/academicons-1.9.2/size.css" rel="stylesheet">
 <link href="../site_libs/quarto-contrib/fontawesome6-0.1.0/all.css" rel="stylesheet">
@@ -396,7 +394,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <div>
       <div class="quarto-title-meta-heading">Veröffentlicht</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">27. November 2025</p>
+        <p class="date">27. April 2026</p>
       </div>
     </div>
     
@@ -418,8 +416,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="daten-umformen" class="level2">
 <h2 class="anchored" data-anchor-id="daten-umformen">Daten umformen</h2>
-<p>Es gibt in der Praxis (mindestens) zwei verschiedene Möglichkeiten, ein und dieselben Daten in einer Tabelle darzustellen, und zwar entweder im Wide-Format oder im Long-Format. Zur Berechnung deskriptiver Statistiken eignet sich das Wide-Format besser, das Long-Format ist aber bei anderen Aufgabenstellungen notwendig. Deswegen ist es sinnvoll, wenn man weiß, wie man die eine Darstellung in die andere umwandeln kann.</p>
-<p>Bei Daten im Wide-Format gibt es für jede Variable eine eigene Spalte. Daten im Long-Format haben nur eine Spalte, die alle Werte beinhaltet, und eine oder mehrere Spalte(n) mit Indikator-Variablen, welche den Kontext der Werte definieren. Die folgende Tabelle zeigt Beispieldaten im Wide-Format:</p>
+<p>Es gibt in der Praxis zwei gängige Möglichkeiten, ein und dieselben Daten in einer Tabelle darzustellen, und zwar entweder im Wide-Format oder im Long-Format. Zur Berechnung deskriptiver Statistiken eignet sich das Wide-Format besser, das Long-Format ist aber bei anderen Aufgabenstellungen notwendig. Deswegen ist es sinnvoll, wenn man weiß, wie man die eine Darstellung in die andere umwandeln kann.</p>
+<p>Bei Daten im Wide-Format gibt es für jede Variable eine eigene Spalte. Daten im Long-Format haben nur eine Werte-Spalte und eine oder mehrere Spalte(n) mit Indikator-Variablen, welche den Kontext der Werte definieren. Die folgende Tabelle zeigt Beispieldaten im Wide-Format:</p>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -450,7 +448,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 </tbody>
 </table>
-<p>Man sieht, dass es drei Wertespalten gibt (<code>Age</code>, <code>Weight</code> und <code>Height</code>), sowie eine Spalte, welche die Person identifiziert (<code>Person</code>). Dieselben Daten sehen im Long-Format so aus (man beachte, dass es nur eine einzige Werte-Spalte namens <code>Value</code> gibt):</p>
+<p>Man sieht, dass es drei Wertespalten gibt (<code>Age</code>, <code>Weight</code> und <code>Height</code>), sowie eine Spalte, welche die Person identifiziert (<code>Person</code>). Dieselben Daten sehen im Long-Format so aus (es gibt nur eine einzige Werte-Spalte namens <code>Value</code>):</p>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -551,8 +549,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 9 Sue    Height     174</code></pre>
 </div>
 </div>
-<p>Hier übergibt man zuerst die Daten im Wide-Format (<code>df</code>), gefolgt von einer Auswahl der (Werte-)Spalten, die man ins Long-Format bringen möchte – in unserem Beispiel sind das die Spalten von <code>Age</code> bis <code>Height</code>. Für diese Spaltenauswahl kann man die Spaltennamen ohne Anführungszeichen schreiben, und auch der Doppelpunkt funktioniert wie bei Zahlensequenzen. Man könnte hier auch die Indizes der Spalten verwenden, also <code>2:4</code> statt <code>Age:Height</code>. Schließlich gibt man mit <code>names_to</code> den gewünschten Namen der Indikatorspalte an (im Beispiel soll diese also <code>Variable</code> heißen) und mit <code>values_to</code> den Namen der neuen Werte-Spalte (<code>Value</code>).</p>
-<p>Der umgekehrte Weg wird mit <code>pivot_wider()</code> beschritten; diese Funktion kann eine Variable auf mehrere Spalten aufteilen, d.h. vom Long-Format ins Wide-Format konvertieren:</p>
+<p>Hier übergibt man zuerst die Daten im Wide-Format (<code>df</code>), gefolgt von einer Auswahl der (Werte-)Spalten, die man ins Long-Format bringen möchte – in unserem Beispiel sind das die Spalten von <code>Age</code> bis <code>Height</code>. Für diese Spaltenauswahl kann man die Spaltennamen ohne Anführungszeichen schreiben, und auch der Doppelpunkt funktioniert wie bei Zahlensequenzen (man könnte hier auch die Indizes der Spalten verwenden, also <code>2:4</code> statt <code>Age:Height</code>). Schließlich gibt man mit <code>names_to</code> den gewünschten Namen der Indikatorspalte an (im Beispiel soll diese also <code>Variable</code> heißen) und mit <code>values_to</code> den Namen der neuen Werte-Spalte (hier also <code>Value</code>).</p>
+<p>Der umgekehrte Weg wird mit <code>pivot_wider()</code> beschritten; diese Funktion kann also vom Long-Format ins Wide-Format konvertieren:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>(<span class="at">df_wide =</span> <span class="fu">pivot_wider</span>(</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    df_long,</span>
@@ -620,7 +618,7 @@ Hinweis
 3 Ann      75     66    159 f    </code></pre>
 </div>
 </div>
-<p>Diese Schreibweise ist für Data Frames aber relativ unübersichtlich, vor allem weil man das zugrundeliegende Data Frame <code>df</code> zwei Mal schreiben muss. Glücklicherweise gibt es aber eine intuitivere Alternative durch die Funktion <code>subset()</code>. Diese Funktion kann, wie der Name bereits andeutet, Untermengen (Subsets) von bestehenden Vektoren bzw. Data Frames erzeugen. Im Falle eines Data Frames bedeutet das, dass man eine Untermenge der Zeilen und/oder Spalten auswählen kann.</p>
+<p>Diese Schreibweise ist für Data Frames aber relativ unübersichtlich, vor allem weil man das zugrundeliegende Data Frame <code>df</code> zwei Mal schreiben muss. Glücklicherweise gibt es aber eine intuitive Alternative durch die Funktion <code>subset()</code>. Diese Funktion kann, wie der Name bereits andeutet, Untermengen (Subsets) von bestehenden Vektoren bzw. Data Frames erzeugen. Im Falle eines Data Frames bedeutet das, dass man eine Untermenge der Zeilen und/oder Spalten auswählen kann.</p>
 <p>Beginnen wir mit der Auswahl von Zeilen (man bezeichnet diese Operation auch als “filtern”). Hier übergibt man der Funktion <code>subset()</code> als erstes Argument das ursprüngliche Data Frame. Das zweite Argument (welches <code>subset</code> heißt, nicht zu verwechseln mit dem Funktionsnamen) bestimmt dann, welche Zeilen ausgewählt (gefiltert) werden sollen. Das obige Beispiel kann damit wie folgt angeschrieben werden:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">subset</span>(df, sex <span class="sc">==</span> <span class="st">"f"</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
@@ -644,7 +642,7 @@ Hinweis
 1 Ann      75     66    159 f    </code></pre>
 </div>
 </div>
-<p>Hier kann man also alle möglichen Vergleiche bzw. Verknüpfungsoperatoren (<code>&amp;</code> und, <code>|</code> oder, <code>xor()</code> <a href="https://de.wikipedia.org/wiki/Kontravalenz">exklusives oder</a>) verwenden.</p>
+<p>Hier kann man also alle möglichen Vergleiche bzw. Verknüpfungsoperatoren (wie z.B. <code>&amp;</code> und <code>|</code>) verwenden.</p>
 </section>
 <section id="spalten-selektieren-mit-subset" class="level2">
 <h2 class="anchored" data-anchor-id="spalten-selektieren-mit-subset">Spalten selektieren mit <code>subset()</code></h2>
@@ -723,7 +721,7 @@ Hinweis
 6    28      NA 14.9   66     5   6</code></pre>
 </div>
 </div>
-<p>Die Temperaturen in der <code>Temp</code>-Spalte sind in Fahrenheit angegeben. Wir können nun eine neue Spalte namens <code>celsius</code> hinzufügen, indem wir die vorhandene <code>Temp</code>-Spalte wie folgt transformieren:</p>
+<p>Die Temperaturen in der <code>Temp</code>-Spalte sind in Grad Fahrenheit angegeben. Wir können nun eine neue Spalte namens <code>celsius</code> hinzufügen, indem wir die vorhandene <code>Temp</code>-Spalte wie folgt transformieren:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>aq <span class="ot">=</span> <span class="fu">transform</span>(airquality, <span class="at">celsius=</span>(Temp <span class="sc">-</span> <span class="dv">32</span>) <span class="sc">*</span> (<span class="dv">5</span><span class="sc">/</span><span class="dv">9</span>))</span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(aq)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
@@ -737,7 +735,7 @@ Hinweis
 6    28      NA 14.9   66     5   6 18.88889</code></pre>
 </div>
 </div>
-<p>Beachten Sie, dass wir in der Transformation vorhandene Spalten wieder direkt verwenden können (im Beispiel <code>Temp</code>), ohne Anführungszeichen oder <code>airquality$</code> verwenden zu müssen. Außerdem wird immer ein <em>neues</em> Data Frame erzeugt; Sie könnten dieses aber dem ursprünglichen Namen zuweisen, wenn Sie möchten (also <code>airquality</code> in obigem Beispiel statt <code>aq</code>).</p>
+<p>Beachten Sie, dass wir in der Transformation vorhandene Spalten wieder direkt verwenden können (im Beispiel <code>Temp</code>), ohne Anführungszeichen oder <code>airquality$</code> verwenden zu müssen. Außerdem wird immer ein <em>neues</em> Data Frame erzeugt; Sie könnten dieses aber dem ursprünglichen Namen zuweisen wenn Sie möchten (also <code>airquality</code> in obigem Beispiel statt <code>aq</code>).</p>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -777,10 +775,10 @@ Tipp
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Der Pipe-Operator zieht also das <em>erste</em> Argument vor den Funktionsaufruf hinaus.</p>
+<p>Der Pipe-Operator zieht also das <em>erste Argument</em> vor den Funktionsaufruf hinaus.</p>
 </div>
 </div>
-<p>Das macht in diesem Beispiel natürlich wenig Sinn, denn hier ist <code>mean(x)</code> wesentlich kürzer und einfacher lesbar. Interessant wird es aber dann, wenn man das Ergebnis eines Funktionsaufrufes direkt als Argument für einen weiteren Funktionsaufruf verwenden will. Klassisch würde man dies so anschreiben:</p>
+<p>Das macht in diesem Beispiel natürlich wenig Sinn, denn hier ist <code>mean(x)</code> wesentlich kürzer und einfacher lesbar. Interessant wird es aber dann, wenn man das Ergebnis eines Funktionsaufrufs direkt als Argument für einen weiteren Funktionsaufruf verwenden will. Klassisch würde man dies so anschreiben:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">g</span>(<span class="fu">f</span>(x))</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Hier ist es schon schwieriger zu sehen, in welcher Reihenfolge die Berechnung eigentlich durchgeführt wird: zuerst wird <code>f(x)</code> berechnet, und dessen Ergebnis wird als Argument für die Funktion <code>g()</code> übergeben. R führt die Berechnungen also von innen nach außen durch. Mit dem Pipe-Operator würde dieselbe Operation wie folgt aussehen:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>x <span class="sc">|&gt;</span> <span class="fu">f</span>() <span class="sc">|&gt;</span> <span class="fu">g</span>()</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
@@ -860,7 +858,7 @@ Hinweis
 <pre><code>[1] 28.83513</code></pre>
 </div>
 </div>
-<p>Abschließend ist noch anzumerken, dass das <a href="https://www.tidyverse.org/">Tidyverse</a> wesentlich mehr Funktionen bietet, die mit dem Pipe-Operator elegant miteinander verbunden werden können. Insbesonders gruppierte zusammenfassende Statistiken (z.B. die mittleren Temperaturen für alle Monate) werden dadurch ähnlich intuitiv möglich wie in den hier gezeigten Beispielen. Mit Base-R ist dies zwar auch möglich, aber nicht in dieser einheitlichen Pipeline-Form.</p>
+<p>Abschließend ist noch anzumerken, dass das <a href="https://www.tidyverse.org/">Tidyverse</a> wesentlich mehr Funktionen bietet, die mit dem Pipe-Operator elegant miteinander verbunden werden können. Insbesondere gruppierte zusammenfassende Statistiken (z.B. die mittleren Temperaturen für alle Monate) werden dadurch ähnlich intuitiv möglich wie in den hier gezeigten Beispielen. Mit Base-R ist dies zwar auch möglich, aber nicht in dieser einheitlichen Pipeline-Form.</p>
 </section>
 <section id="übungen" class="level2">
 <h2 class="anchored" data-anchor-id="übungen">Übungen</h2>
