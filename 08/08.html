@@ -394,7 +394,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <div>
       <div class="quarto-title-meta-heading">Veröffentlicht</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">4. Dezember 2025</p>
+        <p class="date">4. Mai 2026</p>
       </div>
     </div>
     
@@ -417,7 +417,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="allgemeines" class="level2">
 <h2 class="anchored" data-anchor-id="allgemeines">Allgemeines</h2>
 <p>In R gibt es mehrere Pakete, mit denen man Daten grafisch darstellen kann. Grafiken, welche mit unterschiedlichen Paketen erstellt wurden, lassen sich aber nicht miteinander kombinieren. Deshalb entscheidet man sich typischerweise vor der Erstellung einer Grafik für das zu verwendende Grafikpaket.</p>
-<p>Das <code>graphics</code>-Paket wird auch als Base-Plotting-System bezeichnet. Es ist Teil von R und muss nicht extra installiert werden. Das Base-Plotting-System eignet sich sehr gut für schnelle Visualisierungen – mit etwas Aufwand kann man aber auch schöne Grafiken für Publikationen erstellen.</p>
+<p>Das <code>graphics</code>-Paket wird auch als Base-Plotting-System bezeichnet. Es ist Teil von R und muss nicht extra installiert werden. Das Base-Plotting-System eignet sich sehr gut für schnelle Visualisierungen – und mit etwas Aufwand kann man auch schöne Grafiken für Publikationen erstellen.</p>
 <p>Für die folgenden Beispiele verwenden wir den in R enthaltenen <code>airquality</code>-Datensatz (eine kurze Beschreibung kann man dem Hilfetext <code>?airquality</code> entnehmen):</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(airquality)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
@@ -435,7 +435,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="die-plot-funktion" class="level2">
 <h2 class="anchored" data-anchor-id="die-plot-funktion">Die <code>plot()</code>-Funktion</h2>
 <p>Eine der wichtigsten Funktionen im Base-Plotting-System ist <code>plot()</code>. Diese Funktion erstellt passende Visualisierungen in Abhängigkeit von den darzustellenden Daten.</p>
-<p>Wenn man einen numerischen Vektor übergibt, erhält man eine Punktgrafik. Auf der x-Achse wird der Index der Datenpunkte dargestellt, auf der y-Achse die Datenwerte:</p>
+<p>Wenn man <em>einen numerischen</em> Vektor übergibt, erhält man eine Punktgrafik. Auf der x-Achse wird der Index der Datenpunkte dargestellt, auf der y-Achse die Datenwerte:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(airquality<span class="sc">$</span>Ozone)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
@@ -446,7 +446,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<p>Wenn man zwei numerische Vektoren übergibt, erhält man einen sogenannten Scatterplot. Das erste Argument wird auf der x-Achse und das zweite Argument wird auf der y-Achse dargestellt:</p>
+<p>Wenn man <em>zwei numerische</em> Vektoren übergibt, erhält man ein Streudiagramm (Scatterplot). Das erste Argument wird auf der x-Achse und das zweite Argument wird auf der y-Achse dargestellt:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(airquality<span class="sc">$</span>Wind, airquality<span class="sc">$</span>Ozone)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
@@ -457,7 +457,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<p>Auch mit Datumswerten kann <code>plot()</code> umgehen. Erstellen wir zunächst aus den beiden Spalten <code>Month</code> und <code>Day</code> eine neue Spalte namens <code>date</code> (aus der Beschreibung der Daten kann man entnehmen, dass diese im Jahr 1973 aufgezeichnet wurden):</p>
+<p>Auch mit Datumswerten kann <code>plot()</code> umgehen. Erstellen wir zunächst aus den beiden numerischen Spalten <code>Month</code> und <code>Day</code> eine neue Spalte namens <code>date</code> (aus der Beschreibung der Daten kann man entnehmen, dass diese im Jahr 1973 aufgezeichnet wurden):</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>airquality<span class="sc">$</span>date <span class="ot">=</span> <span class="fu">as.Date</span>(</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">paste</span>(airquality<span class="sc">$</span>Month, airquality<span class="sc">$</span>Day, <span class="st">"1973"</span>),</span>
@@ -490,7 +490,7 @@ Tipp
 </div>
 </div>
 </div>
-<p>Das Ergebnis sieht also so aus:</p>
+<p>Das Ergebnis der <code>paste()</code>-Funktion ist also folgender Character-Vektor:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">paste</span>(airquality<span class="sc">$</span>Month, airquality<span class="sc">$</span>Day, <span class="st">"1973"</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -531,7 +531,7 @@ Tipp
 </div>
 </div>
 </div>
-<p>Übergibt man der Funktion einen Faktor, wird automatisch eine Balkengrafik mit den Häufigkeiten der einzelnen Stufen erzeugt:</p>
+<p>Übergibt man der <code>plot()</code>-Funktion einen <em>Faktor</em>, wird automatisch eine Balkengrafik mit den Häufigkeiten der einzelnen Stufen erzeugt:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">factor</span>(airquality<span class="sc">$</span>Month))</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
@@ -545,7 +545,7 @@ Tipp
 </section>
 <section id="histogramme" class="level2">
 <h2 class="anchored" data-anchor-id="histogramme">Histogramme</h2>
-<p>Die Funktion <code>hist()</code> erstellt ein Histogramm eines Vektors:</p>
+<p>Die Funktion <code>hist()</code> erstellt ein Histogramm eines (numerischen) Vektors:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(airquality<span class="sc">$</span>Ozone)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
@@ -577,13 +577,13 @@ Hinweis
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Das Argument <code>breaks</code> ist nur eine Empfehlung – die tatsächliche Anzahl an Balken wird so adaptiert, dass die Grafik immer noch übersichtlich darzustellen ist.</p>
+<p>Das Argument <code>breaks</code> ist nur eine Empfehlung – die tatsächliche Anzahl an Balken wird so adaptiert, dass die Grafik immer noch übersichtlich dargestellt wird.</p>
 </div>
 </div>
 </section>
 <section id="boxplots" class="level2">
 <h2 class="anchored" data-anchor-id="boxplots">Boxplots</h2>
-<p>Eine weitere Möglichkeit, die Verteilung von Werten grafisch darzustellen, bietet die Funktion <code>boxplot()</code>. Ein Boxplot zeigt den Median, den Interquartilsabstand (IQR) sowie das Minimum und das Maximum (plus eventuelle Ausreißer) der Daten.</p>
+<p>Eine weitere Möglichkeit, die Verteilung von Werten grafisch darzustellen, bietet die Funktion <code>boxplot()</code>. Ein Boxplot zeigt den Median, den <a href="https://de.wikipedia.org/wiki/Interquartilsabstand_(deskriptive_Statistik)">Interquartilsabstand (IQR)</a> sowie das Minimum und das Maximum (plus eventuelle Ausreißer) der Daten.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(airquality<span class="sc">$</span>Temp)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
@@ -594,7 +594,7 @@ Hinweis
 </div>
 </div>
 </div>
-<p>Ein einzelner Boxplot ist für sich noch relativ wenig hilfreich. Wenn man statt eines Vektors eine sogenannte <em>Formel</em> angibt, kann man mehrere Boxplots in einer Grafik darstellen.</p>
+<p>Ein einzelner Boxplot ist aber relativ wenig hilfreich. Wenn man statt eines Vektors eine sogenannte <em>Formel</em> angibt, kann man mehrere Boxplots in einer Grafik darstellen.</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -605,7 +605,7 @@ Hinweis
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Eine Formel in R wird durch das Tilde-Zeichen (<code>~</code>) definiert, mit jeweiligen Ausdrücken links bzw. rechts davon. Ein Beispiel für eine Formel ist <code>y ~ x</code> mit <code>y</code> auf der linken Seite und <code>x</code> auf der rechten Seite. Die Bedeutung einer Formel hängt von der jeweiligen Funktion ab. Viele Funktionen verlangen Formeln als Argumente, wir werden dies vor allem bei der Berechnung von linearen Modellen intensiv nutzen.</p>
+<p>Eine Formel in R wird durch das Tilde-Zeichen (<code>~</code>) definiert, mit Ausdrücken links bzw. rechts davon. Ein Beispiel für eine Formel ist <code>y ~ x</code> mit <code>y</code> auf der linken Seite und <code>x</code> auf der rechten Seite. Die Bedeutung einer Formel hängt von der jeweiligen Funktion ab. Viele Funktionen verlangen Formeln als Argumente, wir werden dies vor allem bei der Berechnung von linearen Modellen intensiv nutzen.</p>
 </div>
 </div>
 <p>Im folgenden Beispiel werden Boxplots für <code>airquality$Temp</code> in Abhängigkeit von <code>airquality$Month</code> dargestellt:</p>
@@ -623,7 +623,7 @@ Hinweis
 </section>
 <section id="grafiken-anpassen" class="level2">
 <h2 class="anchored" data-anchor-id="grafiken-anpassen">Grafiken anpassen</h2>
-<p>Oft möchte man diverse Eigenschaften von Grafiken anpassen, wie z.B. die verwendete Linienart, Farben, Symbole, Titel, Achsenbeschriftungen, und so weiter. Viele Parameter kann man bereits bei der Erstellung der Grafik als Argument übergeben. Eine angepasste Version des Scatterplot-Beispiels von oben ist:</p>
+<p>Oft möchte man diverse Eigenschaften von Grafiken anpassen, wie z.B. die verwendete Linienart, Farben, Symbole, Titel, Achsenbeschriftungen, und so weiter. Viele Parameter kann man bereits bei der Erstellung der Grafik als Argument übergeben. Eine angepasste Version des Streudiagramms von früher könnte man wie folgt erstellen:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(</span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>    airquality<span class="sc">$</span>Wind,</span>
@@ -830,7 +830,19 @@ Tipp
 </div>
 </div>
 </div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Hinweis
+</div>
+</div>
+<div class="callout-body-container callout-body">
 <p>Hier übergibt man die Linie in Form einer Geradengleichung, die man mit der Funktion <code>lm()</code> berechnen kann – mehr zu dieser Funktion werden wir später bei den Regressionsmodellen kennenlernen. Im Moment reicht es zu wissen, dass diese Funktion eine Formel der Form <code>y ~ x</code> erwartet, d.h. man gibt die diesen Variablen entsprechenden Spaltennamen der y- bzw. x-Achsen an.</p>
+</div>
+</div>
 <p>Text und Pfeile kann man mit <code>text()</code> bzw. <code>arrows()</code> hinzufügen:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(airquality, <span class="fu">plot</span>(Wind, Ozone, <span class="at">main=</span><span class="st">""</span>, <span class="at">pch=</span><span class="dv">20</span>))</span>
@@ -870,7 +882,7 @@ Tipp
 </div>
 </div>
 </div>
-<p>Noch besser ist es, wenn man zusätzlich die Rohdaten in die Grafik aufnimmt (dies wird mit der Funktion <code>stripchart()</code> bewerkstelligt):</p>
+<p>Noch besser ist es, wenn man zusätzlich die <em>Rohdaten</em> in die Grafik aufnimmt (dies wird mit der Funktion <code>stripchart()</code> bewerkstelligt):</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(airquality<span class="sc">$</span>Ozone)</span>
 <span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="fu">stripchart</span>(</span>
@@ -888,6 +900,7 @@ Tipp
 </div>
 </div>
 </div>
+<p>So kann man neben den statistischen Größen (wie Median, IQR, etc.) auch die tatsächlichen Werte der Datenpunkte sehen.</p>
 <p>Beachten Sie, dass <code>add=TRUE</code> übergeben werden muss, wenn man die Punkte von <code>stripchart()</code> zu einer existierenden Grafik hinzufügen möchte (sonst wird eine neue Grafik erzeugt). Man könnte hier auch noch weitere Verbesserungen (wie z.B. <code>method="jitter"</code>) vornehmen.</p>
 <p>Ein komplettes Beispiel der Boxplots der einzelnen Monate würde wie folgt aussehen:</p>
 <div class="cell">
@@ -994,11 +1007,11 @@ Hinweis
 <h2 class="anchored" data-anchor-id="übungen">Übungen</h2>
 <section id="übung-1" class="level3">
 <h3 class="anchored" data-anchor-id="übung-1">Übung 1</h3>
-<p>Laden Sie den Datensatz <code>penguins</code> aus dem Paket <code>palmerpenguins</code> und erstellen Sie einen Scatterplot der Spalten <code>bill_length_mm</code> auf der x-Achse und <code>bill_depth_mm</code> auf der y-Achse. Beschriften Sie die Achsen mit aussagekräftigen Bezeichnungen.</p>
+<p>Erstellen Sie aus dem <code>penguins</code>-Datensatz ein Streudiagramm der Spalten <code>bill_length_mm</code> auf der x-Achse und <code>bill_depth_mm</code> auf der y-Achse. Beschriften Sie die Achsen mit aussagekräftigen Bezeichnungen.</p>
 </section>
 <section id="übung-2" class="level3">
 <h3 class="anchored" data-anchor-id="übung-2">Übung 2</h3>
-<p>Erstellen Sie den Scatterplot aus Übung 1 noch einmal, aber stellen Sie diesmal die Punkte der drei Spezies in unterschiedlichen Farben dar. Fügen Sie außerdem eine entsprechende Legende hinzu. Sie können z.B. zuerst einen leeren Plot mit dem Argument <code>type="n"</code> erstellen und dann mit <code>points()</code> nacheinander die Punkte der drei Spezies in unterschiedlichen Farben hinzufügen.</p>
+<p>Erstellen Sie das Streudiagramm aus Übung 1 noch einmal, aber stellen Sie diesmal die Punkte der drei Spezies in unterschiedlichen Farben dar. Fügen Sie außerdem eine entsprechende Legende hinzu. Sie können z.B. zuerst einen leeren Plot mit dem Argument <code>type="n"</code> erstellen und dann mit <code>points()</code> nacheinander die Punkte der drei Spezies in unterschiedlichen Farben hinzufügen.</p>
 </section>
 <section id="übung-3" class="level3">
 <h3 class="anchored" data-anchor-id="übung-3">Übung 3</h3>

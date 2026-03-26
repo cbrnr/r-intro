@@ -435,7 +435,7 @@ Residuals:
 
 Coefficients:
              Estimate Std. Error t value Pr(&gt;|t|)    
-(Intercept) 3.774e-16  4.126e-02   0.000        1    
+(Intercept) 3.467e-16  4.126e-02   0.000        1    
 adverts     5.108e-01  4.166e-02  12.261  &lt; 2e-16 ***
 airplay     5.120e-01  4.223e-02  12.123  &lt; 2e-16 ***
 attract     1.917e-01  4.215e-02   4.548 9.49e-06 ***
@@ -449,7 +449,7 @@ F-statistic: 129.5 on 3 and 196 DF,  p-value: &lt; 2.2e-16</code></pre>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(model)  <span class="co"># stimmt mit lm.beta überein</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> (Intercept)      adverts      airplay      attract 
-3.774346e-16 5.108462e-01 5.119881e-01 1.916834e-01 </code></pre>
+3.467387e-16 5.108462e-01 5.119881e-01 1.916834e-01 </code></pre>
 </div>
 </div>
 </section>
@@ -569,7 +569,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="fu">dwt</span>(model2)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> lag Autocorrelation D-W Statistic p-value
-   1      0.04218005      1.912808   0.292
+   1      0.04218005      1.912808   0.288
  Alternative hypothesis: rho != 0</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Normalverteilung Residuen</span></span>
