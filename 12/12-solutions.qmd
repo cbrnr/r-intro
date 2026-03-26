@@ -2,7 +2,7 @@
 title: "12 – Lösungen"
 subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2026-01-22
+date: 2026-06-08
 format:
   html:
     page-layout: full
@@ -43,26 +43,20 @@ Weibliche Charaktere sind signifikant leichter als männliche Charaktere ($t=-1.
 
 ## Übung 2
 
-```{r}
-#| message: false
-library(palmerpenguins)
-```
-
-
 ### Schnabellänge
 
 ```{r}
 with(
     subset(penguins, species == "Adelie" | species == "Chinstrap"),
-    t.test(bill_length_mm ~ species)
+    t.test(bill_len ~ species)
 )
 with(
     subset(penguins, species == "Adelie" | species == "Gentoo"),
-    t.test(bill_length_mm ~ species)
+    t.test(bill_len ~ species)
 )
 with(
     subset(penguins, species == "Gentoo" | species == "Chinstrap"),
-    t.test(bill_length_mm ~ species)
+    t.test(bill_len ~ species)
 )
 ```
 
@@ -72,23 +66,23 @@ with(
 ```{r}
 with(
     subset(penguins, species == "Adelie" | species == "Chinstrap"),
-    t.test(bill_depth_mm ~ species)
+    t.test(bill_dep ~ species)
 )
 with(
     subset(penguins, species == "Adelie" | species == "Gentoo"),
-    t.test(bill_depth_mm ~ species)
+    t.test(bill_dep ~ species)
 )
 with(
     subset(penguins, species == "Gentoo" | species == "Chinstrap"),
-    t.test(bill_depth_mm ~ species)
+    t.test(bill_dep ~ species)
 )
 ```
 
 ### Verwendung von `pairwise.t.test()`
 
 ```{r}
-pairwise.t.test(penguins$bill_length_mm, penguins$species)
-pairwise.t.test(penguins$bill_depth_mm, penguins$species)
+pairwise.t.test(penguins$bill_len, penguins$species)
+pairwise.t.test(penguins$bill_dep, penguins$species)
 ```
 
 

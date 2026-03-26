@@ -2,7 +2,7 @@
 title: "12 – Mittelwertvergleich"
 subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2026-01-22
+date: 2026-06-08
 format:
   html:
     page-layout: full
@@ -23,7 +23,7 @@ published-title: "Veröffentlicht"
 
 ## Versuchsdesigns
 
-Neben der Betrachtung von *Zusammenhängen* zwischen Variablen (zum Beispiel mittels Korrelation oder Regression) möchten wir häufig wissen, ob sich zwei (oder mehr) Gruppen in ihren *Mittelwerten* unterscheiden. In *korrelativen Studien* (*Beobachtungsstudien*) erheben wir Daten, ohne etwas zu manipulieren. *Experimentelle Studien* (*Interventionsstudien*) manipulieren hingegen gezielt eine oder mehrere Variablen (z.B. eine Gruppe erhält ein Medikament und eine andere ein Placebo). Dadurch können wir Unterschiede im Ergebnis der Manipulation zuschreiben und kausale Schlussfolgerungen ziehen, was bei korrelativen Studien nicht möglich ist.
+Neben der Betrachtung von *Zusammenhängen* zwischen Variablen (zum Beispiel mittels Korrelation oder Regression) möchte man häufig wissen, ob sich zwei (oder mehr) Gruppen in ihren *Mittelwerten* unterscheiden. In *korrelativen Studien* (*Beobachtungsstudien*) erheben wir Daten, ohne etwas zu manipulieren. *Experimentelle Studien* (*Interventionsstudien*) manipulieren hingegen gezielt eine oder mehrere Variablen (z.B. eine Gruppe erhält ein Medikament und eine andere ein Placebo). Dadurch können wir Unterschiede im Ergebnis der Manipulation zuschreiben und kausale Schlussfolgerungen ziehen, was bei korrelativen Studien nicht möglich ist.
 
 Innerhalb experimenteller Studien unterscheiden wir zwischen *unabhängigen* und *abhängigen* Designs. In einem unabhängigen Design bestehen die Gruppen aus unterschiedlichen Personen, sodass die Beobachtungen zwischen den Gruppen nicht zusammenhängen. In einem abhängigen Design (auch Messwiederholungs-Design genannt) nehmen dieselben Personen an mehreren Bedingungen teil, wodurch eine Abhängigkeit zwischen den Gruppen entsteht. Da jede Person als ihre eigene Kontrollbedingung dient, rechnen abhängige Designs automatisch individuelle Unterschiede heraus, die für die Behandlung irrelevant sind. Dadurch hat die Analyse mehr statistische Power als bei einem unabhängigen Design (d.h. kleinere Unterschiede können besser erkannt werden). Dieser Vorteil wird im folgenden Beispiel deutlich.
 
@@ -250,7 +250,7 @@ Die Steigung der Geraden $b_1$ entspricht also tatsächlich genau dem Unterschie
 
 ## Annahmen
 
-Da der _t_-Test auf einer lineare Regression basiert, setzt er auch dieselben Annahmen wie diese voraus:
+Da der _t_-Test auf einer linearen Regression basiert, setzt er auch dieselben Annahmen wie diese voraus:
 
 * Die Residuen sind normalverteilt (beim abhängigen _t_-Test sind die Residuen der Differenzen gemeint).
 * Die Daten sind intervallskaliert.
@@ -367,7 +367,7 @@ Verwenden Sie das Argument `alternative` von `t.test()`, um einen *einseitigen* 
 
 ### Übung 2
 
-Vergleichen Sie im `penguins`-Datensatz (aus dem Paket `palmerpenguins`), ob sich die Merkmale `bill_length_mm` bzw. `bill_depth_mm` zwischen den Spezies unterscheiden (führen Sie paarweise Vergleiche für jedes Merkmal durch). Berichten Sie die relevanten Statistiken, Signifikanzen und Effektgrößen (Korrelationskoeffizient *r*) für jeden *t*-Test.
+Vergleichen Sie im `penguins`-Datensatz, ob sich die Merkmale `bill_len` bzw. `bill_dep` zwischen den Spezies unterscheiden (führen Sie paarweise Vergleiche für jedes Merkmal durch). Berichten Sie die relevanten Statistiken, Signifikanzen und Effektgrößen (Korrelationskoeffizient *r*) für jeden *t*-Test.
 
 Die Funktion `pairwise.t.test()` rechnet mehrere paarweise Vergleiche. Verwenden Sie diese Funktion (zusätzlich zu den einzeln gerechneten *t*-Tests von zuvor), um die Vergleiche durchzuführen. Mit dem Argument `p.adjust.method` können Sie außerdem die *p*-Werte korrigieren, weil mehrere Tests die Wahrscheinlichkeit eines falsch positiven Ergebnisses (der *t*-Test sagt "es gibt einen Unterschied" obwohl tatsächlich kein Unterschied besteht) erhöhen.
 
