@@ -2,7 +2,7 @@
 title: "10 – Lösungen"
 subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2026-01-08
+date: 2026-05-18
 format:
   html:
     page-layout: full
@@ -77,3 +77,5 @@ $$-17.5791 + 3.9324 \cdot 65 = 238.03$$
 ```{r}
 predict(model, data.frame(speed=c(5, 65)))
 ```
+
+Man erkennt, dass der Intercept negativ ist, d.h. physikalisch betrachtet ist dieser Wert nicht sinnvoll (da der Bremsweg bei einer Geschwindigkeit von 0 mph nicht negativ ist). Es ist jedoch wichtig zu verstehen, dass der Intercept in diesem Fall nicht unbedingt eine physikalische Bedeutung haben muss, da er außerhalb des Bereichs der beobachteten Daten liegt.
