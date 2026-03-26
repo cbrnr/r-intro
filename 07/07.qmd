@@ -2,7 +2,7 @@
 title: "7 – Datenaufbereitung"
 subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2025-11-27
+date: 2026-04-27
 format:
   html:
     page-layout: full
@@ -23,9 +23,9 @@ published-title: "Veröffentlicht"
 
 ## Daten umformen
 
-Es gibt in der Praxis (mindestens) zwei verschiedene Möglichkeiten, ein und dieselben Daten in einer Tabelle darzustellen, und zwar entweder im Wide-Format oder im Long-Format. Zur Berechnung deskriptiver Statistiken eignet sich das Wide-Format besser, das Long-Format ist aber bei anderen Aufgabenstellungen notwendig. Deswegen ist es sinnvoll, wenn man weiß, wie man die eine Darstellung in die andere umwandeln kann.
+Es gibt in der Praxis zwei gängige Möglichkeiten, ein und dieselben Daten in einer Tabelle darzustellen, und zwar entweder im Wide-Format oder im Long-Format. Zur Berechnung deskriptiver Statistiken eignet sich das Wide-Format besser, das Long-Format ist aber bei anderen Aufgabenstellungen notwendig. Deswegen ist es sinnvoll, wenn man weiß, wie man die eine Darstellung in die andere umwandeln kann.
 
-Bei Daten im Wide-Format gibt es für jede Variable eine eigene Spalte. Daten im Long-Format haben nur eine Spalte, die alle Werte beinhaltet, und eine oder mehrere Spalte(n) mit Indikator-Variablen, welche den Kontext der Werte definieren. Die folgende Tabelle zeigt Beispieldaten im Wide-Format:
+Bei Daten im Wide-Format gibt es für jede Variable eine eigene Spalte. Daten im Long-Format haben nur eine Werte-Spalte und eine oder mehrere Spalte(n) mit Indikator-Variablen, welche den Kontext der Werte definieren. Die folgende Tabelle zeigt Beispieldaten im Wide-Format:
 
 | Person | Age | Weight | Height |
 |:-------|----:|-------:|-------:|
@@ -33,7 +33,7 @@ Bei Daten im Wide-Format gibt es für jede Variable eine eigene Spalte. Daten im
 | Al     |  24 |     61 |    176 |
 | Sue    |  64 |     87 |    174 |
 
-Man sieht, dass es drei Wertespalten gibt (`Age`, `Weight` und `Height`), sowie eine Spalte, welche die Person identifiziert (`Person`). Dieselben Daten sehen im Long-Format so aus (man beachte, dass es nur eine einzige Werte-Spalte namens `Value` gibt):
+Man sieht, dass es drei Wertespalten gibt (`Age`, `Weight` und `Height`), sowie eine Spalte, welche die Person identifiziert (`Person`). Dieselben Daten sehen im Long-Format so aus (es gibt nur eine einzige Werte-Spalte namens `Value`):
 
 | Person | Variable | Value |
 |:-------|:---------|------:|
@@ -73,9 +73,9 @@ library(tidyr)
 ))
 ```
 
-Hier übergibt man zuerst die Daten im Wide-Format (`df`), gefolgt von einer Auswahl der (Werte-)Spalten, die man ins Long-Format bringen möchte – in unserem Beispiel sind das die Spalten von `Age` bis `Height`. Für diese Spaltenauswahl kann man die Spaltennamen ohne Anführungszeichen schreiben, und auch der Doppelpunkt funktioniert wie bei Zahlensequenzen. Man könnte hier auch die Indizes der Spalten verwenden, also `2:4` statt `Age:Height`. Schließlich gibt man mit `names_to` den gewünschten Namen der Indikatorspalte an (im Beispiel soll diese also `Variable` heißen) und mit `values_to` den Namen der neuen Werte-Spalte (`Value`).
+Hier übergibt man zuerst die Daten im Wide-Format (`df`), gefolgt von einer Auswahl der (Werte-)Spalten, die man ins Long-Format bringen möchte – in unserem Beispiel sind das die Spalten von `Age` bis `Height`. Für diese Spaltenauswahl kann man die Spaltennamen ohne Anführungszeichen schreiben, und auch der Doppelpunkt funktioniert wie bei Zahlensequenzen (man könnte hier auch die Indizes der Spalten verwenden, also `2:4` statt `Age:Height`). Schließlich gibt man mit `names_to` den gewünschten Namen der Indikatorspalte an (im Beispiel soll diese also `Variable` heißen) und mit `values_to` den Namen der neuen Werte-Spalte (hier also `Value`).
 
-Der umgekehrte Weg wird mit `pivot_wider()` beschritten; diese Funktion kann eine Variable auf mehrere Spalten aufteilen, d.h. vom Long-Format ins Wide-Format konvertieren:
+Der umgekehrte Weg wird mit `pivot_wider()` beschritten; diese Funktion kann also vom Long-Format ins Wide-Format konvertieren:
 
 ```{r}
 (df_wide = pivot_wider(
@@ -115,7 +115,7 @@ Nun haben wir bereits gelernt, dass wir spezifische Zeilen mittels Indizieren he
 df[df$sex == "f",]
 ```
 
-Diese Schreibweise ist für Data Frames aber relativ unübersichtlich, vor allem weil man das zugrundeliegende Data Frame `df` zwei Mal schreiben muss. Glücklicherweise gibt es aber eine intuitivere Alternative durch die Funktion `subset()`. Diese Funktion kann, wie der Name bereits andeutet, Untermengen (Subsets) von bestehenden Vektoren bzw. Data Frames erzeugen. Im Falle eines Data Frames bedeutet das, dass man eine Untermenge der Zeilen und/oder Spalten auswählen kann.
+Diese Schreibweise ist für Data Frames aber relativ unübersichtlich, vor allem weil man das zugrundeliegende Data Frame `df` zwei Mal schreiben muss. Glücklicherweise gibt es aber eine intuitive Alternative durch die Funktion `subset()`. Diese Funktion kann, wie der Name bereits andeutet, Untermengen (Subsets) von bestehenden Vektoren bzw. Data Frames erzeugen. Im Falle eines Data Frames bedeutet das, dass man eine Untermenge der Zeilen und/oder Spalten auswählen kann.
 
 Beginnen wir mit der Auswahl von Zeilen (man bezeichnet diese Operation auch als "filtern"). Hier übergibt man der Funktion `subset()` als erstes Argument das ursprüngliche Data Frame. Das zweite Argument (welches `subset` heißt, nicht zu verwechseln mit dem Funktionsnamen) bestimmt dann, welche Zeilen ausgewählt (gefiltert) werden sollen. Das obige Beispiel kann damit wie folgt angeschrieben werden:
 
@@ -131,7 +131,7 @@ Damit kann man auch komplexere Filter-Operationen durchführen, indem man einen 
 subset(df, age > 40 & weight <= 73)
 ```
 
-Hier kann man also alle möglichen Vergleiche bzw. Verknüpfungsoperatoren (`&` und, `|` oder, `xor()` [exklusives oder](https://de.wikipedia.org/wiki/Kontravalenz)) verwenden.
+Hier kann man also alle möglichen Vergleiche bzw. Verknüpfungsoperatoren (wie z.B. `&` und `|`) verwenden.
 
 
 ## Spalten selektieren mit `subset()`
@@ -171,14 +171,14 @@ Eine weitere wichtige Aufgabe in der Datenanalyse ist es, neue Spalten zu einem 
 head(airquality)
 ```
 
-Die Temperaturen in der `Temp`-Spalte sind in Fahrenheit angegeben. Wir können nun eine neue Spalte namens `celsius` hinzufügen, indem wir die vorhandene `Temp`-Spalte wie folgt transformieren:
+Die Temperaturen in der `Temp`-Spalte sind in Grad Fahrenheit angegeben. Wir können nun eine neue Spalte namens `celsius` hinzufügen, indem wir die vorhandene `Temp`-Spalte wie folgt transformieren:
 
 ```{r}
 aq = transform(airquality, celsius=(Temp - 32) * (5/9))
 head(aq)
 ```
 
-Beachten Sie, dass wir in der Transformation vorhandene Spalten wieder direkt verwenden können (im Beispiel `Temp`), ohne Anführungszeichen oder `airquality$` verwenden zu müssen. Außerdem wird immer ein *neues* Data Frame erzeugt; Sie könnten dieses aber dem ursprünglichen Namen zuweisen, wenn Sie möchten (also `airquality` in obigem Beispiel statt `aq`).
+Beachten Sie, dass wir in der Transformation vorhandene Spalten wieder direkt verwenden können (im Beispiel `Temp`), ohne Anführungszeichen oder `airquality$` verwenden zu müssen. Außerdem wird immer ein *neues* Data Frame erzeugt; Sie könnten dieses aber dem ursprünglichen Namen zuweisen wenn Sie möchten (also `airquality` in obigem Beispiel statt `aq`).
 
 :::{.callout-important}
 Das Ergebnis der Funktion `transform()` ist ein Data Frame, auch wenn man ein Tibble als Ausgangsdatensatz verwendet. Falls das Ergebnis ein Tibble sein soll, muss man den Rückgabewert von `transform()` mit `tibble::as_tibble()` explizit in ein Tibble konvertieren.
@@ -198,10 +198,10 @@ x |> mean()  # Pipe
 ```
 
 :::{.callout-tip}
-Der Pipe-Operator zieht also das *erste* Argument vor den Funktionsaufruf hinaus.
+Der Pipe-Operator zieht also das *erste Argument* vor den Funktionsaufruf hinaus.
 :::
 
-Das macht in diesem Beispiel natürlich wenig Sinn, denn hier ist `mean(x)` wesentlich kürzer und einfacher lesbar. Interessant wird es aber dann, wenn man das Ergebnis eines Funktionsaufrufes direkt als Argument für einen weiteren Funktionsaufruf verwenden will. Klassisch würde man dies so anschreiben:
+Das macht in diesem Beispiel natürlich wenig Sinn, denn hier ist `mean(x)` wesentlich kürzer und einfacher lesbar. Interessant wird es aber dann, wenn man das Ergebnis eines Funktionsaufrufs direkt als Argument für einen weiteren Funktionsaufruf verwenden will. Klassisch würde man dies so anschreiben:
 
 ```r
 g(f(x))
@@ -262,7 +262,7 @@ aq = airquality |>
 mean(aq$celsius)  # mittlere Temperatur (in °C) im Juli
 ```
 
-Abschließend ist noch anzumerken, dass das [Tidyverse](https://www.tidyverse.org/) wesentlich mehr Funktionen bietet, die mit dem Pipe-Operator elegant miteinander verbunden werden können. Insbesonders gruppierte zusammenfassende Statistiken (z.B. die mittleren Temperaturen für alle Monate) werden dadurch ähnlich intuitiv möglich wie in den hier gezeigten Beispielen. Mit Base-R ist dies zwar auch möglich, aber nicht in dieser einheitlichen Pipeline-Form.
+Abschließend ist noch anzumerken, dass das [Tidyverse](https://www.tidyverse.org/) wesentlich mehr Funktionen bietet, die mit dem Pipe-Operator elegant miteinander verbunden werden können. Insbesondere gruppierte zusammenfassende Statistiken (z.B. die mittleren Temperaturen für alle Monate) werden dadurch ähnlich intuitiv möglich wie in den hier gezeigten Beispielen. Mit Base-R ist dies zwar auch möglich, aber nicht in dieser einheitlichen Pipeline-Form.
 
 
 ## Übungen
