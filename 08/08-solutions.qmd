@@ -2,7 +2,7 @@
 title: "8 – Lösungen"
 subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2025-12-04
+date: 2026-05-04
 format:
   html:
     page-layout: full
@@ -24,10 +24,9 @@ published-title: "Veröffentlicht"
 ## Übung 1
 
 ```{r}
-library(palmerpenguins)
 plot(
-    penguins$bill_length_mm,
-    penguins$bill_depth_mm,
+    penguins$bill_len,
+    penguins$bill_dep,
     xlab="Bill length (mm)",
     ylab="Bill depth (mm)",
     pch=19,
@@ -39,23 +38,23 @@ plot(
 
 ```{r}
 plot(
-    penguins$bill_length_mm,
-    penguins$bill_depth_mm,
+    penguins$bill_len,
+    penguins$bill_dep,
     xlab="Bill length (mm)",
     ylab="Bill depth (mm)",
     type="n"
 )
 with(
     subset(penguins, species=="Adelie"),
-    points(bill_length_mm, bill_depth_mm, col="red", pch=19)
+    points(bill_len, bill_dep, col="red", pch=19)
 )
 with(
     subset(penguins, species=="Gentoo"),
-    points(bill_length_mm, bill_depth_mm, col="blue", pch=19)
+    points(bill_len, bill_dep, col="blue", pch=19)
 )
 with(
     subset(penguins, species=="Chinstrap"),
-    points(bill_length_mm, bill_depth_mm, col="green", pch=19)
+    points(bill_len, bill_dep, col="green", pch=19)
 )
 legend(
     "bottomright",

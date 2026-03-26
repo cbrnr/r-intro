@@ -2,7 +2,7 @@
 title: "8 – Grafiken"
 subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2025-12-04
+date: 2026-05-04
 format:
   html:
     page-layout: full
@@ -25,7 +25,7 @@ published-title: "Veröffentlicht"
 
 In R gibt es mehrere Pakete, mit denen man Daten grafisch darstellen kann. Grafiken, welche mit unterschiedlichen Paketen erstellt wurden, lassen sich aber nicht miteinander kombinieren. Deshalb entscheidet man sich typischerweise vor der Erstellung einer Grafik für das zu verwendende Grafikpaket.
 
-Das `graphics`-Paket wird auch als Base-Plotting-System bezeichnet. Es ist Teil von R und muss nicht extra installiert werden. Das Base-Plotting-System eignet sich sehr gut für schnelle Visualisierungen – mit etwas Aufwand kann man aber auch schöne Grafiken für Publikationen erstellen.
+Das `graphics`-Paket wird auch als Base-Plotting-System bezeichnet. Es ist Teil von R und muss nicht extra installiert werden. Das Base-Plotting-System eignet sich sehr gut für schnelle Visualisierungen – und mit etwas Aufwand kann man auch schöne Grafiken für Publikationen erstellen.
 
 Für die folgenden Beispiele verwenden wir den in R enthaltenen `airquality`-Datensatz (eine kurze Beschreibung kann man dem Hilfetext `?airquality` entnehmen):
 
@@ -38,19 +38,19 @@ str(airquality)
 
 Eine der wichtigsten Funktionen im Base-Plotting-System ist `plot()`. Diese Funktion erstellt passende Visualisierungen in Abhängigkeit von den darzustellenden Daten.
 
-Wenn man einen numerischen Vektor übergibt, erhält man eine Punktgrafik. Auf der x-Achse wird der Index der Datenpunkte dargestellt, auf der y-Achse die Datenwerte:
+Wenn man *einen numerischen* Vektor übergibt, erhält man eine Punktgrafik. Auf der x-Achse wird der Index der Datenpunkte dargestellt, auf der y-Achse die Datenwerte:
 
 ```{r}
 plot(airquality$Ozone)
 ```
 
-Wenn man zwei numerische Vektoren übergibt, erhält man einen sogenannten Scatterplot. Das erste Argument wird auf der x-Achse und das zweite Argument wird auf der y-Achse dargestellt:
+Wenn man *zwei numerische* Vektoren übergibt, erhält man ein Streudiagramm (Scatterplot). Das erste Argument wird auf der x-Achse und das zweite Argument wird auf der y-Achse dargestellt:
 
 ```{r}
 plot(airquality$Wind, airquality$Ozone)
 ```
 
-Auch mit Datumswerten kann `plot()` umgehen. Erstellen wir zunächst aus den beiden Spalten `Month` und `Day` eine neue Spalte namens `date` (aus der Beschreibung der Daten kann man entnehmen, dass diese im Jahr 1973 aufgezeichnet wurden):
+Auch mit Datumswerten kann `plot()` umgehen. Erstellen wir zunächst aus den beiden numerischen Spalten `Month` und `Day` eine neue Spalte namens `date` (aus der Beschreibung der Daten kann man entnehmen, dass diese im Jahr 1973 aufgezeichnet wurden):
 
 ```{r}
 airquality$date = as.Date(
@@ -73,7 +73,7 @@ paste(c("Hello", "Sup"), c("Jane", "John"))
 ```
 :::
 
-Das Ergebnis sieht also so aus:
+Das Ergebnis der `paste()`-Funktion ist also folgender Character-Vektor:
 
 ```{r}
 paste(airquality$Month, airquality$Day, "1973")
@@ -91,7 +91,7 @@ Anschließend können wir diese Datumsspalte für die Darstellung auf der x-Achs
 plot(airquality$date, airquality$Ozone)
 ```
 
-Übergibt man der Funktion einen Faktor, wird automatisch eine Balkengrafik mit den Häufigkeiten der einzelnen Stufen erzeugt:
+Übergibt man der `plot()`-Funktion einen *Faktor*, wird automatisch eine Balkengrafik mit den Häufigkeiten der einzelnen Stufen erzeugt:
 
 ```{r}
 plot(factor(airquality$Month))
@@ -100,7 +100,7 @@ plot(factor(airquality$Month))
 
 ## Histogramme
 
-Die Funktion `hist()` erstellt ein Histogramm eines Vektors:
+Die Funktion `hist()` erstellt ein Histogramm eines (numerischen) Vektors:
 
 ```{r}
 hist(airquality$Ozone)
@@ -113,22 +113,22 @@ hist(airquality$Ozone, breaks=4)
 ```
 
 :::{.callout-note}
-Das Argument `breaks` ist nur eine Empfehlung – die tatsächliche Anzahl an Balken wird so adaptiert, dass die Grafik immer noch übersichtlich darzustellen ist.
+Das Argument `breaks` ist nur eine Empfehlung – die tatsächliche Anzahl an Balken wird so adaptiert, dass die Grafik immer noch übersichtlich dargestellt wird.
 :::
 
 
 ## Boxplots
 
-Eine weitere Möglichkeit, die Verteilung von Werten grafisch darzustellen, bietet die Funktion `boxplot()`. Ein Boxplot zeigt den Median, den Interquartilsabstand (IQR) sowie das Minimum und das Maximum (plus eventuelle Ausreißer) der Daten.
+Eine weitere Möglichkeit, die Verteilung von Werten grafisch darzustellen, bietet die Funktion `boxplot()`. Ein Boxplot zeigt den Median, den [Interquartilsabstand (IQR)](https://de.wikipedia.org/wiki/Interquartilsabstand_(deskriptive_Statistik)) sowie das Minimum und das Maximum (plus eventuelle Ausreißer) der Daten.
 
 ```{r}
 boxplot(airquality$Temp)
 ```
 
-Ein einzelner Boxplot ist für sich noch relativ wenig hilfreich. Wenn man statt eines Vektors eine sogenannte *Formel* angibt, kann man mehrere Boxplots in einer Grafik darstellen.
+Ein einzelner Boxplot ist aber relativ wenig hilfreich. Wenn man statt eines Vektors eine sogenannte *Formel* angibt, kann man mehrere Boxplots in einer Grafik darstellen.
 
 :::{.callout-note}
-Eine Formel in R wird durch das Tilde-Zeichen (`~`) definiert, mit jeweiligen Ausdrücken links bzw. rechts davon. Ein Beispiel für eine Formel ist `y ~ x` mit `y` auf der linken Seite und `x` auf der rechten Seite. Die Bedeutung einer Formel hängt von der jeweiligen Funktion ab. Viele Funktionen verlangen Formeln als Argumente, wir werden dies vor allem bei der Berechnung von linearen Modellen intensiv nutzen.
+Eine Formel in R wird durch das Tilde-Zeichen (`~`) definiert, mit Ausdrücken links bzw. rechts davon. Ein Beispiel für eine Formel ist `y ~ x` mit `y` auf der linken Seite und `x` auf der rechten Seite. Die Bedeutung einer Formel hängt von der jeweiligen Funktion ab. Viele Funktionen verlangen Formeln als Argumente, wir werden dies vor allem bei der Berechnung von linearen Modellen intensiv nutzen.
 :::
 
 Im folgenden Beispiel werden Boxplots für `airquality$Temp` in Abhängigkeit von `airquality$Month` dargestellt:
@@ -142,7 +142,7 @@ Hier bestimmt also die linke Seite der Formel die Werte auf der y-Achse, und die
 
 ## Grafiken anpassen
 
-Oft möchte man diverse Eigenschaften von Grafiken anpassen, wie z.B. die verwendete Linienart, Farben, Symbole, Titel, Achsenbeschriftungen, und so weiter. Viele Parameter kann man bereits bei der Erstellung der Grafik als Argument übergeben. Eine angepasste Version des Scatterplot-Beispiels von oben ist:
+Oft möchte man diverse Eigenschaften von Grafiken anpassen, wie z.B. die verwendete Linienart, Farben, Symbole, Titel, Achsenbeschriftungen, und so weiter. Viele Parameter kann man bereits bei der Erstellung der Grafik als Argument übergeben. Eine angepasste Version des Streudiagramms von früher könnte man wie folgt erstellen:
 
 ```{r}
 plot(
@@ -275,7 +275,9 @@ model = lm(Ozone ~ Wind, airquality)
 abline(model, lwd=2, col="blue")
 ```
 
+::: {.callout-note}
 Hier übergibt man die Linie in Form einer Geradengleichung, die man mit der Funktion `lm()` berechnen kann – mehr zu dieser Funktion werden wir später bei den Regressionsmodellen kennenlernen. Im Moment reicht es zu wissen, dass diese Funktion eine Formel der Form `y ~ x` erwartet, d.h. man gibt die diesen Variablen entsprechenden Spaltennamen der y- bzw. x-Achsen an.
+:::
 
 Text und Pfeile kann man mit `text()` bzw. `arrows()` hinzufügen:
 
@@ -300,7 +302,7 @@ Etwas besser wäre ein Boxplot:
 boxplot(airquality$Ozone)
 ```
 
-Noch besser ist es, wenn man zusätzlich die Rohdaten in die Grafik aufnimmt (dies wird mit der Funktion `stripchart()` bewerkstelligt):
+Noch besser ist es, wenn man zusätzlich die *Rohdaten* in die Grafik aufnimmt (dies wird mit der Funktion `stripchart()` bewerkstelligt):
 
 ```{r}
 boxplot(airquality$Ozone)
@@ -312,6 +314,8 @@ stripchart(
     col=rgb(0, 0, 0, 0.25)
 )
 ```
+
+So kann man neben den statistischen Größen (wie Median, IQR, etc.) auch die tatsächlichen Werte der Datenpunkte sehen.
 
 Beachten Sie, dass `add=TRUE` übergeben werden muss, wenn man die Punkte von `stripchart()` zu einer existierenden Grafik hinzufügen möchte (sonst wird eine neue Grafik erzeugt). Man könnte hier auch noch weitere Verbesserungen (wie z.B. `method="jitter"`) vornehmen.
 
@@ -399,12 +403,12 @@ layout(1)
 
 ### Übung 1
 
-Laden Sie den Datensatz `penguins` aus dem Paket `palmerpenguins` und erstellen Sie einen Scatterplot der Spalten `bill_length_mm` auf der x-Achse und `bill_depth_mm` auf der y-Achse. Beschriften Sie die Achsen mit aussagekräftigen Bezeichnungen.
+Erstellen Sie aus dem `penguins`-Datensatz ein Streudiagramm der Spalten `bill_length_mm` auf der x-Achse und `bill_depth_mm` auf der y-Achse. Beschriften Sie die Achsen mit aussagekräftigen Bezeichnungen.
 
 
 ### Übung 2
 
-Erstellen Sie den Scatterplot aus Übung 1 noch einmal, aber stellen Sie diesmal die Punkte der drei Spezies in unterschiedlichen Farben dar. Fügen Sie außerdem eine entsprechende Legende hinzu. Sie können z.B. zuerst einen leeren Plot mit dem Argument `type="n"` erstellen und dann mit `points()` nacheinander die Punkte der drei Spezies in unterschiedlichen Farben hinzufügen.
+Erstellen Sie das Streudiagramm aus Übung 1 noch einmal, aber stellen Sie diesmal die Punkte der drei Spezies in unterschiedlichen Farben dar. Fügen Sie außerdem eine entsprechende Legende hinzu. Sie können z.B. zuerst einen leeren Plot mit dem Argument `type="n"` erstellen und dann mit `points()` nacheinander die Punkte der drei Spezies in unterschiedlichen Farben hinzufügen.
 
 
 ### Übung 3
