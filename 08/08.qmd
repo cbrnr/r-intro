@@ -116,6 +116,19 @@ hist(airquality$Ozone, breaks=4)
 Das Argument `breaks` ist nur eine Empfehlung – die tatsächliche Anzahl an Balken wird so adaptiert, dass die Grafik immer noch übersichtlich dargestellt wird.
 :::
 
+Standardmäßig werden die absoluten Häufigkeiten der Werte auf der y-Achse dargestellt. Mit dem Argument `freq=FALSE` kann man stattdessen die Dichte der Werte anzeigen lassen (also die Häufigkeit relativ zur Breite der Balken):
+
+```{r}
+hist(airquality$Ozone, freq=FALSE)
+```
+
+Es ändert sich dabei nur die Skalierung der y-Achse, die Balken selbst sehen komplett identisch aus. Die Dichte ist insbesondere dann sinnvoll, wenn man die Verteilung von Werten mit unterschiedlichen Breiten der Balken vergleichen möchte oder eine Schätzung der Dichtefunktion in derselben Grafik darstellen möchte:
+
+```{r}
+hist(airquality$Ozone, freq=FALSE)
+lines(density(airquality$Ozone, na.rm=TRUE), col="blue", lwd=2)
+```
+
 
 ## Boxplots
 
