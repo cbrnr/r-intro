@@ -83,7 +83,7 @@ Verwenden Sie die Funktion `by()`, um die durchschnittliche Anzahl der Insekten 
 
 Die Datei [`temperature.csv`](temperature.csv) enthält monatliche Durchschnittstemperaturen (in °C) für Innsbruck im Zeitraum von 1906 bis 2012.
 
-Fügen Sie dem Datensatz eine neue Spalte namens `Average` hinzu, welche die mittlere Jahrestemperatur beinhaltet (die Funktion `rowMeans()` kann dabei hilfreich sein).
+Importieren Sie den Datensatz und fügen Sie eine neue Spalte namens `Average` hinzu, welche die mittlere Jahrestemperatur beinhaltet (die Funktion `rowMeans()` kann dabei hilfreich sein).
 
 Erstellen Sie anschließend ein Liniendiagramm, das den Verlauf der durchschnittlichen Jahrestemperatur über den gesamten Zeitraum veranschaulicht. Beschriften Sie die Achsen und geben Sie der Grafik einen Titel.
 
