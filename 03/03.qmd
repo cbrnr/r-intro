@@ -516,13 +516,7 @@ Alternativ könnten Sie mit `is.na()` alle fehlenden Werte aus `t` identifiziere
 
 ### Übung 8
 
-Gegeben seien folgende Standardabweichungen von fünf Messgrößen in einem Vektor `s`:
-
-```r
-s = c(1, 11.3, 7.8, 3.4, 6)
-```
-
-Wie können Sie daraus in einem Schritt die fünf Varianzen berechnen?
+Erzeugen Sie mit `set.seed(1)` einen Vektor `z` mit 20 normalverteilten Zufallszahlen mit Mittelwert 10 und Standardabweichung 3. Sortieren Sie `z` anschließend absteigend. Wie viele Werte in `z` sind kleiner als 10 (verwenden Sie dazu `sum()`)? An welcher Position im ursprünglichen (unsortierten) Vektor befindet sich der größte Wert (verwenden Sie dazu `which()`)?
 
 
 ### Übung 9

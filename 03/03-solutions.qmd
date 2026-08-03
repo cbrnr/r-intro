@@ -91,8 +91,11 @@ mean(t, na.rm=TRUE)  # NA-Elemente werden ignoriert
 ## Übung 8
 
 ```{r}
-s = c(1, 11.3, 7.8, 3.4, 6)  # Standardabweichungen
-s**2  # Varianzen (elementweises Quadrieren)
+set.seed(1)
+(z = rnorm(20, mean=10, sd=3))
+sort(z, decreasing=TRUE)
+sum(z < 10)
+which(z == max(z))  # alternativ: which.max(z)
 ```
 
 

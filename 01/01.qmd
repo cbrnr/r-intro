@@ -65,7 +65,6 @@ sd(x)
 set.seed(1)
 y = -0.1 * x + rnorm(6, mean=-10, sd=4)
 cor.test(x, y)
-plot(x, y, pch=20)
 ```
 
 In diesen Unterlagen werden R-Befehle in grauen Kästchen gezeigt, während direkt darunter die Ergebnisse der Befehle folgen. Im Moment sind die gezeigten Beispiele vielleicht noch vollkommen unverständlich, aber im Laufe dieser Lehrveranstaltung werden wir all das (und noch einiges mehr) kennenlernen und verstehen.

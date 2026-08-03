@@ -166,10 +166,6 @@ Zum manuellen Setzen des Arbeitsverzeichnisses gibt es in RStudio eine Alternati
 
 Ein Projekt ist einfach ein Ordner mit einer zusätzlichen Datei mit der Endung `.Rproj`. Öffnet man diese Datei, startet RStudio eine frische R-Sitzung und setzt das Arbeitsverzeichnis *automatisch* auf den Projektordner – man muss es also nie selbst setzen. Ein neues Projekt legt man über *File* – *New Project...* an; danach speichert man alle zu dieser Analyse gehörenden Dateien (Scripts, Daten, Grafiken) in diesem Ordner ab.
 
-::: callout-tip
-Legen Sie für jede Analyse ein eigenes Projekt an, also z.B. für jede Studie oder jede Abschlussarbeit ein separates.
-:::
-
 
 ### Workspace
 
