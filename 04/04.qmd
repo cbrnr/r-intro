@@ -396,3 +396,8 @@ Erstellen Sie zunächst ein Tibble namens `air` aus dem Data Frame `airquality`.
 - `[["Ozone"]]`
 
 Können Sie aus den Ergebnissen eine Regel ableiten, wie das Indizieren bei Data Frames bzw. Tibbles funktioniert und wo die Unterschiede bestehen? Welche Variante ist konsistenter?
+
+
+## Lösungen
+
+Die Lösungen zu diesen Übungen finden Sie [hier](04-solutions.qmd).

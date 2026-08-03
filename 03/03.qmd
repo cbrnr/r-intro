@@ -549,3 +549,8 @@ y = x[2, 4, 6]
 ```
 
 Geben Sie den korrekten Code an!
+
+
+## Lösungen
+
+Die Lösungen zu diesen Übungen finden Sie [hier](03-solutions.qmd).

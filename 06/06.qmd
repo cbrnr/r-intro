@@ -281,3 +281,8 @@ Im Datensatz `mtcars` befinden sich diverse Kenngrößen von 32 Autos.
 ### Übung 4
 
 Erzeugen Sie mit der Funktion `rnorm()` einen Vektor mit 5001 standardnormalverteilten Zufallszahlen und überprüfen Sie, ob dieser Vektor normalverteilt ist. Verwenden Sie dazu den Shapiro-Wilk-Test. Wie interpretieren Sie das Ergebnis?
+
+
+## Lösungen
+
+Die Lösungen zu diesen Übungen finden Sie [hier](06-solutions.qmd).

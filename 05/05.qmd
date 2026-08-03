@@ -275,3 +275,8 @@ x = c(1, 2, 3)
 ```
 
 Was passiert, wenn Sie diesen Vektor in einen Faktor konvertieren möchten, aber nur die Stufen `1` und `2` (mit den Labels `"one"` und `"two"`) verwenden möchten? Wie wird der Wert `3` behandelt?
+
+
+## Lösungen
+
+Die Lösungen zu diesen Übungen finden Sie [hier](05-solutions.qmd).

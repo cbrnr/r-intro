@@ -381,3 +381,8 @@ Lesen Sie die Hilfe zur Funktion `sum()` und beantworten Sie dann folgende Frage
 - Was ergibt der Aufruf `sum()` und warum (beachten Sie dazu auch das Ergebnis von `mean()`)?
 - Erklären Sie, warum `sum(1, 2, 3)` das korrekte Ergebnis liefert, aber `mean(1, 2, 3)` nicht!
 - Was passiert, wenn Sie nur `sum` in der Console ausführen (also ohne das Klammernpaar)?
+
+
+## Lösungen
+
+Die Lösungen zu diesen Übungen finden Sie [hier](02-solutions.qmd).

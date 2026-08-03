@@ -202,3 +202,8 @@ Warum funktioniert folgender Code zur Berechnung des Umfangs eines Kreises mit e
 #| eval: false
 2 * 1 * PI
 ```
+
+
+## Lösungen
+
+Die Lösungen zu diesen Übungen finden Sie [hier](01-solutions.qmd).
