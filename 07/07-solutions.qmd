@@ -24,22 +24,6 @@ published-title: "Veröffentlicht"
 ## Übung 1
 
 ```{r}
-library(tidyr)
-
-pivot_wider(table2, names_from=type, values_from=count)
-```
-
-
-## Übung 2
-
-```{r}
-pivot_longer(table4a, `1999`:`2000`, names_to="year", values_to="count")
-```
-
-
-## Übung 3
-
-```{r}
 #| message: false
 library(dplyr)
 
@@ -52,7 +36,7 @@ ncol(mtcars)  # 11 Spalten (unverändert)
 ```
 
 
-## Übung 4
+## Übung 2
 
 ```{r}
 library(nycflights13)
@@ -77,7 +61,7 @@ flights |>
 ```
 
 
-## Übung 5
+## Übung 3
 
 ```{r}
 penguins |>
@@ -93,7 +77,7 @@ penguins |>
 Ohne `na.rm=TRUE` wären die Mittelwerte für Adélie und Gentoo `NA`, weil es in diesen Spalten jeweils zwei fehlende Werte gibt.
 
 
-## Übung 6
+## Übung 4
 
 ```{r}
 #| message: false

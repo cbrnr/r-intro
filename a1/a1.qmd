@@ -2,7 +2,7 @@
 title: "Übungen"
 subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2026-02-23
+date: 2027-01-14
 format:
   html:
     page-layout: full
@@ -23,9 +23,9 @@ published-title: "Veröffentlicht"
 
 ## Übung 1
 
-Wir betrachten das Data Frame `penguins` aus dem Paket `palmerpenguins`. Untersuchen Sie, ob sich die drei Spezies (Adélie, Chinstrap, Gentoo) in Bezug auf die Körpermasse (Spalte `body_mass_g`) unterscheiden. Führen Sie dazu folgende Schritte durch:
+Wir betrachten das in R eingebaute Data Frame `penguins`. Untersuchen Sie, ob sich die drei Spezies (Adélie, Chinstrap, Gentoo) in Bezug auf die Körpermasse (Spalte `body_mass`) unterscheiden. Führen Sie dazu folgende Schritte durch:
 
-a. Entfernen Sie gegebenenfalls Zeilen mit fehlenden Werten in der Spalte `body_mass_g`.
+a. Entfernen Sie gegebenenfalls Zeilen mit fehlenden Werten in der Spalte `body_mass`.
 b. Berechnen Sie die Mittelwerte und Standardabweichungen der Körpermasse für jede Spezies.
 c. Fügen Sie dem Data Frame eine Spalte namens `id` hinzu, welche die Zeilennummer enthält (beginnend bei 1). Diese Spalte identifiziert jede Beobachtung (jeden Pinguin) eindeutig. Die Funktion `nrow()` könnte dabei hilfreich sein.
 d. Installieren und aktivieren Sie das Paket `afex`. Führen Sie eine einfaktorielle ANOVA durch, um zu überprüfen, ob sich die Körpermasse zwischen den Spezies unterscheidet (verwenden Sie dazu die Funktion `aov_ez()`). Unterscheiden sich die Spezies signifikant in Bezug auf die Körpermasse?
@@ -35,7 +35,7 @@ d. Installieren und aktivieren Sie das Paket `afex`. Führen Sie eine einfaktori
 
 Die Funktion `rnorm()` erzeugt normalverteilte Zufallszahlen. Erzeugen Sie 1000 Zufallszahlen aus einer Normalverteilung mit einem Mittelwert von 10 und einer Standardabweichung von 2 und speichern Sie diese in in einem Data Frame `df` mit einer Spalte namens `x`. Fügen Sie eine weitere Spalte `y` hinzu, welche zufällige Werte aus dem Vektor `LETTERS` enthält; verwenden Sie dazu die Funktion `sample()` mit dem Argument `replace=TRUE`. Fügen Sie schließlich eine dritte Spalte namens `z` hinzu, welche die Quadrate der Werte in der Spalte `x` enthält.
 
-:::{.callout-tip}
+::: callout-tip
 Bevor Sie die Zufallszahlen erzeugen, setzen Sie den Zufallszahlengenerator mit `set.seed(123)` in einen definierten Ausgangszustand, um reproduzierbare Ergebnisse zu erhalten.
 :::
 
@@ -63,7 +63,7 @@ b. Erstellen eine zweite Matrix `m2` mit denselben Dimensionen, wobei nun die 25
 
 ## Übung 6
 
-Die offiziellen Daten zu den österreichischen Treibhausgasemissionen sind [hier](https://www.data.gv.at/katalog/dataset/78bd7b69-c1a7-456b-8698-fac3b24f7aa5#resources) verfügbar. Laden Sie diesen Datensatz (im Long-Format) herunter bzw. verwenden Sie die Datei [`thg-emissionen_1990-2022_nach_crf_long.csv`](thg-emissionen_1990-2022_nach_crf_long.csv).
+Die offiziellen Daten zu den österreichischen Treibhausgasemissionen sind [hier](https://www.data.gv.at/katalog/dataset/78bd7b69-c1a7-456b-8698-fac3b24f7aa5#resources) verfügbar. Laden Sie diesen Datensatz herunter bzw. verwenden Sie die Datei [`thg-emissionen_1990-2022_nach_crf_long.csv`](thg-emissionen_1990-2022_nach_crf_long.csv).
 
 Importieren Sie diesen Datensatz in R und beantworten Sie folgende Fragen:
 
@@ -76,7 +76,7 @@ c. Erstellen Sie ein neues Data Frame `df`, welches nur die CO₂-Emissionen üb
 
 Der eingebaute Datensatz `InsectSprays` enthält 72 Beobachtungen von zwei Variablen und dokumentiert die Wirksamkeit von sechs verschiedenen Insektiziden, die in der Spalte `spray` identifiziert werden. Die Spalte `count` enthält die Anzahl der Insekten, die in einer standardisierten Testeinheit gefunden wurden – weniger Insekten deuten auf eine höhere Wirksamkeit hin.
 
-Verwenden Sie die Funktion `by()`, um die durchschnittliche Anzahl der Insekten für jedes der sechs Insektizide zu berechnen. Erstellen Sie ein Boxplot, um die Verteilung der Insektenanzahl für jedes Insektizid zu visualisieren. Beschriften Sie die Achsen und geben Sie der Grafik einen aussagekräftigen Titel.
+Berechnen Sie mit `group_by()` und `summarize()` die durchschnittliche Anzahl der Insekten für jedes der sechs Insektizide. Erstellen Sie ein Boxplot, um die Verteilung der Insektenanzahl für jedes Insektizid zu visualisieren. Beschriften Sie die Achsen und geben Sie der Grafik einen aussagekräftigen Titel.
 
 
 ## Übung 8
@@ -170,10 +170,10 @@ Erstellen Sie ein Streudiagramm der beiden Vektoren einschließlich der Regressi
 
 ## Übung 17
 
-Importieren Sie die Daten aus der Datei [`inflation.csv`](inflation.csv) und erstellen Sie ein Diagramm, das die zeitliche Entwicklung der Inflation in Österreich (AT), Deutschland (DE) und der Schweiz (CH) zeigt. Das Diagramm sollte unterschiedliche Farben für die drei Länder verwenden, eine Legende in der oberen linken Ecke enthalten, klar beschriftete Achsen haben und fehlende Werte korrekt behandeln.
+Importieren Sie die Daten aus der Datei [`inflation.csv`](inflation.csv) und erstellen Sie ein Diagramm, das die zeitliche Entwicklung der Inflation in Österreich (AT), Deutschland (DE) und der Schweiz (CH) zeigt. Das Diagramm sollte unterschiedliche Farben für die drei Länder verwenden, eine Legende enthalten, klar beschriftete Achsen haben und fehlende Werte korrekt behandeln.
 
-::: {.callout-note}
-Fehlende Werte sind in der Datei als `:` kodiert. Damit die Legende farbige Linien anzeigt, müssen Sie das Argument `lty=1` im Funktionsaufruf von `legend()` verwenden.
+::: callout-note
+Fehlende Werte sind in der Datei als `:` kodiert. Für die gleichzeitige Darstellung der drei Länder können Sie pro Land eine eigene `geom_line()`-Schicht verwenden. Übergibt man innerhalb von `aes()` einen fixen Text als `color` (z.B. `aes(y=AT, color="AT")`), entsteht daraus automatisch die passende Legende.
 :::
 
 
@@ -274,7 +274,7 @@ Schreiben Sie diesen Ausdruck unter Verwendung von Pipe-Operatoren um!
 
 ## Übung 26
 
-Aktivieren Sie das Paket `palmerpenguins` und erstellen Sie ein neues Data Frame basierend auf dem `penguins`-Datensatz, das nur die Gentoo-Spezies enthält und nur die zwei Spalten `island` und `sex` sowie eine neu zu erstellende Spalte `mass` umfasst – diese soll die Körpermasse in kg enthalten, welche aus der gegebenen Spalte `body_mass_g` (Masse in g) berechnet werden kann. Verwenden Sie den Pipe-Operator `|>` sowie die Funktionen `subset()` und `transform()`, um dieses Problem zu lösen!
+Erstellen Sie aus dem in R eingebauten `penguins`-Datensatz ein neues Data Frame, das nur die Gentoo-Spezies enthält und nur die zwei Spalten `island` und `sex` sowie eine neu zu erstellende Spalte `mass` umfasst – diese soll die Körpermasse in kg enthalten, welche aus der gegebenen Spalte `body_mass` (Masse in g) berechnet werden kann. Verwenden Sie den Pipe-Operator `|>` sowie die Funktionen `filter()`, `mutate()` und `select()`, um dieses Problem zu lösen!
 
 
 ## Übung 27
@@ -303,8 +303,8 @@ Die Excel-Datei [`luis-daten.xls`](luis-daten.xls) enthält die Feinstaubkonzent
 3. Stellen Sie für beide Messstationen den Zeitverlauf der Feinstaubkonzentrationen als Liniengrafiken dar. Dabei soll Graz-DB in blau und Graz-S in rot dargestellt werden.
 4. Berechnen Sie die Pearson-Korrelation zwischen den Feinstaubkonzentrationen der beiden Messstationen und geben Sie an, ob diese Korrelation signifikant ist (bei einem Signifikanzniveau von $\alpha = 0.05$).
 
-::: {.callout-note}
-Mit der Funktion `lines()` kann man eine Liniengrafik zu einer bereits bestehenden Grafik hinzufügen.
+::: callout-note
+Um beide Messstationen in einer Grafik darzustellen, können Sie zwei `geom_line()`-Schichten übereinanderlegen (eine pro Data Frame, jeweils mit dem Argument `data=`). Die Farbe geben Sie dabei außerhalb von `aes()` an, da sie nicht von den Daten abhängt.
 :::
 
 
@@ -316,8 +316,8 @@ Die Datei [`temperature-graz.csv`](temperature-graz.csv) beinhaltet historische 
 2. Erstellen Sie eine Grafik, welche den Temperaturverlauf über die Zeit zeigt (Spalten `metANN` bzw. `YEAR`). Stellen Sie die Datenpunkte mit Punkten dar und verbinden Sie die einzelnen Punkte mit Linien. Erstellen Sie passende Achsenbeschriftungen sowie einen aussagekräftigen Titel.
 3. Wie lautet der minimale bzw. maximale Temperaturjahresmittelwert im gesamten Zeitraum?
 
-::: {.callout-note}
-Eine kombinierte Punkte- und Liniengrafik kann mit dem Argument `type="b"` in der Funktion `plot()` erstellt werden.
+::: callout-note
+Eine kombinierte Punkte- und Liniengrafik erhält man, indem man die beiden Geome `geom_line()` und `geom_point()` kombiniert.
 :::
 
 
@@ -332,22 +332,6 @@ Berechnen Sie anschließend die Pearson-Korrelation zwischen den beiden Variable
 
 ## Übung 31
 
-Gegeben sei folgendes Data Frame `df`:
-
-```r
-set.seed(1)
-df = data.frame(
-    A=rep(c("A", "B", "C"), each=10),
-    B=sample(0:100, 30, replace=TRUE),
-    X=rep(1:10, 3)
-)
-```
-
-Erzeugen Sie ein neues Data Frame, welches dieselben Daten wie `df` enthält, aber diese im Wide-Format darstellt. Im ursprünglichen Data Frame `df` ist die Spalte `A` die Indikatorspalte, die Spalte B enthält die Werte, und die Spalte X identifiziert die einzelnen Fälle.
-
-
-## Übung 32
-
 Aktivieren Sie das Paket `dplyr`, um den Datensatz `starwars` verwenden zu können. Es soll der Zusammenhang zwischen Körpergewicht (`mass`) und Körpergröße (`height`) untersucht werden.
 
 Entfernen Sie zunächst alle Datenpunkte mit einer Masse von 1000 kg oder mehr. Erstellen Sie mit den bereinigten Daten ein Streudiagramm inklusive Regressionsgeraden (`mass` auf der x-Achse und `height` auf der y-Achse).
@@ -361,7 +345,7 @@ Berechnen Sie dann ein lineares Regressionsmodel mit `mass` als Prädiktor und `
 Begründen Sie Ihre Antworten!
 
 
-## Übung 33
+## Übung 32
 
 Gegeben sind folgende zwei Vektoren `x` und `y`:
 
@@ -374,7 +358,7 @@ y = rnorm(500, mean=-2, sd=3) + 0.05 * x
 Berechnen Sie die Spearman-Korrelation zwischen `x` und `y` und geben Sie an, ob diese Korrelation signifikant ist (bei $\alpha = 0.01$).
 
 
-## Übung 34
+## Übung 33
 
 Berechnen Sie das Ergebnis des folgenden mathematischen Ausdrucks und weisen Sie das Ergebnis der Variablen `result` zu:
 
@@ -383,7 +367,7 @@ $$ \frac{e^{2.74} + \sin(0.55 \pi + 1.23)}{\sqrt{1 + 8.3^{1.4}}} $$
 Geben Sie das Ergebnis mit `round()` auf drei Dezimalstellen gerundet aus.
 
 
-## Übung 35
+## Übung 34
 
 Berechnen Sie den Mittelwert, die Standardabweichung und die Quantile zu den Wahrscheinlichkeiten 0, 0.25, 0.33, 0.5, 0.66, 0.75 und 1 des folgenden Vektors `x`:
 
@@ -393,7 +377,7 @@ x = sample(c(-10:10, NA), 500, replace=TRUE)
 ```
 
 
-## Übung 36
+## Übung 35
 
 Importieren Sie den Datensatz [`wine.csv`](wine.csv), welcher Eigenschaften verschiedener französischer Weine enthält (diese wurden 1983 erhoben):
 
@@ -415,14 +399,14 @@ Geben Sie die Zusammenfassung des Modells aus und beantworten Sie folgende Frage
 - Welche Variablen haben den größten Einfluss auf den Preis des Weins? Berechnen Sie dazu die standardisierten Koeffizienten und nennen Sie die drei wichtigsten Variablen (geordnet nach Einfluss).
 
 
-## Übung 37
+## Übung 36
 
 Erzeugen Sie einen Vektor `x` mit den geraden Zahlen von $-76$ bis 120. Bestimmen Sie die Anzahl der Elemente sowie den Mittelwert, die Standardabweichung, den Median, das 25. Perzentil, das 66. Perzentil und das 75. Perzentil von `x`.
 
 Bestimmen Sie außerdem die Anzahl der Elemente, die größer als der Mittelwert sind.
 
 
-## Übung 38
+## Übung 37
 
 Der folgende Code importiert einen Datensatz von IMDb (Internet Movie Database):
 
@@ -449,11 +433,11 @@ $$ R_w = \frac{R \cdot n + \bar{R} \cdot v}{n + v} $$
 Welcher Film hat die höchste gewichtete Bewertung? Sortieren Sie dazu den Datensatz nach `weightedRating` in absteigender Reihenfolge:
 
 ```r
-df[order(-df$weightedRating), ]
+df[order(-df[["weightedRating"]]), ]
 ```
 
 
-## Übung 39
+## Übung 38
 
 Gegeben sei ein Vektor `x`:
 
@@ -467,3 +451,8 @@ Schreiben Sie den folgenden Befehl *ohne* Verwendung von Pipe-Operatoren an:
 ```r
 x |> unique() |> mean(trim=0.25) |> round(2)
 ```
+
+
+## Lösungen
+
+Die Lösungen zu diesen Übungen finden Sie [hier](a1-solutions.qmd).

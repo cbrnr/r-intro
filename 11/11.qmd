@@ -2,7 +2,7 @@
 title: "11 – Lineare Regression (2)"
 subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2026-06-01
+date: 2026-12-10
 format:
   html:
     page-layout: full
@@ -177,7 +177,7 @@ Für jeden Regressionskoeffizienten wird ein $t$-Test gerechnet, welcher angibt,
 
 Oft ist es hilfreich, nicht nur die Regressionskoeffizienten zu analysieren, sondern auch die standardisierten Regressionskoeffizienten. Diese kann man berechnen, in dem man zuerst alle Variablen standardisiert und danach das lineare Modell berechnet. Standardisierte Variablen haben einen Mittelwert von 0 und eine Standardabweichung von 1. Man könnte die Standardisierung daher relativ einfach selbst vornehmen, in dem man für jede Variable zuerst deren Mittelwert subtrahiert und danach durch deren Standardabweichung dividiert.
 
-:::{.callout-tip}
+::: callout-tip
 Die Funktion `scale()` kann verwendet werden, um die Spalten eine Data Frames zu standardisieren. Diese liefert aber immer eine Matrix zurück, d.h. wenn man ein Data Frame bzw. Tibble standardisieren möchte, muss man danach noch `as.data.frame()` bzw. `tibble::as_tibble()` anwenden.
 :::
 
@@ -221,7 +221,7 @@ Um die diversen Ausreißerstatistiken für jeden einzelnen Wert übersichtlich b
 * `cooks.distance()`: Cook's Distanz
 * `dffits()`: Unterschied im vorhergesagtem Wert mittels Leave-One-Out
 
-::: {.callout-note}
+::: callout-note
 "Leave-One-Out" bedeutet, dass der jeweilige Datenpunkt aus der Berechnung des Werts ausgeschlossen wird.
 :::
 
@@ -256,6 +256,10 @@ Wenn man den `plot()`-Befehl auf das Modell anwendet, werden vier diagnostische 
 par(mfrow=c(2, 2), cex=0.75)
 plot(model2)
 ```
+
+::: callout-note
+Dies ist die zweite in Einheit 8 erwähnte Ausnahme: `plot()` erzeugt hier eine Grafik mit dem eingebauten Base-Plotting-System, für die es in `ggplot2` keine direkte Entsprechung gibt. Mit `par(mfrow=c(2, 2))` legt man vorher fest, dass die vier Plots in zwei Zeilen und zwei Spalten angeordnet werden sollen – sonst würde R sie nacheinander einzeln anzeigen. Einzelne Plots kann man auch gezielt anfordern, z.B. erzeugt `plot(model2, which=2)` nur den QQ-Plot.
+:::
 
 Im Plot links oben sind die vorhergesagten Werte gegen die Residuen aufgetragen. Hier kann man die Linearitätsannahme (die rote Linie sollte immer ungefähr gleich Null sein) sowie die Homoskedastizitätsannahme (die Streuung der Datenpunkte sollte sich entlang der x-Achse nicht ändern) überprüfen. Der Plot links unten ist ähnlich, nur ist hier statt den (absoluten) Residuen die Wurzel aus dem Betrag der standardisierten Residuen aufgetragen. Auch hier lässt sich beurteilen, ob die Annahme der Varianzhomogenität erfüllt ist oder nicht. Im Plot rechts oben lässt sich die Normalverteilungsannahme der Residuen mit einem QQ-Plot überprüfen. Im Plot rechts unten sind Punkte mit großem Einfluss dargestellt (gemessen an der Leverage); Cook's Distanz ist ebenfalls im Plot ersichtlich.
 
@@ -305,3 +309,8 @@ Stellen Sie zwei lineare Regressionsmodelle auf. Das erste soll nur die beiden F
 - Gibt es Datenpunkte mit großem Einfluss auf das Modell (Plot Residuen vs. Leverage)?
 
 *Hinweis:* Sehen Sie sich die Hilfe zur Funktion `plot.lm()` an (damit können Sie ein lineares Modell plotten und die Grafiken aus den letzten drei Fragen erstellen; mit dem Argument `which` können Sie sich die gewünschte Grafik herauspicken).
+
+
+## Lösungen
+
+Die Lösungen zu diesen Übungen finden Sie [hier](11-solutions.qmd).

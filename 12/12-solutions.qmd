@@ -2,7 +2,7 @@
 title: "12 – Lösungen"
 subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2026-06-08
+date: 2026-12-17
 format:
   html:
     page-layout: full
@@ -16,6 +16,9 @@ title-block-banner: true
 theme:
   light: flatly
   dark: darkly
+lang: de
+author-title: "Autor"
+published-title: "Veröffentlicht"
 ---
 
 ## Übung 1
@@ -47,15 +50,15 @@ Weibliche Charaktere sind signifikant leichter als männliche Charaktere ($t=-1.
 
 ```{r}
 with(
-    subset(penguins, species == "Adelie" | species == "Chinstrap"),
+    filter(penguins, species == "Adelie" | species == "Chinstrap"),
     t.test(bill_len ~ species)
 )
 with(
-    subset(penguins, species == "Adelie" | species == "Gentoo"),
+    filter(penguins, species == "Adelie" | species == "Gentoo"),
     t.test(bill_len ~ species)
 )
 with(
-    subset(penguins, species == "Gentoo" | species == "Chinstrap"),
+    filter(penguins, species == "Gentoo" | species == "Chinstrap"),
     t.test(bill_len ~ species)
 )
 ```
@@ -65,15 +68,15 @@ with(
 
 ```{r}
 with(
-    subset(penguins, species == "Adelie" | species == "Chinstrap"),
+    filter(penguins, species == "Adelie" | species == "Chinstrap"),
     t.test(bill_dep ~ species)
 )
 with(
-    subset(penguins, species == "Adelie" | species == "Gentoo"),
+    filter(penguins, species == "Adelie" | species == "Gentoo"),
     t.test(bill_dep ~ species)
 )
 with(
-    subset(penguins, species == "Gentoo" | species == "Chinstrap"),
+    filter(penguins, species == "Gentoo" | species == "Chinstrap"),
     t.test(bill_dep ~ species)
 )
 ```
@@ -81,14 +84,14 @@ with(
 ### Verwendung von `pairwise.t.test()`
 
 ```{r}
-pairwise.t.test(penguins$bill_len, penguins$species)
-pairwise.t.test(penguins$bill_dep, penguins$species)
+pairwise.t.test(penguins[["bill_len"]], penguins[["species"]])
+pairwise.t.test(penguins[["bill_dep"]], penguins[["species"]])
 ```
 
 
 ## Übung 3
 
-Für einen gepaarten *t*-Test müssen wir die Daten zunächst ins Wide-Format konvertieren:
+Für einen gepaarten *t*-Test brauchen wir die beiden Messzeitpunkte als getrennte Spalten:
 
 ```{r}
 library(tidyr)
@@ -105,7 +108,7 @@ sleep_wide = pivot_wider(
 Jetzt können wir den Test durchführen:
 
 ```{r}
-t.test(sleep_wide$g1, sleep_wide$g2, paired=TRUE)
+t.test(sleep_wide[["g1"]], sleep_wide[["g2"]], paired=TRUE)
 ```
 
 Der mittlere Unterschied beträgt −1.58, welcher signifikant von Null verschieden ist ($p = .003$). Das 95%-Konfidenzintervall reicht von −2.46 bis −0.70.

@@ -2,7 +2,7 @@
 title: "9 – Korrelation"
 subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2026-05-11
+date: 2026-11-26
 format:
   html:
     page-layout: full
@@ -129,7 +129,7 @@ $$\mathrm{SE}(z_r) = \frac{1}{\sqrt{N - 3}}$$
 
 Nun kann man den erhaltenen Wert von $z_r$ durch den Standardfehler dividieren und das Ergebnis dann mit Werten aus einer Tabelle der Standardnormalverteilung vergleichen. So erhält man dann den $p$-Wert (siehe auch [hier](https://en.wikipedia.org/wiki/Pearson_correlation_coefficient#Using_the_Fisher_transformation)).
 
-:::{.callout-note}
+::: callout-note
 Der $p$-Wert gibt hier die Wahrscheinlichkeit an, dass man eine Korrelation erhält, die *mindestens* so groß ist wie die beobachtete, unter der Annahme, dass die Nullhypothese zutrifft (also dass die Korrelation 0 ist).
 
 Ein kleiner $p$-Wert bedeutet also, dass der beobachtete Wert unter der Nullhypothese sehr unwahrscheinlich ist. Daher entscheidet man sich in solchen Situationen, die Nullhypothese zu verwerfen und die Korrelation als signifikant (unterschiedlich von 0) zu betrachten.
@@ -140,31 +140,18 @@ Betrachten wir dazu ein Beispiel zur Veranschaulichung der Berechnung des $p$-We
 
 ### Beispiel
 
-Gegeben sei eine Korrelation $r = 0.25$ berechnet aus einer Stichprobe der Größe $N = 40$:
+Gegeben sei eine Korrelation $r = 0.25$ aus einer Stichprobe der Größe $N = 40$, und wir geben ein Signifikanzniveau von $\alpha = 0.05$ vor (das ist der Schwellwert für den $p$-Wert, ab dem wir eine Korrelation als signifikant betrachten wollen). Für $p$-Wert und Konfidenzintervall brauchen wir zunächst die Fisher-Transformation von $r$ sowie deren Standardfehler:
 
 ```{r}
 r = 0.25
 N = 40
-```
-
-Weiters geben wir ein Signifikanzniveau von $\alpha = 0.05$ vor (das ist der Schwellwert für den $p$-Wert, ab dem wir eine Korrelation als signifikant betrachten wollen):
-
-```{r}
 alpha = 0.05
-```
 
-Wir möchten nun wissen, ob die Korrelation $r = 0.25$ bei einem gegebenen Signifikanzniveau signifikant unterschiedlich von 0 ist. Dazu berechnen wir den $p$-Wert und das Konfidenzintervall. Um dies berechnen zu können, müssen wir zuerst die Fisher-Transformation von $r$ berechnen:
-
-```{r}
 (z = atanh(r))
-```
-
-Jetzt können wir den Standardfehler berechnen:
-```{r}
 (se_z = 1 / sqrt(N - 3))
 ```
 
-Den $p$-Wert erhält man nun, indem man die Wahrscheinlichkeit berechnet, dass man in einer Standardnormalverteilung Werte größer als $z \, / \, \text{SE}(z) \approx 1.55$ erhält. Dazu sieht man entweder in einer [Tabelle der Standardnormalverteilung](https://en.wikipedia.org/wiki/Standard_normal_table#Complementary_cumulative) nach oder man berechnet diesen Wert mit entsprechenden Funktionen in R (der Faktor 2 wird benötigt, da wir keine gerichtete Hypothese haben):
+Den $p$-Wert erhält man als Wahrscheinlichkeit, in einer Standardnormalverteilung Werte größer als $z \, / \, \text{SE}(z) \approx 1.55$ zu erhalten (der Faktor 2 wird benötigt, da wir keine gerichtete Hypothese haben):
 
 ```{r}
 (p = 2 * (1 - pnorm(z / se_z)))
@@ -172,27 +159,21 @@ Den $p$-Wert erhält man nun, indem man die Wahrscheinlichkeit berechnet, dass m
 
 Dieser $p$-Wert ist größer als $\alpha = 0.05$, d.h. wir können die Nullhypothese (keine Korrelation) *nicht* verwerfen.
 
-Das Konfidenzintervall um $z$ erhält man, indem man zum gegebenen Wert $z$ das Produkt aus dem Signifikanzniveau entsprechenden Quantil (ca. 1.96 für $\alpha = 0.05$) mit dem Standardfehler addiert bzw. subtrahiert:
+Das Konfidenzintervall erhält man, indem man zu $z$ das Produkt aus dem zum Signifikanzniveau gehörenden Quantil (ca. 1.96 für $\alpha = 0.05$) und dem Standardfehler addiert bzw. subtrahiert. Da alle drei Werte Fisher-transformiert sind, muss man sie abschließend noch rücktransformieren (`tanh()` ist die Umkehrfunktion von `atanh()`):
 
 ```{r}
 cl_z = z - qnorm(1 - alpha/2) * se_z
 cu_z = z + qnorm(1 - alpha/2) * se_z
-c(cl_z, z, cu_z)
+c(cl_z, z, cu_z)  # Fisher-transformiert
+
+c(tanh(cl_z), r, tanh(cu_z))  # zurücktransformiert
 ```
 
-Man beachte, dass es sich bei allen drei Werten um Fisher-transformierte Werte handelt. Möchte man ein Konfidenzintervall um die ursprüngliche Korrelation $r$ angeben, so muss man diese drei Werte noch rücktransformieren (`tanh` ist die Umkehrfunktion von `atanh`):
-
-```{r}
-cl_r = tanh(cl_z)
-cu_r = tanh(cu_z)
-c(cl_r, r, cu_r)
-```
-
-:::{.callout-note}
+::: callout-note
 Das Konfidenzintervall gibt an, in welchem Bereich der wahre Wert der Korrelation mit einer gegebenen Sicherheit (Konfidenz) liegt. Die Konfidenz ist *nicht* die *Wahrscheinlichkeit*, dass der wahre Wert in dem berechneten Intervall liegt – denn der wahre Wert ist entweder in dem Intervall oder nicht. Wenn man viele Stichproben erheben und damit jedes Mal ein Konfidenzintervall berechnen würde, dann würde im Falle eines 95%-Konfidenzintervalls in 95% der berechneten Intervalle der wahre Wert in dem Intervall liegen.
 :::
 
-:::{.callout-tip}
+::: callout-tip
 Die Tatsache, dass die Korrelation $r=0.25$ bei einer Stichprobe von $N=40$ nicht signifikant unterschiedlich von Null ist ($p=0.12$) kann man auch daran erkennen, dass das 95%-Konfidenzintervall den Wert 0 (also die Nullhypothese) enthält. Das bedeutet also, dass wir die Nullhypothese (keine Korrelation) *nicht* verwerfen können.
 :::
 
@@ -278,32 +259,34 @@ library(readr)
 Es ist hilfreich, die Daten zuerst einmal grafisch darzustellen. Für den Zusammenhang zwischen zwei Variablen bietet sich ein Streudiagramm (inklusive Regressionsgeraden) an – so kann man die Korrelation direkt visualisieren. Wir können eine solche Grafik zunächst einmal separat für alle drei Kombinationen erzeugen:
 
 ```{r}
-plot(exam$Revise, exam$Exam, pch=16, col=rgb(0, 0, 0, 0.5))
-abline(lm(exam$Exam ~ exam$Revise), col="blue")
-plot(exam$Anxiety, exam$Exam, pch=16, col=rgb(0, 0, 0, 0.5))
-abline(lm(exam$Exam ~ exam$Anxiety), col="blue")
-plot(exam$Revise, exam$Anxiety, pch=16, col=rgb(0, 0, 0, 0.5))
-abline(lm(exam$Anxiety ~ exam$Revise), col="blue")
+#| message: false
+library(ggplot2)
+
+ggplot(exam, aes(x=Revise, y=Exam)) +
+    geom_point(alpha=0.5) +
+    geom_smooth(method="lm")
+
+ggplot(exam, aes(x=Anxiety, y=Exam)) +
+    geom_point(alpha=0.5) +
+    geom_smooth(method="lm")
+
+ggplot(exam, aes(x=Revise, y=Anxiety)) +
+    geom_point(alpha=0.5) +
+    geom_smooth(method="lm")
 ```
 
-:::{.callout-tip}
-Bei mehreren Variablen (wie in diesem Beispiel) kann man die Funktion `pairs()` verwenden, um alle paarweisen Streudiagramme gleichzeitig darzustellen:
+::: callout-note
+Das graue Band um die Regressionsgerade ist das Konfidenzintervall der Geraden. Möchte man es nicht darstellen, setzt man `geom_smooth(method="lm", se=FALSE)`.
+:::
+
+::: callout-tip
+Bei mehreren Variablen (wie in diesem Beispiel) kann man mit der Funktion `pairs()` alle paarweisen Streudiagramme gleichzeitig darstellen. Man übergibt dieser Funktion einfach die gewünschten Spalten:
 
 ```{r}
 pairs(exam[, 2:4])
 ```
 
-Möchte man auch Regressionsgeraden einzeichnen, kann man eine (anonyme) Funktion als `panel`-Argument übergeben:
-
-```{r}
-pairs(
-    exam[2:4],
-    panel=function(x, y) {
-        points(x, y, pch=16, col=rgb(0, 0, 0, 0.5))
-        abline(lm(y ~ x), col="blue")
-    }
-)
-```
+Dies ist eine der beiden in Einheit 8 erwähnten Ausnahmen: `pairs()` stammt aus dem eingebauten Base-Plotting-System und hat in `ggplot2` keine direkte Entsprechung. Die Grafik lässt sich daher auch nicht mit `+` um weitere Schichten ergänzen – für einen schnellen Überblick über alle Zusammenhänge ist sie trotzdem sehr praktisch.
 :::
 
 
@@ -317,7 +300,7 @@ cor(exam[, c("Exam", "Anxiety", "Revise")])
 
 Man kann aus dieser Korrelationsmatrix direkt die einzelnen Koeffizienten für alle Variablenpaare ablesen. Die Diagonale beinhaltet die Korrelationen der Variablen mit sich selbst und besteht daher aus lauter Werten, die exakt gleich 1 sind. Außerdem ist es egal, ob man die Korrelationen in dem Dreieck *unter* der Diagonale oder *über* der Diagonale abliest, da die Korrelationsmatrix symmetrisch ist (die Korrelation zwischen "Exam" und "Revise" ist dieselbe wie zwischen "Revise" und "Exam" – die Korrelation misst ja keine kausalen Zusammenhänge).
 
-Möchte man jedoch auch $p$-Werte, muss man die Funktion `rcorr()` verwenden. Diese Funktion erwartet die Daten jedoch nicht als Data Frame, sondern als Matrix. Daher müssen die Daten beim Aufruf der Funktion in eine Matrix umgewandelt werden:
+Möchte man jedoch auch $p$-Werte, muss man die Funktion `rcorr()` verwenden. Diese Funktion erwartet die Daten jedoch nicht als Data Frame, sondern als Matrix. Daher müssen die Daten beim Aufruf der Funktion mit `as.matrix()` in eine Matrix umgewandelt werden:
 
 ```{r}
 rcorr(as.matrix(exam[, c("Exam", "Anxiety", "Revise")]))
@@ -328,7 +311,7 @@ Zusätzlich zur Korrelationsmatrix bekommt man auch die $p$-Werte geliefert. In 
 Wenn man auch Konfidenzintervalle benötigt, muss man die Funktion `cor.test()` verwenden. Diese Funktion unterstützt aber nur zwei Variablen, d.h. bei mehreren Variablen muss man die Funktion mehrmals aufrufen, um alle paarweisen Korrelationen zu erhalten.
 
 ```{r}
-cor.test(exam$Anxiety, exam$Exam)
+cor.test(exam[["Anxiety"]], exam[["Exam"]])
 ```
 
 
@@ -350,7 +333,7 @@ Für die Beispieldaten können wir analog auch die Spearman-Korrelation bestimme
 ```{r}
 cor(exam[, c("Exam", "Anxiety", "Revise")], method="spearman")
 rcorr(as.matrix(exam[, c("Exam", "Anxiety", "Revise")]), type="spearman")
-cor.test(exam$Revise, exam$Exam, method="spearman")
+cor.test(exam[["Revise"]], exam[["Exam"]], method="spearman")
 ```
 
 
@@ -359,7 +342,7 @@ cor.test(exam$Revise, exam$Exam, method="spearman")
 Die Funktion `cor.test()` gibt im vorigen Beispiel eine Warnung aus, dass der berechnete $p$-Wert nicht exakt ist, da die Daten gleiche Ränge beinhalten. In solchen Fällen ist daher der Kendall-Korrelationskoeffizient die bessere Wahl:
 
 ```{r}
-cor.test(exam$Revise, exam$Exam, method="kendall")
+cor.test(exam[["Revise"]], exam[["Exam"]], method="kendall")
 ```
 
 
@@ -394,8 +377,8 @@ In der Datei [`pm10.csv`](pm10.csv) finden Sie die monatlichen Feinstaubwerte PM
 
 Berechnen Sie abschließend die Pearson-Korrelation zwischen den Daten beider Messstationen inklusive Konfidenzintervall sowie $p$-Wert. Wie viel Varianz der einen Variable kann durch die andere Variable erklärt werden?
 
-:::{.callout-note}
-Wandeln Sie die Spalte `Datum` nach dem Einlesen in einen Datums-Typ um. Für die gleichzeitige Darstellung der beiden Zeitverläufe können Sie zuerst eine Liniengrafik einer Variable erzeugen und dann mit der Funktion `lines()` den zweiten Zeitverlauf mit einer anderen Farbe hinzufügen.
+::: callout-note
+Wandeln Sie die Spalte `Datum` nach dem Einlesen in einen Datums-Typ um. Für die gleichzeitige Darstellung der beiden Zeitverläufe können Sie zwei `geom_line()`-Schichten übereinanderlegen (eine pro Messstation). Übergibt man dabei innerhalb von `aes()` einen fixen Text als `color`, entsteht daraus automatisch die passende Legende (z.B. `aes(y=Petersgasse, color="Petersgasse")`).
 
 Wenn Sie die Funktion `cor()` zur Berechnung der Korrelation zwischen den beiden Variablen verwenden möchten, können Sie fehlende Werte in jeder der beiden Variablen mit dem Argument `use="complete.obs"` ausschließen.
 :::
@@ -404,3 +387,8 @@ Wenn Sie die Funktion `cor()` zur Berechnung der Korrelation zwischen den beiden
 ### Übung 5
 
 Berechnen Sie die Korrelation der Schnabellänge (`bill_len`) mit der Schnabeltiefe (`bill_dep`) im Datensatz `penguins`. Berechnen Sie außerdem diese Korrelation für jede Spezies separat! Was stellen Sie fest?
+
+
+## Lösungen
+
+Die Lösungen zu diesen Übungen finden Sie [hier](09-solutions.qmd).

@@ -2,7 +2,7 @@
 title: "12 – Mittelwertvergleich"
 subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2026-06-08
+date: 2026-12-17
 format:
   html:
     page-layout: full
@@ -43,7 +43,12 @@ library(readr)
 Die mittleren Angstwerte für die beiden Gruppen betragen:
 
 ```{r}
-by(spider$Anxiety, spider$Group, mean)
+#| message: false
+library(dplyr)
+
+spider |>
+    group_by(Group) |>
+    summarize(mean=mean(Anxiety))
 ```
 
 Im Durchschnitt ist die Angst also in der Gruppe, in der echte Spinnen präsentiert wurden, um 7 größer.
@@ -57,8 +62,8 @@ Die Daten in `spider` enthalten eine Person pro Zeile (ein Format, das sich gut 
 #| message: false
 #| echo: false
 library(dplyr)
-spider_stats = spider %>%
-    group_by(Group) %>%
+spider_stats = spider |>
+    group_by(Group) |>
     summarize(N=length(Anxiety),
               mean=mean(Anxiety),
               sd=sd(Anxiety),
@@ -89,7 +94,7 @@ Man erkennt, dass die Konfidenzintervalle stark überlappen, d.h. der Unterschie
 
 ### Abhängige Stichproben
 
-Stellen wir uns nun vor, dass insgesamt nur 12 Personen untersucht wurden, die aber jeweils in beiden Gruppen getestet wurden. Wir konvertieren also die Daten am besten ins Wide-Format, indem wir für jede Person zwei Spalten mit den Angstwerten erstellen (eine für jede Gruppe):
+Stellen wir uns nun vor, dass insgesamt nur 12 Personen untersucht wurden, die aber jeweils in beiden Gruppen getestet wurden. Für den abhängigen *t*-Test brauchen wir die Angstwerte der beiden Gruppen als zwei getrennte Spalten (eine Zeile pro Person). Das erreicht man mit der Funktion `pivot_wider()` aus dem Paket `tidyr`:
 
 ```{r}
 #| message: false
@@ -99,29 +104,29 @@ spider_w = pivot_wider(
     names_from=Group,
     values_from=Anxiety
 )
-spider_w$id = NULL
+spider_w[["id"]] = NULL
 spider_w
 ```
 
 Anschließend berechnen wir angepasste Werte, welche die individuellen Unterschiede der Personen berücksichtigen. Dazu fügen wir zunächst eine Spalte mit der mittleren Angst jeder Person hinzu.
 
 ```{r}
-spider_w$mean = rowMeans(spider_w)
+spider_w[["mean"]] = rowMeans(spider_w)
 spider_w
 ```
 
 Nun berechnen wir die Differenz der Personenmittelwerte zum *Gesamtmittelwert aller Datenpunkte* – dies ist der Korrekturfaktor für Designs mit Messwiederholung.
 
 ```{r}
-spider_w$adj = mean(c(spider_w$picture, spider_w$real)) - spider_w$mean
+spider_w[["adj"]] = mean(c(spider_w[["picture"]], spider_w[["real"]])) - spider_w[["mean"]]
 spider_w
 ```
 
 Damit können wir die einzelnen Angstwerte pro Person korrigieren.
 
 ```{r}
-spider_w$picture_adj = spider_w$picture + spider_w$adj
-spider_w$real_adj = spider_w$real + spider_w$adj
+spider_w[["picture_adj"]] = spider_w[["picture"]] + spider_w[["adj"]]
+spider_w[["real_adj"]] = spider_w[["real"]] + spider_w[["adj"]]
 ```
 
 Dadurch haben wir erreicht, dass die korrigierten Werte nun für alle Personen denselben Mittelwert ergeben, d.h. personenspezifische Unterschiede werden herausgerechnet und nur der Unterschied zwischen den Gruppen wird untersucht:
@@ -137,12 +142,13 @@ spider_w
 
 Die angepassten Werte können wir wieder in einer Grafik darstellen:
 
-```{r echo=FALSE}
+```{r}
+#| echo: false
 spider_w_stats = data.frame(Group=c("picture", "real"),
-                             N=c(length(spider_w$picture_adj), length(spider_w$real_adj)),
-                             mean=c(mean(spider_w$picture_adj), mean(spider_w$real_adj)),
-                             sd=c(sd(spider_w$picture_adj), sd(spider_w$real_adj)))
-spider_w_stats = spider_w_stats %>%
+                             N=c(length(spider_w[["picture_adj"]]), length(spider_w[["real_adj"]])),
+                             mean=c(mean(spider_w[["picture_adj"]]), mean(spider_w[["real_adj"]])),
+                             sd=c(sd(spider_w[["picture_adj"]]), sd(spider_w[["real_adj"]])))
+spider_w_stats = spider_w_stats |>
     mutate(se=sd/sqrt(N), ci=qt(0.975, N-1)*se)
 set.seed(1)
 ggplot(spider_w_stats, aes(Group, mean)) +
@@ -201,7 +207,7 @@ model = lm(Anxiety ~ Group, data=spider)
 summary(model)
 ```
 
-:::{.callout-note}
+::: callout-note
 Hier ist anzumerken, dass die kategorische Variable `Group` von R automatisch mit 0 und 1 codiert wird (und zwar alphabetisch, d.h. die Stufe `picture` entspricht 0 und die Stufe `real` entspricht 1). Man spricht hier von Dummy-Coding.
 :::
 
@@ -223,7 +229,7 @@ Die Regressionsgerade verbindet beide Gruppenmittelwerte und die Steigung beträ
 Wir können dies durch Einsetzen der Gruppenmittelwerte in die Gleichung des linearen Modells selbst nachrechnen. Wir beginnen mit der Gruppe 0, also `picture`. Wir wissen, dass der Mittelwert dieser Gruppe gleich 40 ist.
 
 ```{r}
-mean(spider$Anxiety[spider$Group=="picture"])
+mean(spider[["Anxiety"]][spider[["Group"]]=="picture"])
 ```
 
 Wir setzen in die Modellgleichung ein:
@@ -238,7 +244,7 @@ Man sieht also, dass der Intercept $b_0$ dem Gruppenmittelwert der ersten Gruppe
 Setzen wir jetzt die Werte für die Gruppe `real` ein. Hier beträgt der Gruppenmittelwert 47:
 
 ```{r}
-mean(spider$Anxiety[spider$Group=="real"])
+mean(spider[["Anxiety"]][spider[["Group"]]=="real"])
 ```
 
 $$\bar{y}_{\text{real}} = b_0 + b_1 \cdot x_{\text{real}}$$
@@ -284,7 +290,7 @@ Daraus ergibt sich dann für den _t_-Test mit $N_1 + N_2 - 2$ Freiheitsgraden:
 
 $$t = \frac{\bar{x}_1 - \bar{x}_2}{\sqrt{\frac{s_p^2}{N_1} + \frac{s_p^2}{N_2}}}$$
 
-In R kann man _t_-Tests mit der Funktion `lm()` durchführen. Alternativ gibt es aber auch die Funktion `t.test()`, welche im Hintergrund ebenfalls `lm()` verwendet, aber eine vertrautere Darstellung der Ergebnisse bietet:
+Wie wir gesehen haben, kann man einen _t_-Test mit der Funktion `lm()` durchführen. Üblicher ist aber die Funktion `t.test()`, welche eine vertrautere Darstellung der Ergebnisse bietet:
 
 ```{r}
 (model = t.test(Anxiety ~ Group, data=spider))
@@ -294,13 +300,27 @@ Das erste Argument ist also eine Formel, deren linke Seite die Datenpunkte angib
 
 Ausgegeben wird der Wert der _t_-Statistik, die Freiheitsgrade (standardmäßig korrigiert nach Welch, was die Voraussetzung der Varianzhomogenität überflüssig macht), sowie der _p_-Wert. Weiters gibt es noch das 95%-Konfidenzintervall für die _t_-Statistik sowie die Gruppenmittelwerte.
 
+::: callout-important
+Vergleicht man diese Ausgabe mit dem zuvor gerechneten linearen Modell, fallen leicht unterschiedliche Freiheitsgrade auf: `lm()` liefert 22, `t.test()` hingegen 21.385. Der Grund ist die Welch-Korrektur, die `t.test()` standardmäßig anwendet – diese verzichtet auf die Annahme gleicher Varianzen und korrigiert dafür die Freiheitsgrade. Das lineare Modell entspricht dagegen dem _t_-Test *mit* angenommener Varianzhomogenität. Genau dieses Ergebnis bekommt man mit dem Argument `var.equal=TRUE`:
+
+```{r}
+t.test(Anxiety ~ Group, data=spider, var.equal=TRUE)
+```
+
+Hier stimmen nun sowohl die Freiheitsgrade (22) als auch der _p_-Wert exakt mit der Ausgabe von `summary(lm(Anxiety ~ Group, data=spider))` überein. In der Praxis ist die Voreinstellung (Welch) aber die bessere Wahl.
+:::
+
 Die zweite Möglichkeit, die Funktion aufzurufen, verwendet zwei Argumente; hier übergibt man also die Daten der beiden Gruppen in zwei separaten Vektoren:
 
 ```{r}
-(model = t.test(spider_w$picture, spider_w$real))
+(model = t.test(spider_w[["picture"]], spider_w[["real"]]))
 ```
 
 Das Ergebnis ist aber natürlich dasselbe.
+
+### Effektgrößen
+
+Ein signifikantes Ergebnis sagt nur aus, *dass* ein Unterschied besteht – aber nichts darüber, *wie groß* er ist. Deswegen sollte man immer zusätzlich eine Effektgröße berichten. Diese ist unabhängig von der Stichprobengröße, während der $p$-Wert bei ausreichend großem $N$ selbst für winzige Unterschiede signifikant wird.
 
 Die Effektgröße kann man aus dem Wert von $t$ in eine Korrelation $r$ umrechnen:
 
@@ -315,6 +335,48 @@ r = sqrt(t^2 / (t^2 + df))
 round(r, 3)
 ```
 
+In der Psychologie ist allerdings *Cohen's d* die gebräuchlichste Effektgröße für Mittelwertsvergleiche. Sie gibt die Differenz der Mittelwerte in Einheiten der (gepoolten) Standardabweichung an:
+
+$$d = \frac{\bar{x}_1 - \bar{x}_2}{s_p}, \qquad s_p = \sqrt{\frac{(N_1 - 1) s_1^2 + (N_2 - 1) s_2^2}{N_1 + N_2 - 2}}$$
+
+Die gepoolte Standardabweichung $s_p$ kennen wir bereits von der Berechnung des $t$-Wertes weiter oben. Rechnen wir $d$ für unser Beispiel direkt aus:
+
+```{r}
+x1 = spider[["Anxiety"]][spider[["Group"]] == "picture"]
+x2 = spider[["Anxiety"]][spider[["Group"]] == "real"]
+
+sp = sqrt(((length(x1) - 1) * var(x1) + (length(x2) - 1) * var(x2)) /
+          (length(x1) + length(x2) - 2))
+
+(d = (mean(x1) - mean(x2)) / sp)
+```
+
+Einfacher geht das mit der Funktion `cohens_d()` aus dem Paket `effectsize`, welche gleich auch ein Konfidenzintervall liefert:
+
+```{r}
+#| message: false
+library(effectsize)
+cohens_d(Anxiety ~ Group, data=spider)
+```
+
+Beide Wege liefern denselben Wert. Das negative Vorzeichen kommt daher, dass wir (so wie die Funktion) die erste Gruppe minus die zweite gerechnet haben – die `picture`-Gruppe hat also die *geringere* Angst. Für die Beurteilung der Effektstärke ist nur der Betrag relevant.
+
+::: callout-tip
+Dieses Beispiel zeigt gut, warum Effektgrößen wichtig sind: Der $t$-Test war mit $p = 0.107$ *nicht* signifikant, die Effektgröße $|d| \approx 0.69$ entspricht aber einem mittleren bis großen Effekt. Bei nur 12 Personen pro Gruppe reicht die statistische Power schlicht nicht aus, um einen Effekt dieser Größe zuverlässig nachzuweisen. "Nicht signifikant" bedeutet also *nicht* "kein Effekt".
+:::
+
+::: callout-note
+Als grobe Orientierung gelten nach Cohen folgende Richtwerte (das Vorzeichen gibt nur die Richtung des Unterschieds an, für die Beurteilung der Größe zählt der Betrag):
+
+| $|d|$ | Interpretation |
+|:------|:---------------|
+| 0.2   | kleiner Effekt |
+| 0.5   | mittlerer Effekt |
+| 0.8   | großer Effekt |
+
+Diese Schwellen sind allerdings nur Faustregeln – was ein "großer" Effekt ist, hängt stark vom jeweiligen Forschungsgebiet ab.
+:::
+
 
 ## Abhängiger _t_-Test in R
 
@@ -325,10 +387,10 @@ $$t = \frac{\bar{D} - \mu_D}{s_D / \sqrt{N}}$$
 Unter der Nullhypothese ist $\mu_D = 0$:
 $$t = \frac{\bar{D}}{s_D / \sqrt{N}}$$
 
-Für den abhängigen _t_-Test verwendet man wieder die Funktion `t.test()` und setzt das Argument `paired=TRUE`. Hier sollte man die Variante mit zwei Argumenten verwenden (d.h. die Daten sollten im Wide-Format vorliegen):
+Für den abhängigen _t_-Test verwendet man wieder die Funktion `t.test()` und setzt das Argument `paired=TRUE`. Hier sollte man die Variante mit zwei Argumenten verwenden (also die beiden Spalten von `spider_w` von oben):
 
 ```{r}
-(model = t.test(spider_w$picture, spider_w$real, paired=TRUE))
+(model = t.test(spider_w[["picture"]], spider_w[["real"]], paired=TRUE))
 ```
 
 Das Ergebnis ist diesmal signifikant mit $p=0.03098$. Dies entspricht unseren Überlegungen mit den unterschiedlich großen Konfidenzintervallen von abhängigen und unabhängigen Versuchsdesigns. Abhängige Designs können also kleinere Unterschiede detektieren.
@@ -344,10 +406,93 @@ round(r, 3)
 
 Es handelt sich also in diesem Fall um einen großen Effekt.
 
+Cohen's $d$ berechnet man für abhängige Stichproben ebenfalls mit `cohens_d()`, hier muss man aber `paired=TRUE` setzen:
+
+```{r}
+#| message: false
+cohens_d(spider_w[["picture"]], spider_w[["real"]], paired=TRUE)
+```
+
+
+## Nichtparametrische Alternativen
+
+Der _t_-Test setzt (unter anderem) normalverteilte Residuen voraus. Ist diese Annahme deutlich verletzt – etwa bei stark schiefen Verteilungen oder bei ordinalskalierten Daten – kann man auf ein nichtparametrisches Verfahren ausweichen. Diese vergleichen keine Mittelwerte, sondern arbeiten mit *Rängen*, ganz ähnlich wie die Spearman-Korrelation aus Einheit 9.
+
+Für zwei *unabhängige* Gruppen ist das der Wilcoxon-Rangsummentest (auch Mann-Whitney-U-Test genannt), für zwei *abhängige* Gruppen der Wilcoxon-Vorzeichen-Rang-Test. In R werden beide mit derselben Funktion `wilcox.test()` berechnet, die genau wie `t.test()` aufgerufen wird:
+
+```{r}
+wilcox.test(Anxiety ~ Group, data=spider)  # unabhängig
+wilcox.test(spider_w[["picture"]], spider_w[["real"]], paired=TRUE)  # abhängig
+```
+
+Die Ergebnisse führen hier zu denselben Schlussfolgerungen wie die entsprechenden _t_-Tests: Der Vergleich der unabhängigen Gruppen ist nicht signifikant ($p = 0.136$ gegenüber $p = 0.107$ beim _t_-Test), der abhängige Vergleich hingegen schon ($p = 0.047$ gegenüber $p = 0.031$). Man erkennt aber auch, dass die $p$-Werte durchwegs etwas größer sind. Das ist typisch: Nichtparametrische Tests sind robuster, haben aber bei tatsächlich normalverteilten Daten etwas weniger Power. Man sollte sie daher nicht routinemäßig einsetzen, sondern nur dann, wenn die Voraussetzungen des _t_-Tests klar verletzt sind.
+
+
+## Mehr als zwei Gruppen
+
+Mit dem _t_-Test kann man immer nur *zwei* Mittelwerte vergleichen. Bei mehr als zwei Gruppen darf man nicht einfach alle Paare einzeln testen, denn mit jedem zusätzlichen Test steigt die Wahrscheinlichkeit, rein zufällig ein signifikantes Ergebnis zu erhalten (Problem des multiplen Testens). Stattdessen verwendet man eine *Varianzanalyse* (ANOVA), welche zunächst die eine Frage beantwortet: Unterscheidet sich *mindestens eine* Gruppe von den anderen?
+
+Wie schon der _t_-Test ist auch die ANOVA nur ein Spezialfall des linearen Modells – die relevante Größe ist hier die uns aus Einheit 10 bereits bekannte $F$-Statistik. Sehen wir uns das am `penguins`-Datensatz an, wo wir die Körpermasse zwischen den drei Spezies vergleichen wollen:
+
+```{r}
+model = lm(body_mass ~ species, data=penguins)
+anova(model)
+```
+
+Der $F$-Wert ist mit $p < 0.001$ hoch signifikant, d.h. die drei Spezies unterscheiden sich in ihrer Körpermasse.
+
+Die vertraute ANOVA-Tabelle bekommt man auch direkt mit der Funktion `aov_ez()` aus dem Paket `afex`. Diese benötigt eine Spalte, welche jede Beobachtung eindeutig identifiziert (Argument `id`), die abhängige Variable (`dv`) sowie die Gruppierungsvariable (`between`):
+
+```{r}
+#| message: false
+library(afex)
+
+df = penguins[!is.na(penguins[["body_mass"]]),]
+df[["id"]] = 1:nrow(df)
+aov_ez(id="id", dv="body_mass", data=df, between="species")
+```
+
+Neben $F$-Wert, Freiheitsgraden und Signifikanz wird hier auch gleich eine Effektgröße ausgegeben (`ges` steht für "generalized eta squared", also den Anteil erklärter Varianz).
+
+Ein signifikantes ANOVA-Ergebnis sagt aber noch nicht, *welche* Gruppen sich voneinander unterscheiden. Dafür rechnet man anschließend paarweise Vergleiche und korrigiert deren $p$-Werte für das multiple Testen. Die Funktion `pairwise.t.test()` erledigt beides in einem Schritt:
+
+```{r}
+pairwise.t.test(penguins[["body_mass"]], penguins[["species"]])
+```
+
+Standardmäßig wird die Holm-Korrektur verwendet; mit dem Argument `p.adjust.method` kann man ein anderes Verfahren wählen (z.B. `"bonferroni"`). Im Beispiel sieht man, dass sich Gentoo hoch signifikant von den beiden anderen Spezies unterscheidet, während zwischen Adélie und Chinstrap mit $p = 0.63$ *kein* signifikanter Unterschied besteht. Das signifikante ANOVA-Ergebnis geht hier also ausschließlich auf die Gentoo-Pinguine zurück – ein gutes Beispiel dafür, warum die paarweisen Vergleiche unverzichtbar sind.
+
+
+## Kategoriale Daten
+
+Bisher haben wir immer eine *numerische* abhängige Variable verglichen. Sind beide Variablen jedoch kategorisch, vergleicht man keine Mittelwerte, sondern *Häufigkeiten*. Ausgangspunkt ist dann eine Kreuztabelle, wie wir sie in Einheit 6 mit `table()` erstellt haben:
+
+```{r}
+(tab = table(penguins[["species"]], penguins[["sex"]]))
+```
+
+Mit dem $\chi^2$-Test (Chi-Quadrat-Test) prüft man, ob die beiden Variablen voneinander unabhängig sind. Die Nullhypothese lautet, dass kein Zusammenhang besteht – die beobachteten Häufigkeiten also nur zufällig von den unter Unabhängigkeit erwarteten abweichen:
+
+```{r}
+chisq.test(tab)
+```
+
+Der $p$-Wert ist hier sehr groß, d.h. wir können die Nullhypothese nicht verwerfen: Das Geschlechterverhältnis unterscheidet sich zwischen den drei Spezies nicht. Ein Beispiel mit einem klaren Zusammenhang ist dagegen die Verteilung der Spezies auf die Inseln:
+
+```{r}
+chisq.test(table(penguins[["species"]], penguins[["island"]]))
+```
+
+::: callout-important
+Der $\chi^2$-Test setzt voraus, dass die *erwarteten* Häufigkeiten in allen Zellen ausreichend groß sind (als Faustregel mindestens 5). Ist das nicht der Fall, gibt R eine entsprechende Warnung aus – dann sollte man bei einer 2×2-Tabelle besser den exakten Test nach Fisher verwenden (`fisher.test()`).
+:::
+
 
 ## Ausblick
 
-Zusammenfassend haben wir gesehen, dass der Mittelwertsvergleich über den *t*-Test auf ein lineares Modell zurückgeführt werden kann. Möchte man mehr als zwei Mittelwerte vergleichen, kann man das lineare Modell mit mehreren Prädiktoren verwenden (Dummy-Coding). In der klassischen Varianzanalyse betrachtet man die *F*-Statistik, welche aber auch Teil der linearen Regression ist (sie misst die Güte des Modells) und dementsprechend auch in der Ausgabe aufscheint. Man kann also auch eine ANOVA als Spezialfall eines linearen Modells sehen. Um die vertrauten ANOVA-Tabellen dennoch auch in R zu erhalten, kann man beispielsweise das Paket `afex` benutzen.
+Zusammenfassend haben wir gesehen, dass sich sowohl der *t*-Test als auch die ANOVA auf ein lineares Modell zurückführen lassen. Beim *t*-Test codiert ein einzelner Prädiktor die beiden Gruppen (Dummy-Coding), bei mehr als zwei Gruppen sind es entsprechend mehrere Prädiktoren; die relevante Größe ist dann die *F*-Statistik, welche uns als Maß für die Modellgüte bereits aus der linearen Regression bekannt ist. Korrelation, Regression und Mittelwertvergleich sind also keine drei unabhängigen Verfahren, sondern verschiedene Blickwinkel auf dasselbe zugrundeliegende Modell.
+
+Die hier gezeigte einfaktorielle ANOVA ist dabei nur der einfachste Fall. Mit `aov_ez()` kann man auch mehrere Faktoren gleichzeitig (mehrfaktorielle ANOVA) sowie Messwiederholungen (Argument `within` statt `between`) analysieren.
 
 Bei abhängigen Messungen kann man keine linearen Modelle rechnen, da eine der wichtigsten Voraussetzungen die Unabhängigkeit der Messpunkte ist. Sogenannte lineare gemischte Modelle (engl. *linear mixed models*) können aber mit diesen Abhängigkeiten umgehen und werden immer häufiger statt den klassischen Messwiederholungs-ANOVAs eingesetzt. Gemischte Modelle sind Verallgemeinerungen von linearen Modellen, oder umgekehrt sind lineare Modelle Spezialfälle von linearen gemischten Modellen. Das Paket `lme4` hat sich in R als Standard zur Berechnung dieser Modelle durchgesetzt (bzw. die darauf aufbauenden Pakete `lmerTest` und `afex`).
 
@@ -360,7 +505,7 @@ Das Paket `dplyr` beinhaltet den Datensatz `starwars` (aktivieren Sie das Paket 
 
 Führen Sie auch einen Vergleich des Gewichtes (Spalte `mass`) durch (überprüfen Sie die Hypothese, dass männliche Charaktere mehr wiegen als weibliche). Geben Sie auch hier die Mittelwerte beider Gruppen an.
 
-:::{.callout-note}
+::: callout-note
 Verwenden Sie das Argument `alternative` von `t.test()`, um einen *einseitigen* Test durchzuführen.
 :::
 
@@ -376,6 +521,11 @@ Die Funktion `pairwise.t.test()` rechnet mehrere paarweise Vergleiche. Verwenden
 
 Laden Sie den Datensatz `sleep` (standardmäßig bei R dabei). Unterscheiden sich die beiden Gruppen (`group`) in der Anzahl an zusätzlichen Schlafstunden (`extra`)? Wenn ja, wie groß ist dieser Unterschied im Mittel? Geben Sie auch ein 95%-Konfidenzintervall an.
 
-:::{.callout-note}
+::: callout-note
 Entnehmen Sie dem Hilfetext, ob Sie einen abhängigen oder unabhängigen *t*-Test rechnen müssen.
 :::
+
+
+## Lösungen
+
+Die Lösungen zu diesen Übungen finden Sie [hier](12-solutions.qmd).

@@ -2,7 +2,7 @@
 title: "10 – Lineare Regression (1)"
 subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2026-05-18
+date: 2026-12-03
 format:
   html:
     page-layout: full
@@ -37,7 +37,7 @@ Im Fall der linearen Regression ist das Modell $\hat{y}_i$ linear, also eine Ger
 
 $$y_i = \underbrace{\left(b_0 + b_1 x_i\right)}_{\hat{y}_i} + \varepsilon_i$$
 
-:::{.callout-note}
+::: callout-note
 Eine Geradengleichung kann in der Form $y = k \cdot x + d$ angeschrieben werden. Die zwei Parameter $k$ und $d$ sind wie folgt definiert:
 
 - Der Schnittpunkt mit der y-Achse $d$ entspricht dem Wert von $y$ an der Stelle $x=0$.
@@ -52,7 +52,7 @@ Das tiefgestellte $i$ steht für den $i$-ten Datenpunkt (von insgesamt $N$). Das
 
 Die Datenpunkte $x_i$ können als Vektor $\mathbf{x}$ betrachtet werden; dieser wird als unabhängige Variable, Prädiktor oder Treatment bezeichnet. Die Datenpunkte $y_i$ können ebenfalls als Vektor $\mathbf{y}$ betrachtet werden; dieser wird als abhängige Variable oder Outcome bezeichnet. Die Fehler $\varepsilon_i$ werden als Residuen bezeichnet.
 
-:::{.callout-tip}
+::: callout-tip
 Zur Veranschaulichung sind in der folgenden Abbildung drei Geraden mit gleichen Intercepts aber unterschiedlichen Steigungen (links) sowie unterschiedlichen Intercepts aber gleichen Steigungen (rechts) abgebildet.
 
 ```{r}
@@ -111,7 +111,7 @@ ggplot(df, aes(x, y)) +
     annotate("text", x=6.8, y=5, label="\u201345.8", color="red")
 ```
 
-::: {.callout-note}
+::: callout-note
 Wir werden nicht darauf eingehen, wie die Methode der kleinsten Fehlerquadrate im Detail funktioniert. Es ist ausreichend zu wissen, dass diese Methode die optimale Gerade findet, also die Regressionskoeffizienten $b_0$ und $b_1$ so bestimmt, dass die Fehlerquadratsumme minimiert wird.
 :::
 
@@ -234,18 +234,16 @@ library(readr)
 (album = read_tsv("sales1.dat"))
 ```
 
-Es ist anzunehmen, dass ein höheres Werbebudget zu höheren Verkaufszahlen führt. Neben der Berechnung diverser deskriptiver Statistiken (wird hier nicht durchgeführt) ist es sinnvoll, die Daten vor einer Regressionsanalyse grafisch darzustellen. Hier bietet sich ein Scatterplot mit überlagerter Regressionsgeraden an (das Argument von `abline()`, nämlich `lm(sales ~ adverts, data=album)`, ist das Regressionsmodell und wird gleich erklärt):
+Es ist anzunehmen, dass ein höheres Werbebudget zu höheren Verkaufszahlen führt. Neben der Berechnung diverser deskriptiver Statistiken (wird hier nicht durchgeführt) ist es sinnvoll, die Daten vor einer Regressionsanalyse grafisch darzustellen. Hier bietet sich ein Scatterplot mit überlagerter Regressionsgeraden an (genau diese Gerade werden wir gleich mit `lm()` auch berechnen):
 
 ```{r}
-plot(
-    x=album$adverts,
-    y=album$sales,
-    pch=21,
-    bg=rgb(0, 0, 0, 0.5),
-    xlab="Adverts (1000 EUR)",
-    ylab="Sales (1000)"
-)
-abline(lm(sales ~ adverts, data=album), col="blue", lwd=2)
+#| message: false
+library(ggplot2)
+
+ggplot(album, aes(x=adverts, y=sales)) +
+    geom_point(alpha=0.5) +
+    geom_smooth(method="lm") +
+    labs(x="Adverts (1000 EUR)", y="Sales (1000)")
 ```
 
 Es ist klar, dass eine positive Beziehung zwischen den beiden Variablen besteht (je größer das Werbebudget desto mehr Albenverkäufe). Außerdem ist die Steigung der Regressionsgeraden stark verschieden von Null, d.h. es ist zu erwarten, dass das Regressionsmodell signifikant ist.
@@ -278,7 +276,7 @@ Im Fall der einfachen linearen Regression können wir auch sofort die Pearson-Ko
 sqrt(summary(model)$r.squared)
 ```
 
-::: {.callout-tip}
+::: callout-tip
 Das Objekt `summary(model)` ist eine Liste, welche diverse Informationen über das Modell enthält. Man kann die einzelnen Elemente der Liste mit dem `$`-Operator (oder mit `[[ ]]`) extrahieren, genau wie bei einem Data Frame. Eine Übersicht über die Elemente der Liste erhält man mit `names(summary(model))`:
 
 ```{r}
@@ -288,7 +286,7 @@ names(summary(model))
 
 Diesen Wert könnte man jetzt vergleichen mit jenem aus der direkten Berechnung der Korrelation (z.B. mit `cor()` oder `cor.test()`) – das Ergebnis ist identisch:
 ```{r}
-cor(album$adverts, album$sales)
+cor(album[["adverts"]], album[["sales"]])
 ```
 
 Die letzte Zeile der Modellzusammenfassung zeigt die $F$-Statistik und deren Signifikanz:
@@ -362,3 +360,8 @@ Berechnen Sie die Pearson-Korrelation zwischen den beiden Variablen (ohne Verwen
 ### Übung 4
 
 Wie lautet die Gleichung der Regressionsgeraden? Welche Bremswege sagt das Modell für Geschwindigkeiten von 5 bzw. 65 voraus? Verwenden Sie für die Vorhersage sowohl die Geradengleichung als auch die Funktion `predict()`.
+
+
+## Lösungen
+
+Die Lösungen zu diesen Übungen finden Sie [hier](10-solutions.qmd).

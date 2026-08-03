@@ -2,7 +2,7 @@
 title: "9 – Lösungen"
 subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2026-05-11
+date: 2026-11-26
 format:
   html:
     page-layout: full
@@ -65,7 +65,7 @@ cor(mtcars[, c("mpg", "disp", "hp")], method="spearman")
 ```
 
 ```{r}
-pairs(subset(mtcars, select=c(mpg, disp, hp)))
+pairs(mtcars[, c("mpg", "disp", "hp")])
 ```
 
 
@@ -75,39 +75,51 @@ pairs(subset(mtcars, select=c(mpg, disp, hp)))
 #| message: false
 library(readr)
 pm10 = read_csv("pm10.csv")
-pm10$Datum = as.Date(pm10$Datum, format="%d.%m.%y")
+pm10[["Datum"]] = as.Date(pm10[["Datum"]], format="%d.%m.%y")
 ```
 
 
 ### Zeitlicher Verlauf von PM10 für beide Messorte
 
 ```{r}
-plot(pm10$Datum, pm10$Petersgasse, type="l", col="blue", xlab="", ylab="PM10")
-lines(pm10$Datum, pm10$DonBosco, col="red")
+#| message: false
+#| warning: false
+library(ggplot2)
+
+ggplot(pm10, aes(x=Datum)) +
+    geom_line(aes(y=Petersgasse, color="Petersgasse")) +
+    geom_line(aes(y=DonBosco, color="DonBosco")) +
+    labs(x="", y="PM10", color="Messstation")
 ```
 
 ### Zusammenhang der beiden Messstationen
 
 ```{r}
-with(pm10, plot(Petersgasse, DonBosco, pch=16, col=rgb(0, 0, 0, 0.5)))
-abline(lm(pm10$DonBosco ~ pm10$Petersgasse), col="blue")
+#| message: false
+#| warning: false
+ggplot(pm10, aes(x=Petersgasse, y=DonBosco)) +
+    geom_point(alpha=0.5) +
+    geom_smooth(method="lm")
+```
 
-(r = cor.test(pm10$Petersgasse, pm10$DonBosco))
+```{r}
+(r = cor.test(pm10[["Petersgasse"]], pm10[["DonBosco"]]))
 r$estimate**2  # erklärte Varianz
 
 # fehlende Werte (NA) müssen explizit ausgeschlossen werden
-cor(pm10$Petersgasse, pm10$DonBosco, use="complete.obs")
+cor(pm10[["Petersgasse"]], pm10[["DonBosco"]], use="complete.obs")
 ```
 
 
 ## Übung 5
 
 ```{r}
-cor(penguins$bill_len, penguins$bill_dep, use="complete.obs")
-by(
-    penguins[, c("bill_len", "bill_dep")],
-    penguins$species,
-    cor,
-    use="complete.obs"
-)
+#| message: false
+library(dplyr)
+
+cor(penguins[["bill_len"]], penguins[["bill_dep"]], use="complete.obs")
+
+penguins |>
+    group_by(species) |>
+    summarize(r=cor(bill_len, bill_dep, use="complete.obs"))
 ```

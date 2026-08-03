@@ -21,84 +21,6 @@ author-title: "Autor"
 published-title: "Veröffentlicht"
 ---
 
-## Daten umformen mit `tidyr`
-
-Es gibt in der Praxis zwei gängige Möglichkeiten, ein und dieselben Daten in einer Tabelle darzustellen, und zwar entweder im Wide-Format oder im Long-Format. Zur Berechnung deskriptiver Statistiken eignet sich das Wide-Format besser, das Long-Format ist aber bei anderen Aufgabenstellungen notwendig. Deswegen ist es sinnvoll, wenn man weiß, wie man die eine Darstellung in die andere umwandeln kann.
-
-Bei Daten im Wide-Format gibt es für jede Variable eine eigene Spalte. Daten im Long-Format haben nur eine Werte-Spalte und eine oder mehrere Spalte(n) mit Indikator-Variablen, welche den Kontext der Werte definieren. Die folgende Tabelle zeigt Beispieldaten im Wide-Format:
-
-::: narrow-table
-| Person | Age | Weight | Height |
-|:-------|----:|-------:|-------:|
-| Bob    |  32 |     98 |    188 |
-| Al     |  24 |     61 |    176 |
-| Sue    |  64 |     87 |    174 |
-:::
-
-Man sieht, dass es drei Wertespalten gibt (`Age`, `Weight` und `Height`), sowie eine Spalte, welche die Person identifiziert (`Person`). Dieselben Daten sehen im Long-Format so aus (es gibt nur eine einzige Werte-Spalte namens `Value`):
-
-::: narrow-table
-| Person | Variable | Value |
-|:-------|:---------|------:|
-| Bob    | Age      |    32 |
-| Bob    | Weight   |    98 |
-| Bob    | Height   |   188 |
-| Al     | Age      |    24 |
-| Al     | Weight   |    61 |
-| Al     | Height   |   176 |
-| Sue    | Age      |    64 |
-| Sue    | Weight   |    87 |
-| Sue    | Height   |   174 |
-:::
-
-In R kann man mit dem Paket `tidyr` zwischen den beiden Formaten hin- und herwechseln, d.h. wenn die Daten in einem Format vorliegen, kann man relativ einfach das andere Format produzieren. Die Daten aus dem Beispiel oben können wir zunächst einmal im Wide-Format erzeugen:
-
-```{r}
-library(tibble)
-
-(df = tibble(
-    Person=c("Bob", "Al", "Sue"),
-    Age=c(32, 24, 64),
-    Weight=c(98, 61, 87),
-    Height=c(188, 176, 174)
-))
-```
-
-Das Paket `tidyr` aus dem Tidyverse beinhaltet die Funktionen `pivot_longer()` und `pivot_wider()`, welche Data Frames von wide nach long bzw. von long nach wide umwandeln können. Das Data Frame `df` (welches im Wide-Format vorliegt) können wir also wie folgt ins Long-Format konvertieren:
-
-```{r}
-library(tidyr)
-
-(df_long = pivot_longer(
-    df,
-    Age:Height,
-    names_to="Variable",
-    values_to="Value"
-))
-```
-
-Hier übergibt man zuerst die Daten im Wide-Format (`df`), gefolgt von einer Auswahl der (Werte-)Spalten, die man ins Long-Format bringen möchte – in unserem Beispiel sind das die Spalten von `Age` bis `Height`. Für diese Spaltenauswahl kann man die Spaltennamen ohne Anführungszeichen schreiben, und auch der Doppelpunkt funktioniert wie bei Zahlensequenzen (man könnte hier auch die Indizes der Spalten verwenden, also `2:4` statt `Age:Height`). Schließlich gibt man mit `names_to` den gewünschten Namen der Indikatorspalte an (im Beispiel soll diese also `Variable` heißen) und mit `values_to` den Namen der neuen Werte-Spalte (hier also `Value`).
-
-Der umgekehrte Weg wird mit `pivot_wider()` beschritten; diese Funktion kann also vom Long-Format ins Wide-Format konvertieren:
-
-```{r}
-(df_wide = pivot_wider(
-    df_long,
-    id_cols=Person,
-    names_from=Variable,
-    values_from=Value
-))
-```
-
-Hier gibt man zunächst die Daten im Long-Format an (`df_long`). Danach folgen mit `id_cols` die Spaltennamen, welche die einzelnen Fälle identifizieren (in unserem Beispiel ist das nur eine einzige Spalte namens `Person`). Danach gibt man mit `names_from` die Spalte an, welche die Variablennamen beinhaltet (also die Indikatorspalte `Variable`). Schließlich definiert man mit `values_from` die Spalte, welche die Werte beinhaltet (`Value`).
-
-Diese beiden Funktionen können sehr viel komplexere Strukturen in die jeweiligen Formate konvertieren – dies ist alles in der Hilfe nachzulesen, inklusive vieler Beispiele, die die Verwendung demonstrieren.
-
-::: callout-note
-Das Tidyverse basiert auf einer Darstellung von Daten, die man als "tidy" bezeichnet. Im Wesentlichen entspricht dies dem Wide-Format, bei dem jede Variable einer eigenen Spalte sowie jeder Datenpunkt einer eigenen Zeile entspricht (mehr Details dazu sind in [diesem Artikel](https://www.jstatsoft.org/article/view/v059i10) zu finden).
-:::
-
-
 ## Daten aufbereiten mit `dplyr`
 
 Die typischen Arbeitsschritte bei der Aufbereitung von Daten sind immer dieselben: Zeilen auswählen, Spalten auswählen, neue Spalten berechnen und sortieren. Das Paket `dplyr` aus dem Tidyverse stellt dafür einige wenige, konsistent aufgebaute Funktionen zur Verfügung, die man auch *Verben* nennt. Sie funktionieren alle nach demselben Muster: Das erste Argument ist immer das Data Frame, und das Ergebnis ist immer ein neues Data Frame.
@@ -346,24 +268,10 @@ airquality |>
 
 ### Übung 1
 
-Installieren und aktivieren Sie das Paket `tidyr`. Darin enthalten ist der Datensatz `table2`. Erzeugen Sie daraus ein neues Data Frame, welches aus den Spalten `type` und `count` die Werte in zwei Spalten `cases` und `population` enthält.
-
-
-### Übung 2
-
-Im Paket `tidyr` ist auch ein Datensatz `table4a` enthalten. Fassen Sie die beiden Spalten `1999` und `2000` zu einer Wertespalte namens `count` und einer Indikatorspalte namens `year` zusammen.
-
-::: callout-note
-Die beiden Spaltennamen muss man mit Backticks (`` ` ``) umschließen, da Namen die mit Ziffern starten und R diese sonst als Zahlen interpretieren würde, d.h. `` `1999` `` bzw. `` `2000` ``.
-:::
-
-
-### Übung 3
-
 Erstellen Sie aus dem in R vorhandenen Data Frame `mtcars` ein neues Data Frame namens `mtcars1`, welches nur aus jenen Zeilen besteht in denen die Spalte `mpg` Werte größer als 25 aufweist. Aus wie vielen Zeilen bzw. Spalten bestehen `mtcars` bzw. `mtcars1`?
 
 
-### Übung 4
+### Übung 2
 
 Installieren und aktivieren Sie das Paket `nycflights13`. Wir verwenden den Datensatz `flights` aus diesem Paket. Lesen Sie sich zuerst den Hilfetext zu `flights` durch. Führen Sie danach folgende Aufgaben durch (verwenden Sie dabei den Pipe-Operator sowie die `dplyr`-Verben `filter()`, `select()` und `mutate()`):
 
@@ -373,7 +281,7 @@ Installieren und aktivieren Sie das Paket `nycflights13`. Wir verwenden den Date
 - Erstellen Sie einen neuen Datensatz, welcher nur jene Flüge beinhaltet, die schneller als geplant unterwegs waren (wo also die Verspätung bei der Ankunft kleiner war als beim Abflug).
 
 
-### Übung 5
+### Übung 3
 
 Berechnen Sie im Datensatz `penguins` deskriptive Statistiken getrennt für die drei Pinguinspezies. Wie lauten die Mittelwerte der Spalten `bill_len`, `bill_dep` und `flipper_len` für die drei Spezies? Geben Sie außerdem an, wie viele Pinguine es pro Spezies gibt.
 
@@ -382,7 +290,7 @@ Achten Sie auf die fehlenden Werte in diesen Spalten!
 :::
 
 
-### Übung 6
+### Übung 4
 
 Laden Sie die Beispieldaten [`lecturer.dat`](lecturer.dat) (siehe Einheit 5) und berechnen Sie, getrennt nach der Spalte `job`, die Anzahl der Personen sowie die Mittelwerte der Spalten `friends`, `alcohol`, `income` und `neurotic`. Sortieren Sie das Ergebnis absteigend nach dem mittleren Einkommen.
 
