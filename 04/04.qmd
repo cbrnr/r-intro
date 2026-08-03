@@ -41,14 +41,12 @@ class(v)
 
 Die zugrundeliegenden Daten ändern sich dabei *nicht* – sie werden durch das Dimensionsattribut lediglich anders dargestellt bzw. interpretiert.
 
-::: callout-tip
-Die Anzahl der Zeilen bzw. Spalten bekommt man bequemer mit `nrow()` und `ncol()`:
+Die Anzahl der Zeilen bzw. Spalten kann man bequem mit `nrow()` und `ncol()` bestimmen:
 
 ```{r}
 nrow(v)
 ncol(v)
 ```
-:::
 
 ::: callout-note
 Ein "normaler" Vektor hat *kein* Dimensionsattribut, `dim()` liefert dann `NULL`. Mit dem Dimensionsattribut kann man außerdem beliebig viele Dimensionen erstellen, nicht nur zwei. Man spricht dann von Arrays, und eine Matrix ist ein spezielles Array mit zwei Dimensionen – deswegen lautet die Ausgabe von `class(v)` oben auch `"matrix" "array"`.
@@ -288,9 +286,9 @@ df[1:2, c(1, 3:4)]
 
 ## Tibbles
 
-Mit den Bordmitteln von R (d.h. mit den eingebauten Datentypen wie Data Frames sowie dazugehörigen Funktionen) kann man hervorragend arbeiten. Manchmal sind diese Konstrukte aber etwas umständlich zu verwenden, und daher bietet sich die populäre Paketsammlung namens [Tidyverse](https://www.tidyverse.org/) an, diverse Dinge zu modernisieren bzw. zu vereinfachen. Man installiert alle notwendigen Pakete aus dem Tidyverse mit dem Paket `tidyverse`. Darin enthalten ist das Paket `tibble`, welches eine moderne Alternative zu Data Frames darstellt. Insbesondere ist die Konvertierung, Erstellung und Indizierung von Tibbles nachvollziehbarer, und die Darstellung von Tibbles am Bildschirm ist wesentlich übersichtlicher. Überall wo man Data Frames verwenden kann, kann man auch Tibbles benutzen.
+Mit den Bordmitteln von R (d.h. mit den eingebauten Datentypen wie Data Frames sowie dazugehörigen Funktionen) kann man hervorragend arbeiten. Manchmal sind diese Konstrukte aber etwas umständlich zu verwenden, und daher bietet sich die populäre Paketsammlung namens [Tidyverse](https://www.tidyverse.org/) an, diverse Dinge zu modernisieren bzw. zu vereinfachen. Darin enthalten ist das Paket `tibble`, welches eine moderne Alternative zu Data Frames darstellt. Insbesondere ist die Konvertierung, Erstellung und Indizierung von Tibbles nachvollziehbarer, und die Darstellung von Tibbles am Bildschirm ist wesentlich übersichtlicher. Überall wo man Data Frames verwenden kann, kann man auch Tibbles benutzen.
 
-Bevor man Tibbles verwenden kann, muss man entweder `tibble` oder `tidyverse` aktivieren. Letzteres aktiviert gleich alle Pakete aus dem Tidyverse.
+Bevor man Tibbles verwenden kann, muss man das Paket `tibble` aktivieren:
 
 ```{r}
 library(tibble)

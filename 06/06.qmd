@@ -213,7 +213,7 @@ Die Funktion `stat.desc()` liefert bereits das Ergebnis des [Shapiro-Wilk-Tests]
 shapiro.test(df[["income"]])
 ```
 
-Der [Kolmogorov-Smirnov-Test](https://en.wikipedia.org/wiki/Kolmogorov%E2%80%93Smirnov_test) kann gegebene Daten auf *beliebige* Verteilungen testen, d.h. natürlich auch auf Normalverteilung. Im Falle der Normalverteilung ist aber der Shapiro-Wilk-Test vorzuziehen, da dieser speziell auf die Normalverteilung zugeschnitten ist und daher mehr statistische Power besitzt.
+Der [Kolmogorov-Smirnov-Test](https://en.wikipedia.org/wiki/Kolmogorov%E2%80%93Smirnov_test) – in R mittels `ks.test()` verfügbar – kann gegebene Daten auf *beliebige* Verteilungen testen, d.h. natürlich auch auf Normalverteilung. Im Falle der Normalverteilung ist aber der Shapiro-Wilk-Test vorzuziehen, da dieser speziell auf die Normalverteilung zugeschnitten ist und daher mehr statistische Power besitzt.
 
 ```{r}
 ks.test(df[["income"]], "pnorm", mean(df[["income"]]), sd(df[["income"]]))

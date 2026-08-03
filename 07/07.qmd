@@ -23,7 +23,7 @@ published-title: "Veröffentlicht"
 
 ## Daten aufbereiten mit `dplyr`
 
-Die typischen Arbeitsschritte bei der Aufbereitung von Daten sind immer dieselben: Zeilen auswählen, Spalten auswählen, neue Spalten berechnen und sortieren. Das Paket `dplyr` aus dem Tidyverse stellt dafür einige wenige, konsistent aufgebaute Funktionen zur Verfügung, die man auch *Verben* nennt. Sie funktionieren alle nach demselben Muster: Das erste Argument ist immer das Data Frame, und das Ergebnis ist immer ein neues Data Frame.
+Die typischen Arbeitsschritte bei der Aufbereitung von Daten sind immer dieselben: Zeilen und Spalten auswählen, neue Spalten berechnen und Daten sortieren. Das Paket `dplyr` aus dem Tidyverse stellt dafür einige wenige, konsistent aufgebaute Funktionen zur Verfügung, die man auch *Verben* nennt. Sie funktionieren alle nach demselben Muster: Das erste Argument ist immer das Data Frame, und jede Funktion gibt ein neues Data Frame zurück. Das bedeutet also, dass das ursprüngliche Data Frame immer unverändert bleibt.
 
 ```{r}
 library(dplyr)
@@ -113,10 +113,6 @@ mutate(df, height_m=height / 100, bmi=weight / height_m^2)
 
 Gibt man einen bereits vorhandenen Spaltennamen an, wird die betreffende Spalte überschrieben.
 
-::: callout-important
-Alle diese Funktionen erzeugen immer ein *neues* Data Frame und verändern das ursprüngliche `df` *nicht*. Wenn Sie mit dem Ergebnis weiterarbeiten möchten, müssen Sie es daher einer Variablen zuweisen (z.B. `df2 = mutate(df, ...)`).
-:::
-
 
 ### Zeilen sortieren mit `arrange()`
 
@@ -141,6 +137,10 @@ Schließlich kann man mit `rename()` Spalten umbenennen. Die Schreibweise ist `n
 ```{r}
 rename(df, gewicht=weight, groesse=height)
 ```
+
+::: callout-important
+Alle diese Funktionen erzeugen immer ein *neues* Data Frame und verändern das ursprüngliche `df` *nicht*. Wenn man mit dem Ergebnis weiterarbeiten möchten, muss man es daher einer Variablen zuweisen (z.B. `df2 = mutate(df, ...)`).
+:::
 
 
 ## Der Pipe-Operator `|>`
@@ -191,7 +191,7 @@ x |>
 
 ## Data Wrangling
 
-Kombinieren wir nun alles, was wir in diesem Kapitel gelernt haben (nämlich die `dplyr`-Verben und den Pipe-Operator), dann erhalten wir ein Werkzeug, welches das Umformen eines Data Frames (das sogenannte Data Wrangling) sehr intuitiv ermöglicht. Genau dafür sind die Verben gemacht: Weil das erste Argument immer das Data Frame ist und das Ergebnis immer wieder ein Data Frame, kann man sie beliebig aneinanderreihen.
+Kombinieren wir nun alles, was wir in diesem Kapitel gelernt haben (nämlich die `dplyr`-Verben und den Pipe-Operator), dann erhalten wir ein Werkzeug, welches das Umformen eines Data Frames (das sogenannte Data Wrangling) sehr intuitiv ermöglicht. Jede Funktion nimmt ein Data Frame entgegen und gibt ein Data Frame zurück. Dadurch können wir die Daten Schritt für Schritt bearbeiten, indem wir mehrere Verben miteinander kombinieren. Das Ergebnis eines Arbeitsschritts dient dabei jeweils als Ausgangspunkt für den nächsten.
 
 Sehen wir uns das anhand des `airquality`-Datensatzes an. Nehmen wir an, wir möchten die Temperaturen (in °C) im Monat Juli untersuchen:
 
@@ -218,7 +218,7 @@ mean(aq[["celsius"]])  # mittlere Temperatur (in °C) im Juli
 
 ## Gruppierte Auswertungen
 
-In der vorigen Einheit haben wir deskriptive Statistiken immer für *alle* Fälle berechnet. Sehr häufig möchte man Kennwerte aber getrennt für einzelne Gruppen bestimmen – also z.B. den mittleren Angstwert für die Kontroll- und die Experimentalgruppe separat. `dplyr` stellt dafür zwei weitere Verben zur Verfügung, die sich nahtlos in unsere Pipelines einfügen.
+In der vorigen Einheit haben wir deskriptive Statistiken immer für *alle* Fälle berechnet. Sehr häufig möchte man Kennwerte aber getrennt für einzelne Gruppen bestimmen. `dplyr` stellt dafür zwei weitere Verben zur Verfügung, die sich nahtlos in unsere Pipelines einfügen.
 
 Die Funktion `summarize()` fasst ein Data Frame zu einer *einzigen* Zeile zusammen. Man gibt dabei genau wie bei `mutate()` an, wie die neuen Spalten berechnet werden sollen:
 
