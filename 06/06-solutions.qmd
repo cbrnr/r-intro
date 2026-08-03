@@ -2,7 +2,7 @@
 title: "6 – Lösungen"
 subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2026-04-20
+date: 2026-11-05
 format:
   html:
     page-layout: full
@@ -50,10 +50,22 @@ Aus den Ausgaben der zusammenfassenden Statistiken kann abgelesen werden, dass d
 ```{r}
 dim(penguins)  # 344 Zeilen, 8 Spalten
 summary(penguins)
-by(penguins[, 3:5], penguins$species, colMeans, na.rm=TRUE)
 ```
 
 Die Faktorspalten `species` und `island` haben jeweils drei Stufen, die Spalte `sex` hat zwei Stufen (wobei hier auch fehlende Werte vorkommen). Laut `summary(penguins)` gibt es in den Spalten 3–6 jeweils 2 fehlende Werte und in der 7. Spalte 11 fehlende Werte.
+
+```{r}
+table(penguins[["year"]])
+round(prop.table(table(penguins[["year"]])), 3)
+```
+
+Erhoben wurde in den Jahren 2007, 2008 und 2009; auf das Jahr 2009 entfallen 120 Beobachtungen bzw. 34.9% aller Fälle.
+
+```{r}
+table(penguins[["species"]], penguins[["sex"]], useNA="ifany")
+```
+
+Die fehlenden Angaben zum Geschlecht betreffen ausschließlich Adélie (6) und Gentoo (5); bei Chinstrap ist das Geschlecht bei allen Pinguinen bekannt.
 
 
 ## Übung 3
@@ -61,42 +73,20 @@ Die Faktorspalten `species` und `island` haben jeweils drei Stufen, die Spalte `
 ```{r}
 str(mtcars)
 describe(mtcars)  # min, max, mean, median
-shapiro.test(mtcars$mpg)
+shapiro.test(mtcars[["mpg"]])
 ```
 
 Die Nullhypothese der Normalverteilung kann *nicht* verworfen werden ($p = 0.123$).
 
 ```{r}
 #| warning: false
-leveneTest(mtcars$mpg, mtcars$cyl)
+leveneTest(mtcars[["mpg"]], mtcars[["cyl"]])
 ```
 
 Die Nullhypothese der Varianzhomogenität kann verworfen werden ($p = 0.009$).
 
 
 ## Übung 4
-
-```{r}
-#| message: false
-library(readr)
-
-df = read_tsv("lecturer.dat")
-```
-
-Versuchen wir zunächst, die Mittelwerte der numerischen Spalten mit der Funktion `mean()` zu berechnen:
-
-```{r}
-by(df[, -(1:3)], df$job, mean)
-```
-
-Dies führt zu Warnungen sowie `NA` für die Ergebnisse beider Gruppen. Der Grund ist, dass die gruppierten Daten nach wie vor als Data Frame mit vier numerischen Spalten vorliegen. Die Funktion `mean()` funktioniert aber nur mit einem Vektor (bzw. einer einzigen Spalte eines Data Frames). Daher müssen wir eine andere Aggregierungsfunktion verwenden, die mit Data Frames umgehen kann. Eine Möglichkeit ist die Funktion `colMeans()`:
-
-```{r}
-by(df[, -(1:3)], df$job, colMeans)
-```
-
-
-## Übung 5
 
 ```{r}
 #| error: true

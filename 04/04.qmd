@@ -2,7 +2,7 @@
 title: "4 – Tabellarische Daten"
 subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2026-03-23
+date: 2026-10-22
 format:
   html:
     page-layout: full
@@ -30,44 +30,28 @@ Vektoren werden in R verwendet, um eindimensionale Daten abzubilden. Häufig sin
 
 ### Zusammenhang mit Vektoren
 
-Matrizen sind Vektoren mit einem speziellen Dimensionsattribut, welches man mit der Funktion `dim()` abfragen und setzen kann:
+Eine Matrix ist im Grunde nichts anderes als ein Vektor mit einem zusätzlichen *Dimensionsattribut*, welches man mit der Funktion `dim()` abfragen und setzen kann. Setzt man dieses Attribut auf die gewünschte Anzahl an Zeilen und Spalten (deren Produkt mit der Anzahl der Elemente übereinstimmen muss), wird derselbe Vektor ab sofort als Matrix dargestellt:
 
 ```{r}
-(v = 1:20)  # Vektor
-dim(v)
-length(v)
-```
-
-Ein "normaler" Vektor hat *kein* Dimensionsattribut, daher wird hier `NULL` angezeigt.
-
-Nun kann man für einen Vektor das Dimensionsattribut auf die gewünschte Anzahl an Zeilen und Spalten setzen (das Produkt von Zeilen und Spalten muss mit der Gesamtanzahl an Elementen im Vektor übereinstimmen):
-
-```{r}
+v = 1:20  # Vektor mit 20 Elementen
 dim(v) = c(4, 5)  # 4 Zeilen, 5 Spalten
-```
-
-Nun besitzt `v` also ein Dimensionsattribut:
-
-```{r}
-dim(v)
-```
-
-Tatsächlich wird `v` ab jetzt auch als Matrix mit 4 Zeilen und 5 Spalten dargestellt:
-
-```{r}
 v
-```
-
-Und der Typ von `v` lautet jetzt:
-
-```{r}
 class(v)
 ```
 
-Dieses Beispiel soll zeigen, dass sich die zugrundeliegenden Daten (welche nach wie vor als Vektor vorliegen) *nicht* ändern – sie werden durch das Dimensionsattribut lediglich anders dargestellt bzw. interpretiert.
+Die zugrundeliegenden Daten ändern sich dabei *nicht* – sie werden durch das Dimensionsattribut lediglich anders dargestellt bzw. interpretiert.
+
+:::{.callout-tip}
+Die Anzahl der Zeilen bzw. Spalten bekommt man bequemer mit `nrow()` und `ncol()`:
+
+```{r}
+nrow(v)
+ncol(v)
+```
+:::
 
 :::{.callout-note}
-Mit dem Dimensionsattribut kann man beliebig viele Dimensionen erstellen, nicht nur Matrizen mit zwei Dimensionen. Man spricht dann von Arrays, und eine Matrix ist ein spezielles Array mit zwei Dimensionen. Daher lautet die Ausgabe von `class(v)` im vorigen Beispiel auch `"matrix" "array"`.
+Ein "normaler" Vektor hat *kein* Dimensionsattribut, `dim()` liefert dann `NULL`. Mit dem Dimensionsattribut kann man außerdem beliebig viele Dimensionen erstellen, nicht nur zwei. Man spricht dann von Arrays, und eine Matrix ist ein spezielles Array mit zwei Dimensionen – deswegen lautet die Ausgabe von `class(v)` oben auch `"matrix" "array"`.
 :::
 
 
@@ -256,7 +240,9 @@ Bei den doppelten eckigen Klammern ist das nicht der Fall:
 df[["pat"]]
 ```
 
-Um Fehler zu vermeiden, sollte man daher generell die Schreibweise mit den doppelten eckigen Klammern bevorzugen.
+Um solche Fehler zu vermeiden, sollte man daher generell die Schreibweise mit den doppelten eckigen Klammern bevorzugen – so wird es auch in diesen Unterlagen gehandhabt. Ein weiterer Vorteil ist, dass man in den eckigen Klammern auch eine Variable angeben kann, welche den Spaltennamen enthält (also z.B. `df[[x]]`); mit `$` ist das nicht möglich.
+
+Anzumerken ist noch, dass das automatische Ergänzen nur Data Frames betrifft. Bei Tibbles (welche wir am Ende dieser Einheit kennenlernen werden) liefert ein unvollständiger Spaltenname eine Warnung und `NULL`.
 :::
 
 Zeilen und Spalten kann man auch per "normaler" Indizierung mit eckigen Klammern herausgreifen. Dies funktioniert wie bei Matrizen, man benötigt zwei Indizes, welche mit einem Komma voneinander getrennt sind. Die erste Zahl in den eckigen Klammern steht für die Zeile, und die zweite Zahl steht für die Spalte. Wenn ein Index weggelassen wird, werden alle Zeilen bzw. Spalten herausgegriffen:

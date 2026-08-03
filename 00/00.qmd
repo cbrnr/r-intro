@@ -2,7 +2,7 @@
 title: "Organisatorisches"
 subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2026-03-02
+date: 2026-10-01
 format:
   html:
     page-layout: full
@@ -42,8 +42,8 @@ Der Plan für dieses Semester sieht wie folgt aus:
 | 11      | 10.12.2026 | Lineare Regression (2)  |
 | 12      | 17.12.2026 | Mittelwertvergleich     |
 | 13      |  14.1.2027 | Übungen                 |
-| 13      |  21.1.2027 | Prüfung                 |
-| 14      |  28.1.2027 | Prüfung (Ersatztermin)  |
+| 14      |  21.1.2027 | Prüfung                 |
+| 15      |  28.1.2027 | Prüfung (Ersatztermin)  |
 
 : {tbl-colwidths="[10,10,80]"}
 

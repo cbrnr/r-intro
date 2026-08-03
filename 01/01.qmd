@@ -2,7 +2,7 @@
 title: "1 – Erste Schritte"
 subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2026-03-02
+date: 2026-10-01
 format:
   html:
     page-layout: full
@@ -47,7 +47,7 @@ R kann man wie folgt charakterisieren:
 
 ## Popularität
 
-R ist mittlerweile sehr weit verbreitet. Auch in verschiedenen Beliebtheitsranglisten zählt R regelmäßig zu den populärsten Programmiersprachen (z.B. [PYPL](https://pypl.github.io/PYPL.html), [IEEE Spectrum Top Programming Languages](https://spectrum.ieee.org/top-programming-languages-2024) und [TIOBE](https://www.tiobe.com/tiobe-index/)). Das ist besonders bemerkenswert, da R keine universelle Sprache ist und damit mit Abstand die beliebteste statistische Programmiersprache, weit vor kommerziellen Statistikpaketen wie SPSS, Stata und Statistica.
+R ist mittlerweile sehr weit verbreitet und scheint auch in den gängigen Beliebtheitsranglisten für Programmiersprachen regelmäßig auf (z.B. [PYPL](https://pypl.github.io/PYPL.html), [IEEE Spectrum Top Programming Languages](https://spectrum.ieee.org/top-programming-languages) und [TIOBE](https://www.tiobe.com/tiobe-index/)). Das ist bemerkenswert, weil R eben *keine* universelle Sprache ist und daher nur für einen vergleichsweise kleinen Anwendungsbereich überhaupt in Frage kommt. Innerhalb dieses Bereichs ist R die mit Abstand meistverwendete Programmiersprache, weit vor kommerziellen Statistikpaketen wie SPSS, Stata und Statistica.
 
 In der Praxis ist die Popularität einer Programmiersprache durchaus relevant, denn je größer und aktiver die Community einer Sprache ist, desto einfacher wird es, bestehende Lösungen für Probleme zu finden oder Antworten auf neue Fragen zu bekommen.
 

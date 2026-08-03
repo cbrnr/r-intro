@@ -2,7 +2,7 @@
 title: "3 – Vektoren"
 subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2026-03-16
+date: 2026-10-15
 format:
   html:
     page-layout: full
@@ -295,6 +295,38 @@ rep(c(0, 1, 2), times=c(10, 10, 10))  # gleiches Ergebnis wie mit each
 ```
 
 
+## Zufallszahlen
+
+Für viele Anwendungen (z.B. um Beispieldaten zu erzeugen) benötigt man Zufallszahlen. Die Funktion `rnorm()` erzeugt normalverteilte Zufallszahlen; man gibt die gewünschte Anzahl sowie optional Mittelwert und Standardabweichung an:
+
+```{r}
+rnorm(5)  # 5 Zahlen aus einer Standardnormalverteilung
+rnorm(5, mean=100, sd=15)
+```
+
+Die Funktion `sample()` zieht eine zufällige Stichprobe aus einem vorhandenen Vektor. Mit dem Argument `replace=TRUE` wird *mit* Zurücklegen gezogen (ein Wert kann dann mehrfach vorkommen), standardmäßig wird *ohne* Zurücklegen gezogen:
+
+```{r}
+sample(1:10, 5)  # 5 verschiedene Zahlen aus 1:10
+sample(1:10, 15, replace=TRUE)  # 15 Zahlen, Wiederholungen möglich
+sample(c("Placebo", "Treatment"), 8, replace=TRUE)
+```
+
+Zufallszahlen sind naturgemäß bei jedem Aufruf anders. Für eine *reproduzierbare* Analyse ist das ungünstig, denn dann bekommt man bei jedem Ausführen des Scripts andere Ergebnisse. Mit `set.seed()` versetzt man den Zufallszahlengenerator in einen definierten Ausgangszustand – alle danach erzeugten Zufallszahlen sind dann zwar immer noch zufällig, aber bei jedem Durchlauf identisch:
+
+```{r}
+set.seed(42)
+sample(1:10, 5)
+
+set.seed(42)
+sample(1:10, 5)  # dasselbe Ergebnis wie oben
+```
+
+:::{.callout-tip}
+Welche Zahl man `set.seed()` übergibt, ist völlig egal (häufig sieht man `1`, `42` oder `123`) – entscheidend ist nur, dass man die Funktion überhaupt aufruft.
+:::
+
+
 ## Indizieren
 
 Vektoren können indiziert werden, d.h. einzelne Elemente können herausgegriffen werden. Man verwendet dazu eckige Klammern, innerhalb derer die gewünschten Elemente angegeben werden. Das erste Element entspricht dem Index 1, das zweite Element dem Index 2, und so weiter.
@@ -341,6 +373,28 @@ Idealerweise ist der logische Indexvektor gleich lang wie der zu indizierende Ve
 ```{r}
 x[c(FALSE, TRUE)]
 ```
+
+
+## Sortieren
+
+Die Funktion `sort()` gibt die Elemente eines Vektors in aufsteigender Reihenfolge zurück (mit `decreasing=TRUE` absteigend):
+
+```{r}
+(x = c(44, 23, -56, 98, 32))
+sort(x)
+sort(x, decreasing=TRUE)
+```
+
+Manchmal möchte man aber nicht die sortierten *Werte*, sondern die *Positionen*, an denen die Werte stehen. Genau das liefert `order()` – und weil das Ergebnis ein Indexvektor ist, kann man damit einen Vektor (oder später auch eine ganze Tabelle) sortieren:
+
+```{r}
+order(x)  # x[3] ist am kleinsten, dann x[2], dann x[5], ...
+x[order(x)]  # gleiches Ergebnis wie sort(x)
+```
+
+:::{.callout-tip}
+Ein vorangestelltes Minus kehrt bei numerischen Vektoren die Sortierreihenfolge um, d.h. `order(-x)` sortiert absteigend.
+:::
 
 
 ## Benannte Vektoren

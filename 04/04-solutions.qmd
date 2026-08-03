@@ -2,7 +2,7 @@
 title: "4 – Lösungen"
 subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2026-03-23
+date: 2026-10-22
 format:
   html:
     page-layout: full
@@ -96,7 +96,7 @@ df_f[[1]]  # Spalte 1
 
 ```{r}
 dim(mtcars)  # 32 Zeilen, 11 Spalten
-mtcars1 = mtcars[mtcars$mpg > 25, ]
+mtcars1 = mtcars[mtcars[["mpg"]] > 25,]
 dim(mtcars1)  # 6 Zeilen, 11 Spalten
 ```
 

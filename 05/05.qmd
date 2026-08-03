@@ -2,7 +2,7 @@
 title: "5 – Daten importieren"
 subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2026-04-13
+date: 2026-10-29
 format:
   html:
     page-layout: full
@@ -168,20 +168,20 @@ Kategorische Variablen, d.h. Variablen, die nur eine bestimmte Anzahl an Werten 
 Im Beispiel ist die Spalte `job` vom Typ `dbl`, sollte aber als Faktor interpretiert werden. Die Spalte kann entsprechend neu erstellt und überschrieben werden (hier wird vorausgesetzt, dass wir wissen, welche Zahlen den jeweiligen Faktorstufen entsprechen, also `1` entspricht "Lecturer" und `2` entspricht "Student"):
 
 ```{r}
-df$job = factor(df$job, levels=c(1, 2), labels=c("Lecturer", "Student"))
+df[["job"]] = factor(df[["job"]], levels=c(1, 2), labels=c("Lecturer", "Student"))
 df
 ```
 
 Die drei Argumente haben dabei folgende Bedeutung:
 
-- `df$job` sind die Ausgangsdaten.
+- `df[["job"]]` sind die Ausgangsdaten.
 - `levels=c(1, 2)` gibt an, welche Werte (Stufen) in den Ausgangsdaten vorkommen und wir auch verwenden möchten.
 - `labels=c("Lecturer", "Student")` weist den verwendeten Stufen entsprechende Namen (Labels) zu.
 
 Die Spalte `job` hat nun den gewünschten Typ (`<fct>` in der Tibble-Darstellung). Dies können wir auch mit der altbekannten Funktion `class()` explizit überprüfen:
 
 ```{r}
-class(df$job)
+class(df[["job"]])
 ```
 
 
@@ -190,7 +190,7 @@ class(df$job)
 Für Datumswerte gibt es in R ebenfalls einen eigenen Datentyp, der das Rechnen mit solchen Werten erleichtert. Die Funktion `as.Date()` wandelt eine Datumsangabe in Textform in diesen speziellen Typ um. Anzugeben ist hier insbesondere das Argument `format`, welches das Format der vorliegenden Datumswerte spezifiziert (d.h. man beschreibt damit, wie die Datumswerte ursprünglich aussehen).
 
 ```{r}
-df$birth_date = as.Date(df$birth_date, format="%m/%d/%Y")
+df[["birth_date"]] = as.Date(df[["birth_date"]], format="%m/%d/%Y")
 df
 ```
 
@@ -250,7 +250,7 @@ Konvertieren Sie auch die Spalte `Time` in ein Datumsformat (die Uhrzeit in dies
 
 ### Übung 5
 
-Das [UCI Machine Learning Repository](http://archive.ics.uci.edu/ml/) stellt viele Datensätze zur freien Verwendung zur Verfügung. Wir betrachten für diese Übung den Datensatz [Individual Household Electric Power Consumption](http://archive.ics.uci.edu/ml/datasets/Individual+household+electric+power+consumption), und zwar die Datei [`household_power_consumption.zip`](household_power_consumption.zip). Sie müssen diese Datei nicht entpacken, sondern können diese direkt mit der Funktion `read_delim()` laden.
+Das [UCI Machine Learning Repository](https://archive.ics.uci.edu/) stellt viele Datensätze zur freien Verwendung zur Verfügung. Wir betrachten für diese Übung den Datensatz [Individual Household Electric Power Consumption](https://archive.ics.uci.edu/dataset/235/individual+household+electric+power+consumption), und zwar die Datei [`household_power_consumption.zip`](household_power_consumption.zip). Sie müssen diese Datei nicht entpacken, sondern können diese direkt mit der Funktion `read_delim()` laden.
 
 Die Datei beinhaltet die minütliche elektrische Leistungsaufnahme eines Haushalts in einem Zeitraum von fast vier Jahren. Insgesamt gibt es über 2 Millionen Messpunkte und 9 Variablen, welche durch Strichpunkte voneinander `;` getrennt sind. Fehlende Werte sind mit einem Fragezeichen `?` bzw. mit tatsächlich fehlenden Einträgen codiert.
 

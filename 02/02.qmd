@@ -2,7 +2,7 @@
 title: "2 – Die R-Umgebung"
 subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2026-03-09
+date: 2026-10-08
 format:
   html:
     page-layout: full
@@ -77,13 +77,13 @@ Prinzipiell interagiert man mit R über Textbefehle in der Console. Daher ist es
 
 Eine Liste aller installierten Pakete bekommt man mit:
 
-```{r}
+```r
 library()
 ```
 
 Diese Liste entspricht der Darstellung im Bereich *Packages* in RStudio. Eine Liste aller aktivierten (geladenen) Pakete erhält man mit:
 
-```{r}
+```r
 search()
 ```
 
@@ -157,6 +157,17 @@ Betrachten wir zur Veranschaulichung ein konkretes Beispiel. Angenommen, Sie hab
 
 :::{.callout-tip}
 Wenn man ein R-Script per Doppelklick (im Windows Explorer oder macOS Finder) öffnet, wird dieses in RStudio geöffnet und das Arbeitsverzeichnis wird *automatisch* auf das Verzeichnis gesetzt, in dem sich das Script befindet.
+:::
+
+
+### Projekte
+
+Zum manuellen Setzen des Arbeitsverzeichnisses gibt es in RStudio eine Alternative, nämlich *Projekte*.
+
+Ein Projekt ist einfach ein Ordner mit einer zusätzlichen Datei mit der Endung `.Rproj`. Öffnet man diese Datei, startet RStudio eine frische R-Sitzung und setzt das Arbeitsverzeichnis *automatisch* auf den Projektordner – man muss es also nie selbst setzen. Ein neues Projekt legt man über *File* – *New Project...* an; danach speichert man alle zu dieser Analyse gehörenden Dateien (Scripts, Daten, Grafiken) in diesem Ordner ab.
+
+:::{.callout-tip}
+Legen Sie für jede Analyse ein eigenes Projekt an, also z.B. für jede Studie oder jede Abschlussarbeit ein separates.
 :::
 
 
@@ -299,7 +310,7 @@ mean(x=y)
 - [Discovering Statistics Using R](https://uk.sagepub.com/en-gb/eur/discovering-statistics-using-r/book236067)
 - [OpenIntro Statistics](https://www.openintro.org/book/os/)
 - [Learning Statistics With R](https://learningstatisticswithr.com/)
-- [R for Data Science](https://r4ds.had.co.nz/)
+- [R for Data Science](https://r4ds.hadley.nz/)
 - [Advanced R](https://adv-r.hadley.nz/)
 
 
@@ -332,6 +343,10 @@ Falls Sie sich für die historische Entwicklung von R interessieren, finden Sie 
 ### Übung 1
 
 Installieren Sie die Pakete `tidyverse`, `Hmisc` und `psych` – welche R-Befehle verwenden Sie dafür? Nennen Sie die Versionsnummern dieser Pakete. Mit welchen Befehlen können Sie die installierten Pakete anschließend aktivieren?
+
+:::{.callout-tip}
+Im Laufe der Lehrveranstaltung werden wir außerdem noch die Pakete `pastecs`, `car`, `lm.beta`, `effectsize` und `afex` benötigen. Sie können diese gleich jetzt installieren.
+:::
 
 
 ### Übung 2
