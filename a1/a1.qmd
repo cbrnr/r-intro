@@ -47,7 +47,7 @@ d. Wie viele Werte in der Spalte `y` sind gleich `"A"` und deren zugehörige Wer
 
 ## Übung 3
 
-Gegeben sei das Data Frame `penguins` aus dem Paket `palmerpenguins`. Wie viele weibliche und männliche Pinguine gibt es im Datensatz? Wie viele fehlende Werte gibt es in der Spalte `sex`? Erzeugen Sie zwei neue Data Frames `penguins_f` und `penguins_m`, welche nur die weiblichen bzw. männlichen Pinguine enthalten!
+Gegeben sei das in R eingebaute Data Frame `penguins`. Wie viele weibliche und männliche Pinguine gibt es im Datensatz? Wie viele fehlende Werte gibt es in der Spalte `sex`? Erzeugen Sie zwei neue Data Frames `penguins_f` und `penguins_m`, welche nur die weiblichen bzw. männlichen Pinguine enthalten!
 
 
 ## Übung 4
@@ -417,7 +417,7 @@ Geben Sie die Zusammenfassung des Modells aus und beantworten Sie folgende Frage
 
 ## Übung 37
 
-Erzeugen Sie einen Vektor `x` mit den geraden Zahlen von $-76$ bis 120. Bestimmen Sie die Anzahl der Elemente sowie den Mittelwert, die Standardabweichung, den Median, das 25. Perzentil und das 75. Perzentil von `x`.
+Erzeugen Sie einen Vektor `x` mit den geraden Zahlen von $-76$ bis 120. Bestimmen Sie die Anzahl der Elemente sowie den Mittelwert, die Standardabweichung, den Median, das 25. Perzentil, das 66. Perzentil und das 75. Perzentil von `x`.
 
 Bestimmen Sie außerdem die Anzahl der Elemente, die größer als der Mittelwert sind.
 

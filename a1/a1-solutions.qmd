@@ -562,7 +562,7 @@ length(x)
 mean(x)
 sd(x)
 median(x)
-quantile(x, c(0.25, 0.75))
+quantile(x, c(0.25, 0.66, 0.75))
 length(x[x > mean(x)])
 ```
 
