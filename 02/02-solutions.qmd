@@ -26,23 +26,23 @@ published-title: "Veröffentlicht"
 Pakete können mit der Funktion `install.packages()` installiert werden, für die drei genannten Pakete führt man also folgende drei Befehle aus:
 
 ```r
-install.packages("tidyverse")
 install.packages("Hmisc")
 install.packages("psych")
+install.packages("readr")
 ```
 
 Die Versionsnummern sind in der "Packages"-Ansicht in RStudio ersichtlich; ich habe folgende Versionen installiert:
 
-- `tidyverse`: 2.0.0
-- `Hmisc`: 5.1-3
-- `psych`: 2.4.6.26
+- `Hmisc`: 5.2-6
+- `psych`: 2.6.5
+- `readr`: 2.2.0
 
 Installierte Pakete können mit der Funktion `library()` aktiviert werden, also für die drei Pakete:
 
 ```r
-library(tidyverse)
 library(Hmisc)
 library(psych)
+library(readr)
 ```
 
 

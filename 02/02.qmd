@@ -342,10 +342,10 @@ Falls Sie sich für die historische Entwicklung von R interessieren, finden Sie 
 
 ### Übung 1
 
-Installieren Sie die Pakete `tidyverse`, `Hmisc` und `psych` – welche R-Befehle verwenden Sie dafür? Nennen Sie die Versionsnummern dieser Pakete. Mit welchen Befehlen können Sie die installierten Pakete anschließend aktivieren?
+Installieren Sie die Pakete `Hmisc`, `psych` und `readr` – welche R-Befehle verwenden Sie dafür? Nennen Sie die Versionsnummern dieser Pakete. Mit welchen Befehlen können Sie die installierten Pakete anschließend aktivieren?
 
 ::: callout-tip
-Im Laufe der Lehrveranstaltung werden wir außerdem noch die Pakete `pastecs`, `car`, `lm.beta`, `effectsize` und `afex` benötigen. Sie können diese gleich jetzt installieren.
+Im Laufe der Lehrveranstaltung werden wir außerdem noch die Pakete `tibble`, `readxl`, `dplyr`, `tidyr`, `ggplot2`, `pastecs`, `car`, `lm.beta`, `effectsize` und `afex` benötigen. Sie können diese gleich jetzt installieren.
 :::
 
 
