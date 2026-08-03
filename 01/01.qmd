@@ -30,7 +30,7 @@ In dieser Lehrveranstaltung werden die Grundlagen der statistischen Programmieru
 
 R ist eine auf Datenanalyse und Statistik spezialisierte Programmiersprache. Mit spezialisierten Programmiersprachen kann man manche Dinge schneller, besser, eleganter oder kürzer lösen als mit universellen Programmiersprachen. Im Gegensatz dazu ist man mit universellen Programmiersprachen (wie beispielsweise Python) aber nicht auf ein relativ spezifisches Gebiet eingeschränkt. Mit Python kann man nicht nur Datenanalysen, numerische Berechnungen und statistische Auswertungen durchführen, sondern auch Webanwendungen oder interaktive Programme mit grafischen Oberflächen relativ einfach erstellen – etwas, das mit R eher schwierig oder umständlich ist.
 
-::: {.callout-tip}
+::: callout-tip
 Es ist wichtig, für ein gegebenes Problem eine geeignete Programmiersprache zu finden. Wenn das Problem den Bereichen Datenanalyse oder statistische Modellierung zugeordnet werden kann, dann ist R sehr wahrscheinlich eine ausgezeichnete Wahl.
 :::
 
@@ -101,7 +101,7 @@ Die Grundrechenarten Addition, Subtraktion, Multiplikation und Division funktion
 1563 / 43
 ```
 
-:::{.callout-tip}
+::: callout-tip
 Aus Gründen der besseren Lesbarkeit sollten Leerzeichen *vor* und *nach* dem Operator eingefügt werden, also besser `13 + 7` und nicht `13+7`. Für R ist zwar beides korrekt, aber die erste Variante ist leichter lesbar.
 :::
 
@@ -149,7 +149,7 @@ Die Eulersche Zahl $e \approx 2.718282$ ist nicht unmittelbar verfügbar, kann a
 exp(1)
 ```
 
-:::{.callout-important}
+::: callout-important
 Beachten Sie, dass R die *englische* Zahlenschreibweise mit einem *Punkt* als Dezimaltrennzeichen verwendet und nicht das im deutschen Sprachraum übliche *Komma*. Kommazahlen müssen daher immer mit einem Punkt eingegeben werden, ganz egal welche Sprache im Betriebssystem eingestellt ist. In diesen Unterlagen wird ebenfalls ein Punkt als Dezimaltrennzeichen verwendet.
 :::
 
@@ -178,7 +178,7 @@ $$\bar x = \frac{1}{n} \sum_{i=1}^n x_i$$
 
 $$\bar x_g = \sqrt[n]{\prod_{i=1}^n x_i}$$
 
-:::{.callout-note}
+::: callout-note
 Die *n*-te Wurzel kann man auch als Potenz anschreiben, also $\sqrt[n]{x}$ ist gleichbedeutend mit $x^\frac{1}{n}$.
 :::
 
@@ -189,7 +189,7 @@ Berechnen Sie das Ergebnis des folgenden Ausdrucks mit einem Befehl (d.h. in ein
 
 $$\sqrt 2 \cdot \frac{(5^5 - \pi) \cdot 18}{\left(\frac{7}{5} + 13.2 \right) \cdot 7^\frac{2}{3}}$$
 
-:::{.callout-note}
+::: callout-note
 Achten Sie auf die Klammersetzung! Der letzte Term im Nenner $7^\frac{2}{3}$ lautet "sieben *hoch* zwei Drittel".
 :::
 

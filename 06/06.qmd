@@ -90,7 +90,7 @@ table(penguins[["species"]], penguins[["island"]])
 
 Man erkennt, dass Adélie-Pinguine auf allen drei Inseln vorkommen, Chinstrap ausschließlich auf Dream und Gentoo ausschließlich auf Biscoe.
 
-:::{.callout-important}
+::: callout-important
 Standardmäßig ignoriert `table()` fehlende Werte. Möchte man diese ebenfalls angezeigt bekommen, setzt man das Argument `useNA="ifany"`:
 
 ```{r}
@@ -116,7 +116,7 @@ Alle bisherigen Funktionen arbeiten mit *Vektoren*, d.h. man müsste sie für je
 sapply(df[, -c(1, 2)], mean)
 ```
 
-:::{.callout-tip}
+::: callout-tip
 Für die Berechnung der Spaltenmittelwerte kann man auch die uns bereits bekannte Funktion `colMeans()` verwenden.
 :::
 
@@ -158,11 +158,11 @@ library(psych)
 describe(df[, 3:6])
 ```
 
-:::{.callout-note}
+::: callout-note
 Eigentlich kann man Funktionen aus Paketen auch ohne Aktivierung verwenden. Dazu muss man den Paketnamen gefolgt von `::` voranstellen. Im vorigen Beispiel könnte man also auf `library(psych)` verzichten und die Funktion mit `psych::describe()` trotzdem verwenden. Dies ist praktisch, wenn man wirklich nur eine einzelne Funktion aus einem Paket verwenden möchte.
 :::
 
-:::{.callout-important}
+::: callout-important
 Auch das Paket `Hmisc` (welches wir in einer späteren Einheit für Korrelationen verwenden werden) enthält eine Funktion namens `describe()` – diese liefert aber eine ganz andere Ausgabe. Wenn beide Pakete in derselben Sitzung aktiviert sind, "gewinnt" jenes, welches *zuletzt* mit `library()` geladen wurde. R weist beim Aktivieren auch darauf hin ("The following object is masked from ...").
 
 Um solche Verwechslungen zu vermeiden, schreiben Sie in diesem Fall am besten immer explizit `psych::describe()` bzw. `Hmisc::describe()`.
@@ -181,7 +181,7 @@ round(
 )
 ```
 
-:::{.callout-note}
+::: callout-note
 In der Ausgabe tauchen Zahlen wie `1.23e-05` auf – das ist die sogenannte [wissenschaftliche Notation](https://de.wikipedia.org/wiki/Wissenschaftliche_Notation), eine Darstellung mit Zehnerpotenzen. Das `e` kann man dabei als "mal zehn hoch" lesen:
 
 ```{r}
@@ -190,7 +190,7 @@ In der Ausgabe tauchen Zahlen wie `1.23e-05` auf – das ist die sogenannte [wis
 ```
 :::
 
-:::{.callout-tip}
+::: callout-tip
 Möchte man die Ausgabe von Zahlen in der wissenschaftlichen Notation weitgehend vermeiden, kann man zu Beginn einer Sitzung folgende Option setzen:
 
 ```r

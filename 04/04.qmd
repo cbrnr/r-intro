@@ -41,7 +41,7 @@ class(v)
 
 Die zugrundeliegenden Daten ändern sich dabei *nicht* – sie werden durch das Dimensionsattribut lediglich anders dargestellt bzw. interpretiert.
 
-:::{.callout-tip}
+::: callout-tip
 Die Anzahl der Zeilen bzw. Spalten bekommt man bequemer mit `nrow()` und `ncol()`:
 
 ```{r}
@@ -50,7 +50,7 @@ ncol(v)
 ```
 :::
 
-:::{.callout-note}
+::: callout-note
 Ein "normaler" Vektor hat *kein* Dimensionsattribut, `dim()` liefert dann `NULL`. Mit dem Dimensionsattribut kann man außerdem beliebig viele Dimensionen erstellen, nicht nur zwei. Man spricht dann von Arrays, und eine Matrix ist ein spezielles Array mit zwei Dimensionen – deswegen lautet die Ausgabe von `class(v)` oben auch `"matrix" "array"`.
 :::
 
@@ -132,7 +132,7 @@ Eine Matrix ist, wie man anhand der obigen Beispiele erkennt, eigentlich nur fü
 
 Data Frames sind ebenso wie Matrizen zweidimensionale Datenstrukturen (sie bestehen aus Zeilen und Spalten). Im Gegensatz zu Matrizen können Spalten aber unterschiedliche Datentypen haben (z.B. kann eine Spalte numerisch sein, eine andere Spalte kann Zeichen beinhalten, und so weiter). Innerhalb einer Spalte müssen aber alle Werte homogen sein. Man kann sich die einzelnen Spalten in einem Data Frame daher als Vektoren vorstellen.
 
-:::{.callout-note}
+::: callout-note
 Tatsächlich ist ein Data Frame eine Liste aus Vektoren gleicher Länge, welche den einzelnen Spalten entsprechen (den allgemeinen Datentyp `list`, welcher hier im Hintergrund verwendet wird, werden wir allerdings nicht genauer kennenlernen).
 :::
 
@@ -220,7 +220,7 @@ df$value = NULL
 df
 ```
 
-:::{.callout-tip}
+::: callout-tip
 Da ein Data Frame eigentlich eine Liste ist, kann man einzelne Elemente der Liste (welche den Spalten entsprechen), auch mit folgender Syntax herausgreifen:
 
 ```{r}
@@ -259,7 +259,7 @@ df[, 1]
 df[, 4]
 ```
 
-:::{.callout-important}
+::: callout-important
 Das Komma darf nicht weggelassen werden, auch wenn man einen Index weglässt!
 :::
 
@@ -270,7 +270,7 @@ df[, "patient"]
 df[, "height"]
 ```
 
-:::{.callout-tip}
+::: callout-tip
 Spalten kann man, wie bereits erwähnt, auch mit den doppelten eckigen Klammern herausgreifen. Hier kann man nicht nur den Spaltennamen, sondern auch die Spaltenposition verwenden:
 
 ```{r}
@@ -311,7 +311,7 @@ Mit der Funktion `tibble()` kann man nun ein neues Tibble erstellen, ganz analog
 
 Wenn man ein Tibble am Bildschirm ausgibt, werden für jede Spalte automatisch die Datentypen angeführt.
 
-::: {.callout-important}
+::: callout-important
 In diesem Beispiel wird für die Spalten A bis E der Typ `int` angezeigt, der für *integer* (Ganzzahlen) steht. Dezimalzahlen erscheinen mit dem Typ `dbl` (für *double*), während herkömmliche Data Frames dafür die Bezeichnung `num` verwenden. Entscheidend für uns ist lediglich, dass die Typen `int`, `dbl` und `num` allesamt *numerische* Datentypen darstellen.
 :::
 
@@ -334,7 +334,7 @@ print(co2_tibble, n=Inf)  # n=Inf zeigt alle Zeilen an
 View(co2_tibble)  # öffnet eine Tabellenansicht in RStudio
 ```
 
-:::{.callout-tip}
+::: callout-tip
 Die Funktion `str()` liefert für Tibbles oft eine sehr unübersichtliche Zusammenfassung. Stattdessen kann man `glimpse()` aus dem Paket `tibble` verwenden (dies funktioniert sowohl für Data Frames als auch Tibbles):
 
 ```{r}

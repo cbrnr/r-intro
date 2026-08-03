@@ -70,7 +70,7 @@ df_f = df[df[, "gender"] == "f", ]
 df_f
 ```
 
-:::{.callout-note}
+::: callout-note
 Zur Erstellung von `df_f` gibt es noch weitere Varianten:
 
 ```{r}

@@ -32,11 +32,11 @@ Bereits in der vorigen Einheit haben wir die grafische Benutzeroberfläche RStud
 
 ![](rstudio.png)
 
-:::{.callout-tip}
+::: callout-tip
 Die Aufteilung der Bereiche kann in den Einstellungen umfangreich angepasst werden. Wenn Sie z.B. die Console gerne rechts unten haben möchten, können Sie das dort festlegen.
 :::
 
-:::{.callout-important}
+::: callout-important
 Die meisten Einstellungen von RStudio haben vernünftige Standardwerte, aber die folgenden zwei Punkte sollten Sie unbedingt ändern. Gehen Sie dazu in die Einstellungen (*Tools* – *Global Options*) und ändern Sie diese beiden Optionen:
 
 1. "Restore .RData into workspace at startup" sollte *deaktiviert* sein.
@@ -114,11 +114,11 @@ Die folgende Abbildung zeigt ein kurzes R-Script, welches im Editor-Bereich von 
 
 ![](rstudio-run-code.png)
 
-:::{.callout-tip}
+::: callout-tip
 Wenn man in einem Script Befehle aus zusätzlichen Paketen benötigt, muss man diese Pakete im Script auch mittels `library(package)` aktivieren. Am besten geschieht dies ganz am Anfang des Scripts.
 :::
 
-:::{.callout-important}
+::: callout-important
 Installieren Sie Pakete *niemals* in einem Script (mittels `install.packages("package")`)! Das Paket würde bei jedem Ausführen des Scripts neu installiert werden (inklusive Download aus dem Internet), was definitiv vermieden werden sollte. Die Installation von Paketen wird also immer wie oben beschrieben manuell mit RStudio oder in der Console durchgeführt.
 :::
 
@@ -135,7 +135,7 @@ Dieses Arbeitsverzeichnis (Working Directory) ist wichtig, da R diverse Dateien 
 
 Alle Dateien im aktuellen Arbeitsverzeichnis kann man mit `dir()` ausgeben lassen (RStudio zeigt diese rechts unten im Bereich *Files* an).
 
-:::{.callout-tip}
+::: callout-tip
 Der Titel der R-Console in RStudio zeigt ebenfalls das aktuelle Arbeitsverzeichnis an. Der Name `~` ist eine Abkürzung für den persönlichen Ordner.
 :::
 
@@ -149,13 +149,13 @@ In RStudio hat man aber mindestens drei Alternativen, das Arbeitsverzeichnis auc
 
 ![](set-working-directory.png){width=300}
 
-:::{.callout-important}
+::: callout-important
 *Bevor* Sie ein Script ausführen, sollten Sie das Arbeitsverzeichnis korrekt setzen (üblicherweise auf das Verzeichnis, in dem das Script abgespeichert ist). Führen Sie dies allerdings *nicht* automatisiert im Script selbst durch, denn das Script soll auch auf anderen Umgebungen laufen, wo es Ihr spezifisches Verzeichnis vielleicht nicht gibt.
 
 Betrachten wir zur Veranschaulichung ein konkretes Beispiel. Angenommen, Sie haben ein Script namens `my_analysis.R` in einem Verzeichnis namens `C:/Users/MiaMusterfrau/my_project/` abgespeichert. Wenn Sie in Ihrem Script die Zeile `setwd("C:/Users/MiaMusterfrau/my_project/")` einfügen, dann würde das Script nur auf Ihrem Computer funktionieren, aber nicht auf anderen Computern (auf denen dieses Verzeichnis sehr wahrscheinlich nicht existiert). Deswegen sollte man also das Arbeitsverzeichnis manuell (mit einer der oben genannten Methoden) auf das Verzeichnis setzen, in dem sich das Script befindet.
 :::
 
-:::{.callout-tip}
+::: callout-tip
 Wenn man ein R-Script per Doppelklick (im Windows Explorer oder macOS Finder) öffnet, wird dieses in RStudio geöffnet und das Arbeitsverzeichnis wird *automatisch* auf das Verzeichnis gesetzt, in dem sich das Script befindet.
 :::
 
@@ -166,7 +166,7 @@ Zum manuellen Setzen des Arbeitsverzeichnisses gibt es in RStudio eine Alternati
 
 Ein Projekt ist einfach ein Ordner mit einer zusätzlichen Datei mit der Endung `.Rproj`. Öffnet man diese Datei, startet RStudio eine frische R-Sitzung und setzt das Arbeitsverzeichnis *automatisch* auf den Projektordner – man muss es also nie selbst setzen. Ein neues Projekt legt man über *File* – *New Project...* an; danach speichert man alle zu dieser Analyse gehörenden Dateien (Scripts, Daten, Grafiken) in diesem Ordner ab.
 
-:::{.callout-tip}
+::: callout-tip
 Legen Sie für jede Analyse ein eigenes Projekt an, also z.B. für jede Studie oder jede Abschlussarbeit ein separates.
 :::
 
@@ -207,7 +207,7 @@ Kommentare, d.h. alle Zeichen ab `#` bis zum Zeilenende, werden von R *nicht* au
 
 Der Zuweisungsoperator in R ist `=` oder `<-`. Damit kann man Werte (oft auch als Objekte bezeichnet) Variablen zuweisen, welche man dann später wieder verwenden kann (um z.B. damit weiterzurechnen). Im Beispiel wird also mit `n = 100` der Wert 100 der Variablen `n` zugewiesen. Im gesamten obigen Beispiel-Script werden daher zwei Variablen namens `n` und `x` erstellt.
 
-:::{.callout-note}
+::: callout-note
 Es ist egal, ob man `=` oder `<-` für Zuweisungen verwendet. Man sollte aber konsistent sein und immer nur einen der beiden Zuweisungsoperatoren verwenden. In diesen Unterlagen wird `=` benutzt, weil man weniger tippen muss und die meisten anderen Programmiersprachen ebenfalls `=` verwenden.
 :::
 
@@ -220,7 +220,7 @@ Eine Funktion ist ein Mini-Script, welches man durch Aufrufen ausführen kann. I
 
 Mit dem Befehl `sum(x)` wird also die Funktion `sum` mit dem Argument `x` aufgerufen. Es gibt auch Funktionen, die keine Argumente benötigen – das runde Klammernpaar ist aber trotzdem notwendig (z.B. `library()` ruft die Funktion `library` ohne Argumente auf). Weitere Beispiele für Funktionsaufrufe ohne Argumente, die wir bereits kennengelernt haben, sind `search()`, `getwd()`, `dir()` und `ls()`.
 
-:::{.callout-note}
+::: callout-note
 In diesen Unterlagen werden Funktionsnamen mit nachfolgenden Klammern `()` geschrieben, um deutlich zu machen, dass es sich dabei um eine Funktion handelt.
 :::
 
@@ -344,7 +344,7 @@ Falls Sie sich für die historische Entwicklung von R interessieren, finden Sie 
 
 Installieren Sie die Pakete `tidyverse`, `Hmisc` und `psych` – welche R-Befehle verwenden Sie dafür? Nennen Sie die Versionsnummern dieser Pakete. Mit welchen Befehlen können Sie die installierten Pakete anschließend aktivieren?
 
-:::{.callout-tip}
+::: callout-tip
 Im Laufe der Lehrveranstaltung werden wir außerdem noch die Pakete `pastecs`, `car`, `lm.beta`, `effectsize` und `afex` benötigen. Sie können diese gleich jetzt installieren.
 :::
 
