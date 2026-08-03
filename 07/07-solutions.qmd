@@ -2,7 +2,7 @@
 title: "7 – Lösungen"
 subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2026-04-27
+date: 2026-11-12
 format:
   html:
     page-layout: full
@@ -21,7 +21,7 @@ author-title: "Autor"
 published-title: "Veröffentlicht"
 ---
 
-## Exercise 1
+## Übung 1
 
 ```{r}
 library(tidyr)
@@ -30,44 +30,87 @@ pivot_wider(table2, names_from=type, values_from=count)
 ```
 
 
-## Exercise 2
+## Übung 2
 
 ```{r}
 pivot_longer(table4a, `1999`:`2000`, names_to="year", values_to="count")
 ```
 
 
-## Exercise 3
+## Übung 3
 
 ```{r}
+#| message: false
+library(dplyr)
+
 mtcars1 = mtcars |>
-    subset(mpg > 25)
+    filter(mpg > 25)
 
 nrow(mtcars)  # 32 Zeilen
 nrow(mtcars1)  # 6 Zeilen
+ncol(mtcars)  # 11 Spalten (unverändert)
 ```
 
 
-## Exercise 4
+## Übung 4
 
 ```{r}
 library(nycflights13)
-library(tibble)
 
 flights |>
-    subset(day == 1 & month == 1) |>  # 842 Zeilen
-    subset(select=c(year:dep_time, arr_time, tailnum))
+    filter(day == 1, month == 1) |>  # 842 Zeilen
+    select(year:dep_time, arr_time, tailnum)
 
 flights |>
-    transform(hours=air_time / 60) |>
-    transform(km=distance * 1.60934) |>
-    transform(speed=km / hours) |>
-    subset(select=c(month, day, carrier, tailnum, speed)) |>
-    as_tibble()
+    mutate(
+        hours=air_time / 60,
+        km=distance * 1.60934,
+        speed=km / hours
+    ) |>
+    select(month, day, carrier, tailnum, speed)
 
 flights |>
-    subset(dep_time < 600)  # 8730 Zeilen
+    filter(dep_time < 600)  # 8730 Zeilen
 
 flights |>
-    subset(arr_delay < dep_delay)  # 221565 Zeilen
+    filter(arr_delay < dep_delay)  # 221565 Zeilen
 ```
+
+
+## Übung 5
+
+```{r}
+penguins |>
+    group_by(species) |>
+    summarize(
+        n=n(),
+        bill_len=mean(bill_len, na.rm=TRUE),
+        bill_dep=mean(bill_dep, na.rm=TRUE),
+        flipper_len=mean(flipper_len, na.rm=TRUE)
+    )
+```
+
+Ohne `na.rm=TRUE` wären die Mittelwerte für Adélie und Gentoo `NA`, weil es in diesen Spalten jeweils zwei fehlende Werte gibt.
+
+
+## Übung 6
+
+```{r}
+#| message: false
+library(readr)
+
+df = read_tsv("lecturer.dat")
+
+df |>
+    group_by(job) |>
+    summarize(
+        n=n(),
+        friends=mean(friends),
+        alcohol=mean(alcohol),
+        income=mean(income),
+        neurotic=mean(neurotic)
+    ) |>
+    arrange(desc(income))
+```
+
+Die Spalte `job` liegt hier als Zahl (1 bzw. 2) vor, weil wir sie nicht wie in Einheit 6 in einen Faktor konvertiert haben. Für die Gruppierung selbst macht das keinen Unterschied.
