@@ -1,5 +1,5 @@
 ---
-title: "1 – Grundlagen"
+title: "1 – Erste Schritte"
 subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
 date: 2026-03-02

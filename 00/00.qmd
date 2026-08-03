@@ -23,26 +23,27 @@ published-title: "Veröffentlicht"
 
 ## Allgemeines
 
-In dieser Lehrveranstaltung werden Sie das Statistikpaket [R](https://www.r-project.org/) kennenlernen. Da diese Lehrveranstaltung die Grundlagen von R abdeckt und keinerlei Vorwissen voraussetzt, ist es aufgrund der begrenzten Zeit nicht möglich, alle in der Praxis relevanten statistischen Verfahren abzudecken. Sie werden durch ein umfassendes Basiswissen aber darauf vorbereitet, sich weitere Methoden selbst anzueignen.
+In dieser Lehrveranstaltung lernen Sie das Statistikpaket [R](https://www.r-project.org/) kennen. Die Lehrveranstaltung vermittelt die Grundlagen von R und setzt keinerlei Vorkenntnisse voraus. Aufgrund der begrenzten Zeit können wir daher nicht alle in der Praxis relevanten statistischen Verfahren behandeln. Das erworbene Basiswissen ermöglicht es Ihnen jedoch, sich später weitere statistische Methoden selbstständig anzueignen.
 
 Der Plan für dieses Semester sieht wie folgt aus:
 
 | Einheit | Datum      | Inhalt                  |
 |--------:|-----------:|-------------------------|
-| 1       |   2.3.2026 | Grundlagen              |
-| 2       |   9.3.2026 | Die R-Umgebung          |
-| 3       |  16.3.2026 | Vektoren                |
-| 4       |  23.3.2026 | Tabellen                |
-| 5       |  13.4.2026 | Daten importieren       |
-| 6       |  20.4.2026 | Deskriptive Statistiken |
-| 7       |  27.4.2026 | Datenaufbereitung       |
-| 8       |   4.5.2026 | Grafiken                |
-| 9       |  11.5.2026 | Korrelation             |
-| 10      |  18.5.2026 | Lineare Regression (1)  |
-| 11      |   1.6.2026 | Lineare Regression (2)  |
-| 12      |   8.6.2026 | Mittelwertvergleich     |
-| 13      |  15.6.2026 | Prüfung                 |
-| 14      |  22.6.2026 | Prüfung (Ersatztermin)  |
+| 1       |  1.10.2026 | Erste Schritte          |
+| 2       |  8.10.2026 | Die R-Umgebung          |
+| 3       | 15.10.2026 | Vektoren                |
+| 4       | 22.10.2026 | Tabellen                |
+| 5       | 29.10.2026 | Daten importieren       |
+| 6       |  5.11.2026 | Deskriptive Statistiken |
+| 7       | 12.11.2026 | Datenaufbereitung       |
+| 8       | 19.11.2026 | Grafiken                |
+| 9       | 26.11.2026 | Korrelation             |
+| 10      |  3.12.2026 | Lineare Regression (1)  |
+| 11      | 10.12.2026 | Lineare Regression (2)  |
+| 12      | 17.12.2026 | Mittelwertvergleich     |
+| 13      |  14.1.2027 | Übungen                 |
+| 13      |  21.1.2027 | Prüfung                 |
+| 14      |  28.1.2027 | Prüfung (Ersatztermin)  |
 
 : {tbl-colwidths="[10,10,80]"}
 
@@ -66,7 +67,7 @@ Wenn Sie die Möglichkeit haben, sich die Inhalte gemeinsam mit anderen Studiere
 Jede Einheit beginnt mit einem kurzen Quiz zum Thema der jeweiligen Einheit (dazu später mehr). Danach werden die von Ihnen vorbereiteten Übungsbeispiele aus den Unterlagen detailliert besprochen und Musterlösungen präsentiert. Dabei haben Sie die Möglichkeit, Fragen zu stellen bzw. Ihre individuellen Lösungsansätze zu diskutieren. Falls darüber hinaus noch Zeit bleiben sollte, wird das jeweilige Thema durch vertiefende Beispiele bzw. Erklärungen ergänzt.
 
 ::: {.callout-note}
-Der Einsatz von Künstlicher Intelligenz, insbesondere von Large Language Models (wie z.B. [ChatGPT](https://chatgpt.com/), [Gemini](https://gemini.google.com/app), [Mistral](https://mistral.ai/) oder [Claude](https://claude.ai/login)), ist für die Vorbereitung der Einheiten ausdrücklich erlaubt und wird sogar empfohlen. Diese Werkzeuge können helfen, Konzepte zu verstehen, Codebeispiele nachzuvollziehen und alternative Erklärungen zu finden. Allerdings sollten Sie immer versuchen, die Übungsaufgaben selbständig zu lösen, um ein tiefes Verständnis der Materie zu entwickeln.
+Der Einsatz von Künstlicher Intelligenz (KI), insbesondere von Large Language Models (LLMs, wie z.B. [Claude](https://claude.ai/), [ChatGPT](https://chatgpt.com/), [Gemini](https://gemini.google.com/app), oder [Mistral](https://mistral.ai/)), ist für die Vorbereitung der Einheiten ausdrücklich erlaubt und wird sogar empfohlen. Diese Werkzeuge können helfen, Konzepte zu verstehen, Codebeispiele nachzuvollziehen und alternative Erklärungen zu finden. Allerdings sollten Sie immer versuchen, die Übungsaufgaben selbständig zu lösen, um ein Verständnis der Materie zu entwickeln. Lassen Sie sich also von den KI-Tools Dinge erklären, aber kopieren Sie nicht einfach fertige Lösungen!
 :::
 
 
@@ -79,7 +80,7 @@ Durch den immanenten Prüfungscharakter dieser Lehrveranstaltung besteht Anwesen
 
 ### Quizzes
 
-Zu Beginn jeder Einheit (mit Ausnahme der ersten) findet ein Quiz auf Moodle statt. Es werden kurze Fragen zum jeweiligen Thema der Einheit gestellt (meist Multiple-Choice). Hilfsmittel (wie z.B. die Unterlagen) sind *nicht* erlaubt.
+Zu Beginn jeder Einheit (mit Ausnahme der ersten) findet ein Quiz auf Moodle statt. Es werden kurze Fragen zum jeweiligen Thema der Einheit gestellt (meist Multiple-Choice). Hilfsmittel (wie z.B. die Unterlagen) sind *nicht* erlaubt!
 
 Sie können bei einem Quiz maximal 10 Punkte erreichen (es gibt auch Teilpunkte). Das Quiz muss *vor Ort* auf einem Universitäts-PC absolviert werden. Ein nicht absolviertes Quiz (z.B. durch Fehlen oder Zuspätkommen) zählt 0 Punkte.
 
@@ -90,9 +91,11 @@ Stellen Sie vorab sicher, dass Ihre aktuellen Zugangsdaten (einschließlich der 
 
 ### Prüfung
 
-Am Ende des Semesters findet eine Prüfung über alle Inhalte der Lehrveranstaltung statt, welche vor Ort auf einem Universitäts-PC absolviert wird. Als einziges Hilfsmittel ist ein von Ihnen erstelltes, zweiseitig beschriebenes A4-Blatt erlaubt, auf dem Sie die wichtigsten Inhalte der Lehrveranstaltung zusammenfassen können. Fertig gelöste Beispiele dürfen darauf jedoch nicht enthalten sein. Da Sie mit RStudio arbeiten werden (Ihre Lösung ist dann als R-Script auf Moodle abzugeben), können Sie natürlich auch die integrierte Hilfe von R nutzen, um Informationen zu Funktionen oder Paketen abzurufen.
+Am Ende des Semesters findet eine Prüfung über alle Inhalte der Lehrveranstaltung statt, welche vor Ort auf einem Universitäts-PC absolviert wird. Als einziges Hilfsmittel ist ein von Ihnen erstelltes, zweiseitig beschriebenes A4-Blatt erlaubt, auf dem Sie die wichtigsten Inhalte der Lehrveranstaltung zusammenfassen können (Cheat Sheet). Fertig gelöste Beispiele dürfen darauf jedoch nicht enthalten sein. Der Cheat Sheet ist direkt nach der Prüfung abzugeben. Wenn dieser selbständig gestaltet und gut strukturiert ist, werden 0.25 Zusatzpunkte auf die Prüfungspunkte angerechnet.
 
-Es können maximal 10 Punkte erreicht werden (Teilpunkte sind möglich).
+Da Sie mit RStudio arbeiten werden (Ihre Lösung ist dann als R-Script auf Moodle abzugeben), können Sie natürlich auch die integrierte Hilfe von R nutzen, um Informationen zu Funktionen oder Paketen abzurufen.
+
+Es können maximal 10 Punkte erreicht werden (Teilpunkte sind möglich). Bei der Prüfung gibt es eine Bonusaufgabe, die 1 Zusatzpunkt einbringt. Die maximal erreichbare Punktezahl bei der Prüfung beträgt aber in jedem Fall 10 Punkte.
 
 Die Prüfung kann bei Bedarf wiederholt werden. In diesem Fall zählen die Punkte des zweiten Termins, d.h. man kann sich sowohl verbessern als auch verschlechtern.
 
@@ -111,4 +114,4 @@ Sofern diese Kriterien erfüllt sind, ergibt sich die Gesamtnote aus dem Mittelw
 |-------------|------------|--------------|------------|----------------|
 | 9–10 Punkte | 8–9 Punkte | 7–8 Punkte   | 6–7 Punkte | \< 6 Punkte    |
 
-Die niedrigste Punkteanzahl einer Kategorie wird immer der besseren Note zugeordnet. Beispielsweise entsprechen exakt 9 Punkte der Note "Sehr gut". Die gemittelte Punkteanzahl wird auch nicht mehr auf- oder abgerundet, daher entsprechen z.B. 8.97 Punkte der Note "Gut".
+Die niedrigste Punkteanzahl einer Kategorie wird immer der besseren Note zugeordnet (beispielsweise entsprechen exakt 9 Punkte der Note "Sehr gut"). Die gemittelte Punkteanzahl wird nicht mehr auf- oder abgerundet, daher entsprechen z.B. 8.99 Punkte der Note "Gut".
