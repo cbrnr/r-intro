@@ -23,39 +23,18 @@ published-title: "Veröffentlicht"
 
 ## Übung 1
 
-```{r}
-#| message: false
-#| warning: false
-library(ggplot2)
-
-ggplot(penguins, aes(x=bill_len, y=bill_dep)) +
-    geom_point() +
-    labs(x="Bill length (mm)", y="Bill depth (mm)")
-```
-
-
-## Übung 2
-
-```{r}
-#| warning: false
-ggplot(penguins, aes(x=bill_len, y=bill_dep, color=species)) +
-    geom_point() +
-    labs(x="Bill length (mm)", y="Bill depth (mm)")
-```
-
-
-## Übung 3
-
 Die Spalte `dose` ist numerisch, wird hier aber als Gruppierung verwendet – daher die Umwandlung mit `factor()`. Die zweite Gruppierungsvariable `supp` bildet man auf die Füllfarbe ab:
 
 ```{r}
+library(ggplot2)
+
 ggplot(ToothGrowth, aes(x=factor(dose), y=len, fill=supp)) +
     geom_boxplot() +
     labs(x="Dosis (mg/Tag)", y="Zahnlänge", fill="Präparat")
 ```
 
 
-## Übung 4
+## Übung 2
 
 ```{r}
 ggplot(mtcars, aes(x=factor(cyl), y=mpg)) +
@@ -66,7 +45,7 @@ ggplot(mtcars, aes(x=factor(cyl), y=mpg)) +
 Mit steigender Zylinderanzahl sinkt die Treibstoffeffizienz (d.h. der Treibstoffverbrauch steigt).
 
 
-## Übung 5
+## Übung 3
 
 ```{r}
 #| message: false

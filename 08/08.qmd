@@ -23,10 +23,10 @@ published-title: "Veröffentlicht"
 
 ## Allgemeines
 
-Grafische Darstellungen sind ein zentraler Bestandteil jeder Datenanalyse – oft erkennt man Muster, Ausreißer oder Fehler in den Daten erst dann, wenn man sie sich ansieht. In R gibt es mehrere Pakete, mit denen man Daten grafisch darstellen kann. In dieser Einheit verwenden wir durchgehend das Paket `ggplot2` aus dem Tidyverse. Es folgt einer klar durchdachten Systematik (der sogenannten *Grammar of Graphics*), nimmt einem viel Arbeit ab (insbesondere bei gruppierten Daten, wo Farben und Legenden automatisch erzeugt werden) und ist die übliche Wahl für Grafiken in Publikationen und Abschlussarbeiten.
+Grafische Darstellungen sind ein zentraler Bestandteil jeder Datenanalyse – oft erkennt man Muster, Ausreißer oder Fehler in den Daten erst dann, wenn man sie sich ansieht. In R gibt es mehrere Pakete, mit denen man Daten grafisch darstellen kann. In dieser Einheit verwenden wir durchgehend das Paket `ggplot2` aus dem Tidyverse. Es folgt einer klar durchdachten Systematik (der sogenannten *Grammar of Graphics*), nimmt einem viel Arbeit ab (insbesondere bei gruppierten Daten, wo Farben und Legenden automatisch erzeugt werden) und ist eine ausgezeichnete Wahl für Grafiken in Publikationen und Abschlussarbeiten.
 
 ::: callout-note
-R bringt außerdem ein eingebautes Grafiksystem mit (das sogenannte Base-Plotting-System aus dem Paket `graphics` mit Funktionen wie `plot()`, `hist()` oder `boxplot()`). Wir werden es in dieser Lehrveranstaltung nicht verwenden – zwei Systeme parallel zu lernen bringt wenig, und Grafiken aus beiden Systemen lassen sich ohnehin nicht miteinander kombinieren. An zwei Stellen werden wir es trotzdem kurz zu sehen bekommen, nämlich bei `pairs()` in Einheit 9 und bei den diagnostischen Plots eines Regressionsmodells in Einheit 11. Für diese beiden Spezialfälle gibt es in `ggplot2` keine direkte Entsprechung; sie werden dort jeweils an Ort und Stelle erklärt.
+R bringt außerdem ein eingebautes Grafiksystem mit (das sogenannte Base-Plotting-System aus dem Paket `graphics` mit Funktionen wie `plot()`, `hist()` oder `boxplot()`). Da wir uns in dieser Lehrveranstaltung auf `ggplot2` als einheitliches Grafiksystem konzentrieren, gehen wir auf das Base-Plotting-System nicht systematisch ein. Wir werden ihm aber an zwei Stellen kurz begegnen: bei `pairs()` in Einheit 9 und bei den diagnostischen Plots eines Regressionsmodells in Einheit 11. Für diese beiden Spezialfälle gibt es in `ggplot2` keine direkte Entsprechung; sie werden jeweils an Ort und Stelle erklärt.
 :::
 
 Für die folgenden Beispiele verwenden wir den in R enthaltenen `airquality`-Datensatz (eine kurze Beschreibung kann man dem Hilfetext `?airquality` entnehmen):
@@ -45,42 +45,40 @@ Zunächst müssen wir das Paket `ggplot2` aktivieren:
 library(ggplot2)
 ```
 
-Eine Grafik besteht in `ggplot2` immer aus denselben drei Bestandteilen:
+Eine Grafik besteht in `ggplot2` aus drei Bestandteilen:
 
-1. den **Daten** (immer ein Data Frame bzw. Tibble),
-2. dem **Mapping**: welche Spalte soll auf welche grafische Eigenschaft (Achse, Farbe, Form, ...) abgebildet werden? Dies gibt man innerhalb von `aes()` an (für *aesthetics*),
-3. mindestens einem **Geom**: wie sollen die Daten dargestellt werden (Punkte, Linien, Balken, ...)?
+1. **Daten**: ein Data Frame (bzw. Tibble), welches die darzustellenden Daten enthält.
+2. **Mapping**: die Zuordnung von Spalten zu grafischen Eigenschaften wie x- und y-Achse, Farbe oder Form. Ein solches Mapping wird mit `aes()` festgelegt (kurz für *aesthetics*).
+3. **Geom**: die Art der grafischen Darstellung, also beispielsweise Punkte, Linien oder Balken.
 
-Die ersten beiden Bestandteile übergibt man der Funktion `ggplot()`. Damit entsteht allerdings noch keine fertige Grafik, sondern nur ein leeres Koordinatensystem mit passend skalierten Achsen – es fehlt ja noch die Information, *wie* die Daten dargestellt werden sollen:
+Zu Beginn geben wir die Daten und das Mapping an `ggplot()` weiter. Damit entsteht allerdings noch keine fertige Grafik, sondern zunächst nur ein leeres Koordinatensystem mit passend skalierten Achsen:
 
 ```{r}
 ggplot(airquality, aes(x=Wind, y=Ozone))
 ```
 
-Erst durch das Hinzufügen eines Geoms wird daraus eine vollständige Grafik. Für ein Streudiagramm (Scatterplot) ist das `geom_point()`:
+Erst durch das Hinzufügen eines Geoms wird daraus eine vollständige Grafik. Für ein Streudiagramm ist das `geom_point()`:
 
 ```{r}
 ggplot(airquality, aes(x=Wind, y=Ozone)) +
     geom_point()
 ```
 
-Innerhalb von `aes()` schreibt man die Spaltennamen wie bei den `dplyr`-Verben ohne Anführungszeichen an. Die Achsen werden automatisch mit den Spaltennamen beschriftet.
+Innerhalb von `aes()` schreibt man die Spaltennamen wie bei den `dplyr`-Verben ohne Anführungszeichen an. Wir weisen also die Spalten `Wind` und `Ozone` der x- bzw. y-Achse zu.
 
+::: callout-note
 Die beiden Argumente von `ggplot()` heißen offiziell `data` und `mapping` – so wie bei den `dplyr`-Verben ist aber auch hier das erste Argument immer das Data Frame, weshalb man die Argumentnamen meistens weglässt. Ausgeschrieben wäre das vorige Beispiel also `ggplot(data=airquality, mapping=aes(x=Wind, y=Ozone))`.
-
-::: callout-important
-Ein Mapping, das man direkt in `ggplot()` angibt, gilt automatisch für *alle* nachfolgenden Geome (man spricht hier von *Vererbung*). Ein einzelnes Geom kann aber auch ein eigenes, lokales Mapping mitbringen, das dann nur für dieses eine Geom gilt – ein Beispiel dafür sehen wir gleich bei den Histogrammen.
 :::
 
 ::: callout-important
-Beachten Sie, dass die einzelnen Bestandteile mit `+` verknüpft werden und *nicht* mit dem Pipe-Operator `|>`. Das ist eine häufige Fehlerquelle. Das `+` muss außerdem immer am *Ende* einer Zeile stehen – nur dann weiß R, dass der Befehl in der nächsten Zeile weitergeht.
+Daten und Mapping müssen übrigens nicht zwingend an `ggplot()` übergeben werden. Sie können auch später für einzelne Geoms festgelegt werden. Ein Mapping, das man direkt in `ggplot()` angibt, gilt automatisch für *alle* nachfolgenden Geoms (man spricht hier von *Vererbung*). Ein einzelnes Geom kann aber auch ein eigenes, lokales Mapping mitbringen, das dann nur für dieses eine Geom gilt – ein Beispiel dafür sehen wir gleich bei den Histogrammen.
 :::
 
 ::: callout-note
-Die Warnung `Removed 37 rows containing missing values` ist in diesem Beispiel kein Fehler, sondern ein Hinweis: Die Spalte `Ozone` enthält 37 fehlende Werte, und diese kann `ggplot2` natürlich nicht zeichnen. Es ist sogar ausgesprochen nützlich, dass man auf diese Anzahl aufmerksam gemacht wird. In den folgenden Beispielen blenden wir diese Warnung aus, damit die Ausgaben übersichtlich bleiben.
+Die Warnung `Removed 37 rows containing missing values` ist in diesem Beispiel kein Fehler, sondern ein Hinweis: Die Spalte `Ozone` enthält 37 fehlende Werte, und diese kann `ggplot2` natürlich nicht zeichnen. In den folgenden Beispielen blenden wir diese Warnung aus, damit die Ausgaben übersichtlich bleiben.
 :::
 
-Die wichtigsten Geome sind:
+Die wichtigsten Geoms sind:
 
 ::: narrow-table
 | Geom | Darstellung |
@@ -95,7 +93,7 @@ Die wichtigsten Geome sind:
 | `geom_smooth()` | Ausgleichskurve bzw. Regressionsgerade |
 :::
 
-Diese Geome sehen wir uns nun der Reihe nach an.
+Diese Geoms sehen wir uns nun der Reihe nach an.
 
 
 ## Histogramme
@@ -117,7 +115,7 @@ ggplot(airquality, aes(x=Ozone)) +
 ```
 
 ::: callout-note
-Ohne Angabe von `bins` oder `binwidth` verwendet `ggplot2` 30 Balken und gibt die Meldung `Pick better value with binwidth` aus. Das ist als Aufforderung zu verstehen, die Anzahl bewusst zu wählen: Zu wenige Balken verschleiern die Form der Verteilung, zu viele machen sie unruhig. Probieren Sie ruhig ein paar Werte aus.
+Ohne Angabe von `bins` oder `binwidth` verwendet `ggplot2` 30 Balken und gibt eine entsprechende Meldung aus. Diese ist als Aufforderung zu verstehen, die Anzahl bewusst zu wählen: Zu wenige Balken verschleiern die Form der Verteilung, zu viele machen sie unruhig. Probieren Sie also ein paar Werte aus.
 :::
 
 Standardmäßig werden auf der y-Achse die absoluten Häufigkeiten dargestellt. Alternativ kann man die *Dichte* anzeigen (also die Häufigkeit relativ zur Breite der Balken). Das ist insbesondere dann sinnvoll, wenn man zusätzlich eine geschätzte Dichtefunktion in dieselbe Grafik zeichnen möchte, denn nur dann passen die beiden Darstellungen in ihrer Skalierung zusammen:
@@ -130,10 +128,10 @@ ggplot(airquality, aes(x=Ozone)) +
 ```
 
 ::: callout-note
-Mit `after_stat(density)` sagt man, dass auf der y-Achse nicht die Häufigkeiten, sondern die vom Geom *berechnete* Dichte dargestellt werden soll. Beachten Sie außerdem, dass dieses zusätzliche Mapping direkt beim Geom steht und nicht in `ggplot()` – ein Geom kann sein eigenes Mapping mitbringen, das dann nur für dieses eine Geom gilt.
+Mit `after_stat(density)` legt man fest, dass auf der y-Achse nicht die Häufigkeiten, sondern die vom Geom *berechnete* Dichte dargestellt werden soll. Beachten Sie außerdem, dass dieses zusätzliche Mapping direkt beim Geom steht und nicht in `ggplot()` – es gilt also nur für dieses eine Geom.
 :::
 
-An diesem Beispiel sieht man auch bereits das Grundprinzip von `ggplot2`: Eine Grafik wird aus beliebig vielen *Schichten* zusammengesetzt, die man einfach mit `+` aneinanderhängt.
+An diesem Beispiel sieht man auch bereits ein essentielles Grundprinzip von `ggplot2`: Eine Grafik wird aus beliebig vielen *Schichten* zusammengesetzt, die man einfach mit `+` aneinanderhängt. Die Reihenfolge der Schichten ist dabei entscheidend, weil die erste Schicht zuerst gezeichnet wird, die zweite darüber, die dritte darüber usw. – so kann man also gezielt bestimmen, welche Elemente im Vordergrund und welche im Hintergrund liegen sollen. In unserem Beispiel wird zuerst das Histogramm gezeichnet und darüber die Dichtefunktion.
 
 
 ## Boxplots
@@ -165,21 +163,22 @@ Zusammenfassende Größen wie Mittelwert, Median oder Streuung verbergen immer e
 
 ```{r}
 #| warning: false
+set.seed(1)
 ggplot(airquality, aes(x=factor(Month), y=Ozone)) +
     geom_boxplot(outlier.shape=NA) +
     geom_jitter(width=0.15, alpha=0.3)
 ```
 
-So kann man neben den statistischen Größen (wie Median, IQR, etc.) auch die tatsächlichen Werte der Datenpunkte sehen. Mit `width` legt man fest, wie stark die Punkte verschoben werden dürfen. Das Argument `outlier.shape=NA` unterdrückt die Ausreißer des Boxplots – diese sind ja ohnehin schon als Rohdaten vorhanden und würden sonst doppelt gezeichnet werden.
+So kann man neben den statistischen Größen (wie Median, IQR, etc.) auch die tatsächlichen Werte der Datenpunkte sehen. Mit `width` legt man fest, wie stark die Punkte horizontal verschoben werden dürfen. Das Argument `outlier.shape=NA` unterdrückt die Ausreißer des Boxplots – diese sind ja ohnehin schon als Rohdaten vorhanden und würden sonst doppelt gezeichnet werden. Damit die Punkte reproduzierbar sind, haben wir außerdem den Zufallsgenerator mit `set.seed(1)` initialisiert.
 
 ::: callout-tip
-Das Argument `alpha` steuert die Transparenz (1 bedeutet gar nicht transparent, 0 vollkommen transparent). Bei vielen überlappenden Punkten ist das sehr hilfreich, weil man dann erkennen kann, wo besonders viele Datenpunkte liegen.
+Das Argument `alpha` bestimmt die Transparenz der Punkte (1 bedeutet gar nicht transparent, 0 vollkommen transparent). Bei vielen überlappenden Punkten ist das hilfreich, weil man dann erkennen kann, wo besonders viele Datenpunkte liegen.
 :::
 
 
 ## Balkendiagramme
 
-Möchte man die Häufigkeiten der Stufen einer kategorialen Variable darstellen, verwendet man `geom_bar()`. Auch hier gibt es nur ein Mapping für die x-Achse, denn die Häufigkeiten werden automatisch ausgezählt:
+Möchte man die Häufigkeiten der Stufen einer kategorischen Variable darstellen, verwendet man `geom_bar()`. Auch hier gibt es nur ein Mapping für die x-Achse, denn die Häufigkeiten werden automatisch bestimmt:
 
 ```{r}
 ggplot(airquality, aes(x=factor(Month))) +
@@ -191,7 +190,7 @@ Dies ist die grafische Entsprechung zu der Häufigkeitstabelle, die wir in Einhe
 
 ## Liniengrafiken
 
-Insbesondere bei Zeitverläufen möchte man die Datenpunkte mit Linien verbinden. Erstellen wir dazu zunächst aus den beiden numerischen Spalten `Month` und `Day` eine neue Spalte namens `date` (aus der Beschreibung der Daten kann man entnehmen, dass diese im Jahr 1973 aufgezeichnet wurden):
+Insbesondere bei Zeitverläufen möchte man die Datenpunkte meist mit Linien verbinden. Erstellen wir dazu zunächst aus den beiden numerischen Spalten `Month` und `Day` eine neue Spalte namens `date` (aus der Beschreibung der Daten kann man entnehmen, dass diese im Jahr 1973 aufgezeichnet wurden):
 
 ```{r}
 airquality[["date"]] = as.Date(
@@ -220,7 +219,7 @@ Das Ergebnis der `paste()`-Funktion ist also folgender Character-Vektor:
 paste(airquality[["Month"]], airquality[["Day"]], "1973")
 ```
 
-Dieser Vektor kann dann mit der Funktion `as.Date()` mit dem Argument `format="%m %d %Y"` in einen Datumsvektor konvertiert werden, welchen wir der Spalte `date` im Data Frame zugewiesen haben:
+Dieser Vektor kann dann mit der Funktion `as.Date()` mit dem Argument `format="%m %d %Y"` in einen Datumsvektor konvertiert werden (siehe dazu auch Einheit 5), welchen wir der Spalte `date` im Data Frame zugewiesen haben:
 
 ```{r}
 class(airquality[["date"]])
@@ -239,7 +238,7 @@ Man erkennt mit dieser Liniengrafik auch sofort, dass es fehlende Werte in den D
 
 ## Grafiken anpassen
 
-Oft möchte man diverse Eigenschaften einer Grafik anpassen, wie z.B. Farben, Symbole, Titel oder Achsenbeschriftungen. Beschriftungen setzt man mit `labs()`:
+Oft möchte man diverse Eigenschaften einer Grafik anpassen, wie z.B. Farben, Symbole, Titel oder Achsenbeschriftungen. Beschriftungen legt man mit `labs()` fest, was man direkt als eigene Schicht zur Grafik hinzufügen kann:
 
 ```{r}
 #| warning: false
@@ -267,7 +266,7 @@ Die wichtigsten dieser Eigenschaften sind:
 |:------------|:----------|
 | `color` | Farbe (bei Flächen: Randfarbe) |
 | `fill` | Füllfarbe von Flächen |
-| `shape` | [Symbol](https://ggplot2.tidyverse.org/articles/ggplot2-specs.html#point) (Kreis, Dreieck, Kreuz, ...) |
+| `shape` | [Symbol](https://ggplot2.tidyverse.org/articles/ggplot2-specs.html#sec:shape-spec) (Kreis, Dreieck, Kreuz, ...) |
 | `size` | Größe von Punkten und Symbolen |
 | `linewidth` | Linienstärke |
 | `linetype` | Linientyp (`"solid"`, `"dashed"`, `"dotted"`, ...) |
@@ -309,7 +308,7 @@ Der Unterschied zwischen innerhalb und außerhalb von `aes()` ist zentral: `colo
 
 ## Weitere Schichten
 
-Weitere Bestandteile hängt man mit `+` einfach an. Besonders häufig braucht man `geom_smooth()` für eine Regressionsgerade:
+Weitere Bestandteile hängt man mit `+` einfach an. Besonders häufig braucht man `geom_smooth()` für eine Regressionsgerade in einem Streudiagramm:
 
 ```{r}
 #| warning: false
@@ -324,7 +323,7 @@ ggplot(penguins, aes(x=bill_len, y=bill_dep)) +
     )
 ```
 
-Wenn im `aes()` des `ggplot()`-Aufrufs eine Gruppierung definiert ist, gilt diese automatisch für *alle* Schichten – man bekommt also eine Regressionsgerade pro Gruppe:
+Wenn im `aes()` des `ggplot()`-Aufrufs eine Gruppierung definiert ist, gilt diese automatisch für *alle* Schichten – man bekommt so also eine Regressionsgerade pro Gruppe:
 
 ```{r}
 #| warning: false
@@ -355,12 +354,12 @@ ggplot(penguins, aes(x=bill_len, y=bill_dep)) +
 Der Ausdruck `~species` ist eine sogenannte *Formel*. Eine Formel in R wird durch das Tilde-Zeichen (`~`) definiert, mit Ausdrücken links bzw. rechts davon. Ein Beispiel für eine Formel ist `y ~ x` mit `y` auf der linken Seite und `x` auf der rechten Seite; bei `facet_wrap()` bleibt die linke Seite leer. Die Bedeutung einer Formel hängt von der jeweiligen Funktion ab. Viele Funktionen verlangen Formeln als Argumente, wir werden dies vor allem bei der Berechnung von linearen Modellen intensiv nutzen.
 :::
 
-Alle Teilgrafiken verwenden dabei automatisch dieselben Achsenbereiche, sodass man sie direkt miteinander vergleichen kann. Möchte man mehrere völlig *unterschiedliche* Grafiken nebeneinander anordnen, verwendet man am besten das Zusatzpaket `patchwork`, mit dem man fertige Grafiken mit `+` bzw. `/` kombinieren kann.
+Alle Teilgrafiken verwenden dabei automatisch dieselben Achsenbereiche, sodass man sie direkt miteinander vergleichen kann. Möchte man mehrere völlig *unterschiedliche* Grafiken nebeneinander anordnen, verwendet man am besten das Zusatzpaket [patchwork](https://patchwork.data-imaginist.com/), mit dem man fertige Grafiken mit `+` bzw. `/` kombinieren kann.
 
 
 ## Grafiken speichern
 
-Bisher haben wir Grafiken nur am Bildschirm betrachtet. Spätestens für eine Seminar- oder Abschlussarbeit möchte man sie aber als Datei speichern. In RStudio geht das im Bereich *Plots* über *Export* – für eine reproduzierbare Analyse sollte man das aber im Script erledigen.
+Bisher haben wir Grafiken nur am Bildschirm betrachtet. Spätestens für eine Seminar- oder Abschlussarbeit möchte man sie aber als Datei speichern. In RStudio geht das im Bereich *Plots* über *Export* – für eine reproduzierbare Analyse sollte man das aber direkt im Script erledigen.
 
 Dafür gibt es die Funktion `ggsave()`. Diese speichert standardmäßig die zuletzt erzeugte Grafik, und das Dateiformat wird automatisch aus der Dateiendung abgeleitet:
 
@@ -389,27 +388,17 @@ Für Publikationen ist ein *Vektorformat* wie PDF oder SVG meist die bessere Wah
 
 ### Übung 1
 
-Erstellen Sie aus dem `penguins`-Datensatz ein Streudiagramm der Spalten `bill_len` auf der x-Achse und `bill_dep` auf der y-Achse. Beschriften Sie die Achsen mit aussagekräftigen Bezeichnungen.
+Sehen Sie sich den Datensatz `ToothGrowth` an (lesen Sie auch die Hilfe dazu) und erstellen Sie damit einen aussagekräftigen Plot. Verwenden Sie Funktionen, die wir in dieser Einheit kennengelernt haben.
 
 
 ### Übung 2
 
-Erstellen Sie das Streudiagramm aus Übung 1 noch einmal, aber stellen Sie diesmal die Punkte der drei Spezies in unterschiedlichen Farben dar. Die passende Legende soll dabei automatisch erzeugt werden.
+Verwenden Sie den Datensatz `mtcars` und erstellen Sie einen Boxplot der Variable `mpg` in Abhängigkeit von `cyl`. Welche Aussage können Sie aufgrund dieser Grafik machen (welche Fahrzeuge verbrauchen mehr bzw. weniger Kraftstoff)? Achten Sie auf die korrekte Interpretation des Kraftstoffverbrauchs in MPG (miles per gallon)!
 
 
 ### Übung 3
 
-Sehen Sie sich den Datensatz `ToothGrowth` an (lesen Sie auch die Hilfe dazu) und erstellen Sie damit einen aussagekräftigen Plot. Verwenden Sie Funktionen, die wir in dieser Einheit kennengelernt haben.
-
-
-### Übung 4
-
-Verwenden Sie den Datensatz `mtcars` und erstellen Sie einen Boxplot der Variable `mpg` in Abhängigkeit von `cyl`. Welche Aussage können Sie aufgrund dieser Grafik machen (welche Fahrzeuge verbrauchen mehr bzw. weniger Kraftstoff)? Achten Sie auf die korrekte Interpretation des Kraftstoffverbrauchs in MPG (miles per gallon)!
-
-
-### Übung 5
-
-Erstellen Sie mit dem Datensatz `mtcars` ein Streudiagramm der Spalten `drat` (x-Achse) und `mpg` (y-Achse), in dem die Punkte entsprechend der Zylinderanzahl `cyl` eingefärbt sind. Fügen Sie danach eine Regressionsgerade pro Zylinderanzahl hinzu.
+Erstellen Sie mit dem Datensatz `mtcars` ein Streudiagramm der Spalten `drat` (Hinterachsübersetzung, x-Achse) und `mpg` (Kraftstoffverbrauch, y-Achse), in dem die Punkte entsprechend der Zylinderanzahl `cyl` eingefärbt sind. Fügen Sie danach eine Regressionsgerade pro Zylinderanzahl hinzu.
 
 Stellen Sie dieselben Daten anschließend mit `facet_wrap()` in drei Teilgrafiken (eine pro Zylinderanzahl) dar, und speichern Sie diese Grafik mit `ggsave()` als PNG-Datei.
 
