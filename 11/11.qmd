@@ -258,7 +258,7 @@ plot(model2)
 ```
 
 ::: callout-note
-Dies ist die zweite in Einheit 8 erwähnte Ausnahme: `plot()` erzeugt hier eine Grafik mit dem eingebauten Base-Plotting-System, für die es in `ggplot2` keine direkte Entsprechung gibt. Mit `par(mfrow=c(2, 2))` legt man vorher fest, dass die vier Plots in zwei Zeilen und zwei Spalten angeordnet werden sollen – sonst würde R sie nacheinander einzeln anzeigen. Einzelne Plots kann man auch gezielt anfordern, z.B. erzeugt `plot(model2, which=2)` nur den QQ-Plot.
+Dies ist die in Einheit 8 erwähnte Ausnahme: `plot()` erzeugt hier eine Grafik mit dem eingebauten Base-Plotting-System, für die es in `ggplot2` keine direkte Entsprechung gibt. Mit `par(mfrow=c(2, 2))` legt man vorher fest, dass die vier Plots in zwei Zeilen und zwei Spalten angeordnet werden sollen – sonst würde R sie nacheinander einzeln anzeigen. Einzelne Plots kann man auch gezielt anfordern, z.B. erzeugt `plot(model2, which=2)` nur den QQ-Plot.
 :::
 
 Im Plot links oben sind die vorhergesagten Werte gegen die Residuen aufgetragen. Hier kann man die Linearitätsannahme (die rote Linie sollte immer ungefähr gleich Null sein) sowie die Homoskedastizitätsannahme (die Streuung der Datenpunkte sollte sich entlang der x-Achse nicht ändern) überprüfen. Der Plot links unten ist ähnlich, nur ist hier statt den (absoluten) Residuen die Wurzel aus dem Betrag der standardisierten Residuen aufgetragen. Auch hier lässt sich beurteilen, ob die Annahme der Varianzhomogenität erfüllt ist oder nicht. Im Plot rechts oben lässt sich die Normalverteilungsannahme der Residuen mit einem QQ-Plot überprüfen. Im Plot rechts unten sind Punkte mit großem Einfluss dargestellt (gemessen an der Leverage); Cook's Distanz ist ebenfalls im Plot ersichtlich.

@@ -26,7 +26,7 @@ published-title: "Veröffentlicht"
 Grafische Darstellungen sind ein zentraler Bestandteil jeder Datenanalyse – oft erkennt man Muster, Ausreißer oder Fehler in den Daten erst dann, wenn man sie sich ansieht. In R gibt es mehrere Pakete, mit denen man Daten grafisch darstellen kann. In dieser Einheit verwenden wir durchgehend das Paket `ggplot2` aus dem Tidyverse. Es folgt einer klar durchdachten Systematik (der sogenannten *Grammar of Graphics*), nimmt einem viel Arbeit ab (insbesondere bei gruppierten Daten, wo Farben und Legenden automatisch erzeugt werden) und ist eine ausgezeichnete Wahl für Grafiken in Publikationen und Abschlussarbeiten.
 
 ::: callout-note
-R bringt außerdem ein eingebautes Grafiksystem mit (das sogenannte Base-Plotting-System aus dem Paket `graphics` mit Funktionen wie `plot()`, `hist()` oder `boxplot()`). Da wir uns in dieser Lehrveranstaltung auf `ggplot2` als einheitliches Grafiksystem konzentrieren, gehen wir auf das Base-Plotting-System nicht systematisch ein. Wir werden ihm aber an zwei Stellen kurz begegnen: bei `pairs()` in Einheit 9 und bei den diagnostischen Plots eines Regressionsmodells in Einheit 11. Für diese beiden Spezialfälle gibt es in `ggplot2` keine direkte Entsprechung; sie werden jeweils an Ort und Stelle erklärt.
+R bringt außerdem ein eingebautes Grafiksystem mit (das sogenannte Base-Plotting-System aus dem Paket `graphics` mit Funktionen wie `plot()`, `hist()` oder `boxplot()`). Da wir uns in dieser Lehrveranstaltung auf `ggplot2` als einheitliches Grafiksystem konzentrieren, gehen wir auf das Base-Plotting-System nicht systematisch ein. Wir werden ihm aber an einer Stelle kurz begegnen, nämlich bei den diagnostischen Plots eines Regressionsmodells in Einheit 11. Für diesen Spezialfall gibt es in `ggplot2` keine direkte Entsprechung; er wird an Ort und Stelle erklärt.
 :::
 
 Für die folgenden Beispiele verwenden wir den in R enthaltenen `airquality`-Datensatz (eine kurze Beschreibung kann man dem Hilfetext `?airquality` entnehmen):
@@ -322,6 +322,12 @@ ggplot(penguins, aes(x=bill_len, y=bill_dep)) +
         title="Pinguine"
     )
 ```
+
+Damit man eine Regressionsgerade erhält, muss man `method="lm"` angeben (für *linear model*). Standardmäßig wird eine nicht-parametrische Glättungskurve berechnet, die sich möglichst gut an die Datenpunkte anpasst (aber eben keine Gerade ist).
+
+::: callout-note
+Das graue Band um die Linie stellt das 95%-Konfidenzintervall der Regressionsgeraden dar. Mit `se=FALSE` kann man dieses auch deaktivieren.
+:::
 
 Wenn im `aes()` des `ggplot()`-Aufrufs eine Gruppierung definiert ist, gilt diese automatisch für *alle* Schichten – man bekommt so also eine Regressionsgerade pro Gruppe:
 

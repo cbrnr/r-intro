@@ -23,7 +23,7 @@ published-title: "Veröffentlicht"
 
 ## Übung 1
 
-Durch Probieren mit verschiedenen Werten für $N$ erhält man $N = 62$ für $p < 0.05$. Dies bedeutet, dass eine Korrelation von $r = 0.25$ signfikant ist bei $N = 62$ oder größer.
+Durch Probieren mit verschiedenen Werten für $N$ erhält man $N = 62$ für $p < 0.05$. Dies bedeutet, dass eine Korrelation von $r = 0.25$ signifikant ist bei $N = 62$ oder größer.
 
 ```{r}
 r = 0.25
@@ -31,7 +31,7 @@ N = 62
 alpha = 0.05
 z = atanh(r)
 se_z = 1 / sqrt(N - 3)
-(p = 2 * (1 - pnorm(z / se_z)))
+(p = 2 * pnorm(-abs(z / se_z)))
 ```
 
 Wiederum durch Probieren erhält man $N = 1538$ (mindestens) damit $p < 0.05$. Man sieht, dass selbst eine sehr kleine Korrelation ab einer gewissen Stichprobengröße signifikant wird.
@@ -42,8 +42,10 @@ N = 1538
 alpha = 0.05
 z = atanh(r)
 se_z = 1 / sqrt(N - 3)
-(p = 2 * (1 - pnorm(z / se_z)))
+(p = 2 * pnorm(-abs(z / se_z)))
 ```
+
+Genau deshalb sollte man Signifikanz nie mit Relevanz gleichsetzen: Eine Korrelation von $r = 0.05$ erklärt lediglich $R^2 = 0.0025$, also 0.25% der Varianz – und ist damit praktisch bedeutungslos, auch wenn sie bei $N = 1538$ statistisch signifikant ist.
 
 
 ## Übung 2
@@ -54,19 +56,24 @@ y = c(-2, -5, -6, 0, 3, 7, 10)
 cor.test(x, y, conf.level=0.99)
 ```
 
-Die Pearson-Korrelation beträgt 0.8166, der zugehörige $p$-Wert ist 0.02501. Bei $\alpha=0.99$ ist dies nicht signifikant. Das 99%-Konfidenzintervall lautet $(-0.1405326, 0.9847508)$. Es beinhaltet den Wert 0, daher ist die Korrelation nicht signifikant.
+Die Pearson-Korrelation beträgt 0.8166, der zugehörige $p$-Wert ist 0.02501. Bei einem Signifikanzniveau von $\alpha = 0.01$ ist dies *nicht* signifikant (bei $\alpha = 0.05$ hingegen schon). Passend dazu beinhaltet das 99%-Konfidenzintervall $(-0.1405, 0.9848)$ den Wert 0. Man sieht hier gut, wie breit das Konfidenzintervall bei einer sehr kleinen Stichprobe ($N = 7$) ausfällt – die Daten sind mit fast jeder positiven Korrelation verträglich.
 
 
 ## Übung 3
+
+```{r}
+#| message: false
+library(GGally)
+
+ggpairs(mtcars[, c("mpg", "disp", "hp")])
+```
 
 ```{r}
 cor(mtcars[, c("mpg", "disp", "hp")], method="pearson")
 cor(mtcars[, c("mpg", "disp", "hp")], method="spearman")
 ```
 
-```{r}
-pairs(mtcars[, c("mpg", "disp", "hp")])
-```
+Alle drei Variablen hängen deutlich zusammen: Ein größerer Hubraum (`disp`) und mehr Leistung (`hp`) gehen jeweils mit einem höheren Verbrauch (also einem kleineren `mpg`-Wert) einher. Die Spearman-Korrelationen sind hier durchwegs betragsmäßig größer als die Pearson-Korrelationen, was auf einen monotonen, aber nicht ganz linearen Zusammenhang hindeutet – in den Streudiagrammen erkennt man tatsächlich einen leicht gekrümmten Verlauf.
 
 
 ## Übung 4
@@ -104,11 +111,17 @@ ggplot(pm10, aes(x=Petersgasse, y=DonBosco)) +
 
 ```{r}
 (r = cor.test(pm10[["Petersgasse"]], pm10[["DonBosco"]]))
-r$estimate**2  # erklärte Varianz
+r$estimate^2  # erklärte Varianz
 
 # fehlende Werte (NA) müssen explizit ausgeschlossen werden
 cor(pm10[["Petersgasse"]], pm10[["DonBosco"]], use="complete.obs")
 ```
+
+Die beiden Messstationen korrelieren mit $r = 0.96$ ($p < 0.001$, 95%-Konfidenzintervall $[0.94, 0.97]$) sehr hoch. Etwa 92% der Varianz der einen Station lassen sich durch die andere erklären – wenig überraschend, da beide Stationen in derselben Stadt dieselben saisonalen Schwankungen und Wetterlagen abbilden.
+
+::: callout-note
+`cor.test()` entfernt fehlende Werte automatisch (es werden nur vollständige Paare verwendet), während `cor()` standardmäßig `NA` liefert und daher das Argument `use` benötigt.
+:::
 
 
 ## Übung 5
@@ -123,3 +136,5 @@ penguins |>
     group_by(species) |>
     summarize(r=cor(bill_len, bill_dep, use="complete.obs"))
 ```
+
+Über alle Pinguine hinweg ergibt sich eine *negative* Korrelation von $r = -0.24$, innerhalb jeder Spezies ist sie aber *positiv* (zwischen 0.39 und 0.65). Das ist genau das Simpsons Paradoxon, das wir in Einheit 8 bereits grafisch gesehen haben: Die drei Spezies bilden getrennte Punktwolken (Gentoo-Pinguine haben lange, aber flache Schnäbel), und diese Lage der Gruppen zueinander dominiert die Gesamtkorrelation.
