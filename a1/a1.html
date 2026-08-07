@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="de" xml:lang="de"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.9.38">
+<meta name="generator" content="quarto-1.10.18">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -13,10 +13,13 @@
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
 */
-code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
-div.columns{display: flex; gap: min(4vw, 1.5em);}
-div.column{flex: auto; overflow-x: auto;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
@@ -75,14 +78,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-de63f62b328812d8e578a4d74e282472.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-6b6957c917596b414ec0b78690761e87.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-de63f62b328812d8e578a4d74e282472.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-bb62276ab45c84d9efd712f51ff97b5a.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-5a1953863e1f72ef3b996ef827f01ca7.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-bb62276ab45c84d9efd712f51ff97b5a.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-0f1a520e41d12d84e925fcfd3dfb7140.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-70d97c5485b77d73a4316377cf99e6cf.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../site_libs/bootstrap/bootstrap-0f1a520e41d12d84e925fcfd3dfb7140.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-2b7eca8567fdbee962e3cedeeddf1829.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-a3c44dc60ae31181bce8460d4dcf3f72.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-2b7eca8567fdbee962e3cedeeddf1829.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <link href="../site_libs/quarto-contrib/academicons-1.9.2/all.css" rel="stylesheet">
 <link href="../site_libs/quarto-contrib/academicons-1.9.2/size.css" rel="stylesheet">
 <link href="../site_libs/quarto-contrib/fontawesome6-0.1.0/all.css" rel="stylesheet">
@@ -116,7 +119,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }</script>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
 
 <script type="text/javascript">
 const typesetMath = (el) => {
@@ -445,19 +448,115 @@ window.Quarto = {
 
 
 
-<section id="übung-1" class="level2">
-<h2 class="anchored" data-anchor-id="übung-1">Übung 1</h2>
-<p>Wir betrachten das in R eingebaute Data Frame <code>penguins</code>. Untersuchen Sie, ob sich die drei Spezies (Adélie, Chinstrap, Gentoo) in Bezug auf die Körpermasse (Spalte <code>body_mass</code>) unterscheiden. Führen Sie dazu folgende Schritte durch:</p>
-<ol type="a">
-<li>Entfernen Sie gegebenenfalls Zeilen mit fehlenden Werten in der Spalte <code>body_mass</code>.</li>
-<li>Berechnen Sie die Mittelwerte und Standardabweichungen der Körpermasse für jede Spezies.</li>
-<li>Fügen Sie dem Data Frame eine Spalte namens <code>id</code> hinzu, welche die Zeilennummer enthält (beginnend bei 1). Diese Spalte identifiziert jede Beobachtung (jeden Pinguin) eindeutig. Die Funktion <code>nrow()</code> könnte dabei hilfreich sein.</li>
-<li>Installieren und aktivieren Sie das Paket <code>afex</code>. Führen Sie eine einfaktorielle ANOVA durch, um zu überprüfen, ob sich die Körpermasse zwischen den Spezies unterscheidet (verwenden Sie dazu die Funktion <code>aov_ez()</code>). Unterscheiden sich die Spezies signifikant in Bezug auf die Körpermasse?</li>
+<section id="erste-schritte" class="level2">
+<h2 class="anchored" data-anchor-id="erste-schritte">1 – Erste Schritte</h2>
+<section id="übung-1" class="level3">
+<h3 class="anchored" data-anchor-id="übung-1">Übung 1</h3>
+<p>Berechnen Sie das Ergebnis des folgenden Ausdrucks und weisen Sie es der Variablen <code>result</code> zu:</p>
+<p><span class="math display">\[\sqrt{\left(\frac{25 + 7.1}{5 \pi}\right)^4 + \frac{(-6.2 \cdot \frac{2}{3})^2}{0.8 + 3^{\frac{2}{7}}}}\]</span></p>
+<p>Verwenden Sie die Funktion <code>round()</code>, um das Ergebnis auf drei Dezimalstellen gerundet auszugeben.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tipp
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><code>round(x, n)</code> rundet den Wert <code>x</code> auf <code>n</code> Nachkommastellen.</p>
+</div>
+</div>
+</section>
+<section id="übung-2" class="level3">
+<h3 class="anchored" data-anchor-id="übung-2">Übung 2</h3>
+<p>Berechnen Sie das Ergebnis des folgenden mathematischen Ausdrucks und weisen Sie das Ergebnis der Variablen <code>result</code> zu:</p>
+<p><span class="math display">\[ \frac{e^{2.74} + \sin(0.55 \pi + 1.23)}{\sqrt{1 + 8.3^{1.4}}} \]</span></p>
+<p>Geben Sie das Ergebnis mit <code>round()</code> auf drei Dezimalstellen gerundet aus.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tipp
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><code>round(x, n)</code> rundet den Wert <code>x</code> auf <code>n</code> Nachkommastellen.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="vektoren" class="level2">
+<h2 class="anchored" data-anchor-id="vektoren">3 – Vektoren</h2>
+<section id="übung-1-1" class="level3">
+<h3 class="anchored" data-anchor-id="übung-1-1">Übung 1</h3>
+<p>Erstellen Sie die folgenden sechs Vektoren <code>a</code> bis <code>f</code>:</p>
+<ul>
+<li><code>a</code> besteht aus absteigenden ganzen Zahlen von 100 bis 0 in Schritten von 4 (also 100, 96, 92, …, 4, 0).</li>
+<li><code>b</code> enthält die Zahlen von 2.5 bis 10 in Schritten von 0.3.</li>
+<li><code>c</code> besteht aus 35 gleichmäßig verteilten Zahlen im Bereich von 14 bis 15.</li>
+<li><code>d</code> besteht aus 50 Wiederholungen des Zeichens <code>A</code>, gefolgt von 50 Wiederholungen von <code>B</code>, gefolgt von 50 Wiederholungen von <code>C</code>.</li>
+<li><code>e</code> enthält die geraden Zahlen von 4 bis 96.</li>
+<li><code>f</code> enthält die ungeraden Zahlen von 3 bis 97.</li>
+</ul>
+</section>
+<section id="übung-2-1" class="level3">
+<h3 class="anchored" data-anchor-id="übung-2-1">Übung 2</h3>
+<p>Gegeben sei folgender Vektor <code>x</code>:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">4</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="fu">sample</span>(<span class="sc">-</span><span class="dv">10</span><span class="sc">:</span><span class="dv">10</span>, <span class="dv">500</span>, <span class="at">replace=</span><span class="cn">TRUE</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Erstellen Sie die folgenden vier Vektoren durch Indizieren aus <code>x</code>:</p>
+<ol type="1">
+<li><code>y1</code> soll alle Werte von <code>x</code> enthalten, außer den Elementen an den Positionen 20 und 37.</li>
+<li><code>y2</code> soll alle Werte von <code>x</code> enthalten, die größer als 4 sind.</li>
+<li><code>y3</code> soll die ersten 25 Werte von <code>x</code> enthalten.</li>
+<li><code>y4</code> soll die Elemente von <code>x</code> an den Positionen 2, 128 und 37 enthalten (in dieser Reihenfolge).</li>
 </ol>
 </section>
-<section id="übung-2" class="level2">
-<h2 class="anchored" data-anchor-id="übung-2">Übung 2</h2>
-<p>Die Funktion <code>rnorm()</code> erzeugt normalverteilte Zufallszahlen. Erzeugen Sie 1000 Zufallszahlen aus einer Normalverteilung mit einem Mittelwert von 10 und einer Standardabweichung von 2 und speichern Sie diese in in einem Data Frame <code>df</code> mit einer Spalte namens <code>x</code>. Fügen Sie eine weitere Spalte <code>y</code> hinzu, welche zufällige Werte aus dem Vektor <code>LETTERS</code> enthält; verwenden Sie dazu die Funktion <code>sample()</code> mit dem Argument <code>replace=TRUE</code>. Fügen Sie schließlich eine dritte Spalte namens <code>z</code> hinzu, welche die Quadrate der Werte in der Spalte <code>x</code> enthält.</p>
+<section id="übung-3" class="level3">
+<h3 class="anchored" data-anchor-id="übung-3">Übung 3</h3>
+<p>Gegeben sei der folgende Vektor <code>x</code>:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">4</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="fu">sample</span>(<span class="sc">-</span><span class="dv">10</span><span class="sc">:</span><span class="dv">10</span>, <span class="dv">500</span>, <span class="at">replace=</span><span class="cn">TRUE</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Erstellen Sie neue Vektoren <code>x_odd</code> und <code>x_even</code>, die die ungeraden bzw. geraden Elemente von <code>x</code> enthalten. Wie viele Elemente enthalten diese Vektoren?</p>
+</section>
+<section id="übung-4" class="level3">
+<h3 class="anchored" data-anchor-id="übung-4">Übung 4</h3>
+<p>Gegeben sei der folgende Vektor <code>x</code>:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">4</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="fu">sample</span>(<span class="sc">-</span><span class="dv">10</span><span class="sc">:</span><span class="dv">10</span>, <span class="dv">500</span>, <span class="at">replace=</span><span class="cn">TRUE</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Erstellen Sie einen neuen Vektor <code>y</code>, indem Sie nur die <em>ungeraden</em> Werte von <code>x</code> verwenden. Wie viele Elemente hat der ursprüngliche Vektor <code>x</code> und wie viele Elemente hat der neue Vektor <code>y</code>? Welcher der beiden Vektoren hat einen größeren Mittelwert?</p>
+</section>
+</section>
+<section id="tabellarische-daten" class="level2">
+<h2 class="anchored" data-anchor-id="tabellarische-daten">4 – Tabellarische Daten</h2>
+<section id="übung-1-2" class="level3">
+<h3 class="anchored" data-anchor-id="übung-1-2">Übung 1</h3>
+<ol type="a">
+<li>Erstellen Sie eine Matrix <code>m1</code>, welche aus 25 Zeilen und 5 Spalten besteht. Die fünf Spalten sollen jeweils mit den Zahlen 1 bis 5 gefüllt werden. Berechnen Sie die Zeilen- und Spaltensummen!</li>
+<li>Erstellen eine zweite Matrix <code>m2</code> mit denselben Dimensionen, wobei nun die 25 Zeilen jeweils mit den Zahlen von 1 bis 25 gefüllt werden sollen. Berechnen Sie die Zeilen- und Spaltensummen!</li>
+</ol>
+</section>
+<section id="übung-2-2" class="level3">
+<h3 class="anchored" data-anchor-id="übung-2-2">Übung 2</h3>
+<p>Erstellen Sie einen Character-Vektor <code>x</code> mit den folgenden sieben Elementen: <code>1</code>, <code>9</code>, <code>X</code>, <code>13</code>, <code>Y</code>, <code>8</code> und <code>27</code>. Konvertieren Sie diesen Vektor mit einer geeigneten Funktion in einen numerischen Vektor <code>y</code>. Verwenden Sie dann <code>sum()</code>, um die Summe aller Elemente in <code>y</code> zu berechnen, wobei fehlende Werte ignoriert werden sollen. Erstellen Sie schließlich ein Data Frame <code>df</code> aus den beiden Vektoren <code>x</code> und <code>y</code> und fügen Sie eine dritte Spalte namens <code>z</code> hinzu, die nur Einsen (als numerische Werte) enthält.</p>
+</section>
+<section id="übung-3-1" class="level3">
+<h3 class="anchored" data-anchor-id="übung-3-1">Übung 3</h3>
+<p>Wie viele Autos im eingebauten <code>mtcars</code>-Datensatz haben eine hohe Kraftstoffeffizienz von mindestens 20 Meilen pro Gallone (Spalte <code>mpg</code>), mindestens 110 PS (Spalte <code>hp</code>) und sechs Zylinder (Spalte <code>cyl</code>)? Erstellen Sie ein neues Data Frame, welches nur die Zeilen enthält, die diese Kriterien erfüllen.</p>
+</section>
+<section id="übung-4-1" class="level3">
+<h3 class="anchored" data-anchor-id="übung-4-1">Übung 4</h3>
+<p>Die Funktion <code>rnorm()</code> erzeugt normalverteilte Zufallszahlen. Erzeugen Sie 1000 Zufallszahlen aus einer Normalverteilung mit einem Mittelwert von 10 und einer Standardabweichung von 2 und speichern Sie diese in in einem Data Frame <code>df</code> mit einer Spalte namens <code>x</code>. Fügen Sie eine weitere Spalte <code>y</code> hinzu, welche zufällige Werte aus dem eingebauten Vektor <code>LETTERS</code> enthält (dieser enthält die 26 Großbuchstaben des Alphabets); verwenden Sie dazu die Funktion <code>sample()</code> mit dem Argument <code>replace=TRUE</code>. Fügen Sie schließlich eine dritte Spalte namens <code>z</code> hinzu, welche die Quadrate der Werte in der Spalte <code>x</code> enthält.</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -478,23 +577,32 @@ Tipp
 <li>Wie viele Werte in der Spalte <code>y</code> sind gleich <code>"A"</code> und deren zugehörige Werte in der Spalte <code>z</code> größer als 100?</li>
 </ol>
 </section>
-<section id="übung-3" class="level2">
-<h2 class="anchored" data-anchor-id="übung-3">Übung 3</h2>
-<p>Gegeben sei das in R eingebaute Data Frame <code>penguins</code>. Wie viele weibliche und männliche Pinguine gibt es im Datensatz? Wie viele fehlende Werte gibt es in der Spalte <code>sex</code>? Erzeugen Sie zwei neue Data Frames <code>penguins_f</code> und <code>penguins_m</code>, welche nur die weiblichen bzw. männlichen Pinguine enthalten!</p>
 </section>
-<section id="übung-4" class="level2">
-<h2 class="anchored" data-anchor-id="übung-4">Übung 4</h2>
+<section id="deskriptive-statistiken" class="level2">
+<h2 class="anchored" data-anchor-id="deskriptive-statistiken">6 – Deskriptive Statistiken</h2>
+<section id="übung-1-3" class="level3">
+<h3 class="anchored" data-anchor-id="übung-1-3">Übung 1</h3>
 <p>Erzeugen Sie einen Vektor <code>x</code> mit den ungeraden Zahlen von 1 bis 100. Berechnen Sie den Mittelwert, die Standardabweichung, den Median, das 25. Perzentil und das 75. Perzentil von <code>x</code>.</p>
 </section>
-<section id="übung-5" class="level2">
-<h2 class="anchored" data-anchor-id="übung-5">Übung 5</h2>
-<ol type="a">
-<li>Erstellen Sie eine Matrix <code>m1</code>, welche aus 25 Zeilen und 5 Spalten besteht. Die fünf Spalten sollen jeweils mit den Zahlen 1 bis 5 gefüllt werden. Berechnen Sie die Zeilen- und Spaltensummen!</li>
-<li>Erstellen eine zweite Matrix <code>m2</code> mit denselben Dimensionen, wobei nun die 25 Zeilen jeweils mit den Zahlen von 1 bis 25 gefüllt werden sollen. Berechnen Sie die Zeilen- und Spaltensummen!</li>
-</ol>
+<section id="übung-2-3" class="level3">
+<h3 class="anchored" data-anchor-id="übung-2-3">Übung 2</h3>
+<p>Erzeugen Sie einen Vektor <code>x</code> mit den geraden Zahlen von <span class="math inline">\(-76\)</span> bis 120. Bestimmen Sie die Anzahl der Elemente sowie den Mittelwert, die Standardabweichung, den Median, das 25. Perzentil, das 66. Perzentil und das 75. Perzentil von <code>x</code>.</p>
+<p>Bestimmen Sie außerdem die Anzahl der Elemente, die größer als der Mittelwert sind.</p>
 </section>
-<section id="übung-6" class="level2">
-<h2 class="anchored" data-anchor-id="übung-6">Übung 6</h2>
+<section id="übung-3-2" class="level3">
+<h3 class="anchored" data-anchor-id="übung-3-2">Übung 3</h3>
+<p>Berechnen Sie den Mittelwert, die Standardabweichung und die Quantile, die den Wahrscheinlichkeiten 0, 0.25, 0.33, 0.5, 0.66, 0.75 und 1 des folgenden Vektors <code>x</code> entsprechen:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">4</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="fu">sample</span>(<span class="fu">c</span>(<span class="sc">-</span><span class="dv">10</span><span class="sc">:</span><span class="dv">10</span>, <span class="cn">NA</span>), <span class="dv">500</span>, <span class="at">replace=</span><span class="cn">TRUE</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="übung-4-2" class="level3">
+<h3 class="anchored" data-anchor-id="übung-4-2">Übung 4</h3>
+<p>Gegeben sei das in R eingebaute Data Frame <code>penguins</code>. Wie viele weibliche und männliche Pinguine gibt es im Datensatz? Wie viele fehlende Werte gibt es in der Spalte <code>sex</code>? Erzeugen Sie zwei neue Data Frames <code>penguins_f</code> und <code>penguins_m</code>, welche nur die weiblichen bzw. männlichen Pinguine enthalten!</p>
+</section>
+<section id="übung-5" class="level3">
+<h3 class="anchored" data-anchor-id="übung-5">Übung 5</h3>
 <p>Die offiziellen Daten zu den österreichischen Treibhausgasemissionen sind <a href="https://www.data.gv.at/katalog/dataset/78bd7b69-c1a7-456b-8698-fac3b24f7aa5#resources">hier</a> verfügbar. Laden Sie diesen Datensatz herunter bzw. verwenden Sie die Datei <a href="thg-emissionen_1990-2022_nach_crf_long.csv"><code>thg-emissionen_1990-2022_nach_crf_long.csv</code></a>.</p>
 <p>Importieren Sie diesen Datensatz in R und beantworten Sie folgende Fragen:</p>
 <ol type="a">
@@ -503,117 +611,84 @@ Tipp
 <li>Erstellen Sie ein neues Data Frame <code>df</code>, welches nur die CO₂-Emissionen über alle Sektoren (entspricht einem CRF-Code von 0) enthält.</li>
 </ol>
 </section>
-<section id="übung-7" class="level2">
-<h2 class="anchored" data-anchor-id="übung-7">Übung 7</h2>
-<p>Der eingebaute Datensatz <code>InsectSprays</code> enthält 72 Beobachtungen von zwei Variablen und dokumentiert die Wirksamkeit von sechs verschiedenen Insektiziden, die in der Spalte <code>spray</code> identifiziert werden. Die Spalte <code>count</code> enthält die Anzahl der Insekten, die in einer standardisierten Testeinheit gefunden wurden – weniger Insekten deuten auf eine höhere Wirksamkeit hin.</p>
-<p>Berechnen Sie mit <code>group_by()</code> und <code>summarize()</code> die durchschnittliche Anzahl der Insekten für jedes der sechs Insektizide. Erstellen Sie ein Boxplot, um die Verteilung der Insektenanzahl für jedes Insektizid zu visualisieren. Beschriften Sie die Achsen und geben Sie der Grafik einen aussagekräftigen Titel.</p>
-</section>
-<section id="übung-8" class="level2">
-<h2 class="anchored" data-anchor-id="übung-8">Übung 8</h2>
-<p>Die Datei <a href="temperature.csv"><code>temperature.csv</code></a> enthält monatliche Durchschnittstemperaturen (in °C) für Innsbruck im Zeitraum von 1906 bis 2012.</p>
-<p>Importieren Sie den Datensatz und fügen Sie eine neue Spalte namens <code>Average</code> hinzu, welche die mittlere Jahrestemperatur beinhaltet (die Funktion <code>rowMeans()</code> kann dabei hilfreich sein).</p>
-<p>Erstellen Sie anschließend ein Liniendiagramm, das den Verlauf der durchschnittlichen Jahrestemperatur über den gesamten Zeitraum veranschaulicht. Beschriften Sie die Achsen und geben Sie der Grafik einen Titel.</p>
-</section>
-<section id="übung-9" class="level2">
-<h2 class="anchored" data-anchor-id="übung-9">Übung 9</h2>
-<p>Wie viele Autos im eingebauten <code>mtcars</code>-Datensatz haben eine hohe Kraftstoffeffizienz von mindestens 20 Meilen pro Gallone (Spalte <code>mpg</code>), mindestens 110 PS (Spalte <code>hp</code>) und sechs Zylinder (Spalte <code>cyl</code>)? Erstellen Sie ein neues Data Frame, welches nur die Zeilen enthält, die diese Kriterien erfüllen.</p>
-</section>
-<section id="übung-10" class="level2">
-<h2 class="anchored" data-anchor-id="übung-10">Übung 10</h2>
-<p>Erstellen Sie die folgenden sechs Vektoren <code>a</code> bis <code>f</code>:</p>
-<ul>
-<li><code>a</code> besteht aus absteigenden ganzen Zahlen von 100 bis 0 in Schritten von 4 (also 100, 96, 92, …, 4, 0).</li>
-<li><code>b</code> enthält die Zahlen von 2.5 bis 10 in Schritten von 0.3.</li>
-<li><code>c</code> besteht aus 35 gleichmäßig verteilten Zahlen im Bereich von 14 bis 15.</li>
-<li><code>d</code> besteht aus 50 Wiederholungen des Zeichens <code>A</code>, gefolgt von 50 Wiederholungen von <code>B</code>, gefolgt von 50 Wiederholungen von <code>C</code>.</li>
-<li><code>e</code> enthält die geraden Zahlen von 4 bis 96.</li>
-<li><code>f</code> enthält die ungeraden Zahlen von 3 bis 97.</li>
-</ul>
-</section>
-<section id="übung-11" class="level2">
-<h2 class="anchored" data-anchor-id="übung-11">Übung 11</h2>
-<p>Der eingebaute Datensatz <code>attitude</code> enthält Umfragedaten zur Zufriedenheit in verschiedenen Abteilungen eines großen Unternehmens. Verwenden Sie ein lineares Regressionsmodell, um zu untersuchen, ob die erste Spalte (<code>rating</code>) durch die verbleibenden sechs Variablen vorhergesagt werden kann, und beantworten Sie dabei folgende Punkte:</p>
-<ul>
-<li>Identifizieren Sie, welche Variablen signifikante Prädiktoren sind, und geben Sie deren Regressionskoeffizienten an.</li>
-<li>Geben Sie standardisierte Regressionskoeffizienten für alle Prädiktoren an.</li>
-<li>Wie hoch ist der Bestimmtheitsmaß <span class="math inline">\(R^2\)</span>?</li>
-<li>Ist das Modell statistisch signifikant? Begründen Sie Ihre Antwort.</li>
-</ul>
-</section>
-<section id="übung-12" class="level2">
-<h2 class="anchored" data-anchor-id="übung-12">Übung 12</h2>
-<p>Gegeben sei ein Vektor <code>x = 1:100</code> und der folgende Ausdruck:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">log</span>(<span class="fu">sqrt</span>(<span class="fu">mean</span>(x<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> <span class="dv">3</span>, <span class="at">trim=</span><span class="fl">0.25</span>)), <span class="at">base=</span><span class="dv">2</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Schreiben Sie diesen Ausdruck unter Verwendung von drei Pipe-Operatoren um!</p>
-</section>
-<section id="übung-13" class="level2">
-<h2 class="anchored" data-anchor-id="übung-13">Übung 13</h2>
-<p>Gegeben sei das folgende Data Frame:</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>df <span class="ot">=</span> <span class="fu">data.frame</span>(</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">a=</span><span class="fu">sample</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">1000</span>, <span class="dv">20</span>, <span class="at">replace=</span><span class="cn">TRUE</span>),</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">b=</span><span class="fu">sample</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">1000</span>, <span class="dv">20</span>, <span class="at">replace=</span><span class="cn">FALSE</span>)</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<p>Berechnen Sie zunächst die Spaltenmittelwerte für beide Spalten in diesem Data Frame. Berechnen Sie anschließend die Spaltenmittelwerte erneut, diesmal jedoch nur für die Zeilen, in denen die Werte in der Spalte <code>a</code> ungerade sind.</p>
-</section>
-<section id="übung-14" class="level2">
-<h2 class="anchored" data-anchor-id="übung-14">Übung 14</h2>
-<p>Erstellen Sie einen Character-Vektor <code>x</code> mit den folgenden sieben Elementen: <code>1</code>, <code>9</code>, <code>X</code>, <code>13</code>, <code>Y</code>, <code>8</code> und <code>27</code>. Konvertieren Sie diesen Vektor mit einer geeigneten Funktion in einen numerischen Vektor <code>y</code>. Verwenden Sie dann <code>sum()</code>, um die Summe aller Elemente in <code>y</code> zu berechnen, wobei fehlende Werte ignoriert werden sollen. Erstellen Sie schließlich ein Data Frame <code>df</code> aus den beiden Vektoren <code>x</code> und <code>y</code> und fügen Sie eine dritte Spalte namens <code>z</code> hinzu, die nur Einsen (als numerische Werte) enthält.</p>
-</section>
-<section id="übung-15" class="level2">
-<h2 class="anchored" data-anchor-id="übung-15">Übung 15</h2>
-<p>Berechnen Sie das Ergebnis des folgenden Ausdrucks und weisen Sie es der Variablen <code>result</code> zu:</p>
-<p><span class="math display">\[\sqrt{\left(\frac{25 + 7.1}{5 \pi}\right)^4 + \frac{(-6.2 \cdot \frac{2}{3})^2}{0.8 + 3^{\frac{2}{7}}}}\]</span></p>
-<p>Verwenden Sie die Funktion <code>round()</code>, um das Ergebnis auf drei Dezimalstellen gerundet auszugeben.</p>
-</section>
-<section id="übung-16" class="level2">
-<h2 class="anchored" data-anchor-id="übung-16">Übung 16</h2>
-<p>Gegeben seien die folgenden beiden Vektoren <code>x</code> und <code>y</code>:</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">4</span>)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="fu">rnorm</span>(<span class="dv">100</span>, <span class="at">mean=</span><span class="sc">-</span><span class="dv">4</span>, <span class="at">sd=</span><span class="dv">5</span>)</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>y <span class="ot">=</span> <span class="fl">0.29</span> <span class="sc">*</span> x <span class="sc">+</span> <span class="dv">2</span> <span class="sc">*</span> <span class="fu">rnorm</span>(<span class="dv">100</span>, <span class="at">mean=</span><span class="dv">2</span>, <span class="at">sd=</span><span class="dv">2</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<p>Erstellen Sie ein Streudiagramm der beiden Vektoren einschließlich der Regressionsgeraden. Berechnen Sie die Pearson-Korrelation zwischen <code>x</code> und <code>y</code> und geben Sie an, ob diese Korrelation signifikant ist (bei einem Signifikanzniveau von <span class="math inline">\(\alpha = 0.05\)</span>). Begründen Sie Ihre Antwort, indem Sie die Faktoren erklären, die die statistische Signifikanz in diesem Zusammenhang bestimmen.</p>
-</section>
-<section id="übung-17" class="level2">
-<h2 class="anchored" data-anchor-id="übung-17">Übung 17</h2>
-<p>Importieren Sie die Daten aus der Datei <a href="inflation.csv"><code>inflation.csv</code></a> und erstellen Sie ein Diagramm, das die zeitliche Entwicklung der Inflation in Österreich (AT), Deutschland (DE) und der Schweiz (CH) zeigt. Das Diagramm sollte unterschiedliche Farben für die drei Länder verwenden, eine Legende enthalten, klar beschriftete Achsen haben und fehlende Werte korrekt behandeln.</p>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Hinweis
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Fehlende Werte sind in der Datei als <code>:</code> kodiert. Für die gleichzeitige Darstellung der drei Länder können Sie pro Land eine eigene <code>geom_line()</code>-Schicht verwenden. Übergibt man innerhalb von <code>aes()</code> einen fixen Text als <code>color</code> (z.B. <code>aes(y=AT, color="AT")</code>), entsteht daraus automatisch die passende Legende.</p>
-</div>
-</div>
-</section>
-<section id="übung-18" class="level2">
-<h2 class="anchored" data-anchor-id="übung-18">Übung 18</h2>
-<p>Gegeben sei der folgende Vektor <code>x</code>:</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">4</span>)</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="fu">sample</span>(<span class="sc">-</span><span class="dv">10</span><span class="sc">:</span><span class="dv">10</span>, <span class="dv">500</span>, <span class="at">replace=</span><span class="cn">TRUE</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<p>Erstellen Sie einen neuen Vektor <code>y</code>, indem Sie nur die <em>ungeraden</em> Werte von <code>x</code> verwenden. Wie viele Elemente hat der ursprüngliche Vektor <code>x</code> und wie viele Elemente hat der neue Vektor <code>y</code>? Welcher der beiden Vektoren hat einen größeren Mittelwert?</p>
-</section>
-<section id="übung-19" class="level2">
-<h2 class="anchored" data-anchor-id="übung-19">Übung 19</h2>
-<p>Berechnen Sie den Mittelwert, die Standardabweichung und die Quantile, die den Wahrscheinlichkeiten 0, 0.25, 0.33, 0.5, 0.66, 0.75 und 1 des folgenden Vektors <code>x</code> entsprechen:</p>
+<section id="übung-6" class="level3">
+<h3 class="anchored" data-anchor-id="übung-6">Übung 6</h3>
+<p>Gegeben sei das folgende Data Frame <code>df</code>:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">4</span>)</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="fu">sample</span>(<span class="fu">c</span>(<span class="sc">-</span><span class="dv">10</span><span class="sc">:</span><span class="dv">10</span>, <span class="cn">NA</span>), <span class="dv">500</span>, <span class="at">replace=</span><span class="cn">TRUE</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>df <span class="ot">=</span> <span class="fu">data.frame</span>(</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">A=</span><span class="fu">sample</span>(<span class="sc">-</span><span class="dv">1000</span><span class="sc">:</span><span class="dv">1000</span>, <span class="dv">500</span>, <span class="at">replace=</span><span class="cn">TRUE</span>),</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">B=</span><span class="fu">rnorm</span>(<span class="dv">500</span>, <span class="at">mean=</span><span class="dv">5</span>, <span class="at">sd=</span><span class="dv">2</span>)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
+<p>Zählen Sie die Zeilen in <code>df</code>, in denen die Spalte <code>A</code> negative Werte aufweist. Berechnen Sie anschließend den Mittelwert und die Standardabweichung der Spalte <code>B</code> für diese Zeilen.</p>
 </section>
-<section id="übung-20" class="level2">
-<h2 class="anchored" data-anchor-id="übung-20">Übung 20</h2>
+<section id="übung-7" class="level3">
+<h3 class="anchored" data-anchor-id="übung-7">Übung 7</h3>
+<p>Der folgende Code importiert einen Datensatz von IMDb (Internet Movie Database):</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>df <span class="ot">=</span> <span class="fu">read_tsv</span>(<span class="st">"imdb-ratings.tsv.zip"</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Dieser Datensatz beinhaltet die folgenden drei Spalten:</p>
+<ul>
+<li><code>tconst</code> (Film-ID)</li>
+<li><code>averageRating</code> (durchschnittliche Bewertung des Films)</li>
+<li><code>numVotes</code> (Anzahl der abgegebenen Bewertungen)</li>
+</ul>
+<p>Berechnen Sie eine neue Spalte <code>weightedRating</code>, welche die gewichtete Bewertung eines Films beinhalten soll. Diese gewichtete Bewertung <span class="math inline">\(R_w\)</span> wird wie folgt berechnet:</p>
+<p><span class="math display">\[ R_w = \frac{R \cdot n + \bar{R} \cdot v}{n + v} \]</span></p>
+<ul>
+<li><span class="math inline">\(R\)</span>: Bewertung des Films (Spalte <code>averageRating</code>)</li>
+<li><span class="math inline">\(n\)</span>: Anzahl der Bewertungen des Films (Spalte <code>numVotes</code>)</li>
+<li><span class="math inline">\(\bar{R}\)</span>: Arithmetisches Mittel aller Bewertungen</li>
+<li><span class="math inline">\(v\)</span>: Das 0.90-Quantil der Anzahl der Bewertungen</li>
+</ul>
+<p>Welcher Film hat die höchste gewichtete Bewertung? Sortieren Sie dazu den Datensatz nach <code>weightedRating</code> in absteigender Reihenfolge:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>df[<span class="fu">order</span>(<span class="sc">-</span>df[[<span class="st">"weightedRating"</span>]]), ]</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+</section>
+<section id="datenaufbereitung" class="level2">
+<h2 class="anchored" data-anchor-id="datenaufbereitung">7 – Datenaufbereitung</h2>
+<section id="übung-1-4" class="level3">
+<h3 class="anchored" data-anchor-id="übung-1-4">Übung 1</h3>
+<p>Gegeben sei ein Vektor <code>x = 1:100</code> und der folgende Ausdruck:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">log</span>(<span class="fu">sqrt</span>(<span class="fu">mean</span>(x<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> <span class="dv">3</span>, <span class="at">trim=</span><span class="fl">0.25</span>)), <span class="at">base=</span><span class="dv">2</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Schreiben Sie diesen Ausdruck unter Verwendung von drei Pipe-Operatoren um!</p>
+</section>
+<section id="übung-2-4" class="level3">
+<h3 class="anchored" data-anchor-id="übung-2-4">Übung 2</h3>
+<p>Gegeben sei ein Vektor <code>x = 1:100</code> und der folgende Ausdruck:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">log</span>(<span class="fu">exp</span>(<span class="fu">quantile</span>(x, <span class="at">probs=</span><span class="fl">0.4</span>)), <span class="at">base=</span><span class="dv">10</span>))</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Schreiben Sie diesen Ausdruck unter Verwendung von Pipe-Operatoren um!</p>
+</section>
+<section id="übung-3-3" class="level3">
+<h3 class="anchored" data-anchor-id="übung-3-3">Übung 3</h3>
+<p>Gegeben sei ein Vektor <code>x</code>:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="fu">sample</span>(<span class="sc">-</span><span class="dv">100</span><span class="sc">:</span><span class="dv">120</span>, <span class="at">size=</span><span class="dv">100</span>, <span class="at">replace=</span><span class="cn">TRUE</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Schreiben Sie den folgenden Befehl <em>ohne</em> Verwendung von Pipe-Operatoren an:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>x <span class="sc">|&gt;</span> <span class="fu">unique</span>() <span class="sc">|&gt;</span> <span class="fu">mean</span>(<span class="at">trim=</span><span class="fl">0.25</span>) <span class="sc">|&gt;</span> <span class="fu">round</span>(<span class="dv">2</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="übung-4-3" class="level3">
+<h3 class="anchored" data-anchor-id="übung-4-3">Übung 4</h3>
+<p>Erstellen Sie aus dem in R eingebauten <code>penguins</code>-Datensatz ein neues Data Frame, das nur die Gentoo-Spezies enthält und nur die zwei Spalten <code>island</code> und <code>sex</code> sowie eine neu zu erstellende Spalte <code>mass</code> umfasst – diese soll die Körpermasse in kg enthalten, welche aus der gegebenen Spalte <code>body_mass</code> (Masse in g) berechnet werden kann. Verwenden Sie den Pipe-Operator <code>|&gt;</code> sowie die Funktionen <code>filter()</code>, <code>mutate()</code> und <code>select()</code>, um dieses Problem zu lösen!</p>
+</section>
+<section id="übung-5-1" class="level3">
+<h3 class="anchored" data-anchor-id="übung-5-1">Übung 5</h3>
+<p>Gegeben sei folgendes Data Frame <code>df</code>:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>df <span class="ot">=</span> <span class="fu">data.frame</span>(</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">A=</span><span class="fu">sample</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">1000</span>, <span class="dv">20</span>, <span class="at">replace=</span><span class="cn">TRUE</span>),</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">B=</span><span class="fu">sample</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">1000</span>, <span class="dv">20</span>, <span class="at">replace=</span><span class="cn">FALSE</span>)</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<ol type="1">
+<li>Berechnen Sie die beiden Spaltenmittelwerte dieses Data Frames.</li>
+<li>Berechnen Sie die Spaltenmittelwerte, wenn Sie nur jene Zeilen berücksichtigen, in denen die Werte in Spalte <code>B</code> im Bereich 250 bis 750 (beides inklusive) liegen.</li>
+<li>Berechnen Sie die Spaltenmittelwerte, wenn Sie nur jene Zeilen berücksichtigen, in denen die Werte in Spalte <code>A</code> größer als in Spalte <code>B</code> sind.</li>
+<li>Berechnen Sie die Spaltenmittelwerte, wenn Sie nur jene Zeilen berücksichtigen, in denen die Werte in Spalte <code>A</code> ungerade sind.</li>
+</ol>
+</section>
+<section id="übung-6-1" class="level3">
+<h3 class="anchored" data-anchor-id="übung-6-1">Übung 6</h3>
 <p>Importieren Sie die Datei <a href="winequality-white.csv"><code>winequality-white.csv</code></a> in R. Dieser Datensatz enthält verschiedene chemische Messungen für verschiedene Arten von Weißweinen.</p>
 <p>Wie viele Zeilen und Spalten hat dieser Datensatz? Verwenden Sie die Funktion <code>describe()</code> aus dem Paket <code>psych</code>, um verschiedene deskriptive Statistiken für alle Spalten anzuzeigen. Beantworten Sie anschließend basierend auf dieser Ausgabe folgende Fragen:</p>
 <ul>
@@ -623,95 +698,22 @@ Hinweis
 </ul>
 <p>Berechnen Sie außerdem den Mittelwert der Spalte <code>pH</code> separat für jede Stufe der Spalte <code>quality</code>.</p>
 </section>
-<section id="übung-21" class="level2">
-<h2 class="anchored" data-anchor-id="übung-21">Übung 21</h2>
-<p>Gegeben sei das folgende Data Frame <code>df</code>:</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">4</span>)</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>df <span class="ot">=</span> <span class="fu">data.frame</span>(</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">A=</span><span class="fu">sample</span>(<span class="sc">-</span><span class="dv">1000</span><span class="sc">:</span><span class="dv">1000</span>, <span class="dv">500</span>, <span class="at">replace=</span><span class="cn">TRUE</span>),</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">B=</span><span class="fu">runif</span>(<span class="dv">500</span>, <span class="sc">-</span><span class="dv">1</span>, <span class="dv">10</span>)</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<p>Zählen Sie die Zeilen in <code>df</code>, in denen die Spalte <code>A</code> negative Werte aufweist. Berechnen Sie anschließend den Mittelwert und die Standardabweichung der Spalte <code>B</code> für diese Zeilen.</p>
 </section>
-<section id="übung-22" class="level2">
-<h2 class="anchored" data-anchor-id="übung-22">Übung 22</h2>
-<p>Gegeben sei der folgende Vektor <code>x</code>:</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">4</span>)</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="fu">sample</span>(<span class="sc">-</span><span class="dv">10</span><span class="sc">:</span><span class="dv">10</span>, <span class="dv">500</span>, <span class="at">replace=</span><span class="cn">TRUE</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<p>Erstellen Sie die folgenden vier Vektoren durch Indizieren aus <code>x</code>:</p>
-<ol type="1">
-<li><code>y1</code> soll alle Werte von <code>x</code> enthalten, außer den Elementen an den Positionen 20 und 37.</li>
-<li><code>y2</code> soll alle Werte von <code>x</code> enthalten, die größer als 4 sind.</li>
-<li><code>y3</code> soll die ersten 25 Werte von <code>x</code> enthalten.</li>
-<li><code>y4</code> soll die Elemente von <code>x</code> an den Positionen 2, 128 und 37 enthalten (in dieser Reihenfolge).</li>
-</ol>
+<section id="grafiken" class="level2">
+<h2 class="anchored" data-anchor-id="grafiken">8 – Grafiken</h2>
+<section id="übung-1-5" class="level3">
+<h3 class="anchored" data-anchor-id="übung-1-5">Übung 1</h3>
+<p>Der eingebaute Datensatz <code>InsectSprays</code> enthält 72 Beobachtungen von zwei Variablen und dokumentiert die Wirksamkeit von sechs verschiedenen Insektiziden, die in der Spalte <code>spray</code> identifiziert werden. Die Spalte <code>count</code> enthält die Anzahl der Insekten, die in einer standardisierten Testeinheit gefunden wurden – weniger Insekten deuten auf eine höhere Wirksamkeit hin.</p>
+<p>Berechnen Sie mit <code>group_by()</code> und <code>summarize()</code> die durchschnittliche Anzahl der Insekten für jedes der sechs Insektizide. Erstellen Sie ein Boxplot, um die Verteilung der Insektenanzahl für jedes Insektizid zu visualisieren. Beschriften Sie die Achsen und geben Sie der Grafik einen aussagekräftigen Titel.</p>
 </section>
-<section id="übung-23" class="level2">
-<h2 class="anchored" data-anchor-id="übung-23">Übung 23</h2>
-<p>Gegeben sei der folgende Vektor <code>x</code>:</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">4</span>)</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="fu">sample</span>(<span class="sc">-</span><span class="dv">10</span><span class="sc">:</span><span class="dv">10</span>, <span class="dv">500</span>, <span class="at">replace=</span><span class="cn">TRUE</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<p>Erstellen Sie neue Vektoren <code>x_odd</code> und <code>x_even</code>, die die ungeraden bzw. geraden Elemente von <code>x</code> enthalten. Wie viele Elemente enthalten diese Vektoren?</p>
+<section id="übung-2-5" class="level3">
+<h3 class="anchored" data-anchor-id="übung-2-5">Übung 2</h3>
+<p>Die Datei <a href="temperature.csv"><code>temperature.csv</code></a> enthält monatliche Durchschnittstemperaturen (in °C) für Innsbruck im Zeitraum von 1906 bis 2012.</p>
+<p>Importieren Sie den Datensatz und fügen Sie eine neue Spalte namens <code>Average</code> hinzu, welche die mittlere Jahrestemperatur beinhaltet (die Funktion <code>rowMeans()</code> kann dabei hilfreich sein).</p>
+<p>Erstellen Sie anschließend ein Liniendiagramm, das den Verlauf der durchschnittlichen Jahrestemperatur über den gesamten Zeitraum veranschaulicht. Beschriften Sie die Achsen und geben Sie der Grafik einen Titel.</p>
 </section>
-<section id="übung-24" class="level2">
-<h2 class="anchored" data-anchor-id="übung-24">Übung 24</h2>
-<p>Der eingebaute Datensatz <code>sleep</code> enthält Daten über die Wirkung von zwei Schlafmitteln bei 10 Patienten (gemessen als Zunahme der Schlafdauer im Vergleich zu einer Kontrollgruppe). Verwenden Sie einen geeigneten <em>t</em>-Test, um die Wirkungen der beiden Medikamente zu vergleichen. Fassen Sie die Ergebnisse zusammen (Teststatistik und <em>p</em>-Wert) und ziehen Sie eine Schlussfolgerung unter Verwendung eines Signifikanzniveaus von <span class="math inline">\(\alpha = 0.05\)</span>.</p>
-</section>
-<section id="übung-25" class="level2">
-<h2 class="anchored" data-anchor-id="übung-25">Übung 25</h2>
-<p>Gegeben sei ein Vektor <code>x = 1:100</code> und der folgende Ausdruck:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">log</span>(<span class="fu">exp</span>(<span class="fu">quantile</span>(x, <span class="at">probs=</span><span class="fl">0.4</span>)), <span class="at">base=</span><span class="dv">10</span>))</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Schreiben Sie diesen Ausdruck unter Verwendung von Pipe-Operatoren um!</p>
-</section>
-<section id="übung-26" class="level2">
-<h2 class="anchored" data-anchor-id="übung-26">Übung 26</h2>
-<p>Erstellen Sie aus dem in R eingebauten <code>penguins</code>-Datensatz ein neues Data Frame, das nur die Gentoo-Spezies enthält und nur die zwei Spalten <code>island</code> und <code>sex</code> sowie eine neu zu erstellende Spalte <code>mass</code> umfasst – diese soll die Körpermasse in kg enthalten, welche aus der gegebenen Spalte <code>body_mass</code> (Masse in g) berechnet werden kann. Verwenden Sie den Pipe-Operator <code>|&gt;</code> sowie die Funktionen <code>filter()</code>, <code>mutate()</code> und <code>select()</code>, um dieses Problem zu lösen!</p>
-</section>
-<section id="übung-27" class="level2">
-<h2 class="anchored" data-anchor-id="übung-27">Übung 27</h2>
-<p>Gegeben sei folgendes Data Frame <code>df</code>:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>df <span class="ot">=</span> <span class="fu">data.frame</span>(</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">A=</span><span class="fu">sample</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">1000</span>, <span class="dv">20</span>, <span class="at">replace=</span><span class="cn">TRUE</span>),</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">B=</span><span class="fu">sample</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">1000</span>, <span class="dv">20</span>, <span class="at">replace=</span><span class="cn">FALSE</span>)</span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
-<ol type="1">
-<li>Berechnen Sie die beiden Spaltenmittelwerte dieses Data Frames.</li>
-<li>Berechnen Sie die Spaltenmittelwerte, wenn Sie nur jene Zeilen berücksichtigen, in denen die Werte in Spalte <code>B</code> im Bereich 250 bis 750 (beides inklusive) liegen.</li>
-<li>Berechnen Sie die Spaltenmittelwerte, wenn Sie nur jene Zeilen berücksichtigen, in denen die Werte in Spalte <code>A</code> größer als in Spalte <code>B</code> sind.</li>
-</ol>
-</section>
-<section id="übung-28" class="level2">
-<h2 class="anchored" data-anchor-id="übung-28">Übung 28</h2>
-<p>Die Excel-Datei <a href="luis-daten.xls"><code>luis-daten.xls</code></a> enthält die Feinstaubkonzentration für die Stadt Graz von Februar 2005 bis Juni 2024. Auf zwei separaten Arbeitsblättern finden sich Daten von zwei verschiedenen Messstationen Graz Don Bosco (Graz-DB) und Graz Süd (Graz-S).</p>
-<ol type="1">
-<li>Importieren Sie die Daten von Graz-DB und Graz-S in zwei separate Data Frames.</li>
-<li>Konvertieren Sie die Spalte <code>Datum</code> in beiden Data Frames in ein Datumsformat.</li>
-<li>Stellen Sie für beide Messstationen den Zeitverlauf der Feinstaubkonzentrationen als Liniengrafiken dar. Dabei soll Graz-DB in blau und Graz-S in rot dargestellt werden.</li>
-<li>Berechnen Sie die Pearson-Korrelation zwischen den Feinstaubkonzentrationen der beiden Messstationen und geben Sie an, ob diese Korrelation signifikant ist (bei einem Signifikanzniveau von <span class="math inline">\(\alpha = 0.05\)</span>).</li>
-</ol>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Hinweis
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Um beide Messstationen in einer Grafik darzustellen, können Sie zwei <code>geom_line()</code>-Schichten übereinanderlegen (eine pro Data Frame, jeweils mit dem Argument <code>data=</code>). Die Farbe geben Sie dabei außerhalb von <code>aes()</code> an, da sie nicht von den Daten abhängt.</p>
-</div>
-</div>
-</section>
-<section id="übung-29" class="level2">
-<h2 class="anchored" data-anchor-id="übung-29">Übung 29</h2>
+<section id="übung-3-4" class="level3">
+<h3 class="anchored" data-anchor-id="übung-3-4">Übung 3</h3>
 <p>Die Datei <a href="temperature-graz.csv"><code>temperature-graz.csv</code></a> beinhaltet historische Temperaturjahresmittelwerte in Graz. Bearbeiten Sie folgende Aufgabenstellungen:</p>
 <ol type="1">
 <li>Importieren Sie diese Datei in R (beachten Sie, dass fehlende Werte in der Datei als <code>999.90</code> codiert sind)!</li>
@@ -732,14 +734,91 @@ Hinweis
 </div>
 </div>
 </section>
-<section id="übung-30" class="level2">
-<h2 class="anchored" data-anchor-id="übung-30">Übung 30</h2>
+<section id="übung-4-4" class="level3">
+<h3 class="anchored" data-anchor-id="übung-4-4">Übung 4</h3>
+<p>Importieren Sie die Daten aus der Datei <a href="inflation.csv"><code>inflation.csv</code></a> und erstellen Sie ein Diagramm, das die zeitliche Entwicklung der Inflation in Österreich (AT), Deutschland (DE) und der Schweiz (CH) zeigt. Das Diagramm sollte unterschiedliche Farben für die drei Länder verwenden, eine Legende enthalten, klar beschriftete Achsen haben und fehlende Werte korrekt behandeln.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Hinweis
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Fehlende Werte sind in der Datei als <code>:</code> kodiert. Für die gleichzeitige Darstellung der drei Länder können Sie pro Land eine eigene <code>geom_line()</code>-Schicht verwenden. Übergibt man innerhalb von <code>aes()</code> einen fixen Text als <code>color</code> (z.B. <code>aes(y=AT, color="AT")</code>), entsteht daraus automatisch die passende Legende.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="korrelation" class="level2">
+<h2 class="anchored" data-anchor-id="korrelation">9 – Korrelation</h2>
+<section id="übung-1-6" class="level3">
+<h3 class="anchored" data-anchor-id="übung-1-6">Übung 1</h3>
+<p>Gegeben seien die folgenden beiden Vektoren <code>x</code> und <code>y</code>:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">4</span>)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="fu">rnorm</span>(<span class="dv">100</span>, <span class="at">mean=</span><span class="sc">-</span><span class="dv">4</span>, <span class="at">sd=</span><span class="dv">5</span>)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>y <span class="ot">=</span> <span class="fl">0.29</span> <span class="sc">*</span> x <span class="sc">+</span> <span class="dv">2</span> <span class="sc">*</span> <span class="fu">rnorm</span>(<span class="dv">100</span>, <span class="at">mean=</span><span class="dv">2</span>, <span class="at">sd=</span><span class="dv">2</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Erstellen Sie ein Streudiagramm der beiden Vektoren einschließlich der Regressionsgeraden. Berechnen Sie die Pearson-Korrelation zwischen <code>x</code> und <code>y</code> und geben Sie an, ob diese Korrelation signifikant ist (bei einem Signifikanzniveau von <span class="math inline">\(\alpha = 0.05\)</span>). Begründen Sie Ihre Antwort, indem Sie die Faktoren erklären, die die statistische Signifikanz in diesem Zusammenhang bestimmen.</p>
+</section>
+<section id="übung-2-6" class="level3">
+<h3 class="anchored" data-anchor-id="übung-2-6">Übung 2</h3>
 <p>Lesen Sie die Datei <a href="divorce_margarine.csv"><code>divorce_margarine.csv</code></a> in R ein. Dieser Datensatz beinhaltet die Anzahl der Scheidungen pro 1000 Personen im US-Bundesstaat Maine und den Margarineverbrauch pro Kopf und Jahr (in Pfund) im Zeitraum 2000 bis 2009.</p>
 <p>Erstellen Sie einen Scatterplot mit einer überlagerten Regressionsgeraden, um den Zusammenhang zwischen diesen beiden Messgrößen darzustellen.</p>
 <p>Berechnen Sie anschließend die Pearson-Korrelation zwischen den beiden Variablen und testen Sie ob diese Korrelation signifikant ist (unter der Annahme eines Signifikanzniveaus von <span class="math inline">\(\alpha = 0.05\)</span>).</p>
 </section>
-<section id="übung-31" class="level2">
-<h2 class="anchored" data-anchor-id="übung-31">Übung 31</h2>
+<section id="übung-3-5" class="level3">
+<h3 class="anchored" data-anchor-id="übung-3-5">Übung 3</h3>
+<p>Gegeben sind folgende zwei Vektoren <code>x</code> und <code>y</code>:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">4</span>)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="fu">rnorm</span>(<span class="dv">500</span>, <span class="at">mean=</span><span class="sc">-</span><span class="dv">4</span>, <span class="at">sd=</span><span class="dv">5</span>)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>y <span class="ot">=</span> <span class="fu">rnorm</span>(<span class="dv">500</span>, <span class="at">mean=</span><span class="sc">-</span><span class="dv">2</span>, <span class="at">sd=</span><span class="dv">3</span>) <span class="sc">+</span> <span class="fl">0.05</span> <span class="sc">*</span> x</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Berechnen Sie die Spearman-Korrelation zwischen <code>x</code> und <code>y</code> und geben Sie an, ob diese Korrelation signifikant ist (bei <span class="math inline">\(\alpha = 0.01\)</span>).</p>
+</section>
+<section id="übung-4-5" class="level3">
+<h3 class="anchored" data-anchor-id="übung-4-5">Übung 4</h3>
+<p>Die Excel-Datei <a href="luis-daten.xls"><code>luis-daten.xls</code></a> enthält die Feinstaubkonzentration für die Stadt Graz von Februar 2005 bis Juni 2024. Auf zwei separaten Arbeitsblättern finden sich Daten von zwei verschiedenen Messstationen Graz Don Bosco (Graz-DB) und Graz Süd (Graz-S).</p>
+<ol type="1">
+<li>Importieren Sie die Daten von Graz-DB und Graz-S in zwei separate Data Frames.</li>
+<li>Konvertieren Sie die Spalte <code>Datum</code> in beiden Data Frames in ein Datumsformat.</li>
+<li>Stellen Sie für beide Messstationen den Zeitverlauf der Feinstaubkonzentrationen als Liniengrafiken dar. Dabei soll Graz-DB in blau und Graz-S in rot dargestellt werden.</li>
+<li>Berechnen Sie die Pearson-Korrelation zwischen den Feinstaubkonzentrationen der beiden Messstationen und geben Sie an, ob diese Korrelation signifikant ist (bei einem Signifikanzniveau von <span class="math inline">\(\alpha = 0.05\)</span>).</li>
+</ol>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tipp
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Mit dem Argument <code>sheet</code> der Funktion <code>read_excel()</code> wählen Sie das gewünschte Arbeitsblatt aus (z.B. <code>sheet=1</code> oder <code>sheet=2</code>). Enthält die Datei vor der eigentlichen Kopfzeile zusätzliche Zeilen, können Sie diese mit dem Argument <code>skip</code> überspringen.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Hinweis
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Um beide Messstationen in einer Grafik darzustellen, können Sie zwei <code>geom_line()</code>-Schichten übereinanderlegen (eine pro Data Frame, jeweils mit dem Argument <code>data=</code>). Die Farbe geben Sie dabei außerhalb von <code>aes()</code> an, da sie nicht von den Daten abhängt.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="lineare-regression-2" class="level2">
+<h2 class="anchored" data-anchor-id="lineare-regression-2">11 – Lineare Regression (2)</h2>
+<section id="übung-1-7" class="level3">
+<h3 class="anchored" data-anchor-id="übung-1-7">Übung 1</h3>
 <p>Aktivieren Sie das Paket <code>dplyr</code>, um den Datensatz <code>starwars</code> verwenden zu können. Es soll der Zusammenhang zwischen Körpergewicht (<code>mass</code>) und Körpergröße (<code>height</code>) untersucht werden.</p>
 <p>Entfernen Sie zunächst alle Datenpunkte mit einer Masse von 1000 kg oder mehr. Erstellen Sie mit den bereinigten Daten ein Streudiagramm inklusive Regressionsgeraden (<code>mass</code> auf der x-Achse und <code>height</code> auf der y-Achse).</p>
 <p>Berechnen Sie dann ein lineares Regressionsmodel mit <code>mass</code> als Prädiktor und <code>height</code> als abhängiger Variable. Beantworten Sie folgende Fragen:</p>
@@ -750,30 +829,18 @@ Hinweis
 </ul>
 <p>Begründen Sie Ihre Antworten!</p>
 </section>
-<section id="übung-32" class="level2">
-<h2 class="anchored" data-anchor-id="übung-32">Übung 32</h2>
-<p>Gegeben sind folgende zwei Vektoren <code>x</code> und <code>y</code>:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">4</span>)</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="fu">rnorm</span>(<span class="dv">500</span>, <span class="at">mean=</span><span class="sc">-</span><span class="dv">4</span>, <span class="at">sd=</span><span class="dv">5</span>)</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>y <span class="ot">=</span> <span class="fu">rnorm</span>(<span class="dv">500</span>, <span class="at">mean=</span><span class="sc">-</span><span class="dv">2</span>, <span class="at">sd=</span><span class="dv">3</span>) <span class="sc">+</span> <span class="fl">0.05</span> <span class="sc">*</span> x</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Berechnen Sie die Spearman-Korrelation zwischen <code>x</code> und <code>y</code> und geben Sie an, ob diese Korrelation signifikant ist (bei <span class="math inline">\(\alpha = 0.01\)</span>).</p>
+<section id="übung-2-7" class="level3">
+<h3 class="anchored" data-anchor-id="übung-2-7">Übung 2</h3>
+<p>Der eingebaute Datensatz <code>attitude</code> enthält Umfragedaten zur Zufriedenheit in verschiedenen Abteilungen eines großen Unternehmens. Verwenden Sie ein lineares Regressionsmodell, um zu untersuchen, ob die erste Spalte (<code>rating</code>) durch die verbleibenden sechs Variablen vorhergesagt werden kann, und beantworten Sie dabei folgende Punkte:</p>
+<ul>
+<li>Identifizieren Sie, welche Variablen signifikante Prädiktoren sind, und geben Sie deren Regressionskoeffizienten an.</li>
+<li>Geben Sie standardisierte Regressionskoeffizienten für alle Prädiktoren an.</li>
+<li>Wie hoch ist der Bestimmtheitsmaß <span class="math inline">\(R^2\)</span>?</li>
+<li>Ist das Modell statistisch signifikant? Begründen Sie Ihre Antwort.</li>
+</ul>
 </section>
-<section id="übung-33" class="level2">
-<h2 class="anchored" data-anchor-id="übung-33">Übung 33</h2>
-<p>Berechnen Sie das Ergebnis des folgenden mathematischen Ausdrucks und weisen Sie das Ergebnis der Variablen <code>result</code> zu:</p>
-<p><span class="math display">\[ \frac{e^{2.74} + \sin(0.55 \pi + 1.23)}{\sqrt{1 + 8.3^{1.4}}} \]</span></p>
-<p>Geben Sie das Ergebnis mit <code>round()</code> auf drei Dezimalstellen gerundet aus.</p>
-</section>
-<section id="übung-34" class="level2">
-<h2 class="anchored" data-anchor-id="übung-34">Übung 34</h2>
-<p>Berechnen Sie den Mittelwert, die Standardabweichung und die Quantile zu den Wahrscheinlichkeiten 0, 0.25, 0.33, 0.5, 0.66, 0.75 und 1 des folgenden Vektors <code>x</code>:</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">4</span>)</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="fu">sample</span>(<span class="fu">c</span>(<span class="sc">-</span><span class="dv">10</span><span class="sc">:</span><span class="dv">10</span>, <span class="cn">NA</span>), <span class="dv">500</span>, <span class="at">replace=</span><span class="cn">TRUE</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-</section>
-<section id="übung-35" class="level2">
-<h2 class="anchored" data-anchor-id="übung-35">Übung 35</h2>
+<section id="übung-3-6" class="level3">
+<h3 class="anchored" data-anchor-id="übung-3-6">Übung 3</h3>
 <p>Importieren Sie den Datensatz <a href="wine.csv"><code>wine.csv</code></a>, welcher Eigenschaften verschiedener französischer Weine enthält (diese wurden 1983 erhoben):</p>
 <ul>
 <li><code>Year</code>: Jahrgang des Weins</li>
@@ -793,40 +860,23 @@ Hinweis
 <li>Welche Variablen haben den größten Einfluss auf den Preis des Weins? Berechnen Sie dazu die standardisierten Koeffizienten und nennen Sie die drei wichtigsten Variablen (geordnet nach Einfluss).</li>
 </ul>
 </section>
-<section id="übung-36" class="level2">
-<h2 class="anchored" data-anchor-id="übung-36">Übung 36</h2>
-<p>Erzeugen Sie einen Vektor <code>x</code> mit den geraden Zahlen von <span class="math inline">\(-76\)</span> bis 120. Bestimmen Sie die Anzahl der Elemente sowie den Mittelwert, die Standardabweichung, den Median, das 25. Perzentil, das 66. Perzentil und das 75. Perzentil von <code>x</code>.</p>
-<p>Bestimmen Sie außerdem die Anzahl der Elemente, die größer als der Mittelwert sind.</p>
 </section>
-<section id="übung-37" class="level2">
-<h2 class="anchored" data-anchor-id="übung-37">Übung 37</h2>
-<p>Der folgende Code importiert einen Datensatz von IMDb (Internet Movie Database):</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>df <span class="ot">=</span> <span class="fu">read_tsv</span>(<span class="st">"imdb-ratings.tsv.zip"</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Dieser Datensatz beinhaltet die folgenden drei Spalten:</p>
-<ul>
-<li><code>tconst</code> (Film-ID)</li>
-<li><code>averageRating</code> (durchschnittliche Bewertung des Films)</li>
-<li><code>numVotes</code> (Anzahl der abgegebenen Bewertungen)</li>
-</ul>
-<p>Berechnen Sie eine neue Spalte <code>weightedRating</code>, welche die gewichtete Bewertung eines Films beinhalten soll. Diese gewichtete Bewertung <span class="math inline">\(R_w\)</span> wird wie folgt berechnet:</p>
-<p><span class="math display">\[ R_w = \frac{R \cdot n + \bar{R} \cdot v}{n + v} \]</span></p>
-<ul>
-<li><span class="math inline">\(R\)</span>: Bewertung des Films (Spalte <code>averageRating</code>)</li>
-<li><span class="math inline">\(n\)</span>: Anzahl der Bewertungen des Films (Spalte <code>numVotes</code>)</li>
-<li><span class="math inline">\(\bar{R}\)</span>: Arithmetisches Mittel aller Bewertungen</li>
-<li><span class="math inline">\(v\)</span>: Das 0.90-Quantil der Anzahl der Bewertungen</li>
-</ul>
-<p>Welcher Film hat die höchste gewichtete Bewertung? Sortieren Sie dazu den Datensatz nach <code>weightedRating</code> in absteigender Reihenfolge:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>df[<span class="fu">order</span>(<span class="sc">-</span>df[[<span class="st">"weightedRating"</span>]]), ]</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="mittelwertvergleich" class="level2">
+<h2 class="anchored" data-anchor-id="mittelwertvergleich">12 – Mittelwertvergleich</h2>
+<section id="übung-1-8" class="level3">
+<h3 class="anchored" data-anchor-id="übung-1-8">Übung 1</h3>
+<p>Der eingebaute Datensatz <code>sleep</code> enthält Daten über die Wirkung von zwei Schlafmitteln bei 10 Patienten (gemessen als Zunahme der Schlafdauer im Vergleich zu einer Kontrollgruppe). Verwenden Sie einen geeigneten <em>t</em>-Test, um die Wirkungen der beiden Medikamente zu vergleichen. Fassen Sie die Ergebnisse zusammen (Teststatistik und <em>p</em>-Wert) und ziehen Sie eine Schlussfolgerung unter Verwendung eines Signifikanzniveaus von <span class="math inline">\(\alpha = 0.05\)</span>.</p>
 </section>
-<section id="übung-38" class="level2">
-<h2 class="anchored" data-anchor-id="übung-38">Übung 38</h2>
-<p>Gegeben sei ein Vektor <code>x</code>:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="fu">sample</span>(<span class="sc">-</span><span class="dv">100</span><span class="sc">:</span><span class="dv">120</span>, <span class="at">size=</span><span class="dv">100</span>, <span class="at">replace=</span><span class="cn">TRUE</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Schreiben Sie den folgenden Befehl <em>ohne</em> Verwendung von Pipe-Operatoren an:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>x <span class="sc">|&gt;</span> <span class="fu">unique</span>() <span class="sc">|&gt;</span> <span class="fu">mean</span>(<span class="at">trim=</span><span class="fl">0.25</span>) <span class="sc">|&gt;</span> <span class="fu">round</span>(<span class="dv">2</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="übung-2-8" class="level3">
+<h3 class="anchored" data-anchor-id="übung-2-8">Übung 2</h3>
+<p>Wir betrachten das in R eingebaute Data Frame <code>penguins</code>. Untersuchen Sie, ob sich die drei Spezies (Adélie, Chinstrap, Gentoo) in Bezug auf die Körpermasse (Spalte <code>body_mass</code>) unterscheiden. Führen Sie dazu folgende Schritte durch:</p>
+<ol type="a">
+<li>Entfernen Sie gegebenenfalls Zeilen mit fehlenden Werten in der Spalte <code>body_mass</code>.</li>
+<li>Berechnen Sie die Mittelwerte und Standardabweichungen der Körpermasse für jede Spezies.</li>
+<li>Fügen Sie dem Data Frame eine Spalte namens <code>id</code> hinzu, welche die Zeilennummer enthält (beginnend bei 1). Diese Spalte identifiziert jede Beobachtung (jeden Pinguin) eindeutig. Die Funktion <code>nrow()</code> könnte dabei hilfreich sein.</li>
+<li>Installieren und aktivieren Sie das Paket <code>afex</code>. Führen Sie eine einfaktorielle ANOVA durch, um zu überprüfen, ob sich die Körpermasse zwischen den Spezies unterscheidet (verwenden Sie dazu die Funktion <code>aov_ez()</code>). Unterscheiden sich die Spezies signifikant in Bezug auf die Körpermasse?</li>
+</ol>
+</section>
 </section>
 <section id="lösungen" class="level2">
 <h2 class="anchored" data-anchor-id="lösungen">Lösungen</h2>
