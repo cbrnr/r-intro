@@ -534,6 +534,7 @@ window.Quarto = {
 12      50    39</code></pre>
 </div>
 </div>
+<p>Die zusätzliche Spalte <code>id</code> ist nötig, weil <code>pivot_wider()</code> wissen muss, welche Zeilen des langen Formats zu <em>derselben</em> Person gehören; danach brauchen wir sie nicht mehr und entfernen sie wieder.</p>
 <p>Anschließend berechnen wir angepasste Werte, welche die individuellen Unterschiede der Personen berücksichtigen. Dazu fügen wir zunächst eine Spalte mit der mittleren Angst jeder Person hinzu.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>spider_w[[<span class="st">"mean"</span>]] <span class="ot">=</span> <span class="fu">rowMeans</span>(spider_w)</span>
@@ -556,7 +557,7 @@ window.Quarto = {
 12      50    39  44.5</code></pre>
 </div>
 </div>
-<p>Nun berechnen wir die Differenz der Personenmittelwerte zum <em>Gesamtmittelwert aller Datenpunkte</em> – dies ist der Korrekturfaktor für Designs mit Messwiederholung.</p>
+<p>Nun berechnen wir für jede Person, wie stark ihr Mittelwert vom <em>Gesamtmittelwert aller Datenpunkte</em> abweicht (also Gesamtmittelwert minus Personenmittelwert) – dies ist der Korrekturfaktor für Designs mit Messwiederholung.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>spider_w[[<span class="st">"adj"</span>]] <span class="ot">=</span> <span class="fu">mean</span>(<span class="fu">c</span>(spider_w[[<span class="st">"picture"</span>]], spider_w[[<span class="st">"real"</span>]])) <span class="sc">-</span> spider_w[[<span class="st">"mean"</span>]]</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>spider_w</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
@@ -578,7 +579,7 @@ window.Quarto = {
 12      50    39  44.5  -1  </code></pre>
 </div>
 </div>
-<p>Damit können wir die einzelnen Angstwerte pro Person korrigieren.</p>
+<p>Damit können wir die einzelnen Angstwerte pro Person korrigieren:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>spider_w[[<span class="st">"picture_adj"</span>]] <span class="ot">=</span> spider_w[[<span class="st">"picture"</span>]] <span class="sc">+</span> spider_w[[<span class="st">"adj"</span>]]</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>spider_w[[<span class="st">"real_adj"</span>]] <span class="ot">=</span> spider_w[[<span class="st">"real"</span>]] <span class="sc">+</span> spider_w[[<span class="st">"adj"</span>]]</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
@@ -622,12 +623,25 @@ window.Quarto = {
 </div>
 </div>
 <p>Aus der Grafik ist ersichtlich, dass die Gruppenmittelwerte (schwarze Punkte) gleich wie im unabhängigen Design sind. Auch die Rohdaten (rote Punkte) haben sich nicht geändert. Die Konfidenzintervalle sind jedoch aufgrund des abhängigen Designs wesentlich kleiner geworden. In diesem Beispiel überlappen sie jetzt nicht mehr, was auf einen signifikanten Unterschied zwischen den Gruppenmittelwerten schließen lässt.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Hinweis
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Diese Korrektur brauchen wir nur für die <em>Grafik</em> – nämlich um Konfidenzintervalle darzustellen, welche zum abhängigen Design passen. Der abhängige <em>t</em>-Test weiter unten rechnet die individuellen Unterschiede ohnehin selbst heraus (er arbeitet mit den Differenzen der Personen) und wird daher direkt mit den unkorrigierten Spalten <code>picture</code> und <code>real</code> durchgeführt.</p>
+</div>
+</div>
 </section>
 </section>
 <section id="der-t-test" class="level2">
 <h2 class="anchored" data-anchor-id="der-t-test">Der <em>t</em>-Test</h2>
-<p>Nach der grafischen Darstellung von Gruppenunterschieden wenden wir uns jetzt der statistischen Analyse zu. Man verwendet den <em>t</em>-Test, um die Mittelwerte zweier Gruppen miteinander zu vergleichen. Hier gibt es zwei Varianten, nämlich einen <em>t</em>-Test für <em>abhängige</em> Gruppen und einen für <em>unabhängige</em> Gruppen. Ersteren nennt man auch <em>gepaarten</em> oder <em>abhängigen</em> <em>t</em>-Test, letzteren nennt man <em>unabhängigen</em> <em>t</em>-Test.</p>
-<p>Die <em>t</em>-Statistik ist wie viele Statistiken aufgebaut. Sie setzt die Varianz, die vom Modell erklärt werden kann, in Beziehung zur Varianz, die <em>nicht</em> vom Modell erklärt werden kann (oder anders formuliert, Effekt geteilt durch Fehler). Im Falle des <em>t</em>-Tests ist das Modell der Unterschied der beiden Mittelwerte minus der erwarteten Differenz, und der Fehler wird durch den Standardfehler der Mittelwertsdifferenz geschätzt:</p>
+<p>Nach der grafischen Darstellung von Gruppenunterschieden wenden wir uns jetzt der statistischen Analyse zu. Man verwendet den <em>t</em>-Test, um die Mittelwerte zweier Gruppen miteinander zu vergleichen. Passend zu den beiden Versuchsdesigns gibt es zwei Varianten: den <em>unabhängigen</em> <em>t</em>-Test für unabhängige Gruppen und den <em>abhängigen</em> (oder <em>gepaarten</em>) <em>t</em>-Test für abhängige Gruppen.</p>
+<p>Die <em>t</em>-Statistik ist wie viele Statistiken aufgebaut: Sie setzt einen Effekt in Beziehung zu dessen Fehler. Im Falle des <em>t</em>-Tests ist der Effekt der Unterschied der beiden Mittelwerte minus der erwarteten Differenz, und der Fehler wird durch den Standardfehler der Mittelwertsdifferenz geschätzt:</p>
 <p><span class="math display">\[t = \frac{\text{Beobachtete Differenz} - \text{Erwartete Differenz}}{\text{Standardfehler der Differenz}}\]</span></p>
 <p>Die beobachtete Differenz bezieht sich auf die beobachtete Differenz zwischen den Mittelwerten. Die erwartete Differenz (unter der Annahme der Nullhypothese) ist in den meisten Fällen gleich Null (wir erwarten keine Gruppenunterschiede). Die Vorgehensweise beim Testen ist also wie folgt:</p>
 <ul>
@@ -683,7 +697,7 @@ Hinweis
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Hier ist anzumerken, dass die kategorische Variable <code>Group</code> von R automatisch mit 0 und 1 codiert wird (und zwar alphabetisch, d.h. die Stufe <code>picture</code> entspricht 0 und die Stufe <code>real</code> entspricht 1). Man spricht hier von Dummy-Coding.</p>
+<p>Hier ist anzumerken, dass die kategoriale Variable <code>Group</code> von R automatisch mit 0 und 1 codiert wird (und zwar alphabetisch, d.h. die Stufe <code>picture</code> entspricht 0 und die Stufe <code>real</code> entspricht 1). Man spricht hier von Dummy-Coding.</p>
 </div>
 </div>
 <p>Wenn man sich nun die Regressionskoeffizienten ansieht, erkennt man, dass der Intercept <span class="math inline">\(b_0 = 40\)</span> dem Mittelwert der Gruppe 0 (<code>picture</code>) entspricht. Die Steigung <span class="math inline">\(b_1 = 7\)</span> entspricht dem Unterschied der Mittelwerte zwischen den beiden Gruppen (<span class="math inline">\(47 - 40 = 7\)</span>). Der <em>t</em>-Test für diesen Koeffizienten testet, ob die <em>Steigung</em> signifikant von Null verschieden ist. Er testet somit also auch automatisch, ob der <em>Unterschied zwischen den Mittelwerten</em> signifikant von Null verschieden ist. Man sieht, dass dieser Test mit <span class="math inline">\(p=0.107\)</span> <em>nicht</em> signifikant ist, d.h. man kann daraus schließen, dass sich die Mittelwerte <em>nicht</em> signifikant voneinander unterscheiden. Dieses Ergebnis bestätigt also die Erkenntnis aus unserer grafischen Darstellung (stark überlappende Konfidenzintervalle).</p>
@@ -721,15 +735,15 @@ Hinweis
 <h2 class="anchored" data-anchor-id="annahmen">Annahmen</h2>
 <p>Da der <em>t</em>-Test auf einer linearen Regression basiert, setzt er auch dieselben Annahmen wie diese voraus:</p>
 <ul>
-<li>Die Residuen sind normalverteilt (beim abhängigen <em>t</em>-Test sind die Residuen der Differenzen gemeint).</li>
-<li>Die Daten sind intervallskaliert.</li>
-<li>Beim unabhängigen <em>t</em>-Test müssen die Daten in den Gruppen voneinander unabhängig sein.</li>
+<li>Die Residuen sind normalverteilt (beim abhängigen <em>t</em>-Test bezieht sich das auf die <em>Differenzen</em> der beiden Messungen, nicht auf die Rohwerte der beiden Bedingungen).</li>
+<li>Die abhängige Variable ist intervallskaliert.</li>
+<li>Beim unabhängigen <em>t</em>-Test müssen die einzelnen Beobachtungen voneinander unabhängig sein (jede Person kommt also nur in einer der beiden Gruppen genau einmal vor).</li>
 <li>Beim unabhängigen <em>t</em>-Test muss Varianzhomogenität gegeben sein. Praktisch ist diese Voraussetzung aber nicht notwendig, da standardmäßig ein verbessertes Verfahren angewendet wird, welches Verletzungen dieser Annahme automatisch korrigiert (<a href="https://de.wikipedia.org/wiki/Zweistichproben-t-Test#Welch-Test">Welch <em>t</em>-Test</a>).</li>
 </ul>
 </section>
 <section id="unabhängiger-t-test-in-r" class="level2">
 <h2 class="anchored" data-anchor-id="unabhängiger-t-test-in-r">Unabhängiger <em>t</em>-Test in R</h2>
-<p>Die <em>t</em>-Statistik berechnet sich also durch das Verhältnis erklärter Varianz zu nicht erklärter Varianz. In der Ausgabe von <code>summary(model)</code> (wobei <code>model</code> das mit <code>lm()</code> gerechnete lineare Regressionsmodell ist) kann man diese Größen in den Spalten <code>Estimate</code> bzw. <code>Std. Error</code> ablesen. Beim unabhängigen <em>t</em>-Test vergleicht man so die Mittelwerte beider Bedingungen:</p>
+<p>Die <em>t</em>-Statistik berechnet sich also durch das Verhältnis von Effekt zu Fehler. In der Ausgabe von <code>summary(model)</code> (wobei <code>model</code> das mit <code>lm()</code> gerechnete lineare Regressionsmodell ist) findet man diese beiden Größen in den Spalten <code>Estimate</code> (der geschätzte Effekt, hier die Mittelwertsdifferenz) bzw. <code>Std. Error</code> (deren Standardfehler). Beim unabhängigen <em>t</em>-Test vergleicht man so die Mittelwerte beider Bedingungen:</p>
 <p><span class="math display">\[t = \frac{(\bar{x}_1 - \bar{x}_2) - (\mu_1 - \mu_2)}{\text{Standardfehler}}\]</span></p>
 <p>Die Nullhypothese besagt dass <span class="math inline">\(\mu_1 = \mu_2\)</span>, daher vereinfacht sich die Gleichung zu:</p>
 <p><span class="math display">\[t = \frac{\bar{x}_1 - \bar{x}_2}{\text{Standardfehler}}\]</span></p>
@@ -759,7 +773,7 @@ mean in group picture    mean in group real
 </div>
 </div>
 <p>Das erste Argument ist also eine Formel, deren linke Seite die Datenpunkte angibt (die Spalte <code>Anxiety</code> in diesem Beispiel). Die rechte Seite der Formel gibt die Gruppierungsspalte an (also hier <code>Group</code>). Damit man die Spaltennamen direkt verwenden kann, spezifiziert man noch <code>data=spider</code>, damit klar ist, dass diese Spalten im Data Frame <code>spider</code> zu finden sind.</p>
-<p>Ausgegeben wird der Wert der <em>t</em>-Statistik, die Freiheitsgrade (standardmäßig korrigiert nach Welch, was die Voraussetzung der Varianzhomogenität überflüssig macht), sowie der <em>p</em>-Wert. Weiters gibt es noch das 95%-Konfidenzintervall für die <em>t</em>-Statistik sowie die Gruppenmittelwerte.</p>
+<p>Ausgegeben wird der Wert der <em>t</em>-Statistik, die Freiheitsgrade (standardmäßig korrigiert nach Welch, was die Voraussetzung der Varianzhomogenität überflüssig macht), sowie der <em>p</em>-Wert. Weiters gibt es noch das 95%-Konfidenzintervall für die <em>Differenz der beiden Mittelwerte</em> sowie die Gruppenmittelwerte selbst. Da dieses Intervall den Wert 0 enthält (<span class="math inline">\(-15.65\)</span> bis <span class="math inline">\(1.65\)</span>), ist der Unterschied nicht signifikant – die beiden Darstellungen sagen also dasselbe aus.</p>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -808,10 +822,25 @@ mean of x mean of y
 </div>
 </div>
 <p>Das Ergebnis ist aber natürlich dasselbe.</p>
-<section id="effektgrößen" class="level3">
-<h3 class="anchored" data-anchor-id="effektgrößen">Effektgrößen</h3>
-<p>Ein signifikantes Ergebnis sagt nur aus, <em>dass</em> ein Unterschied besteht – aber nichts darüber, <em>wie groß</em> er ist. Deswegen sollte man immer zusätzlich eine Effektgröße berichten. Diese ist unabhängig von der Stichprobengröße, während der <span class="math inline">\(p\)</span>-Wert bei ausreichend großem <span class="math inline">\(N\)</span> selbst für winzige Unterschiede signifikant wird.</p>
-<p>Die Effektgröße kann man aus dem Wert von <span class="math inline">\(t\)</span> in eine Korrelation <span class="math inline">\(r\)</span> umrechnen:</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Hinweis
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Standardmäßig testet <code>t.test()</code> <em>zweiseitig</em>, d.h. die Alternativhypothese lautet, dass sich die beiden Mittelwerte unterscheiden (in welche Richtung auch immer). Hat man vorab eine gerichtete Hypothese, kann man mit dem Argument <code>alternative</code> einen <em>einseitigen</em> Test anfordern: <code>alternative="less"</code> prüft, ob der Mittelwert der ersten Gruppe <em>kleiner</em> ist als jener der zweiten, <code>alternative="greater"</code> entsprechend, ob er <em>größer</em> ist.</p>
+<p>Übergibt man <code>t.test()</code> nur einen einzigen Vektor, erhält man einen <em>Einstichproben-t-Test</em>, welcher den Mittelwert gegen einen fixen Wert testet (Argument <code>mu</code>, standardmäßig 0).</p>
+</div>
+</div>
+</section>
+<section id="effektgrößen" class="level2">
+<h2 class="anchored" data-anchor-id="effektgrößen">Effektgrößen</h2>
+<p>Ein signifikantes Ergebnis sagt nur aus, <em>dass</em> ein Unterschied besteht – aber nichts darüber, <em>wie groß</em> er ist. Deswegen sollte man immer zusätzlich eine Effektgröße berichten. Diese ist unabhängig von der Stichprobengröße, während der <span class="math inline">\(p\)</span>-Wert bei ausreichend großem <span class="math inline">\(N\)</span> selbst für winzige Unterschiede signifikant wird. Die folgenden Maße gelten für beide Varianten des <em>t</em>-Tests; wir illustrieren sie hier am unabhängigen Beispiel.</p>
+<p>Eine einfache Möglichkeit ist, den Wert von <span class="math inline">\(t\)</span> in eine Korrelation <span class="math inline">\(r\)</span> umzurechnen:</p>
 <p><span class="math display">\[r = \sqrt{\frac{t^2}{t^2 + \text{df}}}\]</span></p>
 <p>Im Beispiel ist die Effektgröße <span class="math inline">\(r\)</span> also:</p>
 <div class="cell">
@@ -830,10 +859,9 @@ mean of x mean of y
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>x1 <span class="ot">=</span> spider[[<span class="st">"Anxiety"</span>]][spider[[<span class="st">"Group"</span>]] <span class="sc">==</span> <span class="st">"picture"</span>]</span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>x2 <span class="ot">=</span> spider[[<span class="st">"Anxiety"</span>]][spider[[<span class="st">"Group"</span>]] <span class="sc">==</span> <span class="st">"real"</span>]</span>
 <span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>sp <span class="ot">=</span> <span class="fu">sqrt</span>(((<span class="fu">length</span>(x1) <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">*</span> <span class="fu">var</span>(x1) <span class="sc">+</span> (<span class="fu">length</span>(x2) <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">*</span> <span class="fu">var</span>(x2)) <span class="sc">/</span></span>
-<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>          (<span class="fu">length</span>(x1) <span class="sc">+</span> <span class="fu">length</span>(x2) <span class="sc">-</span> <span class="dv">2</span>))</span>
-<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>(<span class="at">d =</span> (<span class="fu">mean</span>(x1) <span class="sc">-</span> <span class="fu">mean</span>(x2)) <span class="sc">/</span> sp)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>sp <span class="ot">=</span> <span class="fu">sqrt</span>(((<span class="fu">length</span>(x1) <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">*</span> <span class="fu">var</span>(x1) <span class="sc">+</span> (<span class="fu">length</span>(x2) <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">*</span> <span class="fu">var</span>(x2)) <span class="sc">/</span> (<span class="fu">length</span>(x1) <span class="sc">+</span> <span class="fu">length</span>(x2) <span class="sc">-</span> <span class="dv">2</span>))</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>(<span class="at">d =</span> (<span class="fu">mean</span>(x1) <span class="sc">-</span> <span class="fu">mean</span>(x2)) <span class="sc">/</span> sp)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] -0.6864065</code></pre>
 </div>
@@ -901,7 +929,6 @@ Hinweis
 </div>
 </div>
 </section>
-</section>
 <section id="abhängiger-t-test-in-r" class="level2">
 <h2 class="anchored" data-anchor-id="abhängiger-t-test-in-r">Abhängiger <em>t</em>-Test in R</h2>
 <p>Der abhängige (oder gepaarte) <em>t</em>-Test funktioniert ähnlich, verwendet aber die Mittelwerte der einzelnen <em>Differenzen</em> anstelle der Differenz der Mittelwerte, um die individuellen Unterschiede herauszurechnen:</p>
@@ -924,8 +951,8 @@ mean difference
              -7 </code></pre>
 </div>
 </div>
-<p>Das Ergebnis ist diesmal signifikant mit <span class="math inline">\(p=0.03098\)</span>. Dies entspricht unseren Überlegungen mit den unterschiedlich großen Konfidenzintervallen von abhängigen und unabhängigen Versuchsdesigns. Abhängige Designs können also kleinere Unterschiede detektieren.</p>
-<p>Die Effektgröße kann man wieder aus <span class="math inline">\(t\)</span> mit der Formel oben in <span class="math inline">\(r\)</span> umwandeln:</p>
+<p>Das Ergebnis ist diesmal signifikant mit <span class="math inline">\(p = 0.031\)</span>, und auch das Konfidenzintervall der mittleren Differenz (<span class="math inline">\(-13.23\)</span> bis <span class="math inline">\(-0.77\)</span>) enthält die 0 nun nicht mehr. Dies entspricht unseren Überlegungen mit den unterschiedlich großen Konfidenzintervallen von abhängigen und unabhängigen Versuchsdesigns. Abhängige Designs können also kleinere Unterschiede detektieren – und das, obwohl die Mittelwertsdifferenz mit <span class="math inline">\(-7\)</span> exakt dieselbe ist wie beim unabhängigen Test.</p>
+<p>Die Effektgröße <span class="math inline">\(r\)</span> berechnet man wieder mit der Formel von oben aus <span class="math inline">\(t\)</span>:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>t <span class="ot">=</span> model<span class="sc">$</span>statistic[[<span class="dv">1</span>]]</span>
 <span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>df <span class="ot">=</span> model<span class="sc">$</span>parameter[[<span class="dv">1</span>]]</span>
@@ -991,13 +1018,40 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
 </div>
 <p>Der <span class="math inline">\(F\)</span>-Wert ist mit <span class="math inline">\(p &lt; 0.001\)</span> hoch signifikant, d.h. die drei Spezies unterscheiden sich in ihrer Körpermasse.</p>
+<p>Das Dummy-Coding funktioniert dabei genauso wie beim <em>t</em>-Test, nur braucht R für drei Gruppen jetzt <em>zwei</em> Indikatorvariablen (allgemein für <span class="math inline">\(k\)</span> Gruppen also <span class="math inline">\(k - 1\)</span>):</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = body_mass ~ species, data = penguins)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-1126.02  -333.09   -33.09   316.91  1223.98 
+
+Coefficients:
+                 Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)       3700.66      37.62   98.37   &lt;2e-16 ***
+speciesChinstrap    32.43      67.51    0.48    0.631    
+speciesGentoo     1375.35      56.15   24.50   &lt;2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 462.3 on 339 degrees of freedom
+  (2 observations deleted due to missingness)
+Multiple R-squared:  0.6697,    Adjusted R-squared:  0.6677 
+F-statistic: 343.6 on 2 and 339 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+</div>
+<p>Die erste Stufe <code>Adelie</code> dient als Referenzkategorie (beide Indikatoren sind 0), weshalb der Intercept genau ihrem Mittelwert von 3700.66 g entspricht. Die beiden Koeffizienten geben die Differenz der jeweiligen Spezies zu dieser Referenz an: Chinstrap-Pinguine sind im Mittel um 32.43 g schwerer, Gentoo-Pinguine um 1375.35 g. Die zugehörigen <em>t</em>-Tests sind damit nichts anderes als Vergleiche <em>gegen die Referenzkategorie</em> – ein Vergleich zwischen Chinstrap und Gentoo kommt hier gar nicht vor. Genau deswegen braucht man die weiter unten beschriebenen paarweisen Vergleiche.</p>
 <p>Die vertraute ANOVA-Tabelle bekommt man auch direkt mit der Funktion <code>aov_ez()</code> aus dem Paket <code>afex</code>. Diese benötigt eine Spalte, welche jede Beobachtung eindeutig identifiziert (Argument <code>id</code>), die abhängige Variable (<code>dv</code>) sowie die Gruppierungsvariable (<code>between</code>):</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(afex)</span>
-<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>df <span class="ot">=</span> penguins[<span class="sc">!</span><span class="fu">is.na</span>(penguins[[<span class="st">"body_mass"</span>]]),]</span>
-<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>df[[<span class="st">"id"</span>]] <span class="ot">=</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(df)</span>
-<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a><span class="fu">aov_ez</span>(<span class="at">id=</span><span class="st">"id"</span>, <span class="at">dv=</span><span class="st">"body_mass"</span>, <span class="at">data=</span>df, <span class="at">between=</span><span class="st">"species"</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(afex)</span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>pdata <span class="ot">=</span> penguins[<span class="sc">!</span><span class="fu">is.na</span>(penguins[[<span class="st">"body_mass"</span>]]),]</span>
+<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a>pdata[[<span class="st">"id"</span>]] <span class="ot">=</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(pdata)</span>
+<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a><span class="fu">aov_ez</span>(<span class="at">id=</span><span class="st">"id"</span>, <span class="at">dv=</span><span class="st">"body_mass"</span>, <span class="at">data=</span>pdata, <span class="at">between=</span><span class="st">"species"</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Anova Table (Type 3 tests)
 
@@ -1011,7 +1065,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '+' 0.1 ' ' 1</code></pre>
 <p>Neben <span class="math inline">\(F\)</span>-Wert, Freiheitsgraden und Signifikanz wird hier auch gleich eine Effektgröße ausgegeben (<code>ges</code> steht für “generalized eta squared”, also den Anteil erklärter Varianz).</p>
 <p>Ein signifikantes ANOVA-Ergebnis sagt aber noch nicht, <em>welche</em> Gruppen sich voneinander unterscheiden. Dafür rechnet man anschließend paarweise Vergleiche und korrigiert deren <span class="math inline">\(p\)</span>-Werte für das multiple Testen. Die Funktion <code>pairwise.t.test()</code> erledigt beides in einem Schritt:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pairwise.t.test</span>(penguins[[<span class="st">"body_mass"</span>]], penguins[[<span class="st">"species"</span>]])</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pairwise.t.test</span>(penguins[[<span class="st">"body_mass"</span>]], penguins[[<span class="st">"species"</span>]])</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
     Pairwise comparisons using t tests with pooled SD 
@@ -1026,12 +1080,25 @@ P value adjustment method: holm </code></pre>
 </div>
 </div>
 <p>Standardmäßig wird die Holm-Korrektur verwendet; mit dem Argument <code>p.adjust.method</code> kann man ein anderes Verfahren wählen (z.B. <code>"bonferroni"</code>). Im Beispiel sieht man, dass sich Gentoo hoch signifikant von den beiden anderen Spezies unterscheidet, während zwischen Adélie und Chinstrap mit <span class="math inline">\(p = 0.63\)</span> <em>kein</em> signifikanter Unterschied besteht. Das signifikante ANOVA-Ergebnis geht hier also ausschließlich auf die Gentoo-Pinguine zurück – ein gutes Beispiel dafür, warum die paarweisen Vergleiche unverzichtbar sind.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Hinweis
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Die Ergebnisse von <code>pairwise.t.test()</code> stimmen nicht exakt mit einzeln gerechneten <code>t.test()</code>-Aufrufen überein. Das liegt an zwei Punkten: Erstens werden die <span class="math inline">\(p\)</span>-Werte hier für multiples Testen korrigiert. Zweitens schätzt <code>pairwise.t.test()</code> den Fehler standardmäßig aus <em>allen</em> Gruppen gemeinsam (gepoolte Standardabweichung, wie in der ANOVA), während <code>t.test()</code> nur die beiden gerade verglichenen Gruppen heranzieht und dabei auch noch die Welch-Korrektur anwendet. Mit <code>pool.sd=FALSE</code> kann man das Poolen abschalten.</p>
+</div>
+</div>
 </section>
 <section id="kategoriale-daten" class="level2">
 <h2 class="anchored" data-anchor-id="kategoriale-daten">Kategoriale Daten</h2>
-<p>Bisher haben wir immer eine <em>numerische</em> abhängige Variable verglichen. Sind beide Variablen jedoch kategorisch, vergleicht man keine Mittelwerte, sondern <em>Häufigkeiten</em>. Ausgangspunkt ist dann eine Kreuztabelle, wie wir sie in Einheit 6 mit <code>table()</code> erstellt haben:</p>
+<p>Bisher haben wir immer eine <em>numerische</em> abhängige Variable verglichen. Sind beide Variablen jedoch kategorial, vergleicht man keine Mittelwerte, sondern <em>Häufigkeiten</em>. Ausgangspunkt ist dann eine Kreuztabelle, wie wir sie in Einheit 6 mit <code>table()</code> erstellt haben:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>(<span class="at">tab =</span> <span class="fu">table</span>(penguins[[<span class="st">"species"</span>]], penguins[[<span class="st">"sex"</span>]]))</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>(<span class="at">tab =</span> <span class="fu">table</span>(penguins[[<span class="st">"species"</span>]], penguins[[<span class="st">"sex"</span>]]))</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>           
             female male
@@ -1040,9 +1107,10 @@ P value adjustment method: holm </code></pre>
   Gentoo        58   61</code></pre>
 </div>
 </div>
+<p>Fehlende Werte werden von <code>table()</code> standardmäßig ignoriert, die 11 Pinguine ohne Angabe zum Geschlecht fallen hier also weg.</p>
 <p>Mit dem <span class="math inline">\(\chi^2\)</span>-Test (Chi-Quadrat-Test) prüft man, ob die beiden Variablen voneinander unabhängig sind. Die Nullhypothese lautet, dass kein Zusammenhang besteht – die beobachteten Häufigkeiten also nur zufällig von den unter Unabhängigkeit erwarteten abweichen:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="fu">chisq.test</span>(tab)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="fu">chisq.test</span>(tab)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
     Pearson's Chi-squared test
@@ -1051,9 +1119,9 @@ data:  tab
 X-squared = 0.048607, df = 2, p-value = 0.976</code></pre>
 </div>
 </div>
-<p>Der <span class="math inline">\(p\)</span>-Wert ist hier sehr groß, d.h. wir können die Nullhypothese nicht verwerfen: Das Geschlechterverhältnis unterscheidet sich zwischen den drei Spezies nicht. Ein Beispiel mit einem klaren Zusammenhang ist dagegen die Verteilung der Spezies auf die Inseln:</p>
+<p>Der <span class="math inline">\(p\)</span>-Wert ist hier sehr groß, d.h. wir können die Nullhypothese nicht verwerfen: Das Geschlechterverhältnis unterscheidet sich zwischen den drei Spezies nicht. Wie schon beim <em>t</em>-Test gilt aber auch hier, dass ein nicht signifikantes Ergebnis kein <em>Beleg</em> für die Nullhypothese ist. Ein Beispiel mit einem klaren Zusammenhang ist dagegen die Verteilung der Spezies auf die Inseln:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="fu">chisq.test</span>(<span class="fu">table</span>(penguins[[<span class="st">"species"</span>]], penguins[[<span class="st">"island"</span>]]))</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="fu">chisq.test</span>(<span class="fu">table</span>(penguins[[<span class="st">"species"</span>]], penguins[[<span class="st">"island"</span>]]))</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
     Pearson's Chi-squared test
@@ -1078,9 +1146,9 @@ Wichtig
 </section>
 <section id="ausblick" class="level2">
 <h2 class="anchored" data-anchor-id="ausblick">Ausblick</h2>
-<p>Zusammenfassend haben wir gesehen, dass sich sowohl der <em>t</em>-Test als auch die ANOVA auf ein lineares Modell zurückführen lassen. Beim <em>t</em>-Test codiert ein einzelner Prädiktor die beiden Gruppen (Dummy-Coding), bei mehr als zwei Gruppen sind es entsprechend mehrere Prädiktoren; die relevante Größe ist dann die <em>F</em>-Statistik, welche uns als Maß für die Modellgüte bereits aus der linearen Regression bekannt ist. Korrelation, Regression und Mittelwertvergleich sind also keine drei unabhängigen Verfahren, sondern verschiedene Blickwinkel auf dasselbe zugrundeliegende Modell.</p>
+<p>Zusammenfassend haben wir gesehen, dass sich sowohl der <em>t</em>-Test als auch die ANOVA auf ein lineares Modell zurückführen lassen. Beim <em>t</em>-Test codiert ein einzelner Prädiktor die beiden Gruppen (Dummy-Coding), bei mehr als zwei Gruppen sind es entsprechend mehrere Prädiktoren; die relevante Größe ist dann die <em>F</em>-Statistik, welche uns als Maß für die Modellgüte bereits aus der linearen Regression bekannt ist. Korrelation, Regression und Mittelwertvergleich sind also keine drei unabhängigen Verfahren, sondern verschiedene Blickwinkel auf dasselbe zugrundeliegende Modell. Außerhalb dieses Rahmens stehen die beiden übrigen Verfahren dieser Einheit: die Wilcoxon-Tests für den Fall verletzter Verteilungsannahmen und der <span class="math inline">\(\chi^2\)</span>-Test für rein kategoriale Daten.</p>
 <p>Die hier gezeigte einfaktorielle ANOVA ist dabei nur der einfachste Fall. Mit <code>aov_ez()</code> kann man auch mehrere Faktoren gleichzeitig (mehrfaktorielle ANOVA) sowie Messwiederholungen (Argument <code>within</code> statt <code>between</code>) analysieren.</p>
-<p>Bei abhängigen Messungen kann man keine linearen Modelle rechnen, da eine der wichtigsten Voraussetzungen die Unabhängigkeit der Messpunkte ist. Sogenannte lineare gemischte Modelle (engl. <em>linear mixed models</em>) können aber mit diesen Abhängigkeiten umgehen und werden immer häufiger statt den klassischen Messwiederholungs-ANOVAs eingesetzt. Gemischte Modelle sind Verallgemeinerungen von linearen Modellen, oder umgekehrt sind lineare Modelle Spezialfälle von linearen gemischten Modellen. Das Paket <code>lme4</code> hat sich in R als Standard zur Berechnung dieser Modelle durchgesetzt (bzw. die darauf aufbauenden Pakete <code>lmerTest</code> und <code>afex</code>).</p>
+<p>Bei abhängigen Messungen kann man keine <em>gewöhnlichen</em> linearen Modelle rechnen, da eine der wichtigsten Voraussetzungen die Unabhängigkeit der Messpunkte ist (der gepaarte <em>t</em>-Test umgeht dieses Problem nur, indem er die Differenzen bildet – bei mehr als zwei Messzeitpunkten funktioniert dieser Trick nicht mehr). Sogenannte lineare gemischte Modelle (engl. <em>linear mixed models</em>) können aber mit diesen Abhängigkeiten umgehen und werden immer häufiger statt den klassischen Messwiederholungs-ANOVAs eingesetzt. Gemischte Modelle sind Verallgemeinerungen von linearen Modellen, oder umgekehrt sind lineare Modelle Spezialfälle von linearen gemischten Modellen. Das Paket <code>lme4</code> hat sich in R als Standard zur Berechnung dieser Modelle durchgesetzt (bzw. die darauf aufbauenden Pakete <code>lmerTest</code> und <code>afex</code>).</p>
 </section>
 <section id="übungen" class="level2">
 <h2 class="anchored" data-anchor-id="übungen">Übungen</h2>

@@ -849,26 +849,26 @@ Tipp
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb106"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb106-1"><a href="#cb106-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rnorm</span>(<span class="dv">5</span>)  <span class="co"># 5 Zahlen aus einer Standardnormalverteilung</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1]  0.9122969  0.8358871 -0.5090257  1.8044014 -0.1379986</code></pre>
+<pre><code>[1]  0.33343129 -3.16096692  0.08083315 -0.09719974 -1.45405584</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb108"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb108-1"><a href="#cb108-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rnorm</span>(<span class="dv">5</span>, <span class="at">mean=</span><span class="dv">100</span>, <span class="at">sd=</span><span class="dv">15</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 105.57197 108.18756 100.40988  92.69181 111.18769</code></pre>
+<pre><code>[1] 100.96772  72.03405 119.58426  93.86560 100.21551</code></pre>
 </div>
 </div>
 <p>Die Funktion <code>sample()</code> zieht eine zufällige Stichprobe aus einem vorhandenen Vektor. Mit dem Argument <code>replace=TRUE</code> wird <em>mit</em> Zurücklegen gezogen (ein Wert kann dann mehrfach vorkommen), standardmäßig wird <em>ohne</em> Zurücklegen gezogen:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb110"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb110-1"><a href="#cb110-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="dv">5</span>)  <span class="co"># 5 verschiedene Zahlen aus 1:10</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1]  7  8  5  2 10</code></pre>
+<pre><code>[1]  1  7 10  4  2</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb112"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb112-1"><a href="#cb112-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="dv">15</span>, <span class="at">replace=</span><span class="cn">TRUE</span>)  <span class="co"># 15 Zahlen, Wiederholungen möglich</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> [1] 3 5 7 2 8 4 2 2 7 6 1 2 7 8 4</code></pre>
+<pre><code> [1]  9  5  9  1 10  1  4  1 10  8  6  6  3  7 10</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb114"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb114-1"><a href="#cb114-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sample</span>(<span class="fu">c</span>(<span class="st">"Placebo"</span>, <span class="st">"Treatment"</span>), <span class="dv">8</span>, <span class="at">replace=</span><span class="cn">TRUE</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "Treatment" "Placebo"   "Placebo"   "Placebo"   "Placebo"   "Placebo"   "Placebo"   "Treatment"</code></pre>
+<pre><code>[1] "Treatment" "Treatment" "Treatment" "Treatment" "Placebo"   "Placebo"   "Treatment" "Placebo"  </code></pre>
 </div>
 </div>
 <p>Zufallszahlen sind naturgemäß bei jedem Aufruf anders. Für eine <em>reproduzierbare</em> Analyse ist das ungünstig, denn dann bekommt man bei jedem Ausführen des Scripts andere Ergebnisse. Mit <code>set.seed()</code> versetzt man den Zufallszahlengenerator in einen definierten Ausgangszustand – alle danach erzeugten Zufallszahlen sind dann zwar immer noch zufällig, aber bei jedem Durchlauf identisch:</p>
