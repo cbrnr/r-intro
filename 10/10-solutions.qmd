@@ -44,12 +44,14 @@ model = lm(dist ~ speed, data=cars)
 summary(model)
 ```
 
+Das Modell ist insgesamt signifikant ($F(1, 48) = 89.57$, $p < 0.001$) und erklärt mit $R^2 = 0.651$ rund 65% der Varianz des Bremswegs. Der Koeffizient von `speed` beträgt $b_1 = 3.93$ (Standardfehler 0.42) und ist mit $t(48) = 9.46$, $p < 0.001$ signifikant von Null verschieden: Pro zusätzlicher Meile pro Stunde verlängert sich der Bremsweg im Mittel um etwa 3.9 Fuß. Der Intercept beträgt $b_0 = -17.58$; ob dieser signifikant von Null verschieden ist, interessiert uns hier nicht (siehe dazu Übung 4).
+
 
 ## Übung 3
 
 ```{r}
 r = cor(cars[["speed"]], cars[["dist"]])
-r**2  # identical to R² from linear regression
+r^2  # identisch mit R² aus der linearen Regression
 summary(model)$r.squared
 ```
 
@@ -73,4 +75,6 @@ $$-17.5791 + 3.9324 \cdot 65 = 238.03$$
 predict(model, data.frame(speed=c(5, 65)))
 ```
 
-Man erkennt, dass der Intercept negativ ist, d.h. physikalisch betrachtet ist dieser Wert nicht sinnvoll (da der Bremsweg bei einer Geschwindigkeit von 0 mph nicht negativ ist). Es ist jedoch wichtig zu verstehen, dass der Intercept in diesem Fall nicht unbedingt eine physikalische Bedeutung haben muss, da er außerhalb des Bereichs der beobachteten Daten liegt.
+Man erkennt, dass der Intercept negativ ist, d.h. physikalisch betrachtet ist dieser Wert nicht sinnvoll (da der Bremsweg bei einer Geschwindigkeit von 0 mph nicht negativ ist). Es ist jedoch wichtig zu verstehen, dass der Intercept in diesem Fall nicht unbedingt eine physikalische Bedeutung haben muss, da er außerhalb des Bereichs der beobachteten Daten liegt.
+
+Genau das gilt auch für die zweite Vorhersage: Die beobachteten Geschwindigkeiten liegen zwischen 4 und 25 mph, ein Wert von 65 mph liegt also weit außerhalb dieses Bereichs. Der vorhergesagte Bremsweg von 238 Fuß ist somit eine reine Extrapolation – das Modell "weiß" nicht, ob der Zusammenhang auch bei hohen Geschwindigkeiten noch linear ist (tatsächlich wächst der Bremsweg physikalisch quadratisch mit der Geschwindigkeit).

@@ -46,11 +46,11 @@ Eine Geradengleichung kann in der Form $y = k \cdot x + d$ angeschrieben werden.
    $$k = \frac{\Delta y}{\Delta x}$$
 :::
 
-Die Parameter $b_0$ und $b_1$ beschreiben daher den Schnittpunkt der Geraden mit der y-Achse (Intercept) bzw. die Steigung der Geraden und werden als *Regressionskoeffizienten* bezeichnet. Der Term $\varepsilon_i$ beschreibt den Fehler zwischen den vom Modell vorhergesagten Wert $\hat{y}_i$ und dem tatsächlich gemessenen Wert $y_i$.
+Die Parameter $b_0$ und $b_1$ beschreiben daher den Schnittpunkt der Geraden mit der y-Achse (Intercept) bzw. die Steigung der Geraden und werden als *Regressionskoeffizienten* bezeichnet. Der Term $\varepsilon_i$ beschreibt den Fehler zwischen dem vom Modell vorhergesagten Wert $\hat{y}_i$ und dem tatsächlich gemessenen Wert $y_i$.
 
 Das tiefgestellte $i$ steht für den $i$-ten Datenpunkt (von insgesamt $N$). Das Modell gilt also für alle Datenpunkte $i = 1, 2, \ldots, N$.
 
-Die Datenpunkte $x_i$ können als Vektor $\mathbf{x}$ betrachtet werden; dieser wird als unabhängige Variable, Prädiktor oder Treatment bezeichnet. Die Datenpunkte $y_i$ können ebenfalls als Vektor $\mathbf{y}$ betrachtet werden; dieser wird als abhängige Variable oder Outcome bezeichnet. Die Fehler $\varepsilon_i$ werden als Residuen bezeichnet.
+Die Datenpunkte $x_i$ können als Vektor $\mathbf{x}$ betrachtet werden; dieser wird als unabhängige Variable oder Prädiktor bezeichnet. Die Datenpunkte $y_i$ können ebenfalls als Vektor $\mathbf{y}$ betrachtet werden; dieser wird als abhängige Variable oder Outcome bezeichnet. Die Fehler $\varepsilon_i$ werden als Residuen bezeichnet.
 
 ::: callout-tip
 Zur Veranschaulichung sind in der folgenden Abbildung drei Geraden mit gleichen Intercepts aber unterschiedlichen Steigungen (links) sowie unterschiedlichen Intercepts aber gleichen Steigungen (rechts) abgebildet.
@@ -62,8 +62,6 @@ Zur Veranschaulichung sind in der folgenden Abbildung drei Geraden mit gleichen 
 library(ggplot2)
 library(patchwork)
 
-theme_set(theme_minimal())
-
 p1 = ggplot(data.frame(x=0, y=0), aes(x, y)) +
     scale_x_continuous(limits=c(0, 100), breaks=seq(0, 100, 10), minor_breaks=seq(0, 100, 5)) +
     scale_y_continuous(limits=c(0, 100), breaks=seq(0, 100, 10), minor_breaks=seq(0, 100, 5)) +
@@ -71,6 +69,7 @@ p1 = ggplot(data.frame(x=0, y=0), aes(x, y)) +
     geom_abline(slope=(1/1), intercept=50) +
     geom_abline(slope=(-1/3), intercept=50) +
     geom_abline(slope=(-2/3), intercept=50) +
+    theme_minimal() +
     theme(aspect.ratio=1)
 p2 = ggplot(data.frame(x=0, y=0), aes(x, y)) +
     scale_x_continuous(limits=c(0, 100), breaks=seq(0, 100, 10), minor_breaks=seq(0, 100, 5)) +
@@ -79,6 +78,7 @@ p2 = ggplot(data.frame(x=0, y=0), aes(x, y)) +
     geom_abline(slope=(1/2), intercept=50) +
     geom_abline(slope=(1/2), intercept=20) +
     geom_abline(slope=(1/2), intercept=70) +
+    theme_minimal() +
     theme(aspect.ratio=1)
 p1 + p2
 ```
@@ -104,6 +104,7 @@ ggplot(df, aes(x, y)) +
     geom_segment(aes(x=x, xend=x, y=y, yend=yhat, color="error")) +
     geom_smooth(method=lm, formula=y ~ x, se=FALSE, color="black") +
     geom_point(size=2) +
+    theme_minimal() +
     theme(legend.position="none") +
     scale_x_continuous(breaks=0:30, minor_breaks=NULL) +
     scale_y_continuous(breaks=seq(-20, 170, 20)) +
@@ -135,6 +136,7 @@ p_sst = ggplot(df, aes(x, y)) +
     geom_segment(aes(x=x, xend=x, y=y, yend=mean(y), color="error")) +
     geom_point() +
     geom_hline(yintercept=mean(y), linewidth=0.75) +
+    theme_minimal() +
     theme(legend.position="none", plot.title=element_text(hjust=0.5)) +
     ggtitle("SST")
 
@@ -143,6 +145,7 @@ p_ssm = ggplot(df, aes(x, y)) +
     geom_point() +
     geom_hline(yintercept=mean(y), linewidth=0.75) +
     geom_smooth(method=lm, formula=y ~ x, se=FALSE, color="black") +
+    theme_minimal() +
     theme(legend.position="none", plot.title=element_text(hjust=0.5), axis.title.y=element_blank(), axis.text.y=element_blank()) +
     ggtitle("SSM")
 
@@ -151,6 +154,7 @@ p_ssr = ggplot(df, aes(x, y)) +
     geom_point() +
     geom_hline(yintercept=mean(y), linewidth=0.75) +
     geom_smooth(method=lm, formula=y ~ x, se=FALSE, color="black") +
+    theme_minimal() +
     theme(legend.position="none", plot.title=element_text(hjust=0.5), axis.title.y=element_blank(), axis.text.y=element_blank()) +
     ggtitle("SSR")
 
@@ -188,12 +192,20 @@ Ein Maß für die Modellgüte ist das Verhältnis von SSM zu SST, welches als Be
 
 $$R^2 = \frac{\mathrm{SSM}}{\mathrm{SST}}$$
 
-Dies ist derselbe Wert, den wir auch schon bei der Korrelation kennengelernt haben. Um die Pearson-Korrelation zwischen den beiden Variablen zu bekommen, muss man also nur die Wurzel aus $R^2$ ziehen. Diese Beziehung gilt in dieser Form allerdings nur für die einfache lineare Regression, also nur bei einer einzigen unabhängigen Variable.
+Dies ist derselbe Wert, den wir in Einheit 9 bereits bei der Korrelation kennengelernt haben. Um die Pearson-Korrelation zwischen den beiden Variablen zu bekommen, muss man also nur die Wurzel aus $R^2$ ziehen. Diese Beziehung gilt in dieser Form allerdings nur für die einfache lineare Regression, also nur bei einer einzigen unabhängigen Variable.
+
+::: callout-important
+Beim Wurzelziehen geht das *Vorzeichen* verloren: $\sqrt{R^2}$ ergibt immer den *Betrag* der Korrelation. Das Vorzeichen entspricht jenem der Steigung $b_1$ – ist die Steigung negativ, ist auch die Korrelation negativ.
+:::
 
 
 ### $F$-Wert
 
 Eine weitere wichtige Anwendung der Quadratsummen ist die Berechnung des $F$-Wertes. Dieser entspricht dem Verhältnis der systematischen Varianz (also der vom Modell erklärten Varianz) zur unsystematischen Varianz (also der Varianz, die nicht vom Modell erklärt werden kann). Für den $F$-Wert verwendet man aber nicht direkt SSM und SSR, sondern die *mittleren* Quadratsummen. Hier dividiert man die absoluten Quadratsummen durch die jeweiligen Freiheitsgrade und erhält so MSM und MSR. Die Anzahl der Freiheitsgrade von MSM entspricht der Anzahl der geschätzten Modellparameter $p$ minus 1. Die Anzahl der Freiheitsgrade von MSR entspricht der Anzahl der Messwerte $N$ minus der Anzahl der geschätzten Modellparameter $p$.
+
+::: callout-note
+Das Symbol $p$ steht hier ausschließlich für die *Anzahl der Modellparameter* – es hat nichts mit dem $p$-Wert zu tun, der die Signifikanz eines Ergebnisses angibt. Diese Doppelbedeutung ist in der Literatur leider üblich; welche der beiden Größen gemeint ist, ergibt sich aus dem Zusammenhang.
+:::
 
 $$\mathrm{MSM} = \frac{\mathrm{SSM}}{\mathrm{dfM}} = \frac{\mathrm{SSM}}{p - 1}$$
 
@@ -270,7 +282,11 @@ Multiple R-squared:  0.3346,    Adjusted R-squared:  0.3313
 
 Hier sehen wir $R^2$, also das Verhältnis von SSM zu SST. Daraus können wir schließen, dass die Werbeausgaben ca. 33.5% der Varianz der Albenverkäufe erklären können. Dies bedeutet natürlich, dass ca. 66.5% der Varianz unerklärt ist, d.h. es muss andere relevante Faktoren dafür geben, die wir nicht im Modell berücksichtigt haben.
 
-Im Fall der einfachen linearen Regression können wir auch sofort die Pearson-Korrelation zwischen den beiden Variablen berechnen, indem wir die Wurzel aus $R^2$ ziehen:
+::: callout-note
+Daneben wird auch ein *adjustiertes* $R^2$ ausgegeben. Der Hintergrund ist, dass $R^2$ durch das Hinzufügen von Prädiktoren *nie* kleiner werden kann – selbst ein völlig sinnloser zusätzlicher Prädiktor lässt $R^2$ ein wenig ansteigen. Das adjustierte $R^2$ korrigiert diesen Effekt, indem es die Anzahl der Prädiktoren im Verhältnis zur Stichprobengröße "bestraft". Es ist daher immer etwas kleiner als $R^2$ und sollte verwendet werden, wenn man Modelle mit unterschiedlich vielen Prädiktoren vergleicht (dazu mehr in Einheit 11). Bei nur einem Prädiktor und $N = 200$ ist der Unterschied wie hier vernachlässigbar (0.3346 gegenüber 0.3313).
+:::
+
+Im Fall der einfachen linearen Regression können wir auch sofort die Pearson-Korrelation zwischen den beiden Variablen berechnen, indem wir die Wurzel aus $R^2$ ziehen (der Zusammenhang ist hier positiv, daher ist auch die Korrelation positiv):
 
 ```{r}
 sqrt(summary(model)$r.squared)
@@ -339,6 +355,10 @@ So kann man auch gleich Vorhersagen für mehrere Werte gleichzeitig berechnen:
 predict(model, data.frame(adverts=c(0, 10, 100, 2000)))
 ```
 
+::: callout-important
+Ein Regressionsmodell beschreibt den Zusammenhang nur in jenem Wertebereich, in dem tatsächlich Daten erhoben wurden (hier liegt `adverts` zwischen 9.1 und 2271.9). Vorhersagen *außerhalb* dieses Bereichs bezeichnet man als *Extrapolation* – die Gerade wird dabei einfach verlängert, ohne dass die Daten diese Verlängerung stützen würden. Solche Werte sollte man nur mit großer Vorsicht interpretieren (siehe dazu auch Übung 4).
+:::
+
 
 ## Übungen
 
@@ -354,7 +374,7 @@ Führen Sie mit den Daten aus Übung 1 eine lineare Regressionsanalyse durch und
 
 ### Übung 3
 
-Berechnen Sie die Pearson-Korrelation zwischen den beiden Variablen (ohne Verwendung von $R^2$ aus dem Modell) und überprüfen Sie, ob dieser Wert mit $R^2$ aus dem Regressionsmodell übereinstimmt.
+Berechnen Sie die Pearson-Korrelation zwischen den beiden Variablen (ohne Verwendung von $R^2$ aus dem Modell) und überprüfen Sie, ob das *Quadrat* dieses Wertes mit $R^2$ aus dem Regressionsmodell übereinstimmt.
 
 
 ### Übung 4

@@ -186,7 +186,7 @@ f = seq(3, 97, by=2)
 ## Übung 11
 
 ```{r}
-library(lm.beta)
+library(effectsize)
 str(attitude)
 model = lm(rating ~ complaints + privileges + learning + raises + critical + advance, data=attitude)
 summary(model)
@@ -197,10 +197,10 @@ Aus der Modellzusammenfassung ergeben sich folgende Antworten:
 - Der einzige signifikante Prädiktor ist `complaints` mit $b = 0.61319$
 - $R^2$ beträgt 0.7326
 - Das Modell ist signifikant mit $F(6, 23) = 10.5$, $p < .001$
-- Standardisierte Regressionskoeffizienten erhält man mit der Funktion `lm.beta()`:
+- Standardisierte Regressionskoeffizienten erhält man mit der Funktion `standardize_parameters()`:
 
 ```{r}
-lm.beta(model)
+standardize_parameters(model)
 ```
 
 
@@ -532,7 +532,7 @@ quantile(x, probs=c(0, 0.25, 0.33, 0.5, 0.66, 0.75, 1), na.rm=TRUE)
 
 ```{r}
 library(readr)
-library(lm.beta)
+library(effectsize)
 
 wine = read_csv("wine.csv")
 pairs(wine)  # Year und Age sind perfekt korreliert -> entferne Year
@@ -542,7 +542,7 @@ summary(model)
 # Signifikante Prädiktoren: WinterRain, AGST, HarvestRain
 # R² = 0.8278
 # Das Modell ist insgesamt statistisch signifikant (p = 2.232e-07)
-lm.beta(model)
+standardize_parameters(model)
 # Den größten Einfluss hat AGST, gefolgt von HarvestRain, gefolgt von WinterRain.
 ```
 

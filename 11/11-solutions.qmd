@@ -27,50 +27,74 @@ published-title: "Veröffentlicht"
 #| message: false
 library(readr)
 library(tibble)
+library(effectsize)  # für standardize_parameters()
 
-sales = read_tsv("sales2.dat")
-sales = as_tibble(scale(sales))
-model = lm(sales ~ adverts + airplay + attract, data=sales)
-summary(model)
-coef(model)  # stimmt mit lm.beta überein
+album = read_tsv("sales2.dat")
+album_z = as_tibble(scale(album))  # alle Variablen standardisieren
+
+model_z = lm(sales ~ adverts + airplay + attract, data=album_z)
+coef(model_z)
 ```
+
+Zum Vergleich das Modell mit den *nicht* standardisierten Daten:
+
+```{r}
+model = lm(sales ~ adverts + airplay + attract, data=album)
+standardize_parameters(model)
+```
+
+Beide Wege führen exakt zum selben Ergebnis (0.511, 0.512 und 0.192) – wenig überraschend, denn `standardize_parameters()` standardisiert die Daten intern ebenfalls und berechnet das Modell damit neu (`Standardization method: refit`). Der Intercept des standardisierten Modells ist praktisch Null (bis auf Rundungsfehler), weil eine Regressionsgerade immer durch den Punkt der Mittelwerte verläuft – und diese sind nach der Standardisierung alle 0.
 
 
 ## Übung 2
 
 ```{r}
 #| message: false
-library(lm.beta)  # für lm.beta
-
 aggression = read_tsv("aggression.dat")
 
 model1 = lm(Aggression ~ Parenting_Style + Sibling_Aggression, data=aggression)
-summary(model1)  # beide Variablen erwartungsgemäß signifikant
-lm.beta(model1)  # Parenting_Style hat größeren Einfluss als Sibling_Aggression
+summary(model1)
+standardize_parameters(model1)
+```
 
+Wie aufgrund der früheren Studien erwartet, sind beide Prädiktoren signifikant ($p < 0.001$ bzw. $p = 0.013$). Der Erziehungsstil hat dabei den größeren Einfluss ($\beta = 0.19$ gegenüber $\beta = 0.08$). Insgesamt erklärt das Modell mit $R^2 = 0.053$ allerdings nur rund 5% der Varianz des Aggressionslevels.
+
+```{r}
 model2 = lm(
     Aggression ~ Parenting_Style + Sibling_Aggression + Television +
                  Computer_Games + Diet,
     data=aggression
 )
 summary(model2)
-lm.beta(model2)
+standardize_parameters(model2)
+```
 
+Im zweiten Modell steigt $R^2$ auf 0.083 (adjustiert 0.076). Von den drei zusätzlichen Prädiktoren sind zwei signifikant: Computerspielen ($\beta = 0.15$, $p < 0.001$) geht mit *mehr* Aggression einher, eine gesunde Ernährung ($\beta = -0.12$, $p = 0.004$) mit *weniger*. Fernsehen ist hingegen mit $p = 0.48$ *kein* signifikanter Prädiktor. Der Erziehungsstil bleibt auch nach Aufnahme der zusätzlichen Variablen der stärkste Prädiktor ($\beta = 0.18$).
+
+```{r}
 anova(model1, model2)  # Vergleich beider Modelle
 ```
+
+Das zweite Modell ist mit $F(3, 660) = 7.03$, $p < 0.001$ eine signifikante Verbesserung gegenüber dem ersten. Man sollte diese Aussage aber nicht überbewerten: Der Zugewinn beträgt lediglich rund 3 Prozentpunkte an erklärter Varianz, d.h. auch das zweite Modell lässt über 90% der Varianz unerklärt. Signifikanz und Relevanz sind eben zwei verschiedene Dinge.
 
 
 ## Übung 3
 
 ```{r}
-library(car)  # für dwt, vif
+#| message: false
+library(car)  # für vif() und durbinWatsonTest()
 
 # Kollinearität
 vif(model2)
+mean(vif(model2))
 
 # Unabhängigkeit der Residuen
-dwt(model2)
+durbinWatsonTest(model2)
+```
 
+Alle VIF-Werte liegen unter 1.5 (und damit weit unter dem Schwellwert von 10), auch der Mittelwert ist nahe bei 1 – es besteht also keine Multikollinearität. Die Durbin-Watson-Statistik beträgt 1.91 bei $p = 0.27$, d.h. die Nullhypothese unabhängiger Residuen kann nicht verworfen werden.
+
+```{r}
 # Normalverteilung Residuen
 plot(model2, which=2)
 
@@ -80,3 +104,7 @@ plot(model2, which=1)
 # Punkte mit großem Einfluss
 plot(model2, which=5)
 ```
+
+Im QQ-Plot liegt der mittlere Teil der Punkte gut auf der Geraden, an *beiden* Rändern weichen die Punkte aber sichtbar davon ab (die Residuen streuen dort stärker, als es eine Normalverteilung erwarten ließe – man spricht von "schwereren Rändern"/*heavy tails*). Ein `shapiro.test(rstandard(model2))` bestätigt diesen Eindruck mit $p < 0.001$: Die Normalverteilungsannahme ist hier also, streng genommen, verletzt. Bei einer Stichprobe von $N = 666$ ist das Modell dank des zentralen Grenzwertsatzes aber dennoch robust genug, um die $t$-Tests der Koeffizienten sinnvoll zu interpretieren – bei kleinen Stichproben wäre eine solche Abweichung deutlich problematischer.
+
+Im Plot der Residuen gegen die vorhergesagten Werte verläuft die rote Linie annähernd waagrecht und die Streuung bleibt über den gesamten Wertebereich einigermaßen konstant – Linearität und Varianzhomogenität sind damit im Wesentlichen gegeben. Im letzten Plot liegen alle Punkte deutlich innerhalb der Konturlinien von Cook's Distanz, es gibt also keine Datenpunkte mit übermäßig großem Einfluss auf das Modell. Bis auf die erwähnte Abweichung bei der Normalverteilung der Residuen sind die überprüften Voraussetzungen also erfüllt.
