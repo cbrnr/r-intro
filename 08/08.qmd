@@ -178,7 +178,7 @@ Das Argument `alpha` bestimmt die Transparenz der Punkte (1 bedeutet gar nicht t
 
 ## Balkendiagramme
 
-Möchte man die Häufigkeiten der Stufen einer kategorischen Variable darstellen, verwendet man `geom_bar()`. Auch hier gibt es nur ein Mapping für die x-Achse, denn die Häufigkeiten werden automatisch bestimmt:
+Möchte man die Häufigkeiten der Stufen einer kategorialen Variable darstellen, verwendet man `geom_bar()`. Auch hier gibt es nur ein Mapping für die x-Achse, denn die Häufigkeiten werden automatisch bestimmt:
 
 ```{r}
 ggplot(airquality, aes(x=factor(Month))) +

@@ -158,12 +158,12 @@ In welchem Dateiformat die Daten auch immer vorliegen, schlussendlich landen sie
 (df = read_csv("lecturer.csv"))
 ```
 
-Man erkennt, dass die numerischen Werte korrekt als Zahlen erkannt wurden (die Abkürzung `<dbl>` bedeutet "double" und entspricht Dezimalzahlen, d.h. einem numerischen Vektor). Allerdings besitzt die dritte Spalte `job` lediglich zwei Werte, welche eigentlich zwei verschiedene Berufe repräsentieren (`1` steht für den Beruf "Lecturer", `2` für den Beruf "Student"). Hier wäre eine kategorische Spalte (ein Faktor, dazu gleich mehr) besser geeignet als eine numerische. Die erste Spalte `name` wurde korrekt als `chr` (Character-Vektor) erkannt. Auch die zweite Spalte `birth_date` wurde als Charakter-Vektor erkannt, aber es gibt in R einen eigenen Datentyp für Datumswerte (was u.a. das Rechnen mit solchen Werten ermöglicht).
+Man erkennt, dass die numerischen Werte korrekt als Zahlen erkannt wurden (die Abkürzung `<dbl>` bedeutet "double" und entspricht Dezimalzahlen, d.h. einem numerischen Vektor). Allerdings besitzt die dritte Spalte `job` lediglich zwei Werte, welche eigentlich zwei verschiedene Berufe repräsentieren (`1` steht für den Beruf "Lecturer", `2` für den Beruf "Student"). Hier wäre eine kategoriale Spalte (ein Faktor, dazu gleich mehr) besser geeignet als eine numerische. Die erste Spalte `name` wurde korrekt als `chr` (Character-Vektor) erkannt. Auch die zweite Spalte `birth_date` wurde als Charakter-Vektor erkannt, aber es gibt in R einen eigenen Datentyp für Datumswerte (was u.a. das Rechnen mit solchen Werten ermöglicht).
 
 
 ### Faktoren
 
-Kategorische Variablen, d.h. Variablen, die nur eine bestimmte Anzahl an Werten annehmen können, werden in R mit dem Typ `factor` dargestellt. Die Funktion `factor()` kann einen entsprechenden Vektor erzeugen. Standardmäßig werden nicht geordnete (also *nominale*) Faktoren erzeugt. Setzt man das Argument `ordered=TRUE`, kann man auch einen geordneten Faktor (also eine *ordinale* Variable) erzeugen.
+Kategoriale Variablen, d.h. Variablen, die nur eine bestimmte Anzahl an Werten annehmen können, werden in R mit dem Typ `factor` dargestellt. Die Funktion `factor()` kann einen entsprechenden Vektor erzeugen. Standardmäßig werden nicht geordnete (also *nominale*) Faktoren erzeugt. Setzt man das Argument `ordered=TRUE`, kann man auch einen geordneten Faktor (also eine *ordinale* Variable) erzeugen.
 
 Im Beispiel ist die Spalte `job` vom Typ `dbl`, sollte aber als Faktor interpretiert werden. Die Spalte kann entsprechend neu erstellt und überschrieben werden (hier wird vorausgesetzt, dass wir wissen, welche Zahlen den jeweiligen Faktorstufen entsprechen, also `1` entspricht "Lecturer" und `2` entspricht "Student"):
 

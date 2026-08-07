@@ -108,6 +108,8 @@ spider_w[["id"]] = NULL
 spider_w
 ```
 
+Die zusätzliche Spalte `id` ist nötig, weil `pivot_wider()` wissen muss, welche Zeilen des langen Formats zu *derselben* Person gehören; danach brauchen wir sie nicht mehr und entfernen sie wieder.
+
 Anschließend berechnen wir angepasste Werte, welche die individuellen Unterschiede der Personen berücksichtigen. Dazu fügen wir zunächst eine Spalte mit der mittleren Angst jeder Person hinzu.
 
 ```{r}
@@ -115,14 +117,14 @@ spider_w[["mean"]] = rowMeans(spider_w)
 spider_w
 ```
 
-Nun berechnen wir die Differenz der Personenmittelwerte zum *Gesamtmittelwert aller Datenpunkte* – dies ist der Korrekturfaktor für Designs mit Messwiederholung.
+Nun berechnen wir für jede Person, wie stark ihr Mittelwert vom *Gesamtmittelwert aller Datenpunkte* abweicht (also Gesamtmittelwert minus Personenmittelwert) – dies ist der Korrekturfaktor für Designs mit Messwiederholung.
 
 ```{r}
 spider_w[["adj"]] = mean(c(spider_w[["picture"]], spider_w[["real"]])) - spider_w[["mean"]]
 spider_w
 ```
 
-Damit können wir die einzelnen Angstwerte pro Person korrigieren.
+Damit können wir die einzelnen Angstwerte pro Person korrigieren:
 
 ```{r}
 spider_w[["picture_adj"]] = spider_w[["picture"]] + spider_w[["adj"]]
@@ -169,12 +171,16 @@ ggplot(spider_w_stats, aes(Group, mean)) +
 
 Aus der Grafik ist ersichtlich, dass die Gruppenmittelwerte (schwarze Punkte) gleich wie im unabhängigen Design sind. Auch die Rohdaten (rote Punkte) haben sich nicht geändert. Die Konfidenzintervalle sind jedoch aufgrund des abhängigen Designs wesentlich kleiner geworden. In diesem Beispiel überlappen sie jetzt nicht mehr, was auf einen signifikanten Unterschied zwischen den Gruppenmittelwerten schließen lässt.
 
+::: callout-note
+Diese Korrektur brauchen wir nur für die *Grafik* – nämlich um Konfidenzintervalle darzustellen, welche zum abhängigen Design passen. Der abhängige _t_-Test weiter unten rechnet die individuellen Unterschiede ohnehin selbst heraus (er arbeitet mit den Differenzen der Personen) und wird daher direkt mit den unkorrigierten Spalten `picture` und `real` durchgeführt.
+:::
+
 
 ## Der _t_-Test
 
-Nach der grafischen Darstellung von Gruppenunterschieden wenden wir uns jetzt der statistischen Analyse zu. Man verwendet den _t_-Test, um die Mittelwerte zweier Gruppen miteinander zu vergleichen. Hier gibt es zwei Varianten, nämlich einen _t_-Test für *abhängige* Gruppen und einen für *unabhängige* Gruppen. Ersteren nennt man auch *gepaarten* oder *abhängigen* _t_-Test, letzteren nennt man *unabhängigen* _t_-Test.
+Nach der grafischen Darstellung von Gruppenunterschieden wenden wir uns jetzt der statistischen Analyse zu. Man verwendet den _t_-Test, um die Mittelwerte zweier Gruppen miteinander zu vergleichen. Passend zu den beiden Versuchsdesigns gibt es zwei Varianten: den *unabhängigen* _t_-Test für unabhängige Gruppen und den *abhängigen* (oder *gepaarten*) _t_-Test für abhängige Gruppen.
 
-Die _t_-Statistik ist wie viele Statistiken aufgebaut. Sie setzt die Varianz, die vom Modell erklärt werden kann, in Beziehung zur Varianz, die *nicht* vom Modell erklärt werden kann (oder anders formuliert, Effekt geteilt durch Fehler). Im Falle des _t_-Tests ist das Modell der Unterschied der beiden Mittelwerte minus der erwarteten Differenz, und der Fehler wird durch den Standardfehler der Mittelwertsdifferenz geschätzt:
+Die _t_-Statistik ist wie viele Statistiken aufgebaut: Sie setzt einen Effekt in Beziehung zu dessen Fehler. Im Falle des _t_-Tests ist der Effekt der Unterschied der beiden Mittelwerte minus der erwarteten Differenz, und der Fehler wird durch den Standardfehler der Mittelwertsdifferenz geschätzt:
 
 $$t = \frac{\text{Beobachtete Differenz} - \text{Erwartete Differenz}}{\text{Standardfehler der Differenz}}$$
 
@@ -208,7 +214,7 @@ summary(model)
 ```
 
 ::: callout-note
-Hier ist anzumerken, dass die kategorische Variable `Group` von R automatisch mit 0 und 1 codiert wird (und zwar alphabetisch, d.h. die Stufe `picture` entspricht 0 und die Stufe `real` entspricht 1). Man spricht hier von Dummy-Coding.
+Hier ist anzumerken, dass die kategoriale Variable `Group` von R automatisch mit 0 und 1 codiert wird (und zwar alphabetisch, d.h. die Stufe `picture` entspricht 0 und die Stufe `real` entspricht 1). Man spricht hier von Dummy-Coding.
 :::
 
 Wenn man sich nun die Regressionskoeffizienten ansieht, erkennt man, dass der Intercept $b_0 = 40$ dem Mittelwert der Gruppe 0 (`picture`) entspricht. Die Steigung $b_1 = 7$ entspricht dem Unterschied der Mittelwerte zwischen den beiden Gruppen ($47 - 40 = 7$). Der _t_-Test für diesen Koeffizienten testet, ob die *Steigung* signifikant von Null verschieden ist. Er testet somit also auch automatisch, ob der *Unterschied zwischen den Mittelwerten* signifikant von Null verschieden ist. Man sieht, dass dieser Test mit $p=0.107$ *nicht* signifikant ist, d.h. man kann daraus schließen, dass sich die Mittelwerte *nicht* signifikant voneinander unterscheiden. Dieses Ergebnis bestätigt also die Erkenntnis aus unserer grafischen Darstellung (stark überlappende Konfidenzintervalle).
@@ -258,15 +264,15 @@ Die Steigung der Geraden $b_1$ entspricht also tatsächlich genau dem Unterschie
 
 Da der _t_-Test auf einer linearen Regression basiert, setzt er auch dieselben Annahmen wie diese voraus:
 
-* Die Residuen sind normalverteilt (beim abhängigen _t_-Test sind die Residuen der Differenzen gemeint).
-* Die Daten sind intervallskaliert.
-* Beim unabhängigen _t_-Test müssen die Daten in den Gruppen voneinander unabhängig sein.
+* Die Residuen sind normalverteilt (beim abhängigen _t_-Test bezieht sich das auf die *Differenzen* der beiden Messungen, nicht auf die Rohwerte der beiden Bedingungen).
+* Die abhängige Variable ist intervallskaliert.
+* Beim unabhängigen _t_-Test müssen die einzelnen Beobachtungen voneinander unabhängig sein (jede Person kommt also nur in einer der beiden Gruppen genau einmal vor).
 * Beim unabhängigen _t_-Test muss Varianzhomogenität gegeben sein. Praktisch ist diese Voraussetzung aber nicht notwendig, da standardmäßig ein verbessertes Verfahren angewendet wird, welches Verletzungen dieser Annahme automatisch korrigiert ([Welch _t_-Test](https://de.wikipedia.org/wiki/Zweistichproben-t-Test#Welch-Test)).
 
 
 ## Unabhängiger _t_-Test in R
 
-Die _t_-Statistik berechnet sich also durch das Verhältnis erklärter Varianz zu nicht erklärter Varianz. In der Ausgabe von `summary(model)` (wobei `model` das mit `lm()` gerechnete lineare Regressionsmodell ist) kann man diese Größen in den Spalten `Estimate` bzw. `Std. Error` ablesen. Beim unabhängigen _t_-Test vergleicht man so die Mittelwerte beider Bedingungen:
+Die _t_-Statistik berechnet sich also durch das Verhältnis von Effekt zu Fehler. In der Ausgabe von `summary(model)` (wobei `model` das mit `lm()` gerechnete lineare Regressionsmodell ist) findet man diese beiden Größen in den Spalten `Estimate` (der geschätzte Effekt, hier die Mittelwertsdifferenz) bzw. `Std. Error` (deren Standardfehler). Beim unabhängigen _t_-Test vergleicht man so die Mittelwerte beider Bedingungen:
 
 $$t = \frac{(\bar{x}_1 - \bar{x}_2) - (\mu_1 - \mu_2)}{\text{Standardfehler}}$$
 
@@ -298,7 +304,7 @@ Wie wir gesehen haben, kann man einen _t_-Test mit der Funktion `lm()` durchfüh
 
 Das erste Argument ist also eine Formel, deren linke Seite die Datenpunkte angibt (die Spalte `Anxiety` in diesem Beispiel). Die rechte Seite der Formel gibt die Gruppierungsspalte an (also hier `Group`). Damit man die Spaltennamen direkt verwenden kann, spezifiziert man noch `data=spider`, damit klar ist, dass diese Spalten im Data Frame `spider` zu finden sind.
 
-Ausgegeben wird der Wert der _t_-Statistik, die Freiheitsgrade (standardmäßig korrigiert nach Welch, was die Voraussetzung der Varianzhomogenität überflüssig macht), sowie der _p_-Wert. Weiters gibt es noch das 95%-Konfidenzintervall für die _t_-Statistik sowie die Gruppenmittelwerte.
+Ausgegeben wird der Wert der _t_-Statistik, die Freiheitsgrade (standardmäßig korrigiert nach Welch, was die Voraussetzung der Varianzhomogenität überflüssig macht), sowie der _p_-Wert. Weiters gibt es noch das 95%-Konfidenzintervall für die *Differenz der beiden Mittelwerte* sowie die Gruppenmittelwerte selbst. Da dieses Intervall den Wert 0 enthält ($-15.65$ bis $1.65$), ist der Unterschied nicht signifikant – die beiden Darstellungen sagen also dasselbe aus.
 
 ::: callout-important
 Vergleicht man diese Ausgabe mit dem zuvor gerechneten linearen Modell, fallen leicht unterschiedliche Freiheitsgrade auf: `lm()` liefert 22, `t.test()` hingegen 21.385. Der Grund ist die Welch-Korrektur, die `t.test()` standardmäßig anwendet – diese verzichtet auf die Annahme gleicher Varianzen und korrigiert dafür die Freiheitsgrade. Das lineare Modell entspricht dagegen dem _t_-Test *mit* angenommener Varianzhomogenität. Genau dieses Ergebnis bekommt man mit dem Argument `var.equal=TRUE`:
@@ -318,11 +324,18 @@ Die zweite Möglichkeit, die Funktion aufzurufen, verwendet zwei Argumente; hier
 
 Das Ergebnis ist aber natürlich dasselbe.
 
-### Effektgrößen
+::: callout-note
+Standardmäßig testet `t.test()` *zweiseitig*, d.h. die Alternativhypothese lautet, dass sich die beiden Mittelwerte unterscheiden (in welche Richtung auch immer). Hat man vorab eine gerichtete Hypothese, kann man mit dem Argument `alternative` einen *einseitigen* Test anfordern: `alternative="less"` prüft, ob der Mittelwert der ersten Gruppe *kleiner* ist als jener der zweiten, `alternative="greater"` entsprechend, ob er *größer* ist.
 
-Ein signifikantes Ergebnis sagt nur aus, *dass* ein Unterschied besteht – aber nichts darüber, *wie groß* er ist. Deswegen sollte man immer zusätzlich eine Effektgröße berichten. Diese ist unabhängig von der Stichprobengröße, während der $p$-Wert bei ausreichend großem $N$ selbst für winzige Unterschiede signifikant wird.
+Übergibt man `t.test()` nur einen einzigen Vektor, erhält man einen *Einstichproben-t-Test*, welcher den Mittelwert gegen einen fixen Wert testet (Argument `mu`, standardmäßig 0).
+:::
 
-Die Effektgröße kann man aus dem Wert von $t$ in eine Korrelation $r$ umrechnen:
+
+## Effektgrößen
+
+Ein signifikantes Ergebnis sagt nur aus, *dass* ein Unterschied besteht – aber nichts darüber, *wie groß* er ist. Deswegen sollte man immer zusätzlich eine Effektgröße berichten. Diese ist unabhängig von der Stichprobengröße, während der $p$-Wert bei ausreichend großem $N$ selbst für winzige Unterschiede signifikant wird. Die folgenden Maße gelten für beide Varianten des _t_-Tests; wir illustrieren sie hier am unabhängigen Beispiel.
+
+Eine einfache Möglichkeit ist, den Wert von $t$ in eine Korrelation $r$ umzurechnen:
 
 $$r = \sqrt{\frac{t^2}{t^2 + \text{df}}}$$
 
@@ -345,8 +358,7 @@ Die gepoolte Standardabweichung $s_p$ kennen wir bereits von der Berechnung des 
 x1 = spider[["Anxiety"]][spider[["Group"]] == "picture"]
 x2 = spider[["Anxiety"]][spider[["Group"]] == "real"]
 
-sp = sqrt(((length(x1) - 1) * var(x1) + (length(x2) - 1) * var(x2)) /
-          (length(x1) + length(x2) - 2))
+sp = sqrt(((length(x1) - 1) * var(x1) + (length(x2) - 1) * var(x2)) / (length(x1) + length(x2) - 2))
 
 (d = (mean(x1) - mean(x2)) / sp)
 ```
@@ -393,9 +405,9 @@ Für den abhängigen _t_-Test verwendet man wieder die Funktion `t.test()` und s
 (model = t.test(spider_w[["picture"]], spider_w[["real"]], paired=TRUE))
 ```
 
-Das Ergebnis ist diesmal signifikant mit $p=0.03098$. Dies entspricht unseren Überlegungen mit den unterschiedlich großen Konfidenzintervallen von abhängigen und unabhängigen Versuchsdesigns. Abhängige Designs können also kleinere Unterschiede detektieren.
+Das Ergebnis ist diesmal signifikant mit $p = 0.031$, und auch das Konfidenzintervall der mittleren Differenz ($-13.23$ bis $-0.77$) enthält die 0 nun nicht mehr. Dies entspricht unseren Überlegungen mit den unterschiedlich großen Konfidenzintervallen von abhängigen und unabhängigen Versuchsdesigns. Abhängige Designs können also kleinere Unterschiede detektieren – und das, obwohl die Mittelwertsdifferenz mit $-7$ exakt dieselbe ist wie beim unabhängigen Test.
 
-Die Effektgröße kann man wieder aus $t$ mit der Formel oben in $r$ umwandeln:
+Die Effektgröße $r$ berechnet man wieder mit der Formel von oben aus $t$:
 
 ```{r}
 t = model$statistic[[1]]
@@ -441,15 +453,23 @@ anova(model)
 
 Der $F$-Wert ist mit $p < 0.001$ hoch signifikant, d.h. die drei Spezies unterscheiden sich in ihrer Körpermasse.
 
+Das Dummy-Coding funktioniert dabei genauso wie beim _t_-Test, nur braucht R für drei Gruppen jetzt *zwei* Indikatorvariablen (allgemein für $k$ Gruppen also $k - 1$):
+
+```{r}
+summary(model)
+```
+
+Die erste Stufe `Adelie` dient als Referenzkategorie (beide Indikatoren sind 0), weshalb der Intercept genau ihrem Mittelwert von 3700.66 g entspricht. Die beiden Koeffizienten geben die Differenz der jeweiligen Spezies zu dieser Referenz an: Chinstrap-Pinguine sind im Mittel um 32.43 g schwerer, Gentoo-Pinguine um 1375.35 g. Die zugehörigen _t_-Tests sind damit nichts anderes als Vergleiche *gegen die Referenzkategorie* – ein Vergleich zwischen Chinstrap und Gentoo kommt hier gar nicht vor. Genau deswegen braucht man die weiter unten beschriebenen paarweisen Vergleiche.
+
 Die vertraute ANOVA-Tabelle bekommt man auch direkt mit der Funktion `aov_ez()` aus dem Paket `afex`. Diese benötigt eine Spalte, welche jede Beobachtung eindeutig identifiziert (Argument `id`), die abhängige Variable (`dv`) sowie die Gruppierungsvariable (`between`):
 
 ```{r}
 #| message: false
 library(afex)
 
-df = penguins[!is.na(penguins[["body_mass"]]),]
-df[["id"]] = 1:nrow(df)
-aov_ez(id="id", dv="body_mass", data=df, between="species")
+pdata = penguins[!is.na(penguins[["body_mass"]]),]
+pdata[["id"]] = 1:nrow(pdata)
+aov_ez(id="id", dv="body_mass", data=pdata, between="species")
 ```
 
 Neben $F$-Wert, Freiheitsgraden und Signifikanz wird hier auch gleich eine Effektgröße ausgegeben (`ges` steht für "generalized eta squared", also den Anteil erklärter Varianz).
@@ -462,14 +482,20 @@ pairwise.t.test(penguins[["body_mass"]], penguins[["species"]])
 
 Standardmäßig wird die Holm-Korrektur verwendet; mit dem Argument `p.adjust.method` kann man ein anderes Verfahren wählen (z.B. `"bonferroni"`). Im Beispiel sieht man, dass sich Gentoo hoch signifikant von den beiden anderen Spezies unterscheidet, während zwischen Adélie und Chinstrap mit $p = 0.63$ *kein* signifikanter Unterschied besteht. Das signifikante ANOVA-Ergebnis geht hier also ausschließlich auf die Gentoo-Pinguine zurück – ein gutes Beispiel dafür, warum die paarweisen Vergleiche unverzichtbar sind.
 
+::: callout-note
+Die Ergebnisse von `pairwise.t.test()` stimmen nicht exakt mit einzeln gerechneten `t.test()`-Aufrufen überein. Das liegt an zwei Punkten: Erstens werden die $p$-Werte hier für multiples Testen korrigiert. Zweitens schätzt `pairwise.t.test()` den Fehler standardmäßig aus *allen* Gruppen gemeinsam (gepoolte Standardabweichung, wie in der ANOVA), während `t.test()` nur die beiden gerade verglichenen Gruppen heranzieht und dabei auch noch die Welch-Korrektur anwendet. Mit `pool.sd=FALSE` kann man das Poolen abschalten.
+:::
+
 
 ## Kategoriale Daten
 
-Bisher haben wir immer eine *numerische* abhängige Variable verglichen. Sind beide Variablen jedoch kategorisch, vergleicht man keine Mittelwerte, sondern *Häufigkeiten*. Ausgangspunkt ist dann eine Kreuztabelle, wie wir sie in Einheit 6 mit `table()` erstellt haben:
+Bisher haben wir immer eine *numerische* abhängige Variable verglichen. Sind beide Variablen jedoch kategorial, vergleicht man keine Mittelwerte, sondern *Häufigkeiten*. Ausgangspunkt ist dann eine Kreuztabelle, wie wir sie in Einheit 6 mit `table()` erstellt haben:
 
 ```{r}
 (tab = table(penguins[["species"]], penguins[["sex"]]))
 ```
+
+Fehlende Werte werden von `table()` standardmäßig ignoriert, die 11 Pinguine ohne Angabe zum Geschlecht fallen hier also weg.
 
 Mit dem $\chi^2$-Test (Chi-Quadrat-Test) prüft man, ob die beiden Variablen voneinander unabhängig sind. Die Nullhypothese lautet, dass kein Zusammenhang besteht – die beobachteten Häufigkeiten also nur zufällig von den unter Unabhängigkeit erwarteten abweichen:
 
@@ -477,7 +503,7 @@ Mit dem $\chi^2$-Test (Chi-Quadrat-Test) prüft man, ob die beiden Variablen von
 chisq.test(tab)
 ```
 
-Der $p$-Wert ist hier sehr groß, d.h. wir können die Nullhypothese nicht verwerfen: Das Geschlechterverhältnis unterscheidet sich zwischen den drei Spezies nicht. Ein Beispiel mit einem klaren Zusammenhang ist dagegen die Verteilung der Spezies auf die Inseln:
+Der $p$-Wert ist hier sehr groß, d.h. wir können die Nullhypothese nicht verwerfen: Das Geschlechterverhältnis unterscheidet sich zwischen den drei Spezies nicht. Wie schon beim _t_-Test gilt aber auch hier, dass ein nicht signifikantes Ergebnis kein *Beleg* für die Nullhypothese ist. Ein Beispiel mit einem klaren Zusammenhang ist dagegen die Verteilung der Spezies auf die Inseln:
 
 ```{r}
 chisq.test(table(penguins[["species"]], penguins[["island"]]))
@@ -490,11 +516,11 @@ Der $\chi^2$-Test setzt voraus, dass die *erwarteten* Häufigkeiten in allen Zel
 
 ## Ausblick
 
-Zusammenfassend haben wir gesehen, dass sich sowohl der *t*-Test als auch die ANOVA auf ein lineares Modell zurückführen lassen. Beim *t*-Test codiert ein einzelner Prädiktor die beiden Gruppen (Dummy-Coding), bei mehr als zwei Gruppen sind es entsprechend mehrere Prädiktoren; die relevante Größe ist dann die *F*-Statistik, welche uns als Maß für die Modellgüte bereits aus der linearen Regression bekannt ist. Korrelation, Regression und Mittelwertvergleich sind also keine drei unabhängigen Verfahren, sondern verschiedene Blickwinkel auf dasselbe zugrundeliegende Modell.
+Zusammenfassend haben wir gesehen, dass sich sowohl der *t*-Test als auch die ANOVA auf ein lineares Modell zurückführen lassen. Beim *t*-Test codiert ein einzelner Prädiktor die beiden Gruppen (Dummy-Coding), bei mehr als zwei Gruppen sind es entsprechend mehrere Prädiktoren; die relevante Größe ist dann die *F*-Statistik, welche uns als Maß für die Modellgüte bereits aus der linearen Regression bekannt ist. Korrelation, Regression und Mittelwertvergleich sind also keine drei unabhängigen Verfahren, sondern verschiedene Blickwinkel auf dasselbe zugrundeliegende Modell. Außerhalb dieses Rahmens stehen die beiden übrigen Verfahren dieser Einheit: die Wilcoxon-Tests für den Fall verletzter Verteilungsannahmen und der $\chi^2$-Test für rein kategoriale Daten.
 
 Die hier gezeigte einfaktorielle ANOVA ist dabei nur der einfachste Fall. Mit `aov_ez()` kann man auch mehrere Faktoren gleichzeitig (mehrfaktorielle ANOVA) sowie Messwiederholungen (Argument `within` statt `between`) analysieren.
 
-Bei abhängigen Messungen kann man keine linearen Modelle rechnen, da eine der wichtigsten Voraussetzungen die Unabhängigkeit der Messpunkte ist. Sogenannte lineare gemischte Modelle (engl. *linear mixed models*) können aber mit diesen Abhängigkeiten umgehen und werden immer häufiger statt den klassischen Messwiederholungs-ANOVAs eingesetzt. Gemischte Modelle sind Verallgemeinerungen von linearen Modellen, oder umgekehrt sind lineare Modelle Spezialfälle von linearen gemischten Modellen. Das Paket `lme4` hat sich in R als Standard zur Berechnung dieser Modelle durchgesetzt (bzw. die darauf aufbauenden Pakete `lmerTest` und `afex`).
+Bei abhängigen Messungen kann man keine *gewöhnlichen* linearen Modelle rechnen, da eine der wichtigsten Voraussetzungen die Unabhängigkeit der Messpunkte ist (der gepaarte _t_-Test umgeht dieses Problem nur, indem er die Differenzen bildet – bei mehr als zwei Messzeitpunkten funktioniert dieser Trick nicht mehr). Sogenannte lineare gemischte Modelle (engl. *linear mixed models*) können aber mit diesen Abhängigkeiten umgehen und werden immer häufiger statt den klassischen Messwiederholungs-ANOVAs eingesetzt. Gemischte Modelle sind Verallgemeinerungen von linearen Modellen, oder umgekehrt sind lineare Modelle Spezialfälle von linearen gemischten Modellen. Das Paket `lme4` hat sich in R als Standard zur Berechnung dieser Modelle durchgesetzt (bzw. die darauf aufbauenden Pakete `lmerTest` und `afex`).
 
 
 ## Übungen

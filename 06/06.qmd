@@ -70,7 +70,7 @@ unique(df[["job"]])
 
 ## Häufigkeitstabellen
 
-Bei kategorischen Variablen interessiert meist nicht nur, *welche* Werte vorkommen, sondern vor allem *wie oft*. Genau das liefert die Funktion `table()`:
+Bei kategorialen Variablen interessiert meist nicht nur, *welche* Werte vorkommen, sondern vor allem *wie oft*. Genau das liefert die Funktion `table()`:
 
 ```{r}
 table(df[["job"]])
