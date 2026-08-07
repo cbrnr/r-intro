@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="de" xml:lang="de"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.9.37">
+<meta name="generator" content="quarto-1.9.38">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -75,14 +75,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-acf12a64177840b8d86f2d4f01b2e9fb.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-23bbe8b5e4efc1e257f6d59dce478b08.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-acf12a64177840b8d86f2d4f01b2e9fb.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-de63f62b328812d8e578a4d74e282472.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-6b6957c917596b414ec0b78690761e87.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-de63f62b328812d8e578a4d74e282472.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-c6344c862f46cf6a68a6928f4c326ca4.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-a4cc7722e2170b143ab83d7d6445229a.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../site_libs/bootstrap/bootstrap-c6344c862f46cf6a68a6928f4c326ca4.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-0f1a520e41d12d84e925fcfd3dfb7140.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-70d97c5485b77d73a4316377cf99e6cf.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-0f1a520e41d12d84e925fcfd3dfb7140.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <link href="../site_libs/quarto-contrib/academicons-1.9.2/all.css" rel="stylesheet">
 <link href="../site_libs/quarto-contrib/academicons-1.9.2/size.css" rel="stylesheet">
 <link href="../site_libs/quarto-contrib/fontawesome6-0.1.0/all.css" rel="stylesheet">
@@ -425,7 +425,7 @@ window.Quarto = {
       <div>
       <div class="quarto-title-meta-heading">Veröffentlicht</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">1. Juni 2026</p>
+        <p class="date">10. Dezember 2026</p>
       </div>
     </div>
     
@@ -449,9 +449,10 @@ window.Quarto = {
 <h2 class="anchored" data-anchor-id="multiple-lineare-regression">Multiple lineare Regression</h2>
 <p>Die multiple lineare Regression ist eine Erweiterung der einfachen linearen Regression auf Situationen mit mehreren Prädiktoren. Das grundlegende Konzept bleibt aber unverändert, wir verwenden nach wie vor folgende allgemeine Modellgleichung:</p>
 <p><span class="math display">\[y_i = \hat{y}_i + \varepsilon_i\]</span></p>
-<p>Das Modell <span class="math inline">\(\hat{y}_i\)</span> mit <span class="math inline">\(n\)</span> Prädiktoren <span class="math inline">\(x_{1}\)</span>, <span class="math inline">\(x_{2}\)</span>, <span class="math inline">\(\ldots\)</span>, <span class="math inline">\(x_{n}\)</span> wird nun wie folgt formuliert:</p>
-<p><span class="math display">\[y_i = (b_0 + b_1 x_{1i} + b_2 x_{2i} + \ldots + b_n x_{ni}) + \varepsilon_i\]</span></p>
+<p>Das Modell <span class="math inline">\(\hat{y}_i\)</span> mit <span class="math inline">\(k\)</span> Prädiktoren <span class="math inline">\(x_{1}\)</span>, <span class="math inline">\(x_{2}\)</span>, <span class="math inline">\(\ldots\)</span>, <span class="math inline">\(x_{k}\)</span> wird nun wie folgt formuliert:</p>
+<p><span class="math display">\[y_i = (b_0 + b_1 x_{1i} + b_2 x_{2i} + \ldots + b_k x_{ki}) + \varepsilon_i\]</span></p>
 <p>Jeder Prädiktor erhält also ein eigenes Gewicht bzw. einen eigenen Regressionskoeffizienten. Die Koeffizienten werden mittels Least Squares wieder so berechnet, dass die entstehende “Gerade” (technisch spricht man hier von einer <a href="https://de.wikipedia.org/wiki/Hyperebene">Hyperebene</a>) den mittleren quadratischen Fehler minimiert.</p>
+<p>Insgesamt schätzt das Modell damit <span class="math inline">\(p = k + 1\)</span> Parameter (die <span class="math inline">\(k\)</span> Steigungen plus den Intercept). Mit diesem <span class="math inline">\(p\)</span> ergeben sich die Freiheitsgrade genau wie in Einheit 10, also <span class="math inline">\(\mathrm{dfM} = p - 1 = k\)</span> und <span class="math inline">\(\mathrm{dfR} = N - p\)</span>. Die einfache lineare Regression ist dabei nichts anderes als der Spezialfall <span class="math inline">\(k = 1\)</span>.</p>
 <p>Die Quadratsummen SST, SSM und SSR werden analog wie bei der einfachen Regression berechnet. Wieder kann man <span class="math inline">\(R^2\)</span> berechnen, welches den Anteil der Varianz in der abhängigen Variable angibt, welche durch das Modell erklärt wird. Je höher dieser Wert ist, desto besser kann das Modell die Daten beschreiben. Aus <span class="math inline">\(R^2\)</span> kann man hier die Pearson-Korrelation zwischen den <em>vorhergesagten</em> Werten und den tatsächlich <em>beobachteten</em> Werten berechnen.</p>
 </section>
 <section id="überprüfen-der-datenpunkte" class="level2">
@@ -483,7 +484,20 @@ window.Quarto = {
 <p>Um mit einem linearen Regressionsmodell Vorhersagen auf ungesehene Daten machen zu können, müssen folgende Annahmen erfüllt sein:</p>
 <ul>
 <li><p>Die abhängige Variable muss intervallskaliert sein.</p></li>
-<li><p>Die unabhängigen Variablen (Prädiktoren) müssen intervallskaliert (oder nominalskaliert in zwei Kategorien) sein.</p></li>
+<li><p>Die unabhängigen Variablen (Prädiktoren) müssen intervallskaliert (oder nominalskaliert in zwei Kategorien) sein.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Hinweis
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Nominalskalierte Prädiktoren mit <em>mehr</em> als zwei Kategorien sind ebenfalls möglich – R zerlegt einen solchen Faktor automatisch in mehrere Indikatorvariablen (Dummy-Coding). Genau davon werden wir in Einheit 12 Gebrauch machen, wenn wir Gruppenmittelwerte als lineares Modell formulieren.</p>
+</div>
+</div></li>
 <li><p>Die Prädiktoren müssen Varianzen ungleich 0 haben (sie dürfen also nicht konstant sein).</p></li>
 <li><p>Es darf keine Multikollinearität bestehen, d.h. zwei oder mehrere Prädiktoren dürfen nicht linear voneinander abhängig sein. Dies kann z.B. mit der VIF-Statistik (Variance Inflation Factor) überprüft werden.</p></li>
 <li><p>Homoskedastizität, d.h. die Varianz der Residuen muss konstant über die Werte der Prädiktoren sein (Varianzhomogenität).</p></li>
@@ -567,7 +581,20 @@ Multiple R-squared:  0.6647,    Adjusted R-squared:  0.6595
 F-statistic: 129.5 on 3 and 196 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 </div>
-<p>Da das erste Modell identisch mit jenem aus der vorigen Einheit ist, kennen wir die Ergebnisse bereits. Wenden wir uns daher dem zweiten Modell zu. <span class="math inline">\(R^2\)</span> ist hier 0.6647, das heißt das Modell kann nun 66% der Varianz erklären. Im Vergleich zum ersten Modell mit nur einem Prädiktor ist das eine Steigerung um 33%, d.h. die beiden Prädiktoren Airplay und Attraktivität können zusätzliche Varianz im Ausmaß von 33% erklären.</p>
+<p>Da das erste Modell identisch mit jenem aus der vorigen Einheit ist, kennen wir die Ergebnisse bereits. Wenden wir uns daher dem zweiten Modell zu. <span class="math inline">\(R^2\)</span> ist hier 0.6647, das heißt das Modell kann nun 66% der Varianz erklären. Im Vergleich zum ersten Modell mit nur einem Prädiktor (<span class="math inline">\(R^2 = 0.3346\)</span>) ist das eine Steigerung um 33 <em>Prozentpunkte</em>, d.h. die beiden Prädiktoren Airplay und Attraktivität können zusätzliche Varianz im Ausmaß von 33 Prozentpunkten erklären.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Wichtig
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Hier zeigt sich, warum das in Einheit 10 erwähnte <em>adjustierte</em> <span class="math inline">\(R^2\)</span> wichtig ist: <span class="math inline">\(R^2\)</span> kann durch das Hinzufügen von Prädiktoren nie kleiner werden, ein Anstieg allein ist daher noch kein Beleg für ein besseres Modell. Das adjustierte <span class="math inline">\(R^2\)</span> berücksichtigt die Anzahl der Prädiktoren und steigt hier von 0.3313 auf 0.6595 – der Zugewinn ist also tatsächlich vorhanden und nicht bloß eine Folge der beiden zusätzlichen Terme. Ob die Verbesserung auch statistisch signifikant ist, beantwortet der Modellvergleich mit <code>anova()</code> weiter unten.</p>
+</div>
+</div>
 <p>Die Regressionskoeffizienten werden ebenfalls in der Ausgabe dargestellt. Wir können daher das lineare Modell wie folgt schreiben:</p>
 <p><span class="math display">\[y = b_0 + b_1 x_1 + b_2 x_2 + b_3 x_3 = -26.613 + 0.085 \cdot x_1 + 3.367 \cdot x_2 + 11.086 \cdot x_3\]</span></p>
 <p>Hier stehen <span class="math inline">\(b_0\)</span> für den Intercept (d.h. jener Wert von <span class="math inline">\(y\)</span>, wenn alle Prädiktoren 0 sind), <span class="math inline">\(b_1\)</span> für das Werbebudget <code>adverts</code>, <span class="math inline">\(b_2\)</span> für die Airplay-Stunden <code>airplay</code> und <span class="math inline">\(b_3\)</span> für die Attraktivität <code>attract</code>.</p>
@@ -577,8 +604,16 @@ F-statistic: 129.5 on 3 and 196 DF,  p-value: &lt; 2.2e-16</code></pre>
 <li>Wenn <code>airplay</code> um eine Einheit erhöht wird, dann erhöht sich <code>sales</code> um 3.37 Einheiten. D.h. wenn man das Album um eine Stunde mehr im Radio spielt, verkauft man um 3367 Alben mehr.</li>
 <li>Wenn <code>attract</code> um eine Einheit erhöht wird, dann erhöht sich <code>sales</code> um 11.086 Einheiten (d.h. 11086 zusätzliche Alben).</li>
 </ul>
-<p>Für jeden Regressionskoeffizienten wird ein <span class="math inline">\(t\)</span>-Test gerechnet, welcher angibt, ob sich der Koeffizient signifikant von 0 unterscheidet (d.h. ob er signifikant zum Modell beiträgt). Die Größe der <span class="math inline">\(t\)</span>-Statistik lässt auf den Einfluss der Koeffizienten schließen, d.h. <code>adverts</code> und <code>airplay</code> haben einen ähnlich großen Einfluss auf das Modell, wo hingegen <code>attract</code> einen geringeren Einfluss hat.</p>
-<p>Oft ist es hilfreich, nicht nur die Regressionskoeffizienten zu analysieren, sondern auch die standardisierten Regressionskoeffizienten. Diese kann man berechnen, in dem man zuerst alle Variablen standardisiert und danach das lineare Modell berechnet. Standardisierte Variablen haben einen Mittelwert von 0 und eine Standardabweichung von 1. Man könnte die Standardisierung daher relativ einfach selbst vornehmen, in dem man für jede Variable zuerst deren Mittelwert subtrahiert und danach durch deren Standardabweichung dividiert.</p>
+<p>Für jeden Regressionskoeffizienten wird ein <span class="math inline">\(t\)</span>-Test gerechnet, welcher angibt, ob sich der Koeffizient signifikant von 0 unterscheidet (d.h. ob er signifikant zum Modell beiträgt). Die Größe der <span class="math inline">\(t\)</span>-Statistik lässt auf den Einfluss der Koeffizienten schließen, d.h. <code>adverts</code> und <code>airplay</code> haben einen ähnlich großen Einfluss auf das Modell, wohingegen <code>attract</code> einen geringeren Einfluss hat.</p>
+<p>Die unstandardisierten Koeffizienten kann man hingegen <em>nicht</em> direkt miteinander vergleichen, weil sie von den Einheiten der jeweiligen Prädiktoren abhängen. Der Koeffizient von <code>attract</code> ist mit 11.086 zwar der betragsmäßig größte, aber <code>attract</code> wird eben auch auf einer ganz anderen Skala gemessen als <code>adverts</code>:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sapply</span>(album2, sd)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  adverts     sales   airplay   attract 
+485.65521  80.69896  12.26958   1.39529 </code></pre>
+</div>
+</div>
+<p>Oft ist es daher hilfreich, nicht nur die Regressionskoeffizienten zu analysieren, sondern auch die standardisierten Regressionskoeffizienten. Diese kann man berechnen, indem man zuerst alle Variablen standardisiert und danach das lineare Modell berechnet. Standardisierte Variablen haben einen Mittelwert von 0 und eine Standardabweichung von 1. Man könnte die Standardisierung daher relativ einfach selbst vornehmen, indem man für jede Variable zuerst deren Mittelwert subtrahiert und danach durch deren Standardabweichung dividiert.</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -589,32 +624,36 @@ Tipp
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Die Funktion <code>scale()</code> kann verwendet werden, um die Spalten eine Data Frames zu standardisieren. Diese liefert aber immer eine Matrix zurück, d.h. wenn man ein Data Frame bzw. Tibble standardisieren möchte, muss man danach noch <code>as.data.frame()</code> bzw. <code>tibble::as_tibble()</code> anwenden.</p>
+<p>Die Funktion <code>scale()</code> kann verwendet werden, um die Spalten eines Data Frames zu standardisieren. Diese liefert aber immer eine Matrix zurück, d.h. wenn man ein Data Frame bzw. Tibble standardisieren möchte, muss man danach noch <code>as.data.frame()</code> bzw. <code>tibble::as_tibble()</code> anwenden.</p>
 </div>
 </div>
-<p>Alternativ kann man dazu auch <em>nachträglich</em> die Funktion <code>lm.beta()</code> aus dem <code>lm.beta</code>-Paket benutzen:</p>
+<p>Einfacher ist es, dies <em>nachträglich</em> mit der Funktion <code>standardize_parameters()</code> aus dem <code>effectsize</code>-Paket zu erledigen (dieses Paket werden wir in Einheit 12 auch für Effektgrößen verwenden):</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lm.beta)</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">lm.beta</span>(model2)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(effectsize)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="fu">standardize_parameters</span>(model2)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>
-Call:
-lm(formula = sales ~ adverts + airplay + attract, data = album2)
+<pre><code># Standardization method: refit
 
-Standardized Coefficients::
-(Intercept)     adverts     airplay     attract 
-         NA   0.5108462   0.5119881   0.1916834 </code></pre>
+Parameter   | Std. Coef. |        95% CI
+----------------------------------------
+(Intercept) |   2.17e-16 | [-0.08, 0.08]
+adverts     |       0.51 | [ 0.43, 0.59]
+airplay     |       0.51 | [ 0.43, 0.60]
+attract     |       0.19 | [ 0.11, 0.27]</code></pre>
 </div>
 </div>
-<p>Die standardisierten Regressionskoeffizienten werden üblicherweise mit <span class="math inline">\(\beta_i\)</span> bezeichnet. Da alle Variablen nun in Standardabweichungen gemessen werden, kann man diese direkt miteinander vergleichen. Man sieht im Beispiel also:</p>
+<p>Die Ausgabe <code>Standardization method: refit</code> verrät, wie die Funktion vorgeht: Sie standardisiert die Daten und berechnet das Modell damit neu – also genau die oben beschriebene händische Vorgehensweise. Zusätzlich bekommt man gleich Konfidenzintervalle für die standardisierten Koeffizienten.</p>
+<p>Die standardisierten Regressionskoeffizienten werden üblicherweise mit <span class="math inline">\(\beta_i\)</span> bezeichnet. Da alle Variablen nun in Standardabweichungen gemessen werden, kann man diese direkt miteinander vergleichen. Zusammen mit den oben berechneten Standardabweichungen (<code>sales</code> streut mit 80.699) sieht man im Beispiel also:</p>
 <ul>
 <li>Wenn <code>adverts</code> um eine Standardabweichung erhöht wird (485655 EUR), dann erhöht sich <code>sales</code> um 0.511 Standardabweichungen (41240 Alben).</li>
 <li>Wenn <code>airplay</code> um eine Standardabweichung erhöht wird (12.270), dann erhöht sich <code>sales</code> um 0.512 Standardabweichungen (41320 Alben).</li>
 <li>Wenn <code>attract</code> um eine Standardabweichung erhöht wird (1.395), dann erhöht sich <code>sales</code> um 0.192 Standardabweichungen (15490 Alben).</li>
 </ul>
+<p><code>adverts</code> und <code>airplay</code> sind also praktisch gleich wichtig, während <code>attract</code> deutlich weniger beiträgt – dieselbe Rangfolge, die sich schon an den <span class="math inline">\(t\)</span>-Werten abgezeichnet hat, und die man an den unstandardisierten Koeffizienten gerade <em>nicht</em> ablesen konnte.</p>
 <p>Konfidenzintervalle für die (nicht standardisierten) Regressionskoeffizienten erhält man mit der Funktion <code>confint()</code> (standardmäßig werden 95%-Intervalle berechnet):</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">confint</span>(model2)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">confint</span>(model2)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                   2.5 %      97.5 %
 (Intercept) -60.82960967  7.60369295
@@ -625,7 +664,7 @@ attract       6.27855218 15.89411823</code></pre>
 </div>
 <p>Zwei (oder mehrere) Modelle können mit der <span class="math inline">\(F\)</span>-Statistik verglichen werden. Der <span class="math inline">\(F\)</span>-Wert, der bei der zusammenfassenden Beschreibung eines Modells angezeigt wird, vergleicht das Modell standardmäßig mit dem einfachsten Mittelwertmodell. Möchte man das Modell mit einem anderen Modell vergleichen, ist zu beachten, dass <code>model2</code> eine Erweiterung von <code>model1</code> sein muss, d.h. <code>model2</code> muss alle Terme von <code>model1</code> beinhalten plus eventuelle zusätzliche Faktoren. In R gibt man hier folgenden Befehl ein:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(model1, model2)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(model1, model2)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Analysis of Variance Table
 
@@ -639,6 +678,20 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
 </div>
 <p>Der <span class="math inline">\(F\)</span>-Wert beträgt also 96.447 und ist signifikant, d.h. das zweite Modell ist signifikant besser als das erste.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Hinweis
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Die Funktion <code>anova()</code> hat zwei unterschiedliche Verwendungszwecke. Übergibt man ihr wie hier <em>zwei</em> (oder mehrere) Modelle, vergleicht sie diese miteinander. Übergibt man ihr hingegen nur ein <em>einziges</em> Modell, erhält man eine Varianzanalyse-Tabelle für die einzelnen Terme dieses Modells – diese Variante werden wir in Einheit 12 kennenlernen.</p>
+<p>Bei einem Modell mit nur <em>einem</em> Prädiktor sind beide Varianten sogar identisch: <code>anova(model1)</code> liefert exakt dieselbe Zeile wie <code>anova(lm(sales ~ 1, data=album2), model1)</code>, also der Vergleich mit dem Nullmodell (nur Intercept). Bei <em>mehreren</em> Prädiktoren gilt das aber nicht mehr, da <code>anova()</code> mit einem einzelnen Modell die Terme <em>sequentiell</em> testet: Jede Zeile vergleicht das Modell bis zu diesem Term mit dem Modell ohne diesen Term (aber inklusive aller vorherigen Terme) – und nicht mit dem reinen Nullmodell. Sind die Prädiktoren nicht unkorreliert, hängt das Ergebnis daher auch von der Reihenfolge der Terme in der Formel ab.</p>
+</div>
+</div>
 <section id="datenpunkte-mit-großem-einfluss" class="level3">
 <h3 class="anchored" data-anchor-id="datenpunkte-mit-großem-einfluss">Datenpunkte mit großem Einfluss</h3>
 <p>Um die diversen Ausreißerstatistiken für jeden einzelnen Wert übersichtlich beurteilen zu können, kann man die Werte mit folgenden Funktionen berechnen:</p>
@@ -664,15 +717,45 @@ Hinweis
 <p>“Leave-One-Out” bedeutet, dass der jeweilige Datenpunkt aus der Berechnung des Werts ausgeschlossen wird.</p>
 </div>
 </div>
-<p>Sehr praktisch ist die Funktion <code>influence.measures()</code>, welche mehrere Ausreißerstatistiken für jeden Datenpunkt übersichtlich aufbereitet ausgibt.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">influence.measures</span>(model2)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Als grobe Orientierung gelten folgende Faustregeln: Cook’s Distanz sollte 1 nicht überschreiten, und die Leverage eines Punktes sollte nicht wesentlich größer als der Durchschnittswert <span class="math inline">\(p/N\)</span> sein (im Beispiel also <span class="math inline">\(4/200 = 0.02\)</span>). Wie immer sind das aber nur Anhaltspunkte und keine harten Grenzen – auffällige Punkte sollte man sich stets im Kontext der Daten ansehen, statt sie automatisch zu entfernen.</p>
+<p>Sehr praktisch ist die Funktion <code>influence.measures()</code>, welche mehrere Ausreißerstatistiken für jeden Datenpunkt berechnet. Da das bei 200 Datenpunkten eine sehr lange Tabelle ergibt, wendet man am besten <code>summary()</code> darauf an – dann werden nur jene Beobachtungen ausgegeben, die in mindestens einer Statistik auffällig sind (markiert mit <code>_*</code>):</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">influence.measures</span>(model2))</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Potentially influential observations of
+     lm(formula = sales ~ adverts + airplay + attract, data = album2) :
+
+    dfb.1_ dfb.advr dfb.arpl dfb.attr dffit   cov.r   cook.d hat    
+1   -0.32  -0.24     0.16     0.35     0.49_*  0.97    0.06   0.05  
+2    0.01  -0.13     0.01    -0.02    -0.21    0.92_*  0.01   0.01  
+7   -0.14   0.00    -0.01     0.15    -0.15    1.12_*  0.01   0.09_*
+12  -0.24  -0.02     0.00     0.24    -0.26    1.07_*  0.02   0.06_*
+23   0.02  -0.02     0.00    -0.01    -0.03    1.07_*  0.00   0.04  
+42  -0.04  -0.10     0.21    -0.02     0.23    1.06_*  0.01   0.06  
+43  -0.01   0.07     0.00     0.00     0.07    1.07_*  0.00   0.05  
+47   0.07   0.20     0.05    -0.18    -0.31    0.91_*  0.02   0.02  
+55   0.17  -0.33    -0.02    -0.12    -0.41    0.92_*  0.04   0.03  
+61   0.00  -0.02     0.03     0.02     0.16    0.94_*  0.01   0.01  
+68   0.00   0.21    -0.15    -0.02    -0.30    0.92_*  0.02   0.02  
+87   0.05   0.21     0.04    -0.11     0.24    1.06_*  0.01   0.06  
+88  -0.02  -0.08    -0.03     0.05    -0.10    1.07_*  0.00   0.05  
+116  0.01   0.01     0.03    -0.03    -0.04    1.07_*  0.00   0.05  
+138 -0.14   0.03    -0.03     0.15    -0.16    1.13_*  0.01   0.10_*
+164  0.18   0.29    -0.40    -0.12    -0.54_*  0.92_*  0.07   0.04  
+169 -0.17  -0.26     0.26     0.17     0.46_*  0.85_*  0.05   0.02  
+181  0.04  -0.01     0.00    -0.04     0.05    1.12_*  0.00   0.09_*
+184 -0.01  -0.03     0.00     0.02    -0.04    1.10_*  0.00   0.08_*
+199  0.00   0.01    -0.01     0.01     0.02    1.06_*  0.00   0.04  </code></pre>
+</div>
+</div>
+<p>In diesem Beispiel gibt es zwar einige markierte Punkte – etwa ein paar mit leicht erhöhter Leverage (Spalte <code>hat</code>) –, wirklich problematisch ist aber keiner davon: Cook’s Distanz (Spalte <code>cook.d</code>) bleibt durchwegs weit unter 1, kein einzelner Punkt verändert das Modell also nennenswert. Das ist bei 200 Datenpunkten auch nicht überraschend, wie wir oben am Vergleich unterschiedlicher Stichprobengrößen gesehen haben.</p>
 </section>
-<section id="modellannahmen-1" class="level3">
-<h3 class="anchored" data-anchor-id="modellannahmen-1">Modellannahmen</h3>
+<section id="überprüfen-der-modellannahmen" class="level3">
+<h3 class="anchored" data-anchor-id="überprüfen-der-modellannahmen">Überprüfen der Modellannahmen</h3>
 <p>Multikollinearität kann mit der VIF-Statistik beurteilt werden; in R kann man dazu die Funktion <code>vif()</code> aus dem <code>car</code>-Paket verwenden.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(car)</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">vif</span>(model2)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(car)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">vif</span>(model2)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> adverts  airplay  attract 
 1.014593 1.042504 1.038455 </code></pre>
@@ -680,30 +763,46 @@ Hinweis
 </div>
 <p>Der größte VIF-Wert sollte nicht größer als 10 sein (für einen konservativeren Schwellwert kann man auch 5 benutzen). Der durchschnittliche VIF sollte nicht wesentlich größer als 1 sein, was man wie folgt überprüfen kann:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(<span class="fu">vif</span>(model2))</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(<span class="fu">vif</span>(model2))</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 1.03185</code></pre>
 </div>
 </div>
 <p>Wenn man den <code>plot()</code>-Befehl auf das Modell anwendet, werden vier diagnostische Plots erstellt.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">2</span>), <span class="at">cex=</span><span class="fl">0.75</span>)</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(model2)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">2</span>), <span class="at">cex=</span><span class="fl">0.75</span>)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(model2)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="11_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="1152"></p>
+<p><img src="11_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid figure-img" width="1152"></p>
 </figure>
 </div>
 </div>
 </div>
-<p>Im Plot links oben sind die vorhergesagten Werte gegen die Residuen aufgetragen. Hier kann man die Linearitätsannahme (die rote Linie sollte immer ungefähr gleich Null sein) sowie die Homoskedastizitätsannahme (die Streuung der Datenpunkte sollte sich entlang der x-Achse nicht ändern) überprüfen. Der Plot links unten ist ähnlich, nur ist hier statt den (absoluten) Residuen die Wurzel aus dem Betrag der standardisierten Residuen aufgetragen. Auch hier lässt sich beurteilen, ob die Annahme der Varianzhomogenität erfüllt ist oder nicht. Im Plot rechts oben lässt sich die Normalverteilungsannahme der Residuen mit einem QQ-Plot überprüfen. Im Plot rechts unten sind Punkte mit großem Einfluss dargestellt (gemessen an der Leverage); Cook’s Distanz ist ebenfalls im Plot ersichtlich.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Hinweis
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Dies ist die in Einheit 8 erwähnte Ausnahme: <code>plot()</code> erzeugt hier eine Grafik mit dem eingebauten Base-Plotting-System, für die es in <code>ggplot2</code> keine direkte Entsprechung gibt. Mit <code>par(mfrow=c(2, 2))</code> legt man vorher fest, dass die vier Plots in zwei Zeilen und zwei Spalten angeordnet werden sollen – sonst würde R sie nacheinander einzeln anzeigen. Einzelne Plots kann man auch gezielt anfordern, z.B. erzeugt <code>plot(model2, which=2)</code> nur den QQ-Plot.</p>
+</div>
+</div>
+<p>Im Plot links oben (<em>Residuals vs Fitted</em>) sind die vorhergesagten Werte gegen die <em>rohen</em> Residuen aufgetragen. Dieser Plot eignet sich vor allem zur Prüfung der Linearitätsannahme: Weicht die rote Glättungslinie systematisch von der Nulllinie ab (z.B. bogenförmig), deutet das auf einen nichtlinearen Zusammenhang hin. Auch Heteroskedastizität (ungleiche Streuung) ließe sich hier prinzipiell erkennen, etwa an einer trichterförmigen Punktwolke – allerdings vermischen sich in den rohen Residuen Lage (positiv/negativ) und Streuung, wodurch ein systematisches An- oder Abschwellen der Streuung mit freiem Auge oft nur schwer auszumachen ist.</p>
+<p>Genau dafür ist der Plot links unten (<em>Scale-Location</em>) gedacht. Er verwendet nicht die rohen, sondern die <em>standardisierten</em> Residuen, und zwar nur deren <em>Betrag</em> (zusätzlich mit der Wurzel gestaucht, um die schiefe Verteilung der quadrierten Residuen zu symmetrisieren). Weil dadurch das Vorzeichen wegfällt, zeigt sich ein Trend in der Streuung als klar erkennbare steigende oder fallende Glättungslinie – ein Muster, das im oberen Plot leicht untergeht. Praktisch ergänzen sich die beiden Plots also: Der obere ist die erste Anlaufstelle für die Linearitätsannahme, der untere die gezieltere Kontrolle der Varianzhomogenität.</p>
+<p>Im Plot rechts oben lässt sich die Normalverteilungsannahme der Residuen mit einem QQ-Plot überprüfen. Die Punkte liegen hier relativ gut auf der Diagonalen, d.h. die Residuen sind annähernd normalverteilt.</p>
+<p>Im Plot rechts unten ist die Leverage gegen die standardisierten Residuen aufgetragen; Punkte mit großem Einfluss auf das Modell fallen dabei sowohl durch hohe Leverage (weit rechts) als auch durch einen großen Residualwert (weit oben oder unten) auf. Zusätzlich blendet R in diesem Plot gestrichelte Konturlinien für Cook’s Distanz ein (beschriftet mit Werten wie 0.5 oder 1) – Punkte außerhalb dieser Linien haben eine Cook’s Distanz, die den jeweiligen Wert überschreitet. Diese Konturlinien werden aber nur innerhalb des sichtbaren Wertebereichs gezeichnet: Sind wie in unserem Beispiel alle Punkte unauffällig (niedrige Leverage, kleine Residuen), liegen die Konturlinien außerhalb des Plots und es ist nur die Legendenbeschriftung “Cook’s distance” am unteren Rand zu sehen, aber keine Linien selbst. Das ist dann aber eine gute Nachricht: Es bedeutet, dass kein Datenpunkt auch nur annähernd eine kritische Cook’s Distanz erreicht.</p>
 <p>Die Annahme über die Unabhängigkeit der Residuen kann mit dem Durbin-Watson-Test <code>durbinWatsonTest()</code> aus dem <code>car</code>-Paket überprüft werden.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">durbinWatsonTest</span>(model2)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">durbinWatsonTest</span>(model2)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> lag Autocorrelation D-W Statistic p-value
-   1       0.0026951      1.949819   0.726
+   1       0.0026951      1.949819   0.734
  Alternative hypothesis: rho != 0</code></pre>
 </div>
 </div>
@@ -714,17 +813,18 @@ Hinweis
 <h2 class="anchored" data-anchor-id="übungen">Übungen</h2>
 <section id="übung-1" class="level3">
 <h3 class="anchored" data-anchor-id="übung-1">Übung 1</h3>
-<p>Laden Sie die Daten aus der Datei <code>sales2.dat</code> wie in den Unterlagen gezeigt. Standardisieren Sie danach alle Variablen und berechnen Sie dann ein lineares Regressionsmodell. Vergleichen Sie die Regressionskoeffizienten mit den Ergebnissen der Funktion <code>lm.beta()</code>, welche auf ein Modell mit nicht standardisierten Daten angewendet werden kann.</p>
+<p>Laden Sie die Daten aus der Datei <code>sales2.dat</code> wie in den Unterlagen gezeigt. Standardisieren Sie danach alle Variablen und berechnen Sie dann ein lineares Regressionsmodell. Vergleichen Sie die Regressionskoeffizienten mit den Ergebnissen der Funktion <code>standardize_parameters()</code>, welche auf ein Modell mit nicht standardisierten Daten angewendet werden kann.</p>
 </section>
 <section id="übung-2" class="level3">
 <h3 class="anchored" data-anchor-id="übung-2">Übung 2</h3>
 <p>Laden Sie den Datensatz <a href="aggression.dat"><code>aggression.dat</code></a>, welcher (komplett erfundene) Daten über Aggressionen unter Kindern enthält. Es wurden 666 Kinder untersucht und folgende Variablen erhoben:</p>
 <ul>
-<li>Erziehungsstil (hoher Wert entspricht schlechtem Stil)</li>
-<li>Computerspielen (hoher Wert entspricht viel Computerspielen)</li>
-<li>Fernsehen (hoher Wert entspricht viel Fernsehen)</li>
-<li>Ernährung (hoher Wert entspricht gesunder Ernährung)</li>
-<li>Aggressionen der Geschwister (hoher Wert entspricht hoher Aggression)</li>
+<li>Aggression des Kindes (<code>Aggression</code>, die abhängige Variable)</li>
+<li>Erziehungsstil (<code>Parenting_Style</code>, hoher Wert entspricht schlechtem Stil)</li>
+<li>Computerspielen (<code>Computer_Games</code>, hoher Wert entspricht viel Computerspielen)</li>
+<li>Fernsehen (<code>Television</code>, hoher Wert entspricht viel Fernsehen)</li>
+<li>Ernährung (<code>Diet</code>, hoher Wert entspricht gesunder Ernährung)</li>
+<li>Aggressionen der Geschwister (<code>Sibling_Aggression</code>, hoher Wert entspricht hoher Aggression)</li>
 </ul>
 <p>Von früheren Studien weiß man, dass Erziehungsstil sowie Aggressionen der Geschwister signifikante Prädiktoren für das Aggressionslevel eines Kindes sind.</p>
 <p>Stellen Sie zwei lineare Regressionsmodelle auf. Das erste soll nur die beiden Faktoren beinhalten, welche erwiesenermaßen einen Einfluss auf die Aggression haben. Das zweite Modell soll alle Faktoren beinhalten. Beantworten Sie anschließend folgende Punkte:</p>
@@ -744,10 +844,14 @@ Hinweis
 <li>Sind die Abhängigkeiten linear und ist die Varianz homogen (Plot Residuen vs.&nbsp;vorhergesagte Werte)?</li>
 <li>Gibt es Datenpunkte mit großem Einfluss auf das Modell (Plot Residuen vs.&nbsp;Leverage)?</li>
 </ul>
-<p><em>Hinweis:</em> Sehen Sie sich die Hilfe zur Funktion <code>plot.lm()</code> an (damit können Sie ein lineares Modell plotten und die Grafiken aus den letzten drei Fragen erstellen; mit dem Argument <code>which</code> können Sie sich die gewünschte Grafik herauspicken).</p>
-
-
+<p><em>Hinweis:</em> Die Grafiken für die letzten drei Fragen erzeugen Sie mit <code>plot()</code>, angewendet auf das Modell (siehe die diagnostischen Plots weiter oben). Mit dem Argument <code>which</code> picken Sie sich die gewünschte Grafik heraus; eine Übersicht über alle verfügbaren Plots finden Sie im Hilfetext <code>?plot.lm</code>.</p>
 </section>
+</section>
+<section id="lösungen" class="level2">
+<h2 class="anchored" data-anchor-id="lösungen">Lösungen</h2>
+<p>Die Lösungen zu diesen Übungen finden Sie <a href="../11/11-solutions.html">hier</a>.</p>
+
+
 </section>
 
 </main> <!-- /main -->

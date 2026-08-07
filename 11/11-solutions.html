@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="de" xml:lang="de"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.9.37">
+<meta name="generator" content="quarto-1.9.38">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -75,14 +75,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-acf12a64177840b8d86f2d4f01b2e9fb.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-23bbe8b5e4efc1e257f6d59dce478b08.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-acf12a64177840b8d86f2d4f01b2e9fb.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-de63f62b328812d8e578a4d74e282472.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-6b6957c917596b414ec0b78690761e87.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-de63f62b328812d8e578a4d74e282472.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-c6344c862f46cf6a68a6928f4c326ca4.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-a4cc7722e2170b143ab83d7d6445229a.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../site_libs/bootstrap/bootstrap-c6344c862f46cf6a68a6928f4c326ca4.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-0f1a520e41d12d84e925fcfd3dfb7140.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-70d97c5485b77d73a4316377cf99e6cf.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-0f1a520e41d12d84e925fcfd3dfb7140.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <link href="../site_libs/quarto-contrib/academicons-1.9.2/all.css" rel="stylesheet">
 <link href="../site_libs/quarto-contrib/academicons-1.9.2/size.css" rel="stylesheet">
 <link href="../site_libs/quarto-contrib/fontawesome6-0.1.0/all.css" rel="stylesheet">
@@ -115,6 +115,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="../styles.css">
 </head>
@@ -396,7 +425,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <div>
       <div class="quarto-title-meta-heading">Veröffentlicht</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">1. Juni 2026</p>
+        <p class="date">10. Dezember 2026</p>
       </div>
     </div>
     
@@ -421,49 +450,42 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tibble)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>sales <span class="ot">=</span> <span class="fu">read_tsv</span>(<span class="st">"sales2.dat"</span>)</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>sales <span class="ot">=</span> <span class="fu">as_tibble</span>(<span class="fu">scale</span>(sales))</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>model <span class="ot">=</span> <span class="fu">lm</span>(sales <span class="sc">~</span> adverts <span class="sc">+</span> airplay <span class="sc">+</span> attract, <span class="at">data=</span>sales)</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(effectsize)  <span class="co"># für standardize_parameters()</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>album <span class="ot">=</span> <span class="fu">read_tsv</span>(<span class="st">"sales2.dat"</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>album_z <span class="ot">=</span> <span class="fu">as_tibble</span>(<span class="fu">scale</span>(album))  <span class="co"># alle Variablen standardisieren</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>model_z <span class="ot">=</span> <span class="fu">lm</span>(sales <span class="sc">~</span> adverts <span class="sc">+</span> airplay <span class="sc">+</span> attract, <span class="at">data=</span>album_z)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(model_z)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>
-Call:
-lm(formula = sales ~ adverts + airplay + attract, data = sales)
-
-Residuals:
-     Min       1Q   Median       3Q      Max 
--1.50342 -0.35113 -0.00559  0.35895  1.78605 
-
-Coefficients:
-              Estimate Std. Error t value Pr(&gt;|t|)    
-(Intercept) -5.586e-17  4.126e-02   0.000        1    
-adverts      5.108e-01  4.166e-02  12.261  &lt; 2e-16 ***
-airplay      5.120e-01  4.223e-02  12.123  &lt; 2e-16 ***
-attract      1.917e-01  4.215e-02   4.548 9.49e-06 ***
----
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-
-Residual standard error: 0.5835 on 196 degrees of freedom
-Multiple R-squared:  0.6647,    Adjusted R-squared:  0.6595 
-F-statistic: 129.5 on 3 and 196 DF,  p-value: &lt; 2.2e-16</code></pre>
+<pre><code> (Intercept)      adverts      airplay      attract 
+3.467387e-16 5.108462e-01 5.119881e-01 1.916834e-01 </code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(model)  <span class="co"># stimmt mit lm.beta überein</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Zum Vergleich das Modell mit den <em>nicht</em> standardisierten Daten:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>model <span class="ot">=</span> <span class="fu">lm</span>(sales <span class="sc">~</span> adverts <span class="sc">+</span> airplay <span class="sc">+</span> attract, <span class="at">data=</span>album)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">standardize_parameters</span>(model)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  (Intercept)       adverts       airplay       attract 
--5.585796e-17  5.108462e-01  5.119881e-01  1.916834e-01 </code></pre>
+<pre><code># Standardization method: refit
+
+Parameter   | Std. Coef. |        95% CI
+----------------------------------------
+(Intercept) |   2.17e-16 | [-0.08, 0.08]
+adverts     |       0.51 | [ 0.43, 0.59]
+airplay     |       0.51 | [ 0.43, 0.60]
+attract     |       0.19 | [ 0.11, 0.27]</code></pre>
 </div>
 </div>
+<p>Beide Wege führen exakt zum selben Ergebnis (0.511, 0.512 und 0.192) – wenig überraschend, denn <code>standardize_parameters()</code> standardisiert die Daten intern ebenfalls und berechnet das Modell damit neu (<code>Standardization method: refit</code>). Der Intercept des standardisierten Modells ist praktisch Null (bis auf Rundungsfehler), weil eine Regressionsgerade immer durch den Punkt der Mittelwerte verläuft – und diese sind nach der Standardisierung alle 0.</p>
 </section>
 <section id="übung-2" class="level2">
 <h2 class="anchored" data-anchor-id="übung-2">Übung 2</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lm.beta)  <span class="co"># für lm.beta</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>aggression <span class="ot">=</span> <span class="fu">read_tsv</span>(<span class="st">"aggression.dat"</span>)</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>aggression <span class="ot">=</span> <span class="fu">read_tsv</span>(<span class="st">"aggression.dat"</span>)</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>model1 <span class="ot">=</span> <span class="fu">lm</span>(Aggression <span class="sc">~</span> Parenting_Style <span class="sc">+</span> Sibling_Aggression, <span class="at">data=</span>aggression)</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model1)  <span class="co"># beide Variablen erwartungsgemäß signifikant</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>model1 <span class="ot">=</span> <span class="fu">lm</span>(Aggression <span class="sc">~</span> Parenting_Style <span class="sc">+</span> Sibling_Aggression, <span class="at">data=</span>aggression)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model1)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -486,17 +508,19 @@ Residual standard error: 0.3113 on 663 degrees of freedom
 Multiple R-squared:  0.05325,   Adjusted R-squared:  0.05039 
 F-statistic: 18.64 on 2 and 663 DF,  p-value: 1.325e-08</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lm.beta</span>(model1)  <span class="co"># Parenting_Style hat größeren Einfluss als Sibling_Aggression</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">standardize_parameters</span>(model1)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>
-Call:
-lm(formula = Aggression ~ Parenting_Style + Sibling_Aggression, 
-    data = aggression)
+<pre><code># Standardization method: refit
 
-Standardized Coefficients::
-       (Intercept)    Parenting_Style Sibling_Aggression 
-                NA         0.19406149         0.09557412 </code></pre>
+Parameter          | Std. Coef. |        95% CI
+-----------------------------------------------
+(Intercept)        |   3.84e-17 | [-0.07, 0.07]
+Parenting Style    |       0.19 | [ 0.12, 0.27]
+Sibling Aggression |       0.10 | [ 0.02, 0.17]</code></pre>
 </div>
+</div>
+<p>Wie aufgrund der früheren Studien erwartet, sind beide Prädiktoren signifikant (<span class="math inline">\(p &lt; 0.001\)</span> bzw. <span class="math inline">\(p = 0.013\)</span>). Der Erziehungsstil hat dabei den größeren Einfluss (<span class="math inline">\(\beta = 0.19\)</span> gegenüber <span class="math inline">\(\beta = 0.08\)</span>). Insgesamt erklärt das Modell mit <span class="math inline">\(R^2 = 0.053\)</span> allerdings nur rund 5% der Varianz des Aggressionslevels.</p>
+<div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>model2 <span class="ot">=</span> <span class="fu">lm</span>(</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    Aggression <span class="sc">~</span> Parenting_Style <span class="sc">+</span> Sibling_Aggression <span class="sc">+</span> Television <span class="sc">+</span></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>                 Computer_Games <span class="sc">+</span> Diet,</span>
@@ -528,17 +552,22 @@ Residual standard error: 0.3071 on 660 degrees of freedom
 Multiple R-squared:  0.08258,   Adjusted R-squared:  0.07563 
 F-statistic: 11.88 on 5 and 660 DF,  p-value: 5.025e-11</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lm.beta</span>(model2)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">standardize_parameters</span>(model2)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>
-Call:
-lm(formula = Aggression ~ Parenting_Style + Sibling_Aggression + 
-    Television + Computer_Games + Diet, data = aggression)
+<pre><code># Standardization method: refit
 
-Standardized Coefficients::
-       (Intercept)    Parenting_Style Sibling_Aggression         Television     Computer_Games               Diet 
-                NA         0.17735588         0.08357717         0.03192490         0.15211518        -0.11503080 </code></pre>
+Parameter          | Std. Coef. |         95% CI
+------------------------------------------------
+(Intercept)        |   3.42e-17 | [-0.07,  0.07]
+Parenting Style    |       0.18 | [ 0.09,  0.27]
+Sibling Aggression |       0.08 | [ 0.01,  0.16]
+Television         |       0.03 | [-0.06,  0.12]
+Computer Games     |       0.15 | [ 0.07,  0.23]
+Diet               |      -0.12 | [-0.19, -0.04]</code></pre>
 </div>
+</div>
+<p>Im zweiten Modell steigt <span class="math inline">\(R^2\)</span> auf 0.083 (adjustiert 0.076). Von den drei zusätzlichen Prädiktoren sind zwei signifikant: Computerspielen (<span class="math inline">\(\beta = 0.15\)</span>, <span class="math inline">\(p &lt; 0.001\)</span>) geht mit <em>mehr</em> Aggression einher, eine gesunde Ernährung (<span class="math inline">\(\beta = -0.12\)</span>, <span class="math inline">\(p = 0.004\)</span>) mit <em>weniger</em>. Fernsehen ist hingegen mit <span class="math inline">\(p = 0.48\)</span> <em>kein</em> signifikanter Prädiktor. Der Erziehungsstil bleibt auch nach Aufnahme der zusätzlichen Variablen der stärkste Prädiktor (<span class="math inline">\(\beta = 0.18\)</span>).</p>
+<div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(model1, model2)  <span class="co"># Vergleich beider Modelle</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Analysis of Variance Table
@@ -553,33 +582,39 @@ Model 2: Aggression ~ Parenting_Style + Sibling_Aggression + Television +
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
 </div>
+<p>Das zweite Modell ist mit <span class="math inline">\(F(3, 660) = 7.03\)</span>, <span class="math inline">\(p &lt; 0.001\)</span> eine signifikante Verbesserung gegenüber dem ersten. Man sollte diese Aussage aber nicht überbewerten: Der Zugewinn beträgt lediglich rund 3 Prozentpunkte an erklärter Varianz, d.h. auch das zweite Modell lässt über 90% der Varianz unerklärt. Signifikanz und Relevanz sind eben zwei verschiedene Dinge.</p>
 </section>
 <section id="übung-3" class="level2">
 <h2 class="anchored" data-anchor-id="übung-3">Übung 3</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(car)  <span class="co"># für dwt, vif</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Loading required package: carData</code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Kollinearität</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">vif</span>(model2)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(car)  <span class="co"># für vif() und durbinWatsonTest()</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Kollinearität</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="fu">vif</span>(model2)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   Parenting_Style Sibling_Aggression         Television     Computer_Games               Diet 
           1.494296           1.132618           1.435525           1.122719           1.160466 </code></pre>
 </div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(<span class="fu">vif</span>(model2))</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1.269125</code></pre>
+</div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Unabhängigkeit der Residuen</span></span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="fu">dwt</span>(model2)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="fu">durbinWatsonTest</span>(model2)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> lag Autocorrelation D-W Statistic p-value
-   1      0.04218005      1.912808   0.266
+   1      0.04218005      1.912808   0.248
  Alternative hypothesis: rho != 0</code></pre>
 </div>
+</div>
+<p>Alle VIF-Werte liegen unter 1.5 (und damit weit unter dem Schwellwert von 10), auch der Mittelwert ist nahe bei 1 – es besteht also keine Multikollinearität. Die Durbin-Watson-Statistik beträgt 1.91 bei <span class="math inline">\(p = 0.27\)</span>, d.h. die Nullhypothese unabhängiger Residuen kann nicht verworfen werden.</p>
+<div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Normalverteilung Residuen</span></span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(model2, <span class="at">which=</span><span class="dv">2</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="11-solutions_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="11-solutions_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -588,7 +623,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="11-solutions_files/figure-html/unnamed-chunk-3-2.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="11-solutions_files/figure-html/unnamed-chunk-7-2.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -597,11 +632,13 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="11-solutions_files/figure-html/unnamed-chunk-3-3.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="11-solutions_files/figure-html/unnamed-chunk-7-3.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
+<p>Im QQ-Plot liegt der mittlere Teil der Punkte gut auf der Geraden, an <em>beiden</em> Rändern weichen die Punkte aber sichtbar davon ab (die Residuen streuen dort stärker, als es eine Normalverteilung erwarten ließe – man spricht von “schwereren Rändern”/<em>heavy tails</em>). Ein <code>shapiro.test(rstandard(model2))</code> bestätigt diesen Eindruck mit <span class="math inline">\(p &lt; 0.001\)</span>: Die Normalverteilungsannahme ist hier also, streng genommen, verletzt. Bei einer Stichprobe von <span class="math inline">\(N = 666\)</span> ist das Modell dank des zentralen Grenzwertsatzes aber dennoch robust genug, um die <span class="math inline">\(t\)</span>-Tests der Koeffizienten sinnvoll zu interpretieren – bei kleinen Stichproben wäre eine solche Abweichung deutlich problematischer.</p>
+<p>Im Plot der Residuen gegen die vorhergesagten Werte verläuft die rote Linie annähernd waagrecht und die Streuung bleibt über den gesamten Wertebereich einigermaßen konstant – Linearität und Varianzhomogenität sind damit im Wesentlichen gegeben. Im letzten Plot liegen alle Punkte deutlich innerhalb der Konturlinien von Cook’s Distanz, es gibt also keine Datenpunkte mit übermäßig großem Einfluss auf das Modell. Bis auf die erwähnte Abweichung bei der Normalverteilung der Residuen sind die überprüften Voraussetzungen also erfüllt.</p>
 
 
 </section>

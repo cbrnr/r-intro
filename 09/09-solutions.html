@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="de" xml:lang="de"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.9.37">
+<meta name="generator" content="quarto-1.9.38">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -75,14 +75,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-acf12a64177840b8d86f2d4f01b2e9fb.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-23bbe8b5e4efc1e257f6d59dce478b08.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-acf12a64177840b8d86f2d4f01b2e9fb.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-de63f62b328812d8e578a4d74e282472.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-6b6957c917596b414ec0b78690761e87.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-de63f62b328812d8e578a4d74e282472.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-c6344c862f46cf6a68a6928f4c326ca4.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-a4cc7722e2170b143ab83d7d6445229a.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../site_libs/bootstrap/bootstrap-c6344c862f46cf6a68a6928f4c326ca4.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-0f1a520e41d12d84e925fcfd3dfb7140.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-70d97c5485b77d73a4316377cf99e6cf.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-0f1a520e41d12d84e925fcfd3dfb7140.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <link href="../site_libs/quarto-contrib/academicons-1.9.2/all.css" rel="stylesheet">
 <link href="../site_libs/quarto-contrib/academicons-1.9.2/size.css" rel="stylesheet">
 <link href="../site_libs/quarto-contrib/fontawesome6-0.1.0/all.css" rel="stylesheet">
@@ -425,7 +425,7 @@ window.Quarto = {
       <div>
       <div class="quarto-title-meta-heading">Veröffentlicht</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">11. Mai 2026</p>
+        <p class="date">26. November 2026</p>
       </div>
     </div>
     
@@ -447,14 +447,14 @@ window.Quarto = {
 
 <section id="übung-1" class="level2">
 <h2 class="anchored" data-anchor-id="übung-1">Übung 1</h2>
-<p>Durch Probieren mit verschiedenen Werten für <span class="math inline">\(N\)</span> erhält man <span class="math inline">\(N = 62\)</span> für <span class="math inline">\(p &lt; 0.05\)</span>. Dies bedeutet, dass eine Korrelation von <span class="math inline">\(r = 0.25\)</span> signfikant ist bei <span class="math inline">\(N = 62\)</span> oder größer.</p>
+<p>Durch Probieren mit verschiedenen Werten für <span class="math inline">\(N\)</span> erhält man <span class="math inline">\(N = 62\)</span> für <span class="math inline">\(p &lt; 0.05\)</span>. Dies bedeutet, dass eine Korrelation von <span class="math inline">\(r = 0.25\)</span> signifikant ist bei <span class="math inline">\(N = 62\)</span> oder größer.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>r <span class="ot">=</span> <span class="fl">0.25</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>N <span class="ot">=</span> <span class="dv">62</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>alpha <span class="ot">=</span> <span class="fl">0.05</span></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>z <span class="ot">=</span> <span class="fu">atanh</span>(r)</span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>se_z <span class="ot">=</span> <span class="dv">1</span> <span class="sc">/</span> <span class="fu">sqrt</span>(N <span class="sc">-</span> <span class="dv">3</span>)</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>(<span class="at">p =</span> <span class="dv">2</span> <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">pnorm</span>(z <span class="sc">/</span> se_z)))</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>(<span class="at">p =</span> <span class="dv">2</span> <span class="sc">*</span> <span class="fu">pnorm</span>(<span class="sc">-</span><span class="fu">abs</span>(z <span class="sc">/</span> se_z)))</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.04977843</code></pre>
 </div>
@@ -466,11 +466,12 @@ window.Quarto = {
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>alpha <span class="ot">=</span> <span class="fl">0.05</span></span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>z <span class="ot">=</span> <span class="fu">atanh</span>(r)</span>
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>se_z <span class="ot">=</span> <span class="dv">1</span> <span class="sc">/</span> <span class="fu">sqrt</span>(N <span class="sc">-</span> <span class="dv">3</span>)</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>(<span class="at">p =</span> <span class="dv">2</span> <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">pnorm</span>(z <span class="sc">/</span> se_z)))</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>(<span class="at">p =</span> <span class="dv">2</span> <span class="sc">*</span> <span class="fu">pnorm</span>(<span class="sc">-</span><span class="fu">abs</span>(z <span class="sc">/</span> se_z)))</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.04992702</code></pre>
 </div>
 </div>
+<p>Genau deshalb sollte man Signifikanz nie mit Relevanz gleichsetzen: Eine Korrelation von <span class="math inline">\(r = 0.05\)</span> erklärt lediglich <span class="math inline">\(R^2 = 0.0025\)</span>, also 0.25% der Varianz – und ist damit praktisch bedeutungslos, auch wenn sie bei <span class="math inline">\(N = 1538\)</span> statistisch signifikant ist.</p>
 </section>
 <section id="übung-2" class="level2">
 <h2 class="anchored" data-anchor-id="übung-2">Übung 2</h2>
@@ -492,19 +493,31 @@ sample estimates:
 0.8165732 </code></pre>
 </div>
 </div>
-<p>Die Pearson-Korrelation beträgt 0.8166, der zugehörige <span class="math inline">\(p\)</span>-Wert ist 0.02501. Bei <span class="math inline">\(\alpha=0.99\)</span> ist dies nicht signifikant. Das 99%-Konfidenzintervall lautet <span class="math inline">\((-0.1405326, 0.9847508)\)</span>. Es beinhaltet den Wert 0, daher ist die Korrelation nicht signifikant.</p>
+<p>Die Pearson-Korrelation beträgt 0.8166, der zugehörige <span class="math inline">\(p\)</span>-Wert ist 0.02501. Bei einem Signifikanzniveau von <span class="math inline">\(\alpha = 0.01\)</span> ist dies <em>nicht</em> signifikant (bei <span class="math inline">\(\alpha = 0.05\)</span> hingegen schon). Passend dazu beinhaltet das 99%-Konfidenzintervall <span class="math inline">\((-0.1405, 0.9848)\)</span> den Wert 0. Man sieht hier gut, wie breit das Konfidenzintervall bei einer sehr kleinen Stichprobe (<span class="math inline">\(N = 7\)</span>) ausfällt – die Daten sind mit fast jeder positiven Korrelation verträglich.</p>
 </section>
 <section id="übung-3" class="level2">
 <h2 class="anchored" data-anchor-id="übung-3">Übung 3</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(mtcars[, <span class="fu">c</span>(<span class="st">"mpg"</span>, <span class="st">"disp"</span>, <span class="st">"hp"</span>)], <span class="at">method=</span><span class="st">"pearson"</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(GGally)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggpairs</span>(mtcars[, <span class="fu">c</span>(<span class="st">"mpg"</span>, <span class="st">"disp"</span>, <span class="st">"hp"</span>)])</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="09-solutions_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(mtcars[, <span class="fu">c</span>(<span class="st">"mpg"</span>, <span class="st">"disp"</span>, <span class="st">"hp"</span>)], <span class="at">method=</span><span class="st">"pearson"</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>            mpg       disp         hp
 mpg   1.0000000 -0.8475514 -0.7761684
 disp -0.8475514  1.0000000  0.7909486
 hp   -0.7761684  0.7909486  1.0000000</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(mtcars[, <span class="fu">c</span>(<span class="st">"mpg"</span>, <span class="st">"disp"</span>, <span class="st">"hp"</span>)], <span class="at">method=</span><span class="st">"spearman"</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(mtcars[, <span class="fu">c</span>(<span class="st">"mpg"</span>, <span class="st">"disp"</span>, <span class="st">"hp"</span>)], <span class="at">method=</span><span class="st">"spearman"</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>            mpg       disp         hp
 mpg   1.0000000 -0.9088824 -0.8946646
@@ -512,29 +525,24 @@ disp -0.9088824  1.0000000  0.8510426
 hp   -0.8946646  0.8510426  1.0000000</code></pre>
 </div>
 </div>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pairs</span>(<span class="fu">subset</span>(mtcars, <span class="at">select=</span><span class="fu">c</span>(mpg, disp, hp)))</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="09-solutions_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-</div>
+<p>Alle drei Variablen hängen deutlich zusammen: Ein größerer Hubraum (<code>disp</code>) und mehr Leistung (<code>hp</code>) gehen jeweils mit einem höheren Verbrauch (also einem kleineren <code>mpg</code>-Wert) einher. Die Spearman-Korrelationen sind hier durchwegs betragsmäßig größer als die Pearson-Korrelationen, was auf einen monotonen, aber nicht ganz linearen Zusammenhang hindeutet – in den Streudiagrammen erkennt man tatsächlich einen leicht gekrümmten Verlauf.</p>
 </section>
 <section id="übung-4" class="level2">
 <h2 class="anchored" data-anchor-id="übung-4">Übung 4</h2>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>pm10 <span class="ot">=</span> <span class="fu">read_csv</span>(<span class="st">"pm10.csv"</span>)</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>pm10<span class="sc">$</span>Datum <span class="ot">=</span> <span class="fu">as.Date</span>(pm10<span class="sc">$</span>Datum, <span class="at">format=</span><span class="st">"%d.%m.%y"</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>pm10[[<span class="st">"Datum"</span>]] <span class="ot">=</span> <span class="fu">as.Date</span>(pm10[[<span class="st">"Datum"</span>]], <span class="at">format=</span><span class="st">"%d.%m.%y"</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <section id="zeitlicher-verlauf-von-pm10-für-beide-messorte" class="level3">
 <h3 class="anchored" data-anchor-id="zeitlicher-verlauf-von-pm10-für-beide-messorte">Zeitlicher Verlauf von PM10 für beide Messorte</h3>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(pm10<span class="sc">$</span>Datum, pm10<span class="sc">$</span>Petersgasse, <span class="at">type=</span><span class="st">"l"</span>, <span class="at">col=</span><span class="st">"blue"</span>, <span class="at">xlab=</span><span class="st">""</span>, <span class="at">ylab=</span><span class="st">"PM10"</span>)</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(pm10<span class="sc">$</span>Datum, pm10<span class="sc">$</span>DonBosco, <span class="at">col=</span><span class="st">"red"</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(pm10, <span class="fu">aes</span>(<span class="at">x=</span>Datum)) <span class="sc">+</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y=</span>Petersgasse, <span class="at">color=</span><span class="st">"Petersgasse"</span>)) <span class="sc">+</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y=</span>DonBosco, <span class="at">color=</span><span class="st">"DonBosco"</span>)) <span class="sc">+</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">x=</span><span class="st">""</span>, <span class="at">y=</span><span class="st">"PM10"</span>, <span class="at">color=</span><span class="st">"Messstation"</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -547,8 +555,9 @@ hp   -0.8946646  0.8510426  1.0000000</code></pre>
 <section id="zusammenhang-der-beiden-messstationen" class="level3">
 <h3 class="anchored" data-anchor-id="zusammenhang-der-beiden-messstationen">Zusammenhang der beiden Messstationen</h3>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(pm10, <span class="fu">plot</span>(Petersgasse, DonBosco, <span class="at">pch=</span><span class="dv">16</span>, <span class="at">col=</span><span class="fu">rgb</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="fl">0.5</span>)))</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="fu">lm</span>(pm10<span class="sc">$</span>DonBosco <span class="sc">~</span> pm10<span class="sc">$</span>Petersgasse), <span class="at">col=</span><span class="st">"blue"</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(pm10, <span class="fu">aes</span>(<span class="at">x=</span>Petersgasse, <span class="at">y=</span>DonBosco)) <span class="sc">+</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="at">alpha=</span><span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_smooth</span>(<span class="at">method=</span><span class="st">"lm"</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -556,12 +565,14 @@ hp   -0.8946646  0.8510426  1.0000000</code></pre>
 </figure>
 </div>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>(<span class="at">r =</span> <span class="fu">cor.test</span>(pm10<span class="sc">$</span>Petersgasse, pm10<span class="sc">$</span>DonBosco))</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>(<span class="at">r =</span> <span class="fu">cor.test</span>(pm10[[<span class="st">"Petersgasse"</span>]], pm10[[<span class="st">"DonBosco"</span>]]))</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
     Pearson's product-moment correlation
 
-data:  pm10$Petersgasse and pm10$DonBosco
+data:  pm10[["Petersgasse"]] and pm10[["DonBosco"]]
 t = 37.46, df = 121, p-value &lt; 2.2e-16
 alternative hypothesis: true correlation is not equal to 0
 95 percent confidence interval:
@@ -570,15 +581,29 @@ sample estimates:
       cor 
 0.9594887 </code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>r<span class="sc">$</span>estimate<span class="sc">**</span><span class="dv">2</span>  <span class="co"># erklärte Varianz</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>r<span class="sc">$</span>estimate<span class="sc">^</span><span class="dv">2</span>  <span class="co"># erklärte Varianz</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>      cor 
 0.9206186 </code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># fehlende Werte (NA) müssen explizit ausgeschlossen werden</span></span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(pm10<span class="sc">$</span>Petersgasse, pm10<span class="sc">$</span>DonBosco, <span class="at">use=</span><span class="st">"complete.obs"</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(pm10[[<span class="st">"Petersgasse"</span>]], pm10[[<span class="st">"DonBosco"</span>]], <span class="at">use=</span><span class="st">"complete.obs"</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.9594887</code></pre>
+</div>
+</div>
+<p>Die beiden Messstationen korrelieren mit <span class="math inline">\(r = 0.96\)</span> (<span class="math inline">\(p &lt; 0.001\)</span>, 95%-Konfidenzintervall <span class="math inline">\([0.94, 0.97]\)</span>) sehr hoch. Etwa 92% der Varianz der einen Station lassen sich durch die andere erklären – wenig überraschend, da beide Stationen in derselben Stadt dieselben saisonalen Schwankungen und Wetterlagen abbilden.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Hinweis
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><code>cor.test()</code> entfernt fehlende Werte automatisch (es werden nur vollständige Paare verwendet), während <code>cor()</code> standardmäßig <code>NA</code> liefert und daher das Argument <code>use</code> benötigt.</p>
 </div>
 </div>
 </section>
@@ -586,33 +611,25 @@ sample estimates:
 <section id="übung-5" class="level2">
 <h2 class="anchored" data-anchor-id="übung-5">Übung 5</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(penguins<span class="sc">$</span>bill_len, penguins<span class="sc">$</span>bill_dep, <span class="at">use=</span><span class="st">"complete.obs"</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(penguins[[<span class="st">"bill_len"</span>]], penguins[[<span class="st">"bill_dep"</span>]], <span class="at">use=</span><span class="st">"complete.obs"</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] -0.2350529</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">by</span>(</span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>    penguins[, <span class="fu">c</span>(<span class="st">"bill_len"</span>, <span class="st">"bill_dep"</span>)],</span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    penguins<span class="sc">$</span>species,</span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>    cor,</span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">use=</span><span class="st">"complete.obs"</span></span>
-<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">|&gt;</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(species) <span class="sc">|&gt;</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="at">r=</span><span class="fu">cor</span>(bill_len, bill_dep, <span class="at">use=</span><span class="st">"complete.obs"</span>))</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>penguins$species: Adelie
-          bill_len  bill_dep
-bill_len 1.0000000 0.3914917
-bill_dep 0.3914917 1.0000000
------------------------------------------------------------------------------------------- 
-penguins$species: Chinstrap
-          bill_len  bill_dep
-bill_len 1.0000000 0.6535362
-bill_dep 0.6535362 1.0000000
------------------------------------------------------------------------------------------- 
-penguins$species: Gentoo
-          bill_len  bill_dep
-bill_len 1.0000000 0.6433839
-bill_dep 0.6433839 1.0000000</code></pre>
+<pre><code># A tibble: 3 × 2
+  species       r
+  &lt;fct&gt;     &lt;dbl&gt;
+1 Adelie    0.391
+2 Chinstrap 0.654
+3 Gentoo    0.643</code></pre>
 </div>
 </div>
+<p>Über alle Pinguine hinweg ergibt sich eine <em>negative</em> Korrelation von <span class="math inline">\(r = -0.24\)</span>, innerhalb jeder Spezies ist sie aber <em>positiv</em> (zwischen 0.39 und 0.65). Das ist genau das Simpsons Paradoxon, das wir in Einheit 8 bereits grafisch gesehen haben: Die drei Spezies bilden getrennte Punktwolken (Gentoo-Pinguine haben lange, aber flache Schnäbel), und diese Lage der Gruppen zueinander dominiert die Gesamtkorrelation.</p>
 
 
 </section>

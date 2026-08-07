@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="de" xml:lang="de"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.9.37">
+<meta name="generator" content="quarto-1.9.38">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -75,14 +75,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-acf12a64177840b8d86f2d4f01b2e9fb.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-23bbe8b5e4efc1e257f6d59dce478b08.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-acf12a64177840b8d86f2d4f01b2e9fb.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-de63f62b328812d8e578a4d74e282472.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-6b6957c917596b414ec0b78690761e87.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-de63f62b328812d8e578a4d74e282472.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-c6344c862f46cf6a68a6928f4c326ca4.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-a4cc7722e2170b143ab83d7d6445229a.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../site_libs/bootstrap/bootstrap-c6344c862f46cf6a68a6928f4c326ca4.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-0f1a520e41d12d84e925fcfd3dfb7140.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-70d97c5485b77d73a4316377cf99e6cf.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-0f1a520e41d12d84e925fcfd3dfb7140.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <link href="../site_libs/quarto-contrib/academicons-1.9.2/all.css" rel="stylesheet">
 <link href="../site_libs/quarto-contrib/academicons-1.9.2/size.css" rel="stylesheet">
 <link href="../site_libs/quarto-contrib/fontawesome6-0.1.0/all.css" rel="stylesheet">
@@ -396,7 +396,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <div>
       <div class="quarto-title-meta-heading">Veröffentlicht</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">13. April 2026</p>
+        <p class="date">29. Oktober 2026</p>
       </div>
     </div>
     
@@ -603,7 +603,7 @@ Wichtig
 <p>Kategorische Variablen, d.h. Variablen, die nur eine bestimmte Anzahl an Werten annehmen können, werden in R mit dem Typ <code>factor</code> dargestellt. Die Funktion <code>factor()</code> kann einen entsprechenden Vektor erzeugen. Standardmäßig werden nicht geordnete (also <em>nominale</em>) Faktoren erzeugt. Setzt man das Argument <code>ordered=TRUE</code>, kann man auch einen geordneten Faktor (also eine <em>ordinale</em> Variable) erzeugen.</p>
 <p>Im Beispiel ist die Spalte <code>job</code> vom Typ <code>dbl</code>, sollte aber als Faktor interpretiert werden. Die Spalte kann entsprechend neu erstellt und überschrieben werden (hier wird vorausgesetzt, dass wir wissen, welche Zahlen den jeweiligen Faktorstufen entsprechen, also <code>1</code> entspricht “Lecturer” und <code>2</code> entspricht “Student”):</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>job <span class="ot">=</span> <span class="fu">factor</span>(df<span class="sc">$</span>job, <span class="at">levels=</span><span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>), <span class="at">labels=</span><span class="fu">c</span>(<span class="st">"Lecturer"</span>, <span class="st">"Student"</span>))</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>df[[<span class="st">"job"</span>]] <span class="ot">=</span> <span class="fu">factor</span>(df[[<span class="st">"job"</span>]], <span class="at">levels=</span><span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>), <span class="at">labels=</span><span class="fu">c</span>(<span class="st">"Lecturer"</span>, <span class="st">"Student"</span>))</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>df</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 10 × 7
@@ -623,13 +623,13 @@ Wichtig
 </div>
 <p>Die drei Argumente haben dabei folgende Bedeutung:</p>
 <ul>
-<li><code>df$job</code> sind die Ausgangsdaten.</li>
+<li><code>df[["job"]]</code> sind die Ausgangsdaten.</li>
 <li><code>levels=c(1, 2)</code> gibt an, welche Werte (Stufen) in den Ausgangsdaten vorkommen und wir auch verwenden möchten.</li>
 <li><code>labels=c("Lecturer", "Student")</code> weist den verwendeten Stufen entsprechende Namen (Labels) zu.</li>
 </ul>
 <p>Die Spalte <code>job</code> hat nun den gewünschten Typ (<code>&lt;fct&gt;</code> in der Tibble-Darstellung). Dies können wir auch mit der altbekannten Funktion <code>class()</code> explizit überprüfen:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(df<span class="sc">$</span>job)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(df[[<span class="st">"job"</span>]])</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "factor"</code></pre>
 </div>
@@ -639,7 +639,7 @@ Wichtig
 <h3 class="anchored" data-anchor-id="datumswerte">Datumswerte</h3>
 <p>Für Datumswerte gibt es in R ebenfalls einen eigenen Datentyp, der das Rechnen mit solchen Werten erleichtert. Die Funktion <code>as.Date()</code> wandelt eine Datumsangabe in Textform in diesen speziellen Typ um. Anzugeben ist hier insbesondere das Argument <code>format</code>, welches das Format der vorliegenden Datumswerte spezifiziert (d.h. man beschreibt damit, wie die Datumswerte ursprünglich aussehen).</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>birth_date <span class="ot">=</span> <span class="fu">as.Date</span>(df<span class="sc">$</span>birth_date, <span class="at">format=</span><span class="st">"%m/%d/%Y"</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>df[[<span class="st">"birth_date"</span>]] <span class="ot">=</span> <span class="fu">as.Date</span>(df[[<span class="st">"birth_date"</span>]], <span class="at">format=</span><span class="st">"%m/%d/%Y"</span>)</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>df</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 10 × 7
@@ -722,7 +722,7 @@ Tipp
 </section>
 <section id="übung-5" class="level3">
 <h3 class="anchored" data-anchor-id="übung-5">Übung 5</h3>
-<p>Das <a href="http://archive.ics.uci.edu/ml/">UCI Machine Learning Repository</a> stellt viele Datensätze zur freien Verwendung zur Verfügung. Wir betrachten für diese Übung den Datensatz <a href="http://archive.ics.uci.edu/ml/datasets/Individual+household+electric+power+consumption">Individual Household Electric Power Consumption</a>, und zwar die Datei <a href="household_power_consumption.zip"><code>household_power_consumption.zip</code></a>. Sie müssen diese Datei nicht entpacken, sondern können diese direkt mit der Funktion <code>read_delim()</code> laden.</p>
+<p>Das <a href="https://archive.ics.uci.edu/">UCI Machine Learning Repository</a> stellt viele Datensätze zur freien Verwendung zur Verfügung. Wir betrachten für diese Übung den Datensatz <a href="https://archive.ics.uci.edu/dataset/235/individual+household+electric+power+consumption">Individual Household Electric Power Consumption</a>, und zwar die Datei <a href="household_power_consumption.zip"><code>household_power_consumption.zip</code></a>. Sie müssen diese Datei nicht entpacken, sondern können diese direkt mit der Funktion <code>read_delim()</code> laden.</p>
 <p>Die Datei beinhaltet die minütliche elektrische Leistungsaufnahme eines Haushalts in einem Zeitraum von fast vier Jahren. Insgesamt gibt es über 2 Millionen Messpunkte und 9 Variablen, welche durch Strichpunkte voneinander <code>;</code> getrennt sind. Fehlende Werte sind mit einem Fragezeichen <code>?</code> bzw. mit tatsächlich fehlenden Einträgen codiert.</p>
 <p>Lesen Sie die Daten in ein Tibble namens <code>df</code> ein und geben Sie es am Bildschirm aus um folgende Fragen zu beantworten:</p>
 <ul>
@@ -749,9 +749,13 @@ Tipp
 <p>Gegeben sei der folgende numerische Vektor <code>x</code>:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Was passiert, wenn Sie diesen Vektor in einen Faktor konvertieren möchten, aber nur die Stufen <code>1</code> und <code>2</code> (mit den Labels <code>"one"</code> und <code>"two"</code>) verwenden möchten? Wie wird der Wert <code>3</code> behandelt?</p>
-
-
 </section>
+</section>
+<section id="lösungen" class="level2">
+<h2 class="anchored" data-anchor-id="lösungen">Lösungen</h2>
+<p>Die Lösungen zu diesen Übungen finden Sie <a href="../05/05-solutions.html">hier</a>.</p>
+
+
 </section>
 
 </main> <!-- /main -->

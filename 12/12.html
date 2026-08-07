@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="de" xml:lang="de"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.9.37">
+<meta name="generator" content="quarto-1.9.38">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -75,14 +75,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-acf12a64177840b8d86f2d4f01b2e9fb.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-23bbe8b5e4efc1e257f6d59dce478b08.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-acf12a64177840b8d86f2d4f01b2e9fb.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-de63f62b328812d8e578a4d74e282472.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-6b6957c917596b414ec0b78690761e87.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-de63f62b328812d8e578a4d74e282472.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-c6344c862f46cf6a68a6928f4c326ca4.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-a4cc7722e2170b143ab83d7d6445229a.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../site_libs/bootstrap/bootstrap-c6344c862f46cf6a68a6928f4c326ca4.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-0f1a520e41d12d84e925fcfd3dfb7140.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-70d97c5485b77d73a4316377cf99e6cf.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-0f1a520e41d12d84e925fcfd3dfb7140.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <link href="../site_libs/quarto-contrib/academicons-1.9.2/all.css" rel="stylesheet">
 <link href="../site_libs/quarto-contrib/academicons-1.9.2/size.css" rel="stylesheet">
 <link href="../site_libs/quarto-contrib/fontawesome6-0.1.0/all.css" rel="stylesheet">
@@ -425,7 +425,7 @@ window.Quarto = {
       <div>
       <div class="quarto-title-meta-heading">Veröffentlicht</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">8. Juni 2026</p>
+        <p class="date">17. Dezember 2026</p>
       </div>
     </div>
     
@@ -476,13 +476,17 @@ window.Quarto = {
 </div>
 <p>Die mittleren Angstwerte für die beiden Gruppen betragen:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">by</span>(spider<span class="sc">$</span>Anxiety, spider<span class="sc">$</span>Group, mean)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>spider <span class="sc">|&gt;</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(Group) <span class="sc">|&gt;</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="at">mean=</span><span class="fu">mean</span>(Anxiety))</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>spider$Group: picture
-[1] 40
------------------------------------------------------------------------------------------- 
-spider$Group: real
-[1] 47</code></pre>
+<pre><code># A tibble: 2 × 2
+  Group    mean
+  &lt;chr&gt;   &lt;dbl&gt;
+1 picture    40
+2 real       47</code></pre>
 </div>
 </div>
 <p>Im Durchschnitt ist die Angst also in der Gruppe, in der echte Spinnen präsentiert wurden, um 7 größer.</p>
@@ -502,7 +506,7 @@ spider$Group: real
 </section>
 <section id="abhängige-stichproben" class="level3">
 <h3 class="anchored" data-anchor-id="abhängige-stichproben">Abhängige Stichproben</h3>
-<p>Stellen wir uns nun vor, dass insgesamt nur 12 Personen untersucht wurden, die aber jeweils in beiden Gruppen getestet wurden. Wir konvertieren also die Daten am besten ins Wide-Format, indem wir für jede Person zwei Spalten mit den Angstwerten erstellen (eine für jede Gruppe):</p>
+<p>Stellen wir uns nun vor, dass insgesamt nur 12 Personen untersucht wurden, die aber jeweils in beiden Gruppen getestet wurden. Für den abhängigen <em>t</em>-Test brauchen wir die Angstwerte der beiden Gruppen als zwei getrennte Spalten (eine Zeile pro Person). Das erreicht man mit der Funktion <code>pivot_wider()</code> aus dem Paket <code>tidyr</code>:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>spider_w <span class="ot">=</span> <span class="fu">pivot_wider</span>(</span>
@@ -510,7 +514,7 @@ spider$Group: real
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_from=</span>Group,</span>
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_from=</span>Anxiety</span>
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>spider_w<span class="sc">$</span>id <span class="ot">=</span> <span class="cn">NULL</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>spider_w[[<span class="st">"id"</span>]] <span class="ot">=</span> <span class="cn">NULL</span></span>
 <span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>spider_w</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 12 × 2
@@ -532,7 +536,7 @@ spider$Group: real
 </div>
 <p>Anschließend berechnen wir angepasste Werte, welche die individuellen Unterschiede der Personen berücksichtigen. Dazu fügen wir zunächst eine Spalte mit der mittleren Angst jeder Person hinzu.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>spider_w<span class="sc">$</span>mean <span class="ot">=</span> <span class="fu">rowMeans</span>(spider_w)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>spider_w[[<span class="st">"mean"</span>]] <span class="ot">=</span> <span class="fu">rowMeans</span>(spider_w)</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>spider_w</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 12 × 3
@@ -554,7 +558,7 @@ spider$Group: real
 </div>
 <p>Nun berechnen wir die Differenz der Personenmittelwerte zum <em>Gesamtmittelwert aller Datenpunkte</em> – dies ist der Korrekturfaktor für Designs mit Messwiederholung.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>spider_w<span class="sc">$</span>adj <span class="ot">=</span> <span class="fu">mean</span>(<span class="fu">c</span>(spider_w<span class="sc">$</span>picture, spider_w<span class="sc">$</span>real)) <span class="sc">-</span> spider_w<span class="sc">$</span>mean</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>spider_w[[<span class="st">"adj"</span>]] <span class="ot">=</span> <span class="fu">mean</span>(<span class="fu">c</span>(spider_w[[<span class="st">"picture"</span>]], spider_w[[<span class="st">"real"</span>]])) <span class="sc">-</span> spider_w[[<span class="st">"mean"</span>]]</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>spider_w</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 12 × 4
@@ -576,8 +580,8 @@ spider$Group: real
 </div>
 <p>Damit können wir die einzelnen Angstwerte pro Person korrigieren.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>spider_w<span class="sc">$</span>picture_adj <span class="ot">=</span> spider_w<span class="sc">$</span>picture <span class="sc">+</span> spider_w<span class="sc">$</span>adj</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>spider_w<span class="sc">$</span>real_adj <span class="ot">=</span> spider_w<span class="sc">$</span>real <span class="sc">+</span> spider_w<span class="sc">$</span>adj</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>spider_w[[<span class="st">"picture_adj"</span>]] <span class="ot">=</span> spider_w[[<span class="st">"picture"</span>]] <span class="sc">+</span> spider_w[[<span class="st">"adj"</span>]]</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>spider_w[[<span class="st">"real_adj"</span>]] <span class="ot">=</span> spider_w[[<span class="st">"real"</span>]] <span class="sc">+</span> spider_w[[<span class="st">"adj"</span>]]</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Dadurch haben wir erreicht, dass die korrigierten Werte nun für alle Personen denselben Mittelwert ergeben, d.h. personenspezifische Unterschiede werden herausgerechnet und nur der Unterschied zwischen den Gruppen wird untersucht:</p>
 <div class="cell">
@@ -696,7 +700,7 @@ Hinweis
 <p>Die Regressionsgerade verbindet beide Gruppenmittelwerte und die Steigung beträgt 7; diese ist statistisch nicht signifikant von Null verschieden.</p>
 <p>Wir können dies durch Einsetzen der Gruppenmittelwerte in die Gleichung des linearen Modells selbst nachrechnen. Wir beginnen mit der Gruppe 0, also <code>picture</code>. Wir wissen, dass der Mittelwert dieser Gruppe gleich 40 ist.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(spider<span class="sc">$</span>Anxiety[spider<span class="sc">$</span>Group<span class="sc">==</span><span class="st">"picture"</span>])</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(spider[[<span class="st">"Anxiety"</span>]][spider[[<span class="st">"Group"</span>]]<span class="sc">==</span><span class="st">"picture"</span>])</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 40</code></pre>
 </div>
@@ -705,7 +709,7 @@ Hinweis
 <p>Man sieht also, dass der Intercept <span class="math inline">\(b_0\)</span> dem Gruppenmittelwert der ersten Gruppe (mit Codierung 0) entspricht.</p>
 <p>Setzen wir jetzt die Werte für die Gruppe <code>real</code> ein. Hier beträgt der Gruppenmittelwert 47:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(spider<span class="sc">$</span>Anxiety[spider<span class="sc">$</span>Group<span class="sc">==</span><span class="st">"real"</span>])</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(spider[[<span class="st">"Anxiety"</span>]][spider[[<span class="st">"Group"</span>]]<span class="sc">==</span><span class="st">"real"</span>])</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 47</code></pre>
 </div>
@@ -737,7 +741,7 @@ Hinweis
 <p><span class="math display">\[s_p^2 = \frac{(N_1 - 1) s_1^2 + (N_2 - 1) s_2^2}{N_1 + N_2 - 2}\]</span></p>
 <p>Daraus ergibt sich dann für den <em>t</em>-Test mit <span class="math inline">\(N_1 + N_2 - 2\)</span> Freiheitsgraden:</p>
 <p><span class="math display">\[t = \frac{\bar{x}_1 - \bar{x}_2}{\sqrt{\frac{s_p^2}{N_1} + \frac{s_p^2}{N_2}}}\]</span></p>
-<p>In R kann man <em>t</em>-Tests mit der Funktion <code>lm()</code> durchführen. Alternativ gibt es aber auch die Funktion <code>t.test()</code>, welche im Hintergrund ebenfalls <code>lm()</code> verwendet, aber eine vertrautere Darstellung der Ergebnisse bietet:</p>
+<p>Wie wir gesehen haben, kann man einen <em>t</em>-Test mit der Funktion <code>lm()</code> durchführen. Üblicher ist aber die Funktion <code>t.test()</code>, welche eine vertrautere Darstellung der Ergebnisse bietet:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>(<span class="at">model =</span> <span class="fu">t.test</span>(Anxiety <span class="sc">~</span> Group, <span class="at">data=</span>spider))</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -756,14 +760,44 @@ mean in group picture    mean in group real
 </div>
 <p>Das erste Argument ist also eine Formel, deren linke Seite die Datenpunkte angibt (die Spalte <code>Anxiety</code> in diesem Beispiel). Die rechte Seite der Formel gibt die Gruppierungsspalte an (also hier <code>Group</code>). Damit man die Spaltennamen direkt verwenden kann, spezifiziert man noch <code>data=spider</code>, damit klar ist, dass diese Spalten im Data Frame <code>spider</code> zu finden sind.</p>
 <p>Ausgegeben wird der Wert der <em>t</em>-Statistik, die Freiheitsgrade (standardmäßig korrigiert nach Welch, was die Voraussetzung der Varianzhomogenität überflüssig macht), sowie der <em>p</em>-Wert. Weiters gibt es noch das 95%-Konfidenzintervall für die <em>t</em>-Statistik sowie die Gruppenmittelwerte.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Wichtig
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Vergleicht man diese Ausgabe mit dem zuvor gerechneten linearen Modell, fallen leicht unterschiedliche Freiheitsgrade auf: <code>lm()</code> liefert 22, <code>t.test()</code> hingegen 21.385. Der Grund ist die Welch-Korrektur, die <code>t.test()</code> standardmäßig anwendet – diese verzichtet auf die Annahme gleicher Varianzen und korrigiert dafür die Freiheitsgrade. Das lineare Modell entspricht dagegen dem <em>t</em>-Test <em>mit</em> angenommener Varianzhomogenität. Genau dieses Ergebnis bekommt man mit dem Argument <code>var.equal=TRUE</code>:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(Anxiety <span class="sc">~</span> Group, <span class="at">data=</span>spider, <span class="at">var.equal=</span><span class="cn">TRUE</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Two Sample t-test
+
+data:  Anxiety by Group
+t = -1.6813, df = 22, p-value = 0.1068
+alternative hypothesis: true difference in means between group picture and group real is not equal to 0
+95 percent confidence interval:
+ -15.634222   1.634222
+sample estimates:
+mean in group picture    mean in group real 
+                   40                    47 </code></pre>
+</div>
+</div>
+<p>Hier stimmen nun sowohl die Freiheitsgrade (22) als auch der <em>p</em>-Wert exakt mit der Ausgabe von <code>summary(lm(Anxiety ~ Group, data=spider))</code> überein. In der Praxis ist die Voreinstellung (Welch) aber die bessere Wahl.</p>
+</div>
+</div>
 <p>Die zweite Möglichkeit, die Funktion aufzurufen, verwendet zwei Argumente; hier übergibt man also die Daten der beiden Gruppen in zwei separaten Vektoren:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>(<span class="at">model =</span> <span class="fu">t.test</span>(spider_w<span class="sc">$</span>picture, spider_w<span class="sc">$</span>real))</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>(<span class="at">model =</span> <span class="fu">t.test</span>(spider_w[[<span class="st">"picture"</span>]], spider_w[[<span class="st">"real"</span>]]))</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
     Welch Two Sample t-test
 
-data:  spider_w$picture and spider_w$real
+data:  spider_w[["picture"]] and spider_w[["real"]]
 t = -1.6813, df = 21.385, p-value = 0.1072
 alternative hypothesis: true difference in means is not equal to 0
 95 percent confidence interval:
@@ -774,32 +808,113 @@ mean of x mean of y
 </div>
 </div>
 <p>Das Ergebnis ist aber natürlich dasselbe.</p>
+<section id="effektgrößen" class="level3">
+<h3 class="anchored" data-anchor-id="effektgrößen">Effektgrößen</h3>
+<p>Ein signifikantes Ergebnis sagt nur aus, <em>dass</em> ein Unterschied besteht – aber nichts darüber, <em>wie groß</em> er ist. Deswegen sollte man immer zusätzlich eine Effektgröße berichten. Diese ist unabhängig von der Stichprobengröße, während der <span class="math inline">\(p\)</span>-Wert bei ausreichend großem <span class="math inline">\(N\)</span> selbst für winzige Unterschiede signifikant wird.</p>
 <p>Die Effektgröße kann man aus dem Wert von <span class="math inline">\(t\)</span> in eine Korrelation <span class="math inline">\(r\)</span> umrechnen:</p>
 <p><span class="math display">\[r = \sqrt{\frac{t^2}{t^2 + \text{df}}}\]</span></p>
 <p>Im Beispiel ist die Effektgröße <span class="math inline">\(r\)</span> also:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>t <span class="ot">=</span> model<span class="sc">$</span>statistic[[<span class="dv">1</span>]]</span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>df <span class="ot">=</span> model<span class="sc">$</span>parameter[[<span class="dv">1</span>]]</span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>r <span class="ot">=</span> <span class="fu">sqrt</span>(t<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> (t<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> df))</span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(r, <span class="dv">3</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>t <span class="ot">=</span> model<span class="sc">$</span>statistic[[<span class="dv">1</span>]]</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>df <span class="ot">=</span> model<span class="sc">$</span>parameter[[<span class="dv">1</span>]]</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>r <span class="ot">=</span> <span class="fu">sqrt</span>(t<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> (t<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> df))</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(r, <span class="dv">3</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.342</code></pre>
 </div>
 </div>
+<p>In der Psychologie ist allerdings <em>Cohen’s d</em> die gebräuchlichste Effektgröße für Mittelwertsvergleiche. Sie gibt die Differenz der Mittelwerte in Einheiten der (gepoolten) Standardabweichung an:</p>
+<p><span class="math display">\[d = \frac{\bar{x}_1 - \bar{x}_2}{s_p}, \qquad s_p = \sqrt{\frac{(N_1 - 1) s_1^2 + (N_2 - 1) s_2^2}{N_1 + N_2 - 2}}\]</span></p>
+<p>Die gepoolte Standardabweichung <span class="math inline">\(s_p\)</span> kennen wir bereits von der Berechnung des <span class="math inline">\(t\)</span>-Wertes weiter oben. Rechnen wir <span class="math inline">\(d\)</span> für unser Beispiel direkt aus:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>x1 <span class="ot">=</span> spider[[<span class="st">"Anxiety"</span>]][spider[[<span class="st">"Group"</span>]] <span class="sc">==</span> <span class="st">"picture"</span>]</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>x2 <span class="ot">=</span> spider[[<span class="st">"Anxiety"</span>]][spider[[<span class="st">"Group"</span>]] <span class="sc">==</span> <span class="st">"real"</span>]</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>sp <span class="ot">=</span> <span class="fu">sqrt</span>(((<span class="fu">length</span>(x1) <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">*</span> <span class="fu">var</span>(x1) <span class="sc">+</span> (<span class="fu">length</span>(x2) <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">*</span> <span class="fu">var</span>(x2)) <span class="sc">/</span></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>          (<span class="fu">length</span>(x1) <span class="sc">+</span> <span class="fu">length</span>(x2) <span class="sc">-</span> <span class="dv">2</span>))</span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>(<span class="at">d =</span> (<span class="fu">mean</span>(x1) <span class="sc">-</span> <span class="fu">mean</span>(x2)) <span class="sc">/</span> sp)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -0.6864065</code></pre>
+</div>
+</div>
+<p>Einfacher geht das mit der Funktion <code>cohens_d()</code> aus dem Paket <code>effectsize</code>, welche gleich auch ein Konfidenzintervall liefert:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(effectsize)</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cohens_d</span>(Anxiety <span class="sc">~</span> Group, <span class="at">data=</span>spider)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Cohen's d |        95% CI
+-------------------------
+-0.69     | [-1.50, 0.15]
+
+- Estimated using pooled SD.</code></pre>
+</div>
+</div>
+<p>Beide Wege liefern denselben Wert. Das negative Vorzeichen kommt daher, dass wir (so wie die Funktion) die erste Gruppe minus die zweite gerechnet haben – die <code>picture</code>-Gruppe hat also die <em>geringere</em> Angst. Für die Beurteilung der Effektstärke ist nur der Betrag relevant.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tipp
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Dieses Beispiel zeigt gut, warum Effektgrößen wichtig sind: Der <span class="math inline">\(t\)</span>-Test war mit <span class="math inline">\(p = 0.107\)</span> <em>nicht</em> signifikant, die Effektgröße <span class="math inline">\(|d| \approx 0.69\)</span> entspricht aber einem mittleren bis großen Effekt. Bei nur 12 Personen pro Gruppe reicht die statistische Power schlicht nicht aus, um einen Effekt dieser Größe zuverlässig nachzuweisen. “Nicht signifikant” bedeutet also <em>nicht</em> “kein Effekt”.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Hinweis
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Als grobe Orientierung gelten nach Cohen folgende Richtwerte (das Vorzeichen gibt nur die Richtung des Unterschieds an, für die Beurteilung der Größe zählt der Betrag):</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;"><span class="math inline">\(|d|\)</span></th>
+<th style="text-align: left;">Interpretation</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">0.2</td>
+<td style="text-align: left;">kleiner Effekt</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">0.5</td>
+<td style="text-align: left;">mittlerer Effekt</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">0.8</td>
+<td style="text-align: left;">großer Effekt</td>
+</tr>
+</tbody>
+</table>
+<p>Diese Schwellen sind allerdings nur Faustregeln – was ein “großer” Effekt ist, hängt stark vom jeweiligen Forschungsgebiet ab.</p>
+</div>
+</div>
+</section>
 </section>
 <section id="abhängiger-t-test-in-r" class="level2">
 <h2 class="anchored" data-anchor-id="abhängiger-t-test-in-r">Abhängiger <em>t</em>-Test in R</h2>
 <p>Der abhängige (oder gepaarte) <em>t</em>-Test funktioniert ähnlich, verwendet aber die Mittelwerte der einzelnen <em>Differenzen</em> anstelle der Differenz der Mittelwerte, um die individuellen Unterschiede herauszurechnen:</p>
 <p><span class="math display">\[t = \frac{\bar{D} - \mu_D}{s_D / \sqrt{N}}\]</span></p>
 <p>Unter der Nullhypothese ist <span class="math inline">\(\mu_D = 0\)</span>: <span class="math display">\[t = \frac{\bar{D}}{s_D / \sqrt{N}}\]</span></p>
-<p>Für den abhängigen <em>t</em>-Test verwendet man wieder die Funktion <code>t.test()</code> und setzt das Argument <code>paired=TRUE</code>. Hier sollte man die Variante mit zwei Argumenten verwenden (d.h. die Daten sollten im Wide-Format vorliegen):</p>
+<p>Für den abhängigen <em>t</em>-Test verwendet man wieder die Funktion <code>t.test()</code> und setzt das Argument <code>paired=TRUE</code>. Hier sollte man die Variante mit zwei Argumenten verwenden (also die beiden Spalten von <code>spider_w</code> von oben):</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>(<span class="at">model =</span> <span class="fu">t.test</span>(spider_w<span class="sc">$</span>picture, spider_w<span class="sc">$</span>real, <span class="at">paired=</span><span class="cn">TRUE</span>))</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>(<span class="at">model =</span> <span class="fu">t.test</span>(spider_w[[<span class="st">"picture"</span>]], spider_w[[<span class="st">"real"</span>]], <span class="at">paired=</span><span class="cn">TRUE</span>))</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
     Paired t-test
 
-data:  spider_w$picture and spider_w$real
+data:  spider_w[["picture"]] and spider_w[["real"]]
 t = -2.4725, df = 11, p-value = 0.03098
 alternative hypothesis: true mean difference is not equal to 0
 95 percent confidence interval:
@@ -812,19 +927,159 @@ mean difference
 <p>Das Ergebnis ist diesmal signifikant mit <span class="math inline">\(p=0.03098\)</span>. Dies entspricht unseren Überlegungen mit den unterschiedlich großen Konfidenzintervallen von abhängigen und unabhängigen Versuchsdesigns. Abhängige Designs können also kleinere Unterschiede detektieren.</p>
 <p>Die Effektgröße kann man wieder aus <span class="math inline">\(t\)</span> mit der Formel oben in <span class="math inline">\(r\)</span> umwandeln:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>t <span class="ot">=</span> model<span class="sc">$</span>statistic[[<span class="dv">1</span>]]</span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>df <span class="ot">=</span> model<span class="sc">$</span>parameter[[<span class="dv">1</span>]]</span>
-<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>r <span class="ot">=</span> <span class="fu">sqrt</span>(t<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> (t<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> df))</span>
-<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(r, <span class="dv">3</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>t <span class="ot">=</span> model<span class="sc">$</span>statistic[[<span class="dv">1</span>]]</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>df <span class="ot">=</span> model<span class="sc">$</span>parameter[[<span class="dv">1</span>]]</span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>r <span class="ot">=</span> <span class="fu">sqrt</span>(t<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> (t<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> df))</span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(r, <span class="dv">3</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.598</code></pre>
 </div>
 </div>
 <p>Es handelt sich also in diesem Fall um einen großen Effekt.</p>
+<p>Cohen’s <span class="math inline">\(d\)</span> berechnet man für abhängige Stichproben ebenfalls mit <code>cohens_d()</code>, hier muss man aber <code>paired=TRUE</code> setzen:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cohens_d</span>(spider_w[[<span class="st">"picture"</span>]], spider_w[[<span class="st">"real"</span>]], <span class="at">paired=</span><span class="cn">TRUE</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Cohen's d |         95% CI
+--------------------------
+-0.71     | [-1.34, -0.06]</code></pre>
+</div>
+</div>
+</section>
+<section id="nichtparametrische-alternativen" class="level2">
+<h2 class="anchored" data-anchor-id="nichtparametrische-alternativen">Nichtparametrische Alternativen</h2>
+<p>Der <em>t</em>-Test setzt (unter anderem) normalverteilte Residuen voraus. Ist diese Annahme deutlich verletzt – etwa bei stark schiefen Verteilungen oder bei ordinalskalierten Daten – kann man auf ein nichtparametrisches Verfahren ausweichen. Diese vergleichen keine Mittelwerte, sondern arbeiten mit <em>Rängen</em>, ganz ähnlich wie die Spearman-Korrelation aus Einheit 9.</p>
+<p>Für zwei <em>unabhängige</em> Gruppen ist das der Wilcoxon-Rangsummentest (auch Mann-Whitney-U-Test genannt), für zwei <em>abhängige</em> Gruppen der Wilcoxon-Vorzeichen-Rang-Test. In R werden beide mit derselben Funktion <code>wilcox.test()</code> berechnet, die genau wie <code>t.test()</code> aufgerufen wird:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">wilcox.test</span>(Anxiety <span class="sc">~</span> Group, <span class="at">data=</span>spider)  <span class="co"># unabhängig</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Wilcoxon rank sum exact test
+
+data:  Anxiety by Group
+W = 46, p-value = 0.1358
+alternative hypothesis: true location shift is not equal to 0</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">wilcox.test</span>(spider_w[[<span class="st">"picture"</span>]], spider_w[[<span class="st">"real"</span>]], <span class="at">paired=</span><span class="cn">TRUE</span>)  <span class="co"># abhängig</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Wilcoxon signed rank exact test
+
+data:  spider_w[["picture"]] and spider_w[["real"]]
+V = 12, p-value = 0.04688
+alternative hypothesis: true location shift is not equal to 0</code></pre>
+</div>
+</div>
+<p>Die Ergebnisse führen hier zu denselben Schlussfolgerungen wie die entsprechenden <em>t</em>-Tests: Der Vergleich der unabhängigen Gruppen ist nicht signifikant (<span class="math inline">\(p = 0.136\)</span> gegenüber <span class="math inline">\(p = 0.107\)</span> beim <em>t</em>-Test), der abhängige Vergleich hingegen schon (<span class="math inline">\(p = 0.047\)</span> gegenüber <span class="math inline">\(p = 0.031\)</span>). Man erkennt aber auch, dass die <span class="math inline">\(p\)</span>-Werte durchwegs etwas größer sind. Das ist typisch: Nichtparametrische Tests sind robuster, haben aber bei tatsächlich normalverteilten Daten etwas weniger Power. Man sollte sie daher nicht routinemäßig einsetzen, sondern nur dann, wenn die Voraussetzungen des <em>t</em>-Tests klar verletzt sind.</p>
+</section>
+<section id="mehr-als-zwei-gruppen" class="level2">
+<h2 class="anchored" data-anchor-id="mehr-als-zwei-gruppen">Mehr als zwei Gruppen</h2>
+<p>Mit dem <em>t</em>-Test kann man immer nur <em>zwei</em> Mittelwerte vergleichen. Bei mehr als zwei Gruppen darf man nicht einfach alle Paare einzeln testen, denn mit jedem zusätzlichen Test steigt die Wahrscheinlichkeit, rein zufällig ein signifikantes Ergebnis zu erhalten (Problem des multiplen Testens). Stattdessen verwendet man eine <em>Varianzanalyse</em> (ANOVA), welche zunächst die eine Frage beantwortet: Unterscheidet sich <em>mindestens eine</em> Gruppe von den anderen?</p>
+<p>Wie schon der <em>t</em>-Test ist auch die ANOVA nur ein Spezialfall des linearen Modells – die relevante Größe ist hier die uns aus Einheit 10 bereits bekannte <span class="math inline">\(F\)</span>-Statistik. Sehen wir uns das am <code>penguins</code>-Datensatz an, wo wir die Körpermasse zwischen den drei Spezies vergleichen wollen:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>model <span class="ot">=</span> <span class="fu">lm</span>(body_mass <span class="sc">~</span> species, <span class="at">data=</span>penguins)</span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(model)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Analysis of Variance Table
+
+Response: body_mass
+           Df    Sum Sq  Mean Sq F value    Pr(&gt;F)    
+species     2 146864214 73432107  343.63 &lt; 2.2e-16 ***
+Residuals 339  72443483   213698                      
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+<p>Der <span class="math inline">\(F\)</span>-Wert ist mit <span class="math inline">\(p &lt; 0.001\)</span> hoch signifikant, d.h. die drei Spezies unterscheiden sich in ihrer Körpermasse.</p>
+<p>Die vertraute ANOVA-Tabelle bekommt man auch direkt mit der Funktion <code>aov_ez()</code> aus dem Paket <code>afex</code>. Diese benötigt eine Spalte, welche jede Beobachtung eindeutig identifiziert (Argument <code>id</code>), die abhängige Variable (<code>dv</code>) sowie die Gruppierungsvariable (<code>between</code>):</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(afex)</span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>df <span class="ot">=</span> penguins[<span class="sc">!</span><span class="fu">is.na</span>(penguins[[<span class="st">"body_mass"</span>]]),]</span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>df[[<span class="st">"id"</span>]] <span class="ot">=</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(df)</span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a><span class="fu">aov_ez</span>(<span class="at">id=</span><span class="st">"id"</span>, <span class="at">dv=</span><span class="st">"body_mass"</span>, <span class="at">data=</span>df, <span class="at">between=</span><span class="st">"species"</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Anova Table (Type 3 tests)
+
+Response: body_mass
+   Effect     df       MSE          F  ges p.value
+1 species 2, 339 213697.59 343.63 *** .670   &lt;.001
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '+' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+<p>Neben <span class="math inline">\(F\)</span>-Wert, Freiheitsgraden und Signifikanz wird hier auch gleich eine Effektgröße ausgegeben (<code>ges</code> steht für “generalized eta squared”, also den Anteil erklärter Varianz).</p>
+<p>Ein signifikantes ANOVA-Ergebnis sagt aber noch nicht, <em>welche</em> Gruppen sich voneinander unterscheiden. Dafür rechnet man anschließend paarweise Vergleiche und korrigiert deren <span class="math inline">\(p\)</span>-Werte für das multiple Testen. Die Funktion <code>pairwise.t.test()</code> erledigt beides in einem Schritt:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pairwise.t.test</span>(penguins[[<span class="st">"body_mass"</span>]], penguins[[<span class="st">"species"</span>]])</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Pairwise comparisons using t tests with pooled SD 
+
+data:  penguins[["body_mass"]] and penguins[["species"]] 
+
+          Adelie Chinstrap
+Chinstrap 0.63   -        
+Gentoo    &lt;2e-16 &lt;2e-16   
+
+P value adjustment method: holm </code></pre>
+</div>
+</div>
+<p>Standardmäßig wird die Holm-Korrektur verwendet; mit dem Argument <code>p.adjust.method</code> kann man ein anderes Verfahren wählen (z.B. <code>"bonferroni"</code>). Im Beispiel sieht man, dass sich Gentoo hoch signifikant von den beiden anderen Spezies unterscheidet, während zwischen Adélie und Chinstrap mit <span class="math inline">\(p = 0.63\)</span> <em>kein</em> signifikanter Unterschied besteht. Das signifikante ANOVA-Ergebnis geht hier also ausschließlich auf die Gentoo-Pinguine zurück – ein gutes Beispiel dafür, warum die paarweisen Vergleiche unverzichtbar sind.</p>
+</section>
+<section id="kategoriale-daten" class="level2">
+<h2 class="anchored" data-anchor-id="kategoriale-daten">Kategoriale Daten</h2>
+<p>Bisher haben wir immer eine <em>numerische</em> abhängige Variable verglichen. Sind beide Variablen jedoch kategorisch, vergleicht man keine Mittelwerte, sondern <em>Häufigkeiten</em>. Ausgangspunkt ist dann eine Kreuztabelle, wie wir sie in Einheit 6 mit <code>table()</code> erstellt haben:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>(<span class="at">tab =</span> <span class="fu">table</span>(penguins[[<span class="st">"species"</span>]], penguins[[<span class="st">"sex"</span>]]))</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>           
+            female male
+  Adelie        73   73
+  Chinstrap     34   34
+  Gentoo        58   61</code></pre>
+</div>
+</div>
+<p>Mit dem <span class="math inline">\(\chi^2\)</span>-Test (Chi-Quadrat-Test) prüft man, ob die beiden Variablen voneinander unabhängig sind. Die Nullhypothese lautet, dass kein Zusammenhang besteht – die beobachteten Häufigkeiten also nur zufällig von den unter Unabhängigkeit erwarteten abweichen:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="fu">chisq.test</span>(tab)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Pearson's Chi-squared test
+
+data:  tab
+X-squared = 0.048607, df = 2, p-value = 0.976</code></pre>
+</div>
+</div>
+<p>Der <span class="math inline">\(p\)</span>-Wert ist hier sehr groß, d.h. wir können die Nullhypothese nicht verwerfen: Das Geschlechterverhältnis unterscheidet sich zwischen den drei Spezies nicht. Ein Beispiel mit einem klaren Zusammenhang ist dagegen die Verteilung der Spezies auf die Inseln:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="fu">chisq.test</span>(<span class="fu">table</span>(penguins[[<span class="st">"species"</span>]], penguins[[<span class="st">"island"</span>]]))</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Pearson's Chi-squared test
+
+data:  table(penguins[["species"]], penguins[["island"]])
+X-squared = 299.55, df = 4, p-value &lt; 2.2e-16</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Wichtig
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Der <span class="math inline">\(\chi^2\)</span>-Test setzt voraus, dass die <em>erwarteten</em> Häufigkeiten in allen Zellen ausreichend groß sind (als Faustregel mindestens 5). Ist das nicht der Fall, gibt R eine entsprechende Warnung aus – dann sollte man bei einer 2×2-Tabelle besser den exakten Test nach Fisher verwenden (<code>fisher.test()</code>).</p>
+</div>
+</div>
 </section>
 <section id="ausblick" class="level2">
 <h2 class="anchored" data-anchor-id="ausblick">Ausblick</h2>
-<p>Zusammenfassend haben wir gesehen, dass der Mittelwertsvergleich über den <em>t</em>-Test auf ein lineares Modell zurückgeführt werden kann. Möchte man mehr als zwei Mittelwerte vergleichen, kann man das lineare Modell mit mehreren Prädiktoren verwenden (Dummy-Coding). In der klassischen Varianzanalyse betrachtet man die <em>F</em>-Statistik, welche aber auch Teil der linearen Regression ist (sie misst die Güte des Modells) und dementsprechend auch in der Ausgabe aufscheint. Man kann also auch eine ANOVA als Spezialfall eines linearen Modells sehen. Um die vertrauten ANOVA-Tabellen dennoch auch in R zu erhalten, kann man beispielsweise das Paket <code>afex</code> benutzen.</p>
+<p>Zusammenfassend haben wir gesehen, dass sich sowohl der <em>t</em>-Test als auch die ANOVA auf ein lineares Modell zurückführen lassen. Beim <em>t</em>-Test codiert ein einzelner Prädiktor die beiden Gruppen (Dummy-Coding), bei mehr als zwei Gruppen sind es entsprechend mehrere Prädiktoren; die relevante Größe ist dann die <em>F</em>-Statistik, welche uns als Maß für die Modellgüte bereits aus der linearen Regression bekannt ist. Korrelation, Regression und Mittelwertvergleich sind also keine drei unabhängigen Verfahren, sondern verschiedene Blickwinkel auf dasselbe zugrundeliegende Modell.</p>
+<p>Die hier gezeigte einfaktorielle ANOVA ist dabei nur der einfachste Fall. Mit <code>aov_ez()</code> kann man auch mehrere Faktoren gleichzeitig (mehrfaktorielle ANOVA) sowie Messwiederholungen (Argument <code>within</code> statt <code>between</code>) analysieren.</p>
 <p>Bei abhängigen Messungen kann man keine linearen Modelle rechnen, da eine der wichtigsten Voraussetzungen die Unabhängigkeit der Messpunkte ist. Sogenannte lineare gemischte Modelle (engl. <em>linear mixed models</em>) können aber mit diesen Abhängigkeiten umgehen und werden immer häufiger statt den klassischen Messwiederholungs-ANOVAs eingesetzt. Gemischte Modelle sind Verallgemeinerungen von linearen Modellen, oder umgekehrt sind lineare Modelle Spezialfälle von linearen gemischten Modellen. Das Paket <code>lme4</code> hat sich in R als Standard zur Berechnung dieser Modelle durchgesetzt (bzw. die darauf aufbauenden Pakete <code>lmerTest</code> und <code>afex</code>).</p>
 </section>
 <section id="übungen" class="level2">
@@ -868,9 +1123,13 @@ Hinweis
 <p>Entnehmen Sie dem Hilfetext, ob Sie einen abhängigen oder unabhängigen <em>t</em>-Test rechnen müssen.</p>
 </div>
 </div>
-
-
 </section>
+</section>
+<section id="lösungen" class="level2">
+<h2 class="anchored" data-anchor-id="lösungen">Lösungen</h2>
+<p>Die Lösungen zu diesen Übungen finden Sie <a href="../12/12-solutions.html">hier</a>.</p>
+
+
 </section>
 
 </main> <!-- /main -->

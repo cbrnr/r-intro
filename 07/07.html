@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="de" xml:lang="de"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.9.37">
+<meta name="generator" content="quarto-1.9.38">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -75,14 +75,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-acf12a64177840b8d86f2d4f01b2e9fb.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-23bbe8b5e4efc1e257f6d59dce478b08.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-acf12a64177840b8d86f2d4f01b2e9fb.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-de63f62b328812d8e578a4d74e282472.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-6b6957c917596b414ec0b78690761e87.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-de63f62b328812d8e578a4d74e282472.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-c6344c862f46cf6a68a6928f4c326ca4.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-a4cc7722e2170b143ab83d7d6445229a.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../site_libs/bootstrap/bootstrap-c6344c862f46cf6a68a6928f4c326ca4.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-0f1a520e41d12d84e925fcfd3dfb7140.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-70d97c5485b77d73a4316377cf99e6cf.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-0f1a520e41d12d84e925fcfd3dfb7140.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <link href="../site_libs/quarto-contrib/academicons-1.9.2/all.css" rel="stylesheet">
 <link href="../site_libs/quarto-contrib/academicons-1.9.2/size.css" rel="stylesheet">
 <link href="../site_libs/quarto-contrib/fontawesome6-0.1.0/all.css" rel="stylesheet">
@@ -396,7 +396,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <div>
       <div class="quarto-title-meta-heading">Veröffentlicht</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">27. April 2026</p>
+        <p class="date">12. November 2026</p>
       </div>
     </div>
     
@@ -416,186 +416,49 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 
-<section id="daten-umformen" class="level2">
-<h2 class="anchored" data-anchor-id="daten-umformen">Daten umformen</h2>
-<p>Es gibt in der Praxis zwei gängige Möglichkeiten, ein und dieselben Daten in einer Tabelle darzustellen, und zwar entweder im Wide-Format oder im Long-Format. Zur Berechnung deskriptiver Statistiken eignet sich das Wide-Format besser, das Long-Format ist aber bei anderen Aufgabenstellungen notwendig. Deswegen ist es sinnvoll, wenn man weiß, wie man die eine Darstellung in die andere umwandeln kann.</p>
-<p>Bei Daten im Wide-Format gibt es für jede Variable eine eigene Spalte. Daten im Long-Format haben nur eine Werte-Spalte und eine oder mehrere Spalte(n) mit Indikator-Variablen, welche den Kontext der Werte definieren. Die folgende Tabelle zeigt Beispieldaten im Wide-Format:</p>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th style="text-align: left;">Person</th>
-<th style="text-align: right;">Age</th>
-<th style="text-align: right;">Weight</th>
-<th style="text-align: right;">Height</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">Bob</td>
-<td style="text-align: right;">32</td>
-<td style="text-align: right;">98</td>
-<td style="text-align: right;">188</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Al</td>
-<td style="text-align: right;">24</td>
-<td style="text-align: right;">61</td>
-<td style="text-align: right;">176</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Sue</td>
-<td style="text-align: right;">64</td>
-<td style="text-align: right;">87</td>
-<td style="text-align: right;">174</td>
-</tr>
-</tbody>
-</table>
-<p>Man sieht, dass es drei Wertespalten gibt (<code>Age</code>, <code>Weight</code> und <code>Height</code>), sowie eine Spalte, welche die Person identifiziert (<code>Person</code>). Dieselben Daten sehen im Long-Format so aus (es gibt nur eine einzige Werte-Spalte namens <code>Value</code>):</p>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th style="text-align: left;">Person</th>
-<th style="text-align: left;">Variable</th>
-<th style="text-align: right;">Value</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">Bob</td>
-<td style="text-align: left;">Age</td>
-<td style="text-align: right;">32</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Bob</td>
-<td style="text-align: left;">Weight</td>
-<td style="text-align: right;">98</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Bob</td>
-<td style="text-align: left;">Height</td>
-<td style="text-align: right;">188</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Al</td>
-<td style="text-align: left;">Age</td>
-<td style="text-align: right;">24</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Al</td>
-<td style="text-align: left;">Weight</td>
-<td style="text-align: right;">61</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Al</td>
-<td style="text-align: left;">Height</td>
-<td style="text-align: right;">176</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Sue</td>
-<td style="text-align: left;">Age</td>
-<td style="text-align: right;">64</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Sue</td>
-<td style="text-align: left;">Weight</td>
-<td style="text-align: right;">87</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Sue</td>
-<td style="text-align: left;">Height</td>
-<td style="text-align: right;">174</td>
-</tr>
-</tbody>
-</table>
-<p>In R kann man mit dem Paket <code>tidyr</code> zwischen den beiden Formaten hin- und herwechseln, d.h. wenn die Daten in einem Format vorliegen, kann man relativ einfach das andere Format produzieren. Die Daten aus dem Beispiel oben können wir zunächst einmal im Wide-Format erzeugen:</p>
+<section id="daten-aufbereiten-mit-dplyr" class="level2">
+<h2 class="anchored" data-anchor-id="daten-aufbereiten-mit-dplyr">Daten aufbereiten mit <code>dplyr</code></h2>
+<p>Die typischen Arbeitsschritte bei der Aufbereitung von Daten sind immer dieselben: Zeilen und Spalten auswählen, neue Spalten berechnen und Daten sortieren. Das Paket <code>dplyr</code> aus dem Tidyverse stellt dafür einige wenige, konsistent aufgebaute Funktionen zur Verfügung, die man auch <em>Verben</em> nennt. Sie funktionieren alle nach demselben Muster: Das erste Argument ist immer das Data Frame, und jede Funktion gibt ein neues Data Frame zurück. Das bedeutet also, dass das ursprüngliche Data Frame immer unverändert bleibt.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tibble)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>(<span class="at">df =</span> <span class="fu">tibble</span>(</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">Person=</span><span class="fu">c</span>(<span class="st">"Bob"</span>, <span class="st">"Al"</span>, <span class="st">"Sue"</span>),</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">Age=</span><span class="fu">c</span>(<span class="dv">32</span>, <span class="dv">24</span>, <span class="dv">64</span>),</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">Weight=</span><span class="fu">c</span>(<span class="dv">98</span>, <span class="dv">61</span>, <span class="dv">87</span>),</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">Height=</span><span class="fu">c</span>(<span class="dv">188</span>, <span class="dv">176</span>, <span class="dv">174</span>)</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>))</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 3 × 4
-  Person   Age Weight Height
-  &lt;chr&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
-1 Bob       32     98    188
-2 Al        24     61    176
-3 Sue       64     87    174</code></pre>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'dplyr'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:stats':
+
+    filter, lag</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union</code></pre>
 </div>
 </div>
-<p>Das Paket <code>tidyr</code> aus dem Tidyverse beinhaltet die Funktionen <code>pivot_longer()</code> und <code>pivot_wider()</code>, welche Data Frames von wide nach long bzw. von long nach wide umwandeln können. Das Data Frame <code>df</code> (welches im Wide-Format vorliegt) können wir also wie folgt ins Long-Format konvertieren:</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>(<span class="at">df_long =</span> <span class="fu">pivot_longer</span>(</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    df,</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    Age<span class="sc">:</span>Height,</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_to=</span><span class="st">"Variable"</span>,</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_to=</span><span class="st">"Value"</span></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>))</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 9 × 3
-  Person Variable Value
-  &lt;chr&gt;  &lt;chr&gt;    &lt;dbl&gt;
-1 Bob    Age         32
-2 Bob    Weight      98
-3 Bob    Height     188
-4 Al     Age         24
-5 Al     Weight      61
-6 Al     Height     176
-7 Sue    Age         64
-8 Sue    Weight      87
-9 Sue    Height     174</code></pre>
-</div>
-</div>
-<p>Hier übergibt man zuerst die Daten im Wide-Format (<code>df</code>), gefolgt von einer Auswahl der (Werte-)Spalten, die man ins Long-Format bringen möchte – in unserem Beispiel sind das die Spalten von <code>Age</code> bis <code>Height</code>. Für diese Spaltenauswahl kann man die Spaltennamen ohne Anführungszeichen schreiben, und auch der Doppelpunkt funktioniert wie bei Zahlensequenzen (man könnte hier auch die Indizes der Spalten verwenden, also <code>2:4</code> statt <code>Age:Height</code>). Schließlich gibt man mit <code>names_to</code> den gewünschten Namen der Indikatorspalte an (im Beispiel soll diese also <code>Variable</code> heißen) und mit <code>values_to</code> den Namen der neuen Werte-Spalte (hier also <code>Value</code>).</p>
-<p>Der umgekehrte Weg wird mit <code>pivot_wider()</code> beschritten; diese Funktion kann also vom Long-Format ins Wide-Format konvertieren:</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>(<span class="at">df_wide =</span> <span class="fu">pivot_wider</span>(</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    df_long,</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">id_cols=</span>Person,</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_from=</span>Variable,</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_from=</span>Value</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>))</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 3 × 4
-  Person   Age Weight Height
-  &lt;chr&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
-1 Bob       32     98    188
-2 Al        24     61    176
-3 Sue       64     87    174</code></pre>
-</div>
-</div>
-<p>Hier gibt man zunächst die Daten im Long-Format an (<code>df_long</code>). Danach folgen mit <code>id_cols</code> die Spaltennamen, welche die einzelnen Fälle identifizieren (in unserem Beispiel ist das nur eine einzige Spalte namens <code>Person</code>). Danach gibt man mit <code>names_from</code> die Spalte an, welche die Variablennamen beinhaltet (also die Indikatorspalte <code>Variable</code>). Schließlich definiert man mit <code>values_from</code> die Spalte, welche die Werte beinhaltet (<code>Value</code>).</p>
-<p>Diese beiden Funktionen können sehr viel komplexere Strukturen in die jeweiligen Formate konvertieren – dies ist alles in der Hilfe nachzulesen, inklusive vieler Beispiele, die die Verwendung demonstrieren.</p>
-<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Hinweis
+Wichtig
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Das Tidyverse basiert auf einer Darstellung von Daten, die man als “tidy” bezeichnet. Im Wesentlichen entspricht dies dem Wide-Format, bei dem jede Variable einer eigenen Spalte sowie jeder Datenpunkt einer eigenen Zeile entspricht (mehr Details dazu sind in <a href="https://www.jstatsoft.org/article/view/v059i10">diesem Artikel</a> zu finden).</p>
+<p>Beim Aktivieren von <code>dplyr</code> gibt R einige Meldungen über <em>maskierte</em> Funktionen aus (dieses Prinzip haben wir in der vorigen Einheit bereits bei <code>describe()</code> kennengelernt). Das Paket enthält nämlich unter anderem eine Funktion <code>filter()</code>, und eine gleichnamige Funktion gibt es bereits im standardmäßig aktivierten Paket <code>stats</code>. Ab jetzt bezieht sich <code>filter()</code> also auf die Version aus <code>dplyr</code> – genau das ist hier erwünscht. Möchte man ausdrücklich die ursprüngliche Funktion verwenden, schreibt man <code>stats::filter()</code>.</p>
+<p>Diese Meldungen sind weder Fehler noch Warnungen, sondern reine Hinweise – man kann sie also ignorieren, wenn man sicher ist, dass man das richtige Paket verwendet.</p>
 </div>
 </div>
-</section>
-<section id="zeilen-filtern-mit-subset" class="level2">
-<h2 class="anchored" data-anchor-id="zeilen-filtern-mit-subset">Zeilen filtern mit <code>subset()</code></h2>
-<p>Oft ist es wünschenswert, nur gewisse Zeilen aus einem vorhandenen Data Frame zu verwenden. Beispielsweise könnte es für eine Datenanalyse notwendig sein, männliche und weibliche Versuchspersonen getrennt auszuwerten. Dieses Merkmal ist im folgenden Beispiel in einer Spalte <code>sex</code> mit den Ausprägungen <code>m</code> und <code>f</code> vorhanden:</p>
+<p>Für die folgenden Beispiele verwenden wir dieses kleine Tibble:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>(<span class="at">df =</span> <span class="fu">tibble</span>(</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">name=</span><span class="fu">c</span>(<span class="st">"Bob"</span>, <span class="st">"Al"</span>, <span class="st">"Sue"</span>, <span class="st">"John"</span>, <span class="st">"Mary"</span>, <span class="st">"Ann"</span>),</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">age=</span><span class="fu">c</span>(<span class="dv">32</span>, <span class="dv">24</span>, <span class="dv">64</span>, <span class="dv">44</span>, <span class="dv">21</span>, <span class="dv">75</span>),</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">weight=</span><span class="fu">c</span>(<span class="dv">98</span>, <span class="dv">61</span>, <span class="dv">87</span>, <span class="dv">82</span>, <span class="dv">73</span>, <span class="dv">66</span>),</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">height=</span><span class="fu">c</span>(<span class="dv">188</span>, <span class="dv">176</span>, <span class="dv">174</span>, <span class="dv">182</span>, <span class="dv">181</span>, <span class="dv">159</span>),</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">sex=</span><span class="fu">factor</span>(<span class="fu">c</span>(<span class="st">"m"</span>, <span class="st">"m"</span>, <span class="st">"f"</span>, <span class="st">"m"</span>, <span class="st">"f"</span>, <span class="st">"f"</span>))</span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>))</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>(<span class="at">df =</span> <span class="fu">tibble</span>(</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">name=</span><span class="fu">c</span>(<span class="st">"Bob"</span>, <span class="st">"Al"</span>, <span class="st">"Sue"</span>, <span class="st">"John"</span>, <span class="st">"Mary"</span>, <span class="st">"Ann"</span>),</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">age=</span><span class="fu">c</span>(<span class="dv">32</span>, <span class="dv">24</span>, <span class="dv">64</span>, <span class="dv">44</span>, <span class="dv">21</span>, <span class="dv">75</span>),</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">weight=</span><span class="fu">c</span>(<span class="dv">98</span>, <span class="dv">61</span>, <span class="dv">87</span>, <span class="dv">82</span>, <span class="dv">73</span>, <span class="dv">66</span>),</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">height=</span><span class="fu">c</span>(<span class="dv">188</span>, <span class="dv">176</span>, <span class="dv">174</span>, <span class="dv">182</span>, <span class="dv">181</span>, <span class="dv">159</span>),</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">sex=</span><span class="fu">factor</span>(<span class="fu">c</span>(<span class="st">"m"</span>, <span class="st">"m"</span>, <span class="st">"f"</span>, <span class="st">"m"</span>, <span class="st">"f"</span>, <span class="st">"f"</span>))</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>))</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 5
   name    age weight height sex  
@@ -608,9 +471,11 @@ Hinweis
 6 Ann      75     66    159 f    </code></pre>
 </div>
 </div>
-<p>Nun haben wir bereits gelernt, dass wir spezifische Zeilen mittels Indizieren herausfiltern können. Mit folgendem Befehl erhalten wir ein neues Data Frame mit allen weiblichen Versuchspersonen:</p>
+<section id="zeilen-filtern-mit-filter" class="level3">
+<h3 class="anchored" data-anchor-id="zeilen-filtern-mit-filter">Zeilen filtern mit <code>filter()</code></h3>
+<p>Oft möchte man nur gewisse Zeilen weiterverwenden – beispielsweise, um männliche und weibliche Versuchspersonen getrennt auszuwerten. Wir haben bereits gelernt, dass man das mit Indizieren lösen kann:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>df[df<span class="sc">$</span>sex <span class="sc">==</span> <span class="st">"f"</span>,]</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>df[df[[<span class="st">"sex"</span>]] <span class="sc">==</span> <span class="st">"f"</span>,]</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 3 × 5
   name    age weight height sex  
@@ -620,10 +485,9 @@ Hinweis
 3 Ann      75     66    159 f    </code></pre>
 </div>
 </div>
-<p>Diese Schreibweise ist für Data Frames aber relativ unübersichtlich, vor allem weil man das zugrundeliegende Data Frame <code>df</code> zwei Mal schreiben muss. Glücklicherweise gibt es aber eine intuitive Alternative durch die Funktion <code>subset()</code>. Diese Funktion kann, wie der Name bereits andeutet, Untermengen (Subsets) von bestehenden Vektoren bzw. Data Frames erzeugen. Im Falle eines Data Frames bedeutet das, dass man eine Untermenge der Zeilen und/oder Spalten auswählen kann.</p>
-<p>Beginnen wir mit der Auswahl von Zeilen (man bezeichnet diese Operation auch als “filtern”). Hier übergibt man der Funktion <code>subset()</code> als erstes Argument das ursprüngliche Data Frame. Das zweite Argument (welches <code>subset</code> heißt, nicht zu verwechseln mit dem Funktionsnamen) bestimmt dann, welche Zeilen ausgewählt (gefiltert) werden sollen. Das obige Beispiel kann damit wie folgt angeschrieben werden:</p>
+<p>Diese Schreibweise ist aber relativ unübersichtlich, vor allem weil man das Data Frame <code>df</code> zwei Mal anschreiben muss. Die Funktion <code>filter()</code> macht dasselbe wesentlich lesbarer:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">subset</span>(df, sex <span class="sc">==</span> <span class="st">"f"</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(df, sex <span class="sc">==</span> <span class="st">"f"</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 3 × 5
   name    age weight height sex  
@@ -633,10 +497,9 @@ Hinweis
 3 Ann      75     66    159 f    </code></pre>
 </div>
 </div>
-<p>Beachten Sie, dass man den Spaltennamen direkt anschreiben kann ohne <code>df$</code> voranstellen zu müssen.</p>
-<p>Damit kann man auch komplexere Filter-Operationen durchführen, indem man einen entsprechend komplexen Vergleich für das <code>subset</code>-Argument übergibt, z.B. durch Verknüpfen mehrerer Vergleiche:</p>
+<p>Beachten Sie, dass man den Spaltennamen direkt verwenden kann, also ohne <code>df[["sex"]]</code> anschreiben zu müssen. Für komplexere Bedingungen kann man wie gewohnt Vergleiche mit <code>&amp;</code> und <code>|</code> verknüpfen:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">subset</span>(df, age <span class="sc">&gt;</span> <span class="dv">40</span> <span class="sc">&amp;</span> weight <span class="sc">&lt;=</span> <span class="dv">73</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(df, age <span class="sc">&gt;</span> <span class="dv">40</span> <span class="sc">&amp;</span> weight <span class="sc">&lt;=</span> <span class="dv">73</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 5
   name    age weight height sex  
@@ -644,11 +507,20 @@ Hinweis
 1 Ann      75     66    159 f    </code></pre>
 </div>
 </div>
-<p>Hier kann man also alle möglichen Vergleiche bzw. Verknüpfungsoperatoren (wie z.B. <code>&amp;</code> und <code>|</code>) verwenden.</p>
+<p>Mehrere durch Kommas getrennte Bedingungen werden dabei automatisch mit <code>&amp;</code> verknüpft, d.h. der folgende Aufruf ist gleichbedeutend mit dem vorigen:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(df, age <span class="sc">&gt;</span> <span class="dv">40</span>, weight <span class="sc">&lt;=</span> <span class="dv">73</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 5
+  name    age weight height sex  
+  &lt;chr&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;fct&gt;
+1 Ann      75     66    159 f    </code></pre>
+</div>
+</div>
 </section>
-<section id="spalten-selektieren-mit-subset" class="level2">
-<h2 class="anchored" data-anchor-id="spalten-selektieren-mit-subset">Spalten selektieren mit <code>subset()</code></h2>
-<p>Manchmal ist es auch gewünscht, nur spezifische Spalten aus einem Data Frame weiterzuverwenden. Klassisch kann man dies wieder über Indizieren lösen, z.B. wenn man im Beispiel nur die Spalten <code>name</code>, <code>age</code> und <code>sex</code> benötigt:</p>
+<section id="spalten-auswählen-mit-select" class="level3">
+<h3 class="anchored" data-anchor-id="spalten-auswählen-mit-select">Spalten auswählen mit <code>select()</code></h3>
+<p>Genauso oft möchte man nur bestimmte Spalten weiterverwenden. Auch das geht klassisch über Indizieren:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>df[, <span class="fu">c</span>(<span class="st">"name"</span>, <span class="st">"age"</span>, <span class="st">"sex"</span>)]</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -663,9 +535,9 @@ Hinweis
 6 Ann      75 f    </code></pre>
 </div>
 </div>
-<p>Auch hier kann man alternativ die <code>subset()</code>-Funktion verwenden, und zwar unter Verwendung des dritten Arguments (namens <code>select</code>):</p>
+<p>Mit <code>select()</code> schreibt man dasselbe ohne Anführungszeichen an:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">subset</span>(df, <span class="at">select=</span><span class="fu">c</span>(name, age, sex))</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">select</span>(df, name, age, sex)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 3
   name    age sex  
@@ -678,9 +550,9 @@ Hinweis
 6 Ann      75 f    </code></pre>
 </div>
 </div>
-<p>Beachten Sie, dass auch hier die Spaltennamen ohne Anführungszeichen angegeben werden können. Es ist sogar möglich, einen Bereich mit einem <code>:</code> wie folgt anzuschreiben (so wie wir es bereits bei <code>pivot_longer()</code> bzw. <code>pivot_wider()</code> gesehen haben):</p>
+<p>Ein Bereich von Spalten lässt sich wie bei Zahlensequenzen mit <code>:</code> angeben, und ein vorangestelltes <code>-</code> entfernt Spalten, anstatt sie auszuwählen:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">subset</span>(df, <span class="at">select=</span>name<span class="sc">:</span>weight)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">select</span>(df, name<span class="sc">:</span>weight)  <span class="co"># alle Spalten von name bis weight</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 3
   name    age weight
@@ -692,52 +564,116 @@ Hinweis
 5 Mary     21     73
 6 Ann      75     66</code></pre>
 </div>
-</div>
-<p>Hier werden also alle Spalten von <code>name</code> bis <code>weight</code> selektiert.</p>
-<p>Selbstverständlich kann man beide Operationen (also Zeilenauswahl und Spaltenauswahl) auch mit einem Funktionsaufruf durchführen:</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">subset</span>(df, <span class="at">subset=</span>age <span class="sc">&gt;</span> <span class="dv">30</span>, <span class="at">select=</span><span class="fu">c</span>(name, age, sex))</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">select</span>(df, <span class="sc">-</span>weight, <span class="sc">-</span>height)  <span class="co"># alle Spalten außer weight und height</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 4 × 3
+<pre><code># A tibble: 6 × 3
   name    age sex  
   &lt;chr&gt; &lt;dbl&gt; &lt;fct&gt;
 1 Bob      32 m    
-2 Sue      64 f    
-3 John     44 m    
-4 Ann      75 f    </code></pre>
+2 Al       24 m    
+3 Sue      64 f    
+4 John     44 m    
+5 Mary     21 f    
+6 Ann      75 f    </code></pre>
 </div>
 </div>
 </section>
-<section id="spalten-transformieren-mit-transform" class="level2">
-<h2 class="anchored" data-anchor-id="spalten-transformieren-mit-transform">Spalten transformieren mit <code>transform()</code></h2>
-<p>Eine weitere wichtige Aufgabe in der Datenanalyse ist es, neue Spalten zu einem bestehenden Data Frame hinzuzufügen. Wenn die Werte dieser neuen Spalten dabei auf vorhandenen Spalten basieren, spricht man von einer Transformation. Betrachten wir dazu das in R vorhandene Data Frame <code>airquality</code>:</p>
+<section id="spalten-berechnen-mit-mutate" class="level3">
+<h3 class="anchored" data-anchor-id="spalten-berechnen-mit-mutate">Spalten berechnen mit <code>mutate()</code></h3>
+<p>Eine weitere wichtige Aufgabe ist es, neue Spalten aus bestehenden zu berechnen. Dafür gibt es <code>mutate()</code> – hier verwendet man die vorhandenen Spaltennamen wieder direkt:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(airquality)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mutate</span>(df, <span class="at">bmi=</span>weight <span class="sc">/</span> (height <span class="sc">/</span> <span class="dv">100</span>)<span class="sc">^</span><span class="dv">2</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  Ozone Solar.R Wind Temp Month Day
-1    41     190  7.4   67     5   1
-2    36     118  8.0   72     5   2
-3    12     149 12.6   74     5   3
-4    18     313 11.5   62     5   4
-5    NA      NA 14.3   56     5   5
-6    28      NA 14.9   66     5   6</code></pre>
+<pre><code># A tibble: 6 × 6
+  name    age weight height sex     bmi
+  &lt;chr&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;fct&gt; &lt;dbl&gt;
+1 Bob      32     98    188 m      27.7
+2 Al       24     61    176 m      19.7
+3 Sue      64     87    174 f      28.7
+4 John     44     82    182 m      24.8
+5 Mary     21     73    181 f      22.3
+6 Ann      75     66    159 f      26.1</code></pre>
 </div>
 </div>
-<p>Die Temperaturen in der <code>Temp</code>-Spalte sind in Grad Fahrenheit angegeben. Wir können nun eine neue Spalte namens <code>celsius</code> hinzufügen, indem wir die vorhandene <code>Temp</code>-Spalte wie folgt transformieren:</p>
+<p>Man kann in einem Aufruf auch mehrere Spalten erzeugen und dabei sogar direkt auf gerade erst berechnete Spalten zugreifen:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>aq <span class="ot">=</span> <span class="fu">transform</span>(airquality, <span class="at">celsius=</span>(Temp <span class="sc">-</span> <span class="dv">32</span>) <span class="sc">*</span> (<span class="dv">5</span><span class="sc">/</span><span class="dv">9</span>))</span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(aq)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mutate</span>(df, <span class="at">height_m=</span>height <span class="sc">/</span> <span class="dv">100</span>, <span class="at">bmi=</span>weight <span class="sc">/</span> height_m<span class="sc">^</span><span class="dv">2</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  Ozone Solar.R Wind Temp Month Day  celsius
-1    41     190  7.4   67     5   1 19.44444
-2    36     118  8.0   72     5   2 22.22222
-3    12     149 12.6   74     5   3 23.33333
-4    18     313 11.5   62     5   4 16.66667
-5    NA      NA 14.3   56     5   5 13.33333
-6    28      NA 14.9   66     5   6 18.88889</code></pre>
+<pre><code># A tibble: 6 × 7
+  name    age weight height sex   height_m   bmi
+  &lt;chr&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;fct&gt;    &lt;dbl&gt; &lt;dbl&gt;
+1 Bob      32     98    188 m         1.88  27.7
+2 Al       24     61    176 m         1.76  19.7
+3 Sue      64     87    174 f         1.74  28.7
+4 John     44     82    182 m         1.82  24.8
+5 Mary     21     73    181 f         1.81  22.3
+6 Ann      75     66    159 f         1.59  26.1</code></pre>
 </div>
 </div>
-<p>Beachten Sie, dass wir in der Transformation vorhandene Spalten wieder direkt verwenden können (im Beispiel <code>Temp</code>), ohne Anführungszeichen oder <code>airquality$</code> verwenden zu müssen. Außerdem wird immer ein <em>neues</em> Data Frame erzeugt; Sie könnten dieses aber dem ursprünglichen Namen zuweisen wenn Sie möchten (also <code>airquality</code> in obigem Beispiel statt <code>aq</code>).</p>
+<p>Gibt man einen bereits vorhandenen Spaltennamen an, wird die betreffende Spalte überschrieben.</p>
+</section>
+<section id="zeilen-sortieren-mit-arrange" class="level3">
+<h3 class="anchored" data-anchor-id="zeilen-sortieren-mit-arrange">Zeilen sortieren mit <code>arrange()</code></h3>
+<p>Die Funktion <code>arrange()</code> sortiert die Zeilen nach einer oder mehreren Spalten. Mit <code>desc()</code> sortiert man absteigend:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">arrange</span>(df, age)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 5
+  name    age weight height sex  
+  &lt;chr&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;fct&gt;
+1 Mary     21     73    181 f    
+2 Al       24     61    176 m    
+3 Bob      32     98    188 m    
+4 John     44     82    182 m    
+5 Sue      64     87    174 f    
+6 Ann      75     66    159 f    </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">arrange</span>(df, <span class="fu">desc</span>(age))</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 5
+  name    age weight height sex  
+  &lt;chr&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;fct&gt;
+1 Ann      75     66    159 f    
+2 Sue      64     87    174 f    
+3 John     44     82    182 m    
+4 Bob      32     98    188 m    
+5 Al       24     61    176 m    
+6 Mary     21     73    181 f    </code></pre>
+</div>
+</div>
+<p>Gibt man mehrere Spalten an, wird zuerst nach der ersten sortiert, und innerhalb gleicher Werte nach der zweiten:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">arrange</span>(df, sex, <span class="fu">desc</span>(weight))</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 5
+  name    age weight height sex  
+  &lt;chr&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;fct&gt;
+1 Sue      64     87    174 f    
+2 Mary     21     73    181 f    
+3 Ann      75     66    159 f    
+4 Bob      32     98    188 m    
+5 John     44     82    182 m    
+6 Al       24     61    176 m    </code></pre>
+</div>
+</div>
+</section>
+<section id="spalten-umbenennen-mit-rename" class="level3">
+<h3 class="anchored" data-anchor-id="spalten-umbenennen-mit-rename">Spalten umbenennen mit <code>rename()</code></h3>
+<p>Schließlich kann man mit <code>rename()</code> Spalten umbenennen. Die Schreibweise ist <code>neuer_name=alter_name</code>:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rename</span>(df, <span class="at">gewicht=</span>weight, <span class="at">groesse=</span>height)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 5
+  name    age gewicht groesse sex  
+  &lt;chr&gt; &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;fct&gt;
+1 Bob      32      98     188 m    
+2 Al       24      61     176 m    
+3 Sue      64      87     174 f    
+4 John     44      82     182 m    
+5 Mary     21      73     181 f    
+6 Ann      75      66     159 f    </code></pre>
+</div>
+</div>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -748,21 +684,22 @@ Wichtig
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Das Ergebnis der Funktion <code>transform()</code> ist ein Data Frame, auch wenn man ein Tibble als Ausgangsdatensatz verwendet. Falls das Ergebnis ein Tibble sein soll, muss man den Rückgabewert von <code>transform()</code> mit <code>tibble::as_tibble()</code> explizit in ein Tibble konvertieren.</p>
+<p>Alle diese Funktionen erzeugen immer ein <em>neues</em> Data Frame und verändern das ursprüngliche <code>df</code> <em>nicht</em>. Wenn man mit dem Ergebnis weiterarbeiten möchten, muss man es daher einer Variablen zuweisen (z.B. <code>df2 = mutate(df, ...)</code>).</p>
 </div>
 </div>
+</section>
 </section>
 <section id="der-pipe-operator" class="level2">
 <h2 class="anchored" data-anchor-id="der-pipe-operator">Der Pipe-Operator <code>|&gt;</code></h2>
 <p>Seit R 4.1 gibt es einen sogenannten Pipe-Operator. Dieser wird als <code>|&gt;</code> angeschrieben. Das Prinzip dahinter ist so einfach wie genial. Obwohl damit keinerlei neue Funktionalität hinzugefügt wird (d.h. man kann alle Operationen auch ohne den Pipe-Operator umsetzen), werden viele Operationen dadurch einfacher bzw. intuitiver.</p>
 <p>Grundsätzlich kann man mit dem Pipe-Operator einen Funktionsaufruf <code>f(x)</code> als <code>x |&gt; f()</code> anschreiben. Das ist eine reine syntaktische Alternative, d.h. beide Varianten tun genau das gleiche. Beispiel:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span></span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(x)  <span class="co"># klassisch</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(x)  <span class="co"># klassisch</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 5.5</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>x <span class="sc">|&gt;</span> <span class="fu">mean</span>()  <span class="co"># Pipe</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>x <span class="sc">|&gt;</span> <span class="fu">mean</span>()  <span class="co"># Pipe</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 5.5</code></pre>
 </div>
@@ -781,26 +718,26 @@ Tipp
 </div>
 </div>
 <p>Das macht in diesem Beispiel natürlich wenig Sinn, denn hier ist <code>mean(x)</code> wesentlich kürzer und einfacher lesbar. Interessant wird es aber dann, wenn man das Ergebnis eines Funktionsaufrufs direkt als Argument für einen weiteren Funktionsaufruf verwenden will. Klassisch würde man dies so anschreiben:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">g</span>(<span class="fu">f</span>(x))</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">g</span>(<span class="fu">f</span>(x))</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Hier ist es schon schwieriger zu sehen, in welcher Reihenfolge die Berechnung eigentlich durchgeführt wird: zuerst wird <code>f(x)</code> berechnet, und dessen Ergebnis wird als Argument für die Funktion <code>g()</code> übergeben. R führt die Berechnungen also von innen nach außen durch. Mit dem Pipe-Operator würde dieselbe Operation wie folgt aussehen:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>x <span class="sc">|&gt;</span> <span class="fu">f</span>() <span class="sc">|&gt;</span> <span class="fu">g</span>()</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>x <span class="sc">|&gt;</span> <span class="fu">f</span>() <span class="sc">|&gt;</span> <span class="fu">g</span>()</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Hier ist sofort klar, in welcher Reihenfolge die Berechnung durchgeführt wird: <code>x</code> wird zuerst der Funktion <code>f()</code> übergeben, und das Ergebnis davon wird der Funktion <code>g()</code> übergeben.</p>
 <p>Das folgende Beispiel berechnet zuerst den Mittelwert von einem Vektor <code>x</code> und gleich danach den Logarithmus dieses Mittelwerts:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">log</span>(<span class="fu">mean</span>(x))</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">log</span>(<span class="fu">mean</span>(x))</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 1.704748</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>x <span class="sc">|&gt;</span> <span class="fu">mean</span>() <span class="sc">|&gt;</span> <span class="fu">log</span>()</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>x <span class="sc">|&gt;</span> <span class="fu">mean</span>() <span class="sc">|&gt;</span> <span class="fu">log</span>()</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 1.704748</code></pre>
 </div>
 </div>
 <p>Die Variante mit dem Pipe-Operator ist meistens intuitiver. Noch übersichtlicher wird es, wenn jeder Schritt in der Pipeline in eine eigene Zeile geschrieben wird (das ist in R ja bei allen Befehlen prinzipiell möglich):</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>x <span class="sc">|&gt;</span></span>
-<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mean</span>() <span class="sc">|&gt;</span></span>
-<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">log</span>()</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>x <span class="sc">|&gt;</span></span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mean</span>() <span class="sc">|&gt;</span></span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">log</span>()</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 1.704748</code></pre>
 </div>
@@ -808,99 +745,186 @@ Tipp
 </section>
 <section id="data-wrangling" class="level2">
 <h2 class="anchored" data-anchor-id="data-wrangling">Data Wrangling</h2>
-<p>Kombinieren wir nun alles, was wir in diesem Kapitel gelernt haben (nämlich <code>subset()</code>, <code>transform()</code> und <code>|&gt;</code>), dann erhalten wir ein Werkzeug, welches das Umformen eines Data Frames (das sogenannte Data Wrangling) sehr intuitiv ermöglicht. Sehen wir uns das anhand des <code>airquality</code>-Datensatzes an.</p>
-<p>Nehmen wir an, wir möchten die Temperaturen (in °C) im Monat Juli untersuchen. Folgende Pipeline könnten wir dazu verwenden:</p>
+<p>Kombinieren wir nun alles, was wir in diesem Kapitel gelernt haben (nämlich die <code>dplyr</code>-Verben und den Pipe-Operator), dann erhalten wir ein Werkzeug, welches das Umformen eines Data Frames (das sogenannte Data Wrangling) sehr intuitiv ermöglicht. Jede Funktion nimmt ein Data Frame entgegen und gibt ein Data Frame zurück. Dadurch können wir die Daten Schritt für Schritt bearbeiten, indem wir mehrere Verben miteinander kombinieren. Das Ergebnis eines Arbeitsschritts dient dabei jeweils als Ausgangspunkt für den nächsten.</p>
+<p>Sehen wir uns das anhand des <code>airquality</code>-Datensatzes an. Nehmen wir an, wir möchten die Temperaturen (in °C) im Monat Juli untersuchen:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tibble)</span>
-<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>airquality <span class="sc">|&gt;</span></span>
-<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">transform</span>(<span class="at">celsius=</span>(Temp <span class="sc">-</span> <span class="dv">32</span>) <span class="sc">*</span> (<span class="dv">5</span><span class="sc">/</span><span class="dv">9</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">subset</span>(Month <span class="sc">==</span> <span class="dv">7</span>) <span class="sc">|&gt;</span></span>
-<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">subset</span>(<span class="at">select=</span><span class="sc">-</span><span class="fu">c</span>(Month, Day)) <span class="sc">|&gt;</span></span>
-<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">as_tibble</span>()</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>airquality <span class="sc">|&gt;</span></span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">celsius=</span>(Temp <span class="sc">-</span> <span class="dv">32</span>) <span class="sc">*</span> (<span class="dv">5</span><span class="sc">/</span><span class="dv">9</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(Month <span class="sc">==</span> <span class="dv">7</span>) <span class="sc">|&gt;</span></span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(<span class="sc">-</span>Month, <span class="sc">-</span>Day)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 31 × 5
-   Ozone Solar.R  Wind  Temp celsius
-   &lt;int&gt;   &lt;int&gt; &lt;dbl&gt; &lt;int&gt;   &lt;dbl&gt;
- 1   135     269   4.1    84    28.9
- 2    49     248   9.2    85    29.4
- 3    32     236   9.2    81    27.2
- 4    NA     101  10.9    84    28.9
- 5    64     175   4.6    83    28.3
- 6    40     314  10.9    83    28.3
- 7    77     276   5.1    88    31.1
- 8    97     267   6.3    92    33.3
- 9    97     272   5.7    92    33.3
-10    85     175   7.4    89    31.7
-# ℹ 21 more rows</code></pre>
+<pre><code>   Ozone Solar.R Wind Temp  celsius
+1    135     269  4.1   84 28.88889
+2     49     248  9.2   85 29.44444
+3     32     236  9.2   81 27.22222
+4     NA     101 10.9   84 28.88889
+5     64     175  4.6   83 28.33333
+6     40     314 10.9   83 28.33333
+7     77     276  5.1   88 31.11111
+8     97     267  6.3   92 33.33333
+9     97     272  5.7   92 33.33333
+10    85     175  7.4   89 31.66667
+11    NA     139  8.6   82 27.77778
+12    10     264 14.3   73 22.77778
+13    27     175 14.9   81 27.22222
+14    NA     291 14.9   91 32.77778
+15     7      48 14.3   80 26.66667
+16    48     260  6.9   81 27.22222
+17    35     274 10.3   82 27.77778
+18    61     285  6.3   84 28.88889
+19    79     187  5.1   87 30.55556
+20    63     220 11.5   85 29.44444
+21    16       7  6.9   74 23.33333
+22    NA     258  9.7   81 27.22222
+23    NA     295 11.5   82 27.77778
+24    80     294  8.6   86 30.00000
+25   108     223  8.0   85 29.44444
+26    20      81  8.6   82 27.77778
+27    52      82 12.0   86 30.00000
+28    82     213  7.4   88 31.11111
+29    50     275  7.4   86 30.00000
+30    64     253  7.4   83 28.33333
+31    59     254  9.2   81 27.22222</code></pre>
 </div>
 </div>
-<div class="callout callout-style-default callout-note callout-titled">
+<p>Die Pipeline liest sich fast wie ein deutscher Satz: Nimm <code>airquality</code>, berechne die Spalte <code>celsius</code>, behalte nur die Zeilen aus Monat 7, und entferne die Spalten <code>Month</code> und <code>Day</code>.</p>
+<p>Um mit dem Ergebnis weiterzuarbeiten, weist man es einer (neuen) Variablen zu:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>aq <span class="ot">=</span> airquality <span class="sc">|&gt;</span></span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">celsius=</span>(Temp <span class="sc">-</span> <span class="dv">32</span>) <span class="sc">*</span> (<span class="dv">5</span><span class="sc">/</span><span class="dv">9</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(Month <span class="sc">==</span> <span class="dv">7</span>) <span class="sc">|&gt;</span></span>
+<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(<span class="sc">-</span>Month, <span class="sc">-</span>Day)</span>
+<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb49-6"><a href="#cb49-6" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(aq[[<span class="st">"celsius"</span>]])  <span class="co"># mittlere Temperatur (in °C) im Juli</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 28.83513</code></pre>
+</div>
+</div>
+</section>
+<section id="gruppierte-auswertungen" class="level2">
+<h2 class="anchored" data-anchor-id="gruppierte-auswertungen">Gruppierte Auswertungen</h2>
+<p>In der vorigen Einheit haben wir deskriptive Statistiken immer für <em>alle</em> Fälle berechnet. Sehr häufig möchte man Kennwerte aber getrennt für einzelne Gruppen bestimmen. <code>dplyr</code> stellt dafür zwei weitere Verben zur Verfügung, die sich nahtlos in unsere Pipelines einfügen.</p>
+<p>Die Funktion <code>summarize()</code> fasst ein Data Frame zu einer <em>einzigen</em> Zeile zusammen. Man gibt dabei genau wie bei <code>mutate()</code> an, wie die neuen Spalten berechnet werden sollen:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summarize</span>(airquality, <span class="at">mean_temp=</span><span class="fu">mean</span>(Temp), <span class="at">max_wind=</span><span class="fu">max</span>(Wind))</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  mean_temp max_wind
+1  77.88235     20.7</code></pre>
+</div>
+</div>
+<p>Interessant wird das in Kombination mit <code>group_by()</code>. Diese Funktion verändert die Daten selbst nicht, sondern markiert lediglich eine oder mehrere Spalten als Gruppierungsvariablen. Ein nachfolgendes <code>summarize()</code> berechnet die Kennwerte dann <em>für jede Gruppe getrennt</em>:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>airquality <span class="sc">|&gt;</span></span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(Month) <span class="sc">|&gt;</span></span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="at">mean_temp=</span><span class="fu">mean</span>(Temp), <span class="at">max_wind=</span><span class="fu">max</span>(Wind))</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 5 × 3
+  Month mean_temp max_wind
+  &lt;int&gt;     &lt;dbl&gt;    &lt;dbl&gt;
+1     5      65.5     20.1
+2     6      79.1     20.7
+3     7      83.9     14.9
+4     8      84.0     15.5
+5     9      76.9     16.6</code></pre>
+</div>
+</div>
+<p>Das Ergebnis ist ein ganz normales Tibble mit einer Zeile pro Monat, mit dem wir wie gewohnt weiterarbeiten können.</p>
+<p>Sehr nützlich ist außerdem die Funktion <code>n()</code>, welche innerhalb von <code>summarize()</code> die Anzahl der Zeilen pro Gruppe liefert:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>airquality <span class="sc">|&gt;</span></span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(Month) <span class="sc">|&gt;</span></span>
+<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(</span>
+<span id="cb55-4"><a href="#cb55-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">n=</span><span class="fu">n</span>(),</span>
+<span id="cb55-5"><a href="#cb55-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">mean_ozone=</span><span class="fu">mean</span>(Ozone, <span class="at">na.rm=</span><span class="cn">TRUE</span>),</span>
+<span id="cb55-6"><a href="#cb55-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">sd_ozone=</span><span class="fu">sd</span>(Ozone, <span class="at">na.rm=</span><span class="cn">TRUE</span>)</span>
+<span id="cb55-7"><a href="#cb55-7" aria-hidden="true" tabindex="-1"></a>    )</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 5 × 4
+  Month     n mean_ozone sd_ozone
+  &lt;int&gt; &lt;int&gt;      &lt;dbl&gt;    &lt;dbl&gt;
+1     5    31       23.6     22.2
+2     6    30       29.4     18.2
+3     7    31       59.1     31.6
+4     8    31       60.0     39.7
+5     9    30       31.4     24.1</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Hinweis
+Wichtig
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Im vorigen Beispiel wird mit <code>as_tibble()</code> am Ende alles in ein Tibble konvertiert. Ansonsten hätte man ein Data Frame, weil wir die Funktion <code>transform()</code> verwendet haben.</p>
+<p>Achten Sie wie immer auf fehlende Werte! Im Beispiel liefert <code>mean(Ozone)</code> ohne <code>na.rm=TRUE</code> für die meisten Monate <code>NA</code>, weil die Ozon-Spalte fehlende Werte enthält.</p>
 </div>
 </div>
-<p>Um mit diesem Data Frame weiterzuarbeiten, sollte man das Ergebnis einer (neuen) Variablen zuweisen, z.B.:</p>
+<p>Selbstverständlich kann man das mit den bereits bekannten Verben kombinieren. Das folgende Beispiel berechnet die mittlere Temperatur in °C pro Monat, betrachtet dabei aber nur Tage mit wenig Wind, und sortiert das Ergebnis absteigend:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>aq <span class="ot">=</span> airquality <span class="sc">|&gt;</span></span>
-<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">transform</span>(<span class="at">celsius=</span>(Temp <span class="sc">-</span> <span class="dv">32</span>) <span class="sc">*</span> (<span class="dv">5</span><span class="sc">/</span><span class="dv">9</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">subset</span>(Month <span class="sc">==</span> <span class="dv">7</span>) <span class="sc">|&gt;</span></span>
-<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">subset</span>(<span class="at">select=</span><span class="sc">-</span><span class="fu">c</span>(Month, Day))</span>
-<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(aq<span class="sc">$</span>celsius)  <span class="co"># mittlere Temperatur (in °C) im Juli</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>airquality <span class="sc">|&gt;</span></span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(Wind <span class="sc">&lt;</span> <span class="dv">10</span>) <span class="sc">|&gt;</span></span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">celsius=</span>(Temp <span class="sc">-</span> <span class="dv">32</span>) <span class="sc">*</span> (<span class="dv">5</span><span class="sc">/</span><span class="dv">9</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(Month) <span class="sc">|&gt;</span></span>
+<span id="cb57-5"><a href="#cb57-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="at">n=</span><span class="fu">n</span>(), <span class="at">mean_celsius=</span><span class="fu">mean</span>(celsius)) <span class="sc">|&gt;</span></span>
+<span id="cb57-6"><a href="#cb57-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">arrange</span>(<span class="fu">desc</span>(mean_celsius))</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 28.83513</code></pre>
+<pre><code># A tibble: 5 × 3
+  Month     n mean_celsius
+  &lt;int&gt; &lt;int&gt;        &lt;dbl&gt;
+1     8    19         30.2
+2     7    21         29.2
+3     9    12         27.7
+4     6    16         26.3
+5     5    13         19.7</code></pre>
 </div>
 </div>
-<p>Abschließend ist noch anzumerken, dass das <a href="https://www.tidyverse.org/">Tidyverse</a> wesentlich mehr Funktionen bietet, die mit dem Pipe-Operator elegant miteinander verbunden werden können. Insbesondere gruppierte zusammenfassende Statistiken (z.B. die mittleren Temperaturen für alle Monate) werden dadurch ähnlich intuitiv möglich wie in den hier gezeigten Beispielen. Mit Base-R ist dies zwar auch möglich, aber nicht in dieser einheitlichen Pipeline-Form.</p>
 </section>
 <section id="übungen" class="level2">
 <h2 class="anchored" data-anchor-id="übungen">Übungen</h2>
 <section id="übung-1" class="level3">
 <h3 class="anchored" data-anchor-id="übung-1">Übung 1</h3>
-<p>Installieren und aktivieren Sie das Paket <code>tidyr</code>. Darin enthalten ist der Datensatz <code>table2</code>. Erzeugen Sie daraus ein neues Data Frame, welches aus den Spalten <code>type</code> und <code>count</code> die Werte in zwei Spalten <code>cases</code> und <code>population</code> enthält.</p>
+<p>Erstellen Sie aus dem in R vorhandenen Data Frame <code>mtcars</code> ein neues Data Frame namens <code>mtcars1</code>, welches nur aus jenen Zeilen besteht in denen die Spalte <code>mpg</code> Werte größer als 25 aufweist. Aus wie vielen Zeilen bzw. Spalten bestehen <code>mtcars</code> bzw. <code>mtcars1</code>?</p>
 </section>
 <section id="übung-2" class="level3">
 <h3 class="anchored" data-anchor-id="übung-2">Übung 2</h3>
-<p>Im Paket <code>tidyr</code> ist auch ein Datensatz <code>table4a</code> enthalten. Fassen Sie die beiden Spalten <code>1999</code> und <code>2000</code> zu einer Wertespalte namens <code>count</code> und einer Indikatorspalte namens <code>year</code> zusammen.</p>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Hinweis
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Die beiden Spaltennamen muss man mit Backticks (<code>`</code>) umschließen, da Namen die mit Ziffern starten und R diese sonst als Zahlen interpretieren würde, d.h. <code>`1999`</code> bzw. <code>`2000`</code>.</p>
-</div>
-</div>
-</section>
-<section id="übung-3" class="level3">
-<h3 class="anchored" data-anchor-id="übung-3">Übung 3</h3>
-<p>Erstellen Sie aus dem in R vorhandenen Data Frame <code>mtcars</code> ein neues Data Frame namens <code>mtcars1</code>, welches nur aus jenen Zeilen besteht in denen die Spalte <code>mpg</code> Werte größer als 25 aufweist. Aus wie vielen Zeilen bzw. Spalten bestehen <code>mtcars</code> bzw. <code>mtcars1</code>? Verwenden Sie dafür die Funktion <code>subset()</code>!</p>
-</section>
-<section id="übung-4" class="level3">
-<h3 class="anchored" data-anchor-id="übung-4">Übung 4</h3>
-<p>Installieren und aktivieren Sie das Paket <code>nycflights13</code>. Wir verwenden den Datensatz <code>flights</code> aus diesem Paket. Lesen Sie sich zuerst den Hilfetext zu <code>flights</code> durch. Führen Sie danach folgende Aufgaben durch (unter Verwendung des Pipe-Operators und den Funktionen <code>subset()</code> bzw. <code>transform()</code>):</p>
+<p>Installieren und aktivieren Sie das Paket <code>nycflights13</code>. Wir verwenden den Datensatz <code>flights</code> aus diesem Paket. Lesen Sie sich zuerst den Hilfetext zu <code>flights</code> durch. Führen Sie danach folgende Aufgaben durch (verwenden Sie dabei den Pipe-Operator sowie die <code>dplyr</code>-Verben <code>filter()</code>, <code>select()</code> und <code>mutate()</code>):</p>
 <ul>
 <li>Erstellen Sie einen neuen Datensatz, welcher alle Flüge am 1.1.2013 enthält. Außerdem sollen nur die Spalten <code>year</code>, <code>month</code>, <code>day</code>, <code>dep_time</code>, <code>arr_time</code> und <code>tailnum</code> vorhanden sein. Wie viele Flüge sind das?</li>
 <li>Erzeugen Sie zwei neue Spalten <code>hours</code> (die Flugzeit in Stunden; die Spalte <code>air_time</code> beinhaltet die Flugzeit in Minuten) und <code>speed</code> (die Fluggeschwindigkeit in km/h; die Spalte <code>distance</code> beinhaltet den zurückgelegten Weg in Meilen, hier wäre also eine zusätzliche Spalte <code>km</code> hilfreich). Geben Sie das neue Data Frame nur mit den Spalten <code>month</code>, <code>day</code>, <code>carrier</code>, <code>tailnum</code> und <code>speed</code> aus!</li>
 <li>Erstellen Sie einen neuen Datensatz, welcher alle Frühflüge beinhaltet (Flüge, die vor 6:00 gestartet sind).</li>
 <li>Erstellen Sie einen neuen Datensatz, welcher nur jene Flüge beinhaltet, die schneller als geplant unterwegs waren (wo also die Verspätung bei der Ankunft kleiner war als beim Abflug).</li>
 </ul>
-
-
 </section>
+<section id="übung-3" class="level3">
+<h3 class="anchored" data-anchor-id="übung-3">Übung 3</h3>
+<p>Berechnen Sie im Datensatz <code>penguins</code> deskriptive Statistiken getrennt für die drei Pinguinspezies. Wie lauten die Mittelwerte der Spalten <code>bill_len</code>, <code>bill_dep</code> und <code>flipper_len</code> für die drei Spezies? Geben Sie außerdem an, wie viele Pinguine es pro Spezies gibt.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Hinweis
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Achten Sie auf die fehlenden Werte in diesen Spalten!</p>
+</div>
+</div>
+</section>
+<section id="übung-4" class="level3">
+<h3 class="anchored" data-anchor-id="übung-4">Übung 4</h3>
+<p>Laden Sie die Beispieldaten <a href="lecturer.dat"><code>lecturer.dat</code></a> (siehe Einheit 5) und berechnen Sie, getrennt nach der Spalte <code>job</code>, die Anzahl der Personen sowie die Mittelwerte der Spalten <code>friends</code>, <code>alcohol</code>, <code>income</code> und <code>neurotic</code>. Sortieren Sie das Ergebnis absteigend nach dem mittleren Einkommen.</p>
+</section>
+</section>
+<section id="lösungen" class="level2">
+<h2 class="anchored" data-anchor-id="lösungen">Lösungen</h2>
+<p>Die Lösungen zu diesen Übungen finden Sie <a href="../07/07-solutions.html">hier</a>.</p>
+
+
 </section>
 
 </main> <!-- /main -->

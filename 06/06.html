@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="de" xml:lang="de"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.9.37">
+<meta name="generator" content="quarto-1.9.38">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -75,14 +75,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-acf12a64177840b8d86f2d4f01b2e9fb.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-23bbe8b5e4efc1e257f6d59dce478b08.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-acf12a64177840b8d86f2d4f01b2e9fb.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-de63f62b328812d8e578a4d74e282472.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-6b6957c917596b414ec0b78690761e87.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-de63f62b328812d8e578a4d74e282472.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-c6344c862f46cf6a68a6928f4c326ca4.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-a4cc7722e2170b143ab83d7d6445229a.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../site_libs/bootstrap/bootstrap-c6344c862f46cf6a68a6928f4c326ca4.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-0f1a520e41d12d84e925fcfd3dfb7140.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-70d97c5485b77d73a4316377cf99e6cf.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-0f1a520e41d12d84e925fcfd3dfb7140.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <link href="../site_libs/quarto-contrib/academicons-1.9.2/all.css" rel="stylesheet">
 <link href="../site_libs/quarto-contrib/academicons-1.9.2/size.css" rel="stylesheet">
 <link href="../site_libs/quarto-contrib/fontawesome6-0.1.0/all.css" rel="stylesheet">
@@ -396,7 +396,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <div>
       <div class="quarto-title-meta-heading">Veröffentlicht</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">20. April 2026</p>
+        <p class="date">5. November 2026</p>
       </div>
     </div>
     
@@ -441,8 +441,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>Danach führen wir wieder die Konvertierungen für die Spalten <code>birth_date</code> und <code>job</code> durch:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>birth_date <span class="ot">=</span> <span class="fu">as.Date</span>(df<span class="sc">$</span>birth_date, <span class="at">format=</span><span class="st">"%m/%d/%Y"</span>)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>job <span class="ot">=</span> <span class="fu">factor</span>(df<span class="sc">$</span>job, <span class="at">levels=</span><span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>), <span class="at">labels=</span><span class="fu">c</span>(<span class="st">"Lecturer"</span>, <span class="st">"Student"</span>))</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>df[[<span class="st">"birth_date"</span>]] <span class="ot">=</span> <span class="fu">as.Date</span>(df[[<span class="st">"birth_date"</span>]], <span class="at">format=</span><span class="st">"%m/%d/%Y"</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>df[[<span class="st">"job"</span>]] <span class="ot">=</span> <span class="fu">factor</span>(df[[<span class="st">"job"</span>]], <span class="at">levels=</span><span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>), <span class="at">labels=</span><span class="fu">c</span>(<span class="st">"Lecturer"</span>, <span class="st">"Student"</span>))</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>df</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 10 × 7
@@ -462,11 +462,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>Die <code>name</code>-Spalte brauchen wir für unsere nachfolgenden Betrachtungen nicht mehr, deswegen entfernen wir sie:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>name <span class="ot">=</span> <span class="cn">NULL</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>df[[<span class="st">"name"</span>]] <span class="ot">=</span> <span class="cn">NULL</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
+</section>
+<section id="kennwerte-einzelner-variablen" class="level2">
+<h2 class="anchored" data-anchor-id="kennwerte-einzelner-variablen">Kennwerte einzelner Variablen</h2>
 <p>Es gibt in R eine Reihe an Funktionen, welche zusammenfassende Statistiken einer Variablen (bzw. eines Vektors) berechnen. Nützliche Funktionen sind z.B. <code>mean()</code>, <code>sd()</code>, <code>var()</code>, <code>min()</code>, <code>max()</code>, <code>median()</code>, <code>range()</code> und <code>quantile()</code>. Den Mittelwert eines Vektors (und damit auch einer Spalte von <code>df</code>) kann man also wie folgt berechnen:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(df<span class="sc">$</span>friends)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(df[[<span class="st">"friends"</span>]])</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 7.8</code></pre>
 </div>
@@ -479,19 +482,92 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">unique</span>(df<span class="sc">$</span>friends)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">unique</span>(df[[<span class="st">"friends"</span>]])</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1]  5  2  0  4  1 10 12 15 17</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">unique</span>(df<span class="sc">$</span>job)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">unique</span>(df[[<span class="st">"job"</span>]])</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] Lecturer Student 
 Levels: Lecturer Student</code></pre>
 </div>
 </div>
-<p>All diese Berechnungen müsste man nun für jede interessierende Spalte wiederholen (weil diese nur mit Vektoren funktionieren), was relativ mühsam wäre. Deswegen gibt es die Funktion <code>sapply()</code>, welche eine Funktion auf jede Spalte eines Data Frames einzeln anwendet. Möchte man also den Mittelwert für jede numerische Spalte von <code>df</code> berechnen, kann man dies so tun:</p>
+</section>
+<section id="häufigkeitstabellen" class="level2">
+<h2 class="anchored" data-anchor-id="häufigkeitstabellen">Häufigkeitstabellen</h2>
+<p>Bei kategorischen Variablen interessiert meist nicht nur, <em>welche</em> Werte vorkommen, sondern vor allem <em>wie oft</em>. Genau das liefert die Funktion <code>table()</code>:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sapply</span>(df[, <span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>)], mean)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(df[[<span class="st">"job"</span>]])</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Lecturer  Student 
+       5        5 </code></pre>
+</div>
+</div>
+<p>Es gibt in unseren Beispieldaten also fünf Personen mit dem Beruf “Lecturer” und fünf “Student”. Das funktioniert nicht nur für Faktoren, sondern für beliebige Vektoren:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(df[[<span class="st">"friends"</span>]])</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+ 0  1  2  4  5 10 12 15 17 
+ 1  1  1  1  1  1  2  1  1 </code></pre>
+</div>
+</div>
+<p>Übergibt man <code>table()</code> <em>zwei</em> Vektoren, erhält man eine sogenannte Kreuztabelle, welche die Häufigkeiten aller Kombinationen der beiden Variablen enthält. Sehen wir uns das am Datensatz <code>penguins</code> an – hier interessiert z.B., wie sich die drei Pinguinspezies auf die drei Inseln verteilen:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(penguins[[<span class="st">"species"</span>]], penguins[[<span class="st">"island"</span>]])</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>           
+            Biscoe Dream Torgersen
+  Adelie        44    56        52
+  Chinstrap      0    68         0
+  Gentoo       124     0         0</code></pre>
+</div>
+</div>
+<p>Man erkennt, dass Adélie-Pinguine auf allen drei Inseln vorkommen, Chinstrap ausschließlich auf Dream und Gentoo ausschließlich auf Biscoe.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Wichtig
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Standardmäßig ignoriert <code>table()</code> fehlende Werte. Möchte man diese ebenfalls angezeigt bekommen, setzt man das Argument <code>useNA="ifany"</code>:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(penguins[[<span class="st">"sex"</span>]])</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+female   male 
+   165    168 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(penguins[[<span class="st">"sex"</span>]], <span class="at">useNA=</span><span class="st">"ifany"</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+female   male   &lt;NA&gt; 
+   165    168     11 </code></pre>
+</div>
+</div>
+</div>
+</div>
+<p>Absolute Häufigkeiten sind oft schwer zu interpretieren, wenn man nicht weiß, wie viele Fälle es insgesamt gibt. Die Funktion <code>prop.table()</code> rechnet eine bestehende Tabelle daher in <em>relative</em> Häufigkeiten (Anteile) um:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">prop.table</span>(<span class="fu">table</span>(penguins[[<span class="st">"species"</span>]]))</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+   Adelie Chinstrap    Gentoo 
+0.4418605 0.1976744 0.3604651 </code></pre>
+</div>
+</div>
+<p>Knapp 44% der Pinguine im Datensatz gehören also zur Spezies Adélie.</p>
+</section>
+<section id="kennwerte-für-ganze-data-frames" class="level2">
+<h2 class="anchored" data-anchor-id="kennwerte-für-ganze-data-frames">Kennwerte für ganze Data Frames</h2>
+<p>Alle bisherigen Funktionen arbeiten mit <em>Vektoren</em>, d.h. man müsste sie für jede interessierende Spalte einzeln aufrufen. Das wäre relativ mühsam. Deswegen gibt es die Funktion <code>sapply()</code>, welche eine Funktion auf jede Spalte eines Data Frames einzeln anwendet. Möchte man also den Mittelwert für jede numerische Spalte von <code>df</code> berechnen, kann man dies so tun:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sapply</span>(df[, <span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>)], mean)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> friends  alcohol   income neurotic 
      7.8     17.6  18511.0     13.1 </code></pre>
@@ -512,7 +588,7 @@ Tipp
 </div>
 <p>Beachten Sie, dass <code>df[, -c(1, 2)]</code> alle Spalten aus <code>df</code> ausgenommen der ersten und zweiten bedeutet. So kann man jede beliebige Funktion auf einzelne Spalten anwenden, z.B. die Standardabweichung:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sapply</span>(df[, <span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>)], sd)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sapply</span>(df[, <span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>)], sd)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     friends      alcohol       income     neurotic 
     6.142746     7.042727 18001.354548     3.984693 </code></pre>
@@ -532,7 +608,7 @@ Tipp
 </ol>
 <p>Für Faktoren werden die Stufen sowie die Anzahl an Fällen pro Stufe aufgelistet.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(df)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(df)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   birth_date               job       friends        alcohol          income         neurotic    
  Min.   :1949-10-10   Lecturer:5   Min.   : 0.0   Min.   : 5.00   Min.   :   10   Min.   : 7.00  
@@ -549,8 +625,8 @@ Tipp
 <h3 class="anchored" data-anchor-id="die-funktion-describe">Die Funktion <code>describe()</code></h3>
 <p>Eine weitere Möglichkeit, noch mehr statistische Kenngrößen für numerische Spalten auszugeben, bietet die Funktion <code>describe()</code> aus dem <code>psych</code>-Paket. Nicht-numerische Spalten werden hier nicht vernünftig zusammengefasst, deshalb sollte man der Funktion nur numerische Spalten übergeben.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(psych)</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">describe</span>(df[, <span class="dv">3</span><span class="sc">:</span><span class="dv">6</span>])</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(psych)</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="fu">describe</span>(df[, <span class="dv">3</span><span class="sc">:</span><span class="dv">6</span>])</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>         vars  n    mean       sd  median  trimmed      mad min   max range  skew kurtosis      se
 friends     1 10     7.8     6.14     7.5     7.62     7.41   0    17    17  0.11    -1.75    1.94
@@ -572,38 +648,30 @@ Hinweis
 <p>Eigentlich kann man Funktionen aus Paketen auch ohne Aktivierung verwenden. Dazu muss man den Paketnamen gefolgt von <code>::</code> voranstellen. Im vorigen Beispiel könnte man also auf <code>library(psych)</code> verzichten und die Funktion mit <code>psych::describe()</code> trotzdem verwenden. Dies ist praktisch, wenn man wirklich nur eine einzelne Funktion aus einem Paket verwenden möchte.</p>
 </div>
 </div>
-<p>Man kann diese Funktion auch auf einzelne Gruppen separat anwenden. Im Beispiel könnte man dies getrennt für jede Stufe von <code>df$job</code> tun. Dazu verwendet man die verwandte Funktion <code>describeBy()</code>:</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">describeBy</span>(df[, <span class="fu">c</span>(<span class="st">"friends"</span>, <span class="st">"alcohol"</span>, <span class="st">"income"</span>, <span class="st">"neurotic"</span>)], df<span class="sc">$</span>job)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>
- Descriptive statistics by group 
-group: Lecturer
-         vars n    mean       sd median trimmed      mad   min   max range skew kurtosis      se
-friends     1 5     2.4     2.07      2     2.4     2.97     0     5     5 0.11    -2.03    0.93
-alcohol     2 5    16.0     9.62     15    16.0     7.41     5    30    25 0.28    -1.72    4.30
-income      3 5 33400.0 12561.85  35000 33400.0 19273.80 20000 50000 30000 0.10    -1.98 5617.83
-neurotic    4 5    15.0     4.18     14    15.0     4.45    10    21    11 0.25    -1.72    1.87
------------------------------------------------------------------------------------------- 
-group: Student
-         vars n   mean      sd median trimmed     mad min   max range  skew kurtosis      se
-friends     1 5   13.2    2.77     12    13.2    2.97  10    17     7  0.23    -1.89    1.24
-alcohol     2 5   19.2    3.56     18    19.2    2.97  16    25     9  0.66    -1.43    1.59
-income      3 5 3622.0 4135.69   3000  3622.0 4299.54  10 10000  9990  0.48    -1.64 1849.54
-neurotic    4 5   11.2    3.03     13    11.2    1.48   7    14     7 -0.37    -2.01    1.36</code></pre>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Wichtig
 </div>
 </div>
-<p>Das erste Argument ist das zu beschreibende Data Frame, und das zweite Argument ist die Spalte, nach der gruppiert werden soll (üblicherweise ein Faktor).</p>
+<div class="callout-body-container callout-body">
+<p>Auch das Paket <code>Hmisc</code> (welches wir in einer späteren Einheit für Korrelationen verwenden werden) enthält eine Funktion namens <code>describe()</code> – diese liefert aber eine ganz andere Ausgabe. Wenn beide Pakete in derselben Sitzung aktiviert sind, “gewinnt” jenes, welches <em>zuletzt</em> mit <code>library()</code> geladen wurde. R weist beim Aktivieren auch darauf hin (“The following object is masked from …”).</p>
+<p>Um solche Verwechslungen zu vermeiden, schreiben Sie in diesem Fall am besten immer explizit <code>psych::describe()</code> bzw. <code>Hmisc::describe()</code>.</p>
+</div>
+</div>
 </section>
 <section id="die-funktion-stat.desc" class="level3">
 <h3 class="anchored" data-anchor-id="die-funktion-stat.desc">Die Funktion <code>stat.desc()</code></h3>
 <p>Das Paket <code>pastecs</code> beinhaltet die Funktion <code>stat.desc()</code> zur Beschreibung von Daten. Mit der Funktion <code>round()</code> sollte man hier außerdem einstellen, wie viele Kommastellen ausgegeben werden sollen, da die Ausgabe der Funktion sonst relativ unübersichtlich ist. Wenn das Argument <code>norm=TRUE</code> gesetzt wird, werden für alle Spalten Tests auf Normalverteilung durchgeführt.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pastecs)</span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(</span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">stat.desc</span>(df[, <span class="fu">c</span>(<span class="st">"friends"</span>, <span class="st">"alcohol"</span>, <span class="st">"income"</span>, <span class="st">"neurotic"</span>)], <span class="at">norm=</span><span class="cn">TRUE</span>),</span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">digits=</span><span class="dv">2</span></span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pastecs)</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">stat.desc</span>(df[, <span class="fu">c</span>(<span class="st">"friends"</span>, <span class="st">"alcohol"</span>, <span class="st">"income"</span>, <span class="st">"neurotic"</span>)], <span class="at">norm=</span><span class="cn">TRUE</span>),</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">digits=</span><span class="dv">2</span></span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>             friends alcohol       income neurotic
 nbr.val        10.00   10.00        10.00    10.00
@@ -638,39 +706,13 @@ Hinweis
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>In R kann man Dezimalzahlen auch in der sogenannten <a href="https://de.wikipedia.org/wiki/Wissenschaftliche_Notation">wissenschaftlichen Notation</a> anschreiben. Hier verwendet man eine Darstellung mit Zehnerpotenzen, die man mit <code>e</code> eingeben kann – <code>e</code> kann man als “mal zehn hoch” lesen.</p>
+<p>In der Ausgabe tauchen Zahlen wie <code>1.23e-05</code> auf – das ist die sogenannte <a href="https://de.wikipedia.org/wiki/Wissenschaftliche_Notation">wissenschaftliche Notation</a>, eine Darstellung mit Zehnerpotenzen. Das <code>e</code> kann man dabei als “mal zehn hoch” lesen:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fl">1e0</span>  <span class="co"># 1 mal 10 hoch 0</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 1</code></pre>
-</div>
-</div>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span><span class="fl">4e0</span>  <span class="co"># -4 mal 10 hoch 0</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] -4</code></pre>
-</div>
-</div>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fl">1e1</span>  <span class="co"># 1 mal 10 hoch 1</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 10</code></pre>
-</div>
-</div>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fl">3.5e2</span>  <span class="co"># 3.5 mal 10 hoch 2</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fl">3.5e2</span>  <span class="co"># 3.5 mal 10 hoch 2 = 350</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 350</code></pre>
 </div>
-</div>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fl">1e-2</span>  <span class="co"># 1 mal 10 hoch -2</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.01</code></pre>
-</div>
-</div>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fl">1e-15</span>  <span class="co"># 1 mal 10 hoch -15 = 0.000000000000001</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fl">1e-15</span>  <span class="co"># 1 mal 10 hoch -15 = 0.000000000000001</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 1e-15</code></pre>
 </div>
@@ -688,120 +730,14 @@ Tipp
 </div>
 <div class="callout-body-container callout-body">
 <p>Möchte man die Ausgabe von Zahlen in der wissenschaftlichen Notation weitgehend vermeiden, kann man zu Beginn einer Sitzung folgende Option setzen:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">scipen=</span><span class="dv">100</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">scipen=</span><span class="dv">100</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Eine andere Möglichkeit ist es, Zahlen mit <code>format()</code> als normale Dezimalzahlen darzustellen. Dies ergibt aber immer einen Character-Vektor, erfordert dafür aber nicht das Ändern einer Option:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">format</span>(<span class="fl">1e-15</span>, <span class="at">scientific=</span><span class="cn">FALSE</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">format</span>(<span class="fl">1e-15</span>, <span class="at">scientific=</span><span class="cn">FALSE</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "0.000000000000001"</code></pre>
 </div>
 </div>
-</div>
-</div>
-</section>
-<section id="gruppieren-mit-by" class="level3">
-<h3 class="anchored" data-anchor-id="gruppieren-mit-by">Gruppieren mit <code>by()</code></h3>
-<p>Für die Funktion <code>stat.desc()</code> gibt es keine direkte Variante für gruppierte Daten (so wie <code>describeBy()</code> für <code>describe()</code>). Es gibt aber in R die generische Funktion <code>by()</code>, welche beliebige Funktionen auf gruppierte Daten anwendet. Das erste Argument ist hier wie üblich der Datensatz, das zweite Argument ist die Gruppierungsspalte, und das dritte Argument ist die Funktion, die auf die gruppierten Daten angewendet werden soll.</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">by</span>(df[, <span class="fu">c</span>(<span class="st">"friends"</span>, <span class="st">"alcohol"</span>, <span class="st">"income"</span>, <span class="st">"neurotic"</span>)], df<span class="sc">$</span>job, describe)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>df$job: Lecturer
-         vars n    mean       sd median trimmed      mad   min   max range skew kurtosis      se
-friends     1 5     2.4     2.07      2     2.4     2.97     0     5     5 0.11    -2.03    0.93
-alcohol     2 5    16.0     9.62     15    16.0     7.41     5    30    25 0.28    -1.72    4.30
-income      3 5 33400.0 12561.85  35000 33400.0 19273.80 20000 50000 30000 0.10    -1.98 5617.83
-neurotic    4 5    15.0     4.18     14    15.0     4.45    10    21    11 0.25    -1.72    1.87
------------------------------------------------------------------------------------------- 
-df$job: Student
-         vars n   mean      sd median trimmed     mad min   max range  skew kurtosis      se
-friends     1 5   13.2    2.77     12    13.2    2.97  10    17     7  0.23    -1.89    1.24
-alcohol     2 5   19.2    3.56     18    19.2    2.97  16    25     9  0.66    -1.43    1.59
-income      3 5 3622.0 4135.69   3000  3622.0 4299.54  10 10000  9990  0.48    -1.64 1849.54
-neurotic    4 5   11.2    3.03     13    11.2    1.48   7    14     7 -0.37    -2.01    1.36</code></pre>
-</div>
-</div>
-<p>Möchte man der Funktion im dritten Argument selbst Argumente übergeben (z.B. <code>norm=TRUE</code> für die Funktion <code>stat.desc()</code>), kann man dies mit weiteren Argumenten ganz am Ende tun:</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">by</span>(</span>
-<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>    df[, <span class="fu">c</span>(<span class="st">"friends"</span>, <span class="st">"alcohol"</span>, <span class="st">"income"</span>, <span class="st">"neurotic"</span>)],</span>
-<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>    df<span class="sc">$</span>job,</span>
-<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>    stat.desc,</span>
-<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">norm=</span><span class="cn">TRUE</span></span>
-<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>df$job: Lecturer
-                 friends    alcohol        income   neurotic
-nbr.val       5.00000000  5.0000000  5.000000e+00  5.0000000
-nbr.null      1.00000000  0.0000000  0.000000e+00  0.0000000
-nbr.na        0.00000000  0.0000000  0.000000e+00  0.0000000
-min           0.00000000  5.0000000  2.000000e+04 10.0000000
-max           5.00000000 30.0000000  5.000000e+04 21.0000000
-range         5.00000000 25.0000000  3.000000e+04 11.0000000
-sum          12.00000000 80.0000000  1.670000e+05 75.0000000
-median        2.00000000 15.0000000  3.500000e+04 14.0000000
-mean          2.40000000 16.0000000  3.340000e+04 15.0000000
-SE.mean       0.92736185  4.3011626  5.617829e+03  1.8708287
-CI.mean.0.95  2.57476927 11.9419419  1.559759e+04  5.1942532
-var           4.30000000 92.5000000  1.578000e+08 17.5000000
-std.dev       2.07364414  9.6176920  1.256185e+04  4.1833001
-coef.var      0.86401839  0.6011058  3.761032e-01  0.2788867
-skewness      0.11304669  0.2832618  9.869949e-02  0.2458756
-skew.2SE      0.06191822  0.1551489  5.405994e-02  0.1346716
-kurtosis     -2.03411574 -1.7235062 -1.980205e+00 -1.7239184
-kurt.2SE     -0.50852893 -0.4308766 -4.950513e-01 -0.4309796
-normtest.W    0.95235149  0.9787162  9.342460e-01  0.9785712
-normtest.p    0.75397300  0.9276364  6.255965e-01  0.9268345
------------------------------------------------------------------------------------------- 
-df$job: Student
-                friends    alcohol        income   neurotic
-nbr.val       5.0000000  5.0000000  5.000000e+00  5.0000000
-nbr.null      0.0000000  0.0000000  0.000000e+00  0.0000000
-nbr.na        0.0000000  0.0000000  0.000000e+00  0.0000000
-min          10.0000000 16.0000000  1.000000e+01  7.0000000
-max          17.0000000 25.0000000  1.000000e+04 14.0000000
-range         7.0000000  9.0000000  9.990000e+03  7.0000000
-sum          66.0000000 96.0000000  1.811000e+04 56.0000000
-median       12.0000000 18.0000000  3.000000e+03 13.0000000
-mean         13.2000000 19.2000000  3.622000e+03 11.2000000
-SE.mean       1.2409674  1.5937377  1.849536e+03  1.3564660
-CI.mean.0.95  3.4454778  4.4249254  5.135136e+03  3.7661534
-var           7.7000000 12.7000000  1.710392e+07  9.2000000
-std.dev       2.7748874  3.5637059  4.135689e+03  3.0331502
-coef.var      0.2102187  0.1856097  1.141825e+00  0.2708170
-skewness      0.2291423  0.6649718  4.835220e-01 -0.3663862
-skew.2SE      0.1255064  0.3642200  2.648359e-01 -0.2006780
-kurtosis     -1.8935200 -1.4346010 -1.644573e+00 -2.0145180
-kurt.2SE     -0.4733800 -0.3586503 -4.111433e-01 -0.5036295
-normtest.W    0.9385501  0.8852008  8.943871e-01  0.8576350
-normtest.p    0.6557061  0.3335463  3.796449e-01  0.2198809</code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">by</span>(df[, <span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>)], df<span class="sc">$</span>job, summary)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>df$job: Lecturer
-    friends       alcohol       income         neurotic 
- Min.   :0.0   Min.   : 5   Min.   :20000   Min.   :10  
- 1st Qu.:1.0   1st Qu.:10   1st Qu.:22000   1st Qu.:13  
- Median :2.0   Median :15   Median :35000   Median :14  
- Mean   :2.4   Mean   :16   Mean   :33400   Mean   :15  
- 3rd Qu.:4.0   3rd Qu.:20   3rd Qu.:40000   3rd Qu.:17  
- Max.   :5.0   Max.   :30   Max.   :50000   Max.   :21  
------------------------------------------------------------------------------------------- 
-df$job: Student
-    friends        alcohol         income         neurotic   
- Min.   :10.0   Min.   :16.0   Min.   :   10   Min.   : 7.0  
- 1st Qu.:12.0   1st Qu.:17.0   1st Qu.:  100   1st Qu.: 9.0  
- Median :12.0   Median :18.0   Median : 3000   Median :13.0  
- Mean   :13.2   Mean   :19.2   Mean   : 3622   Mean   :11.2  
- 3rd Qu.:15.0   3rd Qu.:20.0   3rd Qu.: 5000   3rd Qu.:13.0  
- Max.   :17.0   Max.   :25.0   Max.   :10000   Max.   :14.0  </code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">by</span>(df<span class="sc">$</span>friends, df<span class="sc">$</span>job, mean)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>df$job: Lecturer
-[1] 2.4
------------------------------------------------------------------------------------------- 
-df$job: Student
-[1] 13.2</code></pre>
 </div>
 </div>
 </section>
@@ -810,43 +746,23 @@ df$job: Student
 <h2 class="anchored" data-anchor-id="test-auf-normalverteilung">Test auf Normalverteilung</h2>
 <p>Die Funktion <code>stat.desc()</code> liefert bereits das Ergebnis des <a href="https://en.wikipedia.org/wiki/Shapiro%E2%80%93Wilk_test">Shapiro-Wilk-Tests</a> auf Normalverteilung (die Einträge <code>normtest.W</code> und <code>normtest.p</code> enthalten den Wert der Teststatistik bzw. die Signifikanz). Wenn <code>normtest.p</code> signifikant ist (z.B. kleiner als 0.05), dann kann man die Nullhypothese der Normalverteilung verwerfen. Man kann den Shapiro-Wilk-Test auch direkt mit der Funktion <code>shapiro.test()</code> aufrufen:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="fu">shapiro.test</span>(df<span class="sc">$</span>income)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">shapiro.test</span>(df[[<span class="st">"income"</span>]])</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
     Shapiro-Wilk normality test
 
-data:  df$income
+data:  df[["income"]]
 W = 0.89721, p-value = 0.2041</code></pre>
 </div>
 </div>
-<p>Mit der <code>by()</code>-Funktion kann man den Test auch getrennt auf verschiedene Gruppen anwenden.</p>
+<p>Der <a href="https://en.wikipedia.org/wiki/Kolmogorov%E2%80%93Smirnov_test">Kolmogorov-Smirnov-Test</a> – in R mittels <code>ks.test()</code> verfügbar – kann gegebene Daten auf <em>beliebige</em> Verteilungen testen, d.h. natürlich auch auf Normalverteilung. Im Falle der Normalverteilung ist aber der Shapiro-Wilk-Test vorzuziehen, da dieser speziell auf die Normalverteilung zugeschnitten ist und daher mehr statistische Power besitzt.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">by</span>(df<span class="sc">$</span>income, df<span class="sc">$</span>job, shapiro.test)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>df$job: Lecturer
-
-    Shapiro-Wilk normality test
-
-data:  dd[x, ]
-W = 0.93425, p-value = 0.6256
-
------------------------------------------------------------------------------------------- 
-df$job: Student
-
-    Shapiro-Wilk normality test
-
-data:  dd[x, ]
-W = 0.89439, p-value = 0.3796</code></pre>
-</div>
-</div>
-<p>Der <a href="https://en.wikipedia.org/wiki/Kolmogorov%E2%80%93Smirnov_test">Kolmogorov-Smirnov-Test</a> kann gegebene Daten auf <em>beliebige</em> Verteilungen testen, d.h. natürlich auch auf Normalverteilung. Im Falle der Normalverteilung ist aber der Shapiro-Wilk-Test vorzuziehen, da dieser speziell auf die Normalverteilung zugeschnitten ist und daher mehr statistische Power besitzt.</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ks.test</span>(df<span class="sc">$</span>income, <span class="st">"pnorm"</span>, <span class="fu">mean</span>(df<span class="sc">$</span>income), <span class="fu">sd</span>(df<span class="sc">$</span>income))</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ks.test</span>(df[[<span class="st">"income"</span>]], <span class="st">"pnorm"</span>, <span class="fu">mean</span>(df[[<span class="st">"income"</span>]]), <span class="fu">sd</span>(df[[<span class="st">"income"</span>]]))</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
     Exact one-sample Kolmogorov-Smirnov test
 
-data:  df$income
+data:  df[["income"]]
 D = 0.18182, p-value = 0.8389
 alternative hypothesis: two-sided</code></pre>
 </div>
@@ -857,8 +773,8 @@ alternative hypothesis: two-sided</code></pre>
 <h2 class="anchored" data-anchor-id="test-auf-varianzhomogenität">Test auf Varianzhomogenität</h2>
 <p>Der Levene-Test prüft auf Gleichheit der Varianzen (Homoskedastizität) von zwei oder mehr Gruppen. Die Nullhypothese ist, dass die Varianzen in allen Gruppen gleich sind. In R führt man den Test mit der Funktion <code>leveneTest()</code> aus dem Paket <code>car</code> durch. Dazu sehen wir uns die Beispieldaten <code>Moore</code> an, welche mit dem Paket <code>car</code> automatisch geladen werden.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(car)</span>
-<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(Moore, <span class="dv">4</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(car)</span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(Moore, <span class="dv">4</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  partner.status conformity fcategory fscore
 1            low          8       low     37
@@ -866,7 +782,7 @@ alternative hypothesis: two-sided</code></pre>
 3            low          8      high     65
 4            low          7       low     20</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span>(Moore, <span class="dv">4</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span>(Moore, <span class="dv">4</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   partner.status conformity fcategory fscore
 42           high         13      high     57
@@ -874,7 +790,7 @@ alternative hypothesis: two-sided</code></pre>
 44           high         10      high     52
 45           high         15    medium     44</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(Moore)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(Moore)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> partner.status   conformity     fcategory      fscore     
  high:23        Min.   : 4.00   high  :15   Min.   :15.00  
@@ -887,7 +803,7 @@ alternative hypothesis: two-sided</code></pre>
 </div>
 <p>Der Levene-Test für die Spalte <code>conformity</code> gruppiert nach der Spalte <code>fcategory</code> wird wie folgt aufgerufen:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="fu">leveneTest</span>(Moore<span class="sc">$</span>conformity, Moore<span class="sc">$</span>fcategory)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="fu">leveneTest</span>(Moore[[<span class="st">"conformity"</span>]], Moore[[<span class="st">"fcategory"</span>]])</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Levene's Test for Homogeneity of Variance (center = median)
       Df F value Pr(&gt;F)
@@ -901,7 +817,7 @@ group  2   0.046 0.9551
 <h2 class="anchored" data-anchor-id="übungen">Übungen</h2>
 <section id="übung-1" class="level3">
 <h3 class="anchored" data-anchor-id="übung-1">Übung 1</h3>
-<p>Berechnen Sie statistische Kenngrößen wie Mittelwert, Median, Minimum und Maximum für die vier numerischen Variablen <code>Global_active_power</code>, <code>Global_reactive_power</code>, <code>Voltage</code> und <code>Global_intensity</code> aus den Daten die Sie in der vorigen Einheit bereits importiert haben (<a href="http://archive.ics.uci.edu/ml/datasets/Individual+household+electric+power+consumption">Individual Household Electric Power Consumption</a>).</p>
+<p>Berechnen Sie statistische Kenngrößen wie Mittelwert, Median, Minimum und Maximum für die vier numerischen Variablen <code>Global_active_power</code>, <code>Global_reactive_power</code>, <code>Voltage</code> und <code>Global_intensity</code> aus den Daten die Sie in der vorigen Einheit bereits importiert haben (<a href="https://archive.ics.uci.edu/dataset/235/individual+household+electric+power+consumption">Individual Household Electric Power Consumption</a>).</p>
 <ul>
 <li>Berechnen Sie die Kenngrößen mit der Funktion <code>sapply()</code>.</li>
 <li>Berechnen Sie die Kenngrößen mit der Funktion <code>summary()</code>.</li>
@@ -918,8 +834,9 @@ group  2   0.046 0.9551
 <ul>
 <li>Aus wie vielen Zeilen und Spalten besteht der Datensatz <code>penguins</code>?</li>
 <li>Die Spalten <code>species</code>, <code>island</code> und <code>sex</code> sind Faktoren – wie viele Stufen gibt es jeweils?</li>
-<li>Berechnen Sie deskriptive Statistiken getrennt für die drei Pinguinspezies! Wie lauten die Mittelwerte der Spalten <code>bill_len</code>, <code>bill_dep</code> und <code>flipper_len</code> für die drei Spezies?</li>
 <li>Gibt es fehlende Werte in den Daten?</li>
+<li>Erstellen Sie eine Häufigkeitstabelle der Spalte <code>year</code>. In welchen Jahren wurde erhoben, und wie viel Prozent aller Beobachtungen entfallen auf das Jahr 2009?</li>
+<li>Erstellen Sie eine Kreuztabelle der Spalten <code>species</code> und <code>sex</code> (fehlende Werte sollen dabei mit angezeigt werden). Bei welchen Spezies fehlt die Angabe des Geschlechts?</li>
 </ul>
 </section>
 <section id="übung-3" class="level3">
@@ -933,14 +850,14 @@ group  2   0.046 0.9551
 </section>
 <section id="übung-4" class="level3">
 <h3 class="anchored" data-anchor-id="übung-4">Übung 4</h3>
-<p>Laden Sie die Beispieldaten <a href="lecturer.dat"><code>lecturer.dat</code></a> und berechnen Sie die Mittelwerte aller numerischen Spalten gruppiert nach der Spalte <code>job</code>. Verwenden Sie dazu die Funktion <code>by()</code>. Warum funktioniert diese Berechnung nicht mit der Funktion <code>mean</code>?</p>
-</section>
-<section id="übung-5" class="level3">
-<h3 class="anchored" data-anchor-id="übung-5">Übung 5</h3>
 <p>Erzeugen Sie mit der Funktion <code>rnorm()</code> einen Vektor mit 5001 standardnormalverteilten Zufallszahlen und überprüfen Sie, ob dieser Vektor normalverteilt ist. Verwenden Sie dazu den Shapiro-Wilk-Test. Wie interpretieren Sie das Ergebnis?</p>
-
-
 </section>
+</section>
+<section id="lösungen" class="level2">
+<h2 class="anchored" data-anchor-id="lösungen">Lösungen</h2>
+<p>Die Lösungen zu diesen Übungen finden Sie <a href="../06/06-solutions.html">hier</a>.</p>
+
+
 </section>
 
 </main> <!-- /main -->
