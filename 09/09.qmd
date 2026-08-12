@@ -119,15 +119,29 @@ $$r = \frac{24.\dot{3}}{\sqrt{24.\dot{6} \cdot 36}} \approx 0.8166$$
 
 ### Signifikanz
 
-Meist wird nach der Berechnung der Korrelation ein Test durchgeführt, welcher prüft, ob die erhaltene Korrelation signifikant von der Nullhypothese ("es existiert *keine* Korrelation, d.h. die Korrelation ist 0") abweicht. Die Stichprobenverteilung von $r$ ist allerdings schief (besonders bei Werten nahe −1 oder 1) und daher nicht normalverteilt. Mit der [Fisher-Transformation](https://en.wikipedia.org/wiki/Fisher_transformation)
+Meist wird nach der Berechnung der Korrelation ein Test durchgeführt, welcher prüft, ob die erhaltene Korrelation signifikant von der Nullhypothese ("es existiert *keine* Korrelation, d.h. die Korrelation ist 0") abweicht. Für genau diese Nullhypothese lässt sich der Test *exakt* durchführen: Sind die beiden Variablen bivariat normalverteilt und ist die wahre Korrelation 0, dann folgt die Größe
 
-$$z_r = \frac{1}{2} \ln \frac{1 + r}{1 - r} = \text{arctanh}(r)$$
+$$t = \frac{r \sqrt{N - 2}}{\sqrt{1 - r^2}}$$
 
-erhält man jedoch eine Größe, die näherungsweise normalverteilt ist – und zwar mit dem Standardfehler
+einer $t$-Verteilung mit $N - 2$ Freiheitsgraden. Man berechnet also aus $r$ und $N$ den Wert von $t$ und bestimmt dann, wie wahrscheinlich ein mindestens so extremer Wert unter dieser Verteilung ist – das ergibt den $p$-Wert.
 
-$$\mathrm{SE}(z_r) = \frac{1}{\sqrt{N - 3}}.$$
+::: callout-note
+Die $t$-Verteilung ist wie die Standardnormalverteilung glockenförmig und symmetrisch um 0, hat aber etwas "schwerere Ränder" (also mehr Wahrscheinlichkeit an den Extremwerten). Ihre Form hängt von einem einzigen Parameter ab, den *Freiheitsgraden* (df): Je größer df, desto ähnlicher wird sie der Standardnormalverteilung – ab etwa df = 30 sind die beiden kaum noch zu unterscheiden.
 
-Unter der Nullhypothese ist der Erwartungswert von $z_r$ gleich 0. Nun kann man den erhaltenen Wert von $z_r$ durch den Standardfehler dividieren und das Ergebnis dann mit Werten aus einer Tabelle der Standardnormalverteilung vergleichen. So erhält man dann den $p$-Wert (siehe auch [hier](https://en.wikipedia.org/wiki/Pearson_correlation_coefficient#Using_the_Fisher_transformation)).
+```{r}
+#| echo: false
+#| fig-height: 4
+ggplot(data.frame(x=c(-4, 4)), aes(x)) +
+    stat_function(fun=dt, args=list(df=1), aes(color="t (df = 1)")) +
+    stat_function(fun=dt, args=list(df=5), aes(color="t (df = 5)")) +
+    stat_function(fun=dt, args=list(df=38), aes(color="t (df = 38)")) +
+    stat_function(fun=dnorm, aes(color="Normalverteilung"), linetype="dashed") +
+    labs(x="", y="Dichte", color="") +
+    theme_minimal()
+```
+
+Die $t$-Verteilung wird uns in Einheit 10 bei der linearen Regression wieder begegnen, dort wird sie zur Beurteilung der Regressionskoeffizienten verwendet.
+:::
 
 ::: callout-note
 Der $p$-Wert gibt hier die Wahrscheinlichkeit an, ein Ergebnis zu erhalten, das *mindestens so extrem* ist wie das beobachtete – unter der Annahme, dass die Nullhypothese zutrifft (also dass die Korrelation 0 ist). Bei einer ungerichteten Hypothese zählt dabei der Betrag der Korrelation, d.h. sowohl stark positive als auch stark negative Werte gelten als extrem.
@@ -137,35 +151,62 @@ Ein kleiner $p$-Wert bedeutet also, dass der beobachtete Wert unter der Nullhypo
 Ein großer $p$-Wert ist umgekehrt *kein* Beleg dafür, dass die Korrelation tatsächlich 0 ist – man kann die Nullhypothese dann lediglich nicht verwerfen.
 :::
 
-Betrachten wir dazu ein Beispiel zur Veranschaulichung der Berechnung des $p$-Wertes sowie des Konfidenzintervalls für eine gegebene Pearson-Korrelation.
+
+### Konfidenzintervall
+
+Der Weg über die $t$-Verteilung hilft uns aber nicht weiter, wenn wir zusätzlich ein Konfidenzintervall für $r$ berechnen wollen, denn dieses muss ja auch Korrelationen ungleich 0 abdecken. Für eine wahre Korrelation ungleich 0 ist die Stichprobenverteilung von $r$ aber *schief* (besonders bei Werten nahe −1 oder 1) und daher nicht normalverteilt. Mit der [Fisher-Transformation](https://en.wikipedia.org/wiki/Fisher_transformation)
+
+$$z_r = \frac{1}{2} \ln \frac{1 + r}{1 - r} = \text{arctanh}(r)$$
+
+erhält man jedoch eine Größe, die näherungsweise normalverteilt ist – und zwar mit dem Standardfehler
+
+$$\mathrm{SE}(z_r) = \frac{1}{\sqrt{N - 3}}.$$
+
+Das Konfidenzintervall erhält man, indem man zu $z_r$ das Produkt aus dem zum Signifikanzniveau gehörenden Quantil der Standardnormalverteilung (ca. 1.96 für $\alpha = 0.05$) und dem Standardfehler addiert bzw. subtrahiert. Da diese Grenzen Fisher-transformiert sind, muss man sie abschließend noch mit `tanh()` (der Umkehrfunktion von `atanh()`) rücktransformieren.
+
+::: callout-important
+Im Gegensatz zum $t$-Test für den $p$-Wert ist das nur eine *Näherung* – $z_r$ ist lediglich *näherungsweise* normalverteilt. Diese Näherung wird mit wachsender Stichprobengröße besser und ist in der Praxis ab etwa $N = 30$ gut brauchbar.
+:::
+
+::: callout-note
+Das Konfidenzintervall umfasst jene Werte, die mit den beobachteten Daten verträglich (plausibel) sind. Die Konfidenz ist *nicht* die *Wahrscheinlichkeit*, dass der wahre Wert in dem berechneten Intervall liegt – denn der wahre Wert ist entweder in dem Intervall oder nicht. Wenn man viele Stichproben erheben und damit jedes Mal ein Konfidenzintervall berechnen würde, dann würde im Falle eines 95%-Konfidenzintervalls in 95% der berechneten Intervalle der wahre Wert in dem Intervall liegen.
+:::
 
 
 ### Beispiel
 
-Gegeben sei eine Korrelation $r = 0.25$ aus einer Stichprobe der Größe $N = 40$, und wir geben ein Signifikanzniveau von $\alpha = 0.05$ vor (das ist der Schwellwert, den der $p$-Wert unterschreiten muss, damit wir eine Korrelation als signifikant betrachten). Für $p$-Wert und Konfidenzintervall brauchen wir zunächst die Fisher-Transformation von $r$ sowie deren Standardfehler:
+Betrachten wir dazu ein Beispiel zur Veranschaulichung der Berechnung des $p$-Wertes sowie des Konfidenzintervalls für eine gegebene Pearson-Korrelation. Gegeben sei eine Korrelation $r = 0.25$ aus einer Stichprobe der Größe $N = 40$, und wir geben ein Signifikanzniveau von $\alpha = 0.05$ vor (das ist der Schwellwert, den der $p$-Wert unterschreiten muss, damit wir eine Korrelation als signifikant betrachten).
+
+Für den $p$-Wert berechnen wir zunächst den Wert der $t$-Statistik:
 
 ```{r}
 r = 0.25
 N = 40
 alpha = 0.05
 
-(z = atanh(r))
-(se_z = 1 / sqrt(N - 3))
+(t = r * sqrt(N - 2) / sqrt(1 - r^2))
 ```
 
-Den $p$-Wert erhält man als Wahrscheinlichkeit, in einer Standardnormalverteilung Werte zu erhalten, die betragsmäßig größer sind als $z \, / \, \text{SE}(z) \approx 1.55$ (der Faktor 2 wird benötigt, da wir keine gerichtete Hypothese haben und daher beide Enden der Verteilung berücksichtigen müssen):
+Den $p$-Wert erhält man als Wahrscheinlichkeit, in einer $t$-Verteilung mit $N - 2 = 38$ Freiheitsgraden Werte zu erhalten, die betragsmäßig größer sind als $t \approx 1.59$ (der Faktor 2 wird benötigt, da wir keine gerichtete Hypothese haben und daher beide Enden der Verteilung berücksichtigen müssen):
 
 ```{r}
-(p = 2 * pnorm(-abs(z / se_z)))
+(p = 2 * pt(-abs(t), df=N - 2))
 ```
 
 ::: callout-note
-Das `abs()` sorgt dafür, dass die Berechnung auch für *negative* Korrelationen funktioniert. Ohne Betrag (also z.B. `2 * (1 - pnorm(z / se_z))`) würde man für ein negatives $r$ einen Wert nahe 2 statt eines kleinen $p$-Wertes erhalten.
+Das `abs()` sorgt dafür, dass die Berechnung auch für *negative* Korrelationen funktioniert. Ohne Betrag (also z.B. `2 * (1 - pt(t, df=N - 2))`) würde man für ein negatives $r$ einen Wert nahe 2 statt eines kleinen $p$-Wertes erhalten.
 :::
 
 Dieser $p$-Wert ist größer als $\alpha = 0.05$, d.h. wir können die Nullhypothese (keine Korrelation) *nicht* verwerfen.
 
-Das Konfidenzintervall erhält man, indem man zu $z$ das Produkt aus dem zum Signifikanzniveau gehörenden Quantil (ca. 1.96 für $\alpha = 0.05$) und dem Standardfehler addiert bzw. subtrahiert. Da alle drei Werte Fisher-transformiert sind, muss man sie abschließend noch rücktransformieren (`tanh()` ist die Umkehrfunktion von `atanh()`):
+Für das Konfidenzintervall brauchen wir die Fisher-Transformation von $r$ sowie deren Standardfehler:
+
+```{r}
+(z = atanh(r))
+(se_z = 1 / sqrt(N - 3))
+```
+
+Damit können wir die Grenzen des Konfidenzintervalls berechnen und rücktransformieren:
 
 ```{r}
 cl_z = z - qnorm(1 - alpha/2) * se_z
@@ -174,10 +215,6 @@ c(cl_z, z, cu_z)  # Fisher-transformiert
 
 c(tanh(cl_z), r, tanh(cu_z))  # zurücktransformiert
 ```
-
-::: callout-note
-Das Konfidenzintervall umfasst jene Werte, die mit den beobachteten Daten verträglich (plausibel) sind. Die Konfidenz ist *nicht* die *Wahrscheinlichkeit*, dass der wahre Wert in dem berechneten Intervall liegt – denn der wahre Wert ist entweder in dem Intervall oder nicht. Wenn man viele Stichproben erheben und damit jedes Mal ein Konfidenzintervall berechnen würde, dann würde im Falle eines 95%-Konfidenzintervalls in 95% der berechneten Intervalle der wahre Wert in dem Intervall liegen.
-:::
 
 ::: callout-tip
 Die Tatsache, dass die Korrelation $r=0.25$ bei einer Stichprobe von $N=40$ nicht signifikant unterschiedlich von Null ist ($p=0.12$) kann man auch daran erkennen, dass das 95%-Konfidenzintervall den Wert 0 (also die Nullhypothese) enthält. Das bedeutet also, dass wir die Nullhypothese (keine Korrelation) *nicht* verwerfen können.
@@ -190,7 +227,7 @@ Die Pearson-Korrelation ist eine einzelne Zahl, die einen Zusammenhang zwischen 
 
 - $r$ misst ausschließlich den *linearen* Anteil eines Zusammenhangs. Ein Wert nahe 0 bedeutet also *nicht*, dass die Variablen unabhängig sind – ein perfekter, aber U-förmiger Zusammenhang ergibt beispielsweise $r = 0$.
 - $r$ reagiert empfindlich auf Ausreißer. Ein einziger extremer Datenpunkt kann eine Korrelation erzeugen oder auch verschwinden lassen.
-- Der Signifikanztest sowie das Konfidenzintervall setzen voraus, dass die beiden Variablen gemeinsam (bivariat) normalverteilt sind, d.h. im Streudiagramm sollte eine elliptische, zur Mitte hin dichter werdende Punktwolke ohne Ausreißer oder getrennte Cluster erkennbar sein. Eine notwendige (aber nicht hinreichende) Bedingung dafür ist, dass jede der beiden Variablen für sich genommen normalverteilt ist.
+- Der Signifikanztest sowie das Konfidenzintervall setzen voraus, dass die beiden Variablen gemeinsam (bivariat) normalverteilt sind, d.h. im Streudiagramm sollte eine elliptische, zur Mitte hin dichter werdende Punktwolke ohne Ausreißer oder getrennte Cluster erkennbar sein. Eine notwendige (aber nicht hinreichende) Bedingung dafür ist, dass jede der beiden Variablen für sich genommen normalverteilt ist. Unter dieser Voraussetzung ist der $t$-Test für den $p$-Wert exakt, während das Konfidenzintervall über die Fisher-Transformation weiterhin nur eine Näherung bleibt.
 - Wird nur ein eingeschränkter Wertebereich einer Variablen erhoben (z.B. IQ-Werte ausschließlich von Studierenden), fällt $r$ systematisch zu klein aus.
 - Signifikanz ist nicht dasselbe wie Relevanz: Bei sehr großen Stichproben wird auch eine praktisch bedeutungslose Korrelation signifikant (siehe Übung 1).
 - Eine Korrelation über eine gemischte Stichprobe kann in jeder einzelnen Untergruppe ganz anders (bis hin zu umgekehrt) aussehen – das in Einheit 8 gezeigte Simpsons Paradoxon (siehe Übung 5).
@@ -278,11 +315,7 @@ cor.test(x, y, alternative="two.sided", method="pearson", conf.level=0.95)
 Hier kann man die Form der Alternativhypothese (`"two.sided"`, `"greater"`, `"less"`) sowie das Konfidenzniveau angeben. Diese Funktion kann nur mit genau zwei Vektoren umgehen.
 
 ::: callout-note
-Für die Pearson-Korrelation berechnet `cor.test()` den $p$-Wert nicht über die weiter oben beschriebene Fisher-Transformation, sondern über die äquivalente Teststatistik
-
-$$t = \frac{r \sqrt{N - 2}}{\sqrt{1 - r^2}},$$
-
-welche unter der Nullhypothese einer $t$-Verteilung mit $N - 2$ Freiheitsgraden folgt (daher stehen in der Ausgabe `t` und `df`). Die Fisher-Transformation wird intern für das Konfidenzintervall verwendet. Beide Varianten führen in der Praxis zu sehr ähnlichen $p$-Werten.
+Für die Pearson-Korrelation rechnet `cor.test()` genau wie weiter oben beschrieben: Der $p$-Wert wird über die $t$-Statistik bestimmt (daher stehen in der Ausgabe `t` und `df`), das Konfidenzintervall über die Fisher-Transformation.
 :::
 
 

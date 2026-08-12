@@ -23,15 +23,14 @@ published-title: "Veröffentlicht"
 
 ## Übung 1
 
-Durch Probieren mit verschiedenen Werten für $N$ erhält man $N = 62$ für $p < 0.05$. Dies bedeutet, dass eine Korrelation von $r = 0.25$ signifikant ist bei $N = 62$ oder größer.
+Durch Probieren mit verschiedenen Werten für $N$ erhält man $N = 63$ für $p < 0.05$. Dies bedeutet, dass eine Korrelation von $r = 0.25$ signifikant ist bei $N = 63$ oder größer ($N = 62$ liegt mit $p = 0.0500$ ganz knapp über der Schwelle).
 
 ```{r}
 r = 0.25
-N = 62
+N = 63
 alpha = 0.05
-z = atanh(r)
-se_z = 1 / sqrt(N - 3)
-(p = 2 * pnorm(-abs(z / se_z)))
+t = r * sqrt(N - 2) / sqrt(1 - r^2)
+(p = 2 * pt(-abs(t), df=N - 2))
 ```
 
 Wiederum durch Probieren erhält man $N = 1538$ (mindestens) damit $p < 0.05$. Man sieht, dass selbst eine sehr kleine Korrelation ab einer gewissen Stichprobengröße signifikant wird.
@@ -40,9 +39,8 @@ Wiederum durch Probieren erhält man $N = 1538$ (mindestens) damit $p < 0.05$. M
 r = 0.05
 N = 1538
 alpha = 0.05
-z = atanh(r)
-se_z = 1 / sqrt(N - 3)
-(p = 2 * pnorm(-abs(z / se_z)))
+t = r * sqrt(N - 2) / sqrt(1 - r^2)
+(p = 2 * pt(-abs(t), df=N - 2))
 ```
 
 Genau deshalb sollte man Signifikanz nie mit Relevanz gleichsetzen: Eine Korrelation von $r = 0.05$ erklärt lediglich $R^2 = 0.0025$, also 0.25% der Varianz – und ist damit praktisch bedeutungslos, auch wenn sie bei $N = 1538$ statistisch signifikant ist.
