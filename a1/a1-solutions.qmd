@@ -2,13 +2,13 @@
 title: "Lösungen"
 subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2025-11-03
+date: 2027-01-14
 format:
   html:
     page-layout: full
 engine: knitr
 knitr:
-  opts_chunk: 
+  opts_chunk:
     R.options:
       width: 120
 highlight-style: github
@@ -21,39 +21,113 @@ author-title: "Autor"
 published-title: "Veröffentlicht"
 ---
 
-## Übung 1
+## 1 – Erste Schritte
+
+### Übung 1
 
 ```{r}
-#| message: false
-library(palmerpenguins)
-
-# a.
-summary(penguins[["body_mass_g"]])  # 2 fehlende Werte
-df = penguins[!is.na(penguins[["body_mass_g"]]),]
-
-# b.
-by(df[["body_mass_g"]], df[["species"]], mean)
-by(df[["body_mass_g"]], df[["species"]], sd)
-
-# c.
-df[["id"]] = 1:nrow(df)
-
-# d.
-library(afex)
-
-aov_ez(id="id", dv="body_mass_g", data=df, between="species")
+result = sqrt(((25 + 7.1) / (5 * pi))^4 + (-6.2 * 2/3)^2 / (0.8 + 3^(2/7)))
+round(result, 3)
 ```
 
-Ja, die Spezies unterscheiden sich signifikant in ihrer Körpermasse ($F(2, 339) = 213697.59$, $p < .001$).
+
+### Übung 2
+
+```{r}
+result = (exp(2.74) + sin(0.55 * pi + 1.23)) / sqrt(1 + 8.3^1.4)
+round(result, 3)
+```
 
 
-## Übung 2
+## 3 – Vektoren
+
+### Übung 1
+
+```{r}
+a = seq(100, 0, by=-4)
+b = seq(2.5, 10, by=0.3)
+c = seq(14, 15, length.out=35)
+d = rep(c("A", "B", "C"), each=50)
+e = seq(4, 96, by=2)
+f = seq(3, 97, by=2)
+```
+
+
+### Übung 2
+
+```{r}
+set.seed(4)
+x = sample(-10:10, 500, replace=TRUE)
+
+y1 = x[-c(20, 37)]
+y2 = x[x > 4]
+y3 = x[1:25]
+y4 = x[c(2, 128, 37)]
+```
+
+
+### Übung 3
+
+```{r}
+set.seed(4)
+x = sample(-10:10, 500, replace=TRUE)
+
+x_odd = x[x %% 2 == 1]
+x_even = x[x %% 2 == 0]
+
+length(x_odd)
+length(x_even)
+```
+
+
+### Übung 4
+
+```{r}
+set.seed(4)
+x = sample(-10:10, 500, replace=TRUE)
+
+y = x[x %% 2 == 1]
+length(x)
+length(y)
+mean(x)  # 0.428
+mean(y)  # 0.644
+```
+
+
+## 4 – Tabellarische Daten
+
+### Übung 1
+
+```{r}
+(m1 = matrix(rep(1:5, each=25), nrow=25, ncol=5))
+(m2 = matrix(rep(1:25, each=5), nrow=25, ncol=5, byrow=TRUE))
+```
+
+
+### Übung 2
+
+```{r}
+(x = c("1", "9", "X", "13", "Y", "8", "27"))
+(y = as.numeric(x))
+sum(y, na.rm=TRUE)  # 58
+(df = data.frame(x, y, z=1))
+```
+
+
+### Übung 3
+
+```{r}
+(mtcars1 = mtcars[mtcars[["mpg"]] >= 20 & mtcars[["hp"]] >= 110 & mtcars[["cyl"]] == 6,])
+```
+
+
+### Übung 4
 
 ```{r}
 set.seed(123)
 df = data.frame(
-    x = rnorm(1000, mean=10, sd=2),
-    y = sample(LETTERS, 1000, replace=TRUE)
+    x=rnorm(1000, mean=10, sd=2),
+    y=sample(LETTERS, 1000, replace=TRUE)
 )
 df[["z"]] = df[["x"]] ** 2
 
@@ -71,21 +145,9 @@ nrow(df[df[["y"]] == "A" & df[["z"]] > 100,])
 ```
 
 
-## Übung 3
+## 6 – Deskriptive Statistiken
 
-```{r}
-summary(penguins)  # 165 female, 168 male, 11 NAs
-summary(penguins[["sex"]])
-penguins_f = penguins[penguins[["sex"]] == "female",]
-penguins_m = penguins[penguins[["sex"]] == "male",]
-
-# Alternative mit subset():
-penguins_f = subset(penguins, sex == "female")
-penguins_m = subset(penguins, sex == "male")
-```
-
-
-## Übung 4
+### Übung 1
 
 ```{r}
 x = seq(1, 100, 2)
@@ -97,15 +159,42 @@ quantile(x)
 ```
 
 
-## Übung 5
+### Übung 2
 
 ```{r}
-(m1 = matrix(rep(1:5, each=25), nrow=25, ncol=5))
-(m2 = matrix(rep(1:25, each=5), nrow=25, ncol=5, byrow=TRUE))
+x = seq(-76, 120, by=2)
+length(x)
+mean(x)
+sd(x)
+median(x)
+quantile(x, c(0.25, 0.66, 0.75))
+length(x[x > mean(x)])
 ```
 
 
-## Übung 6
+### Übung 3
+
+```{r}
+set.seed(4)
+x = sample(c(-10:10, NA), 500, replace=TRUE)
+
+mean(x, na.rm=TRUE)
+sd(x, na.rm=TRUE)
+quantile(x, probs=c(0, 0.25, 0.33, 0.5, 0.66, 0.75, 1), na.rm=TRUE)
+```
+
+
+### Übung 4
+
+```{r}
+summary(penguins)  # 165 female, 168 male, 11 NAs
+summary(penguins[["sex"]])
+penguins_f = penguins[penguins[["sex"]] == "female",]
+penguins_m = penguins[penguins[["sex"]] == "male",]
+```
+
+
+### Übung 5
 
 ```{r}
 #| message: false
@@ -114,7 +203,7 @@ library(readr)
 df = read_csv2("thg-emissionen_1990-2022_nach_crf_long.csv")
 
 # a.
-unique(df[["Schadstoff"]])  # 8 verschiedene Schadstoffe
+length(unique(df[["Schadstoff"]]))  # 8 verschiedene Schadstoffe
 
 # b.
 length(unique(df[["CRF_Code"]]))  # 83 verschiedene Codes
@@ -125,84 +214,44 @@ df
 ```
 
 
-## Übung 7
+### Übung 6
 
 ```{r}
-by(InsectSprays$count, InsectSprays$spray, mean)
-boxplot(
-    count ~ spray,
-    data=InsectSprays,
-    xlab="Type of spray",
-    ylab="Insect count",
-    main="Insect Sprays Effectiveness"
+set.seed(4)
+df = data.frame(
+    A=sample(-1000:1000, 500, replace=TRUE),
+    B=rnorm(500, mean=5, sd=2)
 )
+
+length(df[df[["A"]] < 0, "B"])
+mean(df[df[["A"]] < 0, "B"])
+sd(df[df[["A"]] < 0, "B"])
 ```
 
 
-## Übung 8
+### Übung 7
 
 ```{r}
 #| message: false
-library(readr)
+df = read_tsv("imdb-ratings.tsv.zip")
 
-df = read_delim("temperature.csv")
-df[["Average"]] = rowMeans(subset(df, select=-YEAR))
+m_g = mean(df[["averageRating"]])
+m = quantile(df[["numVotes"]], 0.9)
+df[["weightedRating"]] = (df[["averageRating"]] * df[["numVotes"]] + m_g * m) / (df[["numVotes"]] + m)
 
-with(
-    df,
-    plot(
-        x=YEAR,
-        y=Average,
-        type="l",
-        main="Innsbruck",
-        xlab="Year",
-        ylab="Average Temperature (°C)"
-    )
-)
+df[order(-df[["weightedRating"]]), ]
 ```
 
+Der Film mit der höchsten gewichteten Bewertung von 9.99 ist "tt2301451". Dabei handelt es sich um die Folge "Ozymandias" aus Breaking Bad ([S5E14](https://www.imdb.com/title/tt2301451/)).
 
-## Übung 9
-
-```{r}
-(mtcars1 = subset(mtcars, mpg >= 20 & hp >= 110 & cyl == 6))
-```
-
-
-## Übung 10
-
-```{r}
-a = seq(100, 0, by=-4)
-b = seq(2.5, 10, by=0.3)
-c = seq(14, 15, length.out=35)
-d = rep(c("A", "B", "C"), each=50)
-e = seq(4, 96, by=2)
-f = seq(3, 97, by=2)
-```
+::: callout-note
+Der in dieser Aufgabe verwendete Datensatz kann, neben anderen, auf [IMDb](https://datasets.imdbws.com/) heruntergeladen werden.
+:::
 
 
-## Übung 11
+## 7 – Datenaufbereitung
 
-```{r}
-library(lm.beta)
-str(attitude)
-model = lm(rating ~ complaints + privileges + learning + raises + critical + advance, data=attitude)
-summary(model)
-```
-
-Aus der Modellzusammenfassung ergeben sich folgende Antworten:
-
-- Der einzige signifikante Prädiktor ist `complaints` mit $b = 0.61319$
-- $R^2$ beträgt 0.7326
-- Das Modell ist signifikant mit $F(6, 23) = 10.5$, $p < .001$
-- Standardisierte Regressionskoeffizienten erhält man mit der Funktion `lm.beta()`:
-
-```{r}
-lm.beta(model)
-```
-
-
-## Übung 12
+### Übung 1
 
 ```{r}
 x = 1:100
@@ -215,164 +264,7 @@ log(sqrt(mean(x^2 + 3, trim=0.25)), base=2)
 ```
 
 
-## Übung 13
-
-```{r}
-set.seed(1)
-df = data.frame(
-    a=sample(0:1000, 20, replace=TRUE),
-    b=sample(0:1000, 20, replace=FALSE)
-)
-
-colMeans(df)
-colMeans(subset(df, a %% 2 == 1))
-```
-
-
-## Übung 14
-
-```{r}
-(x = c("1", "9", "X", "13", "Y", "8", "27"))
-(y = as.numeric(x))
-mean(y, na.rm=TRUE)  # 11.6
-(df = data.frame(x, y, z=1))
-```
-
-
-## Übung 15
-
-```{r}
-result = sqrt(((25 + 7.1) / (5 * pi))^4 + (-6.2 * 2/3)^2 / (0.8 + 3^(2/7)))
-round(result, 3)
-```
-
-
-## Übung 16
-
-```{r}
-set.seed(4)
-x = rnorm(100, mean=-4, sd=5)
-y = 0.29 * x + 2 * rnorm(100, mean=2, sd=2)
-
-model = lm(y ~ x)
-plot(x, y)
-abline(model, col="red")
-
-cor.test(x, y)
-```
-
-Die Ausgabe der Funktion `cor.test(x, y)` zeigt, dass $r = .191$ und $p = .057$. Da $p > .05$, ist die Korrelation nicht signifikant.
-
-
-## Übung 17
-
-```{r}
-#| message: false
-library(readr)
-
-df = read_csv("inflation.csv", na=":")
-
-plot(df$date, df$AT, type="l", col="red")
-lines(df$date, df$DE, type="l", col="blue")
-lines(df$date, df$CH, type="l", col="green")
-legend("topleft", col=c("red", "blue", "green"), lty=1, legend=c("AT", "DE", "CH"))
-```
-
-
-## Übung 18
-
-```{r}
-set.seed(4)
-x = sample(-10:10, 500, replace=TRUE)
-
-y = x[x %% 2 == 1]
-length(x)
-length(y)
-mean(x)  # 0.428
-mean(y)  # 0.644
-```
-
-
-## Übung 19
-
-```{r}
-set.seed(4)
-x = sample(c(-10:10, NA), 500, replace=TRUE)
-
-mean(x, na.rm=TRUE)
-sd(x, na.rm=TRUE)
-quantile(x, probs=c(0, 0.25, 0.33, 0.5, 0.66, 0.75, 1), na.rm=TRUE)
-```
-
-
-## Übung 20
-
-```{r}
-#| message: false
-library(psych)
-library(readr)
-
-wine = read_delim("winequality-white.csv")
-describe(wine)
-# mean of "alcohol": 10.51
-# median of "free sulfur dioxide": 34.00
-# range of pH: 1.10
-by(wine$pH, wine$quality, mean)
-```
-
-
-## Übung 21
-
-```{r}
-set.seed(4)
-df = data.frame(
-    A=sample(-1000:1000, 500, replace=TRUE),
-    B=runif(500, -1, 10)
-)
-
-length(df[df[["A"]] < 0, "B"])
-mean(df[df[["A"]] < 0, "B"])
-sd(df[df[["A"]] < 0, "B"])
-```
-
-
-## Übung 22
-
-```{r}
-set.seed(4)
-x <- sample(-10:10, 500, replace=TRUE)
-
-y1 = x[-c(20, 37)]
-y2 = x[x > 4]
-y3 = x[1:25]
-y4 = x[c(2, 128, 37)]
-```
-
-
-## Übung 23
-
-```{r}
-set.seed(4)
-x = sample(-10:10, 500, replace=TRUE)
-
-x_odd = x[x %% 2 == 1]
-x_even = x[x %% 2 == 0]
-
-length(x_odd)
-length(x_even)
-```
-
-
-## Übung 24
-
-```{r}
-t.test(sleep[sleep$group == 1, "extra"], sleep[sleep$group == 2, "extra"], paired=TRUE)
-```
-
-Die Schlafdauer unterscheidet sich signifikant zwischen den beiden Medikamenten ($t(9) = -4.0621$, $p < 0.01$).
-
-
-## Übung 25
+### Übung 2
 
 ```{r}
 x = 1:100
@@ -386,19 +278,31 @@ x |>
 ```
 
 
-## Übung 26
+### Übung 3
 
 ```{r}
-library(palmerpenguins)
+set.seed(123)
+x = sample(-100:120, size=100, replace=TRUE)
+x |> unique() |> mean(trim=0.25) |> round(2)
 
-df = penguins |>
-    subset(species == "Gentoo") |>
-    transform(mass = body_mass_g / 1000) |>
-    subset(select=c(island, sex, mass))
+round(mean(unique(x), trim=0.25), 2)
 ```
 
 
-## Übung 27
+### Übung 4
+
+```{r}
+#| message: false
+library(dplyr)
+
+df = penguins |>
+    filter(species == "Gentoo") |>
+    mutate(mass=body_mass / 1000) |>
+    select(island, sex, mass)
+```
+
+
+### Übung 5
 
 ```{r}
 set.seed(1)
@@ -408,31 +312,71 @@ df = data.frame(
 )
 
 colMeans(df)
-colMeans(subset(df, B >= 250 & B <= 750))
-colMeans(subset(df, A > B))
+colMeans(filter(df, B >= 250 & B <= 750))
+colMeans(filter(df, A > B))
+colMeans(filter(df, A %% 2 == 1))
 ```
 
 
-## Übung 28
+### Übung 6
 
 ```{r}
-library(readxl)
+#| message: false
+library(psych)
+library(readr)
 
-df1 = read_excel("luis-daten.xls", skip=3, sheet=1)
-df2 = read_excel("luis-daten.xls", skip=3, sheet=2)
-
-df1$Datum = as.Date(df1$Datum, format="%d.%m.%y")
-df2$Datum = as.Date(df2$Datum, format="%d.%m.%y")
-
-with(df1, plot(Datum, Wert, type="l", col="blue", xlab="Date", ylab="PM10"))
-with(df2, lines(Datum, Wert, col="red"))
-legend("topright", col=c("blue", "red"), lty=1, legend=c("Graz (Don Bosco)", "Graz (Süd)"))
-
-cor.test(df1$Wert, df2$Wert)
+wine = read_delim("winequality-white.csv")
+describe(wine)
+# mean of "alcohol": 10.51
+# median of "free sulfur dioxide": 34.00
+# range of pH: 1.10
+wine |>
+    group_by(quality) |>
+    summarize(mean=mean(pH))
 ```
 
 
-## Übung 29
+## 8 – Grafiken
+
+### Übung 1
+
+```{r}
+InsectSprays |>
+    group_by(spray) |>
+    summarize(mean=mean(count))
+
+library(ggplot2)
+
+ggplot(InsectSprays, aes(x=spray, y=count)) +
+    geom_boxplot() +
+    labs(
+        x="Type of spray",
+        y="Insect count",
+        title="Insect Sprays Effectiveness"
+    )
+```
+
+
+### Übung 2
+
+```{r}
+#| message: false
+library(readr)
+
+df = read_delim("temperature.csv")
+df[["Average"]] = rowMeans(select(df, -YEAR))
+
+ggplot(df, aes(x=YEAR, y=Average)) +
+    geom_line() +
+    labs(
+        x="Year",
+        y="Average Temperature (°C)",
+        title="Innsbruck"
+    )
+```
+
+
+### Übung 3
 
 ```{r}
 #| message: false
@@ -440,71 +384,70 @@ library(readr)
 
 df = read_delim("temperature-graz.csv", na="999.90")
 
-plot(
-    df$YEAR,
-    df$metANN,
-    type="b",
-    pch=20,
-    xlab="Year",
-    ylab="Mean annual temperature (°C)",
-    main="Graz, Austria"
-)
-min(df$metANN, na.rm=TRUE)  # 6.82°C
-max(df$metANN, na.rm=TRUE)  # 11.02°C
+ggplot(df, aes(x=YEAR, y=metANN)) +
+    geom_line() +
+    geom_point() +
+    labs(
+        x="Year",
+        y="Mean annual temperature (°C)",
+        title="Graz, Austria"
+    )
+min(df[["metANN"]], na.rm=TRUE)  # 6.82°C
+max(df[["metANN"]], na.rm=TRUE)  # 11.02°C
 ```
 
 
-## Übung 30
+### Übung 4
+
+```{r}
+#| message: false
+library(readr)
+library(ggplot2)
+
+df = read_csv("inflation.csv", na=":")
+
+ggplot(df, aes(x=date)) +
+    geom_line(aes(y=AT, color="AT")) +
+    geom_line(aes(y=DE, color="DE")) +
+    geom_line(aes(y=CH, color="CH")) +
+    labs(x="", y="Inflation (%)", color="Land")
+```
+
+
+## 9 – Korrelation
+
+### Übung 1
+
+```{r}
+set.seed(4)
+x = rnorm(100, mean=-4, sd=5)
+y = 0.29 * x + 2 * rnorm(100, mean=2, sd=2)
+
+ggplot(data.frame(x, y), aes(x=x, y=y)) +
+    geom_point() +
+    geom_smooth(method="lm", se=FALSE, color="red")
+
+cor.test(x, y)
+```
+
+Die Ausgabe der Funktion `cor.test(x, y)` zeigt, dass $r = .191$ und $p = .057$. Da $p > .05$, ist die Korrelation nicht signifikant.
+
+
+### Übung 2
 
 ```{r}
 #| message: false
 df = read_csv("divorce_margarine.csv")
 
-model = lm(divorce_rate_maine ~ margarine_consumption_per_capita, data=df)
-plot(df$margarine_consumption_per_capita, df$divorce_rate_maine)
-abline(model, col="blue")
+ggplot(df, aes(x=margarine_consumption_per_capita, y=divorce_rate_maine)) +
+    geom_point() +
+    geom_smooth(method="lm", se=FALSE)
 
-cor.test(df$divorce_rate_maine, df$margarine_consumption_per_capita)  # r = .932, p < .001 (signifikant)
+cor.test(df[["divorce_rate_maine"]], df[["margarine_consumption_per_capita"]])  # r = .932, p < .001 (signifikant)
 ```
 
 
-## Übung 31
-
-```{r}
-#| message: false
-set.seed(1)
-df = data.frame(
-    A=rep(c("A", "B", "C"), each=10),
-    B=sample(0:100, 30, replace=TRUE),
-    X=rep(1:10, 3)
-)
-
-library(tidyr)
-pivot_wider(df, names_from=A, values_from=B)
-```
-
-
-## Übung 32
-
-```{r}
-#| message: false
-library(dplyr)
-
-df = subset(starwars, mass < 1000)
-model = lm(height ~ mass, df)
-
-plot(df$mass, df$height, main="Starwars", xlab="Masse (kg)", ylab="Größe (cm)")
-abline(model, col="blue", lwd=2)
-
-summary(model)
-layout(matrix(1:4, nrow=2))
-plot(model)
-```
-
-Die Steigung von 0.9201 ist signifikant mit $p = 1.14 \cdot 10^{-11}$. Das Regressionsmodell ist ebenfalls signifikant ($F(1, 56) = 72.38$, $p = 1.14 \cdot 10^{-11}$). Aus der Grafik "Residuals vs Fitted" sieht man, dass die Linearitätsannahme vermutlich verletzt ist (die rote Linie ist keine Gerade um Null). Außerdem sind die Residuen nicht normalverteilt, was aus dem QQ-Plot ersichtlich ist (vor allem die kleineren Werte weichen sehr stark von einer Normalverteilung ab).
-
-
-## Übung 33
+### Übung 3
 
 ```{r}
 set.seed(4)
@@ -515,84 +458,123 @@ cor.test(x, y, method="spearman")  # rho = 0.1049, nicht signifikant da p > 0.01
 ```
 
 
-## Übung 34
+### Übung 4
 
 ```{r}
-result = (exp(2.74) + sin(0.55 * pi + 1.23)) / sqrt(1 + 8.3^1.4)
-round(result, 3)
+library(readxl)
+
+df1 = read_excel("luis-daten.xls", skip=3, sheet=1)
+df2 = read_excel("luis-daten.xls", skip=3, sheet=2)
+
+df1[["Datum"]] = as.Date(df1[["Datum"]], format="%d.%m.%y")
+df2[["Datum"]] = as.Date(df2[["Datum"]], format="%d.%m.%y")
+
+ggplot() +
+    geom_line(data=df1, aes(x=Datum, y=Wert), color="blue") +
+    geom_line(data=df2, aes(x=Datum, y=Wert), color="red") +
+    labs(x="Date", y="PM10")
+
+cor.test(df1[["Wert"]], df2[["Wert"]])
 ```
 
 
-## Übung 35
+## 11 – Lineare Regression (2)
+
+### Übung 1
 
 ```{r}
-set.seed(4)
-x = sample(c(-10:10, NA), 500, replace=TRUE)
+#| message: false
+library(dplyr)
 
-mean(x, na.rm=TRUE)
-sd(x, na.rm=TRUE)
-quantile(x, probs=c(0, 0.25, 0.33, 0.5, 0.66, 0.75, 1), na.rm=TRUE)
+df = filter(starwars, mass < 1000)
+model = lm(height ~ mass, df)
+
+ggplot(df, aes(x=mass, y=height)) +
+    geom_point() +
+    geom_smooth(method="lm", se=FALSE) +
+    labs(x="Masse (kg)", y="Größe (cm)", title="Starwars")
+
+summary(model)
+par(mfrow=c(2, 2))
+plot(model)
+```
+
+Die Steigung von 0.9201 ist signifikant mit $p = 1.14 \cdot 10^{-11}$. Das Regressionsmodell ist ebenfalls signifikant ($F(1, 56) = 72.38$, $p = 1.14 \cdot 10^{-11}$). Aus der Grafik "Residuals vs Fitted" sieht man, dass die Linearitätsannahme vermutlich verletzt ist (die rote Linie ist keine Gerade um Null). Außerdem sind die Residuen nicht normalverteilt, was aus dem QQ-Plot ersichtlich ist (vor allem die kleineren Werte weichen sehr stark von einer Normalverteilung ab).
+
+
+### Übung 2
+
+```{r}
+library(effectsize)
+str(attitude)
+model = lm(rating ~ complaints + privileges + learning + raises + critical + advance, data=attitude)
+summary(model)
+```
+
+Aus der Modellzusammenfassung ergeben sich folgende Antworten:
+
+- Der einzige signifikante Prädiktor ist `complaints` mit $b = 0.61319$
+- $R^2$ beträgt 0.7326
+- Das Modell ist signifikant mit $F(6, 23) = 10.5$, $p < .001$
+- Standardisierte Regressionskoeffizienten erhält man mit der Funktion `standardize_parameters()`:
+
+```{r}
+standardize_parameters(model)
 ```
 
 
-## Übung 36
+### Übung 3
 
 ```{r}
 library(readr)
-library(lm.beta)
+library(effectsize)
 
 wine = read_csv("wine.csv")
-pairs(wine)  # Year und Age sind perfekt korreliert -> entferne Year
+cor(wine)  # Year und Age sind perfekt korreliert (r = -1) -> entferne Year
 
-model = lm(Price ~ WinterRain + AGST + HarvestRain + Age + FrancePop, data=wine[, -1])
+model = lm(Price ~ WinterRain + AGST + HarvestRain + Age + FrancePop, data=wine)
 summary(model)
 # Signifikante Prädiktoren: WinterRain, AGST, HarvestRain
 # R² = 0.8278
 # Das Modell ist insgesamt statistisch signifikant (p = 2.232e-07)
-lm.beta(model)
+standardize_parameters(model)
 # Den größten Einfluss hat AGST, gefolgt von HarvestRain, gefolgt von WinterRain.
 ```
 
 
-## Übung 37
+## 12 – Mittelwertvergleich
+
+### Übung 1
 
 ```{r}
-x = seq(-76, 120, by=2)
-length(x)
-mean(x)
-sd(x)
-median(x)
-quantile(x, c(0.25, 0.66, 0.75))
-length(x[x > mean(x)])
+t.test(sleep[sleep[["group"]] == 1, "extra"], sleep[sleep[["group"]] == 2, "extra"], paired=TRUE)
 ```
 
+Die Schlafdauer unterscheidet sich signifikant zwischen den beiden Medikamenten ($t(9) = -4.0621$, $p < 0.01$).
 
-## Übung 38
+
+### Übung 2
 
 ```{r}
 #| message: false
-df = read_tsv("imdb-ratings.tsv.zip")
+library(dplyr)
 
-m_g = mean(df$averageRating)
-m = quantile(df$numVotes, 0.9)
-df$weightedRating = (df$averageRating * df$numVotes + m_g * m) / (df$numVotes + m)
+# a.
+summary(penguins[["body_mass"]])  # 2 fehlende Werte
+df = penguins[!is.na(penguins[["body_mass"]]),]
 
-df[order(-df$weightedRating), ]
+# b.
+df |>
+    group_by(species) |>
+    summarize(mean=mean(body_mass), sd=sd(body_mass))
+
+# c.
+df[["id"]] = 1:nrow(df)
+
+# d.
+library(afex)
+
+aov_ez(id="id", dv="body_mass", data=df, between="species")
 ```
 
-Der Film mit der höchsten gewichteten Bewertung von 9.99 ist "tt2301451". Dabei handelt es sich um die Folge "Ozymandias" aus Breaking Bad ([S5E14](https://www.imdb.com/title/tt2301451/)).
-
-::: {.callout-note}
-Der in dieser Aufgabe verwendete Datensatz kann, neben anderen, auf [IMDb](https://datasets.imdbws.com/) heruntergeladen werden.
-:::
-
-
-## Übung 39
-
-```{r}
-set.seed(123)
-x = sample(-100:120, size=100, replace=TRUE)
-x |> unique() |> mean(trim=0.25) |> round(2)
-
-round(mean(unique(x), trim=0.25), 2)
-```
+Ja, die Spezies unterscheiden sich signifikant in ihrer Körpermasse ($F(2, 339) = 343.63$, $p < .001$).

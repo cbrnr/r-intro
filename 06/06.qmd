@@ -2,7 +2,7 @@
 title: "6 – Deskriptive Statistiken"
 subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2026-04-20
+date: 2026-11-05
 format:
   html:
     page-layout: full
@@ -36,21 +36,24 @@ library(readr)
 Danach führen wir wieder die Konvertierungen für die Spalten `birth_date` und `job` durch:
 
 ```{r}
-df$birth_date = as.Date(df$birth_date, format="%m/%d/%Y")
-df$job = factor(df$job, levels=c(1, 2), labels=c("Lecturer", "Student"))
+df[["birth_date"]] = as.Date(df[["birth_date"]], format="%m/%d/%Y")
+df[["job"]] = factor(df[["job"]], levels=c(1, 2), labels=c("Lecturer", "Student"))
 df
 ```
 
 Die `name`-Spalte brauchen wir für unsere nachfolgenden Betrachtungen nicht mehr, deswegen entfernen wir sie:
 
 ```{r}
-df$name = NULL
+df[["name"]] = NULL
 ```
+
+
+## Kennwerte einzelner Variablen
 
 Es gibt in R eine Reihe an Funktionen, welche zusammenfassende Statistiken einer Variablen (bzw. eines Vektors) berechnen. Nützliche Funktionen sind z.B. `mean()`, `sd()`, `var()`, `min()`, `max()`, `median()`, `range()` und `quantile()`. Den Mittelwert eines Vektors (und damit auch einer Spalte von `df`) kann man also wie folgt berechnen:
 
 ```{r}
-mean(df$friends)
+mean(df[["friends"]])
 ```
 
 Vor allem bei Faktoren ist es interessant zu wissen, wie viele Stufen (unterschiedliche Werte) diese beinhalten. Auch bei numerischen oder Text-Vektoren mit mehrfach vorkommenden Werten ist es manchmal praktisch, die unterschiedlichen Werte herauszufinden. Dafür gibt es die Funktion `unique()`, welche die einzigartigen Elemente eines Vektors zurückgibt:
@@ -60,17 +63,60 @@ unique(c(1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2))
 ```
 
 ```{r}
-unique(df$friends)
-unique(df$job)
+unique(df[["friends"]])
+unique(df[["job"]])
 ```
 
-All diese Berechnungen müsste man nun für jede interessierende Spalte wiederholen (weil diese nur mit Vektoren funktionieren), was relativ mühsam wäre. Deswegen gibt es die Funktion `sapply()`, welche eine Funktion auf jede Spalte eines Data Frames einzeln anwendet. Möchte man also den Mittelwert für jede numerische Spalte von `df` berechnen, kann man dies so tun:
+
+## Häufigkeitstabellen
+
+Bei kategorialen Variablen interessiert meist nicht nur, *welche* Werte vorkommen, sondern vor allem *wie oft*. Genau das liefert die Funktion `table()`:
+
+```{r}
+table(df[["job"]])
+```
+
+Es gibt in unseren Beispieldaten also fünf Personen mit dem Beruf "Lecturer" und fünf "Student". Das funktioniert nicht nur für Faktoren, sondern für beliebige Vektoren:
+
+```{r}
+table(df[["friends"]])
+```
+
+Übergibt man `table()` *zwei* Vektoren, erhält man eine sogenannte Kreuztabelle, welche die Häufigkeiten aller Kombinationen der beiden Variablen enthält. Sehen wir uns das am Datensatz `penguins` an – hier interessiert z.B., wie sich die drei Pinguinspezies auf die drei Inseln verteilen:
+
+```{r}
+table(penguins[["species"]], penguins[["island"]])
+```
+
+Man erkennt, dass Adélie-Pinguine auf allen drei Inseln vorkommen, Chinstrap ausschließlich auf Dream und Gentoo ausschließlich auf Biscoe.
+
+::: callout-important
+Standardmäßig ignoriert `table()` fehlende Werte. Möchte man diese ebenfalls angezeigt bekommen, setzt man das Argument `useNA="ifany"`:
+
+```{r}
+table(penguins[["sex"]])
+table(penguins[["sex"]], useNA="ifany")
+```
+:::
+
+Absolute Häufigkeiten sind oft schwer zu interpretieren, wenn man nicht weiß, wie viele Fälle es insgesamt gibt. Die Funktion `prop.table()` rechnet eine bestehende Tabelle daher in *relative* Häufigkeiten (Anteile) um:
+
+```{r}
+prop.table(table(penguins[["species"]]))
+```
+
+Knapp 44% der Pinguine im Datensatz gehören also zur Spezies Adélie.
+
+
+## Kennwerte für ganze Data Frames
+
+Alle bisherigen Funktionen arbeiten mit *Vektoren*, d.h. man müsste sie für jede interessierende Spalte einzeln aufrufen. Das wäre relativ mühsam. Deswegen gibt es die Funktion `sapply()`, welche eine Funktion auf jede Spalte eines Data Frames einzeln anwendet. Möchte man also den Mittelwert für jede numerische Spalte von `df` berechnen, kann man dies so tun:
 
 ```{r}
 sapply(df[, -c(1, 2)], mean)
 ```
 
-:::{.callout-tip}
+::: callout-tip
 Für die Berechnung der Spaltenmittelwerte kann man auch die uns bereits bekannte Funktion `colMeans()` verwenden.
 :::
 
@@ -112,17 +158,15 @@ library(psych)
 describe(df[, 3:6])
 ```
 
-:::{.callout-note}
+::: callout-note
 Eigentlich kann man Funktionen aus Paketen auch ohne Aktivierung verwenden. Dazu muss man den Paketnamen gefolgt von `::` voranstellen. Im vorigen Beispiel könnte man also auf `library(psych)` verzichten und die Funktion mit `psych::describe()` trotzdem verwenden. Dies ist praktisch, wenn man wirklich nur eine einzelne Funktion aus einem Paket verwenden möchte.
 :::
 
-Man kann diese Funktion auch auf einzelne Gruppen separat anwenden. Im Beispiel könnte man dies getrennt für jede Stufe von `df$job` tun. Dazu verwendet man die verwandte Funktion `describeBy()`:
+::: callout-important
+Auch das Paket `Hmisc` (welches wir in einer späteren Einheit für Korrelationen verwenden werden) enthält eine Funktion namens `describe()` – diese liefert aber eine ganz andere Ausgabe. Wenn beide Pakete in derselben Sitzung aktiviert sind, "gewinnt" jenes, welches *zuletzt* mit `library()` geladen wurde. R weist beim Aktivieren auch darauf hin ("The following object is masked from ...").
 
-```{r}
-describeBy(df[, c("friends", "alcohol", "income", "neurotic")], df$job)
-```
-
-Das erste Argument ist das zu beschreibende Data Frame, und das zweite Argument ist die Spalte, nach der gruppiert werden soll (üblicherweise ein Faktor).
+Um solche Verwechslungen zu vermeiden, schreiben Sie in diesem Fall am besten immer explizit `psych::describe()` bzw. `Hmisc::describe()`.
+:::
 
 
 ### Die Funktion `stat.desc()`
@@ -137,35 +181,16 @@ round(
 )
 ```
 
-:::{.callout-note}
-In R kann man Dezimalzahlen auch in der sogenannten [wissenschaftlichen Notation](https://de.wikipedia.org/wiki/Wissenschaftliche_Notation) anschreiben. Hier verwendet man eine Darstellung mit Zehnerpotenzen, die man mit `e` eingeben kann – `e` kann man als "mal zehn hoch" lesen.
+::: callout-note
+In der Ausgabe tauchen Zahlen wie `1.23e-05` auf – das ist die sogenannte [wissenschaftliche Notation](https://de.wikipedia.org/wiki/Wissenschaftliche_Notation), eine Darstellung mit Zehnerpotenzen. Das `e` kann man dabei als "mal zehn hoch" lesen:
 
 ```{r}
-1e0  # 1 mal 10 hoch 0
-```
-
-```{r}
--4e0  # -4 mal 10 hoch 0
-```
-
-```{r}
-1e1  # 1 mal 10 hoch 1
-```
-
-```{r}
-3.5e2  # 3.5 mal 10 hoch 2
-```
-
-```{r}
-1e-2  # 1 mal 10 hoch -2
-```
-
-```{r}
+3.5e2  # 3.5 mal 10 hoch 2 = 350
 1e-15  # 1 mal 10 hoch -15 = 0.000000000000001
 ```
 :::
 
-:::{.callout-tip}
+::: callout-tip
 Möchte man die Ausgabe von Zahlen in der wissenschaftlichen Notation weitgehend vermeiden, kann man zu Beginn einer Sitzung folgende Option setzen:
 
 ```r
@@ -180,46 +205,18 @@ format(1e-15, scientific=FALSE)
 :::
 
 
-### Gruppieren mit `by()`
-
-Für die Funktion `stat.desc()` gibt es keine direkte Variante für gruppierte Daten (so wie `describeBy()` für `describe()`). Es gibt aber in R die generische Funktion `by()`, welche beliebige Funktionen auf gruppierte Daten anwendet. Das erste Argument ist hier wie üblich der Datensatz, das zweite Argument ist die Gruppierungsspalte, und das dritte Argument ist die Funktion, die auf die gruppierten Daten angewendet werden soll.
-
-```{r}
-by(df[, c("friends", "alcohol", "income", "neurotic")], df$job, describe)
-```
-
-Möchte man der Funktion im dritten Argument selbst Argumente übergeben (z.B. `norm=TRUE` für die Funktion `stat.desc()`), kann man dies mit weiteren Argumenten ganz am Ende tun:
-
-```{r}
-by(
-    df[, c("friends", "alcohol", "income", "neurotic")],
-    df$job,
-    stat.desc,
-    norm=TRUE
-)
-by(df[, -c(1, 2)], df$job, summary)
-by(df$friends, df$job, mean)
-```
-
-
 ## Test auf Normalverteilung
 
 Die Funktion `stat.desc()` liefert bereits das Ergebnis des [Shapiro-Wilk-Tests](https://en.wikipedia.org/wiki/Shapiro%E2%80%93Wilk_test) auf Normalverteilung (die Einträge `normtest.W` und `normtest.p` enthalten den Wert der Teststatistik bzw. die Signifikanz). Wenn `normtest.p` signifikant ist (z.B. kleiner als 0.05), dann kann man die Nullhypothese der Normalverteilung verwerfen. Man kann den Shapiro-Wilk-Test auch direkt mit der Funktion `shapiro.test()` aufrufen:
 
 ```{r}
-shapiro.test(df$income)
+shapiro.test(df[["income"]])
 ```
 
-Mit der `by()`-Funktion kann man den Test auch getrennt auf verschiedene Gruppen anwenden.
+Der [Kolmogorov-Smirnov-Test](https://en.wikipedia.org/wiki/Kolmogorov%E2%80%93Smirnov_test) – in R mittels `ks.test()` verfügbar – kann gegebene Daten auf *beliebige* Verteilungen testen, d.h. natürlich auch auf Normalverteilung. Im Falle der Normalverteilung ist aber der Shapiro-Wilk-Test vorzuziehen, da dieser speziell auf die Normalverteilung zugeschnitten ist und daher mehr statistische Power besitzt.
 
 ```{r}
-by(df$income, df$job, shapiro.test)
-```
-
-Der [Kolmogorov-Smirnov-Test](https://en.wikipedia.org/wiki/Kolmogorov%E2%80%93Smirnov_test) kann gegebene Daten auf *beliebige* Verteilungen testen, d.h. natürlich auch auf Normalverteilung. Im Falle der Normalverteilung ist aber der Shapiro-Wilk-Test vorzuziehen, da dieser speziell auf die Normalverteilung zugeschnitten ist und daher mehr statistische Power besitzt.
-
-```{r}
-ks.test(df$income, "pnorm", mean(df$income), sd(df$income))
+ks.test(df[["income"]], "pnorm", mean(df[["income"]]), sd(df[["income"]]))
 ```
 
 Da die Stichprobengröße in unserem Beispiel nur sehr klein ist, lassen sich aber ohnehin keine vernünftigen Aussagen über die Verteilung der Daten treffen.
@@ -240,7 +237,7 @@ summary(Moore)
 Der Levene-Test für die Spalte `conformity` gruppiert nach der Spalte `fcategory` wird wie folgt aufgerufen:
 
 ```{r}
-leveneTest(Moore$conformity, Moore$fcategory)
+leveneTest(Moore[["conformity"]], Moore[["fcategory"]])
 ```
 
 In diesem Beispiel kann die Nullhypothese der Varianzgleichheit der Variable `conformity` über die Gruppen in `fcategory` also nicht verworfen werden, da der *p*-Wert (hier als `Pr(>F)` bezeichnet) mit 0.9551 extrem groß ist.
@@ -250,7 +247,7 @@ In diesem Beispiel kann die Nullhypothese der Varianzgleichheit der Variable `co
 
 ### Übung 1
 
-Berechnen Sie statistische Kenngrößen wie Mittelwert, Median, Minimum und Maximum für die vier numerischen Variablen `Global_active_power`, `Global_reactive_power`, `Voltage` und `Global_intensity` aus den Daten die Sie in der vorigen Einheit bereits importiert haben ([Individual Household Electric Power Consumption](http://archive.ics.uci.edu/ml/datasets/Individual+household+electric+power+consumption)).
+Berechnen Sie statistische Kenngrößen wie Mittelwert, Median, Minimum und Maximum für die vier numerischen Variablen `Global_active_power`, `Global_reactive_power`, `Voltage` und `Global_intensity` aus den Daten die Sie in der vorigen Einheit bereits importiert haben ([Individual Household Electric Power Consumption](https://archive.ics.uci.edu/dataset/235/individual+household+electric+power+consumption)).
 
 -   Berechnen Sie die Kenngrößen mit der Funktion `sapply()`.
 -   Berechnen Sie die Kenngrößen mit der Funktion `summary()`.
@@ -267,8 +264,9 @@ Der in R verfügbare Datensatz `penguins` enthält Messdaten über physische Eig
 
 -   Aus wie vielen Zeilen und Spalten besteht der Datensatz `penguins`?
 -   Die Spalten `species`, `island` und `sex` sind Faktoren – wie viele Stufen gibt es jeweils?
--   Berechnen Sie deskriptive Statistiken getrennt für die drei Pinguinspezies! Wie lauten die Mittelwerte der Spalten `bill_len`, `bill_dep` und `flipper_len` für die drei Spezies?
 -   Gibt es fehlende Werte in den Daten?
+-   Erstellen Sie eine Häufigkeitstabelle der Spalte `year`. In welchen Jahren wurde erhoben, und wie viel Prozent aller Beobachtungen entfallen auf das Jahr 2009?
+-   Erstellen Sie eine Kreuztabelle der Spalten `species` und `sex` (fehlende Werte sollen dabei mit angezeigt werden). Bei welchen Spezies fehlt die Angabe des Geschlechts?
 
 
 ### Übung 3
@@ -282,9 +280,9 @@ Im Datensatz `mtcars` befinden sich diverse Kenngrößen von 32 Autos.
 
 ### Übung 4
 
-Laden Sie die Beispieldaten [`lecturer.dat`](lecturer.dat) und berechnen Sie die Mittelwerte aller numerischen Spalten gruppiert nach der Spalte `job`. Verwenden Sie dazu die Funktion `by()`. Warum funktioniert diese Berechnung nicht mit der Funktion `mean`?
-
-
-### Übung 5
-
 Erzeugen Sie mit der Funktion `rnorm()` einen Vektor mit 5001 standardnormalverteilten Zufallszahlen und überprüfen Sie, ob dieser Vektor normalverteilt ist. Verwenden Sie dazu den Shapiro-Wilk-Test. Wie interpretieren Sie das Ergebnis?
+
+
+## Lösungen
+
+Die Lösungen zu diesen Übungen finden Sie [hier](06-solutions.qmd).

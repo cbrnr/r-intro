@@ -2,7 +2,7 @@
 title: "Organisatorisches"
 subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2026-03-02
+date: 2026-10-01
 format:
   html:
     page-layout: full
@@ -42,8 +42,8 @@ Der Plan für dieses Semester sieht wie folgt aus:
 | 11      | 10.12.2026 | Lineare Regression (2)  |
 | 12      | 17.12.2026 | Mittelwertvergleich     |
 | 13      |  14.1.2027 | Übungen                 |
-| 13      |  21.1.2027 | Prüfung                 |
-| 14      |  28.1.2027 | Prüfung (Ersatztermin)  |
+| 14      |  21.1.2027 | Prüfung                 |
+| 15      |  28.1.2027 | Prüfung (Ersatztermin)  |
 
 : {tbl-colwidths="[10,10,80]"}
 
@@ -56,17 +56,17 @@ Die Einheiten finden grundsätzlich in Präsenz statt. Sollte das einmal nicht m
 
 Zu jeder Einheit gibt es auf Moodle ausführliche Unterlagen, welche das jeweilige Thema detailliert behandeln. Diese Unterlagen sind so gestaltet, dass Sie sich die Inhalte im Selbststudium aneignen können. Alle inhaltlichen Einheiten (mit Ausnahme der ersten) werden nach dem Prinzip des [Flipped Classroom](https://de.wikipedia.org/wiki/Umgedrehter_Unterricht) abgehalten. Das bedeutet, dass Sie die Inhalte der jeweiligen Einheit *vor* dem tatsächlichen Termin erarbeiten müssen. Besonders wichtig sind die Übungsbeispiele am Ende jedes Kapitels. Diese überprüfen Ihr Verständnis der vermittelten Inhalte und sind außerdem eine essenzielle Vorbereitung für die abschließende Prüfung.
 
-:::{.callout-tip}
+::: callout-tip
 Nutzen Sie während der Vorbereitungszeit das Diskussionsforum auf Moodle – dort können Sie Fragen stellen und selbstverständlich auch beantworten. Je mehr Personen sich aktiv im Forum beteiligen, desto hilfreicher wird es für alle!
 :::
 
-::: {.callout-tip}
+::: callout-tip
 Wenn Sie die Möglichkeit haben, sich die Inhalte gemeinsam mit anderen Studierenden zu erarbeiten, ist das natürlich umso besser! Gerade bei Programmieraufgaben ist es oft hilfreich, sich auszutauschen und gemeinsam Lösungen zu erarbeiten ([Pair Programming](https://de.wikipedia.org/wiki/Paarprogrammierung)).
 :::
 
 Jede Einheit beginnt mit einem kurzen Quiz zum Thema der jeweiligen Einheit (dazu später mehr). Danach werden die von Ihnen vorbereiteten Übungsbeispiele aus den Unterlagen detailliert besprochen und Musterlösungen präsentiert. Dabei haben Sie die Möglichkeit, Fragen zu stellen bzw. Ihre individuellen Lösungsansätze zu diskutieren. Falls darüber hinaus noch Zeit bleiben sollte, wird das jeweilige Thema durch vertiefende Beispiele bzw. Erklärungen ergänzt.
 
-::: {.callout-note}
+::: callout-note
 Der Einsatz von Künstlicher Intelligenz (KI), insbesondere von Large Language Models (LLMs, wie z.B. [Claude](https://claude.ai/), [ChatGPT](https://chatgpt.com/), [Gemini](https://gemini.google.com/app), oder [Mistral](https://mistral.ai/)), ist für die Vorbereitung der Einheiten ausdrücklich erlaubt und wird sogar empfohlen. Diese Werkzeuge können helfen, Konzepte zu verstehen, Codebeispiele nachzuvollziehen und alternative Erklärungen zu finden. Allerdings sollten Sie immer versuchen, die Übungsaufgaben selbständig zu lösen, um ein Verständnis der Materie zu entwickeln. Lassen Sie sich also von den KI-Tools Dinge erklären, aber kopieren Sie nicht einfach fertige Lösungen!
 :::
 
@@ -84,7 +84,7 @@ Zu Beginn jeder Einheit (mit Ausnahme der ersten) findet ein Quiz auf Moodle sta
 
 Sie können bei einem Quiz maximal 10 Punkte erreichen (es gibt auch Teilpunkte). Das Quiz muss *vor Ort* auf einem Universitäts-PC absolviert werden. Ein nicht absolviertes Quiz (z.B. durch Fehlen oder Zuspätkommen) zählt 0 Punkte.
 
-::: {.callout-note}
+::: callout-note
 Stellen Sie vorab sicher, dass Ihre aktuellen Zugangsdaten (einschließlich der Zwei-Faktor-Authentifizierung) für die Anmeldung funktionieren!
 :::
 

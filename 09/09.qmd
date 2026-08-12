@@ -2,7 +2,7 @@
 title: "9 – Korrelation"
 subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2026-05-11
+date: 2026-11-26
 format:
   html:
     page-layout: full
@@ -23,7 +23,7 @@ published-title: "Veröffentlicht"
 
 ## Allgemeines
 
-Oft ist es interessant zu fragen, ob zwei Variablen eine gegenseitige Abhängigkeit zeigen. Man möchte also wissen, ob sich die beiden Größen ähnlich verhalten oder nicht – wenn die eine Variable zunimmt, nimmt dann die andere auch zu? Oder ist es genau umgekehrt und sie nimmt dann immer ab? Die Korrelation ist ein einfaches und populäres Maß, um diese Fragestellungen zu beantworten. Aber Achtung: Korrelationen messen *keine* kausalen Zusammenhänge, sondern nur die Stärke eines Zusammenhangs zwischen zwei Variablen.
+Oft ist es interessant zu fragen, ob zwei Variablen eine gegenseitige Abhängigkeit zeigen. Man möchte also wissen, ob sich die beiden Größen ähnlich verhalten oder nicht – wenn die eine Variable zunimmt, nimmt dann die andere auch zu? Oder ist es genau umgekehrt und sie nimmt dann immer ab? Die Korrelation ist ein einfaches und populäres Maß, um diese Fragestellungen zu beantworten. Aber gleich vorweg: Korrelationen messen *keine* kausalen Zusammenhänge, sondern nur die Stärke eines Zusammenhangs zwischen zwei Variablen.
 
 
 ## Produkt-Moment-Korrelation (Pearson-Korrelation)
@@ -119,82 +119,355 @@ $$r = \frac{24.\dot{3}}{\sqrt{24.\dot{6} \cdot 36}} \approx 0.8166$$
 
 ### Signifikanz
 
-Meist wird nach der Berechnung der Korrelation ein Test durchgeführt, welcher prüft, ob die erhaltene Korrelation signifikant von der Nullhypothese ("es existiert *keine* Korrelation, d.h. die Korrelation ist 0") abweicht. Da die Stichprobenverteilung der Korrelation keine Normalverteilung aufweist, kann man den Wert von $r$ mit Hilfe der [Fisher-Transformation](https://en.wikipedia.org/wiki/Fisher_transformation) in eine Normalverteilung mit Mittelwert
+Meist wird nach der Berechnung der Korrelation ein Test durchgeführt, welcher prüft, ob die erhaltene Korrelation signifikant von der Nullhypothese ("es existiert *keine* Korrelation, d.h. die Korrelation ist 0") abweicht. Für genau diese Nullhypothese lässt sich der Test *exakt* durchführen: Sind die beiden Variablen bivariat normalverteilt und ist die wahre Korrelation 0, dann folgt die Größe
+
+$$t = \frac{r \sqrt{N - 2}}{\sqrt{1 - r^2}}$$
+
+einer $t$-Verteilung mit $N - 2$ Freiheitsgraden. Man berechnet also aus $r$ und $N$ den Wert von $t$ und bestimmt dann, wie wahrscheinlich ein mindestens so extremer Wert unter dieser Verteilung ist – das ergibt den $p$-Wert.
+
+::: callout-note
+Die $t$-Verteilung ist wie die Standardnormalverteilung glockenförmig und symmetrisch um 0, hat aber etwas "schwerere Ränder" (also mehr Wahrscheinlichkeit an den Extremwerten). Ihre Form hängt von einem einzigen Parameter ab, den *Freiheitsgraden* (df): Je größer df, desto ähnlicher wird sie der Standardnormalverteilung – ab etwa df = 30 sind die beiden kaum noch zu unterscheiden.
+
+```{r}
+#| echo: false
+#| fig-height: 4
+ggplot(data.frame(x=c(-4, 4)), aes(x)) +
+    stat_function(fun=dt, args=list(df=1), aes(color="t (df = 1)")) +
+    stat_function(fun=dt, args=list(df=5), aes(color="t (df = 5)")) +
+    stat_function(fun=dt, args=list(df=38), aes(color="t (df = 38)")) +
+    stat_function(fun=dnorm, aes(color="Normalverteilung"), linetype="dashed") +
+    labs(x="", y="Dichte", color="") +
+    theme_minimal()
+```
+
+Die $t$-Verteilung wird uns in Einheit 10 bei der linearen Regression wieder begegnen, dort wird sie zur Beurteilung der Regressionskoeffizienten verwendet.
+:::
+
+::: callout-note
+Der $p$-Wert gibt hier die Wahrscheinlichkeit an, ein Ergebnis zu erhalten, das *mindestens so extrem* ist wie das beobachtete – unter der Annahme, dass die Nullhypothese zutrifft (also dass die Korrelation 0 ist). Bei einer ungerichteten Hypothese zählt dabei der Betrag der Korrelation, d.h. sowohl stark positive als auch stark negative Werte gelten als extrem.
+
+Ein kleiner $p$-Wert bedeutet also, dass der beobachtete Wert unter der Nullhypothese sehr unwahrscheinlich ist. Daher entscheidet man sich in solchen Situationen, die Nullhypothese zu verwerfen und die Korrelation als signifikant (unterschiedlich von 0) zu betrachten.
+
+Ein großer $p$-Wert ist umgekehrt *kein* Beleg dafür, dass die Korrelation tatsächlich 0 ist – man kann die Nullhypothese dann lediglich nicht verwerfen.
+:::
+
+Die folgende interaktive Grafik veranschaulicht diesen Zusammenhang: Der rote Punkt lässt sich entlang der $t$-Achse verschieben und stellt den beobachteten Wert der Teststatistik dar, die blau schattierte Fläche den zugehörigen $p$-Wert. Über die Regler können die Freiheitsgrade, ein- oder zweiseitiges Testen sowie (nur bei einseitigem Testen relevant) die Richtung der Alternativhypothese eingestellt werden.
+
+```{ojs}
+//| echo: false
+d3 = require("d3@7")
+```
+
+```{ojs}
+//| echo: false
+pvalue_widget = {
+  const width = 640, height = 380;
+  const margin = {top: 30, right: 30, bottom: 40, left: 50};
+  const xDomain = [-5, 5];
+  const df = p_df;
+  const twoTailed = p_tails === "zweiseitig";
+  const rightTailed = p_direction === "t > 0";
+
+  // Log-Gamma-Funktion (Lanczos-Approximation)
+  function lgamma(x) {
+    const g = 7;
+    const c = [
+      0.99999999999980993, 676.5203681218851, -1259.1392167224028,
+      771.32342877765313, -176.61502916214059, 12.507343278686905,
+      -0.13857109526572012, 9.9843695780195716e-6, 1.5056327351493116e-7
+    ];
+    if (x < 0.5) return Math.log(Math.PI / Math.sin(Math.PI * x)) - lgamma(1 - x);
+    x -= 1;
+    let a = c[0];
+    const t = x + g + 0.5;
+    for (let i = 1; i < g + 2; i++) a += c[i] / (x + i);
+    return 0.5 * Math.log(2 * Math.PI) + (x + 0.5) * Math.log(t) - t + Math.log(a);
+  }
+
+  // regularisierte unvollständige Betafunktion (Kettenbruch nach Numerical Recipes),
+  // damit die t-Verteilungsfunktion auch für kleine df (schwere Ränder) exakt bleibt
+  function betacf(x, a, b) {
+    const MAXIT = 200, EPS = 3e-14, FPMIN = 1e-300;
+    const qab = a + b, qap = a + 1, qam = a - 1;
+    let c = 1, d = 1 - (qab * x) / qap;
+    if (Math.abs(d) < FPMIN) d = FPMIN;
+    d = 1 / d;
+    let h = d;
+    for (let m = 1; m <= MAXIT; m++) {
+      const m2 = 2 * m;
+      let aa = (m * (b - m) * x) / ((qam + m2) * (a + m2));
+      d = 1 + aa * d; if (Math.abs(d) < FPMIN) d = FPMIN;
+      c = 1 + aa / c; if (Math.abs(c) < FPMIN) c = FPMIN;
+      d = 1 / d;
+      h *= d * c;
+      aa = (-(a + m) * (qab + m) * x) / ((a + m2) * (qap + m2));
+      d = 1 + aa * d; if (Math.abs(d) < FPMIN) d = FPMIN;
+      c = 1 + aa / c; if (Math.abs(c) < FPMIN) c = FPMIN;
+      d = 1 / d;
+      const del = d * c;
+      h *= del;
+      if (Math.abs(del - 1) < EPS) break;
+    }
+    return h;
+  }
+
+  function betainc(x, a, b) {
+    if (x <= 0) return 0;
+    if (x >= 1) return 1;
+    const bt = Math.exp(
+      lgamma(a + b) - lgamma(a) - lgamma(b) + a * Math.log(x) + b * Math.log(1 - x)
+    );
+    return x < (a + 1) / (a + b + 2)
+      ? (bt * betacf(x, a, b)) / a
+      : 1 - (bt * betacf(1 - x, b, a)) / b;
+  }
+
+  const tPdf = (t, df) => {
+    const lnC = lgamma((df + 1) / 2) - lgamma(df / 2) - 0.5 * Math.log(df * Math.PI);
+    return Math.exp(lnC) * Math.pow(1 + (t * t) / df, -(df + 1) / 2);
+  };
+  const tCdf = (t, df) => {
+    const x = df / (df + t * t);
+    const ib = betainc(x, df / 2, 0.5);
+    return t > 0 ? 1 - 0.5 * ib : 0.5 * ib;
+  };
+
+  const x = d3.scaleLinear().domain(xDomain).range([margin.left, width - margin.right]);
+  const yMax = tPdf(0, df) * 1.15;
+  const y = d3.scaleLinear().domain([0, yMax]).range([height - margin.bottom, margin.top]);
+
+  const curveData = d3.range(xDomain[0], xDomain[1] + 0.01, 0.02)
+    .map(d => ({x: d, y: tPdf(d, df)}));
+  const line = d3.line().x(d => x(d.x)).y(d => y(d.y)).curve(d3.curveNatural);
+  const areaGen = d3.area().x(d => x(d.x)).y0(y(0)).y1(d => y(d.y)).curve(d3.curveNatural);
+
+  const svg = d3.create("svg")
+    .attr("width", width)
+    .attr("height", height)
+    .attr("viewBox", [0, 0, width, height])
+    .attr("style", "max-width: 100%; height: auto;");
+
+  svg.append("g")
+    .attr("transform", `translate(0,${height - margin.bottom})`)
+    .call(d3.axisBottom(x));
+  svg.append("g")
+    .attr("transform", `translate(${margin.left},0)`)
+    .call(d3.axisLeft(y).ticks(5));
+
+  svg.append("text")
+    .attr("x", width / 2).attr("y", height - 4)
+    .attr("text-anchor", "middle").attr("font-size", 12).attr("font-style", "italic")
+    .text("t");
+  svg.append("text")
+    .attr("x", -height / 2).attr("y", 14)
+    .attr("transform", "rotate(-90)")
+    .attr("text-anchor", "middle").attr("font-size", 12)
+    .text("Dichte");
+
+  svg.append("line")
+    .attr("x1", x(0)).attr("x2", x(0))
+    .attr("y1", y(0)).attr("y2", margin.top)
+    .attr("stroke", "#aaa").attr("stroke-dasharray", "1,3");
+
+  svg.append("path").datum(curveData)
+    .attr("fill", "none").attr("stroke", "black").attr("stroke-width", 1.5)
+    .attr("d", line);
+
+  const shadeRight = svg.append("path").attr("fill", "steelblue").attr("opacity", 0.4);
+  const shadeLeft = svg.append("path").attr("fill", "steelblue").attr("opacity", 0.4);
+  const vline = svg.append("line").attr("stroke", "#888").attr("stroke-dasharray", "3,3");
+  const vlineMirror = svg.append("line").attr("stroke", "#888").attr("stroke-dasharray", "3,3");
+  const label = svg.append("text")
+    .attr("x", margin.left).attr("y", margin.top - 12).attr("font-size", 14);
+
+  let t0 = 1.59164485150844;
+
+  function redraw() {
+    let p;
+    if (twoTailed) {
+      const a = Math.abs(t0);
+      const rightData = curveData.filter(d => d.x >= a);
+      rightData.unshift({x: a, y: tPdf(a, df)});
+      const leftData = curveData.filter(d => d.x <= -a);
+      leftData.push({x: -a, y: tPdf(-a, df)});
+      shadeRight.attr("d", areaGen(rightData)).attr("opacity", 0.4);
+      shadeLeft.attr("d", areaGen(leftData)).attr("opacity", 0.4);
+      vlineMirror
+        .attr("x1", x(-t0)).attr("x2", x(-t0))
+        .attr("y1", y(0)).attr("y2", y(tPdf(t0, df)))
+        .attr("opacity", 1);
+      p = 2 * (1 - tCdf(a, df));
+      label.text(`p = 2 · P(T ≥ |t|) = ${p.toFixed(4)}   (t = ${t0.toFixed(2)}, df = ${df})`);
+    } else if (rightTailed) {
+      const rightData = curveData.filter(d => d.x >= t0);
+      rightData.unshift({x: t0, y: tPdf(t0, df)});
+      shadeRight.attr("d", areaGen(rightData)).attr("opacity", 0.4);
+      shadeLeft.attr("opacity", 0);
+      vlineMirror.attr("opacity", 0);
+      p = 1 - tCdf(t0, df);
+      label.text(`p = P(T ≥ t) = ${p.toFixed(4)}   (t = ${t0.toFixed(2)}, df = ${df})`);
+    } else {
+      const leftData = curveData.filter(d => d.x <= t0);
+      leftData.push({x: t0, y: tPdf(t0, df)});
+      shadeLeft.attr("d", areaGen(leftData)).attr("opacity", 0.4);
+      shadeRight.attr("opacity", 0);
+      vlineMirror.attr("opacity", 0);
+      p = tCdf(t0, df);
+      label.text(`p = P(T ≤ t) = ${p.toFixed(4)}   (t = ${t0.toFixed(2)}, df = ${df})`);
+    }
+
+    vline.attr("x1", x(t0)).attr("x2", x(t0)).attr("y1", y(0)).attr("y2", y(tPdf(t0, df)));
+    point.attr("cx", x(t0)).attr("cy", y(tPdf(t0, df)));
+  }
+
+  const point = svg.append("circle").attr("r", 7).attr("fill", "crimson")
+    .attr("cursor", "ew-resize")
+    .call(d3.drag().on("drag", (event) => {
+      t0 = Math.max(xDomain[0], Math.min(xDomain[1], x.invert(event.x)));
+      redraw();
+    }));
+
+  redraw();
+  return svg.node();
+}
+```
+
+<style>
+.pvalue-controls label {
+  white-space: nowrap;
+  width: auto !important;
+  min-width: 12em;
+}
+</style>
+
+::: {.pvalue-controls}
+
+```{ojs}
+//| echo: false
+viewof p_df = Inputs.range(
+  [1, 100],
+  {value: 38, step: 1, label: "Freiheitsgrade (df)"}
+)
+```
+
+```{ojs}
+//| echo: false
+viewof p_tails = Inputs.radio(
+  ["zweiseitig", "einseitig"],
+  {value: "zweiseitig", label: "Test"}
+)
+```
+
+```{ojs}
+//| echo: false
+viewof p_direction = Inputs.radio(
+  ["t > 0", "t < 0"],
+  {value: "t > 0", label: "Richtung (nur einseitig)"}
+)
+```
+
+:::
+
+
+### Konfidenzintervall
+
+Der Weg über die $t$-Verteilung hilft uns aber nicht weiter, wenn wir zusätzlich ein Konfidenzintervall für $r$ berechnen wollen, denn dieses muss ja auch Korrelationen ungleich 0 abdecken. Für eine wahre Korrelation ungleich 0 ist die Stichprobenverteilung von $r$ aber *schief* (besonders bei Werten nahe −1 oder 1) und daher nicht normalverteilt. Mit der [Fisher-Transformation](https://en.wikipedia.org/wiki/Fisher_transformation)
 
 $$z_r = \frac{1}{2} \ln \frac{1 + r}{1 - r} = \text{arctanh}(r)$$
 
-umwandeln. Der Standardfehler von $z_r$ beträgt dabei:
+erhält man jedoch eine Größe, die näherungsweise normalverteilt ist – und zwar mit dem Standardfehler
 
-$$\mathrm{SE}(z_r) = \frac{1}{\sqrt{N - 3}}$$
+$$\mathrm{SE}(z_r) = \frac{1}{\sqrt{N - 3}}.$$
 
-Nun kann man den erhaltenen Wert von $z_r$ durch den Standardfehler dividieren und das Ergebnis dann mit Werten aus einer Tabelle der Standardnormalverteilung vergleichen. So erhält man dann den $p$-Wert (siehe auch [hier](https://en.wikipedia.org/wiki/Pearson_correlation_coefficient#Using_the_Fisher_transformation)).
+Das Konfidenzintervall erhält man, indem man zu $z_r$ das Produkt aus dem zum Signifikanzniveau gehörenden Quantil der Standardnormalverteilung (ca. 1.96 für $\alpha = 0.05$) und dem Standardfehler addiert bzw. subtrahiert. Da diese Grenzen Fisher-transformiert sind, muss man sie abschließend noch mit `tanh()` (der Umkehrfunktion von `atanh()`) rücktransformieren.
 
-:::{.callout-note}
-Der $p$-Wert gibt hier die Wahrscheinlichkeit an, dass man eine Korrelation erhält, die *mindestens* so groß ist wie die beobachtete, unter der Annahme, dass die Nullhypothese zutrifft (also dass die Korrelation 0 ist).
-
-Ein kleiner $p$-Wert bedeutet also, dass der beobachtete Wert unter der Nullhypothese sehr unwahrscheinlich ist. Daher entscheidet man sich in solchen Situationen, die Nullhypothese zu verwerfen und die Korrelation als signifikant (unterschiedlich von 0) zu betrachten.
+::: callout-important
+Im Gegensatz zum $t$-Test für den $p$-Wert ist das nur eine *Näherung* – $z_r$ ist lediglich *näherungsweise* normalverteilt. Diese Näherung wird mit wachsender Stichprobengröße besser und ist in der Praxis ab etwa $N = 30$ gut brauchbar.
 :::
 
-Betrachten wir dazu ein Beispiel zur Veranschaulichung der Berechnung des $p$-Wertes sowie des Konfidenzintervalls für eine gegebene Pearson-Korrelation.
+::: callout-note
+Das Konfidenzintervall umfasst jene Werte, die mit den beobachteten Daten verträglich (plausibel) sind. Die Konfidenz ist *nicht* die *Wahrscheinlichkeit*, dass der wahre Wert in dem berechneten Intervall liegt – denn der wahre Wert ist entweder in dem Intervall oder nicht. Wenn man viele Stichproben erheben und damit jedes Mal ein Konfidenzintervall berechnen würde, dann würde im Falle eines 95%-Konfidenzintervalls in 95% der berechneten Intervalle der wahre Wert in dem Intervall liegen.
+:::
 
 
 ### Beispiel
 
-Gegeben sei eine Korrelation $r = 0.25$ berechnet aus einer Stichprobe der Größe $N = 40$:
+Betrachten wir dazu ein Beispiel zur Veranschaulichung der Berechnung des $p$-Wertes sowie des Konfidenzintervalls für eine gegebene Pearson-Korrelation. Gegeben sei eine Korrelation $r = 0.25$ aus einer Stichprobe der Größe $N = 40$, und wir geben ein Signifikanzniveau von $\alpha = 0.05$ vor (das ist der Schwellwert, den der $p$-Wert unterschreiten muss, damit wir eine Korrelation als signifikant betrachten).
+
+Für den $p$-Wert berechnen wir zunächst den Wert der $t$-Statistik:
 
 ```{r}
 r = 0.25
 N = 40
-```
-
-Weiters geben wir ein Signifikanzniveau von $\alpha = 0.05$ vor (das ist der Schwellwert für den $p$-Wert, ab dem wir eine Korrelation als signifikant betrachten wollen):
-
-```{r}
 alpha = 0.05
+
+(t = r * sqrt(N - 2) / sqrt(1 - r^2))
 ```
 
-Wir möchten nun wissen, ob die Korrelation $r = 0.25$ bei einem gegebenen Signifikanzniveau signifikant unterschiedlich von 0 ist. Dazu berechnen wir den $p$-Wert und das Konfidenzintervall. Um dies berechnen zu können, müssen wir zuerst die Fisher-Transformation von $r$ berechnen:
+Den $p$-Wert erhält man als Wahrscheinlichkeit, in einer $t$-Verteilung mit $N - 2 = 38$ Freiheitsgraden Werte zu erhalten, die betragsmäßig größer sind als $t \approx 1.59$ (der Faktor 2 wird benötigt, da wir keine gerichtete Hypothese haben und daher beide Enden der Verteilung berücksichtigen müssen):
 
 ```{r}
-(z = atanh(r))
+(p = 2 * pt(-abs(t), df=N - 2))
 ```
 
-Jetzt können wir den Standardfehler berechnen:
-```{r}
-(se_z = 1 / sqrt(N - 3))
-```
-
-Den $p$-Wert erhält man nun, indem man die Wahrscheinlichkeit berechnet, dass man in einer Standardnormalverteilung Werte größer als $z \, / \, \text{SE}(z) \approx 1.55$ erhält. Dazu sieht man entweder in einer [Tabelle der Standardnormalverteilung](https://en.wikipedia.org/wiki/Standard_normal_table#Complementary_cumulative) nach oder man berechnet diesen Wert mit entsprechenden Funktionen in R (der Faktor 2 wird benötigt, da wir keine gerichtete Hypothese haben):
-
-```{r}
-(p = 2 * (1 - pnorm(z / se_z)))
-```
+::: callout-note
+Das `abs()` sorgt dafür, dass die Berechnung auch für *negative* Korrelationen funktioniert. Ohne Betrag (also z.B. `2 * (1 - pt(t, df=N - 2))`) würde man für ein negatives $r$ einen Wert nahe 2 statt eines kleinen $p$-Wertes erhalten.
+:::
 
 Dieser $p$-Wert ist größer als $\alpha = 0.05$, d.h. wir können die Nullhypothese (keine Korrelation) *nicht* verwerfen.
 
-Das Konfidenzintervall um $z$ erhält man, indem man zum gegebenen Wert $z$ das Produkt aus dem Signifikanzniveau entsprechenden Quantil (ca. 1.96 für $\alpha = 0.05$) mit dem Standardfehler addiert bzw. subtrahiert:
+Für das Konfidenzintervall brauchen wir die Fisher-Transformation von $r$ sowie deren Standardfehler:
+
+```{r}
+(z = atanh(r))
+(se_z = 1 / sqrt(N - 3))
+```
+
+Damit können wir die Grenzen des Konfidenzintervalls berechnen und rücktransformieren:
 
 ```{r}
 cl_z = z - qnorm(1 - alpha/2) * se_z
 cu_z = z + qnorm(1 - alpha/2) * se_z
-c(cl_z, z, cu_z)
+c(cl_z, z, cu_z)  # Fisher-transformiert
+
+c(tanh(cl_z), r, tanh(cu_z))  # zurücktransformiert
 ```
 
-Man beachte, dass es sich bei allen drei Werten um Fisher-transformierte Werte handelt. Möchte man ein Konfidenzintervall um die ursprüngliche Korrelation $r$ angeben, so muss man diese drei Werte noch rücktransformieren (`tanh` ist die Umkehrfunktion von `atanh`):
-
-```{r}
-cl_r = tanh(cl_z)
-cu_r = tanh(cu_z)
-c(cl_r, r, cu_r)
-```
-
-:::{.callout-note}
-Das Konfidenzintervall gibt an, in welchem Bereich der wahre Wert der Korrelation mit einer gegebenen Sicherheit (Konfidenz) liegt. Die Konfidenz ist *nicht* die *Wahrscheinlichkeit*, dass der wahre Wert in dem berechneten Intervall liegt – denn der wahre Wert ist entweder in dem Intervall oder nicht. Wenn man viele Stichproben erheben und damit jedes Mal ein Konfidenzintervall berechnen würde, dann würde im Falle eines 95%-Konfidenzintervalls in 95% der berechneten Intervalle der wahre Wert in dem Intervall liegen.
-:::
-
-:::{.callout-tip}
+::: callout-tip
 Die Tatsache, dass die Korrelation $r=0.25$ bei einer Stichprobe von $N=40$ nicht signifikant unterschiedlich von Null ist ($p=0.12$) kann man auch daran erkennen, dass das 95%-Konfidenzintervall den Wert 0 (also die Nullhypothese) enthält. Das bedeutet also, dass wir die Nullhypothese (keine Korrelation) *nicht* verwerfen können.
 :::
+
+
+### Voraussetzungen und Fallstricke
+
+Die Pearson-Korrelation ist eine einzelne Zahl, die einen Zusammenhang zwischen zwei Variablen zusammenfasst – und dabei sehr viel Information verwirft. Die folgenden Punkte sollte man daher immer im Hinterkopf behalten:
+
+- $r$ misst ausschließlich den *linearen* Anteil eines Zusammenhangs. Ein Wert nahe 0 bedeutet also *nicht*, dass die Variablen unabhängig sind – ein perfekter, aber U-förmiger Zusammenhang ergibt beispielsweise $r = 0$.
+- $r$ reagiert empfindlich auf Ausreißer. Ein einziger extremer Datenpunkt kann eine Korrelation erzeugen oder auch verschwinden lassen.
+- Der Signifikanztest sowie das Konfidenzintervall setzen voraus, dass die beiden Variablen gemeinsam (bivariat) normalverteilt sind, d.h. im Streudiagramm sollte eine elliptische, zur Mitte hin dichter werdende Punktwolke ohne Ausreißer oder getrennte Cluster erkennbar sein. Eine notwendige (aber nicht hinreichende) Bedingung dafür ist, dass jede der beiden Variablen für sich genommen normalverteilt ist. Unter dieser Voraussetzung ist der $t$-Test für den $p$-Wert exakt, während das Konfidenzintervall über die Fisher-Transformation weiterhin nur eine Näherung bleibt.
+- Wird nur ein eingeschränkter Wertebereich einer Variablen erhoben (z.B. IQ-Werte ausschließlich von Studierenden), fällt $r$ systematisch zu klein aus.
+- Signifikanz ist nicht dasselbe wie Relevanz: Bei sehr großen Stichproben wird auch eine praktisch bedeutungslose Korrelation signifikant (siehe Übung 1).
+- Eine Korrelation über eine gemischte Stichprobe kann in jeder einzelnen Untergruppe ganz anders (bis hin zu umgekehrt) aussehen – das in Einheit 8 gezeigte Simpsons Paradoxon (siehe Übung 5).
+
+Der wichtigste Ratschlag lautet daher: Man sollte die Daten *immer* auch in einem Streudiagramm betrachten und sich nie allein auf den Korrelationskoeffizienten verlassen. Das klassische Beispiel dafür ist das sogenannte [Anscombe-Quartett](https://de.wikipedia.org/wiki/Anscombe-Quartett) – vier Datensätze, die in R als `anscombe` verfügbar sind. Alle vier weisen (auf drei Nachkommastellen gerundet) dieselbe Korrelation $r = 0.816$ auf und haben zudem identische Mittelwerte und Varianzen – trotzdem sehen sie völlig unterschiedlich aus:
+
+```{r}
+#| echo: false
+#| message: false
+library(ggplot2)
+
+a = data.frame(
+    x=c(anscombe$x1, anscombe$x2, anscombe$x3, anscombe$x4),
+    y=c(anscombe$y1, anscombe$y2, anscombe$y3, anscombe$y4),
+    set=rep(paste("Datensatz", 1:4), each=11)
+)
+
+ggplot(a, aes(x, y)) +
+    geom_smooth(method="lm", se=FALSE) +
+    geom_point(size=2) +
+    facet_wrap(~set) +
+    theme_minimal()
+```
 
 
 ## Nicht-parametrische Korrelationskoeffizienten
@@ -203,15 +476,16 @@ Die Tatsache, dass die Korrelation $r=0.25$ bei einer Stichprobe von $N=40$ nich
 
 Im Gegensatz zur Pearson-Korrelation misst der Spearman Rangkorrelationskoeffizient $\rho$ nicht nur lineare Zusammenhänge zwischen zwei Variablen, sondern der Zusammenhang kann eine beliebige monotone (nicht-lineare) Funktion sein. Die beiden Variablen müssen auch nicht intervallskaliert sein, d.h. so kann man auch ordinalskalierte Daten miteinander korrelieren.
 
-Im Prinzip berechnet man die Spearman-Korrelation, indem man die Daten $x$ und $y$ vorher in Ränge konvertiert und dann die Pearson-Korrelation berechnet. Zur Berechnung kann folgende vereinfachte Formel verwendet werden:
-
-$$\rho = 1 - \frac{6 \sum d_i^2}{N \cdot (N^2 - 1)}$$
-Hier ist $d_i$ die Differenz der Ränge einer Beobachtung.
+Im Prinzip berechnet man die Spearman-Korrelation, indem man die Daten $x$ und $y$ vorher in Ränge konvertiert und dann die Pearson-Korrelation berechnet.
 
 
 ### Kendall Rangkorrelationskoeffizient
 
-Bei kleinen Stichproben und relativ großer Anzahl an gleichen Rängen liefert oft der Kendall Rangkorrelationskoeffizient $\tau$ bessere Ergebnisse. Hier werden nicht die Differenzen zwischen den Rängen betrachtet (also die Abstände der Ränge zwischen beiden Variablen), sondern ob es Unterschiede in den Rängen zwischen Datenpaaren gibt oder nicht.
+Bei kleinen Stichproben und relativ großer Anzahl an Bindungen (gleiche Ränge) liefert oft der Kendall Rangkorrelationskoeffizient $\tau$ bessere Ergebnisse. Hier werden nicht die Abstände zwischen den Rängen betrachtet, sondern es wird jedes Paar von Beobachtungen daraufhin verglichen, ob es *konkordant* oder *diskordant* ist. Konkordant bedeutet, dass die beiden Beobachtungen in beiden Variablen in dieselbe Richtung geordnet sind (das Paar mit dem größeren $x$ hat auch das größere $y$), diskordant bedeutet, dass die Ordnung in den beiden Variablen entgegengesetzt ist. Der Koeffizient $\tau$ ergibt sich im Wesentlichen aus der Differenz zwischen der Anzahl konkordanter und diskordanter Paare, dividiert durch die Gesamtzahl der Paare.
+
+::: callout-note
+Weil $\tau$ und $\rho$ unterschiedlich definiert sind, sind sie auch nicht direkt vergleichbar – für dieselben Daten ist $\tau$ üblicherweise deutlich kleiner als $\rho$. Beide Koeffizienten sind aber, im Gegensatz zur Pearson-Korrelation, robust gegenüber Ausreißern.
+:::
 
 
 ## Korrelationen mit R berechnen
@@ -231,6 +505,10 @@ Die drei Funktionen haben unterschiedliche Features, d.h. welche Funktion man be
 | `cor.test` | x       | x        | x       | x         | x  |          |
 | `rcorr`    | x       | x        |         | x         |    | x        |
 
+::: callout-note
+Ein Konfidenzintervall liefert `cor.test()` nur für die Pearson-Korrelation. Für Spearman und Kendall gibt die Funktion zwar einen $p$-Wert aus, aber kein Intervall.
+:::
+
 
 ### Funktion `cor()`
 
@@ -248,10 +526,14 @@ Hier übergibt man zwei Vektoren und spezifiziert, welche Korrelation berechnet 
 Der Aufruf der Funktion `cor.test()` ist sehr ähnlich:
 
 ```r
-cor.test(x, y, alternative="t", method="pearson", conf.level=0.95)
+cor.test(x, y, alternative="two.sided", method="pearson", conf.level=0.95)
 ```
 
-Hier kann man die Form der Alternativhypothese (`"two-sided"`, `"greater"`, `"less"`) sowie das Konfidenzniveau angeben. Diese Funktion kann nur mit genau zwei Vektoren umgehen.
+Hier kann man die Form der Alternativhypothese (`"two.sided"`, `"greater"`, `"less"`) sowie das Konfidenzniveau angeben. Diese Funktion kann nur mit genau zwei Vektoren umgehen.
+
+::: callout-note
+Für die Pearson-Korrelation rechnet `cor.test()` genau wie weiter oben beschrieben: Der $p$-Wert wird über die $t$-Statistik bestimmt (daher stehen in der Ausgabe `t` und `df`), das Konfidenzintervall über die Fisher-Transformation.
+:::
 
 
 ## Funktion `rcorr()`
@@ -278,32 +560,33 @@ library(readr)
 Es ist hilfreich, die Daten zuerst einmal grafisch darzustellen. Für den Zusammenhang zwischen zwei Variablen bietet sich ein Streudiagramm (inklusive Regressionsgeraden) an – so kann man die Korrelation direkt visualisieren. Wir können eine solche Grafik zunächst einmal separat für alle drei Kombinationen erzeugen:
 
 ```{r}
-plot(exam$Revise, exam$Exam, pch=16, col=rgb(0, 0, 0, 0.5))
-abline(lm(exam$Exam ~ exam$Revise), col="blue")
-plot(exam$Anxiety, exam$Exam, pch=16, col=rgb(0, 0, 0, 0.5))
-abline(lm(exam$Exam ~ exam$Anxiety), col="blue")
-plot(exam$Revise, exam$Anxiety, pch=16, col=rgb(0, 0, 0, 0.5))
-abline(lm(exam$Anxiety ~ exam$Revise), col="blue")
+#| message: false
+library(ggplot2)
+
+ggplot(exam, aes(x=Revise, y=Exam)) +
+    geom_point(alpha=0.5) +
+    geom_smooth(method="lm")
+
+ggplot(exam, aes(x=Anxiety, y=Exam)) +
+    geom_point(alpha=0.5) +
+    geom_smooth(method="lm")
+
+ggplot(exam, aes(x=Revise, y=Anxiety)) +
+    geom_point(alpha=0.5) +
+    geom_smooth(method="lm")
 ```
 
-:::{.callout-tip}
-Bei mehreren Variablen (wie in diesem Beispiel) kann man die Funktion `pairs()` verwenden, um alle paarweisen Streudiagramme gleichzeitig darzustellen:
+::: callout-tip
+Bei mehreren Variablen (wie in diesem Beispiel) kann man mit der Funktion `ggpairs()` alle paarweisen Streudiagramme gleichzeitig darstellen. Diese Funktion ist Teil des Pakets `GGally`, einer auf `ggplot2` aufbauenden Erweiterung, welche zuvor einmalig installiert werden muss. Man übergibt der Funktion einfach die gewünschten Spalten:
 
 ```{r}
-pairs(exam[, 2:4])
+#| message: false
+library(GGally)
+
+ggpairs(exam[, 2:4])
 ```
 
-Möchte man auch Regressionsgeraden einzeichnen, kann man eine (anonyme) Funktion als `panel`-Argument übergeben:
-
-```{r}
-pairs(
-    exam[2:4],
-    panel=function(x, y) {
-        points(x, y, pch=16, col=rgb(0, 0, 0, 0.5))
-        abline(lm(y ~ x), col="blue")
-    }
-)
-```
+Diese Matrix zeigt in der unteren Hälfte die Streudiagramme aller Variablenpaare, in der Diagonale die Verteilung der einzelnen Variablen und in der oberen Hälfte bereits die zugehörigen Pearson-Korrelationen. Damit bekommt man mit einem einzigen Aufruf einen sehr guten Überblick über die Daten.
 :::
 
 
@@ -315,9 +598,11 @@ Nun berechnen wir die Pearson-Korrelationen zwischen den drei Variablen `Exam`, 
 cor(exam[, c("Exam", "Anxiety", "Revise")])
 ```
 
-Man kann aus dieser Korrelationsmatrix direkt die einzelnen Koeffizienten für alle Variablenpaare ablesen. Die Diagonale beinhaltet die Korrelationen der Variablen mit sich selbst und besteht daher aus lauter Werten, die exakt gleich 1 sind. Außerdem ist es egal, ob man die Korrelationen in dem Dreieck *unter* der Diagonale oder *über* der Diagonale abliest, da die Korrelationsmatrix symmetrisch ist (die Korrelation zwischen "Exam" und "Revise" ist dieselbe wie zwischen "Revise" und "Exam" – die Korrelation misst ja keine kausalen Zusammenhänge).
+Man kann aus dieser Korrelationsmatrix direkt die einzelnen Koeffizienten für alle Variablenpaare ablesen. Die Diagonale beinhaltet die Korrelationen der Variablen mit sich selbst und besteht daher aus lauter Werten, die exakt gleich 1 sind. Außerdem ist es egal, ob man die Korrelationen in dem Dreieck *unter* der Diagonale oder *über* der Diagonale abliest, da die Korrelationsmatrix symmetrisch ist: Die Korrelation zwischen "Exam" und "Revise" ist dieselbe wie zwischen "Revise" und "Exam" (die Kovarianz in der Formel ändert sich nicht, wenn man $x$ und $y$ vertauscht). Genau deshalb kann eine Korrelation auch nie eine Richtung und damit keine Kausalität abbilden.
 
-Möchte man jedoch auch $p$-Werte, muss man die Funktion `rcorr()` verwenden. Diese Funktion erwartet die Daten jedoch nicht als Data Frame, sondern als Matrix. Daher müssen die Daten beim Aufruf der Funktion in eine Matrix umgewandelt werden:
+Inhaltlich lässt sich die Matrix so lesen: Wer mehr lernt, erzielt tendenziell ein besseres Prüfungsergebnis ($r = 0.4$), wer ängstlicher ist, ein schlechteres ($r = -0.44$), und mehr Lernen geht mit deutlich geringerer Prüfungsangst einher ($r = -0.71$).
+
+Möchte man jedoch auch $p$-Werte, muss man die Funktion `rcorr()` verwenden. Diese Funktion erwartet die Daten jedoch nicht als Data Frame, sondern als Matrix. Daher müssen die Daten beim Aufruf der Funktion mit `as.matrix()` in eine Matrix umgewandelt werden:
 
 ```{r}
 rcorr(as.matrix(exam[, c("Exam", "Anxiety", "Revise")]))
@@ -325,22 +610,34 @@ rcorr(as.matrix(exam[, c("Exam", "Anxiety", "Revise")]))
 
 Zusätzlich zur Korrelationsmatrix bekommt man auch die $p$-Werte geliefert. In diesem Beispiel sind alle Korrelationen signifikant, da die $p$-Werte sehr klein sind (gerundet Null).
 
+::: callout-important
+Bei mehreren Variablen wird hier eine ganze Reihe von paarweisen Tests gleichzeitig durchgeführt (bei drei Variablen sind es drei Tests, bei zehn Variablen bereits 45). Damit steigt die Wahrscheinlichkeit, rein zufällig ein signifikantes Ergebnis zu erhalten, deutlich an. Möchte man solche Korrelationsmatrizen konfirmatorisch interpretieren, sollte man die $p$-Werte für multiples Testen korrigieren (z.B. mit `p.adjust()`).
+:::
+
+::: callout-note
+Enthalten die Daten fehlende Werte (`NA`), gehen die beiden Funktionen unterschiedlich damit um: `rcorr()` verwendet für jedes Variablenpaar automatisch alle vollständigen Paare, während `cor()` standardmäßig `NA` zurückgibt. Bei `cor()` muss man daher explizit angeben, wie fehlende Werte behandelt werden sollen (z.B. mit `use="complete.obs"` oder `use="pairwise.complete.obs"`).
+:::
+
 Wenn man auch Konfidenzintervalle benötigt, muss man die Funktion `cor.test()` verwenden. Diese Funktion unterstützt aber nur zwei Variablen, d.h. bei mehreren Variablen muss man die Funktion mehrmals aufrufen, um alle paarweisen Korrelationen zu erhalten.
 
 ```{r}
-cor.test(exam$Anxiety, exam$Exam)
+cor.test(exam[["Anxiety"]], exam[["Exam"]])
 ```
+
+Die Korrelation zwischen Prüfungsangst und Prüfungsergebnis beträgt also $r = -0.44$ mit einem 95%-Konfidenzintervall von $[-0.58, -0.27]$. Dieses Intervall enthält den Wert 0 nicht, was konsistent zum sehr kleinen $p$-Wert ist.
 
 
 ### Bestimmtheitsmaß $R^2$
 
-Wenn man den Korrelationskoeffizienten $r$ quadriert, erhält man das Bestimmtheitsmaß $R^2$. Es gibt an, wie viel Varianz in einer Variablen von der zweiten erklärt werden kann (wobei auch hier wieder gilt, dass dies keine Aussage über Kausalität ist). Es ist üblich, die Korrelation mit dem Kleinbuchstaben $r$ zu bezeichnen, für das Bestimmtheitsmaß verwendet man aber einen Großbuchstaben $R^2$.
+Wenn man den Korrelationskoeffizienten $r$ quadriert, erhält man das Bestimmtheitsmaß $R^2$. Es gibt den *Anteil* der Varianz einer Variablen an, der durch die zweite Variable erklärt werden kann, und liegt daher immer zwischen 0 und 1. Es ist üblich, die Korrelation mit dem Kleinbuchstaben $r$ zu bezeichnen, für das Bestimmtheitsmaß verwendet man aber einen Großbuchstaben $R^2$.
 
 $$R^2 = r^2$$
 
 ```{r}
 cor(exam[, c("Exam", "Anxiety", "Revise")])^2
 ```
+
+Die Prüfungsangst erklärt also rund 19% der Varianz des Prüfungsergebnisses (und umgekehrt – das Bestimmtheitsmaß ist genauso symmetrisch wie die Korrelation und sagt daher ebenfalls nichts über die Wirkrichtung aus). Auffällig ist außerdem, dass $R^2$ deutlich kleiner ist als $r$: Eine auf den ersten Blick "mittlere" Korrelation von $-0.44$ lässt also immer noch rund 81% der Varianz unerklärt.
 
 
 ### Spearman Rangkorrelationskoeffizient
@@ -350,17 +647,21 @@ Für die Beispieldaten können wir analog auch die Spearman-Korrelation bestimme
 ```{r}
 cor(exam[, c("Exam", "Anxiety", "Revise")], method="spearman")
 rcorr(as.matrix(exam[, c("Exam", "Anxiety", "Revise")]), type="spearman")
-cor.test(exam$Revise, exam$Exam, method="spearman")
+cor.test(exam[["Revise"]], exam[["Exam"]], method="spearman")
 ```
+
+Die Spearman-Korrelation zwischen `Revise` und `Exam` ist mit $\rho = 0.35$ etwas kleiner als die entsprechende Pearson-Korrelation ($r = 0.4$). Das ist ein Hinweis darauf, dass der Zusammenhang nicht rein linear ist bzw. dass einzelne Ausreißer die Pearson-Korrelation beeinflussen.
 
 
 ### Kendall Rangkorrelationskoeffizient
 
-Die Funktion `cor.test()` gibt im vorigen Beispiel eine Warnung aus, dass der berechnete $p$-Wert nicht exakt ist, da die Daten gleiche Ränge beinhalten. In solchen Fällen ist daher der Kendall-Korrelationskoeffizient die bessere Wahl:
+Die Funktion `cor.test()` gibt im vorigen Beispiel eine Warnung aus, dass der berechnete $p$-Wert nicht exakt ist, da die Daten gleiche Ränge (Bindungen) beinhalten. Der exakte Test für Spearman setzt nämlich voraus, dass alle Ränge eindeutig sind; R weicht daher automatisch auf eine Näherung aus. In solchen Fällen ist der Kendall-Korrelationskoeffizient die bessere Wahl, da dessen Variante $\tau_b$ Bindungen bereits in der Definition berücksichtigt:
 
 ```{r}
-cor.test(exam$Revise, exam$Exam, method="kendall")
+cor.test(exam[["Revise"]], exam[["Exam"]], method="kendall")
 ```
+
+Der Wert $\tau = 0.26$ liegt wie erwartet unter $\rho = 0.35$, die inhaltliche Aussage (ein signifikanter positiver Zusammenhang) ist aber dieselbe.
 
 
 ## Übungen
@@ -394,8 +695,8 @@ In der Datei [`pm10.csv`](pm10.csv) finden Sie die monatlichen Feinstaubwerte PM
 
 Berechnen Sie abschließend die Pearson-Korrelation zwischen den Daten beider Messstationen inklusive Konfidenzintervall sowie $p$-Wert. Wie viel Varianz der einen Variable kann durch die andere Variable erklärt werden?
 
-:::{.callout-note}
-Wandeln Sie die Spalte `Datum` nach dem Einlesen in einen Datums-Typ um. Für die gleichzeitige Darstellung der beiden Zeitverläufe können Sie zuerst eine Liniengrafik einer Variable erzeugen und dann mit der Funktion `lines()` den zweiten Zeitverlauf mit einer anderen Farbe hinzufügen.
+::: callout-note
+Wandeln Sie die Spalte `Datum` nach dem Einlesen in einen Datums-Typ um. Für die gleichzeitige Darstellung der beiden Zeitverläufe können Sie zwei `geom_line()`-Schichten übereinanderlegen (eine pro Messstation). Übergibt man dabei innerhalb von `aes()` einen fixen Text als `color`, entsteht daraus automatisch die passende Legende (z.B. `aes(y=Petersgasse, color="Petersgasse")`).
 
 Wenn Sie die Funktion `cor()` zur Berechnung der Korrelation zwischen den beiden Variablen verwenden möchten, können Sie fehlende Werte in jeder der beiden Variablen mit dem Argument `use="complete.obs"` ausschließen.
 :::
@@ -404,3 +705,12 @@ Wenn Sie die Funktion `cor()` zur Berechnung der Korrelation zwischen den beiden
 ### Übung 5
 
 Berechnen Sie die Korrelation der Schnabellänge (`bill_len`) mit der Schnabeltiefe (`bill_dep`) im Datensatz `penguins`. Berechnen Sie außerdem diese Korrelation für jede Spezies separat! Was stellen Sie fest?
+
+::: callout-note
+Für die gruppierte Berechnung können Sie `group_by()` und `summarize()` aus dem Paket `dplyr` verwenden. Ein Blick auf die entsprechenden Streudiagramme aus Einheit 8 hilft bei der Interpretation.
+:::
+
+
+## Lösungen
+
+Die Lösungen zu diesen Übungen finden Sie [hier](09-solutions.qmd).

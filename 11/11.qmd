@@ -2,7 +2,7 @@
 title: "11 – Lineare Regression (2)"
 subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2026-06-01
+date: 2026-12-10
 format:
   html:
     page-layout: full
@@ -27,11 +27,13 @@ Die multiple lineare Regression ist eine Erweiterung der einfachen linearen Regr
 
 $$y_i = \hat{y}_i + \varepsilon_i$$
 
-Das Modell $\hat{y}_i$ mit $n$ Prädiktoren $x_{1}$, $x_{2}$, $\ldots$, $x_{n}$ wird nun wie folgt formuliert:
+Das Modell $\hat{y}_i$ mit $k$ Prädiktoren $x_{1}$, $x_{2}$, $\ldots$, $x_{k}$ wird nun wie folgt formuliert:
 
-$$y_i = (b_0 + b_1 x_{1i} + b_2 x_{2i} + \ldots + b_n x_{ni}) + \varepsilon_i$$
+$$y_i = (b_0 + b_1 x_{1i} + b_2 x_{2i} + \ldots + b_k x_{ki}) + \varepsilon_i$$
 
 Jeder Prädiktor erhält also ein eigenes Gewicht bzw. einen eigenen Regressionskoeffizienten. Die Koeffizienten werden mittels Least Squares wieder so berechnet, dass die entstehende "Gerade" (technisch spricht man hier von einer [Hyperebene](https://de.wikipedia.org/wiki/Hyperebene)) den mittleren quadratischen Fehler minimiert.
+
+Insgesamt schätzt das Modell damit $p = k + 1$ Parameter (die $k$ Steigungen plus den Intercept). Mit diesem $p$ ergeben sich die Freiheitsgrade genau wie in Einheit 10, also $\mathrm{dfM} = p - 1 = k$ und $\mathrm{dfR} = N - p$. Die einfache lineare Regression ist dabei nichts anderes als der Spezialfall $k = 1$.
 
 Die Quadratsummen SST, SSM und SSR werden analog wie bei der einfachen Regression berechnet. Wieder kann man $R^2$ berechnen, welches den Anteil der Varianz in der abhängigen Variable angibt, welche durch das Modell erklärt wird. Je höher dieser Wert ist, desto besser kann das Modell die Daten beschreiben. Aus $R^2$ kann man hier die Pearson-Korrelation zwischen den *vorhergesagten* Werten und den tatsächlich *beobachteten* Werten berechnen.
 
@@ -44,6 +46,7 @@ Kritisch sind also jene Punkte, welche einen potentiellen hohen Einfluss haben (
 
 ```{r}
 #| echo: false
+set.seed(4)
 x = c(5:8)
 y = x + rnorm(length(x), 0, 0.1)
 l = lm(y ~ x)
@@ -104,6 +107,7 @@ outlier = function(n=100, alpha=0.5)
     mtext(bquote(italic(n) == .(n)), side=1, family="serif")
 }
 
+set.seed(1)
 par(mfrow=c(1, 3), mar=c(1, 3, 1, 3))
 outlier(1000, alpha=0.15)
 outlier(100)
@@ -117,6 +121,11 @@ Um mit einem linearen Regressionsmodell Vorhersagen auf ungesehene Daten machen 
 
 * Die abhängige Variable muss intervallskaliert sein.
 * Die unabhängigen Variablen (Prädiktoren) müssen intervallskaliert (oder nominalskaliert in zwei Kategorien) sein.
+
+  :::{.callout-note}
+  Nominalskalierte Prädiktoren mit *mehr* als zwei Kategorien sind ebenfalls möglich – R zerlegt einen solchen Faktor automatisch in mehrere Indikatorvariablen (Dummy-Coding). Genau davon werden wir in Einheit 12 Gebrauch machen, wenn wir Gruppenmittelwerte als lineares Modell formulieren.
+  :::
+
 * Die Prädiktoren müssen Varianzen ungleich 0 haben (sie dürfen also nicht konstant sein).
 * Es darf keine Multikollinearität bestehen, d.h. zwei oder mehrere Prädiktoren dürfen nicht linear voneinander abhängig sein. Dies kann z.B. mit der VIF-Statistik (Variance Inflation Factor) überprüft werden.
 * Homoskedastizität, d.h. die Varianz der Residuen muss konstant über die Werte der Prädiktoren sein (Varianzhomogenität).
@@ -159,7 +168,11 @@ summary(model1)
 summary(model2)
 ```
 
-Da das erste Modell identisch mit jenem aus der vorigen Einheit ist, kennen wir die Ergebnisse bereits. Wenden wir uns daher dem zweiten Modell zu. $R^2$ ist hier 0.6647, das heißt das Modell kann nun 66% der Varianz erklären. Im Vergleich zum ersten Modell mit nur einem Prädiktor ist das eine Steigerung um 33%, d.h. die beiden Prädiktoren Airplay und Attraktivität können zusätzliche Varianz im Ausmaß von 33% erklären.
+Da das erste Modell identisch mit jenem aus der vorigen Einheit ist, kennen wir die Ergebnisse bereits. Wenden wir uns daher dem zweiten Modell zu. $R^2$ ist hier 0.6647, das heißt das Modell kann nun 66% der Varianz erklären. Im Vergleich zum ersten Modell mit nur einem Prädiktor ($R^2 = 0.3346$) ist das eine Steigerung um 33 *Prozentpunkte*, d.h. die beiden Prädiktoren Airplay und Attraktivität können zusätzliche Varianz im Ausmaß von 33 Prozentpunkten erklären.
+
+::: callout-important
+Hier zeigt sich, warum das in Einheit 10 erwähnte *adjustierte* $R^2$ wichtig ist: $R^2$ kann durch das Hinzufügen von Prädiktoren nie kleiner werden, ein Anstieg allein ist daher noch kein Beleg für ein besseres Modell. Das adjustierte $R^2$ berücksichtigt die Anzahl der Prädiktoren und steigt hier von 0.3313 auf 0.6595 – der Zugewinn ist also tatsächlich vorhanden und nicht bloß eine Folge der beiden zusätzlichen Terme. Ob die Verbesserung auch statistisch signifikant ist, beantwortet der Modellvergleich mit `anova()` weiter unten.
+:::
 
 Die Regressionskoeffizienten werden ebenfalls in der Ausgabe dargestellt. Wir können daher das lineare Modell wie folgt schreiben:
 
@@ -173,26 +186,38 @@ Die Regressionskoeffizienten geben Auskunft, um wie viel sich die abhängige Var
 * Wenn `airplay` um eine Einheit erhöht wird, dann erhöht sich `sales` um 3.37 Einheiten. D.h. wenn man das Album um eine Stunde mehr im Radio spielt, verkauft man um 3367 Alben mehr.
 * Wenn `attract` um eine Einheit erhöht wird, dann erhöht sich `sales` um 11.086 Einheiten (d.h. 11086 zusätzliche Alben).
 
-Für jeden Regressionskoeffizienten wird ein $t$-Test gerechnet, welcher angibt, ob sich der Koeffizient signifikant von 0 unterscheidet (d.h. ob er signifikant zum Modell beiträgt). Die Größe der $t$-Statistik lässt auf den Einfluss der Koeffizienten schließen, d.h. `adverts` und `airplay` haben einen ähnlich großen Einfluss auf das Modell, wo hingegen `attract` einen geringeren Einfluss hat.
+Für jeden Regressionskoeffizienten wird ein $t$-Test gerechnet, welcher angibt, ob sich der Koeffizient signifikant von 0 unterscheidet (d.h. ob er signifikant zum Modell beiträgt). Die Größe der $t$-Statistik lässt auf den Einfluss der Koeffizienten schließen, d.h. `adverts` und `airplay` haben einen ähnlich großen Einfluss auf das Modell, wohingegen `attract` einen geringeren Einfluss hat.
 
-Oft ist es hilfreich, nicht nur die Regressionskoeffizienten zu analysieren, sondern auch die standardisierten Regressionskoeffizienten. Diese kann man berechnen, in dem man zuerst alle Variablen standardisiert und danach das lineare Modell berechnet. Standardisierte Variablen haben einen Mittelwert von 0 und eine Standardabweichung von 1. Man könnte die Standardisierung daher relativ einfach selbst vornehmen, in dem man für jede Variable zuerst deren Mittelwert subtrahiert und danach durch deren Standardabweichung dividiert.
-
-:::{.callout-tip}
-Die Funktion `scale()` kann verwendet werden, um die Spalten eine Data Frames zu standardisieren. Diese liefert aber immer eine Matrix zurück, d.h. wenn man ein Data Frame bzw. Tibble standardisieren möchte, muss man danach noch `as.data.frame()` bzw. `tibble::as_tibble()` anwenden.
-:::
-
-Alternativ kann man dazu auch *nachträglich* die Funktion `lm.beta()` aus dem `lm.beta`-Paket benutzen:
+Die unstandardisierten Koeffizienten kann man hingegen *nicht* direkt miteinander vergleichen, weil sie von den Einheiten der jeweiligen Prädiktoren abhängen. Der Koeffizient von `attract` ist mit 11.086 zwar der betragsmäßig größte, aber `attract` wird eben auch auf einer ganz anderen Skala gemessen als `adverts`:
 
 ```{r}
-library(lm.beta)
-lm.beta(model2)
+sapply(album2, sd)
 ```
 
-Die standardisierten Regressionskoeffizienten werden üblicherweise mit $\beta_i$ bezeichnet. Da alle Variablen nun in Standardabweichungen gemessen werden, kann man diese direkt miteinander vergleichen. Man sieht im Beispiel also:
+Oft ist es daher hilfreich, nicht nur die Regressionskoeffizienten zu analysieren, sondern auch die standardisierten Regressionskoeffizienten. Diese kann man berechnen, indem man zuerst alle Variablen standardisiert und danach das lineare Modell berechnet. Standardisierte Variablen haben einen Mittelwert von 0 und eine Standardabweichung von 1. Man könnte die Standardisierung daher relativ einfach selbst vornehmen, indem man für jede Variable zuerst deren Mittelwert subtrahiert und danach durch deren Standardabweichung dividiert.
+
+::: callout-tip
+Die Funktion `scale()` kann verwendet werden, um die Spalten eines Data Frames zu standardisieren. Diese liefert aber immer eine Matrix zurück, d.h. wenn man ein Data Frame bzw. Tibble standardisieren möchte, muss man danach noch `as.data.frame()` bzw. `tibble::as_tibble()` anwenden.
+:::
+
+Einfacher ist es, dies *nachträglich* mit der Funktion `standardize_parameters()` aus dem `effectsize`-Paket zu erledigen (dieses Paket werden wir in Einheit 12 auch für Effektgrößen verwenden):
+
+```{r}
+#| message: false
+library(effectsize)
+
+standardize_parameters(model2)
+```
+
+Die Ausgabe `Standardization method: refit` verrät, wie die Funktion vorgeht: Sie standardisiert die Daten und berechnet das Modell damit neu – also genau die oben beschriebene händische Vorgehensweise. Zusätzlich bekommt man gleich Konfidenzintervalle für die standardisierten Koeffizienten.
+
+Die standardisierten Regressionskoeffizienten werden üblicherweise mit $\beta_i$ bezeichnet. Da alle Variablen nun in Standardabweichungen gemessen werden, kann man diese direkt miteinander vergleichen. Zusammen mit den oben berechneten Standardabweichungen (`sales` streut mit 80.699) sieht man im Beispiel also:
 
 * Wenn `adverts` um eine Standardabweichung erhöht wird (485655 EUR), dann erhöht sich `sales` um 0.511 Standardabweichungen (41240 Alben).
 * Wenn `airplay` um eine Standardabweichung erhöht wird (12.270), dann erhöht sich `sales` um 0.512 Standardabweichungen (41320 Alben).
 * Wenn `attract` um eine Standardabweichung erhöht wird (1.395), dann erhöht sich `sales` um 0.192 Standardabweichungen (15490 Alben).
+
+`adverts` und `airplay` sind also praktisch gleich wichtig, während `attract` deutlich weniger beiträgt – dieselbe Rangfolge, die sich schon an den $t$-Werten abgezeichnet hat, und die man an den unstandardisierten Koeffizienten gerade *nicht* ablesen konnte.
 
 Konfidenzintervalle für die (nicht standardisierten) Regressionskoeffizienten erhält man mit der Funktion `confint()` (standardmäßig werden 95%-Intervalle berechnet):
 
@@ -208,6 +233,12 @@ anova(model1, model2)
 
 Der $F$-Wert beträgt also 96.447 und ist signifikant, d.h. das zweite Modell ist signifikant besser als das erste.
 
+::: callout-note
+Die Funktion `anova()` hat zwei unterschiedliche Verwendungszwecke. Übergibt man ihr wie hier *zwei* (oder mehrere) Modelle, vergleicht sie diese miteinander. Übergibt man ihr hingegen nur ein *einziges* Modell, erhält man eine Varianzanalyse-Tabelle für die einzelnen Terme dieses Modells – diese Variante werden wir in Einheit 12 kennenlernen.
+
+Bei einem Modell mit nur *einem* Prädiktor sind beide Varianten sogar identisch: `anova(model1)` liefert exakt dieselbe Zeile wie `anova(lm(sales ~ 1, data=album2), model1)`, also der Vergleich mit dem Nullmodell (nur Intercept). Bei *mehreren* Prädiktoren gilt das aber nicht mehr, da `anova()` mit einem einzelnen Modell die Terme *sequentiell* testet: Jede Zeile vergleicht das Modell bis zu diesem Term mit dem Modell ohne diesen Term (aber inklusive aller vorherigen Terme) – und nicht mit dem reinen Nullmodell. Sind die Prädiktoren nicht unkorreliert, hängt das Ergebnis daher auch von der Reihenfolge der Terme in der Formel ab.
+:::
+
 
 ### Datenpunkte mit großem Einfluss
 
@@ -221,18 +252,22 @@ Um die diversen Ausreißerstatistiken für jeden einzelnen Wert übersichtlich b
 * `cooks.distance()`: Cook's Distanz
 * `dffits()`: Unterschied im vorhergesagtem Wert mittels Leave-One-Out
 
-::: {.callout-note}
+::: callout-note
 "Leave-One-Out" bedeutet, dass der jeweilige Datenpunkt aus der Berechnung des Werts ausgeschlossen wird.
 :::
 
-Sehr praktisch ist die Funktion `influence.measures()`, welche mehrere Ausreißerstatistiken für jeden Datenpunkt übersichtlich aufbereitet ausgibt.
+Als grobe Orientierung gelten folgende Faustregeln: Cook's Distanz sollte 1 nicht überschreiten, und die Leverage eines Punktes sollte nicht wesentlich größer als der Durchschnittswert $p/N$ sein (im Beispiel also $4/200 = 0.02$). Wie immer sind das aber nur Anhaltspunkte und keine harten Grenzen – auffällige Punkte sollte man sich stets im Kontext der Daten ansehen, statt sie automatisch zu entfernen.
 
-```r
-influence.measures(model2)
+Sehr praktisch ist die Funktion `influence.measures()`, welche mehrere Ausreißerstatistiken für jeden Datenpunkt berechnet. Da das bei 200 Datenpunkten eine sehr lange Tabelle ergibt, wendet man am besten `summary()` darauf an – dann werden nur jene Beobachtungen ausgegeben, die in mindestens einer Statistik auffällig sind (markiert mit `_*`):
+
+```{r}
+summary(influence.measures(model2))
 ```
 
+In diesem Beispiel gibt es zwar einige markierte Punkte – etwa ein paar mit leicht erhöhter Leverage (Spalte `hat`) –, wirklich problematisch ist aber keiner davon: Cook's Distanz (Spalte `cook.d`) bleibt durchwegs weit unter 1, kein einzelner Punkt verändert das Modell also nennenswert. Das ist bei 200 Datenpunkten auch nicht überraschend, wie wir oben am Vergleich unterschiedlicher Stichprobengrößen gesehen haben.
 
-### Modellannahmen
+
+### Überprüfen der Modellannahmen
 
 Multikollinearität kann mit der VIF-Statistik beurteilt werden; in R kann man dazu die Funktion `vif()` aus dem `car`-Paket verwenden.
 
@@ -257,7 +292,17 @@ par(mfrow=c(2, 2), cex=0.75)
 plot(model2)
 ```
 
-Im Plot links oben sind die vorhergesagten Werte gegen die Residuen aufgetragen. Hier kann man die Linearitätsannahme (die rote Linie sollte immer ungefähr gleich Null sein) sowie die Homoskedastizitätsannahme (die Streuung der Datenpunkte sollte sich entlang der x-Achse nicht ändern) überprüfen. Der Plot links unten ist ähnlich, nur ist hier statt den (absoluten) Residuen die Wurzel aus dem Betrag der standardisierten Residuen aufgetragen. Auch hier lässt sich beurteilen, ob die Annahme der Varianzhomogenität erfüllt ist oder nicht. Im Plot rechts oben lässt sich die Normalverteilungsannahme der Residuen mit einem QQ-Plot überprüfen. Im Plot rechts unten sind Punkte mit großem Einfluss dargestellt (gemessen an der Leverage); Cook's Distanz ist ebenfalls im Plot ersichtlich.
+::: callout-note
+Dies ist die in Einheit 8 erwähnte Ausnahme: `plot()` erzeugt hier eine Grafik mit dem eingebauten Base-Plotting-System, für die es in `ggplot2` keine direkte Entsprechung gibt. Mit `par(mfrow=c(2, 2))` legt man vorher fest, dass die vier Plots in zwei Zeilen und zwei Spalten angeordnet werden sollen – sonst würde R sie nacheinander einzeln anzeigen. Einzelne Plots kann man auch gezielt anfordern, z.B. erzeugt `plot(model2, which=2)` nur den QQ-Plot.
+:::
+
+Im Plot links oben (*Residuals vs Fitted*) sind die vorhergesagten Werte gegen die *rohen* Residuen aufgetragen. Dieser Plot eignet sich vor allem zur Prüfung der Linearitätsannahme: Weicht die rote Glättungslinie systematisch von der Nulllinie ab (z.B. bogenförmig), deutet das auf einen nichtlinearen Zusammenhang hin. Auch Heteroskedastizität (ungleiche Streuung) ließe sich hier prinzipiell erkennen, etwa an einer trichterförmigen Punktwolke – allerdings vermischen sich in den rohen Residuen Lage (positiv/negativ) und Streuung, wodurch ein systematisches An- oder Abschwellen der Streuung mit freiem Auge oft nur schwer auszumachen ist.
+
+Genau dafür ist der Plot links unten (*Scale-Location*) gedacht. Er verwendet nicht die rohen, sondern die *standardisierten* Residuen, und zwar nur deren *Betrag* (zusätzlich mit der Wurzel gestaucht, um die schiefe Verteilung der quadrierten Residuen zu symmetrisieren). Weil dadurch das Vorzeichen wegfällt, zeigt sich ein Trend in der Streuung als klar erkennbare steigende oder fallende Glättungslinie – ein Muster, das im oberen Plot leicht untergeht. Praktisch ergänzen sich die beiden Plots also: Der obere ist die erste Anlaufstelle für die Linearitätsannahme, der untere die gezieltere Kontrolle der Varianzhomogenität.
+
+Im Plot rechts oben lässt sich die Normalverteilungsannahme der Residuen mit einem QQ-Plot überprüfen. Die Punkte liegen hier relativ gut auf der Diagonalen, d.h. die Residuen sind annähernd normalverteilt.
+
+Im Plot rechts unten ist die Leverage gegen die standardisierten Residuen aufgetragen; Punkte mit großem Einfluss auf das Modell fallen dabei sowohl durch hohe Leverage (weit rechts) als auch durch einen großen Residualwert (weit oben oder unten) auf. Zusätzlich blendet R in diesem Plot gestrichelte Konturlinien für Cook's Distanz ein (beschriftet mit Werten wie 0.5 oder 1) – Punkte außerhalb dieser Linien haben eine Cook's Distanz, die den jeweiligen Wert überschreitet. Diese Konturlinien werden aber nur innerhalb des sichtbaren Wertebereichs gezeichnet: Sind wie in unserem Beispiel alle Punkte unauffällig (niedrige Leverage, kleine Residuen), liegen die Konturlinien außerhalb des Plots und es ist nur die Legendenbeschriftung "Cook's distance" am unteren Rand zu sehen, aber keine Linien selbst. Das ist dann aber eine gute Nachricht: Es bedeutet, dass kein Datenpunkt auch nur annähernd eine kritische Cook's Distanz erreicht.
 
 Die Annahme über die Unabhängigkeit der Residuen kann mit dem Durbin-Watson-Test `durbinWatsonTest()` aus dem `car`-Paket überprüft werden.
 
@@ -272,18 +317,19 @@ In diesem Beispiel kann man davon ausgehen, dass die Residuen unabhängig sind, 
 
 ### Übung 1
 
-Laden Sie die Daten aus der Datei `sales2.dat` wie in den Unterlagen gezeigt. Standardisieren Sie danach alle Variablen und berechnen Sie dann ein lineares Regressionsmodell. Vergleichen Sie die Regressionskoeffizienten mit den Ergebnissen der Funktion `lm.beta()`, welche auf ein Modell mit nicht standardisierten Daten angewendet werden kann.
+Laden Sie die Daten aus der Datei `sales2.dat` wie in den Unterlagen gezeigt. Standardisieren Sie danach alle Variablen und berechnen Sie dann ein lineares Regressionsmodell. Vergleichen Sie die Regressionskoeffizienten mit den Ergebnissen der Funktion `standardize_parameters()`, welche auf ein Modell mit nicht standardisierten Daten angewendet werden kann.
 
 
 ### Übung 2
 
 Laden Sie den Datensatz [`aggression.dat`](aggression.dat), welcher (komplett erfundene) Daten über Aggressionen unter Kindern enthält. Es wurden 666 Kinder untersucht und folgende Variablen erhoben:
 
-- Erziehungsstil (hoher Wert entspricht schlechtem Stil)
-- Computerspielen (hoher Wert entspricht viel Computerspielen)
-- Fernsehen (hoher Wert entspricht viel Fernsehen)
-- Ernährung (hoher Wert entspricht gesunder Ernährung)
-- Aggressionen der Geschwister (hoher Wert entspricht hoher Aggression)
+- Aggression des Kindes (`Aggression`, die abhängige Variable)
+- Erziehungsstil (`Parenting_Style`, hoher Wert entspricht schlechtem Stil)
+- Computerspielen (`Computer_Games`, hoher Wert entspricht viel Computerspielen)
+- Fernsehen (`Television`, hoher Wert entspricht viel Fernsehen)
+- Ernährung (`Diet`, hoher Wert entspricht gesunder Ernährung)
+- Aggressionen der Geschwister (`Sibling_Aggression`, hoher Wert entspricht hoher Aggression)
 
 Von früheren Studien weiß man, dass Erziehungsstil sowie Aggressionen der Geschwister signifikante Prädiktoren für das Aggressionslevel eines Kindes sind.
 
@@ -304,4 +350,9 @@ Stellen Sie zwei lineare Regressionsmodelle auf. Das erste soll nur die beiden F
 - Sind die Abhängigkeiten linear und ist die Varianz homogen (Plot Residuen vs. vorhergesagte Werte)?
 - Gibt es Datenpunkte mit großem Einfluss auf das Modell (Plot Residuen vs. Leverage)?
 
-*Hinweis:* Sehen Sie sich die Hilfe zur Funktion `plot.lm()` an (damit können Sie ein lineares Modell plotten und die Grafiken aus den letzten drei Fragen erstellen; mit dem Argument `which` können Sie sich die gewünschte Grafik herauspicken).
+*Hinweis:* Die Grafiken für die letzten drei Fragen erzeugen Sie mit `plot()`, angewendet auf das Modell (siehe die diagnostischen Plots weiter oben). Mit dem Argument `which` picken Sie sich die gewünschte Grafik heraus; eine Übersicht über alle verfügbaren Plots finden Sie im Hilfetext `?plot.lm`.
+
+
+## Lösungen
+
+Die Lösungen zu diesen Übungen finden Sie [hier](11-solutions.qmd).

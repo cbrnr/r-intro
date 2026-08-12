@@ -2,7 +2,7 @@
 title: "3 – Vektoren"
 subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2026-03-16
+date: 2026-10-15
 format:
   html:
     page-layout: full
@@ -31,7 +31,7 @@ Ein Vektor kann mit der Funktion `c()` explizit erzeugt werden (steht für combi
 (y = c(1, 2, 3.1415, -100))
 ```
 
-:::{.callout-note}
+::: callout-note
 Wenn man in R einen Befehl in Klammern setzt, dann wird der daraus resultierende Wert immer auch in der Console ausgegeben (normalerweise ist das nämlich bei Zuweisungen nicht der Fall). Das obige Beispiel könnte man also auch in zwei Zeilen schreiben, was aber natürlich mehr Tipparbeit ist:
 
 ```r
@@ -88,7 +88,7 @@ class(z)
 class(c(3.1, 2.2, 10))
 ```
 
-::: {.callout-note}
+::: callout-note
 Obwohl es technisch gesehen Unterschiede zwischen ganzen Zahlen und Dezimalzahlen gibt, werden beide in R als `numeric` klassifiziert.
 :::
 
@@ -101,7 +101,7 @@ class(TRUE)
 class(c(FALSE, FALSE, TRUE))
 ```
 
-:::{.callout-note}
+::: callout-note
 Es ist möglich, die Werte `TRUE` und `FALSE` mit `T` und `F` abzukürzen. Aufgrund der schlechteren Lesbarkeit sollte man aber auf diese Abkürzungen verzichten!
 :::
 
@@ -143,7 +143,7 @@ Vergleiche (bzw. logische Vektoren) können mit `|` (oder) und `&` (und) verknü
 ((111 >= 111) | !(TRUE)) & ((4 + 1) == 5)
 ```
 
-:::{.callout-important}
+::: callout-important
 Der Gleichheitsoperator lautet `==` (also zwei Gleichheitszeichen) und nicht `=` (ein einziges Gleichheitszeichen, dies ist der Zuweisungsoperator).
 :::
 
@@ -271,7 +271,7 @@ seq(1, 3, length.out=10)  # Gesamtlänge des Ergebnisses soll 10 sein
 
 Mit `seq()` kann man also Zahlenfolgen mit bestimmter Schrittweite (Argument `by`) oder mit bestimmter Gesamtlänge (Argument `length.out`) erzeugen.
 
-::: {.callout-note}
+::: callout-note
 Beachten Sie, dass `1:20` bereits einen Vektor erzeugt. Die Funktion `c()` ist hier daher nicht nötig. Man schreibt also einfach `1:20` statt `c(1:20)`.
 Im Allgemeinen braucht man `c()` nur, wenn man mehrere vorhandene Objekte oder Werte zu einem Vektor zusammenfügen möchte.
 :::
@@ -282,7 +282,7 @@ Die Funktion `rep()` wiederholt bestimmte Werte:
 rep(0, 90)  # erzeuge einen Vektor mit 90 Nullen
 ```
 
-:::{.callout-tip}
+::: callout-tip
 Hier kann man auch die Bedeutung der Werte in eckigen Klammern erkennen, die vor jeder Ausgabezeile stehen: sie geben den Index des ersten Elements der Zeile an (also im Beispiel `[1]` für die erste Zeile und `[59]` für die zweite Zeile).
 ::: 
 
@@ -293,6 +293,38 @@ rep(c(0, 1, 2), times=10)
 rep(c(0, 1, 2), each=10)
 rep(c(0, 1, 2), times=c(10, 10, 10))  # gleiches Ergebnis wie mit each
 ```
+
+
+## Zufallszahlen
+
+Für viele Anwendungen (z.B. um Beispieldaten zu erzeugen) benötigt man Zufallszahlen. Die Funktion `rnorm()` erzeugt normalverteilte Zufallszahlen; man gibt die gewünschte Anzahl sowie optional Mittelwert und Standardabweichung an:
+
+```{r}
+rnorm(5)  # 5 Zahlen aus einer Standardnormalverteilung
+rnorm(5, mean=100, sd=15)
+```
+
+Die Funktion `sample()` zieht eine zufällige Stichprobe aus einem vorhandenen Vektor. Mit dem Argument `replace=TRUE` wird *mit* Zurücklegen gezogen (ein Wert kann dann mehrfach vorkommen), standardmäßig wird *ohne* Zurücklegen gezogen:
+
+```{r}
+sample(1:10, 5)  # 5 verschiedene Zahlen aus 1:10
+sample(1:10, 15, replace=TRUE)  # 15 Zahlen, Wiederholungen möglich
+sample(c("Placebo", "Treatment"), 8, replace=TRUE)
+```
+
+Zufallszahlen sind naturgemäß bei jedem Aufruf anders. Für eine *reproduzierbare* Analyse ist das ungünstig, denn dann bekommt man bei jedem Ausführen des Scripts andere Ergebnisse. Mit `set.seed()` versetzt man den Zufallszahlengenerator in einen definierten Ausgangszustand – alle danach erzeugten Zufallszahlen sind dann zwar immer noch zufällig, aber bei jedem Durchlauf identisch:
+
+```{r}
+set.seed(42)
+sample(1:10, 5)
+
+set.seed(42)
+sample(1:10, 5)  # dasselbe Ergebnis wie oben
+```
+
+::: callout-tip
+Welche Zahl man `set.seed()` übergibt, ist völlig egal (häufig sieht man `1`, `42` oder `123`) – entscheidend ist nur, dass man die Funktion überhaupt aufruft.
+:::
 
 
 ## Indizieren
@@ -343,6 +375,28 @@ x[c(FALSE, TRUE)]
 ```
 
 
+## Sortieren
+
+Die Funktion `sort()` gibt die Elemente eines Vektors in aufsteigender Reihenfolge zurück (mit `decreasing=TRUE` absteigend):
+
+```{r}
+(x = c(44, 23, -56, 98, 32))
+sort(x)
+sort(x, decreasing=TRUE)
+```
+
+Manchmal möchte man aber nicht die sortierten *Werte*, sondern die *Positionen*, an denen die Werte stehen. Genau das liefert `order()` – und weil das Ergebnis ein Indexvektor ist, kann man damit einen Vektor (oder später auch eine ganze Tabelle) sortieren:
+
+```{r}
+order(x)  # x[3] ist am kleinsten, dann x[2], dann x[5], ...
+x[order(x)]  # gleiches Ergebnis wie sort(x)
+```
+
+::: callout-tip
+Ein vorangestelltes Minus kehrt bei numerischen Vektoren die Sortierreihenfolge um, d.h. `order(-x)` sortiert absteigend.
+:::
+
+
 ## Benannte Vektoren
 
 Vektoren können auch Elemente mit Namen enthalten. So kann man auch mit den Elementnamen anstatt mit der Position indizieren.
@@ -385,7 +439,7 @@ is.na(vect)  # die fehlenden Werte
 vect[!is.na(vect)]
 ```
 
-:::{.callout-important}
+::: callout-important
 Um herauszufinden, welche Elemente eines Vektors fehlen, darf man nicht mit `NA` vergleichen:
 
 ```{r}
@@ -418,7 +472,7 @@ x = c(44, 23, -56, 98, 99, 32, 45, 22)
 
 Welche Elemente aus `x` sind gerade? Welche Elemente sind ungerade? Erstellen Sie zwei entsprechende logische Vektoren, welche Sie dann zum Indizieren der geraden bzw. ungeraden Elemente von `x` verwenden können.
 
-::: {.callout-note}
+::: callout-note
 Erstellen Sie die logischen Indexvektoren mit einem Vergleich und nicht händisch (d.h. für die geraden Zahlen in diesem Beispiel wäre der gesuchte logische Indexvektor `c(TRUE, FALSE, TRUE, TRUE, FALSE, TRUE, FALSE, TRUE)`, dies sollen Sie aber nicht so eingeben). Verwenden Sie stattdessen die Eigenschaft, dass gerade Zahlen einen Rest von 0 ergeben wenn man sie durch 2 dividiert. Ungerade Zahlen ergeben hier einen Rest von 1. Verwenden Sie daher den Operator `%%` für den Rest einer Division. Erstellen Sie dann mit einem Vergleich jeweils einen logischen Indexvektor (für die geraden Zahlen vergleichen Sie ob der Rest 0 ist, für die ungeraden Zahlen ob der Rest 1 ist), welchen Sie dann zum Indizieren verwenden können.
 :::
 
@@ -462,13 +516,7 @@ Alternativ könnten Sie mit `is.na()` alle fehlenden Werte aus `t` identifiziere
 
 ### Übung 8
 
-Gegeben seien folgende Standardabweichungen von fünf Messgrößen in einem Vektor `s`:
-
-```r
-s = c(1, 11.3, 7.8, 3.4, 6)
-```
-
-Wie können Sie daraus in einem Schritt die fünf Varianzen berechnen?
+Erzeugen Sie mit `set.seed(1)` einen Vektor `z` mit 20 normalverteilten Zufallszahlen mit Mittelwert 10 und Standardabweichung 3. Sortieren Sie `z` anschließend absteigend. Wie viele Werte in `z` sind kleiner als 10 (verwenden Sie dazu `sum()`)? An welcher Position im ursprünglichen (unsortierten) Vektor befindet sich der größte Wert (verwenden Sie dazu `which()`)?
 
 
 ### Übung 9
@@ -495,3 +543,8 @@ y = x[2, 4, 6]
 ```
 
 Geben Sie den korrekten Code an!
+
+
+## Lösungen
+
+Die Lösungen zu diesen Übungen finden Sie [hier](03-solutions.qmd).

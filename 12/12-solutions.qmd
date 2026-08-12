@@ -2,7 +2,7 @@
 title: "12 – Lösungen"
 subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2026-06-08
+date: 2026-12-17
 format:
   html:
     page-layout: full
@@ -16,6 +16,9 @@ title-block-banner: true
 theme:
   light: flatly
   dark: darkly
+lang: de
+author-title: "Autor"
+published-title: "Veröffentlicht"
 ---
 
 ## Übung 1
@@ -29,7 +32,7 @@ library(dplyr)
 t.test(height ~ gender, data=starwars, alternative="less")
 ```
 
-Weibliche Charaktere sind *nicht* signifikant kleiner als männliche Charaktere ($t=-1.25$, $p = .110$).
+Weibliche Charaktere sind *nicht* signifikant kleiner als männliche Charaktere ($t = -1.25$, $p = .110$). Die Mittelwerte betragen 166.53 cm (weiblich) bzw. 176.53 cm (männlich).
 
 
 ### Gewicht
@@ -38,7 +41,11 @@ Weibliche Charaktere sind *nicht* signifikant kleiner als männliche Charaktere 
 t.test(mass ~ gender, data=starwars, alternative="less")
 ```
 
-Weibliche Charaktere sind signifikant leichter als männliche Charaktere ($t=-1.87$, $p = .034$).
+Weibliche Charaktere sind signifikant leichter als männliche Charaktere ($t = -1.87$, $p = .034$). Die Mittelwerte betragen 54.69 kg (weiblich) bzw. 106.51 kg (männlich).
+
+::: callout-note
+In beiden Fällen entspricht die Reihenfolge der Gruppen der alphabetischen Sortierung der Stufen von `gender` (also zuerst `"feminine"`, dann `"masculine"`). `alternative="less"` testet daher die Hypothese, dass der Mittelwert der weiblichen Charaktere *kleiner* ist – also genau die gefragte Richtung.
+:::
 
 
 ## Übung 2
@@ -46,66 +53,69 @@ Weibliche Charaktere sind signifikant leichter als männliche Charaktere ($t=-1.
 ### Schnabellänge
 
 ```{r}
-with(
-    subset(penguins, species == "Adelie" | species == "Chinstrap"),
+(t1 = with(
+    filter(penguins, species == "Adelie" | species == "Chinstrap"),
     t.test(bill_len ~ species)
-)
-with(
-    subset(penguins, species == "Adelie" | species == "Gentoo"),
+))
+sqrt(t1$statistic[[1]]^2 / (t1$statistic[[1]]^2 + t1$parameter[[1]]))
+
+(t2 = with(
+    filter(penguins, species == "Adelie" | species == "Gentoo"),
     t.test(bill_len ~ species)
-)
-with(
-    subset(penguins, species == "Gentoo" | species == "Chinstrap"),
+))
+sqrt(t2$statistic[[1]]^2 / (t2$statistic[[1]]^2 + t2$parameter[[1]]))
+
+(t3 = with(
+    filter(penguins, species == "Gentoo" | species == "Chinstrap"),
     t.test(bill_len ~ species)
-)
+))
+sqrt(t3$statistic[[1]]^2 / (t3$statistic[[1]]^2 + t3$parameter[[1]]))
 ```
+
+Die Schnabellänge unterscheidet sich zwischen allen drei Spezies signifikant. Sehr groß sind die Effekte zwischen Adélie und Chinstrap ($t = -21.87$, $p < .001$, $r = 0.90$) sowie zwischen Adélie und Gentoo ($t = -24.73$, $p < .001$, $r = 0.85$). Der Unterschied zwischen Chinstrap und Gentoo ist zwar ebenfalls signifikant, aber mit $t = 2.71$, $p = .008$ und $r = 0.23$ deutlich kleiner.
 
 
 ### Schnabeltiefe
 
 ```{r}
-with(
-    subset(penguins, species == "Adelie" | species == "Chinstrap"),
+(t4 = with(
+    filter(penguins, species == "Adelie" | species == "Chinstrap"),
     t.test(bill_dep ~ species)
-)
-with(
-    subset(penguins, species == "Adelie" | species == "Gentoo"),
+))
+sqrt(t4$statistic[[1]]^2 / (t4$statistic[[1]]^2 + t4$parameter[[1]]))
+
+(t5 = with(
+    filter(penguins, species == "Adelie" | species == "Gentoo"),
     t.test(bill_dep ~ species)
-)
-with(
-    subset(penguins, species == "Gentoo" | species == "Chinstrap"),
+))
+sqrt(t5$statistic[[1]]^2 / (t5$statistic[[1]]^2 + t5$parameter[[1]]))
+
+(t6 = with(
+    filter(penguins, species == "Gentoo" | species == "Chinstrap"),
     t.test(bill_dep ~ species)
-)
+))
+sqrt(t6$statistic[[1]]^2 / (t6$statistic[[1]]^2 + t6$parameter[[1]]))
 ```
+
+Bei der Schnabeltiefe ergibt sich ein anderes Bild: Adélie und Chinstrap unterscheiden sich *nicht* signifikant ($t = -0.44$, $p = .662$, $r = 0.04$). Gentoo-Pinguine haben dagegen einen deutlich flacheren Schnabel als beide anderen Spezies, mit sehr großen Effekten gegenüber Adélie ($t = 25.34$, $p < .001$, $r = 0.84$) und gegenüber Chinstrap ($t = 21.01$, $p < .001$, $r = 0.89$).
+
 
 ### Verwendung von `pairwise.t.test()`
 
 ```{r}
-pairwise.t.test(penguins$bill_len, penguins$species)
-pairwise.t.test(penguins$bill_dep, penguins$species)
+pairwise.t.test(penguins[["bill_len"]], penguins[["species"]])
+pairwise.t.test(penguins[["bill_dep"]], penguins[["species"]])
 ```
+
+Die Schlussfolgerungen sind dieselben wie zuvor: Bei `bill_len` sind alle drei Vergleiche signifikant, bei `bill_dep` hingegen nur jene mit Gentoo. Die $p$-Werte stimmen aber nicht exakt mit den einzelnen _t_-Tests überein, weil sie hier für multiples Testen korrigiert werden und `pairwise.t.test()` außerdem eine über alle drei Spezies gepoolte Standardabweichung verwendet.
 
 
 ## Übung 3
 
-Für einen gepaarten *t*-Test müssen wir die Daten zunächst ins Wide-Format konvertieren:
+Aus der Hilfe (`?sleep`) geht hervor, dass dieselben 10 Personen unter beiden Bedingungen (`group`) getestet wurden – wir brauchen also den *abhängigen* _t_-Test. Die Zeilen sind bereits passend sortiert (die ersten 10 Zeilen entsprechen `group=1`, die nächsten 10 in derselben Personenreihenfolge `group=2`), daher können wir die beiden Vektoren direkt herausgreifen:
 
 ```{r}
-library(tidyr)
-
-sleep_wide = pivot_wider(
-    data=sleep,
-    id_cols=ID,
-    names_from=group,
-    names_prefix="g",
-    values_from=extra
-)
-```
-
-Jetzt können wir den Test durchführen:
-
-```{r}
-t.test(sleep_wide$g1, sleep_wide$g2, paired=TRUE)
+t.test(sleep[["extra"]][sleep[["group"]] == 1], sleep[["extra"]][sleep[["group"]] == 2], paired=TRUE)
 ```
 
 Der mittlere Unterschied beträgt −1.58, welcher signifikant von Null verschieden ist ($p = .003$). Das 95%-Konfidenzintervall reicht von −2.46 bis −0.70.

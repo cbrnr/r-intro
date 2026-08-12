@@ -2,7 +2,7 @@
 title: "9 – Lösungen"
 subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2026-05-11
+date: 2026-11-26
 format:
   html:
     page-layout: full
@@ -23,15 +23,14 @@ published-title: "Veröffentlicht"
 
 ## Übung 1
 
-Durch Probieren mit verschiedenen Werten für $N$ erhält man $N = 62$ für $p < 0.05$. Dies bedeutet, dass eine Korrelation von $r = 0.25$ signfikant ist bei $N = 62$ oder größer.
+Durch Probieren mit verschiedenen Werten für $N$ erhält man $N = 63$ für $p < 0.05$. Dies bedeutet, dass eine Korrelation von $r = 0.25$ signifikant ist bei $N = 63$ oder größer ($N = 62$ liegt mit $p = 0.0500$ ganz knapp über der Schwelle).
 
 ```{r}
 r = 0.25
-N = 62
+N = 63
 alpha = 0.05
-z = atanh(r)
-se_z = 1 / sqrt(N - 3)
-(p = 2 * (1 - pnorm(z / se_z)))
+t = r * sqrt(N - 2) / sqrt(1 - r^2)
+(p = 2 * pt(-abs(t), df=N - 2))
 ```
 
 Wiederum durch Probieren erhält man $N = 1538$ (mindestens) damit $p < 0.05$. Man sieht, dass selbst eine sehr kleine Korrelation ab einer gewissen Stichprobengröße signifikant wird.
@@ -40,10 +39,11 @@ Wiederum durch Probieren erhält man $N = 1538$ (mindestens) damit $p < 0.05$. M
 r = 0.05
 N = 1538
 alpha = 0.05
-z = atanh(r)
-se_z = 1 / sqrt(N - 3)
-(p = 2 * (1 - pnorm(z / se_z)))
+t = r * sqrt(N - 2) / sqrt(1 - r^2)
+(p = 2 * pt(-abs(t), df=N - 2))
 ```
+
+Genau deshalb sollte man Signifikanz nie mit Relevanz gleichsetzen: Eine Korrelation von $r = 0.05$ erklärt lediglich $R^2 = 0.0025$, also 0.25% der Varianz – und ist damit praktisch bedeutungslos, auch wenn sie bei $N = 1538$ statistisch signifikant ist.
 
 
 ## Übung 2
@@ -54,19 +54,24 @@ y = c(-2, -5, -6, 0, 3, 7, 10)
 cor.test(x, y, conf.level=0.99)
 ```
 
-Die Pearson-Korrelation beträgt 0.8166, der zugehörige $p$-Wert ist 0.02501. Bei $\alpha=0.99$ ist dies nicht signifikant. Das 99%-Konfidenzintervall lautet $(-0.1405326, 0.9847508)$. Es beinhaltet den Wert 0, daher ist die Korrelation nicht signifikant.
+Die Pearson-Korrelation beträgt 0.8166, der zugehörige $p$-Wert ist 0.02501. Bei einem Signifikanzniveau von $\alpha = 0.01$ ist dies *nicht* signifikant (bei $\alpha = 0.05$ hingegen schon). Passend dazu beinhaltet das 99%-Konfidenzintervall $(-0.1405, 0.9848)$ den Wert 0. Man sieht hier gut, wie breit das Konfidenzintervall bei einer sehr kleinen Stichprobe ($N = 7$) ausfällt – die Daten sind mit fast jeder positiven Korrelation verträglich.
 
 
 ## Übung 3
+
+```{r}
+#| message: false
+library(GGally)
+
+ggpairs(mtcars[, c("mpg", "disp", "hp")])
+```
 
 ```{r}
 cor(mtcars[, c("mpg", "disp", "hp")], method="pearson")
 cor(mtcars[, c("mpg", "disp", "hp")], method="spearman")
 ```
 
-```{r}
-pairs(subset(mtcars, select=c(mpg, disp, hp)))
-```
+Alle drei Variablen hängen deutlich zusammen: Ein größerer Hubraum (`disp`) und mehr Leistung (`hp`) gehen jeweils mit einem höheren Verbrauch (also einem kleineren `mpg`-Wert) einher. Die Spearman-Korrelationen sind hier durchwegs betragsmäßig größer als die Pearson-Korrelationen, was auf einen monotonen, aber nicht ganz linearen Zusammenhang hindeutet – in den Streudiagrammen erkennt man tatsächlich einen leicht gekrümmten Verlauf.
 
 
 ## Übung 4
@@ -75,39 +80,59 @@ pairs(subset(mtcars, select=c(mpg, disp, hp)))
 #| message: false
 library(readr)
 pm10 = read_csv("pm10.csv")
-pm10$Datum = as.Date(pm10$Datum, format="%d.%m.%y")
+pm10[["Datum"]] = as.Date(pm10[["Datum"]], format="%d.%m.%y")
 ```
 
 
 ### Zeitlicher Verlauf von PM10 für beide Messorte
 
 ```{r}
-plot(pm10$Datum, pm10$Petersgasse, type="l", col="blue", xlab="", ylab="PM10")
-lines(pm10$Datum, pm10$DonBosco, col="red")
+#| message: false
+#| warning: false
+library(ggplot2)
+
+ggplot(pm10, aes(x=Datum)) +
+    geom_line(aes(y=Petersgasse, color="Petersgasse")) +
+    geom_line(aes(y=DonBosco, color="DonBosco")) +
+    labs(x="", y="PM10", color="Messstation")
 ```
 
 ### Zusammenhang der beiden Messstationen
 
 ```{r}
-with(pm10, plot(Petersgasse, DonBosco, pch=16, col=rgb(0, 0, 0, 0.5)))
-abline(lm(pm10$DonBosco ~ pm10$Petersgasse), col="blue")
+#| message: false
+#| warning: false
+ggplot(pm10, aes(x=Petersgasse, y=DonBosco)) +
+    geom_point(alpha=0.5) +
+    geom_smooth(method="lm")
+```
 
-(r = cor.test(pm10$Petersgasse, pm10$DonBosco))
-r$estimate**2  # erklärte Varianz
+```{r}
+(r = cor.test(pm10[["Petersgasse"]], pm10[["DonBosco"]]))
+r$estimate^2  # erklärte Varianz
 
 # fehlende Werte (NA) müssen explizit ausgeschlossen werden
-cor(pm10$Petersgasse, pm10$DonBosco, use="complete.obs")
+cor(pm10[["Petersgasse"]], pm10[["DonBosco"]], use="complete.obs")
 ```
+
+Die beiden Messstationen korrelieren mit $r = 0.96$ ($p < 0.001$, 95%-Konfidenzintervall $[0.94, 0.97]$) sehr hoch. Etwa 92% der Varianz der einen Station lassen sich durch die andere erklären – wenig überraschend, da beide Stationen in derselben Stadt dieselben saisonalen Schwankungen und Wetterlagen abbilden.
+
+::: callout-note
+`cor.test()` entfernt fehlende Werte automatisch (es werden nur vollständige Paare verwendet), während `cor()` standardmäßig `NA` liefert und daher das Argument `use` benötigt.
+:::
 
 
 ## Übung 5
 
 ```{r}
-cor(penguins$bill_len, penguins$bill_dep, use="complete.obs")
-by(
-    penguins[, c("bill_len", "bill_dep")],
-    penguins$species,
-    cor,
-    use="complete.obs"
-)
+#| message: false
+library(dplyr)
+
+cor(penguins[["bill_len"]], penguins[["bill_dep"]], use="complete.obs")
+
+penguins |>
+    group_by(species) |>
+    summarize(r=cor(bill_len, bill_dep, use="complete.obs"))
 ```
+
+Über alle Pinguine hinweg ergibt sich eine *negative* Korrelation von $r = -0.24$, innerhalb jeder Spezies ist sie aber *positiv* (zwischen 0.39 und 0.65). Das ist genau das Simpsons Paradoxon, das wir in Einheit 8 bereits grafisch gesehen haben: Die drei Spezies bilden getrennte Punktwolken (Gentoo-Pinguine haben lange, aber flache Schnäbel), und diese Lage der Gruppen zueinander dominiert die Gesamtkorrelation.

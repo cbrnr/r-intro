@@ -2,7 +2,7 @@
 title: "7 – Datenaufbereitung"
 subtitle: "Statistische Datenanalyse mit R"
 author: "Clemens Brunner"
-date: 2026-04-27
+date: 2026-11-12
 format:
   html:
     page-layout: full
@@ -21,83 +21,21 @@ author-title: "Autor"
 published-title: "Veröffentlicht"
 ---
 
-## Daten umformen
+## Daten aufbereiten mit `dplyr`
 
-Es gibt in der Praxis zwei gängige Möglichkeiten, ein und dieselben Daten in einer Tabelle darzustellen, und zwar entweder im Wide-Format oder im Long-Format. Zur Berechnung deskriptiver Statistiken eignet sich das Wide-Format besser, das Long-Format ist aber bei anderen Aufgabenstellungen notwendig. Deswegen ist es sinnvoll, wenn man weiß, wie man die eine Darstellung in die andere umwandeln kann.
-
-Bei Daten im Wide-Format gibt es für jede Variable eine eigene Spalte. Daten im Long-Format haben nur eine Werte-Spalte und eine oder mehrere Spalte(n) mit Indikator-Variablen, welche den Kontext der Werte definieren. Die folgende Tabelle zeigt Beispieldaten im Wide-Format:
-
-| Person | Age | Weight | Height |
-|:-------|----:|-------:|-------:|
-| Bob    |  32 |     98 |    188 |
-| Al     |  24 |     61 |    176 |
-| Sue    |  64 |     87 |    174 |
-
-Man sieht, dass es drei Wertespalten gibt (`Age`, `Weight` und `Height`), sowie eine Spalte, welche die Person identifiziert (`Person`). Dieselben Daten sehen im Long-Format so aus (es gibt nur eine einzige Werte-Spalte namens `Value`):
-
-| Person | Variable | Value |
-|:-------|:---------|------:|
-| Bob    | Age      |    32 |
-| Bob    | Weight   |    98 |
-| Bob    | Height   |   188 |
-| Al     | Age      |    24 |
-| Al     | Weight   |    61 |
-| Al     | Height   |   176 |
-| Sue    | Age      |    64 |
-| Sue    | Weight   |    87 |
-| Sue    | Height   |   174 |
-
-In R kann man mit dem Paket `tidyr` zwischen den beiden Formaten hin- und herwechseln, d.h. wenn die Daten in einem Format vorliegen, kann man relativ einfach das andere Format produzieren. Die Daten aus dem Beispiel oben können wir zunächst einmal im Wide-Format erzeugen:
+Die typischen Arbeitsschritte bei der Aufbereitung von Daten sind immer dieselben: Zeilen und Spalten auswählen, neue Spalten berechnen und Daten sortieren. Das Paket `dplyr` aus dem Tidyverse stellt dafür einige wenige, konsistent aufgebaute Funktionen zur Verfügung, die man auch *Verben* nennt. Sie funktionieren alle nach demselben Muster: Das erste Argument ist immer das Data Frame, und jede Funktion gibt ein neues Data Frame zurück. Das bedeutet also, dass das ursprüngliche Data Frame immer unverändert bleibt.
 
 ```{r}
-library(tibble)
-
-(df = tibble(
-    Person=c("Bob", "Al", "Sue"),
-    Age=c(32, 24, 64),
-    Weight=c(98, 61, 87),
-    Height=c(188, 176, 174)
-))
+library(dplyr)
 ```
 
-Das Paket `tidyr` aus dem Tidyverse beinhaltet die Funktionen `pivot_longer()` und `pivot_wider()`, welche Data Frames von wide nach long bzw. von long nach wide umwandeln können. Das Data Frame `df` (welches im Wide-Format vorliegt) können wir also wie folgt ins Long-Format konvertieren:
+::: callout-important
+Beim Aktivieren von `dplyr` gibt R einige Meldungen über *maskierte* Funktionen aus (dieses Prinzip haben wir in der vorigen Einheit bereits bei `describe()` kennengelernt). Das Paket enthält nämlich unter anderem eine Funktion `filter()`, und eine gleichnamige Funktion gibt es bereits im standardmäßig aktivierten Paket `stats`. Ab jetzt bezieht sich `filter()` also auf die Version aus `dplyr` – genau das ist hier erwünscht. Möchte man ausdrücklich die ursprüngliche Funktion verwenden, schreibt man `stats::filter()`.
 
-```{r}
-library(tidyr)
-
-(df_long = pivot_longer(
-    df,
-    Age:Height,
-    names_to="Variable",
-    values_to="Value"
-))
-```
-
-Hier übergibt man zuerst die Daten im Wide-Format (`df`), gefolgt von einer Auswahl der (Werte-)Spalten, die man ins Long-Format bringen möchte – in unserem Beispiel sind das die Spalten von `Age` bis `Height`. Für diese Spaltenauswahl kann man die Spaltennamen ohne Anführungszeichen schreiben, und auch der Doppelpunkt funktioniert wie bei Zahlensequenzen (man könnte hier auch die Indizes der Spalten verwenden, also `2:4` statt `Age:Height`). Schließlich gibt man mit `names_to` den gewünschten Namen der Indikatorspalte an (im Beispiel soll diese also `Variable` heißen) und mit `values_to` den Namen der neuen Werte-Spalte (hier also `Value`).
-
-Der umgekehrte Weg wird mit `pivot_wider()` beschritten; diese Funktion kann also vom Long-Format ins Wide-Format konvertieren:
-
-```{r}
-(df_wide = pivot_wider(
-    df_long,
-    id_cols=Person,
-    names_from=Variable,
-    values_from=Value
-))
-```
-
-Hier gibt man zunächst die Daten im Long-Format an (`df_long`). Danach folgen mit `id_cols` die Spaltennamen, welche die einzelnen Fälle identifizieren (in unserem Beispiel ist das nur eine einzige Spalte namens `Person`). Danach gibt man mit `names_from` die Spalte an, welche die Variablennamen beinhaltet (also die Indikatorspalte `Variable`). Schließlich definiert man mit `values_from` die Spalte, welche die Werte beinhaltet (`Value`).
-
-Diese beiden Funktionen können sehr viel komplexere Strukturen in die jeweiligen Formate konvertieren – dies ist alles in der Hilfe nachzulesen, inklusive vieler Beispiele, die die Verwendung demonstrieren.
-
-:::{.callout-note}
-Das Tidyverse basiert auf einer Darstellung von Daten, die man als "tidy" bezeichnet. Im Wesentlichen entspricht dies dem Wide-Format, bei dem jede Variable einer eigenen Spalte sowie jeder Datenpunkt einer eigenen Zeile entspricht (mehr Details dazu sind in [diesem Artikel](https://www.jstatsoft.org/article/view/v059i10) zu finden).
+Diese Meldungen sind weder Fehler noch Warnungen, sondern reine Hinweise – man kann sie also ignorieren, wenn man sicher ist, dass man das richtige Paket verwendet.
 :::
 
-
-## Zeilen filtern mit `subset()`
-
-Oft ist es wünschenswert, nur gewisse Zeilen aus einem vorhandenen Data Frame zu verwenden. Beispielsweise könnte es für eine Datenanalyse notwendig sein, männliche und weibliche Versuchspersonen getrennt auszuwerten. Dieses Merkmal ist im folgenden Beispiel in einer Spalte `sex` mit den Ausprägungen `m` und `f` vorhanden:
+Für die folgenden Beispiele verwenden wir dieses kleine Tibble:
 
 ```{r}
 (df = tibble(
@@ -109,79 +47,99 @@ Oft ist es wünschenswert, nur gewisse Zeilen aus einem vorhandenen Data Frame z
 ))
 ```
 
-Nun haben wir bereits gelernt, dass wir spezifische Zeilen mittels Indizieren herausfiltern können. Mit folgendem Befehl erhalten wir ein neues Data Frame mit allen weiblichen Versuchspersonen:
+
+### Zeilen filtern mit `filter()`
+
+Oft möchte man nur gewisse Zeilen weiterverwenden – beispielsweise, um männliche und weibliche Versuchspersonen getrennt auszuwerten. Wir haben bereits gelernt, dass man das mit Indizieren lösen kann:
 
 ```{r}
-df[df$sex == "f",]
+df[df[["sex"]] == "f",]
 ```
 
-Diese Schreibweise ist für Data Frames aber relativ unübersichtlich, vor allem weil man das zugrundeliegende Data Frame `df` zwei Mal schreiben muss. Glücklicherweise gibt es aber eine intuitive Alternative durch die Funktion `subset()`. Diese Funktion kann, wie der Name bereits andeutet, Untermengen (Subsets) von bestehenden Vektoren bzw. Data Frames erzeugen. Im Falle eines Data Frames bedeutet das, dass man eine Untermenge der Zeilen und/oder Spalten auswählen kann.
-
-Beginnen wir mit der Auswahl von Zeilen (man bezeichnet diese Operation auch als "filtern"). Hier übergibt man der Funktion `subset()` als erstes Argument das ursprüngliche Data Frame. Das zweite Argument (welches `subset` heißt, nicht zu verwechseln mit dem Funktionsnamen) bestimmt dann, welche Zeilen ausgewählt (gefiltert) werden sollen. Das obige Beispiel kann damit wie folgt angeschrieben werden:
+Diese Schreibweise ist aber relativ unübersichtlich, vor allem weil man das Data Frame `df` zwei Mal anschreiben muss. Die Funktion `filter()` macht dasselbe wesentlich lesbarer:
 
 ```{r}
-subset(df, sex == "f")
+filter(df, sex == "f")
 ```
 
-Beachten Sie, dass man den Spaltennamen direkt anschreiben kann ohne `df$` voranstellen zu müssen.
-
-Damit kann man auch komplexere Filter-Operationen durchführen, indem man einen entsprechend komplexen Vergleich für das `subset`-Argument übergibt, z.B. durch Verknüpfen mehrerer Vergleiche:
+Beachten Sie, dass man den Spaltennamen direkt verwenden kann, also ohne `df[["sex"]]` anschreiben zu müssen. Für komplexere Bedingungen kann man wie gewohnt Vergleiche mit `&` und `|` verknüpfen:
 
 ```{r}
-subset(df, age > 40 & weight <= 73)
+filter(df, age > 40 & weight <= 73)
 ```
 
-Hier kann man also alle möglichen Vergleiche bzw. Verknüpfungsoperatoren (wie z.B. `&` und `|`) verwenden.
+Mehrere durch Kommas getrennte Bedingungen werden dabei automatisch mit `&` verknüpft, d.h. der folgende Aufruf ist gleichbedeutend mit dem vorigen:
+
+```{r}
+filter(df, age > 40, weight <= 73)
+```
 
 
-## Spalten selektieren mit `subset()`
+### Spalten auswählen mit `select()`
 
-Manchmal ist es auch gewünscht, nur spezifische Spalten aus einem Data Frame weiterzuverwenden. Klassisch kann man dies wieder über Indizieren lösen, z.B. wenn man im Beispiel nur die Spalten `name`, `age` und `sex` benötigt:
+Genauso oft möchte man nur bestimmte Spalten weiterverwenden. Auch das geht klassisch über Indizieren:
 
 ```{r}
 df[, c("name", "age", "sex")]
 ```
 
-Auch hier kann man alternativ die `subset()`-Funktion verwenden, und zwar unter Verwendung des dritten Arguments (namens `select`):
+Mit `select()` schreibt man dasselbe ohne Anführungszeichen an:
 
 ```{r}
-subset(df, select=c(name, age, sex))
+select(df, name, age, sex)
 ```
 
-Beachten Sie, dass auch hier die Spaltennamen ohne Anführungszeichen angegeben werden können. Es ist sogar möglich, einen Bereich mit einem `:` wie folgt anzuschreiben (so wie wir es bereits bei `pivot_longer()` bzw. `pivot_wider()` gesehen haben):
+Ein Bereich von Spalten lässt sich wie bei Zahlensequenzen mit `:` angeben, und ein vorangestelltes `-` entfernt Spalten, anstatt sie auszuwählen:
 
 ```{r}
-subset(df, select=name:weight)
-```
-
-Hier werden also alle Spalten von `name` bis `weight` selektiert.
-
-Selbstverständlich kann man beide Operationen (also Zeilenauswahl und Spaltenauswahl) auch mit einem Funktionsaufruf durchführen:
-
-```{r}
-subset(df, subset=age > 30, select=c(name, age, sex))
+select(df, name:weight)  # alle Spalten von name bis weight
+select(df, -weight, -height)  # alle Spalten außer weight und height
 ```
 
 
-## Spalten transformieren mit `transform()`
+### Spalten berechnen mit `mutate()`
 
-Eine weitere wichtige Aufgabe in der Datenanalyse ist es, neue Spalten zu einem bestehenden Data Frame hinzuzufügen. Wenn die Werte dieser neuen Spalten dabei auf vorhandenen Spalten basieren, spricht man von einer Transformation. Betrachten wir dazu das in R vorhandene Data Frame `airquality`:
-
-```{r}
-head(airquality)
-```
-
-Die Temperaturen in der `Temp`-Spalte sind in Grad Fahrenheit angegeben. Wir können nun eine neue Spalte namens `celsius` hinzufügen, indem wir die vorhandene `Temp`-Spalte wie folgt transformieren:
+Eine weitere wichtige Aufgabe ist es, neue Spalten aus bestehenden zu berechnen. Dafür gibt es `mutate()` – hier verwendet man die vorhandenen Spaltennamen wieder direkt:
 
 ```{r}
-aq = transform(airquality, celsius=(Temp - 32) * (5/9))
-head(aq)
+mutate(df, bmi=weight / (height / 100)^2)
 ```
 
-Beachten Sie, dass wir in der Transformation vorhandene Spalten wieder direkt verwenden können (im Beispiel `Temp`), ohne Anführungszeichen oder `airquality$` verwenden zu müssen. Außerdem wird immer ein *neues* Data Frame erzeugt; Sie könnten dieses aber dem ursprünglichen Namen zuweisen wenn Sie möchten (also `airquality` in obigem Beispiel statt `aq`).
+Man kann in einem Aufruf auch mehrere Spalten erzeugen und dabei sogar direkt auf gerade erst berechnete Spalten zugreifen:
 
-:::{.callout-important}
-Das Ergebnis der Funktion `transform()` ist ein Data Frame, auch wenn man ein Tibble als Ausgangsdatensatz verwendet. Falls das Ergebnis ein Tibble sein soll, muss man den Rückgabewert von `transform()` mit `tibble::as_tibble()` explizit in ein Tibble konvertieren.
+```{r}
+mutate(df, height_m=height / 100, bmi=weight / height_m^2)
+```
+
+Gibt man einen bereits vorhandenen Spaltennamen an, wird die betreffende Spalte überschrieben.
+
+
+### Zeilen sortieren mit `arrange()`
+
+Die Funktion `arrange()` sortiert die Zeilen nach einer oder mehreren Spalten. Mit `desc()` sortiert man absteigend:
+
+```{r}
+arrange(df, age)
+arrange(df, desc(age))
+```
+
+Gibt man mehrere Spalten an, wird zuerst nach der ersten sortiert, und innerhalb gleicher Werte nach der zweiten:
+
+```{r}
+arrange(df, sex, desc(weight))
+```
+
+
+### Spalten umbenennen mit `rename()`
+
+Schließlich kann man mit `rename()` Spalten umbenennen. Die Schreibweise ist `neuer_name=alter_name`:
+
+```{r}
+rename(df, gewicht=weight, groesse=height)
+```
+
+::: callout-important
+Alle diese Funktionen erzeugen immer ein *neues* Data Frame und verändern das ursprüngliche `df` *nicht*. Wenn man mit dem Ergebnis weiterarbeiten möchten, muss man es daher einer Variablen zuweisen (z.B. `df2 = mutate(df, ...)`).
 :::
 
 
@@ -197,7 +155,7 @@ mean(x)  # klassisch
 x |> mean()  # Pipe
 ```
 
-:::{.callout-tip}
+::: callout-tip
 Der Pipe-Operator zieht also das *erste Argument* vor den Funktionsaufruf hinaus.
 :::
 
@@ -233,64 +191,110 @@ x |>
 
 ## Data Wrangling
 
-Kombinieren wir nun alles, was wir in diesem Kapitel gelernt haben (nämlich `subset()`, `transform()` und `|>`), dann erhalten wir ein Werkzeug, welches das Umformen eines Data Frames (das sogenannte Data Wrangling) sehr intuitiv ermöglicht. Sehen wir uns das anhand des `airquality`-Datensatzes an.
+Kombinieren wir nun alles, was wir in diesem Kapitel gelernt haben (nämlich die `dplyr`-Verben und den Pipe-Operator), dann erhalten wir ein Werkzeug, welches das Umformen eines Data Frames (das sogenannte Data Wrangling) sehr intuitiv ermöglicht. Jede Funktion nimmt ein Data Frame entgegen und gibt ein Data Frame zurück. Dadurch können wir die Daten Schritt für Schritt bearbeiten, indem wir mehrere Verben miteinander kombinieren. Das Ergebnis eines Arbeitsschritts dient dabei jeweils als Ausgangspunkt für den nächsten.
 
-Nehmen wir an, wir möchten die Temperaturen (in °C) im Monat Juli untersuchen. Folgende Pipeline könnten wir dazu verwenden:
+Sehen wir uns das anhand des `airquality`-Datensatzes an. Nehmen wir an, wir möchten die Temperaturen (in °C) im Monat Juli untersuchen:
 
 ```{r}
-library(tibble)
-
 airquality |>
-    transform(celsius=(Temp - 32) * (5/9)) |>
-    subset(Month == 7) |>
-    subset(select=-c(Month, Day)) |>
-    as_tibble()
+    mutate(celsius=(Temp - 32) * (5/9)) |>
+    filter(Month == 7) |>
+    select(-Month, -Day)
 ```
 
-:::{.callout-note}
-Im vorigen Beispiel wird mit `as_tibble()` am Ende alles in ein Tibble konvertiert. Ansonsten hätte man ein Data Frame, weil wir die Funktion `transform()` verwendet haben.
-:::
+Die Pipeline liest sich fast wie ein deutscher Satz: Nimm `airquality`, berechne die Spalte `celsius`, behalte nur die Zeilen aus Monat 7, und entferne die Spalten `Month` und `Day`.
 
-Um mit diesem Data Frame weiterzuarbeiten, sollte man das Ergebnis einer (neuen) Variablen zuweisen, z.B.:
+Um mit dem Ergebnis weiterzuarbeiten, weist man es einer (neuen) Variablen zu:
 
 ```{r}
 aq = airquality |>
-    transform(celsius=(Temp - 32) * (5/9)) |>
-    subset(Month == 7) |>
-    subset(select=-c(Month, Day))
+    mutate(celsius=(Temp - 32) * (5/9)) |>
+    filter(Month == 7) |>
+    select(-Month, -Day)
 
-mean(aq$celsius)  # mittlere Temperatur (in °C) im Juli
+mean(aq[["celsius"]])  # mittlere Temperatur (in °C) im Juli
 ```
 
-Abschließend ist noch anzumerken, dass das [Tidyverse](https://www.tidyverse.org/) wesentlich mehr Funktionen bietet, die mit dem Pipe-Operator elegant miteinander verbunden werden können. Insbesondere gruppierte zusammenfassende Statistiken (z.B. die mittleren Temperaturen für alle Monate) werden dadurch ähnlich intuitiv möglich wie in den hier gezeigten Beispielen. Mit Base-R ist dies zwar auch möglich, aber nicht in dieser einheitlichen Pipeline-Form.
+
+## Gruppierte Auswertungen
+
+In der vorigen Einheit haben wir deskriptive Statistiken immer für *alle* Fälle berechnet. Sehr häufig möchte man Kennwerte aber getrennt für einzelne Gruppen bestimmen. `dplyr` stellt dafür zwei weitere Verben zur Verfügung, die sich nahtlos in unsere Pipelines einfügen.
+
+Die Funktion `summarize()` fasst ein Data Frame zu einer *einzigen* Zeile zusammen. Man gibt dabei genau wie bei `mutate()` an, wie die neuen Spalten berechnet werden sollen:
+
+```{r}
+summarize(airquality, mean_temp=mean(Temp), max_wind=max(Wind))
+```
+
+Interessant wird das in Kombination mit `group_by()`. Diese Funktion verändert die Daten selbst nicht, sondern markiert lediglich eine oder mehrere Spalten als Gruppierungsvariablen. Ein nachfolgendes `summarize()` berechnet die Kennwerte dann *für jede Gruppe getrennt*:
+
+```{r}
+airquality |>
+    group_by(Month) |>
+    summarize(mean_temp=mean(Temp), max_wind=max(Wind))
+```
+
+Das Ergebnis ist ein ganz normales Tibble mit einer Zeile pro Monat, mit dem wir wie gewohnt weiterarbeiten können.
+
+Sehr nützlich ist außerdem die Funktion `n()`, welche innerhalb von `summarize()` die Anzahl der Zeilen pro Gruppe liefert:
+
+```{r}
+airquality |>
+    group_by(Month) |>
+    summarize(
+        n=n(),
+        mean_ozone=mean(Ozone, na.rm=TRUE),
+        sd_ozone=sd(Ozone, na.rm=TRUE)
+    )
+```
+
+::: callout-important
+Achten Sie wie immer auf fehlende Werte! Im Beispiel liefert `mean(Ozone)` ohne `na.rm=TRUE` für die meisten Monate `NA`, weil die Ozon-Spalte fehlende Werte enthält.
+:::
+
+Selbstverständlich kann man das mit den bereits bekannten Verben kombinieren. Das folgende Beispiel berechnet die mittlere Temperatur in °C pro Monat, betrachtet dabei aber nur Tage mit wenig Wind, und sortiert das Ergebnis absteigend:
+
+```{r}
+airquality |>
+    filter(Wind < 10) |>
+    mutate(celsius=(Temp - 32) * (5/9)) |>
+    group_by(Month) |>
+    summarize(n=n(), mean_celsius=mean(celsius)) |>
+    arrange(desc(mean_celsius))
+```
 
 
 ## Übungen
 
 ### Übung 1
 
-Installieren und aktivieren Sie das Paket `tidyr`. Darin enthalten ist der Datensatz `table2`. Erzeugen Sie daraus ein neues Data Frame, welches aus den Spalten `type` und `count` die Werte in zwei Spalten `cases` und `population` enthält.
+Erstellen Sie aus dem in R vorhandenen Data Frame `mtcars` ein neues Data Frame namens `mtcars1`, welches nur aus jenen Zeilen besteht in denen die Spalte `mpg` Werte größer als 25 aufweist. Aus wie vielen Zeilen bzw. Spalten bestehen `mtcars` bzw. `mtcars1`?
 
 
 ### Übung 2
 
-Im Paket `tidyr` ist auch ein Datensatz `table4a` enthalten. Fassen Sie die beiden Spalten `1999` und `2000` zu einer Wertespalte namens `count` und einer Indikatorspalte namens `year` zusammen.
-
-:::{.callout-note}
-Die beiden Spaltennamen muss man mit Backticks (`` ` ``) umschließen, da Namen die mit Ziffern starten und R diese sonst als Zahlen interpretieren würde, d.h. `` `1999` `` bzw. `` `2000` ``.
-:::
-
-
-### Übung 3
-
-Erstellen Sie aus dem in R vorhandenen Data Frame `mtcars` ein neues Data Frame namens `mtcars1`, welches nur aus jenen Zeilen besteht in denen die Spalte `mpg` Werte größer als 25 aufweist. Aus wie vielen Zeilen bzw. Spalten bestehen `mtcars` bzw. `mtcars1`? Verwenden Sie dafür die Funktion `subset()`!
-
-
-### Übung 4
-
-Installieren und aktivieren Sie das Paket `nycflights13`. Wir verwenden den Datensatz `flights` aus diesem Paket. Lesen Sie sich zuerst den Hilfetext zu `flights` durch. Führen Sie danach folgende Aufgaben durch (unter Verwendung des Pipe-Operators und den Funktionen `subset()` bzw. `transform()`):
+Installieren und aktivieren Sie das Paket `nycflights13`. Wir verwenden den Datensatz `flights` aus diesem Paket. Lesen Sie sich zuerst den Hilfetext zu `flights` durch. Führen Sie danach folgende Aufgaben durch (verwenden Sie dabei den Pipe-Operator sowie die `dplyr`-Verben `filter()`, `select()` und `mutate()`):
 
 - Erstellen Sie einen neuen Datensatz, welcher alle Flüge am 1.1.2013 enthält. Außerdem sollen nur die Spalten `year`, `month`, `day`, `dep_time`, `arr_time` und `tailnum` vorhanden sein. Wie viele Flüge sind das?
 - Erzeugen Sie zwei neue Spalten `hours` (die Flugzeit in Stunden; die Spalte `air_time` beinhaltet die Flugzeit in Minuten) und `speed` (die Fluggeschwindigkeit in km/h; die Spalte `distance` beinhaltet den zurückgelegten Weg in Meilen, hier wäre also eine zusätzliche Spalte `km` hilfreich). Geben Sie das neue Data Frame nur mit den Spalten `month`, `day`, `carrier`, `tailnum` und `speed` aus!
 - Erstellen Sie einen neuen Datensatz, welcher alle Frühflüge beinhaltet (Flüge, die vor 6:00 gestartet sind).
 - Erstellen Sie einen neuen Datensatz, welcher nur jene Flüge beinhaltet, die schneller als geplant unterwegs waren (wo also die Verspätung bei der Ankunft kleiner war als beim Abflug).
+
+
+### Übung 3
+
+Berechnen Sie im Datensatz `penguins` deskriptive Statistiken getrennt für die drei Pinguinspezies. Wie lauten die Mittelwerte der Spalten `bill_len`, `bill_dep` und `flipper_len` für die drei Spezies? Geben Sie außerdem an, wie viele Pinguine es pro Spezies gibt.
+
+::: callout-note
+Achten Sie auf die fehlenden Werte in diesen Spalten!
+:::
+
+
+### Übung 4
+
+Laden Sie die Beispieldaten [`lecturer.dat`](lecturer.dat) (siehe Einheit 5) und berechnen Sie, getrennt nach der Spalte `job`, die Anzahl der Personen sowie die Mittelwerte der Spalten `friends`, `alcohol`, `income` und `neurotic`. Sortieren Sie das Ergebnis absteigend nach dem mittleren Einkommen.
+
+
+## Lösungen
+
+Die Lösungen zu diesen Übungen finden Sie [hier](07-solutions.qmd).
