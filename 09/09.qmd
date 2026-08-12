@@ -151,6 +151,223 @@ Ein kleiner $p$-Wert bedeutet also, dass der beobachtete Wert unter der Nullhypo
 Ein großer $p$-Wert ist umgekehrt *kein* Beleg dafür, dass die Korrelation tatsächlich 0 ist – man kann die Nullhypothese dann lediglich nicht verwerfen.
 :::
 
+Die folgende interaktive Grafik veranschaulicht diesen Zusammenhang: Der rote Punkt lässt sich entlang der $t$-Achse verschieben und stellt den beobachteten Wert der Teststatistik dar, die blau schattierte Fläche den zugehörigen $p$-Wert. Über die Regler können die Freiheitsgrade, ein- oder zweiseitiges Testen sowie (nur bei einseitigem Testen relevant) die Richtung der Alternativhypothese eingestellt werden.
+
+```{ojs}
+//| echo: false
+d3 = require("d3@7")
+```
+
+```{ojs}
+//| echo: false
+pvalue_widget = {
+  const width = 640, height = 380;
+  const margin = {top: 30, right: 30, bottom: 40, left: 50};
+  const xDomain = [-5, 5];
+  const df = p_df;
+  const twoTailed = p_tails === "zweiseitig";
+  const rightTailed = p_direction === "t > 0";
+
+  // Log-Gamma-Funktion (Lanczos-Approximation)
+  function lgamma(x) {
+    const g = 7;
+    const c = [
+      0.99999999999980993, 676.5203681218851, -1259.1392167224028,
+      771.32342877765313, -176.61502916214059, 12.507343278686905,
+      -0.13857109526572012, 9.9843695780195716e-6, 1.5056327351493116e-7
+    ];
+    if (x < 0.5) return Math.log(Math.PI / Math.sin(Math.PI * x)) - lgamma(1 - x);
+    x -= 1;
+    let a = c[0];
+    const t = x + g + 0.5;
+    for (let i = 1; i < g + 2; i++) a += c[i] / (x + i);
+    return 0.5 * Math.log(2 * Math.PI) + (x + 0.5) * Math.log(t) - t + Math.log(a);
+  }
+
+  // regularisierte unvollständige Betafunktion (Kettenbruch nach Numerical Recipes),
+  // damit die t-Verteilungsfunktion auch für kleine df (schwere Ränder) exakt bleibt
+  function betacf(x, a, b) {
+    const MAXIT = 200, EPS = 3e-14, FPMIN = 1e-300;
+    const qab = a + b, qap = a + 1, qam = a - 1;
+    let c = 1, d = 1 - (qab * x) / qap;
+    if (Math.abs(d) < FPMIN) d = FPMIN;
+    d = 1 / d;
+    let h = d;
+    for (let m = 1; m <= MAXIT; m++) {
+      const m2 = 2 * m;
+      let aa = (m * (b - m) * x) / ((qam + m2) * (a + m2));
+      d = 1 + aa * d; if (Math.abs(d) < FPMIN) d = FPMIN;
+      c = 1 + aa / c; if (Math.abs(c) < FPMIN) c = FPMIN;
+      d = 1 / d;
+      h *= d * c;
+      aa = (-(a + m) * (qab + m) * x) / ((a + m2) * (qap + m2));
+      d = 1 + aa * d; if (Math.abs(d) < FPMIN) d = FPMIN;
+      c = 1 + aa / c; if (Math.abs(c) < FPMIN) c = FPMIN;
+      d = 1 / d;
+      const del = d * c;
+      h *= del;
+      if (Math.abs(del - 1) < EPS) break;
+    }
+    return h;
+  }
+
+  function betainc(x, a, b) {
+    if (x <= 0) return 0;
+    if (x >= 1) return 1;
+    const bt = Math.exp(
+      lgamma(a + b) - lgamma(a) - lgamma(b) + a * Math.log(x) + b * Math.log(1 - x)
+    );
+    return x < (a + 1) / (a + b + 2)
+      ? (bt * betacf(x, a, b)) / a
+      : 1 - (bt * betacf(1 - x, b, a)) / b;
+  }
+
+  const tPdf = (t, df) => {
+    const lnC = lgamma((df + 1) / 2) - lgamma(df / 2) - 0.5 * Math.log(df * Math.PI);
+    return Math.exp(lnC) * Math.pow(1 + (t * t) / df, -(df + 1) / 2);
+  };
+  const tCdf = (t, df) => {
+    const x = df / (df + t * t);
+    const ib = betainc(x, df / 2, 0.5);
+    return t > 0 ? 1 - 0.5 * ib : 0.5 * ib;
+  };
+
+  const x = d3.scaleLinear().domain(xDomain).range([margin.left, width - margin.right]);
+  const yMax = tPdf(0, df) * 1.15;
+  const y = d3.scaleLinear().domain([0, yMax]).range([height - margin.bottom, margin.top]);
+
+  const curveData = d3.range(xDomain[0], xDomain[1] + 0.01, 0.02)
+    .map(d => ({x: d, y: tPdf(d, df)}));
+  const line = d3.line().x(d => x(d.x)).y(d => y(d.y)).curve(d3.curveNatural);
+  const areaGen = d3.area().x(d => x(d.x)).y0(y(0)).y1(d => y(d.y)).curve(d3.curveNatural);
+
+  const svg = d3.create("svg")
+    .attr("width", width)
+    .attr("height", height)
+    .attr("viewBox", [0, 0, width, height])
+    .attr("style", "max-width: 100%; height: auto;");
+
+  svg.append("g")
+    .attr("transform", `translate(0,${height - margin.bottom})`)
+    .call(d3.axisBottom(x));
+  svg.append("g")
+    .attr("transform", `translate(${margin.left},0)`)
+    .call(d3.axisLeft(y).ticks(5));
+
+  svg.append("text")
+    .attr("x", width / 2).attr("y", height - 4)
+    .attr("text-anchor", "middle").attr("font-size", 12).attr("font-style", "italic")
+    .text("t");
+  svg.append("text")
+    .attr("x", -height / 2).attr("y", 14)
+    .attr("transform", "rotate(-90)")
+    .attr("text-anchor", "middle").attr("font-size", 12)
+    .text("Dichte");
+
+  svg.append("line")
+    .attr("x1", x(0)).attr("x2", x(0))
+    .attr("y1", y(0)).attr("y2", margin.top)
+    .attr("stroke", "#aaa").attr("stroke-dasharray", "1,3");
+
+  svg.append("path").datum(curveData)
+    .attr("fill", "none").attr("stroke", "black").attr("stroke-width", 1.5)
+    .attr("d", line);
+
+  const shadeRight = svg.append("path").attr("fill", "steelblue").attr("opacity", 0.4);
+  const shadeLeft = svg.append("path").attr("fill", "steelblue").attr("opacity", 0.4);
+  const vline = svg.append("line").attr("stroke", "#888").attr("stroke-dasharray", "3,3");
+  const vlineMirror = svg.append("line").attr("stroke", "#888").attr("stroke-dasharray", "3,3");
+  const label = svg.append("text")
+    .attr("x", margin.left).attr("y", margin.top - 12).attr("font-size", 14);
+
+  let t0 = 1.59164485150844;
+
+  function redraw() {
+    let p;
+    if (twoTailed) {
+      const a = Math.abs(t0);
+      const rightData = curveData.filter(d => d.x >= a);
+      rightData.unshift({x: a, y: tPdf(a, df)});
+      const leftData = curveData.filter(d => d.x <= -a);
+      leftData.push({x: -a, y: tPdf(-a, df)});
+      shadeRight.attr("d", areaGen(rightData)).attr("opacity", 0.4);
+      shadeLeft.attr("d", areaGen(leftData)).attr("opacity", 0.4);
+      vlineMirror
+        .attr("x1", x(-t0)).attr("x2", x(-t0))
+        .attr("y1", y(0)).attr("y2", y(tPdf(t0, df)))
+        .attr("opacity", 1);
+      p = 2 * (1 - tCdf(a, df));
+      label.text(`p = 2 · P(T ≥ |t|) = ${p.toFixed(4)}   (t = ${t0.toFixed(2)}, df = ${df})`);
+    } else if (rightTailed) {
+      const rightData = curveData.filter(d => d.x >= t0);
+      rightData.unshift({x: t0, y: tPdf(t0, df)});
+      shadeRight.attr("d", areaGen(rightData)).attr("opacity", 0.4);
+      shadeLeft.attr("opacity", 0);
+      vlineMirror.attr("opacity", 0);
+      p = 1 - tCdf(t0, df);
+      label.text(`p = P(T ≥ t) = ${p.toFixed(4)}   (t = ${t0.toFixed(2)}, df = ${df})`);
+    } else {
+      const leftData = curveData.filter(d => d.x <= t0);
+      leftData.push({x: t0, y: tPdf(t0, df)});
+      shadeLeft.attr("d", areaGen(leftData)).attr("opacity", 0.4);
+      shadeRight.attr("opacity", 0);
+      vlineMirror.attr("opacity", 0);
+      p = tCdf(t0, df);
+      label.text(`p = P(T ≤ t) = ${p.toFixed(4)}   (t = ${t0.toFixed(2)}, df = ${df})`);
+    }
+
+    vline.attr("x1", x(t0)).attr("x2", x(t0)).attr("y1", y(0)).attr("y2", y(tPdf(t0, df)));
+    point.attr("cx", x(t0)).attr("cy", y(tPdf(t0, df)));
+  }
+
+  const point = svg.append("circle").attr("r", 7).attr("fill", "crimson")
+    .attr("cursor", "ew-resize")
+    .call(d3.drag().on("drag", (event) => {
+      t0 = Math.max(xDomain[0], Math.min(xDomain[1], x.invert(event.x)));
+      redraw();
+    }));
+
+  redraw();
+  return svg.node();
+}
+```
+
+<style>
+.pvalue-controls label {
+  white-space: nowrap;
+  width: auto !important;
+  min-width: 12em;
+}
+</style>
+
+::: {.pvalue-controls}
+
+```{ojs}
+//| echo: false
+viewof p_df = Inputs.range(
+  [1, 100],
+  {value: 38, step: 1, label: "Freiheitsgrade (df)"}
+)
+```
+
+```{ojs}
+//| echo: false
+viewof p_tails = Inputs.radio(
+  ["zweiseitig", "einseitig"],
+  {value: "zweiseitig", label: "Test"}
+)
+```
+
+```{ojs}
+//| echo: false
+viewof p_direction = Inputs.radio(
+  ["t > 0", "t < 0"],
+  {value: "t > 0", label: "Richtung (nur einseitig)"}
+)
+```
+
+:::
+
 
 ### Konfidenzintervall
 
