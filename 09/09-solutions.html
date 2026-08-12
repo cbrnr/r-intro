@@ -450,16 +450,15 @@ window.Quarto = {
 
 <section id="übung-1" class="level2">
 <h2 class="anchored" data-anchor-id="übung-1">Übung 1</h2>
-<p>Durch Probieren mit verschiedenen Werten für <span class="math inline">\(N\)</span> erhält man <span class="math inline">\(N = 62\)</span> für <span class="math inline">\(p &lt; 0.05\)</span>. Dies bedeutet, dass eine Korrelation von <span class="math inline">\(r = 0.25\)</span> signifikant ist bei <span class="math inline">\(N = 62\)</span> oder größer.</p>
+<p>Durch Probieren mit verschiedenen Werten für <span class="math inline">\(N\)</span> erhält man <span class="math inline">\(N = 63\)</span> für <span class="math inline">\(p &lt; 0.05\)</span>. Dies bedeutet, dass eine Korrelation von <span class="math inline">\(r = 0.25\)</span> signifikant ist bei <span class="math inline">\(N = 63\)</span> oder größer (<span class="math inline">\(N = 62\)</span> liegt mit <span class="math inline">\(p = 0.0500\)</span> ganz knapp über der Schwelle).</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>r <span class="ot">=</span> <span class="fl">0.25</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>N <span class="ot">=</span> <span class="dv">62</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>N <span class="ot">=</span> <span class="dv">63</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>alpha <span class="ot">=</span> <span class="fl">0.05</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>z <span class="ot">=</span> <span class="fu">atanh</span>(r)</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>se_z <span class="ot">=</span> <span class="dv">1</span> <span class="sc">/</span> <span class="fu">sqrt</span>(N <span class="sc">-</span> <span class="dv">3</span>)</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>(<span class="at">p =</span> <span class="dv">2</span> <span class="sc">*</span> <span class="fu">pnorm</span>(<span class="sc">-</span><span class="fu">abs</span>(z <span class="sc">/</span> se_z)))</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>t <span class="ot">=</span> r <span class="sc">*</span> <span class="fu">sqrt</span>(N <span class="sc">-</span> <span class="dv">2</span>) <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="dv">1</span> <span class="sc">-</span> r<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>(<span class="at">p =</span> <span class="dv">2</span> <span class="sc">*</span> <span class="fu">pt</span>(<span class="sc">-</span><span class="fu">abs</span>(t), <span class="at">df=</span>N <span class="sc">-</span> <span class="dv">2</span>))</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.04977843</code></pre>
+<pre><code>[1] 0.04814585</code></pre>
 </div>
 </div>
 <p>Wiederum durch Probieren erhält man <span class="math inline">\(N = 1538\)</span> (mindestens) damit <span class="math inline">\(p &lt; 0.05\)</span>. Man sieht, dass selbst eine sehr kleine Korrelation ab einer gewissen Stichprobengröße signifikant wird.</p>
@@ -467,11 +466,10 @@ window.Quarto = {
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>r <span class="ot">=</span> <span class="fl">0.05</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>N <span class="ot">=</span> <span class="dv">1538</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>alpha <span class="ot">=</span> <span class="fl">0.05</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>z <span class="ot">=</span> <span class="fu">atanh</span>(r)</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>se_z <span class="ot">=</span> <span class="dv">1</span> <span class="sc">/</span> <span class="fu">sqrt</span>(N <span class="sc">-</span> <span class="dv">3</span>)</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>(<span class="at">p =</span> <span class="dv">2</span> <span class="sc">*</span> <span class="fu">pnorm</span>(<span class="sc">-</span><span class="fu">abs</span>(z <span class="sc">/</span> se_z)))</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>t <span class="ot">=</span> r <span class="sc">*</span> <span class="fu">sqrt</span>(N <span class="sc">-</span> <span class="dv">2</span>) <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="dv">1</span> <span class="sc">-</span> r<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>(<span class="at">p =</span> <span class="dv">2</span> <span class="sc">*</span> <span class="fu">pt</span>(<span class="sc">-</span><span class="fu">abs</span>(t), <span class="at">df=</span>N <span class="sc">-</span> <span class="dv">2</span>))</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.04992702</code></pre>
+<pre><code>[1] 0.04993748</code></pre>
 </div>
 </div>
 <p>Genau deshalb sollte man Signifikanz nie mit Relevanz gleichsetzen: Eine Korrelation von <span class="math inline">\(r = 0.05\)</span> erklärt lediglich <span class="math inline">\(R^2 = 0.0025\)</span>, also 0.25% der Varianz – und ist damit praktisch bedeutungslos, auch wenn sie bei <span class="math inline">\(N = 1538\)</span> statistisch signifikant ist.</p>

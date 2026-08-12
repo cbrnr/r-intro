@@ -117,6 +117,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Suchen"
   }
 }</script>
+<script type="module" src="../site_libs/quarto-ojs/quarto-ojs-runtime.js"></script>
+<link href="../site_libs/quarto-ojs/quarto-ojs.css" rel="stylesheet">
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
@@ -514,11 +516,32 @@ y &amp;= (-2, -5, -6, 0, 3, 7, 10)
 </section>
 <section id="signifikanz" class="level3">
 <h3 class="anchored" data-anchor-id="signifikanz">Signifikanz</h3>
-<p>Meist wird nach der Berechnung der Korrelation ein Test durchgeführt, welcher prüft, ob die erhaltene Korrelation signifikant von der Nullhypothese (“es existiert <em>keine</em> Korrelation, d.h. die Korrelation ist 0”) abweicht. Die Stichprobenverteilung von <span class="math inline">\(r\)</span> ist allerdings schief (besonders bei Werten nahe −1 oder 1) und daher nicht normalverteilt. Mit der <a href="https://en.wikipedia.org/wiki/Fisher_transformation">Fisher-Transformation</a></p>
-<p><span class="math display">\[z_r = \frac{1}{2} \ln \frac{1 + r}{1 - r} = \text{arctanh}(r)\]</span></p>
-<p>erhält man jedoch eine Größe, die näherungsweise normalverteilt ist – und zwar mit dem Standardfehler</p>
-<p><span class="math display">\[\mathrm{SE}(z_r) = \frac{1}{\sqrt{N - 3}}.\]</span></p>
-<p>Unter der Nullhypothese ist der Erwartungswert von <span class="math inline">\(z_r\)</span> gleich 0. Nun kann man den erhaltenen Wert von <span class="math inline">\(z_r\)</span> durch den Standardfehler dividieren und das Ergebnis dann mit Werten aus einer Tabelle der Standardnormalverteilung vergleichen. So erhält man dann den <span class="math inline">\(p\)</span>-Wert (siehe auch <a href="https://en.wikipedia.org/wiki/Pearson_correlation_coefficient#Using_the_Fisher_transformation">hier</a>).</p>
+<p>Meist wird nach der Berechnung der Korrelation ein Test durchgeführt, welcher prüft, ob die erhaltene Korrelation signifikant von der Nullhypothese (“es existiert <em>keine</em> Korrelation, d.h. die Korrelation ist 0”) abweicht. Für genau diese Nullhypothese lässt sich der Test <em>exakt</em> durchführen: Sind die beiden Variablen bivariat normalverteilt und ist die wahre Korrelation 0, dann folgt die Größe</p>
+<p><span class="math display">\[t = \frac{r \sqrt{N - 2}}{\sqrt{1 - r^2}}\]</span></p>
+<p>einer <span class="math inline">\(t\)</span>-Verteilung mit <span class="math inline">\(N - 2\)</span> Freiheitsgraden. Man berechnet also aus <span class="math inline">\(r\)</span> und <span class="math inline">\(N\)</span> den Wert von <span class="math inline">\(t\)</span> und bestimmt dann, wie wahrscheinlich ein mindestens so extremer Wert unter dieser Verteilung ist – das ergibt den <span class="math inline">\(p\)</span>-Wert.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Hinweis
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Die <span class="math inline">\(t\)</span>-Verteilung ist wie die Standardnormalverteilung glockenförmig und symmetrisch um 0, hat aber etwas “schwerere Ränder” (also mehr Wahrscheinlichkeit an den Extremwerten). Ihre Form hängt von einem einzigen Parameter ab, den <em>Freiheitsgraden</em> (df): Je größer df, desto ähnlicher wird sie der Standardnormalverteilung – ab etwa df = 30 sind die beiden kaum noch zu unterscheiden.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="09_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Die <span class="math inline">\(t\)</span>-Verteilung wird uns in Einheit 10 bei der linearen Regression wieder begegnen, dort wird sie zur Beurteilung der Regressionskoeffizienten verwendet.</p>
+</div>
+</div>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -534,57 +557,253 @@ Hinweis
 <p>Ein großer <span class="math inline">\(p\)</span>-Wert ist umgekehrt <em>kein</em> Beleg dafür, dass die Korrelation tatsächlich 0 ist – man kann die Nullhypothese dann lediglich nicht verwerfen.</p>
 </div>
 </div>
-<p>Betrachten wir dazu ein Beispiel zur Veranschaulichung der Berechnung des <span class="math inline">\(p\)</span>-Wertes sowie des Konfidenzintervalls für eine gegebene Pearson-Korrelation.</p>
+<p>Die folgende interaktive Grafik veranschaulicht diesen Zusammenhang: Der rote Punkt lässt sich entlang der <span class="math inline">\(t\)</span>-Achse verschieben und stellt den beobachteten Wert der Teststatistik dar, die blau schattierte Fläche den zugehörigen <span class="math inline">\(p\)</span>-Wert. Über die Regler können die Freiheitsgrade, ein- oder zweiseitiges Testen sowie (nur bei einseitigem Testen relevant) die Richtung der Alternativhypothese eingestellt werden.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb1" data-startfrom="157" data-source-offset="0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 156;"><span id="cb1-157"><a href="#cb1-157" aria-hidden="true" tabindex="-1"></a>d3 <span class="op">=</span> <span class="pp">require</span>(<span class="st">"d3@7"</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div id="ojs-cell-1" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb2" data-startfrom="162" data-source-offset="0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 161;"><span id="cb2-162"><a href="#cb2-162" aria-hidden="true" tabindex="-1"></a>pvalue_widget <span class="op">=</span> {</span>
+<span id="cb2-163"><a href="#cb2-163" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> width <span class="op">=</span> <span class="dv">640</span><span class="op">,</span> height <span class="op">=</span> <span class="dv">380</span><span class="op">;</span></span>
+<span id="cb2-164"><a href="#cb2-164" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> margin <span class="op">=</span> {<span class="dt">top</span><span class="op">:</span> <span class="dv">30</span><span class="op">,</span> <span class="dt">right</span><span class="op">:</span> <span class="dv">30</span><span class="op">,</span> <span class="dt">bottom</span><span class="op">:</span> <span class="dv">40</span><span class="op">,</span> <span class="dt">left</span><span class="op">:</span> <span class="dv">50</span>}<span class="op">;</span></span>
+<span id="cb2-165"><a href="#cb2-165" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> xDomain <span class="op">=</span> [<span class="op">-</span><span class="dv">5</span><span class="op">,</span> <span class="dv">5</span>]<span class="op">;</span></span>
+<span id="cb2-166"><a href="#cb2-166" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> df <span class="op">=</span> p_df<span class="op">;</span></span>
+<span id="cb2-167"><a href="#cb2-167" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> twoTailed <span class="op">=</span> p_tails <span class="op">===</span> <span class="st">"zweiseitig"</span><span class="op">;</span></span>
+<span id="cb2-168"><a href="#cb2-168" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> rightTailed <span class="op">=</span> p_direction <span class="op">===</span> <span class="st">"t &gt; 0"</span><span class="op">;</span></span>
+<span id="cb2-169"><a href="#cb2-169" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-170"><a href="#cb2-170" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Log-Gamma-Funktion (Lanczos-Approximation)</span></span>
+<span id="cb2-171"><a href="#cb2-171" aria-hidden="true" tabindex="-1"></a>  <span class="kw">function</span> <span class="fu">lgamma</span>(x) {</span>
+<span id="cb2-172"><a href="#cb2-172" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> g <span class="op">=</span> <span class="dv">7</span><span class="op">;</span></span>
+<span id="cb2-173"><a href="#cb2-173" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> c <span class="op">=</span> [</span>
+<span id="cb2-174"><a href="#cb2-174" aria-hidden="true" tabindex="-1"></a>      <span class="fl">0.99999999999980993</span><span class="op">,</span> <span class="fl">676.5203681218851</span><span class="op">,</span> <span class="op">-</span><span class="fl">1259.1392167224028</span><span class="op">,</span></span>
+<span id="cb2-175"><a href="#cb2-175" aria-hidden="true" tabindex="-1"></a>      <span class="fl">771.32342877765313</span><span class="op">,</span> <span class="op">-</span><span class="fl">176.61502916214059</span><span class="op">,</span> <span class="fl">12.507343278686905</span><span class="op">,</span></span>
+<span id="cb2-176"><a href="#cb2-176" aria-hidden="true" tabindex="-1"></a>      <span class="op">-</span><span class="fl">0.13857109526572012</span><span class="op">,</span> <span class="fl">9.9843695780195716e-6</span><span class="op">,</span> <span class="fl">1.5056327351493116e-7</span></span>
+<span id="cb2-177"><a href="#cb2-177" aria-hidden="true" tabindex="-1"></a>    ]<span class="op">;</span></span>
+<span id="cb2-178"><a href="#cb2-178" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (x <span class="op">&lt;</span> <span class="fl">0.5</span>) <span class="cf">return</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">log</span>(<span class="bu">Math</span><span class="op">.</span><span class="cn">PI</span> <span class="op">/</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">sin</span>(<span class="bu">Math</span><span class="op">.</span><span class="cn">PI</span> <span class="op">*</span> x)) <span class="op">-</span> <span class="fu">lgamma</span>(<span class="dv">1</span> <span class="op">-</span> x)<span class="op">;</span></span>
+<span id="cb2-179"><a href="#cb2-179" aria-hidden="true" tabindex="-1"></a>    x <span class="op">-=</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb2-180"><a href="#cb2-180" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> a <span class="op">=</span> c[<span class="dv">0</span>]<span class="op">;</span></span>
+<span id="cb2-181"><a href="#cb2-181" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> t <span class="op">=</span> x <span class="op">+</span> g <span class="op">+</span> <span class="fl">0.5</span><span class="op">;</span></span>
+<span id="cb2-182"><a href="#cb2-182" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> i <span class="op">&lt;</span> g <span class="op">+</span> <span class="dv">2</span><span class="op">;</span> i<span class="op">++</span>) a <span class="op">+=</span> c[i] <span class="op">/</span> (x <span class="op">+</span> i)<span class="op">;</span></span>
+<span id="cb2-183"><a href="#cb2-183" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="fl">0.5</span> <span class="op">*</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">log</span>(<span class="dv">2</span> <span class="op">*</span> <span class="bu">Math</span><span class="op">.</span><span class="cn">PI</span>) <span class="op">+</span> (x <span class="op">+</span> <span class="fl">0.5</span>) <span class="op">*</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">log</span>(t) <span class="op">-</span> t <span class="op">+</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">log</span>(a)<span class="op">;</span></span>
+<span id="cb2-184"><a href="#cb2-184" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb2-185"><a href="#cb2-185" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-186"><a href="#cb2-186" aria-hidden="true" tabindex="-1"></a>  <span class="co">// regularisierte unvollständige Betafunktion (Kettenbruch nach Numerical Recipes),</span></span>
+<span id="cb2-187"><a href="#cb2-187" aria-hidden="true" tabindex="-1"></a>  <span class="co">// damit die t-Verteilungsfunktion auch für kleine df (schwere Ränder) exakt bleibt</span></span>
+<span id="cb2-188"><a href="#cb2-188" aria-hidden="true" tabindex="-1"></a>  <span class="kw">function</span> <span class="fu">betacf</span>(x<span class="op">,</span> a<span class="op">,</span> b) {</span>
+<span id="cb2-189"><a href="#cb2-189" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> MAXIT <span class="op">=</span> <span class="dv">200</span><span class="op">,</span> EPS <span class="op">=</span> <span class="fl">3e-14</span><span class="op">,</span> FPMIN <span class="op">=</span> <span class="fl">1e-300</span><span class="op">;</span></span>
+<span id="cb2-190"><a href="#cb2-190" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> qab <span class="op">=</span> a <span class="op">+</span> b<span class="op">,</span> qap <span class="op">=</span> a <span class="op">+</span> <span class="dv">1</span><span class="op">,</span> qam <span class="op">=</span> a <span class="op">-</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb2-191"><a href="#cb2-191" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> c <span class="op">=</span> <span class="dv">1</span><span class="op">,</span> d <span class="op">=</span> <span class="dv">1</span> <span class="op">-</span> (qab <span class="op">*</span> x) <span class="op">/</span> qap<span class="op">;</span></span>
+<span id="cb2-192"><a href="#cb2-192" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="bu">Math</span><span class="op">.</span><span class="fu">abs</span>(d) <span class="op">&lt;</span> FPMIN) d <span class="op">=</span> FPMIN<span class="op">;</span></span>
+<span id="cb2-193"><a href="#cb2-193" aria-hidden="true" tabindex="-1"></a>    d <span class="op">=</span> <span class="dv">1</span> <span class="op">/</span> d<span class="op">;</span></span>
+<span id="cb2-194"><a href="#cb2-194" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> h <span class="op">=</span> d<span class="op">;</span></span>
+<span id="cb2-195"><a href="#cb2-195" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (<span class="kw">let</span> m <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> m <span class="op">&lt;=</span> MAXIT<span class="op">;</span> m<span class="op">++</span>) {</span>
+<span id="cb2-196"><a href="#cb2-196" aria-hidden="true" tabindex="-1"></a>      <span class="kw">const</span> m2 <span class="op">=</span> <span class="dv">2</span> <span class="op">*</span> m<span class="op">;</span></span>
+<span id="cb2-197"><a href="#cb2-197" aria-hidden="true" tabindex="-1"></a>      <span class="kw">let</span> aa <span class="op">=</span> (m <span class="op">*</span> (b <span class="op">-</span> m) <span class="op">*</span> x) <span class="op">/</span> ((qam <span class="op">+</span> m2) <span class="op">*</span> (a <span class="op">+</span> m2))<span class="op">;</span></span>
+<span id="cb2-198"><a href="#cb2-198" aria-hidden="true" tabindex="-1"></a>      d <span class="op">=</span> <span class="dv">1</span> <span class="op">+</span> aa <span class="op">*</span> d<span class="op">;</span> <span class="cf">if</span> (<span class="bu">Math</span><span class="op">.</span><span class="fu">abs</span>(d) <span class="op">&lt;</span> FPMIN) d <span class="op">=</span> FPMIN<span class="op">;</span></span>
+<span id="cb2-199"><a href="#cb2-199" aria-hidden="true" tabindex="-1"></a>      c <span class="op">=</span> <span class="dv">1</span> <span class="op">+</span> aa <span class="op">/</span> c<span class="op">;</span> <span class="cf">if</span> (<span class="bu">Math</span><span class="op">.</span><span class="fu">abs</span>(c) <span class="op">&lt;</span> FPMIN) c <span class="op">=</span> FPMIN<span class="op">;</span></span>
+<span id="cb2-200"><a href="#cb2-200" aria-hidden="true" tabindex="-1"></a>      d <span class="op">=</span> <span class="dv">1</span> <span class="op">/</span> d<span class="op">;</span></span>
+<span id="cb2-201"><a href="#cb2-201" aria-hidden="true" tabindex="-1"></a>      h <span class="op">*=</span> d <span class="op">*</span> c<span class="op">;</span></span>
+<span id="cb2-202"><a href="#cb2-202" aria-hidden="true" tabindex="-1"></a>      aa <span class="op">=</span> (<span class="op">-</span>(a <span class="op">+</span> m) <span class="op">*</span> (qab <span class="op">+</span> m) <span class="op">*</span> x) <span class="op">/</span> ((a <span class="op">+</span> m2) <span class="op">*</span> (qap <span class="op">+</span> m2))<span class="op">;</span></span>
+<span id="cb2-203"><a href="#cb2-203" aria-hidden="true" tabindex="-1"></a>      d <span class="op">=</span> <span class="dv">1</span> <span class="op">+</span> aa <span class="op">*</span> d<span class="op">;</span> <span class="cf">if</span> (<span class="bu">Math</span><span class="op">.</span><span class="fu">abs</span>(d) <span class="op">&lt;</span> FPMIN) d <span class="op">=</span> FPMIN<span class="op">;</span></span>
+<span id="cb2-204"><a href="#cb2-204" aria-hidden="true" tabindex="-1"></a>      c <span class="op">=</span> <span class="dv">1</span> <span class="op">+</span> aa <span class="op">/</span> c<span class="op">;</span> <span class="cf">if</span> (<span class="bu">Math</span><span class="op">.</span><span class="fu">abs</span>(c) <span class="op">&lt;</span> FPMIN) c <span class="op">=</span> FPMIN<span class="op">;</span></span>
+<span id="cb2-205"><a href="#cb2-205" aria-hidden="true" tabindex="-1"></a>      d <span class="op">=</span> <span class="dv">1</span> <span class="op">/</span> d<span class="op">;</span></span>
+<span id="cb2-206"><a href="#cb2-206" aria-hidden="true" tabindex="-1"></a>      <span class="kw">const</span> del <span class="op">=</span> d <span class="op">*</span> c<span class="op">;</span></span>
+<span id="cb2-207"><a href="#cb2-207" aria-hidden="true" tabindex="-1"></a>      h <span class="op">*=</span> del<span class="op">;</span></span>
+<span id="cb2-208"><a href="#cb2-208" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> (<span class="bu">Math</span><span class="op">.</span><span class="fu">abs</span>(del <span class="op">-</span> <span class="dv">1</span>) <span class="op">&lt;</span> EPS) <span class="cf">break</span><span class="op">;</span></span>
+<span id="cb2-209"><a href="#cb2-209" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb2-210"><a href="#cb2-210" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> h<span class="op">;</span></span>
+<span id="cb2-211"><a href="#cb2-211" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb2-212"><a href="#cb2-212" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-213"><a href="#cb2-213" aria-hidden="true" tabindex="-1"></a>  <span class="kw">function</span> <span class="fu">betainc</span>(x<span class="op">,</span> a<span class="op">,</span> b) {</span>
+<span id="cb2-214"><a href="#cb2-214" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (x <span class="op">&lt;=</span> <span class="dv">0</span>) <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb2-215"><a href="#cb2-215" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (x <span class="op">&gt;=</span> <span class="dv">1</span>) <span class="cf">return</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb2-216"><a href="#cb2-216" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> bt <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">exp</span>(</span>
+<span id="cb2-217"><a href="#cb2-217" aria-hidden="true" tabindex="-1"></a>      <span class="fu">lgamma</span>(a <span class="op">+</span> b) <span class="op">-</span> <span class="fu">lgamma</span>(a) <span class="op">-</span> <span class="fu">lgamma</span>(b) <span class="op">+</span> a <span class="op">*</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">log</span>(x) <span class="op">+</span> b <span class="op">*</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">log</span>(<span class="dv">1</span> <span class="op">-</span> x)</span>
+<span id="cb2-218"><a href="#cb2-218" aria-hidden="true" tabindex="-1"></a>    )<span class="op">;</span></span>
+<span id="cb2-219"><a href="#cb2-219" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> x <span class="op">&lt;</span> (a <span class="op">+</span> <span class="dv">1</span>) <span class="op">/</span> (a <span class="op">+</span> b <span class="op">+</span> <span class="dv">2</span>)</span>
+<span id="cb2-220"><a href="#cb2-220" aria-hidden="true" tabindex="-1"></a>      <span class="op">?</span> (bt <span class="op">*</span> <span class="fu">betacf</span>(x<span class="op">,</span> a<span class="op">,</span> b)) <span class="op">/</span> a</span>
+<span id="cb2-221"><a href="#cb2-221" aria-hidden="true" tabindex="-1"></a>      <span class="op">:</span> <span class="dv">1</span> <span class="op">-</span> (bt <span class="op">*</span> <span class="fu">betacf</span>(<span class="dv">1</span> <span class="op">-</span> x<span class="op">,</span> b<span class="op">,</span> a)) <span class="op">/</span> b<span class="op">;</span></span>
+<span id="cb2-222"><a href="#cb2-222" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb2-223"><a href="#cb2-223" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-224"><a href="#cb2-224" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> tPdf <span class="op">=</span> (t<span class="op">,</span> df) <span class="kw">=&gt;</span> {</span>
+<span id="cb2-225"><a href="#cb2-225" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> lnC <span class="op">=</span> <span class="fu">lgamma</span>((df <span class="op">+</span> <span class="dv">1</span>) <span class="op">/</span> <span class="dv">2</span>) <span class="op">-</span> <span class="fu">lgamma</span>(df <span class="op">/</span> <span class="dv">2</span>) <span class="op">-</span> <span class="fl">0.5</span> <span class="op">*</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">log</span>(df <span class="op">*</span> <span class="bu">Math</span><span class="op">.</span><span class="cn">PI</span>)<span class="op">;</span></span>
+<span id="cb2-226"><a href="#cb2-226" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">exp</span>(lnC) <span class="op">*</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">pow</span>(<span class="dv">1</span> <span class="op">+</span> (t <span class="op">*</span> t) <span class="op">/</span> df<span class="op">,</span> <span class="op">-</span>(df <span class="op">+</span> <span class="dv">1</span>) <span class="op">/</span> <span class="dv">2</span>)<span class="op">;</span></span>
+<span id="cb2-227"><a href="#cb2-227" aria-hidden="true" tabindex="-1"></a>  }<span class="op">;</span></span>
+<span id="cb2-228"><a href="#cb2-228" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> tCdf <span class="op">=</span> (t<span class="op">,</span> df) <span class="kw">=&gt;</span> {</span>
+<span id="cb2-229"><a href="#cb2-229" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> x <span class="op">=</span> df <span class="op">/</span> (df <span class="op">+</span> t <span class="op">*</span> t)<span class="op">;</span></span>
+<span id="cb2-230"><a href="#cb2-230" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> ib <span class="op">=</span> <span class="fu">betainc</span>(x<span class="op">,</span> df <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> <span class="fl">0.5</span>)<span class="op">;</span></span>
+<span id="cb2-231"><a href="#cb2-231" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> t <span class="op">&gt;</span> <span class="dv">0</span> <span class="op">?</span> <span class="dv">1</span> <span class="op">-</span> <span class="fl">0.5</span> <span class="op">*</span> ib <span class="op">:</span> <span class="fl">0.5</span> <span class="op">*</span> ib<span class="op">;</span></span>
+<span id="cb2-232"><a href="#cb2-232" aria-hidden="true" tabindex="-1"></a>  }<span class="op">;</span></span>
+<span id="cb2-233"><a href="#cb2-233" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-234"><a href="#cb2-234" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> x <span class="op">=</span> d3<span class="op">.</span><span class="fu">scaleLinear</span>()<span class="op">.</span><span class="fu">domain</span>(xDomain)<span class="op">.</span><span class="fu">range</span>([margin<span class="op">.</span><span class="at">left</span><span class="op">,</span> width <span class="op">-</span> margin<span class="op">.</span><span class="at">right</span>])<span class="op">;</span></span>
+<span id="cb2-235"><a href="#cb2-235" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> yMax <span class="op">=</span> <span class="fu">tPdf</span>(<span class="dv">0</span><span class="op">,</span> df) <span class="op">*</span> <span class="fl">1.15</span><span class="op">;</span></span>
+<span id="cb2-236"><a href="#cb2-236" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> y <span class="op">=</span> d3<span class="op">.</span><span class="fu">scaleLinear</span>()<span class="op">.</span><span class="fu">domain</span>([<span class="dv">0</span><span class="op">,</span> yMax])<span class="op">.</span><span class="fu">range</span>([height <span class="op">-</span> margin<span class="op">.</span><span class="at">bottom</span><span class="op">,</span> margin<span class="op">.</span><span class="at">top</span>])<span class="op">;</span></span>
+<span id="cb2-237"><a href="#cb2-237" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-238"><a href="#cb2-238" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> curveData <span class="op">=</span> d3<span class="op">.</span><span class="fu">range</span>(xDomain[<span class="dv">0</span>]<span class="op">,</span> xDomain[<span class="dv">1</span>] <span class="op">+</span> <span class="fl">0.01</span><span class="op">,</span> <span class="fl">0.02</span>)</span>
+<span id="cb2-239"><a href="#cb2-239" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span><span class="fu">map</span>(d <span class="kw">=&gt;</span> ({<span class="dt">x</span><span class="op">:</span> d<span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="fu">tPdf</span>(d<span class="op">,</span> df)}))<span class="op">;</span></span>
+<span id="cb2-240"><a href="#cb2-240" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> line <span class="op">=</span> d3<span class="op">.</span><span class="fu">line</span>()<span class="op">.</span><span class="fu">x</span>(d <span class="kw">=&gt;</span> <span class="fu">x</span>(d<span class="op">.</span><span class="at">x</span>))<span class="op">.</span><span class="fu">y</span>(d <span class="kw">=&gt;</span> <span class="fu">y</span>(d<span class="op">.</span><span class="at">y</span>))<span class="op">.</span><span class="fu">curve</span>(d3<span class="op">.</span><span class="at">curveNatural</span>)<span class="op">;</span></span>
+<span id="cb2-241"><a href="#cb2-241" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> areaGen <span class="op">=</span> d3<span class="op">.</span><span class="fu">area</span>()<span class="op">.</span><span class="fu">x</span>(d <span class="kw">=&gt;</span> <span class="fu">x</span>(d<span class="op">.</span><span class="at">x</span>))<span class="op">.</span><span class="fu">y0</span>(<span class="fu">y</span>(<span class="dv">0</span>))<span class="op">.</span><span class="fu">y1</span>(d <span class="kw">=&gt;</span> <span class="fu">y</span>(d<span class="op">.</span><span class="at">y</span>))<span class="op">.</span><span class="fu">curve</span>(d3<span class="op">.</span><span class="at">curveNatural</span>)<span class="op">;</span></span>
+<span id="cb2-242"><a href="#cb2-242" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-243"><a href="#cb2-243" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> svg <span class="op">=</span> d3<span class="op">.</span><span class="fu">create</span>(<span class="st">"svg"</span>)</span>
+<span id="cb2-244"><a href="#cb2-244" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"width"</span><span class="op">,</span> width)</span>
+<span id="cb2-245"><a href="#cb2-245" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"height"</span><span class="op">,</span> height)</span>
+<span id="cb2-246"><a href="#cb2-246" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"viewBox"</span><span class="op">,</span> [<span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> width<span class="op">,</span> height])</span>
+<span id="cb2-247"><a href="#cb2-247" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"style"</span><span class="op">,</span> <span class="st">"max-width: 100%; height: auto;"</span>)<span class="op">;</span></span>
+<span id="cb2-248"><a href="#cb2-248" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-249"><a href="#cb2-249" aria-hidden="true" tabindex="-1"></a>  svg<span class="op">.</span><span class="fu">append</span>(<span class="st">"g"</span>)</span>
+<span id="cb2-250"><a href="#cb2-250" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"transform"</span><span class="op">,</span> <span class="vs">`translate(0,</span><span class="sc">${</span>height <span class="op">-</span> margin<span class="op">.</span><span class="at">bottom</span><span class="sc">}</span><span class="vs">)`</span>)</span>
+<span id="cb2-251"><a href="#cb2-251" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span><span class="fu">call</span>(d3<span class="op">.</span><span class="fu">axisBottom</span>(x))<span class="op">;</span></span>
+<span id="cb2-252"><a href="#cb2-252" aria-hidden="true" tabindex="-1"></a>  svg<span class="op">.</span><span class="fu">append</span>(<span class="st">"g"</span>)</span>
+<span id="cb2-253"><a href="#cb2-253" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"transform"</span><span class="op">,</span> <span class="vs">`translate(</span><span class="sc">${</span>margin<span class="op">.</span><span class="at">left</span><span class="sc">}</span><span class="vs">,0)`</span>)</span>
+<span id="cb2-254"><a href="#cb2-254" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span><span class="fu">call</span>(d3<span class="op">.</span><span class="fu">axisLeft</span>(y)<span class="op">.</span><span class="fu">ticks</span>(<span class="dv">5</span>))<span class="op">;</span></span>
+<span id="cb2-255"><a href="#cb2-255" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-256"><a href="#cb2-256" aria-hidden="true" tabindex="-1"></a>  svg<span class="op">.</span><span class="fu">append</span>(<span class="st">"text"</span>)</span>
+<span id="cb2-257"><a href="#cb2-257" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"x"</span><span class="op">,</span> width <span class="op">/</span> <span class="dv">2</span>)<span class="op">.</span><span class="fu">attr</span>(<span class="st">"y"</span><span class="op">,</span> height <span class="op">-</span> <span class="dv">4</span>)</span>
+<span id="cb2-258"><a href="#cb2-258" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"text-anchor"</span><span class="op">,</span> <span class="st">"middle"</span>)<span class="op">.</span><span class="fu">attr</span>(<span class="st">"font-size"</span><span class="op">,</span> <span class="dv">12</span>)<span class="op">.</span><span class="fu">attr</span>(<span class="st">"font-style"</span><span class="op">,</span> <span class="st">"italic"</span>)</span>
+<span id="cb2-259"><a href="#cb2-259" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span><span class="fu">text</span>(<span class="st">"t"</span>)<span class="op">;</span></span>
+<span id="cb2-260"><a href="#cb2-260" aria-hidden="true" tabindex="-1"></a>  svg<span class="op">.</span><span class="fu">append</span>(<span class="st">"text"</span>)</span>
+<span id="cb2-261"><a href="#cb2-261" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"x"</span><span class="op">,</span> <span class="op">-</span>height <span class="op">/</span> <span class="dv">2</span>)<span class="op">.</span><span class="fu">attr</span>(<span class="st">"y"</span><span class="op">,</span> <span class="dv">14</span>)</span>
+<span id="cb2-262"><a href="#cb2-262" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"transform"</span><span class="op">,</span> <span class="st">"rotate(-90)"</span>)</span>
+<span id="cb2-263"><a href="#cb2-263" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"text-anchor"</span><span class="op">,</span> <span class="st">"middle"</span>)<span class="op">.</span><span class="fu">attr</span>(<span class="st">"font-size"</span><span class="op">,</span> <span class="dv">12</span>)</span>
+<span id="cb2-264"><a href="#cb2-264" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span><span class="fu">text</span>(<span class="st">"Dichte"</span>)<span class="op">;</span></span>
+<span id="cb2-265"><a href="#cb2-265" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-266"><a href="#cb2-266" aria-hidden="true" tabindex="-1"></a>  svg<span class="op">.</span><span class="fu">append</span>(<span class="st">"line"</span>)</span>
+<span id="cb2-267"><a href="#cb2-267" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"x1"</span><span class="op">,</span> <span class="fu">x</span>(<span class="dv">0</span>))<span class="op">.</span><span class="fu">attr</span>(<span class="st">"x2"</span><span class="op">,</span> <span class="fu">x</span>(<span class="dv">0</span>))</span>
+<span id="cb2-268"><a href="#cb2-268" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"y1"</span><span class="op">,</span> <span class="fu">y</span>(<span class="dv">0</span>))<span class="op">.</span><span class="fu">attr</span>(<span class="st">"y2"</span><span class="op">,</span> margin<span class="op">.</span><span class="at">top</span>)</span>
+<span id="cb2-269"><a href="#cb2-269" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"stroke"</span><span class="op">,</span> <span class="st">"#aaa"</span>)<span class="op">.</span><span class="fu">attr</span>(<span class="st">"stroke-dasharray"</span><span class="op">,</span> <span class="st">"1,3"</span>)<span class="op">;</span></span>
+<span id="cb2-270"><a href="#cb2-270" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-271"><a href="#cb2-271" aria-hidden="true" tabindex="-1"></a>  svg<span class="op">.</span><span class="fu">append</span>(<span class="st">"path"</span>)<span class="op">.</span><span class="fu">datum</span>(curveData)</span>
+<span id="cb2-272"><a href="#cb2-272" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"fill"</span><span class="op">,</span> <span class="st">"none"</span>)<span class="op">.</span><span class="fu">attr</span>(<span class="st">"stroke"</span><span class="op">,</span> <span class="st">"black"</span>)<span class="op">.</span><span class="fu">attr</span>(<span class="st">"stroke-width"</span><span class="op">,</span> <span class="fl">1.5</span>)</span>
+<span id="cb2-273"><a href="#cb2-273" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"d"</span><span class="op">,</span> line)<span class="op">;</span></span>
+<span id="cb2-274"><a href="#cb2-274" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-275"><a href="#cb2-275" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> shadeRight <span class="op">=</span> svg<span class="op">.</span><span class="fu">append</span>(<span class="st">"path"</span>)<span class="op">.</span><span class="fu">attr</span>(<span class="st">"fill"</span><span class="op">,</span> <span class="st">"steelblue"</span>)<span class="op">.</span><span class="fu">attr</span>(<span class="st">"opacity"</span><span class="op">,</span> <span class="fl">0.4</span>)<span class="op">;</span></span>
+<span id="cb2-276"><a href="#cb2-276" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> shadeLeft <span class="op">=</span> svg<span class="op">.</span><span class="fu">append</span>(<span class="st">"path"</span>)<span class="op">.</span><span class="fu">attr</span>(<span class="st">"fill"</span><span class="op">,</span> <span class="st">"steelblue"</span>)<span class="op">.</span><span class="fu">attr</span>(<span class="st">"opacity"</span><span class="op">,</span> <span class="fl">0.4</span>)<span class="op">;</span></span>
+<span id="cb2-277"><a href="#cb2-277" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> vline <span class="op">=</span> svg<span class="op">.</span><span class="fu">append</span>(<span class="st">"line"</span>)<span class="op">.</span><span class="fu">attr</span>(<span class="st">"stroke"</span><span class="op">,</span> <span class="st">"#888"</span>)<span class="op">.</span><span class="fu">attr</span>(<span class="st">"stroke-dasharray"</span><span class="op">,</span> <span class="st">"3,3"</span>)<span class="op">;</span></span>
+<span id="cb2-278"><a href="#cb2-278" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> vlineMirror <span class="op">=</span> svg<span class="op">.</span><span class="fu">append</span>(<span class="st">"line"</span>)<span class="op">.</span><span class="fu">attr</span>(<span class="st">"stroke"</span><span class="op">,</span> <span class="st">"#888"</span>)<span class="op">.</span><span class="fu">attr</span>(<span class="st">"stroke-dasharray"</span><span class="op">,</span> <span class="st">"3,3"</span>)<span class="op">;</span></span>
+<span id="cb2-279"><a href="#cb2-279" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> label <span class="op">=</span> svg<span class="op">.</span><span class="fu">append</span>(<span class="st">"text"</span>)</span>
+<span id="cb2-280"><a href="#cb2-280" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"x"</span><span class="op">,</span> margin<span class="op">.</span><span class="at">left</span>)<span class="op">.</span><span class="fu">attr</span>(<span class="st">"y"</span><span class="op">,</span> margin<span class="op">.</span><span class="at">top</span> <span class="op">-</span> <span class="dv">12</span>)<span class="op">.</span><span class="fu">attr</span>(<span class="st">"font-size"</span><span class="op">,</span> <span class="dv">14</span>)<span class="op">;</span></span>
+<span id="cb2-281"><a href="#cb2-281" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-282"><a href="#cb2-282" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> t0 <span class="op">=</span> <span class="fl">1.59164485150844</span><span class="op">;</span></span>
+<span id="cb2-283"><a href="#cb2-283" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-284"><a href="#cb2-284" aria-hidden="true" tabindex="-1"></a>  <span class="kw">function</span> <span class="fu">redraw</span>() {</span>
+<span id="cb2-285"><a href="#cb2-285" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> p<span class="op">;</span></span>
+<span id="cb2-286"><a href="#cb2-286" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (twoTailed) {</span>
+<span id="cb2-287"><a href="#cb2-287" aria-hidden="true" tabindex="-1"></a>      <span class="kw">const</span> a <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">abs</span>(t0)<span class="op">;</span></span>
+<span id="cb2-288"><a href="#cb2-288" aria-hidden="true" tabindex="-1"></a>      <span class="kw">const</span> rightData <span class="op">=</span> curveData<span class="op">.</span><span class="fu">filter</span>(d <span class="kw">=&gt;</span> d<span class="op">.</span><span class="at">x</span> <span class="op">&gt;=</span> a)<span class="op">;</span></span>
+<span id="cb2-289"><a href="#cb2-289" aria-hidden="true" tabindex="-1"></a>      rightData<span class="op">.</span><span class="fu">unshift</span>({<span class="dt">x</span><span class="op">:</span> a<span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="fu">tPdf</span>(a<span class="op">,</span> df)})<span class="op">;</span></span>
+<span id="cb2-290"><a href="#cb2-290" aria-hidden="true" tabindex="-1"></a>      <span class="kw">const</span> leftData <span class="op">=</span> curveData<span class="op">.</span><span class="fu">filter</span>(d <span class="kw">=&gt;</span> d<span class="op">.</span><span class="at">x</span> <span class="op">&lt;=</span> <span class="op">-</span>a)<span class="op">;</span></span>
+<span id="cb2-291"><a href="#cb2-291" aria-hidden="true" tabindex="-1"></a>      leftData<span class="op">.</span><span class="fu">push</span>({<span class="dt">x</span><span class="op">:</span> <span class="op">-</span>a<span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="fu">tPdf</span>(<span class="op">-</span>a<span class="op">,</span> df)})<span class="op">;</span></span>
+<span id="cb2-292"><a href="#cb2-292" aria-hidden="true" tabindex="-1"></a>      shadeRight<span class="op">.</span><span class="fu">attr</span>(<span class="st">"d"</span><span class="op">,</span> <span class="fu">areaGen</span>(rightData))<span class="op">.</span><span class="fu">attr</span>(<span class="st">"opacity"</span><span class="op">,</span> <span class="fl">0.4</span>)<span class="op">;</span></span>
+<span id="cb2-293"><a href="#cb2-293" aria-hidden="true" tabindex="-1"></a>      shadeLeft<span class="op">.</span><span class="fu">attr</span>(<span class="st">"d"</span><span class="op">,</span> <span class="fu">areaGen</span>(leftData))<span class="op">.</span><span class="fu">attr</span>(<span class="st">"opacity"</span><span class="op">,</span> <span class="fl">0.4</span>)<span class="op">;</span></span>
+<span id="cb2-294"><a href="#cb2-294" aria-hidden="true" tabindex="-1"></a>      vlineMirror</span>
+<span id="cb2-295"><a href="#cb2-295" aria-hidden="true" tabindex="-1"></a>        <span class="op">.</span><span class="fu">attr</span>(<span class="st">"x1"</span><span class="op">,</span> <span class="fu">x</span>(<span class="op">-</span>t0))<span class="op">.</span><span class="fu">attr</span>(<span class="st">"x2"</span><span class="op">,</span> <span class="fu">x</span>(<span class="op">-</span>t0))</span>
+<span id="cb2-296"><a href="#cb2-296" aria-hidden="true" tabindex="-1"></a>        <span class="op">.</span><span class="fu">attr</span>(<span class="st">"y1"</span><span class="op">,</span> <span class="fu">y</span>(<span class="dv">0</span>))<span class="op">.</span><span class="fu">attr</span>(<span class="st">"y2"</span><span class="op">,</span> <span class="fu">y</span>(<span class="fu">tPdf</span>(t0<span class="op">,</span> df)))</span>
+<span id="cb2-297"><a href="#cb2-297" aria-hidden="true" tabindex="-1"></a>        <span class="op">.</span><span class="fu">attr</span>(<span class="st">"opacity"</span><span class="op">,</span> <span class="dv">1</span>)<span class="op">;</span></span>
+<span id="cb2-298"><a href="#cb2-298" aria-hidden="true" tabindex="-1"></a>      p <span class="op">=</span> <span class="dv">2</span> <span class="op">*</span> (<span class="dv">1</span> <span class="op">-</span> <span class="fu">tCdf</span>(a<span class="op">,</span> df))<span class="op">;</span></span>
+<span id="cb2-299"><a href="#cb2-299" aria-hidden="true" tabindex="-1"></a>      label<span class="op">.</span><span class="fu">text</span>(<span class="vs">`p = 2 · P(T ≥ |t|) = </span><span class="sc">${</span>p<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">4</span>)<span class="sc">}</span><span class="vs">   (t = </span><span class="sc">${</span>t0<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">2</span>)<span class="sc">}</span><span class="vs">, df = </span><span class="sc">${</span>df<span class="sc">}</span><span class="vs">)`</span>)<span class="op">;</span></span>
+<span id="cb2-300"><a href="#cb2-300" aria-hidden="true" tabindex="-1"></a>    } <span class="cf">else</span> <span class="cf">if</span> (rightTailed) {</span>
+<span id="cb2-301"><a href="#cb2-301" aria-hidden="true" tabindex="-1"></a>      <span class="kw">const</span> rightData <span class="op">=</span> curveData<span class="op">.</span><span class="fu">filter</span>(d <span class="kw">=&gt;</span> d<span class="op">.</span><span class="at">x</span> <span class="op">&gt;=</span> t0)<span class="op">;</span></span>
+<span id="cb2-302"><a href="#cb2-302" aria-hidden="true" tabindex="-1"></a>      rightData<span class="op">.</span><span class="fu">unshift</span>({<span class="dt">x</span><span class="op">:</span> t0<span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="fu">tPdf</span>(t0<span class="op">,</span> df)})<span class="op">;</span></span>
+<span id="cb2-303"><a href="#cb2-303" aria-hidden="true" tabindex="-1"></a>      shadeRight<span class="op">.</span><span class="fu">attr</span>(<span class="st">"d"</span><span class="op">,</span> <span class="fu">areaGen</span>(rightData))<span class="op">.</span><span class="fu">attr</span>(<span class="st">"opacity"</span><span class="op">,</span> <span class="fl">0.4</span>)<span class="op">;</span></span>
+<span id="cb2-304"><a href="#cb2-304" aria-hidden="true" tabindex="-1"></a>      shadeLeft<span class="op">.</span><span class="fu">attr</span>(<span class="st">"opacity"</span><span class="op">,</span> <span class="dv">0</span>)<span class="op">;</span></span>
+<span id="cb2-305"><a href="#cb2-305" aria-hidden="true" tabindex="-1"></a>      vlineMirror<span class="op">.</span><span class="fu">attr</span>(<span class="st">"opacity"</span><span class="op">,</span> <span class="dv">0</span>)<span class="op">;</span></span>
+<span id="cb2-306"><a href="#cb2-306" aria-hidden="true" tabindex="-1"></a>      p <span class="op">=</span> <span class="dv">1</span> <span class="op">-</span> <span class="fu">tCdf</span>(t0<span class="op">,</span> df)<span class="op">;</span></span>
+<span id="cb2-307"><a href="#cb2-307" aria-hidden="true" tabindex="-1"></a>      label<span class="op">.</span><span class="fu">text</span>(<span class="vs">`p = P(T ≥ t) = </span><span class="sc">${</span>p<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">4</span>)<span class="sc">}</span><span class="vs">   (t = </span><span class="sc">${</span>t0<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">2</span>)<span class="sc">}</span><span class="vs">, df = </span><span class="sc">${</span>df<span class="sc">}</span><span class="vs">)`</span>)<span class="op">;</span></span>
+<span id="cb2-308"><a href="#cb2-308" aria-hidden="true" tabindex="-1"></a>    } <span class="cf">else</span> {</span>
+<span id="cb2-309"><a href="#cb2-309" aria-hidden="true" tabindex="-1"></a>      <span class="kw">const</span> leftData <span class="op">=</span> curveData<span class="op">.</span><span class="fu">filter</span>(d <span class="kw">=&gt;</span> d<span class="op">.</span><span class="at">x</span> <span class="op">&lt;=</span> t0)<span class="op">;</span></span>
+<span id="cb2-310"><a href="#cb2-310" aria-hidden="true" tabindex="-1"></a>      leftData<span class="op">.</span><span class="fu">push</span>({<span class="dt">x</span><span class="op">:</span> t0<span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="fu">tPdf</span>(t0<span class="op">,</span> df)})<span class="op">;</span></span>
+<span id="cb2-311"><a href="#cb2-311" aria-hidden="true" tabindex="-1"></a>      shadeLeft<span class="op">.</span><span class="fu">attr</span>(<span class="st">"d"</span><span class="op">,</span> <span class="fu">areaGen</span>(leftData))<span class="op">.</span><span class="fu">attr</span>(<span class="st">"opacity"</span><span class="op">,</span> <span class="fl">0.4</span>)<span class="op">;</span></span>
+<span id="cb2-312"><a href="#cb2-312" aria-hidden="true" tabindex="-1"></a>      shadeRight<span class="op">.</span><span class="fu">attr</span>(<span class="st">"opacity"</span><span class="op">,</span> <span class="dv">0</span>)<span class="op">;</span></span>
+<span id="cb2-313"><a href="#cb2-313" aria-hidden="true" tabindex="-1"></a>      vlineMirror<span class="op">.</span><span class="fu">attr</span>(<span class="st">"opacity"</span><span class="op">,</span> <span class="dv">0</span>)<span class="op">;</span></span>
+<span id="cb2-314"><a href="#cb2-314" aria-hidden="true" tabindex="-1"></a>      p <span class="op">=</span> <span class="fu">tCdf</span>(t0<span class="op">,</span> df)<span class="op">;</span></span>
+<span id="cb2-315"><a href="#cb2-315" aria-hidden="true" tabindex="-1"></a>      label<span class="op">.</span><span class="fu">text</span>(<span class="vs">`p = P(T ≤ t) = </span><span class="sc">${</span>p<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">4</span>)<span class="sc">}</span><span class="vs">   (t = </span><span class="sc">${</span>t0<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">2</span>)<span class="sc">}</span><span class="vs">, df = </span><span class="sc">${</span>df<span class="sc">}</span><span class="vs">)`</span>)<span class="op">;</span></span>
+<span id="cb2-316"><a href="#cb2-316" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb2-317"><a href="#cb2-317" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-318"><a href="#cb2-318" aria-hidden="true" tabindex="-1"></a>    vline<span class="op">.</span><span class="fu">attr</span>(<span class="st">"x1"</span><span class="op">,</span> <span class="fu">x</span>(t0))<span class="op">.</span><span class="fu">attr</span>(<span class="st">"x2"</span><span class="op">,</span> <span class="fu">x</span>(t0))<span class="op">.</span><span class="fu">attr</span>(<span class="st">"y1"</span><span class="op">,</span> <span class="fu">y</span>(<span class="dv">0</span>))<span class="op">.</span><span class="fu">attr</span>(<span class="st">"y2"</span><span class="op">,</span> <span class="fu">y</span>(<span class="fu">tPdf</span>(t0<span class="op">,</span> df)))<span class="op">;</span></span>
+<span id="cb2-319"><a href="#cb2-319" aria-hidden="true" tabindex="-1"></a>    point<span class="op">.</span><span class="fu">attr</span>(<span class="st">"cx"</span><span class="op">,</span> <span class="fu">x</span>(t0))<span class="op">.</span><span class="fu">attr</span>(<span class="st">"cy"</span><span class="op">,</span> <span class="fu">y</span>(<span class="fu">tPdf</span>(t0<span class="op">,</span> df)))<span class="op">;</span></span>
+<span id="cb2-320"><a href="#cb2-320" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb2-321"><a href="#cb2-321" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-322"><a href="#cb2-322" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> point <span class="op">=</span> svg<span class="op">.</span><span class="fu">append</span>(<span class="st">"circle"</span>)<span class="op">.</span><span class="fu">attr</span>(<span class="st">"r"</span><span class="op">,</span> <span class="dv">7</span>)<span class="op">.</span><span class="fu">attr</span>(<span class="st">"fill"</span><span class="op">,</span> <span class="st">"crimson"</span>)</span>
+<span id="cb2-323"><a href="#cb2-323" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"cursor"</span><span class="op">,</span> <span class="st">"ew-resize"</span>)</span>
+<span id="cb2-324"><a href="#cb2-324" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span><span class="fu">call</span>(d3<span class="op">.</span><span class="fu">drag</span>()<span class="op">.</span><span class="fu">on</span>(<span class="st">"drag"</span><span class="op">,</span> (<span class="bu">event</span>) <span class="kw">=&gt;</span> {</span>
+<span id="cb2-325"><a href="#cb2-325" aria-hidden="true" tabindex="-1"></a>      t0 <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">max</span>(xDomain[<span class="dv">0</span>]<span class="op">,</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">min</span>(xDomain[<span class="dv">1</span>]<span class="op">,</span> x<span class="op">.</span><span class="fu">invert</span>(<span class="bu">event</span><span class="op">.</span><span class="at">x</span>)))<span class="op">;</span></span>
+<span id="cb2-326"><a href="#cb2-326" aria-hidden="true" tabindex="-1"></a>      <span class="fu">redraw</span>()<span class="op">;</span></span>
+<span id="cb2-327"><a href="#cb2-327" aria-hidden="true" tabindex="-1"></a>    }))<span class="op">;</span></span>
+<span id="cb2-328"><a href="#cb2-328" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-329"><a href="#cb2-329" aria-hidden="true" tabindex="-1"></a>  <span class="fu">redraw</span>()<span class="op">;</span></span>
+<span id="cb2-330"><a href="#cb2-330" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> svg<span class="op">.</span><span class="fu">node</span>()<span class="op">;</span></span>
+<span id="cb2-331"><a href="#cb2-331" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div id="ojs-cell-2" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<style>
+.pvalue-controls label {
+  white-space: nowrap;
+  width: auto !important;
+  min-width: 12em;
+}
+</style>
+<div class="pvalue-controls">
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb3" data-startfrom="346" data-source-offset="0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 345;"><span id="cb3-346"><a href="#cb3-346" aria-hidden="true" tabindex="-1"></a>viewof p_df <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>(</span>
+<span id="cb3-347"><a href="#cb3-347" aria-hidden="true" tabindex="-1"></a>  [<span class="dv">1</span><span class="op">,</span> <span class="dv">100</span>]<span class="op">,</span></span>
+<span id="cb3-348"><a href="#cb3-348" aria-hidden="true" tabindex="-1"></a>  {<span class="dt">value</span><span class="op">:</span> <span class="dv">38</span><span class="op">,</span> <span class="dt">step</span><span class="op">:</span> <span class="dv">1</span><span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"Freiheitsgrade (df)"</span>}</span>
+<span id="cb3-349"><a href="#cb3-349" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div id="ojs-cell-3" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb4" data-startfrom="354" data-source-offset="0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 353;"><span id="cb4-354"><a href="#cb4-354" aria-hidden="true" tabindex="-1"></a>viewof p_tails <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">radio</span>(</span>
+<span id="cb4-355"><a href="#cb4-355" aria-hidden="true" tabindex="-1"></a>  [<span class="st">"zweiseitig"</span><span class="op">,</span> <span class="st">"einseitig"</span>]<span class="op">,</span></span>
+<span id="cb4-356"><a href="#cb4-356" aria-hidden="true" tabindex="-1"></a>  {<span class="dt">value</span><span class="op">:</span> <span class="st">"zweiseitig"</span><span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"Test"</span>}</span>
+<span id="cb4-357"><a href="#cb4-357" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div id="ojs-cell-4" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb5" data-startfrom="362" data-source-offset="0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 361;"><span id="cb5-362"><a href="#cb5-362" aria-hidden="true" tabindex="-1"></a>viewof p_direction <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">radio</span>(</span>
+<span id="cb5-363"><a href="#cb5-363" aria-hidden="true" tabindex="-1"></a>  [<span class="st">"t &gt; 0"</span><span class="op">,</span> <span class="st">"t &lt; 0"</span>]<span class="op">,</span></span>
+<span id="cb5-364"><a href="#cb5-364" aria-hidden="true" tabindex="-1"></a>  {<span class="dt">value</span><span class="op">:</span> <span class="st">"t &gt; 0"</span><span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"Richtung (nur einseitig)"</span>}</span>
+<span id="cb5-365"><a href="#cb5-365" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div id="ojs-cell-5" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+</div>
 </section>
-<section id="beispiel" class="level3">
-<h3 class="anchored" data-anchor-id="beispiel">Beispiel</h3>
-<p>Gegeben sei eine Korrelation <span class="math inline">\(r = 0.25\)</span> aus einer Stichprobe der Größe <span class="math inline">\(N = 40\)</span>, und wir geben ein Signifikanzniveau von <span class="math inline">\(\alpha = 0.05\)</span> vor (das ist der Schwellwert, den der <span class="math inline">\(p\)</span>-Wert unterschreiten muss, damit wir eine Korrelation als signifikant betrachten). Für <span class="math inline">\(p\)</span>-Wert und Konfidenzintervall brauchen wir zunächst die Fisher-Transformation von <span class="math inline">\(r\)</span> sowie deren Standardfehler:</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>r <span class="ot">=</span> <span class="fl">0.25</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>N <span class="ot">=</span> <span class="dv">40</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>alpha <span class="ot">=</span> <span class="fl">0.05</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>(<span class="at">z =</span> <span class="fu">atanh</span>(r))</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.2554128</code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>(<span class="at">se_z =</span> <span class="dv">1</span> <span class="sc">/</span> <span class="fu">sqrt</span>(N <span class="sc">-</span> <span class="dv">3</span>))</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.164399</code></pre>
-</div>
-</div>
-<p>Den <span class="math inline">\(p\)</span>-Wert erhält man als Wahrscheinlichkeit, in einer Standardnormalverteilung Werte zu erhalten, die betragsmäßig größer sind als <span class="math inline">\(z \, / \, \text{SE}(z) \approx 1.55\)</span> (der Faktor 2 wird benötigt, da wir keine gerichtete Hypothese haben und daher beide Enden der Verteilung berücksichtigen müssen):</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>(<span class="at">p =</span> <span class="dv">2</span> <span class="sc">*</span> <span class="fu">pnorm</span>(<span class="sc">-</span><span class="fu">abs</span>(z <span class="sc">/</span> se_z)))</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.1202762</code></pre>
-</div>
-</div>
-<div class="callout callout-style-default callout-note callout-titled">
+<section id="konfidenzintervall" class="level3">
+<h3 class="anchored" data-anchor-id="konfidenzintervall">Konfidenzintervall</h3>
+<p>Der Weg über die <span class="math inline">\(t\)</span>-Verteilung hilft uns aber nicht weiter, wenn wir zusätzlich ein Konfidenzintervall für <span class="math inline">\(r\)</span> berechnen wollen, denn dieses muss ja auch Korrelationen ungleich 0 abdecken. Für eine wahre Korrelation ungleich 0 ist die Stichprobenverteilung von <span class="math inline">\(r\)</span> aber <em>schief</em> (besonders bei Werten nahe −1 oder 1) und daher nicht normalverteilt. Mit der <a href="https://en.wikipedia.org/wiki/Fisher_transformation">Fisher-Transformation</a></p>
+<p><span class="math display">\[z_r = \frac{1}{2} \ln \frac{1 + r}{1 - r} = \text{arctanh}(r)\]</span></p>
+<p>erhält man jedoch eine Größe, die näherungsweise normalverteilt ist – und zwar mit dem Standardfehler</p>
+<p><span class="math display">\[\mathrm{SE}(z_r) = \frac{1}{\sqrt{N - 3}}.\]</span></p>
+<p>Das Konfidenzintervall erhält man, indem man zu <span class="math inline">\(z_r\)</span> das Produkt aus dem zum Signifikanzniveau gehörenden Quantil der Standardnormalverteilung (ca. 1.96 für <span class="math inline">\(\alpha = 0.05\)</span>) und dem Standardfehler addiert bzw. subtrahiert. Da diese Grenzen Fisher-transformiert sind, muss man sie abschließend noch mit <code>tanh()</code> (der Umkehrfunktion von <code>atanh()</code>) rücktransformieren.</p>
+<div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Hinweis
+Wichtig
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Das <code>abs()</code> sorgt dafür, dass die Berechnung auch für <em>negative</em> Korrelationen funktioniert. Ohne Betrag (also z.B. <code>2 * (1 - pnorm(z / se_z))</code>) würde man für ein negatives <span class="math inline">\(r\)</span> einen Wert nahe 2 statt eines kleinen <span class="math inline">\(p\)</span>-Wertes erhalten.</p>
-</div>
-</div>
-<p>Dieser <span class="math inline">\(p\)</span>-Wert ist größer als <span class="math inline">\(\alpha = 0.05\)</span>, d.h. wir können die Nullhypothese (keine Korrelation) <em>nicht</em> verwerfen.</p>
-<p>Das Konfidenzintervall erhält man, indem man zu <span class="math inline">\(z\)</span> das Produkt aus dem zum Signifikanzniveau gehörenden Quantil (ca. 1.96 für <span class="math inline">\(\alpha = 0.05\)</span>) und dem Standardfehler addiert bzw. subtrahiert. Da alle drei Werte Fisher-transformiert sind, muss man sie abschließend noch rücktransformieren (<code>tanh()</code> ist die Umkehrfunktion von <code>atanh()</code>):</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>cl_z <span class="ot">=</span> z <span class="sc">-</span> <span class="fu">qnorm</span>(<span class="dv">1</span> <span class="sc">-</span> alpha<span class="sc">/</span><span class="dv">2</span>) <span class="sc">*</span> se_z</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>cu_z <span class="ot">=</span> z <span class="sc">+</span> <span class="fu">qnorm</span>(<span class="dv">1</span> <span class="sc">-</span> alpha<span class="sc">/</span><span class="dv">2</span>) <span class="sc">*</span> se_z</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(cl_z, z, cu_z)  <span class="co"># Fisher-transformiert</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] -0.06680328  0.25541281  0.57762891</code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="fu">tanh</span>(cl_z), r, <span class="fu">tanh</span>(cu_z))  <span class="co"># zurücktransformiert</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] -0.06670409  0.25000000  0.52093993</code></pre>
+<p>Im Gegensatz zum <span class="math inline">\(t\)</span>-Test für den <span class="math inline">\(p\)</span>-Wert ist das nur eine <em>Näherung</em> – <span class="math inline">\(z_r\)</span> ist lediglich <em>näherungsweise</em> normalverteilt. Diese Näherung wird mit wachsender Stichprobengröße besser und ist in der Praxis ab etwa <span class="math inline">\(N = 30\)</span> gut brauchbar.</p>
 </div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled">
@@ -598,6 +817,66 @@ Hinweis
 </div>
 <div class="callout-body-container callout-body">
 <p>Das Konfidenzintervall umfasst jene Werte, die mit den beobachteten Daten verträglich (plausibel) sind. Die Konfidenz ist <em>nicht</em> die <em>Wahrscheinlichkeit</em>, dass der wahre Wert in dem berechneten Intervall liegt – denn der wahre Wert ist entweder in dem Intervall oder nicht. Wenn man viele Stichproben erheben und damit jedes Mal ein Konfidenzintervall berechnen würde, dann würde im Falle eines 95%-Konfidenzintervalls in 95% der berechneten Intervalle der wahre Wert in dem Intervall liegen.</p>
+</div>
+</div>
+</section>
+<section id="beispiel" class="level3">
+<h3 class="anchored" data-anchor-id="beispiel">Beispiel</h3>
+<p>Betrachten wir dazu ein Beispiel zur Veranschaulichung der Berechnung des <span class="math inline">\(p\)</span>-Wertes sowie des Konfidenzintervalls für eine gegebene Pearson-Korrelation. Gegeben sei eine Korrelation <span class="math inline">\(r = 0.25\)</span> aus einer Stichprobe der Größe <span class="math inline">\(N = 40\)</span>, und wir geben ein Signifikanzniveau von <span class="math inline">\(\alpha = 0.05\)</span> vor (das ist der Schwellwert, den der <span class="math inline">\(p\)</span>-Wert unterschreiten muss, damit wir eine Korrelation als signifikant betrachten).</p>
+<p>Für den <span class="math inline">\(p\)</span>-Wert berechnen wir zunächst den Wert der <span class="math inline">\(t\)</span>-Statistik:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>r <span class="ot">=</span> <span class="fl">0.25</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>N <span class="ot">=</span> <span class="dv">40</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>alpha <span class="ot">=</span> <span class="fl">0.05</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>(<span class="at">t =</span> r <span class="sc">*</span> <span class="fu">sqrt</span>(N <span class="sc">-</span> <span class="dv">2</span>) <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="dv">1</span> <span class="sc">-</span> r<span class="sc">^</span><span class="dv">2</span>))</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1.591645</code></pre>
+</div>
+</div>
+<p>Den <span class="math inline">\(p\)</span>-Wert erhält man als Wahrscheinlichkeit, in einer <span class="math inline">\(t\)</span>-Verteilung mit <span class="math inline">\(N - 2 = 38\)</span> Freiheitsgraden Werte zu erhalten, die betragsmäßig größer sind als <span class="math inline">\(t \approx 1.59\)</span> (der Faktor 2 wird benötigt, da wir keine gerichtete Hypothese haben und daher beide Enden der Verteilung berücksichtigen müssen):</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>(<span class="at">p =</span> <span class="dv">2</span> <span class="sc">*</span> <span class="fu">pt</span>(<span class="sc">-</span><span class="fu">abs</span>(t), <span class="at">df=</span>N <span class="sc">-</span> <span class="dv">2</span>))</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.1197504</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Hinweis
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Das <code>abs()</code> sorgt dafür, dass die Berechnung auch für <em>negative</em> Korrelationen funktioniert. Ohne Betrag (also z.B. <code>2 * (1 - pt(t, df=N - 2))</code>) würde man für ein negatives <span class="math inline">\(r\)</span> einen Wert nahe 2 statt eines kleinen <span class="math inline">\(p\)</span>-Wertes erhalten.</p>
+</div>
+</div>
+<p>Dieser <span class="math inline">\(p\)</span>-Wert ist größer als <span class="math inline">\(\alpha = 0.05\)</span>, d.h. wir können die Nullhypothese (keine Korrelation) <em>nicht</em> verwerfen.</p>
+<p>Für das Konfidenzintervall brauchen wir die Fisher-Transformation von <span class="math inline">\(r\)</span> sowie deren Standardfehler:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>(<span class="at">z =</span> <span class="fu">atanh</span>(r))</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.2554128</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>(<span class="at">se_z =</span> <span class="dv">1</span> <span class="sc">/</span> <span class="fu">sqrt</span>(N <span class="sc">-</span> <span class="dv">3</span>))</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.164399</code></pre>
+</div>
+</div>
+<p>Damit können wir die Grenzen des Konfidenzintervalls berechnen und rücktransformieren:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>cl_z <span class="ot">=</span> z <span class="sc">-</span> <span class="fu">qnorm</span>(<span class="dv">1</span> <span class="sc">-</span> alpha<span class="sc">/</span><span class="dv">2</span>) <span class="sc">*</span> se_z</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>cu_z <span class="ot">=</span> z <span class="sc">+</span> <span class="fu">qnorm</span>(<span class="dv">1</span> <span class="sc">-</span> alpha<span class="sc">/</span><span class="dv">2</span>) <span class="sc">*</span> se_z</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(cl_z, z, cu_z)  <span class="co"># Fisher-transformiert</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -0.06680328  0.25541281  0.57762891</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="fu">tanh</span>(cl_z), r, <span class="fu">tanh</span>(cu_z))  <span class="co"># zurücktransformiert</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -0.06670409  0.25000000  0.52093993</code></pre>
 </div>
 </div>
 <div class="callout callout-style-default callout-tip callout-titled">
@@ -620,7 +899,7 @@ Tipp
 <ul>
 <li><span class="math inline">\(r\)</span> misst ausschließlich den <em>linearen</em> Anteil eines Zusammenhangs. Ein Wert nahe 0 bedeutet also <em>nicht</em>, dass die Variablen unabhängig sind – ein perfekter, aber U-förmiger Zusammenhang ergibt beispielsweise <span class="math inline">\(r = 0\)</span>.</li>
 <li><span class="math inline">\(r\)</span> reagiert empfindlich auf Ausreißer. Ein einziger extremer Datenpunkt kann eine Korrelation erzeugen oder auch verschwinden lassen.</li>
-<li>Der Signifikanztest sowie das Konfidenzintervall setzen voraus, dass die beiden Variablen gemeinsam (bivariat) normalverteilt sind, d.h. im Streudiagramm sollte eine elliptische, zur Mitte hin dichter werdende Punktwolke ohne Ausreißer oder getrennte Cluster erkennbar sein. Eine notwendige (aber nicht hinreichende) Bedingung dafür ist, dass jede der beiden Variablen für sich genommen normalverteilt ist.</li>
+<li>Der Signifikanztest sowie das Konfidenzintervall setzen voraus, dass die beiden Variablen gemeinsam (bivariat) normalverteilt sind, d.h. im Streudiagramm sollte eine elliptische, zur Mitte hin dichter werdende Punktwolke ohne Ausreißer oder getrennte Cluster erkennbar sein. Eine notwendige (aber nicht hinreichende) Bedingung dafür ist, dass jede der beiden Variablen für sich genommen normalverteilt ist. Unter dieser Voraussetzung ist der <span class="math inline">\(t\)</span>-Test für den <span class="math inline">\(p\)</span>-Wert exakt, während das Konfidenzintervall über die Fisher-Transformation weiterhin nur eine Näherung bleibt.</li>
 <li>Wird nur ein eingeschränkter Wertebereich einer Variablen erhoben (z.B. IQ-Werte ausschließlich von Studierenden), fällt <span class="math inline">\(r\)</span> systematisch zu klein aus.</li>
 <li>Signifikanz ist nicht dasselbe wie Relevanz: Bei sehr großen Stichproben wird auch eine praktisch bedeutungslose Korrelation signifikant (siehe Übung 1).</li>
 <li>Eine Korrelation über eine gemischte Stichprobe kann in jeder einzelnen Untergruppe ganz anders (bis hin zu umgekehrt) aussehen – das in Einheit 8 gezeigte Simpsons Paradoxon (siehe Übung 5).</li>
@@ -630,7 +909,7 @@ Tipp
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="09_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="09_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -666,7 +945,7 @@ Hinweis
 <h2 class="anchored" data-anchor-id="korrelationen-mit-r-berechnen">Korrelationen mit R berechnen</h2>
 <p>Korrelationskoeffizienten kann man mit den folgenden drei Funktionen berechnen: <code>cor()</code>, <code>cor.test()</code> und <code>rcorr()</code>. Die ersten beiden Funktionen sind Teil von R, die Funktion <code>rcorr()</code> muss mit dem <code>Hmisc</code>-Paket geladen werden.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(Hmisc)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(Hmisc)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Die drei Funktionen haben unterschiedliche Features, d.h. welche Funktion man benutzt ist abhängig von den benötigten Eigenschaften, welche in nachfolgender Tabelle zusammengefasst sind (“CI” steht für Konfidenzintervall, “Mehrfach” bedeutet, dass Korrelationen zwischen mehr als zwei Variablen paarweise berechnet werden können).</p>
 <table class="caption-top table">
@@ -736,14 +1015,14 @@ Hinweis
 <section id="funktion-cor" class="level3">
 <h3 class="anchored" data-anchor-id="funktion-cor">Funktion <code>cor()</code></h3>
 <p>Die Funktion <code>cor()</code> ruft man wie folgt auf:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(x, y, <span class="at">method=</span><span class="st">"pearson"</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(x, y, <span class="at">method=</span><span class="st">"pearson"</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Hier übergibt man zwei Vektoren und spezifiziert, welche Korrelation berechnet werden soll (standardmäßig wird die Pearson-Korrelation berechnet). Wenn <code>x</code> ein Data Frame mit mindestens zwei Spalten ist, kann man <code>y</code> weglassen – dann werden automatisch die Korrelationen zwischen allen Spaltenpaaren berechnet.</p>
 </section>
 </section>
 <section id="funktion-cor.test" class="level2">
 <h2 class="anchored" data-anchor-id="funktion-cor.test">Funktion <code>cor.test()</code></h2>
 <p>Der Aufruf der Funktion <code>cor.test()</code> ist sehr ähnlich:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor.test</span>(x, y, <span class="at">alternative=</span><span class="st">"two.sided"</span>, <span class="at">method=</span><span class="st">"pearson"</span>, <span class="at">conf.level=</span><span class="fl">0.95</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor.test</span>(x, y, <span class="at">alternative=</span><span class="st">"two.sided"</span>, <span class="at">method=</span><span class="st">"pearson"</span>, <span class="at">conf.level=</span><span class="fl">0.95</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Hier kann man die Form der Alternativhypothese (<code>"two.sided"</code>, <code>"greater"</code>, <code>"less"</code>) sowie das Konfidenzniveau angeben. Diese Funktion kann nur mit genau zwei Vektoren umgehen.</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -755,24 +1034,22 @@ Hinweis
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Für die Pearson-Korrelation berechnet <code>cor.test()</code> den <span class="math inline">\(p\)</span>-Wert nicht über die weiter oben beschriebene Fisher-Transformation, sondern über die äquivalente Teststatistik</p>
-<p><span class="math display">\[t = \frac{r \sqrt{N - 2}}{\sqrt{1 - r^2}},\]</span></p>
-<p>welche unter der Nullhypothese einer <span class="math inline">\(t\)</span>-Verteilung mit <span class="math inline">\(N - 2\)</span> Freiheitsgraden folgt (daher stehen in der Ausgabe <code>t</code> und <code>df</code>). Die Fisher-Transformation wird intern für das Konfidenzintervall verwendet. Beide Varianten führen in der Praxis zu sehr ähnlichen <span class="math inline">\(p\)</span>-Werten.</p>
+<p>Für die Pearson-Korrelation rechnet <code>cor.test()</code> genau wie weiter oben beschrieben: Der <span class="math inline">\(p\)</span>-Wert wird über die <span class="math inline">\(t\)</span>-Statistik bestimmt (daher stehen in der Ausgabe <code>t</code> und <code>df</code>), das Konfidenzintervall über die Fisher-Transformation.</p>
 </div>
 </div>
 </section>
 <section id="funktion-rcorr" class="level2">
 <h2 class="anchored" data-anchor-id="funktion-rcorr">Funktion <code>rcorr()</code></h2>
 <p>Die Funktion <code>rcorr()</code> verwendet man wie folgt:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rcorr</span>(x, y, <span class="at">type=</span><span class="st">"pearson"</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rcorr</span>(x, y, <span class="at">type=</span><span class="st">"pearson"</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Wie bei den anderen Funktionen sind <code>x</code> und <code>y</code> Vektoren. Weiters ist es wie bei <code>cor()</code> möglich, nur das Argument <code>x</code> anzugeben, wenn dieses eine Matrix mit mindestens zwei Spalten ist.</p>
 </section>
 <section id="beispiel-1" class="level2">
 <h2 class="anchored" data-anchor-id="beispiel-1">Beispiel</h2>
 <p>Am besten können die drei Funktionen anhand eines Beispiels veranschaulicht werden. Dazu laden wir einen (fiktiven) Datensatz <a href="exam.dat"><code>exam.dat</code></a> über Prüfungsangst:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>(<span class="at">exam =</span> <span class="fu">read_tsv</span>(<span class="st">"exam.dat"</span>))</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>(<span class="at">exam =</span> <span class="fu">read_tsv</span>(<span class="st">"exam.dat"</span>))</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 103 × 5
     Code Revise  Exam Anxiety Gender
@@ -792,35 +1069,35 @@ Hinweis
 </div>
 <p>Es ist hilfreich, die Daten zuerst einmal grafisch darzustellen. Für den Zusammenhang zwischen zwei Variablen bietet sich ein Streudiagramm (inklusive Regressionsgeraden) an – so kann man die Korrelation direkt visualisieren. Wir können eine solche Grafik zunächst einmal separat für alle drei Kombinationen erzeugen:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(exam, <span class="fu">aes</span>(<span class="at">x=</span>Revise, <span class="at">y=</span>Exam)) <span class="sc">+</span></span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="at">alpha=</span><span class="fl">0.5</span>) <span class="sc">+</span></span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_smooth</span>(<span class="at">method=</span><span class="st">"lm"</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(exam, <span class="fu">aes</span>(<span class="at">x=</span>Revise, <span class="at">y=</span>Exam)) <span class="sc">+</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="at">alpha=</span><span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_smooth</span>(<span class="at">method=</span><span class="st">"lm"</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="09_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="09_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(exam, <span class="fu">aes</span>(<span class="at">x=</span>Anxiety, <span class="at">y=</span>Exam)) <span class="sc">+</span></span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="at">alpha=</span><span class="fl">0.5</span>) <span class="sc">+</span></span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_smooth</span>(<span class="at">method=</span><span class="st">"lm"</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(exam, <span class="fu">aes</span>(<span class="at">x=</span>Anxiety, <span class="at">y=</span>Exam)) <span class="sc">+</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="at">alpha=</span><span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_smooth</span>(<span class="at">method=</span><span class="st">"lm"</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="09_files/figure-html/unnamed-chunk-8-2.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="09_files/figure-html/unnamed-chunk-15-2.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(exam, <span class="fu">aes</span>(<span class="at">x=</span>Revise, <span class="at">y=</span>Anxiety)) <span class="sc">+</span></span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="at">alpha=</span><span class="fl">0.5</span>) <span class="sc">+</span></span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_smooth</span>(<span class="at">method=</span><span class="st">"lm"</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(exam, <span class="fu">aes</span>(<span class="at">x=</span>Revise, <span class="at">y=</span>Anxiety)) <span class="sc">+</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="at">alpha=</span><span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_smooth</span>(<span class="at">method=</span><span class="st">"lm"</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="09_files/figure-html/unnamed-chunk-8-3.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="09_files/figure-html/unnamed-chunk-15-3.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -837,13 +1114,13 @@ Tipp
 <div class="callout-body-container callout-body">
 <p>Bei mehreren Variablen (wie in diesem Beispiel) kann man mit der Funktion <code>ggpairs()</code> alle paarweisen Streudiagramme gleichzeitig darstellen. Diese Funktion ist Teil des Pakets <code>GGally</code>, einer auf <code>ggplot2</code> aufbauenden Erweiterung, welche zuvor einmalig installiert werden muss. Man übergibt der Funktion einfach die gewünschten Spalten:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(GGally)</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggpairs</span>(exam[, <span class="dv">2</span><span class="sc">:</span><span class="dv">4</span>])</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(GGally)</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggpairs</span>(exam[, <span class="dv">2</span><span class="sc">:</span><span class="dv">4</span>])</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="09_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="09_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -855,7 +1132,7 @@ Tipp
 <h3 class="anchored" data-anchor-id="pearson-korrelation">Pearson-Korrelation</h3>
 <p>Nun berechnen wir die Pearson-Korrelationen zwischen den drei Variablen <code>Exam</code>, <code>Anxiety</code> und <code>Revise</code>:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(exam[, <span class="fu">c</span>(<span class="st">"Exam"</span>, <span class="st">"Anxiety"</span>, <span class="st">"Revise"</span>)])</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(exam[, <span class="fu">c</span>(<span class="st">"Exam"</span>, <span class="st">"Anxiety"</span>, <span class="st">"Revise"</span>)])</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>              Exam    Anxiety     Revise
 Exam     1.0000000 -0.4409934  0.3967207
@@ -867,7 +1144,7 @@ Revise   0.3967207 -0.7092493  1.0000000</code></pre>
 <p>Inhaltlich lässt sich die Matrix so lesen: Wer mehr lernt, erzielt tendenziell ein besseres Prüfungsergebnis (<span class="math inline">\(r = 0.4\)</span>), wer ängstlicher ist, ein schlechteres (<span class="math inline">\(r = -0.44\)</span>), und mehr Lernen geht mit deutlich geringerer Prüfungsangst einher (<span class="math inline">\(r = -0.71\)</span>).</p>
 <p>Möchte man jedoch auch <span class="math inline">\(p\)</span>-Werte, muss man die Funktion <code>rcorr()</code> verwenden. Diese Funktion erwartet die Daten jedoch nicht als Data Frame, sondern als Matrix. Daher müssen die Daten beim Aufruf der Funktion mit <code>as.matrix()</code> in eine Matrix umgewandelt werden:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rcorr</span>(<span class="fu">as.matrix</span>(exam[, <span class="fu">c</span>(<span class="st">"Exam"</span>, <span class="st">"Anxiety"</span>, <span class="st">"Revise"</span>)]))</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rcorr</span>(<span class="fu">as.matrix</span>(exam[, <span class="fu">c</span>(<span class="st">"Exam"</span>, <span class="st">"Anxiety"</span>, <span class="st">"Revise"</span>)]))</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>         Exam Anxiety Revise
 Exam     1.00   -0.44   0.40
@@ -913,7 +1190,7 @@ Hinweis
 </div>
 <p>Wenn man auch Konfidenzintervalle benötigt, muss man die Funktion <code>cor.test()</code> verwenden. Diese Funktion unterstützt aber nur zwei Variablen, d.h. bei mehreren Variablen muss man die Funktion mehrmals aufrufen, um alle paarweisen Korrelationen zu erhalten.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor.test</span>(exam[[<span class="st">"Anxiety"</span>]], exam[[<span class="st">"Exam"</span>]])</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor.test</span>(exam[[<span class="st">"Anxiety"</span>]], exam[[<span class="st">"Exam"</span>]])</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
     Pearson's product-moment correlation
@@ -935,7 +1212,7 @@ sample estimates:
 <p>Wenn man den Korrelationskoeffizienten <span class="math inline">\(r\)</span> quadriert, erhält man das Bestimmtheitsmaß <span class="math inline">\(R^2\)</span>. Es gibt den <em>Anteil</em> der Varianz einer Variablen an, der durch die zweite Variable erklärt werden kann, und liegt daher immer zwischen 0 und 1. Es ist üblich, die Korrelation mit dem Kleinbuchstaben <span class="math inline">\(r\)</span> zu bezeichnen, für das Bestimmtheitsmaß verwendet man aber einen Großbuchstaben <span class="math inline">\(R^2\)</span>.</p>
 <p><span class="math display">\[R^2 = r^2\]</span></p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(exam[, <span class="fu">c</span>(<span class="st">"Exam"</span>, <span class="st">"Anxiety"</span>, <span class="st">"Revise"</span>)])<span class="sc">^</span><span class="dv">2</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(exam[, <span class="fu">c</span>(<span class="st">"Exam"</span>, <span class="st">"Anxiety"</span>, <span class="st">"Revise"</span>)])<span class="sc">^</span><span class="dv">2</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>             Exam   Anxiety    Revise
 Exam    1.0000000 0.1944752 0.1573873
@@ -949,14 +1226,14 @@ Revise  0.1573873 0.5030345 1.0000000</code></pre>
 <h3 class="anchored" data-anchor-id="spearman-rangkorrelationskoeffizient-1">Spearman Rangkorrelationskoeffizient</h3>
 <p>Für die Beispieldaten können wir analog auch die Spearman-Korrelation bestimmen:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(exam[, <span class="fu">c</span>(<span class="st">"Exam"</span>, <span class="st">"Anxiety"</span>, <span class="st">"Revise"</span>)], <span class="at">method=</span><span class="st">"spearman"</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(exam[, <span class="fu">c</span>(<span class="st">"Exam"</span>, <span class="st">"Anxiety"</span>, <span class="st">"Revise"</span>)], <span class="at">method=</span><span class="st">"spearman"</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>              Exam    Anxiety     Revise
 Exam     1.0000000 -0.4046141  0.3498948
 Anxiety -0.4046141  1.0000000 -0.6219694
 Revise   0.3498948 -0.6219694  1.0000000</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rcorr</span>(<span class="fu">as.matrix</span>(exam[, <span class="fu">c</span>(<span class="st">"Exam"</span>, <span class="st">"Anxiety"</span>, <span class="st">"Revise"</span>)]), <span class="at">type=</span><span class="st">"spearman"</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rcorr</span>(<span class="fu">as.matrix</span>(exam[, <span class="fu">c</span>(<span class="st">"Exam"</span>, <span class="st">"Anxiety"</span>, <span class="st">"Revise"</span>)]), <span class="at">type=</span><span class="st">"spearman"</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>         Exam Anxiety Revise
 Exam     1.00   -0.40   0.35
@@ -972,7 +1249,7 @@ Exam          0e+00   3e-04
 Anxiety 0e+00         0e+00 
 Revise  3e-04 0e+00         </code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor.test</span>(exam[[<span class="st">"Revise"</span>]], exam[[<span class="st">"Exam"</span>]], <span class="at">method=</span><span class="st">"spearman"</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor.test</span>(exam[[<span class="st">"Revise"</span>]], exam[[<span class="st">"Exam"</span>]], <span class="at">method=</span><span class="st">"spearman"</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning in cor.test.default(exam[["Revise"]], exam[["Exam"]], method = "spearman"): cannot compute exact p-value with
 ties</code></pre>
@@ -995,7 +1272,7 @@ sample estimates:
 <h3 class="anchored" data-anchor-id="kendall-rangkorrelationskoeffizient-1">Kendall Rangkorrelationskoeffizient</h3>
 <p>Die Funktion <code>cor.test()</code> gibt im vorigen Beispiel eine Warnung aus, dass der berechnete <span class="math inline">\(p\)</span>-Wert nicht exakt ist, da die Daten gleiche Ränge (Bindungen) beinhalten. Der exakte Test für Spearman setzt nämlich voraus, dass alle Ränge eindeutig sind; R weicht daher automatisch auf eine Näherung aus. In solchen Fällen ist der Kendall-Korrelationskoeffizient die bessere Wahl, da dessen Variante <span class="math inline">\(\tau_b\)</span> Bindungen bereits in der Definition berücksichtigt:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor.test</span>(exam[[<span class="st">"Revise"</span>]], exam[[<span class="st">"Exam"</span>]], <span class="at">method=</span><span class="st">"kendall"</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor.test</span>(exam[[<span class="st">"Revise"</span>]], exam[[<span class="st">"Exam"</span>]], <span class="at">method=</span><span class="st">"kendall"</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
     Kendall's rank correlation tau
@@ -1079,6 +1356,17 @@ Hinweis
 </section>
 
 </main> <!-- /main -->
+<script type="ojs-module-contents">
+eyJjb250ZW50cyI6W3sibWV0aG9kTmFtZSI6ImludGVycHJldCIsImNlbGxOYW1lIjoib2pzLWNlbGwtMSIsImlubGluZSI6ZmFsc2UsInNvdXJjZSI6ImQzID0gcmVxdWlyZShcImQzQDdcIilcbiJ9LHsibWV0aG9kTmFtZSI6ImludGVycHJldCIsImNlbGxOYW1lIjoib2pzLWNlbGwtMiIsImlubGluZSI6ZmFsc2UsInNvdXJjZSI6InB2YWx1ZV93aWRnZXQgPSB7XG4gIGNvbnN0IHdpZHRoID0gNjQwLCBoZWlnaHQgPSAzODA7XG4gIGNvbnN0IG1hcmdpbiA9IHt0b3A6IDMwLCByaWdodDogMzAsIGJvdHRvbTogNDAsIGxlZnQ6IDUwfTtcbiAgY29uc3QgeERvbWFpbiA9IFstNSwgNV07XG4gIGNvbnN0IGRmID0gcF9kZjtcbiAgY29uc3QgdHdvVGFpbGVkID0gcF90YWlscyA9PT0gXCJ6d2Vpc2VpdGlnXCI7XG4gIGNvbnN0IHJpZ2h0VGFpbGVkID0gcF9kaXJlY3Rpb24gPT09IFwidCA+IDBcIjtcblxuICAvLyBMb2ctR2FtbWEtRnVua3Rpb24gKExhbmN6b3MtQXBwcm94aW1hdGlvbilcbiAgZnVuY3Rpb24gbGdhbW1hKHgpIHtcbiAgICBjb25zdCBnID0gNztcbiAgICBjb25zdCBjID0gW1xuICAgICAgMC45OTk5OTk5OTk5OTk4MDk5MywgNjc2LjUyMDM2ODEyMTg4NTEsIC0xMjU5LjEzOTIxNjcyMjQwMjgsXG4gICAgICA3NzEuMzIzNDI4Nzc3NjUzMTMsIC0xNzYuNjE1MDI5MTYyMTQwNTksIDEyLjUwNzM0MzI3ODY4NjkwNSxcbiAgICAgIC0wLjEzODU3MTA5NTI2NTcyMDEyLCA5Ljk4NDM2OTU3ODAxOTU3MTZlLTYsIDEuNTA1NjMyNzM1MTQ5MzExNmUtN1xuICAgIF07XG4gICAgaWYgKHggPCAwLjUpIHJldHVybiBNYXRoLmxvZyhNYXRoLlBJIC8gTWF0aC5zaW4oTWF0aC5QSSAqIHgpKSAtIGxnYW1tYSgxIC0geCk7XG4gICAgeCAtPSAxO1xuICAgIGxldCBhID0gY1swXTtcbiAgICBjb25zdCB0ID0geCArIGcgKyAwLjU7XG4gICAgZm9yIChsZXQgaSA9IDE7IGkgPCBnICsgMjsgaSsrKSBhICs9IGNbaV0gLyAoeCArIGkpO1xuICAgIHJldHVybiAwLjUgKiBNYXRoLmxvZygyICogTWF0aC5QSSkgKyAoeCArIDAuNSkgKiBNYXRoLmxvZyh0KSAtIHQgKyBNYXRoLmxvZyhhKTtcbiAgfVxuXG4gIC8vIHJlZ3VsYXJpc2llcnRlIHVudm9sbHN0w6RuZGlnZSBCZXRhZnVua3Rpb24gKEtldHRlbmJydWNoIG5hY2ggTnVtZXJpY2FsIFJlY2lwZXMpLFxuICAvLyBkYW1pdCBkaWUgdC1WZXJ0ZWlsdW5nc2Z1bmt0aW9uIGF1Y2ggZsO8ciBrbGVpbmUgZGYgKHNjaHdlcmUgUsOkbmRlcikgZXhha3QgYmxlaWJ0XG4gIGZ1bmN0aW9uIGJldGFjZih4LCBhLCBiKSB7XG4gICAgY29uc3QgTUFYSVQgPSAyMDAsIEVQUyA9IDNlLTE0LCBGUE1JTiA9IDFlLTMwMDtcbiAgICBjb25zdCBxYWIgPSBhICsgYiwgcWFwID0gYSArIDEsIHFhbSA9IGEgLSAxO1xuICAgIGxldCBjID0gMSwgZCA9IDEgLSAocWFiICogeCkgLyBxYXA7XG4gICAgaWYgKE1hdGguYWJzKGQpIDwgRlBNSU4pIGQgPSBGUE1JTjtcbiAgICBkID0gMSAvIGQ7XG4gICAgbGV0IGggPSBkO1xuICAgIGZvciAobGV0IG0gPSAxOyBtIDw9IE1BWElUOyBtKyspIHtcbiAgICAgIGNvbnN0IG0yID0gMiAqIG07XG4gICAgICBsZXQgYWEgPSAobSAqIChiIC0gbSkgKiB4KSAvICgocWFtICsgbTIpICogKGEgKyBtMikpO1xuICAgICAgZCA9IDEgKyBhYSAqIGQ7IGlmIChNYXRoLmFicyhkKSA8IEZQTUlOKSBkID0gRlBNSU47XG4gICAgICBjID0gMSArIGFhIC8gYzsgaWYgKE1hdGguYWJzKGMpIDwgRlBNSU4pIGMgPSBGUE1JTjtcbiAgICAgIGQgPSAxIC8gZDtcbiAgICAgIGggKj0gZCAqIGM7XG4gICAgICBhYSA9ICgtKGEgKyBtKSAqIChxYWIgKyBtKSAqIHgpIC8gKChhICsgbTIpICogKHFhcCArIG0yKSk7XG4gICAgICBkID0gMSArIGFhICogZDsgaWYgKE1hdGguYWJzKGQpIDwgRlBNSU4pIGQgPSBGUE1JTjtcbiAgICAgIGMgPSAxICsgYWEgLyBjOyBpZiAoTWF0aC5hYnMoYykgPCBGUE1JTikgYyA9IEZQTUlOO1xuICAgICAgZCA9IDEgLyBkO1xuICAgICAgY29uc3QgZGVsID0gZCAqIGM7XG4gICAgICBoICo9IGRlbDtcbiAgICAgIGlmIChNYXRoLmFicyhkZWwgLSAxKSA8IEVQUykgYnJlYWs7XG4gICAgfVxuICAgIHJldHVybiBoO1xuICB9XG5cbiAgZnVuY3Rpb24gYmV0YWluYyh4LCBhLCBiKSB7XG4gICAgaWYgKHggPD0gMCkgcmV0dXJuIDA7XG4gICAgaWYgKHggPj0gMSkgcmV0dXJuIDE7XG4gICAgY29uc3QgYnQgPSBNYXRoLmV4cChcbiAgICAgIGxnYW1tYShhICsgYikgLSBsZ2FtbWEoYSkgLSBsZ2FtbWEoYikgKyBhICogTWF0aC5sb2coeCkgKyBiICogTWF0aC5sb2coMSAtIHgpXG4gICAgKTtcbiAgICByZXR1cm4geCA8IChhICsgMSkgLyAoYSArIGIgKyAyKVxuICAgICAgPyAoYnQgKiBiZXRhY2YoeCwgYSwgYikpIC8gYVxuICAgICAgOiAxIC0gKGJ0ICogYmV0YWNmKDEgLSB4LCBiLCBhKSkgLyBiO1xuICB9XG5cbiAgY29uc3QgdFBkZiA9ICh0LCBkZikgPT4ge1xuICAgIGNvbnN0IGxuQyA9IGxnYW1tYSgoZGYgKyAxKSAvIDIpIC0gbGdhbW1hKGRmIC8gMikgLSAwLjUgKiBNYXRoLmxvZyhkZiAqIE1hdGguUEkpO1xuICAgIHJldHVybiBNYXRoLmV4cChsbkMpICogTWF0aC5wb3coMSArICh0ICogdCkgLyBkZiwgLShkZiArIDEpIC8gMik7XG4gIH07XG4gIGNvbnN0IHRDZGYgPSAodCwgZGYpID0+IHtcbiAgICBjb25zdCB4ID0gZGYgLyAoZGYgKyB0ICogdCk7XG4gICAgY29uc3QgaWIgPSBiZXRhaW5jKHgsIGRmIC8gMiwgMC41KTtcbiAgICByZXR1cm4gdCA+IDAgPyAxIC0gMC41ICogaWIgOiAwLjUgKiBpYjtcbiAgfTtcblxuICBjb25zdCB4ID0gZDMuc2NhbGVMaW5lYXIoKS5kb21haW4oeERvbWFpbikucmFuZ2UoW21hcmdpbi5sZWZ0LCB3aWR0aCAtIG1hcmdpbi5yaWdodF0pO1xuICBjb25zdCB5TWF4ID0gdFBkZigwLCBkZikgKiAxLjE1O1xuICBjb25zdCB5ID0gZDMuc2NhbGVMaW5lYXIoKS5kb21haW4oWzAsIHlNYXhdKS5yYW5nZShbaGVpZ2h0IC0gbWFyZ2luLmJvdHRvbSwgbWFyZ2luLnRvcF0pO1xuXG4gIGNvbnN0IGN1cnZlRGF0YSA9IGQzLnJhbmdlKHhEb21haW5bMF0sIHhEb21haW5bMV0gKyAwLjAxLCAwLjAyKVxuICAgIC5tYXAoZCA9PiAoe3g6IGQsIHk6IHRQZGYoZCwgZGYpfSkpO1xuICBjb25zdCBsaW5lID0gZDMubGluZSgpLngoZCA9PiB4KGQueCkpLnkoZCA9PiB5KGQueSkpLmN1cnZlKGQzLmN1cnZlTmF0dXJhbCk7XG4gIGNvbnN0IGFyZWFHZW4gPSBkMy5hcmVhKCkueChkID0+IHgoZC54KSkueTAoeSgwKSkueTEoZCA9PiB5KGQueSkpLmN1cnZlKGQzLmN1cnZlTmF0dXJhbCk7XG5cbiAgY29uc3Qgc3ZnID0gZDMuY3JlYXRlKFwic3ZnXCIpXG4gICAgLmF0dHIoXCJ3aWR0aFwiLCB3aWR0aClcbiAgICAuYXR0cihcImhlaWdodFwiLCBoZWlnaHQpXG4gICAgLmF0dHIoXCJ2aWV3Qm94XCIsIFswLCAwLCB3aWR0aCwgaGVpZ2h0XSlcbiAgICAuYXR0cihcInN0eWxlXCIsIFwibWF4LXdpZHRoOiAxMDAlOyBoZWlnaHQ6IGF1dG87XCIpO1xuXG4gIHN2Zy5hcHBlbmQoXCJnXCIpXG4gICAgLmF0dHIoXCJ0cmFuc2Zvcm1cIiwgYHRyYW5zbGF0ZSgwLCR7aGVpZ2h0IC0gbWFyZ2luLmJvdHRvbX0pYClcbiAgICAuY2FsbChkMy5heGlzQm90dG9tKHgpKTtcbiAgc3ZnLmFwcGVuZChcImdcIilcbiAgICAuYXR0cihcInRyYW5zZm9ybVwiLCBgdHJhbnNsYXRlKCR7bWFyZ2luLmxlZnR9LDApYClcbiAgICAuY2FsbChkMy5heGlzTGVmdCh5KS50aWNrcyg1KSk7XG5cbiAgc3ZnLmFwcGVuZChcInRleHRcIilcbiAgICAuYXR0cihcInhcIiwgd2lkdGggLyAyKS5hdHRyKFwieVwiLCBoZWlnaHQgLSA0KVxuICAgIC5hdHRyKFwidGV4dC1hbmNob3JcIiwgXCJtaWRkbGVcIikuYXR0cihcImZvbnQtc2l6ZVwiLCAxMikuYXR0cihcImZvbnQtc3R5bGVcIiwgXCJpdGFsaWNcIilcbiAgICAudGV4dChcInRcIik7XG4gIHN2Zy5hcHBlbmQoXCJ0ZXh0XCIpXG4gICAgLmF0dHIoXCJ4XCIsIC1oZWlnaHQgLyAyKS5hdHRyKFwieVwiLCAxNClcbiAgICAuYXR0cihcInRyYW5zZm9ybVwiLCBcInJvdGF0ZSgtOTApXCIpXG4gICAgLmF0dHIoXCJ0ZXh0LWFuY2hvclwiLCBcIm1pZGRsZVwiKS5hdHRyKFwiZm9udC1zaXplXCIsIDEyKVxuICAgIC50ZXh0KFwiRGljaHRlXCIpO1xuXG4gIHN2Zy5hcHBlbmQoXCJsaW5lXCIpXG4gICAgLmF0dHIoXCJ4MVwiLCB4KDApKS5hdHRyKFwieDJcIiwgeCgwKSlcbiAgICAuYXR0cihcInkxXCIsIHkoMCkpLmF0dHIoXCJ5MlwiLCBtYXJnaW4udG9wKVxuICAgIC5hdHRyKFwic3Ryb2tlXCIsIFwiI2FhYVwiKS5hdHRyKFwic3Ryb2tlLWRhc2hhcnJheVwiLCBcIjEsM1wiKTtcblxuICBzdmcuYXBwZW5kKFwicGF0aFwiKS5kYXR1bShjdXJ2ZURhdGEpXG4gICAgLmF0dHIoXCJmaWxsXCIsIFwibm9uZVwiKS5hdHRyKFwic3Ryb2tlXCIsIFwiYmxhY2tcIikuYXR0cihcInN0cm9rZS13aWR0aFwiLCAxLjUpXG4gICAgLmF0dHIoXCJkXCIsIGxpbmUpO1xuXG4gIGNvbnN0IHNoYWRlUmlnaHQgPSBzdmcuYXBwZW5kKFwicGF0aFwiKS5hdHRyKFwiZmlsbFwiLCBcInN0ZWVsYmx1ZVwiKS5hdHRyKFwib3BhY2l0eVwiLCAwLjQpO1xuICBjb25zdCBzaGFkZUxlZnQgPSBzdmcuYXBwZW5kKFwicGF0aFwiKS5hdHRyKFwiZmlsbFwiLCBcInN0ZWVsYmx1ZVwiKS5hdHRyKFwib3BhY2l0eVwiLCAwLjQpO1xuICBjb25zdCB2bGluZSA9IHN2Zy5hcHBlbmQoXCJsaW5lXCIpLmF0dHIoXCJzdHJva2VcIiwgXCIjODg4XCIpLmF0dHIoXCJzdHJva2UtZGFzaGFycmF5XCIsIFwiMywzXCIpO1xuICBjb25zdCB2bGluZU1pcnJvciA9IHN2Zy5hcHBlbmQoXCJsaW5lXCIpLmF0dHIoXCJzdHJva2VcIiwgXCIjODg4XCIpLmF0dHIoXCJzdHJva2UtZGFzaGFycmF5XCIsIFwiMywzXCIpO1xuICBjb25zdCBsYWJlbCA9IHN2Zy5hcHBlbmQoXCJ0ZXh0XCIpXG4gICAgLmF0dHIoXCJ4XCIsIG1hcmdpbi5sZWZ0KS5hdHRyKFwieVwiLCBtYXJnaW4udG9wIC0gMTIpLmF0dHIoXCJmb250LXNpemVcIiwgMTQpO1xuXG4gIGxldCB0MCA9IDEuNTkxNjQ0ODUxNTA4NDQ7XG5cbiAgZnVuY3Rpb24gcmVkcmF3KCkge1xuICAgIGxldCBwO1xuICAgIGlmICh0d29UYWlsZWQpIHtcbiAgICAgIGNvbnN0IGEgPSBNYXRoLmFicyh0MCk7XG4gICAgICBjb25zdCByaWdodERhdGEgPSBjdXJ2ZURhdGEuZmlsdGVyKGQgPT4gZC54ID49IGEpO1xuICAgICAgcmlnaHREYXRhLnVuc2hpZnQoe3g6IGEsIHk6IHRQZGYoYSwgZGYpfSk7XG4gICAgICBjb25zdCBsZWZ0RGF0YSA9IGN1cnZlRGF0YS5maWx0ZXIoZCA9PiBkLnggPD0gLWEpO1xuICAgICAgbGVmdERhdGEucHVzaCh7eDogLWEsIHk6IHRQZGYoLWEsIGRmKX0pO1xuICAgICAgc2hhZGVSaWdodC5hdHRyKFwiZFwiLCBhcmVhR2VuKHJpZ2h0RGF0YSkpLmF0dHIoXCJvcGFjaXR5XCIsIDAuNCk7XG4gICAgICBzaGFkZUxlZnQuYXR0cihcImRcIiwgYXJlYUdlbihsZWZ0RGF0YSkpLmF0dHIoXCJvcGFjaXR5XCIsIDAuNCk7XG4gICAgICB2bGluZU1pcnJvclxuICAgICAgICAuYXR0cihcIngxXCIsIHgoLXQwKSkuYXR0cihcIngyXCIsIHgoLXQwKSlcbiAgICAgICAgLmF0dHIoXCJ5MVwiLCB5KDApKS5hdHRyKFwieTJcIiwgeSh0UGRmKHQwLCBkZikpKVxuICAgICAgICAuYXR0cihcIm9wYWNpdHlcIiwgMSk7XG4gICAgICBwID0gMiAqICgxIC0gdENkZihhLCBkZikpO1xuICAgICAgbGFiZWwudGV4dChgcCA9IDIgwrcgUChUIOKJpSB8dHwpID0gJHtwLnRvRml4ZWQoNCl9ICAgKHQgPSAke3QwLnRvRml4ZWQoMil9LCBkZiA9ICR7ZGZ9KWApO1xuICAgIH0gZWxzZSBpZiAocmlnaHRUYWlsZWQpIHtcbiAgICAgIGNvbnN0IHJpZ2h0RGF0YSA9IGN1cnZlRGF0YS5maWx0ZXIoZCA9PiBkLnggPj0gdDApO1xuICAgICAgcmlnaHREYXRhLnVuc2hpZnQoe3g6IHQwLCB5OiB0UGRmKHQwLCBkZil9KTtcbiAgICAgIHNoYWRlUmlnaHQuYXR0cihcImRcIiwgYXJlYUdlbihyaWdodERhdGEpKS5hdHRyKFwib3BhY2l0eVwiLCAwLjQpO1xuICAgICAgc2hhZGVMZWZ0LmF0dHIoXCJvcGFjaXR5XCIsIDApO1xuICAgICAgdmxpbmVNaXJyb3IuYXR0cihcIm9wYWNpdHlcIiwgMCk7XG4gICAgICBwID0gMSAtIHRDZGYodDAsIGRmKTtcbiAgICAgIGxhYmVsLnRleHQoYHAgPSBQKFQg4omlIHQpID0gJHtwLnRvRml4ZWQoNCl9ICAgKHQgPSAke3QwLnRvRml4ZWQoMil9LCBkZiA9ICR7ZGZ9KWApO1xuICAgIH0gZWxzZSB7XG4gICAgICBjb25zdCBsZWZ0RGF0YSA9IGN1cnZlRGF0YS5maWx0ZXIoZCA9PiBkLnggPD0gdDApO1xuICAgICAgbGVmdERhdGEucHVzaCh7eDogdDAsIHk6IHRQZGYodDAsIGRmKX0pO1xuICAgICAgc2hhZGVMZWZ0LmF0dHIoXCJkXCIsIGFyZWFHZW4obGVmdERhdGEpKS5hdHRyKFwib3BhY2l0eVwiLCAwLjQpO1xuICAgICAgc2hhZGVSaWdodC5hdHRyKFwib3BhY2l0eVwiLCAwKTtcbiAgICAgIHZsaW5lTWlycm9yLmF0dHIoXCJvcGFjaXR5XCIsIDApO1xuICAgICAgcCA9IHRDZGYodDAsIGRmKTtcbiAgICAgIGxhYmVsLnRleHQoYHAgPSBQKFQg4omkIHQpID0gJHtwLnRvRml4ZWQoNCl9ICAgKHQgPSAke3QwLnRvRml4ZWQoMil9LCBkZiA9ICR7ZGZ9KWApO1xuICAgIH1cblxuICAgIHZsaW5lLmF0dHIoXCJ4MVwiLCB4KHQwKSkuYXR0cihcIngyXCIsIHgodDApKS5hdHRyKFwieTFcIiwgeSgwKSkuYXR0cihcInkyXCIsIHkodFBkZih0MCwgZGYpKSk7XG4gICAgcG9pbnQuYXR0cihcImN4XCIsIHgodDApKS5hdHRyKFwiY3lcIiwgeSh0UGRmKHQwLCBkZikpKTtcbiAgfVxuXG4gIGNvbnN0IHBvaW50ID0gc3ZnLmFwcGVuZChcImNpcmNsZVwiKS5hdHRyKFwiclwiLCA3KS5hdHRyKFwiZmlsbFwiLCBcImNyaW1zb25cIilcbiAgICAuYXR0cihcImN1cnNvclwiLCBcImV3LXJlc2l6ZVwiKVxuICAgIC5jYWxsKGQzLmRyYWcoKS5vbihcImRyYWdcIiwgKGV2ZW50KSA9PiB7XG4gICAgICB0MCA9IE1hdGgubWF4KHhEb21haW5bMF0sIE1hdGgubWluKHhEb21haW5bMV0sIHguaW52ZXJ0KGV2ZW50LngpKSk7XG4gICAgICByZWRyYXcoKTtcbiAgICB9KSk7XG5cbiAgcmVkcmF3KCk7XG4gIHJldHVybiBzdmcubm9kZSgpO1xufVxuIn0seyJtZXRob2ROYW1lIjoiaW50ZXJwcmV0IiwiY2VsbE5hbWUiOiJvanMtY2VsbC0zIiwiaW5saW5lIjpmYWxzZSwic291cmNlIjoidmlld29mIHBfZGYgPSBJbnB1dHMucmFuZ2UoXG4gIFsxLCAxMDBdLFxuICB7dmFsdWU6IDM4LCBzdGVwOiAxLCBsYWJlbDogXCJGcmVpaGVpdHNncmFkZSAoZGYpXCJ9XG4pXG4ifSx7Im1ldGhvZE5hbWUiOiJpbnRlcnByZXQiLCJjZWxsTmFtZSI6Im9qcy1jZWxsLTQiLCJpbmxpbmUiOmZhbHNlLCJzb3VyY2UiOiJ2aWV3b2YgcF90YWlscyA9IElucHV0cy5yYWRpbyhcbiAgW1wiendlaXNlaXRpZ1wiLCBcImVpbnNlaXRpZ1wiXSxcbiAge3ZhbHVlOiBcInp3ZWlzZWl0aWdcIiwgbGFiZWw6IFwiVGVzdFwifVxuKVxuIn0seyJtZXRob2ROYW1lIjoiaW50ZXJwcmV0IiwiY2VsbE5hbWUiOiJvanMtY2VsbC01IiwiaW5saW5lIjpmYWxzZSwic291cmNlIjoidmlld29mIHBfZGlyZWN0aW9uID0gSW5wdXRzLnJhZGlvKFxuICBbXCJ0ID4gMFwiLCBcInQgPCAwXCJdLFxuICB7dmFsdWU6IFwidCA+IDBcIiwgbGFiZWw6IFwiUmljaHR1bmcgKG51ciBlaW5zZWl0aWcpXCJ9XG4pXG4ifSx7Im1ldGhvZE5hbWUiOiJpbnRlcnByZXRRdWlldCIsInNvdXJjZSI6InNoaW55SW5wdXQoJ3BfZGYnKSJ9LHsibWV0aG9kTmFtZSI6ImludGVycHJldFF1aWV0Iiwic291cmNlIjoic2hpbnlJbnB1dCgncF90YWlscycpIn0seyJtZXRob2ROYW1lIjoiaW50ZXJwcmV0UXVpZXQiLCJzb3VyY2UiOiJzaGlueUlucHV0KCdwX2RpcmVjdGlvbicpIn1dfQ==
+</script>
+<script type="module">
+if (window.location.protocol === "file:") { alert("The OJS runtime does not work with file:// URLs. Please use a web server to view this document."); }
+window._ojs.paths.runtimeToDoc = "../../09";
+window._ojs.paths.runtimeToRoot = "../..";
+window._ojs.paths.docToRoot = "..";
+window._ojs.selfContained = false;
+window._ojs.runtime.interpretFromScriptTags();
+</script>
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     // Ensure there is a toggle, if there isn't float one in the top right
