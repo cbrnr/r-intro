@@ -47,14 +47,20 @@ R kann man wie folgt charakterisieren:
 
 ## Popularität
 
-R ist mittlerweile sehr weit verbreitet und scheint auch in den gängigen Beliebtheitsranglisten für Programmiersprachen regelmäßig auf (z.B. [PYPL](https://pypl.github.io/PYPL.html), [IEEE Spectrum Top Programming Languages](https://spectrum.ieee.org/top-programming-languages) und [TIOBE](https://www.tiobe.com/tiobe-index/)). Das ist bemerkenswert, weil R eben *keine* universelle Sprache ist und daher nur für einen vergleichsweise kleinen Anwendungsbereich überhaupt in Frage kommt. Innerhalb dieses Bereichs ist R die mit Abstand meistverwendete Programmiersprache, weit vor kommerziellen Statistikpaketen wie SPSS, Stata und Statistica.
+R ist mittlerweile sehr weit verbreitet und scheint auch in den gängigen Beliebtheitsranglisten für Programmiersprachen regelmäßig auf (z.B. [PYPL](https://pypl.github.io/PYPL.html), [IEEE Spectrum Top Programming Languages](https://spectrum.ieee.org/top-programming-languages) und [TIOBE](https://www.tiobe.com/tiobe-index/)). Das ist bemerkenswert, weil R *keine* universelle Sprache ist, sondern speziell für statistische Berechnungen und Datenanalyse entwickelt wurde und daher nur für einen vergleichsweise kleinen Anwendungsbereich überhaupt in Frage kommt. Innerhalb dieses Bereichs gehört R heute zu den wichtigsten und am weitesten verbreiteten Werkzeugen und spielt insbesondere in der wissenschaftlichen Datenanalyse eine zentrale Rolle.
 
-In der Praxis ist die Popularität einer Programmiersprache durchaus relevant, denn je größer und aktiver die Community einer Sprache ist, desto einfacher wird es, bestehende Lösungen für Probleme zu finden oder Antworten auf neue Fragen zu bekommen.
+In der Praxis ist die Popularität einer Programmiersprache durchaus relevant, denn je größer und aktiver die Community einer Sprache ist, desto einfacher ist es, bestehende Lösungen für Probleme zu finden oder Antworten auf neue Fragen zu bekommen.
 
 
 ## Wie sieht R-Code aus?
 
-R bedient man, indem man Textbefehle in der sogenannten *Console* eingibt. Statistische Berechnungen werden daher nicht wie z.B. in SPSS üblich durch Navigieren in einer grafischen Oberfläche durchgeführt. Zwar gibt es in SPSS ebenfalls die Möglichkeit, eine sogenannte *Syntax* zu verwenden, um Analysen per Code auszuführen. Im Gegensatz zu R ist dies in SPSS jedoch optional – die meisten Anwenderinnen und Anwender nutzen ausschließlich die grafische Oberfläche und verzichten auf die Syntax. In R hingegen ist die Arbeit mit Code die *einzige* Möglichkeit, Analysen durchzuführen. Dies ist aber keineswegs ein Nachteil, sondern hat ganz im Gegenteil mehrere Vorteile – insbesondere wird die Datenanalyse dadurch automatisch *reproduzierbar*, weil diese *vollständig* durch die verwendeten Befehle definiert ist.
+R bedient man, indem man Textbefehle in der sogenannten *Console* eingibt. Statistische Berechnungen werden daher nicht wie z.B. in SPSS üblich durch Navigieren in einer grafischen Oberfläche durchgeführt.
+
+Zwar bietet auch SPSS mit seiner sogenannten *Syntax* die Möglichkeit, Analysen per Code auszuführen. Im Gegensatz zu R ist dies dort jedoch optional – Analysen können auch vollständig über die grafische Oberfläche durchgeführt werden. In R hingegen bildet Code die Grundlage der Arbeit.
+
+Das ist keineswegs ein Nachteil, sondern hat mehrere Vorteile. Insbesondere lassen sich dadurch sämtliche Schritte einer Datenanalyse explizit festhalten: vom Einlesen und Aufbereiten der Daten über statistische Berechnungen bis zur Erstellung von Abbildungen. Ein vollständiges R-Skript beschreibt damit genau, wie die Ergebnisse entstanden sind, und macht es besonders einfach, eine Analyse später zu wiederholen und zu reproduzieren.
+
+Nebenbei ist R nicht nur eine Sprache zur Steuerung eines Statistikprogramms, sondern eine vollwertige Programmiersprache. Dadurch lassen sich auch Aufgaben umsetzen, die weit über vorgegebene statistische Verfahren hinausgehen. So könnte man beispielsweise ein eigenes statistisches Verfahren programmieren, anstatt nur aus bereits vorhandenen Analysen auszuwählen.
 
 Typische Ein- und Ausgaben in R sehen beispielsweise wie folgt aus:
 
