@@ -83,9 +83,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-bb62276ab45c84d9efd712f51ff97b5a.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-2b7eca8567fdbee962e3cedeeddf1829.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-a3c44dc60ae31181bce8460d4dcf3f72.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../site_libs/bootstrap/bootstrap-2b7eca8567fdbee962e3cedeeddf1829.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-e6a12d4f5d2fcbc524eed170460583f5.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-78cfacd520046e19b7bf8ce2b68a8b2a.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-e6a12d4f5d2fcbc524eed170460583f5.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <link href="../site_libs/quarto-contrib/academicons-1.9.2/all.css" rel="stylesheet">
 <link href="../site_libs/quarto-contrib/academicons-1.9.2/size.css" rel="stylesheet">
 <link href="../site_libs/quarto-contrib/fontawesome6-0.1.0/all.css" rel="stylesheet">
@@ -852,26 +852,26 @@ Tipp
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb106"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb106-1"><a href="#cb106-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rnorm</span>(<span class="dv">5</span>)  <span class="co"># 5 Zahlen aus einer Standardnormalverteilung</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] -1.2359949  0.3434996 -0.8098673  0.6646262 -0.6656094</code></pre>
+<pre><code>[1]  0.72046056 -0.06985364 -0.56593631  1.39223215  1.00904315</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb108"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb108-1"><a href="#cb108-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rnorm</span>(<span class="dv">5</span>, <span class="at">mean=</span><span class="dv">100</span>, <span class="at">sd=</span><span class="dv">15</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 73.11187 94.76605 66.44678 86.16946 84.22951</code></pre>
+<pre><code>[1]  96.69014  92.54319 107.07242 118.38052  92.90690</code></pre>
 </div>
 </div>
 <p>Die Funktion <code>sample()</code> zieht eine zufällige Stichprobe aus einem vorhandenen Vektor. Mit dem Argument <code>replace=TRUE</code> wird <em>mit</em> Zurücklegen gezogen (ein Wert kann dann mehrfach vorkommen), standardmäßig wird <em>ohne</em> Zurücklegen gezogen:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb110"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb110-1"><a href="#cb110-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="dv">5</span>)  <span class="co"># 5 verschiedene Zahlen aus 1:10</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 9 3 7 2 8</code></pre>
+<pre><code>[1] 1 2 3 5 6</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb112"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb112-1"><a href="#cb112-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="dv">15</span>, <span class="at">replace=</span><span class="cn">TRUE</span>)  <span class="co"># 15 Zahlen, Wiederholungen möglich</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> [1]  2  3  9  3  5  9  4  9  2  3  3  7 10  3  4</code></pre>
+<pre><code> [1] 10  2 10  4 10  8  8  2 10  4  4 10  3  3  4</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb114"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb114-1"><a href="#cb114-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sample</span>(<span class="fu">c</span>(<span class="st">"Placebo"</span>, <span class="st">"Treatment"</span>), <span class="dv">8</span>, <span class="at">replace=</span><span class="cn">TRUE</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "Treatment" "Treatment" "Placebo"   "Placebo"   "Treatment" "Placebo"   "Placebo"   "Treatment"</code></pre>
+<pre><code>[1] "Placebo"   "Treatment" "Treatment" "Placebo"   "Placebo"   "Placebo"   "Placebo"   "Placebo"  </code></pre>
 </div>
 </div>
 <p>Zufallszahlen sind naturgemäß bei jedem Aufruf anders. Für eine <em>reproduzierbare</em> Analyse ist das ungünstig, denn dann bekommt man bei jedem Ausführen des Scripts andere Ergebnisse. Mit <code>set.seed()</code> versetzt man den Zufallszahlengenerator in einen definierten Ausgangszustand – alle danach erzeugten Zufallszahlen sind dann zwar immer noch zufällig, aber bei jedem Durchlauf identisch:</p>
